@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} - Poster un message{% endblock %}
+
+{% block body %}
+    {% for post in list_post %}
+        <div class="well">
+            <h1>{{ post.author }}</h1>
+            <h2>{{ post.title }}</h2>
+            <p>{{ post.content|nl2br }}</p>
+            <p>{{ post.datetime|date('d/m/Y') }}</p>
+        </div>
+    {% else %}
+        <p>Il n'y a aucun message à afficher</p>
+    {% endfor %}
+
+    {{ form_start(form_post) }}
+    {{ form_widget(form_post) }}
+    <div><input type="submit" class="btn btn-primary" value="OK"/></div>
+    {{ form_end(form_post) }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
