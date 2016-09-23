@@ -68,10 +68,3 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
-
-bazinga_faker:
-    orm: doctrine
-    locale: fr_FR
-    entities:
-        AppBundle\Entity\Post:
-            number: 5

@@ -11,31 +11,27 @@ namespace AppBundle\DataFixtures\ORM;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Post;
+use Faker\Factory;
 
 class LoadUserData implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $post = new Post();
-        $post->setAuthor('Matthias');
-        $post->setTitle('Guy Teub');
-        $post->setContent('La teub à Guy');
-        $manager->persist($post);
+        $faker = Factory::create();
 
-        $manager->persist($post);
-        $post = new Post();
-        $post->setAuthor('Dark Vador');
-        $post->setTitle('Je suis ton Père');
-        $post->setContent('Blabla');
-        $manager->persist($post);
+        for ($i=0; $i < 10; $i++){
 
-        $post = new Post();
-        $post->setAuthor('Princesse Leya');
-        $post->setTitle('Je suis ta Soeur');
-        $post->setContent('Blibli');
-        $manager->persist($post);
+            $author = $faker->name;
+            $title = $faker->sentence(4, true);
+            $text = $faker->text;
 
-        $manager->persist($post);
+            $post = new Post();
+            $post->setAuthor($author);
+            $post->setTitle($title);
+            $post->setContent($text);
+            $manager->persist($post);
+        }
+
         $manager->flush();
     }
 }
