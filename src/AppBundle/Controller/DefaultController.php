@@ -16,37 +16,44 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->find(1);
-
         // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll();
+        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['author' => 'Fabrice']);
+        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->idSuperior(1);
+        // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['id' => $id]);
 
         $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy([], ['datetime' => 'desc']);
 
-        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['author' => 'Fabrice']);
+//        $now = date(time());
+//
+//        $listPost = [
+//            'Post' => [
+//                'id' => 1,
+//                'author' => 'livredor.dev',
+//                'title' => 'Aucun messages',
+//                'datetime' => $now,
+//                'content' => "Personne n'a publié de messages sur le livre d'or.",
+//            ],
+//        ];
 
-        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->idSuperior(1);
-
-        // dump($listPost);
+//        if (!$listPost) {};
 
         $post = new Post();
 
-        $form = $this->createForm(PostType::class, $post);
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $post->setAuthor($this->getUser()->getUserName());
+        }
 
+        $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
             $manager = $this->getDoctrine()->getManager();
-
             $manager->persist($post);
-
             $manager->flush();
-
             $this->get('session')->getFlashBag()->add('success','Votre message a bien été enregistré');
-
             return $this->redirectToRoute('app_homepage');
         }
 
-        // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [
             'form_post' => $form->createView(),
             'list_post' => $listPost
@@ -54,71 +61,26 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/view/{id}", name="app_view")
+     * @Route("/login", name="app_login")
      */
-    public function viewAction($id)
-    {
-        $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['id' => $id]);
+    public function loginAction(){
+        $helper = $this->get('security.authentication_utils');
 
-        dump($post);
-
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'post' => $post
-        ]);
+        return $this->render('default/login.html.twig', array(
+            'last_username' => $helper->getLastUsername(),
+            'error' => $helper->getLastAuthenticationError()
+        ));
     }
 
     /**
-     * @Route("/post", name="app_post")
+     * @Route("/logout", name="app_logout")
      */
-    public function editAction($id, Request $request)
-    {
-
-        $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['id' => $id]);
-
-        $form = $this->createForm(PostType::class,$post);
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-
-            $manager = $this->getDoctrine()->getManager();
-
-            $manager->persist($post);
-
-            $manager->flush();
-
-            $this->get('session')->getFlashBag()->add('success','Votre message a bien été enregistré');
-
-            return $this->redirectToRoute('app_homepage');
-        }
-
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'form_post' => $form->createView()
-        ]);
+    public function logoutAction(){
     }
 
     /**
-     * @Route("/delete/{id}", name="app_delete")
+     * @Route("/login-check", name="app_login_check")
      */
-    public function deleteAction(Request $request)
-    {
-        $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->find(1);
-
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll();
-
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy([], ['datetime' => 'desc']);
-
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['author' => 'Fabrice']);
-
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->idSuperior(1);
-
-        dump($listPost);
-
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', [
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ]);
+    public function loginCheckAction(){
     }
 }

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Poster un message{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {#<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>#}
+    {#<script>tinymce.init({ selector:'textarea' });</script>#}
+{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <h1><span>Connexion</span></h1>
+        {% if error %}
+            <div class="alert alert-danger">{{ error.message }}</div>
+        {% endif %}
+        <form method="post" action="{{ path('app_login_check') }}" class="form-horizontal col-md-6 col-md-offset-2">
+            <div class="form-group">
+                <label class="control-label col-sm-4" id="inputUsername">Nom d'utilisateur</label>
+                <div class="col-sm-8">
+                    <input type="text" id="inputUsername" name="_username" value="{{ last_username }}" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-sm-4" for="inputPassword">Mot de passe</label>
+                <div class="col-sm-8">
+                    <input type="password" id="inputPassword" name="_password" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-8 col-sm-offset-4">
+                    <button class="btn btn-default">
+                        <i class="glyphicon glyphicon-lock"></i> Se connecter
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}

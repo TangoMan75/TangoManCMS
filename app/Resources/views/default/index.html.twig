@@ -1,23 +1,42 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} - Poster un message{% endblock %}
+{% block title %}{{ parent() }} | Poster un message{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {#<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>#}
+    {#<script>tinymce.init({ selector:'textarea' });</script>#}
+{% endblock %}
 
 {% block body %}
-    {% for post in list_post %}
-        <div class="well">
-            <h1>{{ post.author }}</h1>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content|nl2br }}</p>
-            <p>{{ post.datetime|date('d/m/Y') }}</p>
-        </div>
-    {% else %}
-        <p>Il n'y a aucun message à afficher</p>
-    {% endfor %}
+    <section id="posts col-xs-12">
+        {% for post in list_post %}
+            <article class="post panel panel-primary">
+                <div class="panel-heading">{{ post.title }}</div>
+                <div class="panel-body">
+                    <p>{{ post.content|nl2br }}</p>
+                </div>
+                <div class="panel-footer">Posté le: {{ post.datetime|date('d/m/Y') }} par: {{ post.author }}</div>
+            </article>
+        {% else %}
+            <article class="panel panel-primary">
+                <div class="panel-header">Aucun messages</div>
+                <div class="panel-body">
+                    <p>Il n'y a aucun message à afficher</p>
+                </div>
+                <div class="panel-footer">Posté le: {{ date('d/m/Y') }} par: livredor.dev </div>
+            </article>
+        {% endfor %}
+    </section>
 
-    {{ form_start(form_post) }}
-    {{ form_widget(form_post) }}
-    <div><input type="submit" class="btn btn-primary" value="OK"/></div>
-    {{ form_end(form_post) }}
+    <div id="post-form" class="jumbotron">
+        <h2>Publier un message</h2>
+        {{ form_start(form_post) }}
+        {{ form_widget(form_post) }}
+        <input type="submit" class="btn btn-primary center-block" value="Publier"/>
+        {{ form_end(form_post) }}
+    </div>
+
 {% endblock %}
 
 {% block stylesheets %}

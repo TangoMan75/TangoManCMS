@@ -1,3 +1,116 @@
 body {
-	padding-top: 51px;
+	padding-top: 5em;
+}
+
+/*.container {*/
+	/*min-height: 100vh;*/
+/*}*/
+
+/**
+ * Posts layout
+ */
+#posts {
+	margin-bottom: 3em;
+}
+
+#posts .post {
+	width: 80%;
+	margin: auto;
+	margin-bottom: 3em;
+}
+
+/**
+ * Post form layout
+ */
+#post-form {
+	width: 80%;
+	margin: auto;
+}
+
+#post-form h2 {
+	margin-bottom: 1.5em;
+}
+
+#post-form .btn {
+	padding-left: 3em;
+	padding-right: 3em;
+}
+
+#post-form #post_content {
+	height: 10em;
+}
+
+/**
+ * Flash messages
+ */
+div.alert {
+	position: fixed;
+}
+
+/**
+ * Footer layout
+ */
+body > footer:last-of-type {
+	margin-top: 5em;
+}
+
+body > footer:last-of-type {
+	display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	padding: 1.42383em 0;
+	width: 100%;
+	max-width: 100%;
+}
+
+body > footer:last-of-type > * {
+	/* Footer items margin */
+	margin: 1.77778em;
+	padding: 0 0 0 0.88889em;
+}
+
+body > footer:last-of-type > * p {
+	/* Footer p layout */
+	margin: 0;
+}
+
+body > footer:last-of-type ul {
+	/* List items layout in footer */
+	padding: 0;
+	margin: 0;
+}
+
+/**
+ * Footer styling
+ */
+body > footer:last-of-type,
+body > div:first-of-type > footer:last-of-type {
+	background-color: #2a2730;
+	color: #555555;
+}
+
+body > footer:last-of-type > *,
+body > div:first-of-type > footer:last-of-type > * {
+	/* Footer items styling */
+	border-left: 1px solid white;
+}
+
+body > footer:last-of-type ul,
+body > div:first-of-type > footer:last-of-type ul {
+	/* List items styling in footer */
+	list-style: none;
+}
+
+body > footer:last-of-type a,
+body > div:first-of-type > footer:last-of-type a {
+	/* Link styling in footer */
+	text-decoration: none;
+	color: white;
+}
+
+body > footer:last-of-type a:hover,
+body > div:first-of-type > footer:last-of-type a:hover {
+	/* Hover effect on footer links */
+	text-decoration: underline;
 }
