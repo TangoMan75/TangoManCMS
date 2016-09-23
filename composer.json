@@ -48,12 +48,14 @@
             "@symfony-scripts",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:schema:update --force",
-            "php bin/console cache:clear -e=prod"
+            "php bin/console cache:clear -e=prod",
+            "php bin/console doctrine:fixtures:load"
         ],
         "post-update-cmd": [
             "@symfony-scripts",
             "php bin/console doctrine:schema:update --force",
-            "php bin/console cache:clear -e=prod"
+            "php bin/console cache:clear -e=prod",
+            "php bin/console doctrine:fixtures:load"
         ]
     },
     "extra": {
