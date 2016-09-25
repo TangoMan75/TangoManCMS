@@ -23,20 +23,6 @@ class DefaultController extends Controller
 
         $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy([], ['datetime' => 'desc']);
 
-//        $now = date(time());
-//
-//        $listPost = [
-//            'Post' => [
-//                'id' => 1,
-//                'author' => 'livredor.dev',
-//                'title' => 'Aucun messages',
-//                'datetime' => $now,
-//                'content' => "Personne n'a publié de messages sur le livre d'or.",
-//            ],
-//        ];
-
-//        if (!$listPost) {};
-
         $post = new Post();
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {

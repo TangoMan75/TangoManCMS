@@ -17,4 +17,4 @@ REGEDIT4
 "Icon"="cmd.exe,0"
 
 [HKEY_CLASSES_ROOT\Folder\shell\run_symfony\command]
-@="cmd.exe /k cd \"%1\" & start http://locahost:8000 & php bin/console server:run"
+@="cmd.exe /k cd \"%1\" & start http://127.0.0.1:8000 & php bin/console server:run"
