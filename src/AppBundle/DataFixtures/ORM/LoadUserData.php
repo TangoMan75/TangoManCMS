@@ -23,7 +23,7 @@ class LoadUserData implements FixtureInterface
 
             $author = $faker->name;
             $title = $faker->sentence(4, true);
-            $text = $faker->text;
+            $text = $faker->text(600);
 
             $post = new Post();
             $post->setAuthor($author);

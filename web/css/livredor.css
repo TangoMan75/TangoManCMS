@@ -2,21 +2,23 @@ body {
 	padding-top: 5em;
 }
 
-/*body {
-	min-height: 100vh;
-}*/
-
 /**
  * Posts layout
  */
 #posts {
-	margin-bottom: 3em;
+	margin: 2px dotted red;
+	margin-bottom: 5em;
 }
 
 #posts .post {
 	width: 80%;
 	margin: auto;
 	margin-bottom: 3em;
+}
+
+#posts .post p {
+	width: 80%;
+	margin: 2em auto;
 }
 
 /**
@@ -32,6 +34,7 @@ body {
 }
 
 #post-form .btn {
+	margin-top: 3em;
 	padding-left: 3em;
 	padding-right: 3em;
 }

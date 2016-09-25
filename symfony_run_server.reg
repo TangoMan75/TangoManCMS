@@ -1,8 +1,8 @@
 REGEDIT4
 
 ; Name: Symfony Run Server
-; Version: 0.1.0
-; DateLastModified: 02:36 25/09/2016
+; Version: 0.1.1
+; DateLastModified: 17:11 25/09/2016
 ; Category: shells
 ; Author: matthias.morin@gmail.com
 ; Link: http://icerpdc.free.fr
@@ -11,9 +11,9 @@ REGEDIT4
 ; Purpose: Run Server
 ; Compatibility: XP, Vista, W7, W8
 
-; This adds the "Run Server" on the right click menu for folders
+; This adds the "Symfony Run Server" on the right click menu for folders
 [HKEY_CLASSES_ROOT\Folder\shell\run_symfony]
-@="Run Symfony Server"
+@="Symfony Run Server"
 "Icon"="cmd.exe,0"
 
 [HKEY_CLASSES_ROOT\Folder\shell\run_symfony\command]

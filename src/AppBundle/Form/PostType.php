@@ -11,8 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 class PostType extends AbstractType
 {
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
+    public function buildForm(FormBuilderInterface $builder, array $options) {
         $builder
             ->add('author', TextType::class, [
                 'label' => 'Auteur'
@@ -21,12 +20,12 @@ class PostType extends AbstractType
                 'label' => 'Titre'
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Message'
+                'label' => 'Message',
+                'required' => false
             ]);
     }
 
-    public function setDefaultOptions(OptionsResolver $resolver)
-    {
+    public function setDefaultOptions(OptionsResolver $resolver) {
 
         $resolver->setDefaults(array(
             'data_class' => 'AppBundle\Entity\Post',
@@ -34,8 +33,7 @@ class PostType extends AbstractType
 
     }
 
-    public function getName()
-    {
+    public function getName() {
         return 'app_post';
     }
 }

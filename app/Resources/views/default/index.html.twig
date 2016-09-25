@@ -4,27 +4,27 @@
 
 {% block head %}
     {{ parent() }}
-    {#<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>#}
-    {#<script>tinymce.init({ selector:'textarea' });</script>#}
+    <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
 {% endblock %}
 
 {% block body %}
-    <section id="posts col-xs-12">
+    <section id="posts">
         {% for post in list_post %}
             <article class="post panel panel-primary">
-                <div class="panel-heading">{{ post.title }}</div>
+                <header class="panel-heading"><h3 class="text-center">{{ post.title }}</h3></header>
                 <div class="panel-body">
                     <p>{{ post.content|nl2br }}</p>
                 </div>
-                <div class="panel-footer">Posté le: {{ post.datetime|date('d/m/Y') }} par: {{ post.author }}</div>
+                <footer class="panel-footer">Posté le: {{ post.datetime|date('d/m/Y') }} par: {{ post.author }}</footer>
             </article>
         {% else %}
             <article class="panel panel-primary">
-                <div class="panel-header">Aucun messages</div>
+                <header class="panel-header"><h3 class="text-center">Aucun messages</h3></header>
                 <div class="panel-body">
                     <p>Il n'y a aucun message à afficher</p>
                 </div>
-                <div class="panel-footer">Posté le: {{ date('d/m/Y') }} par: livredor.dev </div>
+                <footer class="panel-footer">Posté le: {{ date('d/m/Y') }} par: livredor.dev </footer>
             </article>
         {% endfor %}
     </section>
