@@ -12,9 +12,9 @@ REGEDIT4
 ; Compatibility: XP, Vista, W7, W8
 
 ; This adds the "Run Server" on the right click menu for folders
-[HKEY_CLASSES_ROOT\Folder\shell\bundle]
+[HKEY_CLASSES_ROOT\Folder\shell\run_symfony]
 @="Run Symfony Server"
 "Icon"="cmd.exe,0"
 
-[HKEY_CLASSES_ROOT\Folder\shell\bundle\command]
+[HKEY_CLASSES_ROOT\Folder\shell\run_symfony\command]
 @="cmd.exe /k cd \"%1\" & start http://locahost:8000 & php bin/console server:run"
