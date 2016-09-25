@@ -66,10 +66,10 @@ class DefaultController extends Controller
     public function loginAction(){
         $helper = $this->get('security.authentication_utils');
 
-        return $this->render('default/login.html.twig', array(
+        return $this->render('default/login.html.twig', [
             'last_username' => $helper->getLastUsername(),
             'error' => $helper->getLastAuthenticationError()
-        ));
+        ]);
     }
 
     /**
