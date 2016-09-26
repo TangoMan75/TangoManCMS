@@ -25,12 +25,14 @@ class LoadUsers implements FixtureInterface
             $email    = $faker->safeEmail;
             $password = $faker->password;
             $token    = $faker->uuid;
+            $role     = 'user';
 
             $user = new User();
             $user->setUsername($username);
             $user->setEmail($email);
             $user->setPassword($password);
             $user->setToken($token);
+            $user->setRole($role);
 
             $manager->persist($user);
         }

@@ -6,12 +6,10 @@
  * Time: 17:53
  */
 
-namespace AppBundle\Entity\Repository;
+namespace AppBundle\Repository;
 
 
-use Doctrine\ORM\EntityRepository;
-
-class Post extends EntityRepository
+class PostRepository extends \Doctrine\ORM\EntityRepository
 {
     public function idSuperior($id)
     {
