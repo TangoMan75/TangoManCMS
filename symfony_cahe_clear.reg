@@ -1,8 +1,8 @@
 REGEDIT4
 
 ; Name: Symfony Cache Clear
-; Version: 0.1.0
-; DateLastModified: 17:09 25/09/2016
+; Version: 0.2.0
+; DateLastModified: 10:00 26/09/2016
 ; Category: shells
 ; Author: matthias.morin@gmail.com
 ; Link: http://icerpdc.free.fr
@@ -12,9 +12,9 @@ REGEDIT4
 ; Compatibility: XP, Vista, W7, W8
 
 ; This adds the "Symfony Cache Clear" on the right click menu for folders
-[HKEY_CLASSES_ROOT\Folder\shell\cache_clear]
+[HKEY_CLASSES_ROOT\Folder\shell\symfony_cache_clear]
 @="Symfony Cache Clear"
 "Icon"="cmd.exe,0"
 
-[HKEY_CLASSES_ROOT\Folder\shell\cache_clear\command]
+[HKEY_CLASSES_ROOT\Folder\shell\symfony_cache_clear\command]
 @="cmd.exe /k cd \"%1\" & php bin/console cache:clear -e=prod"

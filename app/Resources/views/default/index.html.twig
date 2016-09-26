@@ -8,6 +8,10 @@
     <script>tinymce.init({ selector:'textarea' });</script>
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block body %}
     <section id="posts">
         {% for post in list_post %}
@@ -37,8 +41,4 @@
         {{ form_end(form_post) }}
     </div>
 
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
 {% endblock %}

@@ -4,8 +4,10 @@
 
 {% block head %}
     {{ parent() }}
-    {#<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>#}
-    {#<script>tinymce.init({ selector:'textarea' });</script>#}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
 {% endblock %}
 
 {% block body %}
@@ -38,8 +40,4 @@
         </form>
     </div>
 
-{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
 {% endblock %}

@@ -13,7 +13,8 @@ class DefaultController extends Controller
     /**
      * @Route("/", name="app_homepage")
      */
-    public function indexAction(Request $request) {
+    public function indexAction(Request $request)
+    {
         // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->find(1);
         // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll();
         // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['author' => 'Fabrice']);
@@ -48,7 +49,8 @@ class DefaultController extends Controller
     /**
      * @Route("/login", name="app_login")
      */
-    public function loginAction() {
+    public function loginAction()
+    {
         $helper = $this->get('security.authentication_utils');
 
         return $this->render('default/login.html.twig', [
@@ -60,12 +62,14 @@ class DefaultController extends Controller
     /**
      * @Route("/logout", name="app_logout")
      */
-    public function logoutAction() {
+    public function logoutAction()
+    {
     }
 
     /**
      * @Route("/login-check", name="app_login_check")
      */
-    public function loginCheckAction() {
+    public function loginCheckAction()
+    {
     }
 }
