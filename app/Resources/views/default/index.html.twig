@@ -18,7 +18,7 @@
     <article class="post panel panel-primary">
         <header class="panel-heading"><h3 class="text-center">{{ post.title }}</h3></header>
         <div class="panel-body">
-            <p>{{ post.content|nl2br }}</p>
+            <p>{{ post.content|raw|nl2br }}</p>
         </div>
         <footer class="panel-footer">Posté le: {{ post.datetime|date('d/m/Y H:i:s') }} par: {{ post.author }}</footer>
     </article>
