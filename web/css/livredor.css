@@ -6,7 +6,6 @@ body {
  * Posts layout
  */
 #posts {
-	margin: 2px dotted red;
 	margin-bottom: 5em;
 }
 
@@ -54,13 +53,6 @@ table td {
 
 table th {
 	padding-bottom: .8em;
-}
-
-/**
- * Flash messages
- */
-div.alert {
-	position: fixed;
 }
 
 /**
@@ -129,4 +121,31 @@ body > footer:last-of-type a:hover,
 body > div:first-of-type > footer:last-of-type a:hover {
 	/* Hover effect on footer links */
 	text-decoration: underline;
+}
+
+/**
+ * Flash messages
+ */
+div.alert {
+	position: fixed;
+	top: 8em;
+	right: 20%;
+}
+/**
+ * Animations
+ */
+.anim-alert {
+	animation: 2s anim-alert;
+	animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
+}
+
+@keyframes anim-alert {
+	from {
+		opacity: 0;
+		top: -5em;
+	}
+	to {
+		opacity: 1;
+		top: 8em;
+	}
 }

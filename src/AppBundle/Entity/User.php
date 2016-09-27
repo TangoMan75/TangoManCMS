@@ -53,12 +53,13 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="roles", type="string", length=255)
+     * @ORM\Column(name="roles", type="simple_array")
      */
     private $roles;
 
     public function __construct() {
         $this->roles = ["ROLE_USER"];
+        $this->token = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
 //        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
@@ -171,7 +172,7 @@ class User implements UserInterface
     /**
      * Set role
      *
-     * @param string $role
+     * @param array $role
      *
      * @return User
      */

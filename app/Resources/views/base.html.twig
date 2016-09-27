@@ -31,8 +31,8 @@
                         <div class="collapse navbar-collapse">
                             <ul class="nav navbar-nav">
                                 <li><a href="{{ path("user_index") }}">Utilisateurs</a></li>
-                                <li><a href="#">Register</a></li>
-                                <li><a href="{{ path("app_login") }}">Login</a></li>
+                                <li><a href="{{ path("app_register") }}">Inscription</a></li>
+                                <li><a href="{{ path("app_login") }}">Connection</a></li>
                             </ul>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
             </header>
 
             {% if app.session.flashbag.has('success') %}
-            <div class="alert alert-success alert-dismissible">
+            <div class="alert alert-success alert-dismissible anim-alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 {% for message in app.session.flashbag.get('success') %}
                 {{ message }}
@@ -49,7 +49,7 @@
             {% endif %}
 
             {% if app.session.flashbag.has('error') %}
-            <div class="alert alert-danger alert-dismissible">
+            <div class="alert alert-danger alert-dismissible anim-alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 {% for message in app.session.flashbag.get('error') %}
                 {{ message }}

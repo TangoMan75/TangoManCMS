@@ -25,9 +25,6 @@ class SecurityController extends Controller
      */
     public function logoutAction()
     {
-        return $this->render('AppBundle:security:logout.html.twig', array(
-            // ...
-        ));
     }
 
     /**
@@ -35,9 +32,6 @@ class SecurityController extends Controller
      */
     public function checkAction()
     {
-        return $this->render('AppBundle:security:check.html.twig', array(
-            // ...
-        ));
     }
 
     /**
@@ -45,9 +39,6 @@ class SecurityController extends Controller
      */
     public function resetAction()
     {
-        return $this->render('AppBundle:security:reset.html.twig', array(
-            // ...
-        ));
     }
 
 }

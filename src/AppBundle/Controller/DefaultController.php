@@ -21,7 +21,7 @@ class DefaultController extends Controller
         // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->idSuperior(1);
         // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['id' => $id]);
 
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll([], ['date_created', 'asc']);
+        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy([], ['dateCreated' => 'desc']);
         $post = new Post();
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {

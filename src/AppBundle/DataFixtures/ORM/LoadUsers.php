@@ -19,13 +19,13 @@ class LoadUsers implements FixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i=0; $i < 60; $i++){
+        for ($i=0; $i < 10; $i++){
 
             $username = $faker->userName;
             $email    = $faker->safeEmail;
             $password = $faker->password;
-            $token    = $faker->uuid;
-            $role     = 'user';
+            $token    = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+            $role     = ['ROLE_USER'];
 
             $user = new User();
             $user->setUsername($username);

@@ -1,0 +1,14 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}AppBundle:Register:register{% endblock %}
+
+{% block body %}
+    <div id="register-form" class="jumbotron">
+        <h2>S'inscrire pour publier dans le livre d'or de Mat</h2>
+        {{ form_start(form_register) }}
+        {{ form_widget(form_register) }}
+        <input type="submit" class="btn btn-primary center-block" value="Inscription"/>
+        {{ form_end(form_register) }}
+    </div>
+
+{% endblock %}
