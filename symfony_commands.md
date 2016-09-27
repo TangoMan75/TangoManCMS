@@ -72,3 +72,9 @@ Controllers
 
 php bin/console generate:controller
 
+
+Forms
+-----
+
+php bin/console generate:form
+

@@ -17,7 +17,7 @@
         {% if error %}
             <div class="alert alert-danger">{{ error.message }}</div>
         {% endif %}
-        <form method="post" action="{{ path('app_login_check') }}" class="form-horizontal col-md-6 col-md-offset-2">
+        <form method="post" action="{{ path('app_check') }}" class="form-horizontal col-md-6 col-md-offset-2">
             <div class="form-group">
                 <label class="control-label col-sm-4" id="inputUsername">Nom d'utilisateur</label>
                 <div class="col-sm-8">

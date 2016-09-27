@@ -4,11 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
@@ -24,7 +21,7 @@ class DefaultController extends Controller
         // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->idSuperior(1);
         // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['id' => $id]);
 
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll([], ['datetime', 'desc']);
+        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll([], ['date_created', 'asc']);
         $post = new Post();
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -48,30 +45,4 @@ class DefaultController extends Controller
         ]);
     }
 
-    /**
-     * @Route("/login", name="app_login")
-     */
-    public function loginAction()
-    {
-        $helper = $this->get('security.authentication_utils');
-
-        return $this->render('default/login.html.twig', [
-            'last_username' => $helper->getLastUsername(),
-            'error' => $helper->getLastAuthenticationError()
-        ]);
-    }
-
-    /**
-     * @Route("/logout", name="app_logout")
-     */
-    public function logoutAction()
-    {
-    }
-
-    /**
-     * @Route("/login-check", name="app_login_check")
-     */
-    public function loginCheckAction()
-    {
-    }
 }

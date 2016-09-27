@@ -45,7 +45,7 @@ class Post
      * @var \DateTime Post date
      * @ORM\Column(type="datetime")
      */
-    private $datetime;
+    private $dateCreated;
 
     /**
      * @var String Message content
@@ -56,7 +56,7 @@ class Post
 
     public function __construct()
     {
-        $this->datetime = new \DateTime();
+        $this->dateCreated = new \DateTime();
     }
 
     /**
@@ -110,17 +110,17 @@ class Post
     /**
      * @return mixed
      */
-    public function getDatetime()
+    public function getDateCreated()
     {
-        return $this->datetime;
+        return $this->dateCreated;
     }
 
     /**
-     * @param mixed $datetime
+     * @param mixed $dateCreated
      */
-    public function setDatetime(\DateTime $datetime)
+    public function setDateCreated(\DateTime $dateCreated)
     {
-        $this->datetime = $datetime;
+        $this->dateCreated = $dateCreated;
     }
 
     /**

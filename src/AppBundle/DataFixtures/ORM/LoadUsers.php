@@ -32,7 +32,7 @@ class LoadUsers implements FixtureInterface
             $user->setEmail($email);
             $user->setPassword($password);
             $user->setToken($token);
-            $user->setRole($role);
+            $user->setRoles($role);
 
             $manager->persist($user);
         }

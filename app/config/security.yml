@@ -4,14 +4,20 @@ security:
 
     encoders:
         Symfony\Component\Security\Core\User\User: plaintext
+        AppBundle\Entity\User:
+            algorithm: bcrypt
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
+        database:
+            entity:
+                class: AppBundle:User
+                property: username
         in_memory:
             memory:
                 users:
                     admin:
-                        password: 'mat'
+                        password: 'root'
                         roles: 'ROLE_ADMIN'
 
     firewalls:
@@ -26,7 +32,7 @@ security:
             pattern: ^/
             form_login:
                 login_path: app_login
-                check_path: app_login_check
+                check_path: app_check
                 default_target_path: app_homepage
             logout:
                 path: app_logout

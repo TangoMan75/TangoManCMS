@@ -20,7 +20,7 @@
         <div class="panel-body">
             <p>{{ post.content|raw|nl2br }}</p>
         </div>
-        <footer class="panel-footer">Posté le: {{ post.datetime|date('d/m/Y H:i:s') }} par: {{ post.author }}</footer>
+        <footer class="panel-footer">Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.author }}</footer>
     </article>
     {% else %}
     <article class="panel panel-primary">

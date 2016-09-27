@@ -2,23 +2,26 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 
 class RegistrationController extends Controller
 {
     /**
-     * @Route("/register")
+     * @Route("/register", name="app_register")
      */
     public function registerAction()
     {
+        $user = new User();
+
         return $this->render('AppBundle:Registration:register.html.twig', array(
             // ...
         ));
     }
 
     /**
-     * @Route("/edit")
+     * @Route("/edit", name="app_edit")
      */
     public function editAction()
     {
@@ -28,7 +31,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/confirm")
+     * @Route("/confirm", name="app_confirm")
      */
     public function confirmAction()
     {
@@ -38,7 +41,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/show")
+     * @Route("/show", name="app_show")
      */
     public function showAction()
     {
@@ -48,7 +51,7 @@ class RegistrationController extends Controller
     }
 
     /**
-     * @Route("/delete")
+     * @Route("/delete", name="app_delete")
      */
     public function deleteAction()
     {
