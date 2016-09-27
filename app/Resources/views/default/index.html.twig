@@ -16,11 +16,11 @@
 <section id="posts">
     {% for post in list_post %}
     <article class="post panel panel-primary">
-        <header class="panel-heading"><h3 class="text-center">{{ post.title }}</h3></header>
+        <header class="panel-heading"><h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}</h3></header>
         <div class="panel-body">
             <p>{{ post.content|raw|nl2br }}</p>
         </div>
-        <footer class="panel-footer">Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.author }}</footer>
+        <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.author }}</footer>
     </article>
     {% else %}
     <article class="panel panel-primary">
@@ -33,11 +33,21 @@
     {% endfor %}
 </section>
 
-<div id="post-form" class="jumbotron">
-    <h2>Publier un message</h2>
-    {{ form_start(form_post) }}
-    {{ form_widget(form_post) }}
-    <input type="submit" class="btn btn-primary center-block" value="Publier"/>
-    {{ form_end(form_post) }}
-</div>
+    {% if app.user %}
+        <div id="post-form" class="jumbotron">
+            <h2>Publier un message</h2>
+            {{ form_start(form_post) }}
+            {{ form_widget(form_post) }}
+            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Publier</button>
+            {{ form_end(form_post) }}
+        </div>
+    {% else %}
+        <div class="jumbotron">
+            <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
+            <p><a href="{{ path("app_login") }}" class="btn btn-default">Se connecter</a>
+            <a href="{{ path("app_register") }}" class="btn btn-default">S'inscrire</a></p>
+        </div>
+    {% endif %}
+
+
 {% endblock %}

@@ -9,6 +9,8 @@ use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+//use Symfony\Component\Validator\Constraints as Assert;
+//use Symfony\Component\Validator\ExecutionContext;
 
 
 class UserType extends AbstractType
@@ -19,6 +21,8 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+//        $app = $options['app'];
+
         $builder
             ->add('username', TextType::Class, [
                 'label' => 'Votre pseudo'
@@ -31,15 +35,6 @@ class UserType extends AbstractType
                 'first_options'  => ['label' => 'Votre mot de passe'],
                 'second_options' => ['label' => 'Confirmez votre mot de passe'],
             ])
-//            ->add('token')
-//            ->add('roles', ChoiceType::class, [
-//                'multiple'  => true,
-//                'choices'   => [
-//                    'Administrateur'   => "ROLE_ADMIN",
-//                    'Utilisateur' => "ROLE_PARTNER"
-//                ],
-//                'expanded'  => true
-//            ])
         ;
     }
 

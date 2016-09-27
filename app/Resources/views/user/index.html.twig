@@ -3,36 +3,37 @@
 {% block body %}
     <h1>User list</h1>
 
-    <table id="user-index" class="table-striped">
-        <thead>
+    {% if is_granted('ROLE_ADMIN') %}
+        <table id="user-index" class="table-striped">
+            <thead>
             <tr>
                 <th>Id</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>Password</th>
-                <th>Token</th>
-                <th>Actions</th>
+                <th colspan="2">Actions</th>
             </tr>
-        </thead>
-        <tbody>
-        {% for user in users %}
-            <tr>
-                <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.email }}</td>
-                <td>{{ user.password }}</td>
-                <td>{{ user.token }}</td>
-                <td>
-                    <ul>
-                        <li>
-                            <a href="{{ path('user_show', { 'id': user.id }) }}">show</a>
-                        </li>
-                    </ul>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td><a class="btn btn-primary" href="{{ path('user_show', { 'id': user.id }) }}"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;show</a></td>
+                    <td><a class="btn btn-danger" href="{{ path('user_delete', { 'id': user.id }) }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;delete</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="row">
+            <div class="col-xs-12">
+                <p>Vous devez être administrateur pour accèder à ces informations.</p>
+            </div>
+        </div>
+    {% endif %}
+
+
 
     
 {% endblock %}

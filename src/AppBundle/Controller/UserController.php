@@ -11,7 +11,7 @@ use AppBundle\Entity\User;
 /**
  * User controller.
  *
- * @Route("/user")
+ * @Route("/users")
  */
 class UserController extends Controller
 {
@@ -25,7 +25,7 @@ class UserController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $users = $em->getRepository('AppBundle:User')->findBy([], ['username' => 'asc']);
 
         return $this->render('user/index.html.twig', array(
             'users' => $users,
@@ -40,9 +40,27 @@ class UserController extends Controller
      */
     public function showAction(User $user)
     {
-
         return $this->render('user/show.html.twig', array(
             'user' => $user,
         ));
+    }
+
+    /**
+     * Finds and deletes a User entity.
+     *
+     * @Route("/delete/{id}", name="user_delete")
+     * @Method("GET")
+     */
+    public function deleteUser (User $userId)
+    {
+        $em = $this->getDoctrine()->getManager();
+//        $user = $em->getRepository('AppBundle:User')->findOneBy(['id' => $userId]);
+
+        $em->remove($userId);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('success',"L'utilisateur à bien été supprimé.");
+
+        return $this->redirectToRoute('user_index');
     }
 }

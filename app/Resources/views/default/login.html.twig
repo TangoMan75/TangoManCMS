@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Poster un message{% endblock %}
+{% block title %}{{ parent() }} | Créer un compte utilisateur{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,12 +12,12 @@
 
 {% block body %}
 
-    {% if error %}
-        <div class="alert alert-danger alert-dismissible anim-alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{ error.message }}
-        </div>
-    {% endif %}
+    {#{% if error %}#}
+        {#<div class="alert alert-danger alert-dismissible anim-alert">#}
+            {#<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>#}
+            {#{{ error.message }}#}
+        {#</div>#}
+    {#{% endif %}#}
     <div id="login-form" class="jumbotron">
         <div class="row">
 
