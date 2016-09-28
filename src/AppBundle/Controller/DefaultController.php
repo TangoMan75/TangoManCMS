@@ -26,7 +26,7 @@ class DefaultController extends Controller
         $post = new Post();
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $post->setUser($this->getUser()->getUser());
+            $post->setUser($this->getUser());
         }
 
         $form = $this->createForm(PostType::class, $post);
