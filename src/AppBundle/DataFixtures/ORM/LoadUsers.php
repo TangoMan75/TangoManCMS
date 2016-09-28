@@ -49,7 +49,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $user = new User();
             $username = $faker->userName;
             $user->setUsername($username);
-            $user->setEmail($faker->safeEmail);
+            $user->setEmail($username.'@'.$faker->safeEmailDomain);
             $user->setPassword($encoder->encodePassword($user, $username));
             $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setRoles(['ROLE_USER']);
