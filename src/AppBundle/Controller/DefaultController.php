@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+
 use AppBundle\Entity\Post;
 use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,33 +16,30 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->find(1);
-        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findAll();
-        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['author' => 'Fabrice']);
-        // $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->idSuperior(1);
-        // $post = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findBy(['id' => $id]);
-
-
         $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findByPage($request->query->getInt('page', 1));
-        $post = new Post();
+
+        $formPost = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+
+            $post = new Post();
             $post->setUser($this->getUser());
-        }
 
-        $form = $this->createForm(PostType::class, $post);
-        $form->handleRequest($request);
+            $form = $this->createForm(PostType::class, $post);
+            $form->handleRequest($request);
+            $formPost = $form->createView();
 
-        if ($form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($post);
-            $manager->flush();
-            $this->get('session')->getFlashBag()->add('success','Votre message a bien été enregistré');
-            return $this->redirectToRoute('app_homepage');
+            if ($form->isValid()) {
+                $manager = $this->getDoctrine()->getManager();
+                $manager->persist($post);
+                $manager->flush();
+                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré');
+                return $this->redirectToRoute('app_homepage');
+            }
         }
 
         return $this->render('default/index.html.twig', [
-            'form_post' => $form->createView(),
+            'form_post' => $formPost,
             'list_post' => $listPost
         ]);
     }

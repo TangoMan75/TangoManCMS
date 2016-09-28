@@ -57,7 +57,7 @@ class User implements UserInterface
 
     /**
      * @var User's posts
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      */
     private $posts;
 

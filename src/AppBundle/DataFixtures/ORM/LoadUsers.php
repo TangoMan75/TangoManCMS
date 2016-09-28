@@ -47,9 +47,10 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         for ($i=0; $i < 10; $i++){
 
             $user = new User();
-            $user->setUsername($faker->userName);
+            $username = $faker->userName;
+            $user->setUsername($username);
             $user->setEmail($faker->safeEmail);
-            $user->setPassword($encoder->encodePassword($user, $faker->userName));
+            $user->setPassword($encoder->encodePassword($user, $username));
             $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setRoles(['ROLE_USER']);
 

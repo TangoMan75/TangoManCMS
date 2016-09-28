@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\User;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * User controller.
@@ -51,17 +52,20 @@ class UserController extends Controller
      * @Route("/delete/{id}", name="user_delete")
      * @Method("GET")
      */
-    public function deleteUser (User $userId)
+    public function deleteUser (Request $request, User $user)
     {
         $em = $this->getDoctrine()->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneBy(['id' => $userId]);
-        $username = $user->getUsername();
-//        var_dump($username);
 
-        $em->remove($userId);
+        $em->remove($user);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success',"L'utilisateur <strong>" . $username . "</strong> à bien été supprimé.");
+        $this->get('session')->getFlashBag()->add('success',"L'utilisateur <strong>" . $user->getUsername() . "</strong> à bien été supprimé.");
+
+        if ($user == $this->getUser()) {
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+            return $this->redirectToRoute('app_homepage');
+        }
 
         return $this->redirectToRoute('user_index');
     }

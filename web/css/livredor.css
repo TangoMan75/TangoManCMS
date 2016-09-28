@@ -135,7 +135,7 @@ div.alert {
  * Animations
  */
 .anim-alert {
-	animation: 2s anim-alert;
+	animation: 1s anim-alert;
 	animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
 }
 
