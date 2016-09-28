@@ -28,11 +28,10 @@ class Post
     private $id;
 
     /**
-     * @var string Author's name
-     * @ORM\Column()
-     * @Assert\NotBlank(message="L'auteur doit être renseigné")
+     * @var string username
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
      */
-    private $author;
+    private $user;
 
     /**
      * @var string Post title
@@ -73,22 +72,6 @@ class Post
     public function setId($id)
     {
         $this->id = $id;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
-
-    /**
-     * @param mixed $author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
     }
 
     /**
@@ -138,4 +121,22 @@ class Post
     {
         $this->content = $content;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+    }
+
+
 }

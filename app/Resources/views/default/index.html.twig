@@ -20,7 +20,7 @@
         <div class="panel-body">
             <p>{{ post.content|raw|nl2br }}</p>
         </div>
-        <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.author }}</footer>
+        <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.user.username }}</footer>
     </article>
     {% else %}
     <article class="panel panel-primary">
@@ -33,21 +33,20 @@
     {% endfor %}
 </section>
 
-    {% if app.user %}
-        <div id="post-form" class="jumbotron">
-            <h2>Publier un message</h2>
-            {{ form_start(form_post) }}
-            {{ form_widget(form_post) }}
-            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Publier</button>
-            {{ form_end(form_post) }}
-        </div>
-    {% else %}
-        <div class="jumbotron">
-            <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
-            <p><a href="{{ path("app_login") }}" class="btn btn-default">Se connecter</a>
-            <a href="{{ path("app_register") }}" class="btn btn-default">S'inscrire</a></p>
-        </div>
-    {% endif %}
-
+{% if app.user %}
+<div id="post-form" class="jumbotron">
+    <h2>Publier un message</h2>
+    {{ form_start(form_post) }}
+    {{ form_widget(form_post) }}
+    <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Publier</button>
+    {{ form_end(form_post) }}
+</div>
+{% else %}
+<div class="jumbotron">
+    <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
+    <p><a href="{{ path("app_login") }}" class="btn btn-default">Se connecter</a>
+    <a href="{{ path("app_register") }}" class="btn btn-default">S'inscrire</a></p>
+</div>
+{% endif %}
 
 {% endblock %}

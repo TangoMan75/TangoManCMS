@@ -34,7 +34,7 @@
                                     <li><a href="{{ path("user_index") }}"><span class="glyphicon glyphicon-user"></span>&nbsp;Utilisateurs</a></li>
                                 {% endif %}
 
-                                {% if app.user %}
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     <li><a href="{{ path("app_logout") }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnection</a></li>
                                 {% else %}
                                     <li><a href="{{ path("app_register") }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
@@ -51,7 +51,7 @@
             <div class="alert alert-success alert-dismissible anim-alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 {% for message in app.session.flashbag.get('success') %}
-                    <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;{{ message }}
+                    <span class="glyphicon glyphicon-ok-sign"></span>&nbsp;{{ message|raw }}
                 {% endfor %}
             </div>
             {% endif %}
@@ -60,7 +60,7 @@
                 <div class="alert alert-danger alert-dismissible anim-alert">
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     {% for message in app.session.flashbag.get('error') %}
-                        <span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ message }}
+                        <span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ message|raw }}
                 {% endfor %}
             </div>
             {% endif %}

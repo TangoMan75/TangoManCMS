@@ -54,12 +54,14 @@ class UserController extends Controller
     public function deleteUser (User $userId)
     {
         $em = $this->getDoctrine()->getManager();
-//        $user = $em->getRepository('AppBundle:User')->findOneBy(['id' => $userId]);
+        $user = $em->getRepository('AppBundle:User')->findOneBy(['id' => $userId]);
+        $username = $user->getUsername();
+//        var_dump($username);
 
         $em->remove($userId);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success',"L'utilisateur à bien été supprimé.");
+        $this->get('session')->getFlashBag()->add('success',"L'utilisateur <strong>" . $username . "</strong> à bien été supprimé.");
 
         return $this->redirectToRoute('user_index');
     }

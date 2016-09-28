@@ -56,6 +56,12 @@ class User implements UserInterface
     private $token;
 
     /**
+     * @var User's posts
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user")
+     */
+    private $posts;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="roles", type="simple_array")
@@ -214,5 +220,22 @@ class User implements UserInterface
     public function eraseCredentials()
     {
     }
+
+    /**
+     * @return User
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param User $posts
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+    }
+
 }
 

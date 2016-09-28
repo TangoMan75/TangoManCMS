@@ -8,48 +8,63 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+
+use AppBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\User;
 use Faker\Factory;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadUsers implements FixtureInterface
+class LoadUsers implements FixtureInterface, ContainerAwareInterface
 {
+    private $container;
+
+    /**
+     * @param mixed $container
+     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->container = $container;
+    }
+
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
+        $encoder = $this->container->get('security.password_encoder');
 
-        $username = "admin";
-        $email    = $faker->safeEmail;
-        $password = '$2y$13$inrUj0hzQtPL2qvJ7/vtC.7QSNV.LmzUzBCMazMunMRdYjMMI2.Ha';
-        $token    = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-        $role     = ['ROLE_ADMIN'];
-
+        // Generating admin account with pwd: "321"
         $user = new User();
-        $user->setUsername($username);
-        $user->setEmail($email);
-        $user->setPassword($password);
-        $user->setToken($token);
-        $user->setRoles($role);
+        $user->setUsername("admin");
+        $user->setEmail( $faker->safeEmail);
+        $user->setPassword($encoder->encodePassword($user, "321"));
+        $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
+        $user->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
 
         for ($i=0; $i < 10; $i++){
 
-            $username = $faker->userName;
-            $email    = $faker->safeEmail;
-            $password = $faker->password;
-            $token    = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
-            $role     = ['ROLE_USER'];
-
             $user = new User();
-            $user->setUsername($username);
-            $user->setEmail($email);
-            $user->setPassword($password);
-            $user->setToken($token);
-            $user->setRoles($role);
+            $user->setUsername($faker->userName);
+            $user->setEmail($faker->safeEmail);
+            $user->setPassword($encoder->encodePassword($user, $faker->userName));
+            $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
+            $user->setRoles(['ROLE_USER']);
 
             $manager->persist($user);
+
+            $rand = mt_rand(1, 5);
+            for ($j=0; $j < $rand; $j++) {
+                $post = new Post();
+                $post->setUser($user);
+                $post->setTitle($faker->sentence(4, true));
+                $post->setContent($faker->text(600));
+                $post->setDateCreated($faker->dateTimeThisYear($max = 'now'));
+
+                $manager->persist($post);
+            }
         }
 
         $manager->flush();
