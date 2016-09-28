@@ -3,50 +3,56 @@
 {% block title %}{{ parent() }} | Poster un message{% endblock %}
 
 {% block head %}
-{{ parent() }}
-<script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
-<script>tinymce.init({ selector:'textarea' });</script>
+    {{ parent() }}
+    <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+    <script>tinymce.init({ selector:'textarea' });</script>
 {% endblock %}
 
 {% block stylesheets %}
-{{ parent() }}
+    {{ parent() }}
 {% endblock %}
 
 {% block body %}
-<section id="posts">
-    {% for post in list_post %}
-    <article class="post panel panel-primary">
-        <header class="panel-heading"><h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}</h3></header>
-        <div class="panel-body">
-            <p>{{ post.content|raw|nl2br }}</p>
+    <section id="posts">
+        {% for post in list_post %}
+            <article class="post panel panel-primary">
+                <header class="panel-heading"><h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}</h3></header>
+                <div class="panel-body">
+                    <p>{{ post.content|raw|nl2br }}</p>
+                </div>
+                <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.user.username }}</footer>
+            </article>
+        {% else %}
+            <article class="panel panel-primary">
+                <header class="panel-heading"><h3 class="text-center">Aucun messages</h3></header>
+                <div class="panel-body">
+                    <p>Il n'y a aucun message à afficher</p>
+                </div>
+                <footer class="panel-footer">Posté le: {{ "now"|date('d/m/Y H:i:s') }} par: livredor.dev </footer>
+            </article>
+        {% endfor %}
+        <div class="text-center">
+            {{ pagination(list_post) }}
         </div>
-        <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par: {{ post.user.username }}</footer>
-    </article>
+    </section>
+
+    {% if app.user %}
+        <div id="post-form" class="jumbotron">
+            <h2>Publier un message</h2>
+            {{ form_start(form_post) }}
+            {{ form_widget(form_post) }}
+            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Publier</button>
+            {{ form_end(form_post) }}
+        </div>
     {% else %}
-    <article class="panel panel-primary">
-        <header class="panel-heading"><h3 class="text-center">Aucun messages</h3></header>
-        <div class="panel-body">
-            <p>Il n'y a aucun message à afficher</p>
+        <div class="jumbotron">
+            <div class="text-center">
+                <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
+                <p>
+                    <a href="{{ path("app_login") }}" class="btn btn-default">Se connecter</a>
+                    <a href="{{ path("app_register") }}" class="btn btn-default">S'inscrire</a>
+                </p>
+            </div>
         </div>
-        <footer class="panel-footer">Posté le: {{ "now"|date('d/m/Y H:i:s') }} par: livredor.dev </footer>
-    </article>
-    {% endfor %}
-</section>
-
-{% if app.user %}
-<div id="post-form" class="jumbotron">
-    <h2>Publier un message</h2>
-    {{ form_start(form_post) }}
-    {{ form_widget(form_post) }}
-    <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Publier</button>
-    {{ form_end(form_post) }}
-</div>
-{% else %}
-<div class="jumbotron">
-    <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
-    <p><a href="{{ path("app_login") }}" class="btn btn-default">Se connecter</a>
-    <a href="{{ path("app_register") }}" class="btn btn-default">S'inscrire</a></p>
-</div>
-{% endif %}
-
+    {% endif %}
 {% endblock %}
