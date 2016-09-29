@@ -29,7 +29,7 @@ class Post
 
     /**
      * @var string username
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
      */
     private $user;
 
