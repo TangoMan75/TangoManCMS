@@ -4,5 +4,5 @@
         <p>{{ post.content|raw|nl2br }}</p>
     </div>
     <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par:
-        <a href="{{ path('user_show', { 'id': post.user.id }) }}">{{ post.user.username }}</a></footer>
+        <a href="{{ path('user_show', { 'username': post.user.username }) }}">{{ post.user.username }}</a></footer>
 </article>

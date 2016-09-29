@@ -3,16 +3,16 @@
 namespace AppBundle\Controller;
 
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use AppBundle\Entity\User;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * User controller.
- *
- * @Route("/users")
+ * Class UserController
+ * @package AppBundle\Controller
+ * @Route("/user")
  */
 class UserController extends Controller
 {
@@ -35,15 +35,64 @@ class UserController extends Controller
 
     /**
      * Finds and displays a User entity.
-     *
-     * @Route("/{id}", name="user_show")
-     * @Method("GET")
+     * @Route("/{username}", name="user_show")
      */
-    public function showAction(User $user)
+    public function showAction(Request $request, $username)
     {
-        return $this->render('user/show.html.twig', array(
+        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneByUsername($username);
+
+        if (!$user) {
+            return $this->createNotFoundException("Cet utilisateur n'existe pas.");
+        }
+
+        return $this->render('user/show.html.twig', [
             'user' => $user,
-        ));
+        ]);
+    }
+
+    /**
+     * @Route("/edit", name="user_edit")
+     */
+    public function editAction(Request $request)
+    {
+        return $this->render('user/edit.html.twig', [
+
+        ]);
+    }
+
+    /**
+     * @Route("/register", name="user_register")
+     */
+    public function registerAction(Request $request)
+    {
+        $user = new User;
+
+        $form = $this->createForm(UserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+
+            $encoder = $this->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($user);
+            $manager->flush();
+            $this->get('session')->getFlashBag()->add('success','Votre inscription a bien été prise en compte.');
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->render('registration/register.html.twig', [
+            'form_register' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/confirm", name="user_confirm")
+     */
+    public function confirmAction(Request $request)
+    {
     }
 
     /**
