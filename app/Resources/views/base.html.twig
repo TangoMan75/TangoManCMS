@@ -13,7 +13,7 @@
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     {% endblock %}
 </head>
-<body id="top">
+<body>
 
 <div class="container">
     <!-- Header -->
@@ -35,11 +35,7 @@
                         {% endif %}
 
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                            <li><a href="#"><span class="glyphicon glyphicon-user"></span>&nbsp;Profil</a></li>
                             <li><a href="{{ path("app_logout") }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnection</a></li>
-                            {% if app.request.get('_route') == 'app_homepage' %}
-                                <li><a href="#post-form" class="smooth"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
-                            {% endif %}
                         {% else %}
                             <li><a href="{{ path("app_register") }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
                             <li><a href="{{ path("app_login") }}"><span class="glyphicon glyphicon-ok"></span>&nbsp;Connection</a></li>
@@ -78,9 +74,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>    <!-- Bootstrap JavaScript CDN -->
                                                                                                 <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    {% if app.request.get('_route') == 'app_homepage' %}
-        <script src="{{ asset('js/smooth.js') }}"></script>
-    {% endif %}
+    {#<script src="{{ asset('js/stripped-0.1.0.js') }}"></script>#}
 {% endblock %}
 
 </body>
