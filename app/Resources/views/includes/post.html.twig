@@ -1,0 +1,8 @@
+<article class="post panel panel-primary">
+    <header class="panel-heading"><h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}</h3></header>
+    <div class="panel-body">
+        <p>{{ post.content|raw|nl2br }}</p>
+    </div>
+    <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Posté le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par:
+        <a href="{{ path('user_show', { 'id': post.user.id }) }}">{{ post.user.username }}</a></footer>
+</article>

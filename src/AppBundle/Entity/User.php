@@ -58,6 +58,7 @@ class User implements UserInterface
     /**
      * @var User's posts
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
+     * @ORM\OrderBy({"dateCreated"="DESC"})
      */
     private $posts;
 

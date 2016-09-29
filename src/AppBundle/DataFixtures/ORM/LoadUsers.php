@@ -36,8 +36,8 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
         // Generating admin account with pwd: "321"
         $user = new User();
-        $user->setUsername("admin");
-        $user->setEmail( $faker->safeEmail);
+        $user->setUsername('admin');
+        $user->setEmail('admin@'.$faker->safeEmailDomain);
         $user->setPassword($encoder->encodePassword($user, "321"));
         $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
         $user->setRoles(['ROLE_ADMIN']);

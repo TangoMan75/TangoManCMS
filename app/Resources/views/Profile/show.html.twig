@@ -23,9 +23,22 @@
         </tbody>
     </table>
 
-    <ul>
-        <li>
-            <a href="{{ path('user_index') }}">Back to the list</a>
-        </li>
-    </ul>
+    {% if is_granted('ROLE_ADMIN') %}
+        <ul>
+            <li>
+                <a href="{{ path('user_index') }}">Back to the list</a>
+            </li>
+        </ul>
+    {% endif %}
+
+    <section id="posts">
+        {% for post in user.posts %}
+            {% include 'includes/post.html.twig' %}
+        {% else %}
+            <p>Il n'y a aucun message à afficher</p>
+        {% endfor %}
+        {#<div class="text-center">#}
+            {#{{ pagination(list_post) }}#}
+        {#</div>#}
+    </section>
 {% endblock %}

@@ -78,3 +78,16 @@ Forms
 
 php bin/console generate:form
 
+
+Git
+---
+
+git reset --hard origin/master
+git pull origin master
+git clone git@github.com:TangoMan75/livredor.git .
+
+
+Composer
+--------
+
+composer update
