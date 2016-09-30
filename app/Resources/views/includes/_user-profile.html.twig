@@ -13,7 +13,7 @@
             </thead>
             </tbody>
             <tr>
-                <th>Username</th>
+                <th>Utilisateur</th>
                 <td>{{ user.username }}</td>
             </tr>
             <tr>
@@ -21,6 +21,16 @@
                 <td>{{ user.email }}</td>
             </tr>
             </tr>
+            {% if is_granted('ROLE_ADMIN') %}
+                <tr>
+                    <th>
+                        Modifier
+                    </th>
+                    <td>
+                        <a href="{{ path('user_index') }}">{{ user.username }}</a>
+                    </td>
+                </tr>
+            {% endif %}
             </tbody>
         </table>
     </div>

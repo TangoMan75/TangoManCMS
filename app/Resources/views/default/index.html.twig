@@ -11,7 +11,7 @@
 {% block body %}
     <section id="posts">
         {% for post in list_post %}
-            {% include 'includes/post.html.twig' %}
+            {% include("includes/_post.html.twig") %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">
@@ -26,7 +26,7 @@
     </section>
 
     {% if app.user %}
-        {% include 'includes/post-form.html.twig' %}
+        {% include("includes/_post-form.html.twig") %}
     {% else %}
         <div class="jumbotron">
             <div class="text-center">

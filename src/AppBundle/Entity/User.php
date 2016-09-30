@@ -30,6 +30,8 @@ class User implements UserInterface
      * @var string
      *
      * @ORM\Column(name="username", type="string", length=255)
+     * @Assert\Expression("value not in ['edit', 'register', 'confirm', 'delete']", message="Ce nom d'utilisateur est réservé.")
+     * @Assert\NotBlank(message="Vous devez renseigner un nom d'utilisateur.")
      */
     private $username;
 
@@ -38,6 +40,7 @@ class User implements UserInterface
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      * @Assert\Email(checkMX=true, message="Votre email doit être valide.")
+     * @Assert\NotBlank(message="Vous devez renseigner votre adresse email.")
      */
     private $email;
 
@@ -251,6 +254,7 @@ class User implements UserInterface
             // $this->salt,
         ));
     }
+
     /**
      * @see \Serializable::unserialize()
      */
@@ -266,4 +270,3 @@ class User implements UserInterface
     }
 
 }
-

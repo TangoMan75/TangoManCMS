@@ -4,19 +4,11 @@
 
 {% block body %}
 
-    {% include 'includes/user-profile.html.twig' %}
-
-    {% if is_granted('ROLE_ADMIN') %}
-        <ul>
-            <li>
-                <a href="{{ path('user_index') }}">Edit {{ user.username }}'s profile</a>
-            </li>
-        </ul>
-    {% endif %}
+    {% include("includes/_user-profile.html.twig") %}
 
     <section id="posts">
         {% for post in user.posts %}
-            {% include 'includes/post.html.twig' %}
+            {% include("includes/_post.html.twig") %}
         {% else %}
             <p>Il n'y a aucun message à afficher</p>
         {% endfor %}

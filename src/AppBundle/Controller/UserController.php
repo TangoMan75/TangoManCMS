@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 
 use AppBundle\Entity\User;
+use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -31,23 +32,6 @@ class UserController extends Controller
         return $this->render('user/index.html.twig', array(
             'users' => $users,
         ));
-    }
-
-    /**
-     * Finds and displays a User entity.
-     * @Route("/{username}", name="user_show")
-     */
-    public function showAction(Request $request, $username)
-    {
-        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneByUsername($username);
-
-        if (!$user) {
-            return $this->createNotFoundException("Cet utilisateur n'existe pas.");
-        }
-
-        return $this->render('user/show.html.twig', [
-            'user' => $user,
-        ]);
     }
 
     /**
@@ -83,7 +67,7 @@ class UserController extends Controller
             return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('registration/register.html.twig', [
+        return $this->render('user/register.html.twig', [
             'form_register' => $form->createView(),
         ]);
     }
@@ -117,5 +101,22 @@ class UserController extends Controller
         }
 
         return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * Finds and displays a User entity.
+     * @Route("/{username}", name="user_show")
+     */
+    public function showAction(Request $request, $username)
+    {
+        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneByUsername($username);
+
+        if (!$user) {
+            throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
+        }
+
+        return $this->render('user/show.html.twig', [
+            'user' => $user,
+        ]);
     }
 }

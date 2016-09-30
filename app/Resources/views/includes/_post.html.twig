@@ -1,0 +1,22 @@
+<article class="panel panel-primary post" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <header class="panel-heading">
+        <h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}
+            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                {% if post.user.id == app.user.id %}
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-warning btn-group-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce message"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-danger btn-group-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message"><span class="glyphicon glyphicon-trash"></span></button>
+                    </div>
+                {% endif %}
+            {% endif %}
+        </h3>
+    </header>
+    <div class="panel-body row">
+        <figure class="col-xs-12 col-sm-3">
+            <img src="https://placehold.it/200x200" alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
+        </figure>
+        <div class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</div>
+    </div>
+    <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Publié le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par:
+        <a href="{{ path('user_show', { 'username': post.user.username }) }}">{{ post.user.username }}</a></footer>
+</article>

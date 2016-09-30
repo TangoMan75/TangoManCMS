@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Register:register{% endblock %}
+{% block title %}{{ parent() }} | Inscription{% endblock %}
 
 {% block body %}
     <div id="register-form" class="jumbotron">
@@ -10,5 +10,4 @@
         <input type="submit" class="btn btn-primary center-block" value="Inscription"/>
         {{ form_end(form_register) }}
     </div>
-
 {% endblock %}
