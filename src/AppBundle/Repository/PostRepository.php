@@ -30,6 +30,13 @@ class PostRepository extends EntityRepository
         return $dql->getQuery()->getResult();
     }
 
+    /**
+     * Posts pagination
+     *
+     * @param int $page
+     * @param int $max
+     * @return Paginator
+     */
     public function findByPage($page = 1, $max = 10)
     {
         if(!is_numeric($page)) {
@@ -45,6 +52,45 @@ class PostRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('post');
+        $dql->orderBy('post.dateCreated', 'DESC');
+
+        $firstResult = ($page - 1) * $max;
+
+        $query = $dql->getQuery();
+        $query->setFirstResult($firstResult);
+        $query->setMaxResults($max);
+
+        $paginator = new Paginator($query);
+
+        if(($paginator->count() <=  $firstResult) && $page != 1) {
+            throw new NotFoundHttpException('Page not found');
+        }
+
+        return $paginator;
+    }
+
+    /**
+     * Post pagination by user
+     * @param int $page
+     * @param int $max
+     * @return Paginator
+     */
+    public function findByUser($user, $page = 1, $max = 10)
+    {
+        if(!is_numeric($page)) {
+            throw new \InvalidArgumentException(
+                '$page must be an integer ('.gettype($page).' : '.$page.')'
+            );
+        }
+
+        if(!is_numeric($page)) {
+            throw new \InvalidArgumentException(
+                '$max must be an integer ('.gettype($max).' : '.$max.')'
+            );
+        }
+
+        $dql = $this->createQueryBuilder('post');
+        $dql->where('post.userId', 'DESC');
         $dql->orderBy('post.dateCreated', 'DESC');
 
         $firstResult = ($page - 1) * $max;

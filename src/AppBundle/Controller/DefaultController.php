@@ -22,8 +22,10 @@ class DefaultController extends Controller
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
 
+            $user = $this->getUser();
+
             $post = new Post();
-            $post->setUser($this->getUser());
+            $post->setUser($user);
 
             $form = $this->createForm(PostType::class, $post);
             $form->handleRequest($request);
@@ -33,7 +35,7 @@ class DefaultController extends Controller
                 $manager = $this->getDoctrine()->getManager();
                 $manager->persist($post);
                 $manager->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré');
+                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
                 return $this->redirectToRoute('app_homepage');
             }
         }
@@ -41,6 +43,23 @@ class DefaultController extends Controller
         return $this->render('default/index.html.twig', [
             'form_post' => $formPost,
             'list_post' => $listPost
+        ]);
+    }
+
+    /**
+     * Menu
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function menuAction()
+    {
+        $user = null;
+
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+            $user = $this->getUser();
+        }
+
+        return $this->render(':includes:menu.html.twig', [
+            'user'  => $user
         ]);
     }
 

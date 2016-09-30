@@ -1,14 +1,42 @@
 {% extends 'base.html.twig' %}
 
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({ selector:'textarea' });</script>
+    {% endif %}
+{% endblock %}
+
 {% block body %}
     <section id="posts">
         {% for post in list_post %}
             {% include 'includes/post.html.twig' %}
         {% else %}
-            <p>Il n'y a aucun message à afficher</p>
+            <div class="jumbotron">
+                <div class="text-center">
+                    <h2>Il n'y a aucun message à afficher</h2>
+                    <p>Soyez le premier à publier un message dans le livre d'or de Mat.</p>
+                </div>
+            </div>
         {% endfor %}
         <div class="text-center">
             {{ pagination(list_post) }}
         </div>
     </section>
+
+    {% if app.user %}
+        {% include 'includes/post-form.html.twig' %}
+    {% else %}
+        <div class="jumbotron">
+            <div class="text-center">
+                <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
+                <p>
+                    <a href="{{ path("app_login") }}" class="btn btn-primary btn-lg">Se connecter</a>
+                    <a href="{{ path("user_register") }}" class="btn btn-danger btn-lg">S'inscrire</a>
+                </p>
+            </div>
+        </div>
+    {% endif %}
+
 {% endblock %}

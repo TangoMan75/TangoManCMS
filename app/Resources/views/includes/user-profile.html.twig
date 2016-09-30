@@ -1,0 +1,27 @@
+<div id="user-profile" class="row">
+    <div id="user-picture" class="col-xs-12 col-sm-6">
+        <img src="https://placehold.it/200x200" alt="{{ user.username }}" />
+    </div>
+    <div id="user-detail" class="col-xs-12 col-sm-6">
+        <table class="table-striped">
+            <thead>
+            <tr>
+                <td colspan="2">
+                    <h1 class="text-center">{{ user.username }}</h1>
+                </td>
+            </tr>
+            </thead>
+            </tbody>
+            <tr>
+                <th>Username</th>
+                <td>{{ user.username }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email }}</td>
+            </tr>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

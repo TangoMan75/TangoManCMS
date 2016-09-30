@@ -3,21 +3,49 @@ body {
 }
 
 /**
+ * Profiles layout
+ */
+#user-profile {
+	width: 80%;
+	margin: auto;
+	margin-bottom: 3em;
+}
+
+#user-profile h1 {
+	margin: auto;
+	margin-bottom: 1em;
+}
+
+#user-picture img {
+	border-radius: 50%;
+}
+
+/**
  * Posts layout
  */
 #posts {
 	margin-bottom: 5em;
 }
 
-#posts .post {
-	width: 80%;
-	margin: auto;
+.post {
 	margin-bottom: 3em;
 }
 
-#posts .post p {
-	width: 80%;
+.post header .glyphicon {
+	margin-left: .5em;
+}
+
+.post header h3 {
+margin-top: 10px;
+}
+
+.post .panel-body p {
 	margin: 2em auto;
+	/*text-justify: auto;*/
+}
+
+.post footer .glyphicon {
+	margin: 0 .5em;
 }
 
 /**

@@ -89,7 +89,7 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/confirm", name="user_confirm")
+     * @Route("/confirm/{token}", name="user_confirm")
      */
     public function confirmAction(Request $request)
     {
