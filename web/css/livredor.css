@@ -40,12 +40,13 @@ margin-top: 10px;
 }
 
 .post .panel-body p {
-	margin: 2em auto;
-	/*text-justify: auto;*/
+	margin: 0 auto 2em auto;
+	text-align: justify;
 }
 
 .post footer .glyphicon {
 	margin: 0 .5em;
+	color: #337ab7;
 }
 
 /**

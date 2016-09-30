@@ -59,9 +59,10 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $rand = mt_rand(1, 5);
             for ($j=0; $j < $rand; $j++) {
                 $post = new Post();
+                $text = "<p>".$faker->text(800)."</p>";
                 $post->setUser($user);
                 $post->setTitle($faker->sentence(4, true));
-                $post->setContent($faker->text(600));
+                $post->setContent($text);
                 $post->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
                 $manager->persist($post);

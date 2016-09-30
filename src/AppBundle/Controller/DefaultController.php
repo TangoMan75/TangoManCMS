@@ -16,7 +16,7 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findByPage($request->query->getInt('page', 1));
+        $listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findByPage($request->query->getInt('page', 1), 5);
 
         $formPost = null;
 
@@ -42,24 +42,7 @@ class DefaultController extends Controller
 
         return $this->render('default/index.html.twig', [
             'form_post' => $formPost,
-            'list_post' => $listPost
-        ]);
-    }
-
-    /**
-     * Menu
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function menuAction()
-    {
-        $user = null;
-
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $user = $this->getUser();
-        }
-
-        return $this->render(':includes:menu.html.twig', [
-            'user'  => $user
+            'list_post' => $listPost,
         ]);
     }
 

@@ -4,7 +4,7 @@
         <figure class="col-xs-12 col-sm-3">
             <img src="https://placehold.it/200x200" alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
         </figure>
-        <p class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</p>
+        <div class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</div>
     </div>
     <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Publié le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par:
         <a href="{{ path('user_show', { 'username': post.user.username }) }}">{{ post.user.username }}</a></footer>
