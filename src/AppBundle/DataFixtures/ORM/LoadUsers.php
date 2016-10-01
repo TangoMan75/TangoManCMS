@@ -8,7 +8,6 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-
 use AppBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -53,6 +52,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $user->setPassword($encoder->encodePassword($user, $username));
             $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setRoles(['ROLE_USER']);
+            $user->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
             $manager->persist($user);
 

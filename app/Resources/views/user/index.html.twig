@@ -8,8 +8,9 @@
     <thead>
     <tr>
         <th>Id</th>
-        <th>Username</th>
+        <th>Utilisateur</th>
         <th>Email</th>
+        <th>Date de création</th>
         <th colspan="2">Actions</th>
     </tr>
     </thead>
@@ -19,6 +20,7 @@
             <td><a href="{{ path('user_show', { 'username': user.username }) }}">{{ user.id }}</a></td>
             <td>{{ user.username }}</td>
             <td>{{ user.email }}</td>
+            <td>{{ user.dateCreated|date('d/m/Y H:i:s') }}</td>
             <td><a class="btn btn-primary" href="{{ path('user_show', { 'username': user.username }) }}"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;show</a></td>
             <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target=".my-modal" data-username="{{ user.username }}" data-url="{{ path('user_delete', { 'id': user.id }) }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;delete</button></td>
         </tr>

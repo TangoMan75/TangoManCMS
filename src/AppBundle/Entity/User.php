@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: MORIN Matthias
+ * Date: 01/10/2016
+ * Time: 17:09
+ */
 
 namespace AppBundle\Entity;
 
@@ -72,9 +78,17 @@ class User implements UserInterface
      */
     private $roles;
 
+    /**
+     * @var \DateTime Post date
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreated;
+
     public function __construct() {
         $this->roles = ["ROLE_USER"];
         $this->token = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
+        $this->dateCreated = new \DateTime();
+        
 //        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
@@ -239,6 +253,22 @@ class User implements UserInterface
     public function setPosts($posts)
     {
         $this->posts = $posts;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * @param mixed $dateCreated
+     */
+    public function setDateCreated(\DateTime $dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
     }
 
     /**
