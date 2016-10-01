@@ -3,9 +3,9 @@
         <h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if post.user.id == app.user.id %}
-                    <div class="pull-right">
-                        <button type="button" class="btn btn-warning btn-group-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce message"><span class="glyphicon glyphicon-edit"></span></button>
-                        <button type="button" class="btn btn-danger btn-group-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message"><span class="glyphicon glyphicon-trash"></span></button>
+                    <div class="pull-right btn-group" role="group">
+                        <button type="button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce message"><span class="glyphicon glyphicon-edit"></span></button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message"><span class="glyphicon glyphicon-trash"></span></button>
                     </div>
                 {% endif %}
             {% endif %}
