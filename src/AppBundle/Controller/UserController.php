@@ -62,7 +62,7 @@ class UserController extends Controller
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
-            $this->get('session')->getFlashBag()->add('success','Votre inscription a bien été prise en compte.');
+            $this->get('session')->getFlashBag()->add('success', 'Votre inscription a bien été prise en compte.');
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -91,7 +91,7 @@ class UserController extends Controller
         $em->remove($user);
         $em->flush();
 
-        $this->get('session')->getFlashBag()->add('success',"L'utilisateur <strong>" . $user->getUsername() . "</strong> à bien été supprimé.");
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>" . $user->getUsername() . '</strong> à bien été supprimé.');
 
         if ($user == $this->getUser()) {
             $this->get('security.token_storage')->setToken(null);

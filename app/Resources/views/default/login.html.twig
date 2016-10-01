@@ -40,7 +40,7 @@
     {% if error %}
         <div class="alert alert-danger alert-dismissible anim-alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            {{ error.message }}
+            <span class="glyphicon glyphicon-remove-sign">{{ error.message }}
         </div>
     {% endif %}
 {% endblock %}
