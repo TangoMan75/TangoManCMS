@@ -29,9 +29,7 @@
         "sensio/framework-extra-bundle": "^3.0.2",
         "incenteev/composer-parameter-handler": "^2.0",
         "fzaninotto/faker": "^1.6",
-        "tiloweb/pagination-bundle": "^1.1"
-    },
-    "require-dev": {
+        "tiloweb/pagination-bundle": "^1.1",
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^2.3"
@@ -69,7 +67,12 @@
         "symfony-tests-dir": "tests",
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
-            "file": "app/config/parameters.yml"
+            "file": "app/config/parameters.yml",
+            "env-map": {
+                "database_url": "DATABASE_URL",
+                "secret": "SECRET_TOKEN",
+                "symfony_env": "SYMFONY_ENV"
+            }
         }
     }
 }
