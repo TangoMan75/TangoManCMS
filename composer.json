@@ -46,12 +46,12 @@
         "post-install-cmd": [
             "@symfony-scripts",
             "php bin/console doctrine:schema:update --force",
-            "php bin/console cache:clear -e=prod",
+            "php bin/console cache:clear -e=prod"
         ],
         "post-update-cmd": [
             "@symfony-scripts",
             "php bin/console doctrine:schema:update --force",
-            "php bin/console cache:clear -e=prod",
+            "php bin/console cache:clear -e=prod"
         ]
     },
     "extra": {
