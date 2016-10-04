@@ -65,7 +65,7 @@ class UserController extends AbstractController
 
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Confirmation d'inscription.")
-                ->setFrom('admin@livredor.dev')
+                ->setFrom('tech@argus-lab.com')
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->renderView('email/validationemail.html.twig', [
