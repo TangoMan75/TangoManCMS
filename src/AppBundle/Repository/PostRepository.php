@@ -71,6 +71,7 @@ class PostRepository extends EntityRepository
 
     /**
      * Post pagination by user
+     *
      * @param int $page
      * @param int $max
      * @return Paginator

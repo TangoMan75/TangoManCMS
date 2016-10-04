@@ -6,15 +6,15 @@ use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
  * Class SecurityController
  * @package AppBundle\Controller
  * @Route("/security")
  */
-class SecurityController extends Controller
+class SecurityController extends AbstractController
 {
     /**
      * @Route("/login", name="app_login")
@@ -25,7 +25,7 @@ class SecurityController extends Controller
 
         return $this->render('default/login.html.twig', [
             'last_username' => $helper->getLastUsername(),
-            'error' => $helper->getLastAuthenticationError()
+            'error'         => $helper->getLastAuthenticationError()
         ]);
     }
 
@@ -51,38 +51,40 @@ class SecurityController extends Controller
     }
 
     /**
-     * @Route("/password/{$token}", name="app_password")
+     * @Route("/password/{token}", name="app_password")
      */
-    public function setPasswordAction(Request $request, $token)
+    public function passwordAction(Request $request, $token)
     {
-        $user = new User;
+        $user = $this->em()->getRepository('AppBundle:User')->findOneBy(['token'=>$token]);
 
         $form = $this->createForm(PwdType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isValid()) {
 
-//            $encoder = $this->get('security.password_encoder');
-//            $encoded = $encoder->encodePassword($user, $user->getPassword());
-//            $user->setPassword($encoded);
+            $encoder = $this->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($encoded);
 
-            $username = $user->getUsername();
-            $email    = $user->getEmail();
+            // Deletes token
+            $user->setToken(null);
 
-            // Generates token from username and unix time
-            $user->setToken(md5(time().$username));
+            $em = $this->em();
+            $em->persist($user);
+            $em->flush();
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($user);
-            $manager->flush();
+            $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le compte {$user->getUsername()}.");
 
-            $this->get('session')->getFlashBag()->add('success', "Merci $username, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à $email. <br /> Vérifiez votre boîte email.");
+            // Starts user session
+            $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());
+            $this->get('security.token_storage')->setToken($sessionToken);
+            $this->get('session')->set('_security_main',serialize($sessionToken));
 
             return $this->redirectToRoute('app_homepage');
         }
 
-        return $this->render('user/register.html.twig', [
-            'form_register' => $form->createView(),
+        return $this->render('user/password.html.twig', [
+            'form_password' => $form->createView()
         ]);
     }
 

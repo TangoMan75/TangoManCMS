@@ -21,7 +21,7 @@ class PostType extends AbstractType
                 'label' => 'Titre'
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Message',
+                'label'    => 'Message',
                 'required' => false
             ]);
     }

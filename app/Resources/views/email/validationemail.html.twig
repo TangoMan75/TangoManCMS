@@ -1,0 +1,4 @@
+<h1>Bonjour {{ user.username }}</h1>
+<p>Bienvenue sur livredor.dev</p>
+<p>Pour valider votre compte cliquez sur ce lien. <a href="{{ absolute_url(path('app_password', {'token':user.token })) }}">{{ absolute_url(path('app_password', {'token':user.token })) }}</a></p>
+<p>Cordialement</p>

@@ -8,14 +8,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends Controller
+class DefaultController extends AbstractController
 {
 	/**
 	 * @Route("/", name="app_homepage")
 	 */
 	public function indexAction(Request $request)
 	{
-		$listPost = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post')->findByPage($request->query->getInt('page', 1), 5);
+		$listPost = $this->em()->getRepository('AppBundle:Post')->findByPage($request->query->getInt('page', 1), 5);
 
 		$formPost = null;
 
@@ -31,9 +31,9 @@ class DefaultController extends Controller
 			$formPost = $form->createView();
 
 			if ($form->isValid()) {
-				$manager = $this->getDoctrine()->getManager();
-				$manager->persist($post);
-				$manager->flush();
+				$em = $this->em();
+				$em->persist($post);
+				$em->flush();
 				$this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
 				return $this->redirectToRoute('app_homepage');
 			}

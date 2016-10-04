@@ -6,7 +6,6 @@ use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -14,7 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @package AppBundle\Controller
  * @Route("/user")
  */
-class UserController extends Controller
+class UserController extends AbstractController
 {
     /**
      * Lists all User entities.
@@ -24,8 +23,7 @@ class UserController extends Controller
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-
+        $em = $this->em();
         $users = $em->getRepository('AppBundle:User')->findBy([], ['username' => 'asc']);
 
         return $this->render('user/index.html.twig', array(
@@ -55,19 +53,28 @@ class UserController extends Controller
 
         if ($form->isValid()) {
 
-//            $encoder = $this->get('security.password_encoder');
-//            $encoded = $encoder->encodePassword($user, $user->getPassword());
-//            $user->setPassword($encoded);
-
             $username = $user->getUsername();
             $email    = $user->getEmail();
 
             // Generates token from username and unix time
             $user->setToken(md5(time().$username));
 
-            $manager = $this->getDoctrine()->getManager();
-            $manager->persist($user);
-            $manager->flush();
+            $em = $this->em();
+            $em->persist($user);
+            $em->flush();
+
+            $message = \Swift_Message::newInstance()
+                ->setSubject("Livre D'Or | Confirmation d'inscription.")
+                ->setFrom('admin@livredor.dev')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView('email/validationemail.html.twig', [
+                        'user' => $user
+                    ]),
+                    'text/html'
+                )
+            ;
+            $this->get('mailer')->send($message);
 
             $this->get('session')->getFlashBag()->add('success', "Merci $username, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à $email. <br /> Vérifiez votre boîte email.");
 
@@ -75,19 +82,8 @@ class UserController extends Controller
         }
 
         return $this->render('user/register.html.twig', [
-            'form_register' => $form->createView(),
+            'form_register' => $form->createView()
         ]);
-    }
-
-    /**
-     * Confirms user email.
-     *
-     * @Route("/confirm/{token}", name="user_confirm")
-     */
-    public function confirmAction(Request $request, User $user)
-    {
-        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneByToken($token);
-
     }
 
     /**
@@ -96,9 +92,9 @@ class UserController extends Controller
      * @Route("/delete/{id}", name="user_delete")
      * @Method("GET")
      */
-    public function deleteUser (Request $request, User $user)
+    public function deleteUser(Request $request, User $user)
     {
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em();
 
         $em->remove($user);
         $em->flush();
@@ -121,7 +117,7 @@ class UserController extends Controller
      */
     public function showAction(Request $request, $username)
     {
-        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneByUsername($username);
+        $user = $this->em()->getRepository('AppBundle:User')->findOneByUsername($username);
 
         if (!$user) {
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
@@ -131,4 +127,5 @@ class UserController extends Controller
             'user' => $user,
         ]);
     }
+
 }
