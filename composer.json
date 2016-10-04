@@ -43,6 +43,9 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile",
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
+        "warmup": [
+            "php bin/console admin"
+        ],
         "post-install-cmd": [
             "@symfony-scripts",
             "php bin/console doctrine:schema:update --force",

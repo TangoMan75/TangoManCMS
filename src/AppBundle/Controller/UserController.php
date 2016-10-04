@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  * @package AppBundle\Controller
  * @Route("/user")
  */
-class UserController extends AbstractController
+class UserController extends Controller
 {
     /**
      * Lists all User entities.
@@ -23,8 +24,7 @@ class UserController extends AbstractController
      */
     public function indexAction()
     {
-        $em = $this->em();
-        $users = $em->getRepository('AppBundle:User')->findBy([], ['username' => 'asc']);
+        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
 
         return $this->render('user/index.html.twig', array(
             'users' => $users,
@@ -59,9 +59,7 @@ class UserController extends AbstractController
             // Generates token from username and unix time
             $user->setToken(md5(time().$username));
 
-            $em = $this->em();
-            $em->persist($user);
-            $em->flush();
+            $this->get('em')->save($user);
 
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Confirmation d'inscription.")
@@ -94,10 +92,8 @@ class UserController extends AbstractController
      */
     public function deleteUser(Request $request, User $user)
     {
-        $em = $this->em();
-
-        $em->remove($user);
-        $em->flush();
+        $this->get('em')->remove($user);
+        $this->get('em')->flush();
 
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>" . $user->getUsername() . '</strong> à bien été supprimé.');
 
@@ -117,7 +113,7 @@ class UserController extends AbstractController
      */
     public function showAction(Request $request, $username)
     {
-        $user = $this->em()->getRepository('AppBundle:User')->findOneByUsername($username);
+        $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
 
         if (!$user) {
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");

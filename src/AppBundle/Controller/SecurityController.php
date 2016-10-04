@@ -2,10 +2,9 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -14,7 +13,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  * @package AppBundle\Controller
  * @Route("/security")
  */
-class SecurityController extends AbstractController
+class SecurityController extends Controller
 {
     /**
      * @Route("/login", name="app_login")
@@ -55,7 +54,7 @@ class SecurityController extends AbstractController
      */
     public function passwordAction(Request $request, $token)
     {
-        $user = $this->em()->getRepository('AppBundle:User')->findOneBy(['token'=>$token]);
+        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['token'=>$token]);
 
         $form = $this->createForm(PwdType::class, $user);
         $form->handleRequest($request);
@@ -69,9 +68,7 @@ class SecurityController extends AbstractController
             // Deletes token
             $user->setToken(null);
 
-            $em = $this->em();
-            $em->persist($user);
-            $em->flush();
+            $this->get('em')->save($user);
 
             $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le compte {$user->getUsername()}.");
 
