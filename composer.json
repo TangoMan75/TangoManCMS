@@ -66,7 +66,10 @@
             "env-map": {
                 "database_url": "DATABASE_URL",
                 "secret": "SECRET_TOKEN",
-                "symfony_env": "SYMFONY_ENV"
+                "symfony_env": "SYMFONY_ENV",
+                "mailer_host": "POSTMARK_SMTP_SERVER",
+                "mailer_user": "POSTMARK_API_KEY",
+                "mailer_password": "POSTMARK_API_TOKEN"
             }
         }
     }
