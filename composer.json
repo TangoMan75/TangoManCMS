@@ -69,7 +69,8 @@
                 "symfony_env": "SYMFONY_ENV",
                 "mailer_host": "POSTMARK_SMTP_SERVER",
                 "mailer_user": "POSTMARK_API_KEY",
-                "mailer_password": "POSTMARK_API_TOKEN"
+                "mailer_password": "POSTMARK_API_TOKEN",
+                "mailer_from": "MAILER_FROM"
             }
         }
     }
