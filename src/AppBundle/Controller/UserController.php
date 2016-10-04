@@ -55,14 +55,22 @@ class UserController extends Controller
 
         if ($form->isValid()) {
 
-            $encoder = $this->get('security.password_encoder');
-            $encoded = $encoder->encodePassword($user, $user->getPassword());
-            $user->setPassword($encoded);
+//            $encoder = $this->get('security.password_encoder');
+//            $encoded = $encoder->encodePassword($user, $user->getPassword());
+//            $user->setPassword($encoded);
+
+            $username = $user->getUsername();
+            $email    = $user->getEmail();
+
+            // Generates token from username and unix time
+            $user->setToken(md5(time().$username));
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($user);
             $manager->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Votre inscription a bien été prise en compte.');
+
+            $this->get('session')->getFlashBag()->add('success', "Merci $username, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à $email. <br /> Vérifiez votre boîte email.");
+
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -72,10 +80,14 @@ class UserController extends Controller
     }
 
     /**
+     * Confirms user email.
+     *
      * @Route("/confirm/{token}", name="user_confirm")
      */
-    public function confirmAction(Request $request)
+    public function confirmAction(Request $request, User $user)
     {
+        $user = $this->getDoctrine()->getManager()->getRepository('AppBundle:User')->findOneByToken($token);
+
     }
 
     /**
@@ -93,6 +105,7 @@ class UserController extends Controller
 
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>" . $user->getUsername() . '</strong> à bien été supprimé.');
 
+        // Disconnects user
         if ($user == $this->getUser()) {
             $this->get('security.token_storage')->setToken(null);
             $request->getSession()->invalidate();

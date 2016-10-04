@@ -10,4 +10,23 @@ namespace AppBundle\Repository;
  */
 class UserRepository extends \Doctrine\ORM\EntityRepository
 {
+    public function findByToken($token)
+    {
+        $dql = $this->createQueryBuilder('user');
+        $dql->where('user.token', 'DESC');
+
+        $firstResult = ($page - 1) * $max;
+
+        $query = $dql->getQuery();
+        $query->setFirstResult($firstResult);
+        $query->setMaxResults($max);
+
+        $paginator = new Paginator($query);
+
+        if(($paginator->count() <=  $firstResult) && $page != 1) {
+            throw new NotFoundHttpException('Page not found');
+        }
+
+        return $paginator;
+    }
 }

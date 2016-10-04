@@ -38,7 +38,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         $user->setUsername('admin');
         $user->setEmail('admin@'.$faker->safeEmailDomain);
         $user->setPassword($encoder->encodePassword($user, "321"));
-        $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
+        // $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
         $user->setRoles(['ROLE_ADMIN']);
 
         $manager->persist($user);
@@ -50,7 +50,6 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $user->setUsername($username);
             $user->setEmail($username.'@'.$faker->safeEmailDomain);
             $user->setPassword($encoder->encodePassword($user, $username));
-            $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setRoles(['ROLE_USER']);
             $user->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 

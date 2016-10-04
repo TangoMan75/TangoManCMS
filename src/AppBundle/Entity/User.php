@@ -53,14 +53,14 @@ class User implements UserInterface
     /**
      * @var string
      *
-     * @ORM\Column(name="password", type="string", length=255)
+     * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
     private $password;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="token", type="string", length=255)
+     * @ORM\Column(name="token", type="string", length=255, nullable=true)
      */
     private $token;
 
@@ -86,10 +86,7 @@ class User implements UserInterface
 
     public function __construct() {
         $this->roles = ["ROLE_USER"];
-        $this->token = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
         $this->dateCreated = new \DateTime();
-        
-//        $this->salt = base_convert(sha1(uniqid(mt_rand(), true)), 16, 36);
     }
 
     /**
@@ -270,33 +267,4 @@ class User implements UserInterface
     {
         $this->dateCreated = $dateCreated;
     }
-
-    /**
-     * @see \Serializable::serialize()
-     */
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt,
-        ));
-    }
-
-    /**
-     * @see \Serializable::unserialize()
-     */
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->username,
-            $this->password,
-            // see section on salt below
-            // $this->salt
-            ) = unserialize($serialized);
-    }
-
 }
