@@ -19,3 +19,9 @@ monolog:
             level: debug
         console:
             type:  console
+
+swiftmailer:
+    transport: "smtp"
+    host:      "smtp.postmarkapp.com"
+    username:  "d12a69f2-cf88-4f30-875c-92b2f9813f67"
+    password:  "d12a69f2-cf88-4f30-875c-92b2f9813f67"
