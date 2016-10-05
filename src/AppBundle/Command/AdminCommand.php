@@ -15,6 +15,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AdminCommand extends ContainerAwareCommand
 {
+    /**
+     * creates command with description
+     */
     protected function configure()
     {
         $this
@@ -23,6 +26,10 @@ class AdminCommand extends ContainerAwareCommand
         ;
     }
 
+    /**
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         if (!$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN'])){
@@ -36,9 +43,9 @@ class AdminCommand extends ContainerAwareCommand
             $user->setPassword($encoder->encodePassword($user, "321"));
             $user->setRoles(['ROLE_ADMIN']);
             $this->getContainer()->get('em')->save($user);
-            $output->writeln("<question>Nouvel admin créé avec mot de passe '321'</question>");
+            $output->writeln("<question>Admin account created with password: 321</question>");
         } else {
-            $output->writeln("<question>Le compte admin existe déjà.</question>");
+            $output->writeln("<question>Admin account exists already.</question>");
         }
     }
 

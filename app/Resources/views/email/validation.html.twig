@@ -1,0 +1,6 @@
+<h1>Bonjour {{ user.username|capitalize }}</h1>
+<p>Bienvenue sur <a href="{{ absolute_url(path('app_homepage')) }}">livredor.dev</a></p>
+<p>Pour valider votre compte cliquez sur ce lien. <a href="{{ absolute_url(path('app_password', {'token':user.token })) }}">{{ absolute_url(path('app_password', {'token':user.token })) }}</a></p>
+<p>Il vous sera ensuite demandé de choisir un mot de passe pour sécuriser votre compte.</p>
+<p>Si vous n'êtes pas à l'origine de cette inscription cliquez sur le lien suivant pour supprimer votre email de notre système. <a href="{{ absolute_url(path('app_delete', {'token':user.token })) }}">{{ absolute_url(path('app_password', {'token':user.token })) }}</a></p>
+<p>Cordialement</p>

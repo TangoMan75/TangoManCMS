@@ -29,12 +29,15 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-8 col-sm-offset-4">
-                        <button class="btn btn-primary btn-lg">
+                        <button class="btn btn-primary">
                             <i class="glyphicon glyphicon-lock"></i> Se connecter
                         </button>
                     </div>
                 </div>
             </form>
+        </div>
+        <div class="row">
+            <p class="text-center"><small><a href="{{ path('app_token') }}">J'ai oublié mon mot de passe.</a></small></p>
         </div>
     </div>
     {% if error %}

@@ -1,0 +1,16 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ parent() }} | Réinitialisation de mot de passe{% endblock %}
+
+{% block body %}
+    <div id="reset-form" class="jumbotron">
+        <div class="row">
+            <h2 class="text-center">Réinitialisation de mot de passe</h2>
+            <p>Renseignez votre email, vous reçevrez un lien sécurisé pour créer un nouveau mot de passe dans votre boîte.</p>
+            {{ form_start(form_reset) }}
+            {{ form_row(form_reset.email) }}
+            <input type="submit" class="btn btn-primary center-block" value="Envoyer"/>
+            {{ form_end(form_reset) }}
+        </div>
+    </div>
+{% endblock %}

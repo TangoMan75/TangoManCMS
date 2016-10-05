@@ -66,7 +66,7 @@ class UserController extends Controller
                 ->setFrom($this->getParameter('mailer_from'))
                 ->setTo($user->getEmail())
                 ->setBody(
-                    $this->renderView('email/validationemail.html.twig', [
+                    $this->renderView('email/validation.html.twig', [
                         'user' => $user
                     ]),
                     'text/html'
@@ -74,7 +74,7 @@ class UserController extends Controller
             ;
             $this->get('mailer')->send($message);
 
-            $this->get('session')->getFlashBag()->add('success', "Merci $username, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à $email. <br /> Vérifiez votre boîte email.");
+            $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>strong>, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
 
             return $this->redirectToRoute('app_homepage');
         }
@@ -90,7 +90,30 @@ class UserController extends Controller
      * @Route("/delete/{id}", name="user_delete")
      * @Method("GET")
      */
-    public function deleteUser(Request $request, User $user)
+    public function deleteAction(Request $request, User $user)
+    {
+        $this->get('em')->remove($user);
+        $this->get('em')->flush();
+
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>" . $user->getUsername() . '</strong> à bien été supprimé.');
+
+        // Disconnects user
+        if ($user == $this->getUser()) {
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * Finds and deletes a User entity.
+     *
+     * @Route("/delete/{id}", name="user_delete")
+     * @Method("GET")
+     */
+    public function unsubscribeAction(Request $request, User $user)
     {
         $this->get('em')->remove($user);
         $this->get('em')->flush();
