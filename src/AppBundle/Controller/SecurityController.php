@@ -70,6 +70,8 @@ class SecurityController extends Controller
 
             } else {
 
+
+
                 // Generates token from username and unix time
                 $user->setToken(md5(time().$user->getUsername()));
 
@@ -87,6 +89,9 @@ class SecurityController extends Controller
                     );
 
                 $this->get('mailer')->send($message);
+
+                $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
+
                 return $this->redirectToRoute('app_homepage');
             }
         }

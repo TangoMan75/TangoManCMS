@@ -49,6 +49,11 @@ margin-top: 10px;
 	color: #337ab7;
 }
 
+.post footer .pull-left,
+.post footer .pull-right {
+	margin: 0 1em;
+}
+
 /**
  * Post form layout
  */

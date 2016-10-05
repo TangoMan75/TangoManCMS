@@ -17,6 +17,10 @@
         </figure>
         <div class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</div>
     </div>
-    <footer class="panel-footer"><span class="glyphicon glyphicon-send"></span>&nbsp;Publié le: {{ post.dateCreated|date('d/m/Y H:i:s') }} par:
-        <a href="{{ path('user_show', { 'username': post.user.username }) }}">{{ post.user.username }}</a></footer>
+    <footer class="panel-footer">
+        <div class="row">
+            <div class="pull-left"><span class="glyphicon glyphicon-send"></span>&nbsp;Publié le: {{ post.dateCreated|date('d/m/Y H:i:s') }}</div>
+            <div class="pull-right"><a href="{{ path('user_show', { 'username': post.user.username }) }}"><span class="glyphicon glyphicon-user"></span> {{ post.user.username }}</a>&nbsp;</div>
+        </div>
+    </footer>
 </article>
