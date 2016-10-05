@@ -74,7 +74,7 @@ class UserController extends Controller
             ;
             $this->get('mailer')->send($message);
 
-            $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>strong>, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
+            $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
 
             return $this->redirectToRoute('app_homepage');
         }
@@ -95,7 +95,7 @@ class UserController extends Controller
         $this->get('em')->remove($user);
         $this->get('em')->flush();
 
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>" . $user->getUsername() . '</strong> à bien été supprimé.');
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à bien été supprimé.");
 
         // Disconnects user
         if ($user == $this->getUser()) {
