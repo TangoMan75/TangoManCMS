@@ -4,10 +4,8 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
-use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -142,6 +140,40 @@ class SecurityController extends Controller
             ]);
         }
 
+    }
+
+    /**
+     * Finds and deletes a User entity.
+     *
+     * @Route("/delete/{token}", name="app_delete")
+     */
+    public function deleteAction(Request $request, $token)
+    {
+        // Gets user entity by token
+        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['token'=>$token]);
+
+        if (!$user) {
+
+            $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
+            return $this->redirectToRoute('app_homepage');
+
+        } else {
+            // Removes user
+            $this->get('em')->remove($user);
+            $this->get('em')->flush();
+
+            // Sends success message
+            $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à bien été supprimé.");
+
+            // Disconnects user
+            if ($user == $this->getUser()) {
+                $this->get('security.token_storage')->setToken(null);
+                $request->getSession()->invalidate();
+                return $this->redirectToRoute('app_homepage');
+            }
+
+            return $this->redirectToRoute('app_homepage');
+        }
     }
 
 }
