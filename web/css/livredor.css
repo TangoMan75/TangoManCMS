@@ -89,6 +89,7 @@ table th {
  */
 div.alert {
 	position: fixed;
+	z-index: 9999;
 	top: 8em;
 	right: 20%;
 }
