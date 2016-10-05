@@ -95,30 +95,7 @@ class UserController extends Controller
         $this->get('em')->remove($user);
         $this->get('em')->flush();
 
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à bien été supprimé.");
-
-        // Disconnects user
-        if ($user == $this->getUser()) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
-            return $this->redirectToRoute('app_homepage');
-        }
-
-        return $this->redirectToRoute('user_index');
-    }
-
-    /**
-     * Finds and deletes a User entity.
-     *
-     * @Route("/delete/{id}", name="user_delete")
-     * @Method("GET")
-     */
-    public function unsubscribeAction(Request $request, User $user)
-    {
-        $this->get('em')->remove($user);
-        $this->get('em')->flush();
-
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>" . $user->getUsername() . '</strong> à bien été supprimé.');
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>&quot;{$user->getUsername()}&quot;</strong> à bien été supprimé.");
 
         // Disconnects user
         if ($user == $this->getUser()) {
