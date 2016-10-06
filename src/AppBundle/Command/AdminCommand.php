@@ -43,9 +43,9 @@ class AdminCommand extends ContainerAwareCommand
             $user->setPassword($encoder->encodePassword($user, "321"));
             $user->setRoles(['ROLE_ADMIN']);
             $this->getContainer()->get('em')->save($user);
-            $output->writeln("<question>Admin account created with password: 321</question>");
+            $output->writeln('<question>"Admin" account created with password: "321"</question>');
         } else {
-            $output->writeln("<question>Admin account exists already.</question>");
+            $output->writeln('<question>"Admin" account exists already.</question>');
         }
     }
 

@@ -36,12 +36,30 @@ article.post {
 }
 
 .post header h3 {
-margin-top: 10px;
+	margin-top: 10px;
+}
+.post header {
+	position: relative;
+}
+
+.post header:after{
+	content: '';
+	width: 15px;
+	height: 15px;
+	position: absolute;
+	bottom: -8px;
+	left: 31px;
+	transform: rotate(45deg);
+	background-color: #337ab7;
 }
 
 .post .panel-body p {
-	margin: 0 auto 2em auto;
+	margin: 1em auto 2em auto;
 	text-align: justify;
+}
+
+.post img {
+	margin-bottom: 1em;
 }
 
 .post footer .glyphicon {

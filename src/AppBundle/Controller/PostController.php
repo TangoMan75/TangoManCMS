@@ -25,32 +25,31 @@ class PostController extends Controller
 
         } else {
 
-            if ( $this->getUser() == $post->getUser() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
-                $form = $this->createForm(PostType::class, $post);
-                $form->handleRequest($request);
-
-                if ($form->isSubmitted() && $form->isValid()) {
-
-                    $this->get('em')->save($post);
-
-                    $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
-
-                    return $this->redirectToRoute('app_homepage');
-
-                } else {
-
-                    return $this->render('post/edit.html.twig', [
-                        "form_post" => $form->createView()
-                    ]);
-                }
-
-            } else {
+            if ( $this->getUser() !== $post->getUser() && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
                 $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à éditer ce message.");
                 return $this->redirectToRoute('app_homepage');
 
             }
+
+            $form = $this->createForm(PostType::class, $post);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+
+                $this->get('em')->save($post);
+
+                $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
+
+                return $this->redirectToRoute('app_homepage');
+
+            } else {
+
+                return $this->render('post/edit.html.twig', [
+                    "form_post" => $form->createView()
+                ]);
+            }
+
         }
     }
 
