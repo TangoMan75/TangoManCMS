@@ -72,7 +72,7 @@ class User implements UserInterface
     private $posts;
 
     /**
-     * @var string
+     * @var array
      *
      * @ORM\Column(name="roles", type="simple_array")
      */
@@ -84,7 +84,8 @@ class User implements UserInterface
      */
     private $dateCreated;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->roles = ["ROLE_USER"];
         $this->dateCreated = new \DateTime();
     }
@@ -196,9 +197,9 @@ class User implements UserInterface
     }
 
     /**
-     * Set role
+     * Set roles
      *
-     * @param array $role
+     * @param array $roles
      *
      * @return User
      */
@@ -210,7 +211,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get role
+     * Get roles
      *
      * @return string
      */
@@ -220,13 +221,38 @@ class User implements UserInterface
     }
 
     /**
-     * Get salt
+     * Add role
      *
-     * @return null
+     * @param string $role
+     *
+     * @return User
      */
-    public function getSalt()
+    public function addRole($role)
     {
-        return null;
+        if ( !in_array($role, $this->roles) ) {
+            array_push($this->roles, $role);
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove role
+     *
+     * @param string $role
+     *
+     * @return User
+     */
+    public function removeRole($role)
+    {
+        $roles = $this->roles;
+
+        if ( in_array($role, $roles) ) {
+            $remove[] = $role;
+            $this->roles = array_diff($roles, $remove);
+        }
+
+        return $this;
     }
 
     /**
@@ -242,6 +268,16 @@ class User implements UserInterface
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Get salt
+     *
+     * @return null
+     */
+    public function getSalt()
+    {
+        return null;
     }
 
     /**
@@ -267,4 +303,6 @@ class User implements UserInterface
     {
         $this->dateCreated = $dateCreated;
     }
+
+
 }

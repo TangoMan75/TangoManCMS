@@ -27,18 +27,26 @@ class UserController extends Controller
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
 
         return $this->render('user/index.html.twig', array(
-            'users' => $users,
+            'users' => $users
         ));
     }
 
     /**
-     * @Route("/edit", name="user_edit")
+     * @Route("/role/{id}/{role}", requirements={"id": "\d+"}, name="user_role")
      */
-    public function editAction(Request $request)
+    public function roleAction(Request $request, User $user, $role)
     {
-        return $this->render('user/edit.html.twig', [
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
-        ]);
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à éditer cet utilisateur.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $user->addRole($role);
+        $this->get('em')->save($user);
+        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à &quot;{$user->getUsername()}&quot;</strong>.");
+
+        return $this->redirectToRoute('user_index');
     }
 
     /**
@@ -55,12 +63,9 @@ class UserController extends Controller
 
             $username = $user->getUsername();
             $email    = $user->getEmail();
-
             // Generates token from username and unix time
             $user->setToken(md5(time().$username));
-
             $this->get('em')->save($user);
-
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Confirmation d'inscription.")
                 ->setFrom($this->getParameter('mailer_from'))
@@ -73,10 +78,9 @@ class UserController extends Controller
                 )
             ;
             $this->get('mailer')->send($message);
-
             $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
-
             return $this->redirectToRoute('app_homepage');
+
         }
 
         return $this->render('user/register.html.twig', [
@@ -92,6 +96,15 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
+
+        if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer cet utilisateur.");
+            return $this->redirectToRoute('app_homepage');
+
+        }
+
+        // Deletes specified post
         $this->get('em')->remove($user);
         $this->get('em')->flush();
 
@@ -99,9 +112,11 @@ class UserController extends Controller
 
         // Disconnects user
         if ($user == $this->getUser()) {
+
             $this->get('security.token_storage')->setToken(null);
             $request->getSession()->invalidate();
             return $this->redirectToRoute('app_homepage');
+
         }
 
         return $this->redirectToRoute('user_index');
@@ -116,11 +131,13 @@ class UserController extends Controller
         $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
 
         if (!$user) {
+
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
+
         }
 
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user' => $user
         ]);
     }
 
