@@ -1,5 +1,8 @@
 body {
 	padding-top: 8em;
+	position: relative;
+	min-height: 100vh;
+	padding-bottom: 10em;
 }
 
 /**
@@ -86,10 +89,19 @@ article.post {
 	margin: auto;
 }
 
+#post-form h2 span {
+	color: #337ab7;
+}
+
 #post-form h2 {
 	margin-bottom: 1.5em;
 }
 
+#post-form .btn span {
+	margin-right: 1em;
+}
+
+}
 #post-form .btn {
 	margin-top: 3em;
 	padding-left: 3em;
@@ -147,6 +159,9 @@ div.alert {
 #footer {
 	margin-top: 5em;
 	min-height: 10vh;
+	position: absolute;
+	bottom: 0;
+	left: 0;
 }
 
 #footer {
