@@ -53,13 +53,19 @@ article.post {
 	background-color: #337ab7;
 }
 
+.post .panel-body {
+	margin-top: 1em;
+}
+
 .post .panel-body p {
-	margin: 1em auto 2em auto;
+	margin: 0 auto 2em auto;
+	padding-top: 1em;
+	padding-right: 1.5em;
 	text-align: justify;
 }
 
 .post img {
-	margin-bottom: 1em;
+	margin: 1em;
 }
 
 .post footer .glyphicon {
