@@ -9,9 +9,9 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Post;
+use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use AppBundle\Entity\User;
 use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -33,15 +33,18 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         $faker = Factory::create('fr_FR');
         $encoder = $this->container->get('security.password_encoder');
 
-        // Generating admin account with pwd: "321"
-        $user = new User();
-        $user->setUsername('admin');
-        $user->setEmail('admin@'.$faker->safeEmailDomain);
-        $user->setPassword($encoder->encodePassword($user, "321"));
-        // $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
-        $user->setRoles(['ROLE_ADMIN']);
+        if (!$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN'])) {
 
-        $manager->persist($user);
+            // Generating admin account with pwd: "321" if not exits
+            $user = new User();
+            $user->setUsername('admin');
+            $user->setEmail('admin@' . $faker->safeEmailDomain);
+            $user->setPassword($encoder->encodePassword($user, "321"));
+            // $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
+            $user->setRoles(['ROLE_ADMIN']);
+
+            $manager->persist($user);
+        }
 
         for ($i=0; $i < 10; $i++){
 
