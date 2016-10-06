@@ -1,6 +1,7 @@
 <article class="panel panel-primary post" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
     <header class="panel-heading">
-        <h3 class="text-center"><span class="glyphicon glyphicon-envelope pull-left"></span>&nbsp;{{ post.title }}
+        <h3 class="text-center">
+            <span class="glyphicon glyphicon-envelope pull-left"></span>{{ post.title }}
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (post.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">

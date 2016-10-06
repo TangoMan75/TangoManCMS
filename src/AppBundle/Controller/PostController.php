@@ -8,6 +8,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/post")
+ */
 class PostController extends Controller
 {
     /**
@@ -15,28 +18,38 @@ class PostController extends Controller
      */
     public function editAction(Request $request, Post $post)
     {
-        if (!$post) {
+        if (!$this->getUser()) {
 
-            $this->get('session')->getFlashBag()->add('error', "Ce message n'existe pas.");
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des messages.");
+            return $this->redirectToRoute('app_homepage');
 
         } else {
 
-            $form = $this->createForm(PostType::class, $post);
-            $form->handleRequest($request);
+            if ( $this->getUser() == $post->getUser() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
-            if ($form->isSubmitted() && $form->isValid()) {
+                $form = $this->createForm(PostType::class, $post);
+                $form->handleRequest($request);
 
-                $this->get('em')->save($post);
+                if ($form->isSubmitted() && $form->isValid()) {
 
-                $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
+                    $this->get('em')->save($post);
 
-                return $this->redirectToRoute('app_homepage');
+                    $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
+
+                    return $this->redirectToRoute('app_homepage');
+
+                } else {
+
+                    return $this->render('post/edit.html.twig', [
+                        "form_post" => $form->createView()
+                    ]);
+                }
 
             } else {
 
-                return $this->render('post/edit.html.twig', [
-                    "form_post" => $form->createView()
-                ]);
+                $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à éditer ce message.");
+                return $this->redirectToRoute('app_homepage');
+
             }
         }
     }
@@ -46,21 +59,22 @@ class PostController extends Controller
      */
     public function deleteAction(Request $request, Post $post)
     {
-        if (!$post) {
-
-            $this->get('session')->getFlashBag()->add('error', "Ce message n'existe pas.");
-
-        } else {
+        if ( $this->getUser() == $post->getUser() || in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
             // Deletes specified post
             $this->get('em')->remove($post);
             $this->get('em')->flush();
 
             $this->get('session')->getFlashBag()->add('success', "Le message <strong>&quot;{$post->getTitle()}&quot;</strong> à été supprimé.");
+
+        } else {
+
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer ce message.");
+            return $this->redirectToRoute('app_homepage');
+
         }
 
         return $this->redirectToRoute('app_homepage');
-
     }
 
 }

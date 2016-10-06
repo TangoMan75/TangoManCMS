@@ -95,8 +95,8 @@ table th {
 div.alert {
 	position: fixed;
 	z-index: 9999;
-	top: 8em;
-	right: 20%;
+	top: 7.5em;
+	right: 15%;
 }
 /**
  * Animations
@@ -113,7 +113,7 @@ div.alert {
 	}
 	to {
 		opacity: 1;
-		top: 8em;
+		top: 7.5em;
 	}
 }
 
