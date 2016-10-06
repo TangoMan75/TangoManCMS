@@ -61,7 +61,19 @@
                     <a class="navbar-brand" href="{{ path('app_homepage') }}"><span class="glyphicon glyphicon-book"></span>&nbsp;Livre D'or</a>
                 </div>
                 <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav">
+                    {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                        <ul class="nav navbar-nav navbar-left">
+                            {% if app.request.get('_route') == 'app_homepage' %}
+                                <li><a href="#post-form" class="smooth"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
+                            {% else %}
+                                <li><a href="{{ path('post_new') }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
+                            {% endif %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li><a href="{{ path('user_index') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Utilisateurs</a></li>
+                            {% endif %}
+                        </ul>
+                    {% endif %}
+                    <ul class="nav navbar-nav navbar-right">
                         {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                             <li><a href="{{ path('user_show', { 'username':app.user.username }) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username|capitalize }}</a></li>
                             <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnection</a></li>
@@ -70,11 +82,7 @@
                             <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-ok"></span>&nbsp;Connexion</a></li>
                         {% endif %}
                     </ul>
-                    {% if is_granted('ROLE_ADMIN') %}
-                        <ul class="nav navbar-nav navbar-right">
-                            <li><a href="{{ path('user_index') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Utilisateurs</a></li>
-                        </ul>
-                    {% endif %}
+
                 </div>
             </div>
         </nav>
