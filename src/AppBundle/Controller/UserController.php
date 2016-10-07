@@ -73,9 +73,38 @@ class UserController extends Controller
     }
 
     /**
+     * Re-sends security token to user.
+     *
+     * @Route("/resend/{id}", requirements={"id": "\d+"}, name="user_resend")
+     */
+    public function resendToken(Request $request, User $user)
+    {
+        $username = $user->getUsername();
+        $email    = $user->getEmail();
+        // Generates token from username and unix time
+        $user->setToken(md5(time().$username));
+        $this->get('em')->save($user);
+        $message = \Swift_Message::newInstance()
+            ->setSubject("Livre D'Or | Confirmation d'inscription.")
+            ->setFrom($this->getParameter('mailer_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView('email/validation.html.twig', [
+                    'user' => $user
+                ]),
+                'text/html'
+            )
+        ;
+        $this->get('mailer')->send($message);
+        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à <strong>$username</strong>.");
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
      * Finds and deletes a User entity.
      *
-     * @Route("/delete/{id}", name="user_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="user_delete")
      * @Method("GET")
      */
     public function deleteAction(Request $request, User $user)
