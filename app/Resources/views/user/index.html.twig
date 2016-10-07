@@ -12,7 +12,7 @@
                 <th>Email</th>
                 <th>Date de création</th>
                 <th>Role</th>
-                <th>Token</th>
+                <th colspan="2">Token</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -31,6 +31,11 @@
                         {% endif %}
                     </td>
                     <td><a href="{{ path('user_resend', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button></td>
+                    {% if user.token %}
+                        <td><a href="{{ path('user_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button></td>
+                    {% else %}
+                        <td><span class="glyphicon glyphicon-ok"></span></td>
+                    {% endif %}
                     <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".my-modal" data-username="{{ user.username }}" data-url="{{ path('user_delete', { 'id': user.id }) }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer</button></td>
                 </tr>
             {% endfor %}

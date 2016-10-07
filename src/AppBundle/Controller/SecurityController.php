@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\AppBundle;
 use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -144,6 +145,66 @@ class SecurityController extends Controller
     }
 
     /**
+     * Re-sends security token to user.
+     *
+     * @Route("/resend/{id}", requirements={"id": "\d+"}, name="user_resend")
+     */
+    public function resendToken(Request $request, User $user)
+    {
+        // Only admins are allowed to perform this action
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
+            return $this->redirectToRoute('app_homepage');
+
+        }
+
+        $username = $user->getUsername();
+        $email    = $user->getEmail();
+        // Generates token from username and unix time
+        $user->setToken(md5(time().$username));
+        $this->get('em')->save($user);
+        $message = \Swift_Message::newInstance()
+            ->setSubject("Livre D'Or | Confirmation d'inscription.")
+            ->setFrom($this->getParameter('mailer_from'))
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->renderView('email/validation.html.twig', [
+                    'user' => $user
+                ]),
+                'text/html'
+            )
+        ;
+        $this->get('mailer')->send($message);
+        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à <strong>$username</strong>.");
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * Force validate user.
+     *
+     * @Route("/validate/{id}", requirements={"id": "\d+"}, name="user_validate")
+     */
+    public function validateUser(Request $request, User $user)
+    {
+        // Only admins are allowed to perform this action
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
+            return $this->redirectToRoute('app_homepage');
+
+        }
+
+        // Removes token
+        $user->setToken(null);
+        $this->get('em')->save($user);
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à été validé.");
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
      * Finds and deletes user.
      *
      * @Route("/delete/{token}", name="app_delete")
@@ -153,7 +214,7 @@ class SecurityController extends Controller
         // Gets user entity by token
         $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['token'=>$token]);
 
-        if (!$user) {
+        if ( !$user ) {
 
             $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
             return $this->redirectToRoute('app_homepage');
