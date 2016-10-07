@@ -31,10 +31,9 @@ class AdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if (!$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN'])){
+        if ( !$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ){
 
             $encoder = $this->getContainer()->get('security.password_encoder');
-
             // Generating admin account with pwd: "321"
             $user = new User();
             $user->setUsername('admin');
@@ -43,8 +42,11 @@ class AdminCommand extends ContainerAwareCommand
             $user->setRoles(['ROLE_ADMIN']);
             $this->getContainer()->get('em')->save($user);
             $output->writeln('<question>"Admin" account created with password: "321"</question>');
+
         } else {
+
             $output->writeln('<question>"Admin" account exists already.</question>');
+
         }
     }
 
