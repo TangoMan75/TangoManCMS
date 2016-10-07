@@ -136,6 +136,14 @@ class UserController extends Controller
             return $this->redirectToRoute('app_homepage');
         }
 
+        // Disconnects user who changes his own admin rights
+        if ( $user == $this->getUser() ) {
+
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $user->removeRole($role);
         $this->get('em')->save($user);
         $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été retiré à &quot;{$user->getUsername()}&quot;</strong>.");

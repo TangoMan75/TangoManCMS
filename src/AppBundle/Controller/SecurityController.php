@@ -166,11 +166,13 @@ class SecurityController extends Controller
             // Sends success message
             $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à bien été supprimé.");
 
-            // Disconnects user
-            if ($user == $this->getUser()) {
+            // Disconnects user who deletes his own account
+            if ( $user == $this->getUser() ) {
+
                 $this->get('security.token_storage')->setToken(null);
                 $request->getSession()->invalidate();
                 return $this->redirectToRoute('app_homepage');
+
             }
 
             return $this->redirectToRoute('app_homepage');
