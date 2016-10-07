@@ -24,7 +24,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface
 {
     /**
-     * @var int
+     * @var int User id
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
@@ -33,7 +33,7 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @var string
+     * @var string User's name
      *
      * @ORM\Column(name="username", type="string", length=255)
      * @Assert\Expression("value not in ['edit', 'register', 'confirm', 'delete']", message="Ce nom d'utilisateur est réservé.")
@@ -42,7 +42,7 @@ class User implements UserInterface
     private $username;
 
     /**
-     * @var string
+     * @var string User's email address
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
      * @Assert\Email(checkMX=true, message="Votre email doit être valide.")
@@ -51,35 +51,37 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @var string
+     * @var string User's password hash
      *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
     private $password;
 
     /**
-     * @var string
+     * @var string User's security token
      *
      * @ORM\Column(name="token", type="string", length=255, nullable=true)
      */
     private $token;
 
     /**
-     * @var User's posts
+     * @var object User's posts
+     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"dateCreated"="DESC"})
      */
     private $posts;
 
     /**
-     * @var array
+     * @var array User's roles
      *
      * @ORM\Column(name="roles", type="simple_array")
      */
     private $roles;
 
     /**
-     * @var \DateTime Post date
+     * @var \DateTime User's registration date
+     *
      * @ORM\Column(type="datetime")
      */
     private $dateCreated;
@@ -91,7 +93,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get id
+     * Get id.
      *
      * @return int
      */
@@ -101,7 +103,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set username
+     * Set username.
      *
      * @param string $username
      *
@@ -115,7 +117,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get username
+     * Get username.
      *
      * @return string
      */
@@ -125,7 +127,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set email
+     * Set email.
      *
      * @param string $email
      *
@@ -139,7 +141,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get email
+     * Get email.
      *
      * @return string
      */
@@ -149,7 +151,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set password
+     * Set password.
      *
      * @param string $password
      *
@@ -163,7 +165,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get password
+     * Get password.
      *
      * @return string
      */
@@ -173,7 +175,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set token
+     * Set token.
      *
      * @param string $token
      *
@@ -187,7 +189,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get token
+     * Get token.
      *
      * @return string
      */
@@ -197,7 +199,7 @@ class User implements UserInterface
     }
 
     /**
-     * Set roles
+     * Set roles.
      *
      * @param array $roles
      *
@@ -211,7 +213,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get roles
+     * Get roles.
      *
      * @return string
      */
@@ -221,7 +223,7 @@ class User implements UserInterface
     }
 
     /**
-     * Add role
+     * Add role.
      *
      * @param string $role
      *
@@ -237,7 +239,7 @@ class User implements UserInterface
     }
 
     /**
-     * Remove role
+     * Remove role.
      *
      * @param string $role
      *
@@ -256,14 +258,18 @@ class User implements UserInterface
     }
 
     /**
-     * Erase credentials
+     * Erase user's credentials.
+     *
+     * Abstract method required by symfony core
      */
     public function eraseCredentials()
     {
     }
 
     /**
-     * @return User
+     * Get user's posts.
+     *
+     * @return Post
      */
     public function getPosts()
     {
@@ -273,6 +279,8 @@ class User implements UserInterface
     /**
      * Get salt
      *
+     * Abstract method required by symfony core
+     *
      * @return null
      */
     public function getSalt()
@@ -281,6 +289,8 @@ class User implements UserInterface
     }
 
     /**
+     * Sets user posts.
+     *
      * @param User $posts
      */
     public function setPosts($posts)
@@ -289,6 +299,8 @@ class User implements UserInterface
     }
 
     /**
+     * Get user's creation.
+     *
      * @return mixed
      */
     public function getDateCreated()
@@ -297,12 +309,13 @@ class User implements UserInterface
     }
 
     /**
+     * Sets user's creation date.
+     *
      * @param mixed $dateCreated
      */
     public function setDateCreated(\DateTime $dateCreated)
     {
         $this->dateCreated = $dateCreated;
     }
-
 
 }

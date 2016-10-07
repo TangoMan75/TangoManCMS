@@ -6,6 +6,13 @@ body {
 }
 
 /**
+ * Colors
+ */
+.primary {
+	color: #337ab7;
+}
+
+/**
  * Profiles layout
  */
 #user-profile {

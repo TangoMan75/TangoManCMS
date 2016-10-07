@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 class PostController extends Controller
 {
     /**
+     * Creates new post.
+     *
      * @Route("/new", name="post_new")
      */
     public function newAction(Request $request)
@@ -44,11 +46,13 @@ class PostController extends Controller
     }
 
     /**
+     * Edits post.
+     *
      * @Route("/edit/{id}", requirements={"id": "\d+"}, name="post_edit")
      */
     public function editAction(Request $request, Post $post)
     {
-        if ( !$this->getUser() ) {
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
 
             $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des messages.");
             return $this->redirectToRoute('app_homepage');
@@ -80,6 +84,8 @@ class PostController extends Controller
     }
 
     /**
+     * Deletes post.
+     *
      * @Route("/delete/{id}", requirements={"id": "\d+"}, name="post_delete")
      */
     public function deleteAction(Request $request, Post $post)

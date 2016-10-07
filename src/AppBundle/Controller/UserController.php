@@ -11,13 +11,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class UserController
+ *
  * @package AppBundle\Controller
  * @Route("/user")
  */
 class UserController extends Controller
 {
     /**
-     * Lists all User entities.
+     * Lists all users.
      *
      * @Route("/", name="user_index")
      * @Method("GET")
@@ -32,30 +33,13 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/role/{id}/{role}", requirements={"id": "\d+"}, name="user_role")
-     */
-    public function roleAction(Request $request, User $user, $role)
-    {
-        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à éditer cet utilisateur.");
-            return $this->redirectToRoute('app_homepage');
-        }
-
-        $user->addRole($role);
-        $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à &quot;{$user->getUsername()}&quot;</strong>.");
-
-        return $this->redirectToRoute('user_index');
-    }
-
-    /**
+     * Registers new user.
+     *
      * @Route("/register", name="user_register")
      */
     public function registerAction(Request $request)
     {
         $user = new User;
-
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -96,7 +80,6 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
-
         if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer cet utilisateur.");
@@ -107,9 +90,7 @@ class UserController extends Controller
         // Deletes specified post
         $this->get('em')->remove($user);
         $this->get('em')->flush();
-
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>&quot;{$user->getUsername()}&quot;</strong> à bien été supprimé.");
-
         // Disconnects user
         if ($user == $this->getUser()) {
 
@@ -123,7 +104,48 @@ class UserController extends Controller
     }
 
     /**
+     * Sets user roles.
+     *
+     * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"}, name="user_add_role")
+     */
+    public function addRoleAction(Request $request, User $user, $role)
+    {
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles utilisateur.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $user->addRole($role);
+        $this->get('em')->save($user);
+        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à &quot;{$user->getUsername()}&quot;</strong>.");
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
+     * Removes user role.
+     *
+     * @Route("/remove-role/{id}/{role}", requirements={"id": "\d+"}, name="user_remove_role")
+     */
+    public function removeRoleAction(Request $request, User $user, $role)
+    {
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles utilisateur.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        $user->removeRole($role);
+        $this->get('em')->save($user);
+        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été retiré à &quot;{$user->getUsername()}&quot;</strong>.");
+
+        return $this->redirectToRoute('user_index');
+    }
+
+    /**
      * Finds and displays a User entity.
+     *
      * @Route("/{username}", name="user_show")
      */
     public function showAction(Request $request, $username)
