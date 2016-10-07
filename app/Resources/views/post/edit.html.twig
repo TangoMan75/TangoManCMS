@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} | Publier un message {% endblock %}
+
 {% block head %}
     {{ parent() }}
     {% if app.user %}

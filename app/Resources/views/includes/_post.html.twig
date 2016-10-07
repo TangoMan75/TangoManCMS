@@ -21,7 +21,13 @@
     <footer class="panel-footer">
         <div class="row">
             <div class="pull-left"><span class="glyphicon glyphicon-send"></span>&nbsp;Publié le: {{ post.dateCreated|date('d/m/Y H:i:s') }}</div>
-            <div class="pull-right"><a href="{{ path('user_show', { 'username': post.user.username }) }}"><span class="glyphicon glyphicon-user"></span> {{ post.user.username }}</a>&nbsp;</div>
+            <div class="pull-right"><a href="{{ path('user_show', { 'username': post.user.username }) }}">
+                    {% if "ROLE_ADMIN" in post.user.roles %}
+                        <span class="glyphicon glyphicon-king"></span>
+                    {% else %}
+                        <span class="glyphicon glyphicon-user"></span>
+                    {% endif %}
+                    &nbsp;{{ post.user.username }}</a>&nbsp;</div>
         </div>
     </footer>
 </article>

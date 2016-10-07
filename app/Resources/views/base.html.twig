@@ -17,9 +17,9 @@
         <!-- Meta -->
         <meta name="autor" content="Matthias Morin">
         <meta name="copyright" content="2016 Matthias Morin">
-        <meta name="subject" content="Livre D'Or">
+        <meta name="subject" content="{{ site_name }}">
         <meta name="description" content="Matthias Morin | Livre D'Or">
-        <meta name="keywords" content="Livre D'Or">
+        <meta name="keywords" content="{{ site_name }}">
         <meta name="revisit-after" content="30">
         <meta name="robots" content="all">
         <meta http-equiv="robots" content="all">
@@ -58,7 +58,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <a class="navbar-brand" href="{{ path('app_homepage') }}"><span class="glyphicon glyphicon-book"></span>&nbsp;Livre D'or</a>
+                    <a class="navbar-brand" href="{{ path('app_homepage') }}"><span class="glyphicon glyphicon-book"></span>&nbsp;{{ site_name }}</a>
                 </div>
                 <div class="collapse navbar-collapse">
                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
@@ -79,7 +79,7 @@
                             <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnection</a></li>
                         {% else %}
                             <li><a href="{{ path('user_register') }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
-                            <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-ok"></span>&nbsp;Connexion</a></li>
+                            <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-lock"></span>&nbsp;Connexion</a></li>
                         {% endif %}
                     </ul>
 
