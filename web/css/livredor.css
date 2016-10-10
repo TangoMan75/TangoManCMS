@@ -131,6 +131,7 @@ article.post {
  */
 table {
 	margin: auto;
+	margin-bottom: 2em;
 }
 
 table th,
