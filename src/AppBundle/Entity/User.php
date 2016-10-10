@@ -65,12 +65,20 @@ class User implements UserInterface
     private $token;
 
     /**
-     * @var object User's posts
+     * @var Post[] User's posts
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"dateCreated"="DESC"})
      */
     private $posts;
+
+    /**
+     * @var Comment[] User's comments
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove"})
+     * @ORM\OrderBy({"dateCreated"="DESC"})
+     */
+    private $comments;
 
     /**
      * @var array User's roles
@@ -269,11 +277,37 @@ class User implements UserInterface
     /**
      * Get user's posts.
      *
-     * @return Post
+     * @return Post[]
      */
     public function getPosts()
     {
         return $this->posts;
+    }
+
+    /**
+     * Sets user posts.
+     *
+     * @param Post[] $posts
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+    }
+
+    /**
+     * @return Comment[] User comment
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment[] $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
     }
 
     /**
@@ -286,16 +320,6 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
-    }
-
-    /**
-     * Sets user posts.
-     *
-     * @param User $posts
-     */
-    public function setPosts($posts)
-    {
-        $this->posts = $posts;
     }
 
     /**

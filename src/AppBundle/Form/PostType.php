@@ -36,9 +36,5 @@ class PostType extends AbstractType
         ]);
 
     }
-//
-//    public function getName()
-//    {
-//        return 'app_post';
-//    }
+
 }

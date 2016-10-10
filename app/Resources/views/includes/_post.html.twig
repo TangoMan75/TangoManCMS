@@ -1,4 +1,4 @@
-<article class="panel panel-primary post" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+<article class="panel panel-primary post">
     <header class="panel-heading">
         <h3 class="text-center">
             <span class="glyphicon glyphicon-envelope pull-left"></span>{{ post.title }}
@@ -17,7 +17,7 @@
             <img src="https://placehold.it/200x200" alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
         </figure>
         <div class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</div>
-        <div class="col-xs-12 col-sm-9"><p><a href="#" class="btn btn-primary btn-sm pull-right">Commentaires&nbsp;&nbsp;<span class="badge">10</span></a></p></div>
+        <div class="col-xs-12 col-sm-9"><p><a href="{{ path('comment_new', { 'id': post.id }) }}" class="btn btn-primary btn-sm pull-right">Commentaires&nbsp;&nbsp;<span class="badge">10</span></a></p></div>
     </div>
     <footer class="panel-footer">
         <div class="row">

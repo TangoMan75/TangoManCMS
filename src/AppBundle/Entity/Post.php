@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: MORIN Matthias
- * Date: 21/09/2016
- * Time: 16:40
- */
 
 namespace AppBundle\Entity;
 
@@ -13,6 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Post
+ *
  * @package AppBundle\Entity
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
@@ -20,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Post
 {
     /**
-     * @var integer Id
+     * @var integer Post id
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -28,10 +23,16 @@ class Post
     private $id;
 
     /**
-     * @var string username
+     * @var User Post author
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
      */
     private $user;
+
+    /**
+     * @var \DateTime Post date
+     * @ORM\Column(type="datetime")
+     */
+    private $dateCreated;
 
     /**
      * @var string Post title
@@ -41,12 +42,6 @@ class Post
     private $title;
 
     /**
-     * @var \DateTime Post date
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreated;
-
-    /**
      * @var String Message content
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Votre message ne peut pas être vide")
@@ -54,11 +49,67 @@ class Post
     private $content;
 
     /**
-     * @var integer Post comments
+     * @var Comment[] Post comments
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
      * @ORM\OrderBy({"dateCreated"="DESC"})
      */
     private $comments;
+
+    /**
+     * Post constructor.
+     */
+    public function __construct()
+    {
+        $this->dateCreated = new \DateTime();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getDateCreated()
+    {
+        return $this->dateCreated;
+    }
+
+    /**
+     * @param \DateTime $dateCreated
+     */
+    public function setDateCreated(\DateTime $dateCreated)
+    {
+        $this->dateCreated = $dateCreated;
+    }
+
+    /**
+     * @return string
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+    }
+
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
 
     /**
      * @return mixed
@@ -69,36 +120,15 @@ class Post
     }
 
     /**
-     * @param mixed $comments
+     * @param Comment[] $comments Comment list
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
     }
 
-    public function __construct()
-    {
-        $this->dateCreated = new \DateTime();
-    }
-
     /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return mixed
+     * @return string
      */
     public function getTitle()
     {
@@ -106,7 +136,7 @@ class Post
     }
 
     /**
-     * @param mixed $title
+     * @param string $title
      */
     public function setTitle($title)
     {
@@ -114,39 +144,7 @@ class Post
     }
 
     /**
-     * @return mixed
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @param mixed $dateCreated
-     */
-    public function setDateCreated(\DateTime $dateCreated)
-    {
-        $this->dateCreated = $dateCreated;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param mixed $content
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-    }
-
-    /**
-     * @return mixed
+     * @return User
      */
     public function getUser()
     {
@@ -154,12 +152,11 @@ class Post
     }
 
     /**
-     * @param mixed $user
+     * @param User $user
      */
     public function setUser($user)
     {
         $this->user = $user;
     }
-
 
 }

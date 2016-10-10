@@ -18,10 +18,11 @@ class CommentController extends Controller
     /**
      * Creates new comment.
      *
-     * @Route("/comment/{id}", name="comment_new")
+     * @Route("/comment/{id}", requirements={"id": "\d+"}, name="comment_new")
      */
-    public function newAction(Request $request, Post $id)
+    public function newAction(Request $request, Post $post)
     {
+        $listComment = $this->get('em')->repository('AppBundle:Comment')->findByPage($request->query->getInt('page', 1), 5);
         $formComment = null;
 
         // User cannot comment when not logged in
@@ -30,6 +31,7 @@ class CommentController extends Controller
             $user = $this->getUser();
             $comment = new Comment();
             $comment->setUser($user);
+            $comment->setPost($post);
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
             $formComment = $form->createView();
@@ -52,8 +54,10 @@ class CommentController extends Controller
             }
         }
 
-        return $this->render('comment/edit.html.twig', [
-            'form_comment' => $formComment
+        return $this->render('post/comment.html.twig', [
+            'form_post' => $formComment,
+            'list_comment' => $listComment,
+            'post' => $post
         ]);
     }
 
@@ -62,12 +66,12 @@ class CommentController extends Controller
      *
      * @Route("/edit/{id}", requirements={"id": "\d+"}, name="comment_edit")
      */
-    public function editAction(Request $request, Post $comment)
+    public function editAction(Request $request, Comment $comment)
     {
         // User cannot edit when not logged in
         if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des messages.");
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des commentaires.");
             return $this->redirectToRoute('app_login');
 
         }
@@ -80,7 +84,7 @@ class CommentController extends Controller
 
         }
 
-        $form = $this->createForm(PostType::class, $comment);
+        $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         // referrer url is cached into session when form is not yet submitted
@@ -93,15 +97,15 @@ class CommentController extends Controller
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($comment);
-            $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$comment->getTitle()}&quot</strong> à bien été modifié.");
+            $this->get('session')->getFlashBag()->add('success', "Votre commentaire <strong>&quot;{$comment->getTitle()}&quot</strong> à bien été modifié.");
 
             // User is redirected to referrer page
             return $this->redirect( $this->get('session')->get('callback_url') );
 
         }
 
-        return $this->render('comment/edit.html.twig', [
-            "form_comment" => $form->createView()
+        return $this->render('post/edit.html.twig', [
+            "form_post" => $form->createView()
         ]);
 
     }
@@ -111,12 +115,12 @@ class CommentController extends Controller
      *
      * @Route("/delete/{id}", requirements={"id": "\d+"}, name="comment_delete")
      */
-    public function deleteAction(Request $request, Post $comment)
+    public function deleteAction(Request $request, Comment $comment)
     {
         // Only author or admin can delete comment
         if ( $this->getUser() !== $comment->getUser() && !in_array( 'ROLE_ADMIN', $this->getUser()->getRoles() ) ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer ce message.");
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer ce commentaire.");
             return $this->redirectToRoute('app_homepage');
 
         }
@@ -124,7 +128,7 @@ class CommentController extends Controller
         // Deletes specified comment
         $this->get('em')->remove($comment);
         $this->get('em')->flush();
-        $this->get('session')->getFlashBag()->add('success', "Le message <strong>&quot;{$comment->getTitle()}&quot;</strong> à été supprimé.");
+        $this->get('session')->getFlashBag()->add('success', "Le commentaire <strong>&quot;{$comment->getTitle()}&quot;</strong> à été supprimé.");
 
         // User is redirected to referrer page
         return $this->redirect( $request->headers->get('referer') );

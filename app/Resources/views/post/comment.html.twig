@@ -13,9 +13,7 @@
 {% block body %}
 
     <section id="posts">
-        {% for post in list_post %}
-            {% include("includes/_post.html.twig") %}
-        {% endfor %}
+        {% include("includes/_post.html.twig") %}
     </section>
 
     {% if app.user %}
