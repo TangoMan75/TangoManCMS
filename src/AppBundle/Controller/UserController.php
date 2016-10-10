@@ -7,7 +7,12 @@ use AppBundle\Form\UserType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Encoder\XmlEncoder;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * Class UserController
@@ -27,9 +32,28 @@ class UserController extends Controller
     {
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
 
-        return $this->render('user/index.html.twig', array(
+        return $this->render('user/index.html.twig', [
             'users' => $users
-        ));
+        ]);
+    }
+
+    /**
+     * Exports user list.
+     *
+     * @Route("/export", name="user_export")
+     * @Method("GET")
+     */
+    public function exportAction()
+    {
+        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
+
+        $encoders    = array(new XmlEncoder(), new JsonEncoder());
+        $normalizers = array(new ObjectNormalizer());
+        $serializer  = new Serializer($normalizers, $encoders);
+
+        $json = $serializer->serialize($users, 'json');
+
+        return new JsonResponse($json);
     }
 
     /**
@@ -43,7 +67,14 @@ class UserController extends Controller
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isValid()) {
+        // referrer url is cached into session when form is not yet submitted
+        if ( !$form->isSubmitted() ) {
+
+            $this->get('session')->set('callback_url', $request->headers->get('referer'));
+
+        }
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
 
             $username = $user->getUsername();
             $email    = $user->getEmail();
@@ -63,7 +94,9 @@ class UserController extends Controller
             ;
             $this->get('mailer')->send($message);
             $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
-            return $this->redirectToRoute('app_homepage');
+
+            // User is redirected to referrer page
+            return $this->redirect( $this->get('session')->get('callback_url') );
 
         }
 
@@ -91,6 +124,7 @@ class UserController extends Controller
         $this->get('em')->remove($user);
         $this->get('em')->flush();
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>&quot;{$user->getUsername()}&quot;</strong> à bien été supprimé.");
+
         // Disconnects user
         if ($user == $this->getUser()) {
 
@@ -100,7 +134,8 @@ class UserController extends Controller
 
         }
 
-        return $this->redirectToRoute('user_index');
+        // User is redirected to referrer page
+        return $this->redirect( $request->headers->get('referer') );
     }
 
     /**
@@ -120,7 +155,8 @@ class UserController extends Controller
         $this->get('em')->save($user);
         $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à &quot;{$user->getUsername()}&quot;</strong>.");
 
-        return $this->redirectToRoute('user_index');
+        // User is redirected to referrer page
+        return $this->redirect( $request->headers->get('referer') );
     }
 
     /**
@@ -148,7 +184,8 @@ class UserController extends Controller
         $this->get('em')->save($user);
         $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été retiré à &quot;{$user->getUsername()}&quot;</strong>.");
 
-        return $this->redirectToRoute('user_index');
+        // User is redirected to referrer page
+        return $this->redirect( $request->headers->get('referer') );
     }
 
     /**
@@ -160,7 +197,7 @@ class UserController extends Controller
     {
         $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
 
-        if (!$user) {
+        if ( !$user ) {
 
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
 
