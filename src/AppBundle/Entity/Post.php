@@ -49,9 +49,32 @@ class Post
     /**
      * @var String Message content
      * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Merci de ne pas laisser un message vide")
+     * @Assert\NotBlank(message="Votre message ne peut pas être vide")
      */
     private $content;
+
+    /**
+     * @var integer Post comments
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
+     * @ORM\OrderBy({"dateCreated"="DESC"})
+     */
+    private $comments;
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param mixed $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
 
     public function __construct()
     {

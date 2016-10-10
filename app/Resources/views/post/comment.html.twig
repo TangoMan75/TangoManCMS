@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Publier un commentaire {% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({ selector:'textarea' });</script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+
+    <section id="posts">
+        {% for post in list_post %}
+            {% include("includes/_post.html.twig") %}
+        {% endfor %}
+    </section>
+
+    {% if app.user %}
+        {% include("includes/_post-form.html.twig") %}
+    {% endif %}
+
+    <section id="comments">
+        {% for comment in list_comment %}
+            {% include("includes/_comment.html.twig") %}
+        {% else %}
+            <div class="jumbotron">
+                <div class="text-center">
+                    <h2>Il n'y a aucun commentaires pour cette publication.</h2>
+                    <p>Soyez le premier à commenter ce message.</p>
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+
+{% endblock %}
