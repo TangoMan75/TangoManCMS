@@ -56,6 +56,12 @@ class Post
     private $comments;
 
     /**
+     * @var integer Comment count
+     * @ORM\Column()
+     */
+    private $commentCount;
+
+    /**
      * Post constructor.
      */
     public function __construct()
@@ -125,6 +131,22 @@ class Post
     public function setComments($comments)
     {
         $this->comments = $comments;
+    }
+
+    /**
+     * @return int Comment count
+     */
+    public function getCommentCount()
+    {
+        return $this->commentCount;
+    }
+
+    /**
+     * @param int $commentCount Comment count
+     */
+    public function setCommentCount($commentCount)
+    {
+        $this->commentCount = $commentCount;
     }
 
     /**
