@@ -1,13 +1,8 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: MORIN Matthias
- * Date: 22/09/2016
- * Time: 17:02
- */
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -21,13 +16,16 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
     private $container;
 
     /**
-     * @param mixed $container
+     * @param ContainerInterface $container
      */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
     }
 
+    /**
+     * @param ObjectManager $manager
+     */
     public function load(ObjectManager $manager)
     {
         $faker = Factory::create('fr_FR');
@@ -58,16 +56,28 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
             $manager->persist($user);
 
-            $rand = mt_rand(1, 5);
-            for ($j=0; $j < $rand; $j++) {
+            $postCount = mt_rand(1, 5);
+            $postLenght = mt_rand(600, 1800);
+            for ($j=0; $j < $postCount; $j++) {
                 $post = new Post();
-                $text = "<p>".$faker->text(800)."</p>";
+                $text = "<p>" . $faker->text($postLenght) . "</p>";
                 $post->setUser($user);
                 $post->setTitle($faker->sentence(4, true));
                 $post->setContent($text);
                 $post->setDateCreated($faker->dateTimeThisYear($max = 'now'));
-
                 $manager->persist($post);
+
+                $commentCount = mt_rand(1, 5);
+                $commentLenght = mt_rand(600, 1800);
+                for ($k = 0; $k < $commentCount; $k++) {
+                    $comment = new Comment();
+                    $text = "<p>" . $faker->text($commentLenght) . "</p>";
+                    $comment->setUser($user);
+                    $comment->setPost($post);
+                    $comment->setContent($text);
+                    $comment->setDateCreated($faker->dateTimeThisYear($max = 'now'));
+                    $manager->persist($comment);
+                }
             }
         }
 
