@@ -13,6 +13,13 @@ body {
 }
 
 /**
+ * User list layout
+ */
+h1.user-list {
+	margin-bottom: 1em;
+}
+
+/**
  * Profiles layout
  */
 #user-profile {
@@ -122,10 +129,13 @@ article.post {
 /**
  * Tables
  */
+table {
+	margin: auto;
+}
+
 table th,
 table td {
-	padding-left: 1em;
-	padding-right: 1em;
+	padding: .5em 1em;
 }
 
 table th {
@@ -141,6 +151,7 @@ div.alert {
 	top: 7.5em;
 	right: 15%;
 }
+
 /**
  * Animations
  */
