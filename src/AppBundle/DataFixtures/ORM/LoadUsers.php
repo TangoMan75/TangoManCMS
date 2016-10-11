@@ -44,7 +44,8 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $manager->persist($user);
         }
 
-        for ($i=0; $i < 10; $i++){
+        $userCount = mt_rand(20, 200);;
+        for ($i=0; $i < $userCount; $i++){
 
             $user = new User();
             $username = $faker->userName;

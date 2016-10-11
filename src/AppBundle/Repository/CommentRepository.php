@@ -2,12 +2,13 @@
 
 namespace AppBundle\Repository;
 
+use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-class CommentRepository extends \Doctrine\ORM\EntityRepository
+class CommentRepository extends EntityRepository
 {
     /**
-     * Comments pagination
+     * Comments pagination.
      *
      * @param int $post Post id
      * @param int $page
@@ -43,8 +44,10 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
 
         $paginator = new Paginator($query);
 
-        if(($paginator->count() <=  $firstResult) && $page != 1) {
+        if( ($paginator->count() <=  $firstResult) && $page != 1 ) {
+
             throw new NotFoundHttpException('Page not found');
+
         }
 
         return $paginator;

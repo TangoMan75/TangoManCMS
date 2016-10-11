@@ -24,9 +24,9 @@ class UserController extends Controller
      * @Route("/", name="user_index")
      * @Method("GET")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
+        $users = $this->get('em')->repository('AppBundle:User')->findByPage($request->query->getInt('page', 1), 20);
 
         return $this->render('user/index.html.twig', [
             'users' => $users
