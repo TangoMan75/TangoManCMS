@@ -74,7 +74,8 @@ class PostRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('post');
-        $dql->where('post.user', 'DESC');
+        $dql->where('post.user = :user');
+        $dql->setParameter(':user', $user);
         $dql->orderBy('post.dateCreated', 'DESC');
 
         $firstResult = ($page - 1) * $max;

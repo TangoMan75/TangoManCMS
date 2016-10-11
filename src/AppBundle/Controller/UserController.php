@@ -189,7 +189,7 @@ class UserController extends Controller
     public function showAction(Request $request, $username)
     {
         $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
-        $listPost = $this->get('em')->repository('AppBundle:Post')->findByPage($user->getId(), $request->query->getInt('page', 1), 5);
+        $listPost = $this->get('em')->repository('AppBundle:Post')->findByUser($user->getId(), $request->query->getInt('page', 1), 5);
 
         if ( !$user ) {
 
