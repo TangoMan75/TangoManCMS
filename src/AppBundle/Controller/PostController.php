@@ -46,9 +46,7 @@ class PostController extends Controller
                 $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
 
                 // User is redirected to referrer page
-                $referrer = $this->get('session')->get('callback_url');
-                $this->get('session')->unset('callback_url');
-                return $this->redirect( $referrer );
+                return $this->redirect( $this->get('session')->get('callback_url') );
 
             }
         }
