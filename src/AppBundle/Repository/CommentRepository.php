@@ -13,7 +13,7 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
      * @param int $max
      * @return Paginator
      */
-    public function findByPage($page = 1, $max = 10)
+    public function findByPage($post, $page = 1, $max = 10)
     {
         if(!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -28,6 +28,8 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $dql = $this->createQueryBuilder('comment');
+        $dql->where('comment.post = :post');
+        $dql->setParameter(':post', $post);
         $dql->orderBy('comment.dateCreated', 'DESC');
 
         $firstResult = ($page - 1) * $max;
