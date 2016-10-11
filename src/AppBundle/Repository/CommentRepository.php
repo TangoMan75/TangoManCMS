@@ -9,19 +9,22 @@ class CommentRepository extends \Doctrine\ORM\EntityRepository
     /**
      * Comments pagination
      *
+     * @param int $post Post id
      * @param int $page
      * @param int $max
      * @return Paginator
      */
     public function findByPage($post, $page = 1, $max = 10)
     {
-        if(!is_numeric($page)) {
+        if( !is_numeric($page) ) {
+
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
             );
         }
 
-        if(!is_numeric($page)) {
+        if( !is_numeric($page) ) {
+
             throw new \InvalidArgumentException(
                 '$max must be an integer ('.gettype($max).' : '.$max.')'
             );

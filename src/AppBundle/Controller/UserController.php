@@ -189,6 +189,7 @@ class UserController extends Controller
     public function showAction(Request $request, $username)
     {
         $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
+        $listPost = $this->get('em')->repository('AppBundle:Post')->findByPage($user->getId(), $request->query->getInt('page', 1), 5);
 
         if ( !$user ) {
 
@@ -197,7 +198,8 @@ class UserController extends Controller
         }
 
         return $this->render('user/show.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'list_post' => $listPost
         ]);
     }
 

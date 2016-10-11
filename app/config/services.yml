@@ -5,7 +5,7 @@ parameters:
 
 services:
     em:
-        class: AppBundle\Service\DBService
+        class: AppBundle\Service\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
 #    service_name:
