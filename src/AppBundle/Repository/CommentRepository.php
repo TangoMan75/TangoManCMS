@@ -32,7 +32,7 @@ class CommentRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('comment');
-        $dql->where('comment.post = :post');
+        $dql->andWhere('comment.post = :post');
         $dql->setParameter(':post', $post);
         $dql->orderBy('comment.dateCreated', 'DESC');
 
