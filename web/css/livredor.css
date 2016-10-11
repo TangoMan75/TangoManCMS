@@ -75,9 +75,8 @@ article.post {
 }
 
 .post .panel-body p {
-	margin: 0 auto 2em auto;
-	padding-top: 1em;
-	padding-right: 1.5em;
+	margin: 1em;
+	padding: 0 2em;
 	text-align: justify;
 }
 

@@ -5,18 +5,15 @@
             {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                 {% if (comment.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">
-                        <a href="{{ path("comment_edit",   { 'id': comment.id }) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce message"><span class="glyphicon glyphicon-edit"></span></a>
-                        <a href="{{ path("comment_delete", { 'id': comment.id }) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message"><span class="glyphicon glyphicon-trash"></span></a>
+                        <a href="{{ path("comment_edit",   { 'id': comment.id }) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce commentaire"><span class="glyphicon glyphicon-edit"></span></a>
+                        <a href="{{ path("comment_delete", { 'id': comment.id }) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce commentaire"><span class="glyphicon glyphicon-trash"></span></a>
                     </div>
                 {% endif %}
             {% endif %}
         </h3>
     </header>
     <div class="panel-body row">
-        <figure class="col-xs-12 col-sm-3">
-            <img src="https://placehold.it/200x200" alt="{{ comment.user.username }}" class="img-rounded img-responsive"/>
-        </figure>
-        <div class="col-xs-12 col-sm-9">{{ comment.content|raw|nl2br }}</div>
+        <div class="col-sm-12">{{ comment.content|raw|nl2br }}</div>
     </div>
     <footer class="panel-footer">
         <div class="row">
