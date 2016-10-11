@@ -101,6 +101,7 @@ article.post {
 #post-form {
 	width: 80%;
 	margin: auto;
+	margin-bottom: 3em;
 }
 
 #post-form h2 span {
