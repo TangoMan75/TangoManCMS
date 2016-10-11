@@ -10,7 +10,7 @@ $(function() {
         var hash = this.hash;
         $("html, body").animate({
             scrollTop: $(this.hash).offset().top
-        }, 1000, function() {
+        }, 700, function() {
             window.location.hash = hash;
         })
     })
@@ -33,7 +33,7 @@ $(function() {
         "text-indent": "1px",
         "text-align": "center",
         "line-height": "1.5em",
-        "background": "#27AE61",
+        "background": "#5cb85c",
         "border-radius": "50%",
         "color": "white"
     });
@@ -41,7 +41,7 @@ $(function() {
     $('#scroll-top').click(function() {
         $('html, body').animate({
             scrollTop: 0
-        }, 1000);
+        }, 700);
         return false;
     });
 

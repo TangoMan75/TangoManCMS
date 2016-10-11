@@ -9,6 +9,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class UserController
@@ -43,10 +44,9 @@ class UserController extends Controller
     {
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
 
-        $response = new JsonResponse;
-        $response->setData( serialize($users) );
-
-        return $response;
+        return new Response($content, 200, [
+            'Content-Type' => 'application/force-download',
+        ]);
     }
 
     /**

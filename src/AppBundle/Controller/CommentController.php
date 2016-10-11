@@ -18,7 +18,7 @@ class CommentController extends Controller
     /**
      * Creates new comment.
      *
-     * @Route("/comment/{id}", requirements={"id": "\d+"}, name="comment_new")
+     * @Route("/{id}", requirements={"id": "\d+"}, name="comment_new")
      */
     public function newAction(Request $request, Post $post)
     {

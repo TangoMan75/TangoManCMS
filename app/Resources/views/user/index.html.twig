@@ -11,6 +11,8 @@
                 <th>Utilisateur</th>
                 <th>Email</th>
                 <th>Date de création</th>
+                <th>Posts</th>
+                <th>Commentaires</th>
                 <th>Role</th>
                 <th colspan="2">Token</th>
                 <th>Actions</th>
@@ -19,10 +21,20 @@
             <tbody>
             {% for user in users %}
                 <tr>
-                    <td><a href="{{ path('user_show', { 'username': user.username }) }}">{{ user.id }}</a></td>
-                    <td><a href="{{ path('user_show', { 'username': user.username }) }}"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;{{ user.username }}</a></td>
+                    <td>
+                        <a href="{{ path('user_show', { 'username': user.username }) }}">{{ user.id }}</a>
+                    </td>
+                    <td>
+                        <a href="{{ path('user_show', { 'username': user.username }) }}"><span class="glyphicon glyphicon-eye-open"></span>&nbsp;{{ user.username }}</a>
+                    </td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.dateCreated|date('d/m/Y H:i:s') }}</td>
+                    <td>
+                        <span class="label label-primary">&nbsp;{{ user.posts | length }}&nbsp;</span>
+                    </td>
+                    <td>
+                        <span class="label label-success">&nbsp;{{ user.comments | length }}&nbsp;</span>
+                    </td>
                     <td>
                         {% if 'ROLE_ADMIN' in user.roles %}
                             <a href="{{ path('user_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-king"></span>&nbsp;admin</a>
@@ -30,13 +42,21 @@
                             <a href="{{ path('user_add_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-pawn"></span>&nbsp;user</a>
                         {% endif %}
                     </td>
-                    <td><a href="{{ path('user_resend', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button></td>
+                    <td>
+                        <a href="{{ path('user_resend', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>
+                    </td>
                     {% if user.token %}
-                        <td><a href="{{ path('user_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button></td>
+                        <td>
+                            <a href="{{ path('user_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>
+                        </td>
                     {% else %}
-                        <td><span class="glyphicon glyphicon-ok text-success"></span></td>
+                        <td>
+                            <span class="glyphicon glyphicon-ok text-success"></span>
+                        </td>
                     {% endif %}
-                    <td><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".my-modal" data-username="{{ user.username }}" data-url="{{ path('user_delete', { 'id': user.id }) }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer</button></td>
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".my-modal" data-username="{{ user.username }}" data-url="{{ path('user_delete', { 'id': user.id }) }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer</button>
+                    </td>
                 </tr>
             {% endfor %}
             </tbody>
