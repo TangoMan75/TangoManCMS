@@ -1,16 +1,16 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ parent() }} | {{ user.username|capitalize }}{% endblock %}
+{% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
 
 {% block body %}
 
-    {% include("includes/_user-profile.html.twig") %}
+    {% include "includes/_user-profile.html.twig" %}
 
     <section id="posts">
         {% for post in user.posts %}
-            {% include("includes/_post.html.twig") %}
+            {% include "includes/_post.html.twig"  with {'uri': app.request.uri} %}
         {% else %}
-            <p>Il n'y a aucun message à afficher</p>
+            <p>{{ user.username | capitalize }} na publié aucun message.</p>
         {% endfor %}
         <div class="text-center">
         {{ pagination(list_post) }}

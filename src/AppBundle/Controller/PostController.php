@@ -126,7 +126,8 @@ class PostController extends Controller
         $this->get('session')->getFlashBag()->add('success', "Le message <strong>&quot;{$post->getTitle()}&quot;</strong> à été supprimé.");
 
         // User is redirected to referrer page
-        return $this->redirect( $request->headers->get('referer') );
+//        return $this->redirect( $request->headers->get('referer') );
+        return $this->redirect( $back );
     }
 
 }

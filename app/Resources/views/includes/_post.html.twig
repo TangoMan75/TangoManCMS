@@ -8,8 +8,8 @@
                         <a href="{{ path("post_edit",   { 'id': post.id }) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce message">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a href="{{ path("post_delete", { 'id': post.id }) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message">
-                            <span class="glyphicon glyphicon-trash"></span>
+                        <a href="{{ path("post_delete", { 'id': post.id , 'back': uri }) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message">
+                            <span class="glyphicon glyphicon-trash"></span>{{ uri }}
                         </a>
                     </div>
                 {% endif %}

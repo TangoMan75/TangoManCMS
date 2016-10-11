@@ -11,7 +11,7 @@
 {% block body %}
     <section id="posts">
         {% for post in list_post %}
-            {% include("includes/_post.html.twig") %}
+            {% include "includes/_post.html.twig"  with {'uri': app.request.uri} %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">
@@ -26,7 +26,7 @@
     </section>
 
     {% if app.user %}
-        {% include("includes/_post-form.html.twig") %}
+        {% include "includes/_post-form.html.twig" %}
     {% else %}
         <div class="jumbotron">
             <div class="text-center">

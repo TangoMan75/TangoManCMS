@@ -13,16 +13,16 @@
 {% block body %}
 
     <section id="posts">
-        {% include("includes/_post.html.twig") %}
+        {% include "includes/_post.html.twig" with {'uri': app.request.uri} %}
     </section>
 
     {% if app.user %}
-        {% include("includes/_comment-form.html.twig") %}
+        {% include "includes/_comment-form.html.twig" %}
     {% endif %}
 
     <section id="comments">
         {% for comment in list_comment %}
-            {% include("includes/_comment.html.twig") %}
+            {% include "includes/_comment.html.twig" %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">
