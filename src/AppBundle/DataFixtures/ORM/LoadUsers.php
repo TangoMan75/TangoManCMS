@@ -28,10 +28,11 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
-        $faker = Factory::create('fr_FR');
+        $faker   = Factory::create('fr_FR');
         $encoder = $this->container->get('security.password_encoder');
 
-        if (!$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN'])) {
+
+        if ( !$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ) {
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
@@ -44,8 +45,8 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $manager->persist($user);
         }
 
-        $userCount = mt_rand(20, 200);;
-        for ($i=0; $i < $userCount; $i++){
+        $userCount = 50;
+        for ($i=0; $i < $userCount; $i++) {
 
             $user = new User();
             $username = $faker->userName;
@@ -57,12 +58,11 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
             $manager->persist($user);
 
-            $postCount    = mt_rand(1, 5);
-            $commentCount = mt_rand(1, 10);
-
+            $postCount    = mt_rand(0, 10);
             for ($j=0; $j < $postCount; $j++) {
-                $postLength = mt_rand(600, 2400);
+
                 $post = new Post();
+                $postLength = mt_rand(600, 2400);
                 $text = "<p>" . $faker->text($postLength) . "</p>";
                 $post->setUser($user);
                 $post->setTitle($faker->sentence(4, true));
@@ -71,9 +71,11 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
                 $manager->persist($post);
 
+                $commentCount = mt_rand(0, 10);
                 for ($k = 0; $k < $commentCount; $k++) {
-                    $commentLength = mt_rand(300, 1200);
+
                     $comment = new Comment();
+                    $commentLength = mt_rand(300, 1200);
                     $text = "<p>" . $faker->text($commentLength) . "</p>";
                     $comment->setUser($user);
                     $comment->setPost($post);
