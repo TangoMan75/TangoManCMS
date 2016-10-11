@@ -17,7 +17,7 @@
     </section>
 
     {% if app.user %}
-        {% include("includes/_post-form.html.twig") %}
+        {% include("includes/_comment-form.html.twig") %}
     {% endif %}
 
     <section id="comments">
@@ -31,6 +31,9 @@
                 </div>
             </div>
         {% endfor %}
+        <div class="text-center">
+            {{ pagination(list_comment) }}
+        </div>
     </section>
 
 {% endblock %}

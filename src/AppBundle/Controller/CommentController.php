@@ -22,7 +22,7 @@ class CommentController extends Controller
      */
     public function newAction(Request $request, Post $post)
     {
-        $listComment = $this->get('em')->repository('AppBundle:Comment')->findByPage($post, $request->query->getInt('page', 1), 5);
+        $listComment = $this->get('em')->repository('AppBundle:Comment')->findByPage($post->getId(), $request->query->getInt('page', 1), 5);
         $formComment = null;
 
         // User cannot comment when not logged in
