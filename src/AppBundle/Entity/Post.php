@@ -150,6 +150,22 @@ class Post
     }
 
     /**
+     * Increments comment count
+     */
+    public function increaseCommentCount()
+    {
+        $this->commentCount++;
+    }
+
+    /**
+     * Decrements comment count
+     */
+    public function decreaseCommentCount()
+    {
+        $this->commentCount--;
+    }
+
+    /**
      * @return string
      */
     public function getTitle()

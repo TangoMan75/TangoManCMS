@@ -36,20 +36,17 @@ class CommentController extends Controller
             $form->handleRequest($request);
             $formComment = $form->createView();
 
-            // referrer url is cached into session when form is not yet submitted
-            if ( !$form->isSubmitted() ) {
-
-                $this->get('session')->set('callback_url', $request->headers->get('referer'));
-
-            }
-
             if ( $form->isSubmitted() && $form->isValid() ) {
+
+                // Updates comment count
+                $post->increaseCommentCount();
+                $this->get('em')->save($post);
 
                 $this->get('em')->save($comment);
                 $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
 
                 // User is redirected to referrer page
-                return $this->redirect( $this->get('session')->get('callback_url') );
+                return $this->redirect( $request->headers->get('referer') );
 
             }
         }
@@ -87,20 +84,13 @@ class CommentController extends Controller
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
-        // referrer url is cached into session when form is not yet submitted
-        if ( !$form->isSubmitted() ) {
-
-            $this->get('session')->set('callback_url', $request->headers->get('referer'));
-
-        }
-
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($comment);
             $this->get('session')->getFlashBag()->add('success', "Votre commentaire <strong>&quot;{$comment->getTitle()}&quot</strong> à bien été modifié.");
 
             // User is redirected to referrer page
-            return $this->redirect( $this->get('session')->get('callback_url') );
+            return $this->redirect( $request->headers->get('referer') );
 
         }
 
@@ -125,10 +115,15 @@ class CommentController extends Controller
 
         }
 
+        // Updates comment count
+        $post = $this->get('em')->repository('AppBundle:Post')->findOneById($comment->getPost());
+        $post->decreaseCommentCount();
+        $this->get('em')->save($post);
+
         // Deletes specified comment
         $this->get('em')->remove($comment);
         $this->get('em')->flush();
-        $this->get('session')->getFlashBag()->add('success', "Le commentaire <strong>&quot;{$comment->getTitle()}&quot;</strong> à été supprimé.");
+        $this->get('session')->getFlashBag()->add('success', "Le commentaire à été supprimé.");
 
         // User is redirected to referrer page
         return $this->redirect( $request->headers->get('referer') );
