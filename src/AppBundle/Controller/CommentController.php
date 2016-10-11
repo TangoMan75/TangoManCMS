@@ -38,10 +38,6 @@ class CommentController extends Controller
 
             if ( $form->isSubmitted() && $form->isValid() ) {
 
-                // Updates comment count
-                $post->increaseCommentCount();
-                $this->get('em')->save($post);
-
                 $this->get('em')->save($comment);
                 $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
 
@@ -114,11 +110,6 @@ class CommentController extends Controller
             return $this->redirectToRoute('app_homepage');
 
         }
-
-        // Updates comment count
-        $post = $this->get('em')->repository('AppBundle:Post')->findOneById($comment->getPost());
-        $post->decreaseCommentCount();
-        $this->get('em')->save($post);
 
         // Deletes specified comment
         $this->get('em')->remove($comment);

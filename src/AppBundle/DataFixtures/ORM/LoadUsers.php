@@ -59,22 +59,22 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
             $postCount    = mt_rand(1, 5);
             $commentCount = mt_rand(1, 10);
-            $textLenght   = mt_rand(600, 2400);
 
             for ($j=0; $j < $postCount; $j++) {
+                $postLength = mt_rand(600, 2400);
                 $post = new Post();
-                $text = "<p>" . $faker->text($textLenght) . "</p>";
+                $text = "<p>" . $faker->text($postLength) . "</p>";
                 $post->setUser($user);
                 $post->setTitle($faker->sentence(4, true));
                 $post->setContent($text);
-                $post->setCommentCount($commentCount);
                 $post->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
                 $manager->persist($post);
 
                 for ($k = 0; $k < $commentCount; $k++) {
+                    $commentLength = mt_rand(300, 1200);
                     $comment = new Comment();
-                    $text = "<p>" . $faker->text($textLenght) . "</p>";
+                    $text = "<p>" . $faker->text($commentLength) . "</p>";
                     $comment->setUser($user);
                     $comment->setPost($post);
                     $comment->setContent($text);
