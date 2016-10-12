@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\AppBundle;
 use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -147,7 +146,7 @@ class SecurityController extends Controller
     /**
      * Re-sends security token to user.
      *
-     * @Route("/resend/{id}", requirements={"id": "\d+"}, name="user_resend")
+     * @Route("/resend/{id}", requirements={"id": "\d+"}, name="app_resend_token")
      */
     public function resendToken(Request $request, User $user)
     {
@@ -184,7 +183,7 @@ class SecurityController extends Controller
     /**
      * Force validate user.
      *
-     * @Route("/validate/{id}", requirements={"id": "\d+"}, name="user_validate")
+     * @Route("/validate/{id}", requirements={"id": "\d+"}, name="app_validate")
      */
     public function validateUser(Request $request, User $user)
     {

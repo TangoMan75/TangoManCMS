@@ -65,6 +65,8 @@
                         <ul class="nav navbar-nav navbar-left">
                             {% if app.request.get('_route') == 'app_homepage' %}
                                 <li><a href="#post-form" class="smooth"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
+                            {% elseif app.request.get('_route') == 'post_index' %}
+                                <li><a href="#post-form"><span class="glyphicon glyphicon-comment"></span>&nbsp;Commenter</a></li>
                             {% else %}
                                 <li><a href="{{ path('post_new') }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
                             {% endif %}

@@ -43,11 +43,11 @@
                         {% endif %}
                     </td>
                     <td>
-                        <a href="{{ path('user_resend', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>
+                        <a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>
                     </td>
                     {% if user.token %}
                         <td>
-                            <a href="{{ path('user_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>
+                            <a href="{{ path('app_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>
                         </td>
                     {% else %}
                         <td>

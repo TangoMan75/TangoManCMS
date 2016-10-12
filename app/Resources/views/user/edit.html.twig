@@ -1,7 +1,31 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}AppBundle:Profile:edit{% endblock %}
+{% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
 
 {% block body %}
-<h1>Welcome to the Profile:edit page</h1>
+
+    {% include "includes/_user-profile.html.twig" %}
+
+    <div class="center-block">
+        <ul>
+            <li>Changer nom d'utilisateur.</li>
+        </ul>
+        <ul>
+            <li>Changer email.</li>
+        </ul>
+        <ul>
+            <li>Changer mot de passe.</li>
+        </ul>
+        <ul>
+            <li>Changer photo.</li>
+        </ul>
+    </div>
+
+    <div id="post-form" class="jumbotron">
+        <h2 class="text-center"><span class="glyphicon glyphicon-user pull-left"></span>{{ user.username | capitalize }}</h2>
+        {{ form_start(form_user) }}
+        {{ form_widget(form_user) }}
+        <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>Publier</button>
+        {{ form_end(form_user) }}
+    </div>
 {% endblock %}

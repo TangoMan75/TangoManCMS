@@ -27,7 +27,7 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $users = $this->get('em')->repository('AppBundle:User')->findByPage($request->query->getInt('page', 1), 20);
+        $users = $this->get('em')->repository('AppBundle:User')->findAllPaged($request->query->getInt('page', 1), 20);
 
         return $this->render('user/index.html.twig', [
             'users' => $users
@@ -189,7 +189,6 @@ class UserController extends Controller
     public function showAction(Request $request, $username)
     {
         $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
-        $listPost = $this->get('em')->repository('AppBundle:Post')->findByUser($user->getId(), $request->query->getInt('page', 1), 5);
 
         if ( !$user ) {
 
@@ -197,8 +196,10 @@ class UserController extends Controller
 
         }
 
+        $listPost = $this->get('em')->repository('AppBundle:Post')->findByUserPaged($user, $request->query->getInt('page', 1), 5);
+
         return $this->render('user/show.html.twig', [
-            'user' => $user,
+            'user'      => $user,
             'list_post' => $listPost
         ]);
     }

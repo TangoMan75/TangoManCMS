@@ -20,11 +20,11 @@ class PostController extends Controller
      * Displays post and associated comments.
      * Allows to publish comments.
      *
-     * @Route("/{id}", requirements={"id": "\d+"}, name="comment_new")
+     * @Route("/{id}", requirements={"id": "\d+"}, name="post_index")
      */
     public function indexAction(Request $request, Post $post)
     {
-        $listComment = $this->get('em')->repository('AppBundle:Comment')->findByPage($post->getId(), $request->query->getInt('page', 1), 5);
+        $listComment = $this->get('em')->repository('AppBundle:Comment')->findAllPaged($post->getId(), $request->query->getInt('page', 1), 5);
         $formComment = null;
 
         // User cannot comment when not logged in
@@ -75,13 +75,17 @@ class PostController extends Controller
             $form->handleRequest($request);
             $formPost = $form->createView();
 
+            if ( !$form->isSubmitted() ) {
+                $this->get('session')->set('back', $request->headers->get('referer'));
+            }
+
             if ( $form->isSubmitted() && $form->isValid() ) {
 
                 $this->get('em')->save($post);
                 $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
 
                 // User is redirected to referrer page
-                return $this->redirect( $request->get('back') );
+                return $this->redirect( $request->headers->get('back') );
 
             }
         }
@@ -118,9 +122,7 @@ class PostController extends Controller
         $form->handleRequest($request);
 
         if ( !$form->isSubmitted() ) {
-
             $this->get('session')->set('back', $request->headers->get('referer'));
-
         }
 
         if ( $form->isSubmitted() && $form->isValid() ) {

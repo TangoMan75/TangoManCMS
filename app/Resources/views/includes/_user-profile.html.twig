@@ -20,6 +20,16 @@
                 <th>Email</th>
                 <td>{{ user.email }}</td>
             </tr>
+            <tr>
+                <th>Roles</th>
+                <td>
+                    <ul>
+                        {% for role in user.roles %}
+                            <li>{{ role }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
             </tr>
             {% if is_granted('ROLE_ADMIN') %}
                 <tr>

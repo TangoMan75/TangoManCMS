@@ -15,7 +15,7 @@ class UserRepository extends EntityRepository
      * @param int $max
      * @return Paginator
      */
-    public function findByPage($page = 1, $max = 10)
+    public function findAllPaged($page = 1, $max = 10)
     {
         if( !is_numeric($page) ) {
 
@@ -42,8 +42,10 @@ class UserRepository extends EntityRepository
 
         $paginator = new Paginator($query);
 
-        if(($paginator->count() <=  $firstResult) && $page != 1) {
+        if( ($paginator->count() <=  $firstResult) && $page != 1 ) {
+
             throw new NotFoundHttpException('Page not found');
+
         }
 
         return $paginator;

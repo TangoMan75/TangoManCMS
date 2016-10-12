@@ -17,7 +17,7 @@ class DefaultController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
-		$listPost = $this->get('em')->repository('AppBundle:Post')->findByPage($request->query->getInt('page', 1), 5);
+		$listPost = $this->get('em')->repository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
 		$formPost = null;
 
 		if ( $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
