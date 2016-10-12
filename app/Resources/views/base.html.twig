@@ -38,7 +38,7 @@
 
         <!-- Bootstrap CSS CDN -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <!-- Note: normalize.css, and reset.css are unnecessary whith Bootstrap -->
+        <!-- Note: normalize.css, and reset.css are unnecessary with Bootstrap -->
 
         <!-- Font-awesome CDN -->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" /> -->
@@ -68,7 +68,7 @@
                             {% elseif app.request.get('_route') == 'post_index' %}
                                 <li><a href="#post-form"><span class="glyphicon glyphicon-comment"></span>&nbsp;Commenter</a></li>
                             {% else %}
-                                <li><a href="{{ path('post_new') }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
+                                <li><a href="{{ path('post_new', {'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
                             <li><a href="{{ path('user_index') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Utilisateurs</a></li>
