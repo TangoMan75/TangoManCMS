@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Publier un commentaire {% endblock %}
+{% block title %}{{ parent() }} | {{ post.title | capitalize }} {% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -13,7 +13,7 @@
 {% block body %}
 
     <section id="posts">
-        {% include "includes/_post.html.twig" with {'uri': app.request.uri} %}
+        {% include "includes/_post.html.twig" with {'uri': absolute_url(path('app_homepage'))} %}
     </section>
 
     {% if app.user %}

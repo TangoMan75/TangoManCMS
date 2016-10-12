@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
-use AppBundle\Entity\Post;
 use AppBundle\Form\CommentType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,45 +14,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class CommentController extends Controller
 {
-    /**
-     * Creates new comment.
-     *
-     * @Route("/{id}", requirements={"id": "\d+"}, name="comment_new")
-     */
-    public function newAction(Request $request, Post $post)
-    {
-        $listComment = $this->get('em')->repository('AppBundle:Comment')->findByPage($post->getId(), $request->query->getInt('page', 1), 5);
-        $formComment = null;
-
-        // User cannot comment when not logged in
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-
-            $user = $this->getUser();
-            $comment = new Comment();
-            $comment->setUser($user);
-            $comment->setPost($post);
-            $form = $this->createForm(CommentType::class, $comment);
-            $form->handleRequest($request);
-            $formComment = $form->createView();
-
-            if ( $form->isSubmitted() && $form->isValid() ) {
-
-                $this->get('em')->save($comment);
-                $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
-
-                // User is redirected to referrer page
-                return $this->redirect( $request->headers->get('referer') );
-
-            }
-        }
-
-        return $this->render('post/comment.html.twig', [
-            'form_post' => $formComment,
-            'list_comment' => $listComment,
-            'post' => $post
-        ]);
-    }
-
     /**
      * Edits comment.
      *

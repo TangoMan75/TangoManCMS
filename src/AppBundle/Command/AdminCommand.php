@@ -1,10 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: thibaulthenry
- * Date: 18/05/2016
- * Time: 14:35
- */
+
 namespace AppBundle\Command;
 
 use AppBundle\Entity\User;
@@ -15,7 +10,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 class AdminCommand extends ContainerAwareCommand
 {
     /**
-     * creates command with description
+     * Creates command with description
      */
     protected function configure()
     {

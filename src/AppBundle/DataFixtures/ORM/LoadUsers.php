@@ -31,13 +31,13 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         $faker   = Factory::create('fr_FR');
         $encoder = $this->container->get('security.password_encoder');
 
-
         if ( !$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ) {
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
-            $user->setUsername('admin');
-            $user->setEmail('admin@' . $faker->safeEmailDomain);
+            $username = 'admin';
+            $user->setUsername($username);
+            $user->setEmail($username.'@'.$faker->safeEmailDomain);
             $user->setPassword($encoder->encodePassword($user, "321"));
             // $user->setToken(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $user->setRoles(['ROLE_ADMIN']);

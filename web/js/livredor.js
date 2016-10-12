@@ -16,28 +16,35 @@ $(function() {
     })
 });
 
-// Back to top button
-// Inspired from http://html-tuts.com/back-to-top-button-jquery/
+/**
+ * Floating back to top button.
+ * 
+ * @author    Matthias Morin <matthias.morin@gmail.com>
+ * @requires  jQuery & Bootstap
+ */
 $(function() {
+    /* Injects element. */
     $("body").prepend('<a href="#" id="scroll-top" class="smooth"><span class="glyphicon glyphicon-chevron-up"></span></a>');
 
+    /* Applies CSS to injected element. */
     $("#scroll-top").css({
         "display": "none",
+        "bottom": "5em",
+        "right": "5em",
+        "font-size": "2em",
+        "line-height": "1.5em",
+        "text-align": "center",
+        "text-indent": "1px",
+        "height": "1.5em",
+        "width": "1.5em",
         "position": "fixed",
         "z-index": "999",
-        "right": "5em",
-        "bottom": "5em",
-        "width": "1.5em",
-        "height": "1.5em",
-        "font-size": "2em",
-        "text-indent": "1px",
-        "text-align": "center",
-        "line-height": "1.5em",
-        "background": "#5cb85c",
         "border-radius": "50%",
+        "background": "#5cb85c",
         "color": "white"
     });
 
+    /* Smooth scrolls windows */
     $('#scroll-top').click(function() {
         $('html, body').animate({
             scrollTop: 0
@@ -45,6 +52,7 @@ $(function() {
         return false;
     });
 
+    /* Detects user srolls */
     $(window).scroll(function() {
         if ( $(window).scrollTop() > 300 ) {
             $('#scroll-top').fadeIn('slow');

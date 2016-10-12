@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Form\CommentType;
 use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +17,46 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class PostController extends Controller
 {
     /**
+     * Displays post and associated comments.
+     * Allows to publish comments.
+     *
+     * @Route("/{id}", requirements={"id": "\d+"}, name="comment_new")
+     */
+    public function indexAction(Request $request, Post $post)
+    {
+        $listComment = $this->get('em')->repository('AppBundle:Comment')->findByPage($post->getId(), $request->query->getInt('page', 1), 5);
+        $formComment = null;
+
+        // User cannot comment when not logged in
+        if ( $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
+
+            $user = $this->getUser();
+            $comment = new Comment();
+            $comment->setUser($user);
+            $comment->setPost($post);
+            $form = $this->createForm(CommentType::class, $comment);
+            $form->handleRequest($request);
+            $formComment = $form->createView();
+
+            if ( $form->isSubmitted() && $form->isValid() ) {
+
+                $this->get('em')->save($comment);
+                $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
+
+                // User is redirected to referrer page
+                return $this->redirect( $request->headers->get('referer') );
+
+            }
+        }
+
+        return $this->render('post/index.html.twig', [
+            'form_post'    => $formComment,
+            'list_comment' => $listComment,
+            'post'         => $post
+        ]);
+    }
+
+    /**
      * Creates new post.
      *
      * @Route("/new", name="post_new")
@@ -24,7 +66,7 @@ class PostController extends Controller
         $formPost = null;
 
         // User cannot post when not logged in
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
+        if ( $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
 
             $user = $this->getUser();
             $post = new Post();
@@ -33,20 +75,13 @@ class PostController extends Controller
             $form->handleRequest($request);
             $formPost = $form->createView();
 
-            // referrer url is cached into session when form is not yet submitted
-            if ( !$form->isSubmitted() ) {
-
-                $this->get('session')->set('callback_url', $request->headers->get('referer'));
-
-            }
-
             if ( $form->isSubmitted() && $form->isValid() ) {
 
                 $this->get('em')->save($post);
                 $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
 
                 // User is redirected to referrer page
-                return $this->redirect( $this->get('session')->get('callback_url') );
+                return $this->redirect( $request->get('back') );
 
             }
         }
@@ -82,20 +117,13 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-        // referrer url is cached into session when form is not yet submitted
-        if ( !$form->isSubmitted() ) {
-
-            $this->get('session')->set('callback_url', $request->headers->get('referer'));
-
-        }
-
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($post);
             $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
 
             // User is redirected to referrer page
-            return $this->redirect( $this->get('session')->get('callback_url') );
+            return $this->redirect( $request->get('back') );
 
         }
 
@@ -126,8 +154,7 @@ class PostController extends Controller
         $this->get('session')->getFlashBag()->add('success', "Le message <strong>&quot;{$post->getTitle()}&quot;</strong> à été supprimé.");
 
         // User is redirected to referrer page
-//        return $this->redirect( $request->headers->get('referer') );
-        return $this->redirect( $back );
+        return $this->redirect( $request->get('back') );
     }
 
 }
