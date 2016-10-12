@@ -3,28 +3,18 @@ $(function() {
     $('[data-toggle="tooltip"]').tooltip()
 });
 
-// Smooth scrolling
-$(function() {
-    $("a.smooth").on("click", function(e) {
-        e.preventDefault();
-        var hash = this.hash;
-        $("html, body").animate({
-            scrollTop: $(this.hash).offset().top
-        }, 700, function() {
-            window.location.hash = hash;
-        })
-    })
-});
-
 /**
  * Floating back to top button.
- * 
+ *
+ * @version   0.1.0
  * @author    Matthias Morin <matthias.morin@gmail.com>
  * @requires  jQuery & Bootstap
+ * @requires  smooth scrolling
  */
 $(function() {
     /* Injects element. */
-    $("body").prepend('<a href="#" id="scroll-top" class="smooth"><span class="glyphicon glyphicon-chevron-up"></span></a>');
+    $("body").prepend('<a href="#page-top" id="scroll-top"><span class="glyphicon glyphicon-chevron-up"></span></a>');
+    $("body").attr("id", "page-top");
 
     /* Applies CSS to injected element. */
     $("#scroll-top").css({
@@ -44,14 +34,6 @@ $(function() {
         "color": "white"
     });
 
-    /* Smooth scrolls windows */
-    $('#scroll-top').click(function() {
-        $('html, body').animate({
-            scrollTop: 0
-        }, 700);
-        return false;
-    });
-
     /* Detects user srolls */
     $(window).scroll(function() {
         if ( $(window).scrollTop() > 300 ) {
@@ -60,4 +42,17 @@ $(function() {
             $('#scroll-top').fadeOut('slow');
         }
     });
+});
+
+// Smooth scrolling
+$(function() {
+    $("a[href*='#']").on("click", function(e) {
+        e.preventDefault();
+        var hash = this.hash;
+        $("html, body").animate({
+            scrollTop: $(this.hash).offset().top
+        }, 700, function() {
+            window.location.hash = hash;
+        })
+    })
 });
