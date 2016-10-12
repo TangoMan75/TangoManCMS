@@ -12,3 +12,7 @@ services:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
+    twig.extension.remove_url_query:
+        class: AppBundle\TwigExtension\RemoveUrlQuery
+        tags:
+            - { name: twig.extension }

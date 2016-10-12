@@ -8,7 +8,7 @@
                         <a href="{{ path("post_edit",   { 'id': post.id, 'callback': callback }) }}" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Éditer ce message">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a href="{{ path("post_delete", { 'id': post.id, 'callback': callback }) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message">
+                        <a href="{{ path("post_delete", { 'id': post.id, 'callback': callback | remove_url_query }) }}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title data-original-title="Supprimer ce message">
                             <span class="glyphicon glyphicon-trash"></span>
                         </a>
                     </div>

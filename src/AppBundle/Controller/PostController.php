@@ -86,8 +86,6 @@ class PostController extends Controller
             }
         }
 
-        dump($request->get('callback'));
-
         return $this->render('post/edit.html.twig', [
             'form_post' => $formPost
         ]);
