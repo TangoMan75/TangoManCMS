@@ -117,13 +117,19 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
+        if ( !$form->isSubmitted() ) {
+
+            $this->get('session')->set('back', $request->headers->get('referer'));
+
+        }
+
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($post);
             $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
 
             // User is redirected to referrer page
-            return $this->redirect( $request->get('back') );
+            return $this->redirect( $this->get('session')->get('back') );
 
         }
 
