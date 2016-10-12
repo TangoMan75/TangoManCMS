@@ -89,7 +89,6 @@ class PostController extends Controller
         dump($request->get('callback'));
 
         return $this->render('post/edit.html.twig', [
-            'callback'  => $request->get('callback'),
             'form_post' => $formPost
         ]);
     }
@@ -135,7 +134,6 @@ class PostController extends Controller
         }
 
         return $this->render('post/edit.html.twig', [
-            'callback'  => $request->get('callback'),
             'form_post' => $form->createView()
         ]);
 
