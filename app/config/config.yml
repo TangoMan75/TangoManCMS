@@ -40,6 +40,7 @@ twig:
         site_name:    "%site_name%"
     form_themes:
         - bootstrap_3_layout.html.twig
+        - TilowebBase64Bundle:form:fields.html.twig
 
 # Doctrine Configuration
 doctrine:
