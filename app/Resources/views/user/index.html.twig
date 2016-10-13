@@ -12,7 +12,7 @@
                         'order': 'id',
                         'way': app.request.query.get('order') == 'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
                     }) }}">
-                        ID
+                        Id
                     </a>
                 </th>
 
@@ -112,6 +112,10 @@
         </table>
         <div class="text-center">
             {{ pagination(users) }}
+        </div>
+
+        <div class="text-center">
+            <p>Exporter la liste d'utilisateurs <a href="{{ path('user_export_json') }}" target="_blank" class="btn btn-primary btn-sm">Format Json</a>&nbsp;<a href="{{ path('user_export_csv') }}" target="_blank" class="btn btn-primary btn-sm">Format CSV</a></p>
         </div>
 
         {% include "includes/_delete-modal.html.twig" %}
