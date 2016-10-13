@@ -44,10 +44,12 @@ h1.user-list {
 	margin-bottom: 5em;
 }
 
+article.comment,
 article.post {
 	margin-bottom: 3em;
 }
 
+.comment header .glyphicon,
 .post header .glyphicon {
 	margin-left: .5em;
 }
@@ -55,11 +57,13 @@ article.post {
 .post header h3 {
 	margin-top: 10px;
 }
+.comment header,
 .post header {
 	position: relative;
 }
 
-.post header:after{
+.comment header:after,
+.post header:after {
 	content: '';
 	width: 15px;
 	height: 15px;
@@ -70,10 +74,12 @@ article.post {
 	background-color: #337ab7;
 }
 
+.comment .panel-body,
 .post .panel-body {
 	margin-top: 1em;
 }
 
+.comment .panel-body p,
 .post .panel-body p {
 	margin: 1em;
 	padding: 0 2em;
@@ -84,11 +90,14 @@ article.post {
 	margin: 1em;
 }
 
+.comment footer .glyphicon,
 .post footer .glyphicon {
 	margin: 0 .5em;
 	color: #337ab7;
 }
 
+.comment footer .pull-left,
+.comment footer .pull-right,
 .post footer .pull-left,
 .post footer .pull-right {
 	margin: 0 1em;
