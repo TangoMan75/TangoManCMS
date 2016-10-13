@@ -67,18 +67,25 @@ class UserRepository extends EntityRepository
 
         $dql = $this->createQueryBuilder('user');
 
+//        $dql    ->addSelect('user.roles LIKE :role')
+//                ->setParameter('role', "%ROLE_ADMIN%");
+
         switch( $order ) {
+
             case "posts":
                 $dql->addSelect('COUNT(post.id) as orderParam');
                 $dql->leftJoin('user.posts', 'post');
                 break;
+
             case "comments":
                 $dql->addSelect('COUNT(comment.id) as orderParam');
                 $dql->leftJoin('user.comments', 'comment');
                 break;
+
             default:
                 $dql->addSelect('user.'.$order.' as orderParam');
                 break;
+
         }
 
         $dql->groupBy('user.id');

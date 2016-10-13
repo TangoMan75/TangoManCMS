@@ -42,15 +42,20 @@ class UserController extends Controller
     /**
      * Exports user list.
      *
+     * @todo Firewall this route.
+     *
      * @Route("/export", name="user_export")
      * @Method("GET")
      */
     public function exportAction()
     {
-        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'asc']);
+        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
 
-        return new Response($content, 200, [
+        $response = serialize($users);
+
+        return new JsonResponse($response, 200, [
             'Content-Type' => 'application/force-download',
+            'Content-Disposition' => 'attachment; filename="export_users.json"'
         ]);
     }
 
@@ -159,6 +164,8 @@ class UserController extends Controller
 
     /**
      * Removes user role.
+     *
+     * @todo Firewall this route instead of role checking.
      *
      * @Route("/remove-role/{id}/{role}", requirements={"id": "\d+"}, name="user_remove_role")
      */
