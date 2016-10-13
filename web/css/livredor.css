@@ -54,6 +54,7 @@ article.post {
 	margin-left: .5em;
 }
 
+.comment header h3,
 .post header h3 {
 	margin-top: 10px;
 }
@@ -69,8 +70,11 @@ article.post {
 	height: 15px;
 	position: absolute;
 	bottom: -8px;
-	left: 31px;
 	transform: rotate(45deg);
+}
+
+.post header:after {
+	left: 31px;
 	background-color: #337ab7;
 }
 
@@ -93,6 +97,9 @@ article.post {
 .comment footer .glyphicon,
 .post footer .glyphicon {
 	margin: 0 .5em;
+}
+
+.post footer .glyphicon {
 	color: #337ab7;
 }
 
@@ -101,6 +108,19 @@ article.post {
 .post footer .pull-left,
 .post footer .pull-right {
 	margin: 0 1em;
+}
+
+/**
+ * Comment styling
+ */
+.comment header:after {
+	right: 31px;
+	background-color: #dff0d8;
+}
+
+.comment footer .glyphicon,
+.comment footer a {
+	color: #3c763d;
 }
 
 /**
