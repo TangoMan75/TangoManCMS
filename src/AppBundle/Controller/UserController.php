@@ -31,7 +31,7 @@ class UserController extends Controller
             $request->query->getInt('page', 1),
             20,
             $request->query->get('order', 'username'),
-            $request->query->get('way', 'DESC')
+            $request->query->get('way', 'ASC')
         );
 
         return $this->render('user/index.html.twig', [
