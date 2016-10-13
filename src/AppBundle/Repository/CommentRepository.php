@@ -39,11 +39,9 @@ class CommentRepository extends EntityRepository
         $dql->orderBy('comment.dateCreated', 'DESC');
 
         $firstResult = ($page - 1) * $max;
-
         $query = $dql->getQuery();
         $query->setFirstResult($firstResult);
         $query->setMaxResults($max);
-
         $paginator = new Paginator($query);
 
         if( ($paginator->count() <= $firstResult) && $page != 1 ) {

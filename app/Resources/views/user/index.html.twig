@@ -7,12 +7,60 @@
         <table id="user-index" class="table-striped">
             <thead>
             <tr>
-                <th>Id</th>
-                <th>Utilisateur</th>
-                <th>Email</th>
-                <th>Date de création</th>
-                <th>Posts</th>
-                <th>Commentaires</th>
+                <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
+                    <a href="{{ path('user_index', {
+                        'order': 'id',
+                        'way': app.request.query.get('order') == 'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
+                    }) }}">
+                        ID
+                    </a>
+                </th>
+
+                <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
+                    <a href="{{ path('user_index', {
+                        'order': 'username',
+                        'way': app.request.query.get('order') == 'username' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
+                    }) }}">
+                        Utilisateur
+                    </a>
+                </th>
+
+                <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
+                    <a href="{{ path('user_index', {
+                        'order': 'email',
+                        'way': app.request.query.get('order') == 'email' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
+                    }) }}">
+                        Email
+                    </a>
+                </th>
+
+                <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
+                    <a href="{{ path('user_index', {
+                        'order': 'dateCreated',
+                        'way': app.request.query.get('order') == 'dateCreated' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
+                    }) }}">
+                        Date de création
+                    </a>
+                </th>
+
+                <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
+                    <a href="{{ path('user_index', {
+                        'order': 'posts',
+                        'way': app.request.query.get('order') == 'posts' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
+                    }) }}">
+                        Post
+                    </a>
+                </th>
+
+                <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
+                    <a href="{{ path('user_index', {
+                        'order': 'comments',
+                        'way': app.request.query.get('order') == 'comments' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
+                    }) }}">
+                        Commentaires
+                    </a>
+                </th>
+
                 <th>Role</th>
                 <th colspan="2">Token</th>
                 <th>Actions</th>
@@ -20,6 +68,7 @@
             </thead>
             <tbody>
             {% for user in users %}
+                {% set user = user[0] %}
                 <tr>
                     <td>
                         <a href="{{ path('user_show', { 'username': user.username }) }}">{{ user.id }}</a>

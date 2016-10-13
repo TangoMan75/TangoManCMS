@@ -27,7 +27,12 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $users = $this->get('em')->repository('AppBundle:User')->findAllPaged($request->query->getInt('page', 1), 20);
+        $users = $this->get('em')->repository('AppBundle:User')->sorting(
+            $request->query->getInt('page', 1),
+            20,
+            $request->query->get('order', 'username'),
+            $request->query->get('way', 'DESC')
+        );
 
         return $this->render('user/index.html.twig', [
             'users' => $users

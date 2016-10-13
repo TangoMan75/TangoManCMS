@@ -172,6 +172,10 @@ table th {
 	padding-bottom: .8em;
 }
 
+table th {
+	min-width: 6em;
+}
+
 /**
  * Flash messages
  */
@@ -180,6 +184,21 @@ div.alert {
 	z-index: 9999;
 	top: 12.5em;
 	right: 15%;
+}
+
+/**
+ * User index
+ */
+th.DESC a:after {
+	content: "\e252";
+	float: right;
+	font-family: 'Glyphicons Halflings';
+}
+
+th.ASC a:after {
+	content: "\e253";
+	float: right;
+	font-family: 'Glyphicons Halflings';
 }
 
 /**
