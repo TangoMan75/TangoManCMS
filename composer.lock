@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b0adfb35bd09e7b4dd94ae08279aebb7",
-    "content-hash": "6b9bd9eb1464fa0002eeedbd780164dc",
+    "hash": "67fa20865889ab10240c0ac2a0fd5e5b",
+    "content-hash": "90dd1697e66176aec4a1d302f7a39e4d",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2171,6 +2171,49 @@
                 "framework"
             ],
             "time": "2016-10-03 19:01:14"
+        },
+        {
+            "name": "tiloweb/base64-bundle",
+            "version": "1.0.1",
+            "target-dir": "Tiloweb/Base64Bundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Tiloweb/SymfonyBase64Bundle.git",
+                "reference": "cc1406f2f65bff68b7a6b5ecb0e0f178a41b3742"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Tiloweb/SymfonyBase64Bundle/zipball/cc1406f2f65bff68b7a6b5ecb0e0f178a41b3742",
+                "reference": "cc1406f2f65bff68b7a6b5ecb0e0f178a41b3742",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.3|~3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Tiloweb\\Base64Bundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Thibault HENRY",
+                    "homepage": "http://www.tiloweb.com"
+                }
+            ],
+            "description": "/",
+            "keywords": [
+                "base64",
+                "bundle",
+                "custom form type",
+                "image",
+                "symfony3",
+                "tiloweb"
+            ],
+            "time": "2016-07-28 07:36:50"
         },
         {
             "name": "tiloweb/pagination-bundle",
