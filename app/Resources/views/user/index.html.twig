@@ -16,10 +16,10 @@
                     </a>
                 </th>
 
-                <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
+                <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
                     <a href="{{ path('user_index', {
                         'order': 'username',
-                        'way': app.request.query.get('order') == 'username' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
+                        'way': app.request.query.get('order') == 'username' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
                     }) }}">
                         Utilisateur
                     </a>
