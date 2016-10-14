@@ -111,13 +111,15 @@ class AdminController extends Controller
     {
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles utilisateur.");
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles ".
+                                                               "utilisateur.");
             return $this->redirectToRoute('app_homepage');
         }
 
         $user->addRole($role);
         $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à &quot;{$user->getUsername()}&quot;</strong>.");
+        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à ".
+                                                             "&quot;{$user->getUsername()}&quot;</strong>.");
 
         // User is redirected to referrer page
         return $this->redirect( $request->headers->get('referer') );
@@ -134,7 +136,8 @@ class AdminController extends Controller
     {
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles utilisateur.");
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles ".
+                                                               "utilisateur.");
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -148,7 +151,8 @@ class AdminController extends Controller
 
         $user->removeRole($role);
         $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été retiré à &quot;{$user->getUsername()}&quot;</strong>.");
+        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été retiré à ".
+                                                             "&quot;{$user->getUsername()}&quot;</strong>.");
 
         // User is redirected to referrer page
         return $this->redirect( $request->headers->get('referer') );

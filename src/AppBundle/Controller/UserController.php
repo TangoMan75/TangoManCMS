@@ -84,7 +84,9 @@ class UserController extends Controller
         // Deletes specified user
         $this->get('em')->remove($user);
         $this->get('em')->flush();
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>&quot;{$user->getUsername()}&quot;</strong> à bien été supprimé.");
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur ".
+                                                             "<strong>&quot;{$user->getUsername()}&quot;</strong> à ".
+                                                             "bien été supprimé.");
 
         // Disconnects user
         if ($user == $this->getUser()) {

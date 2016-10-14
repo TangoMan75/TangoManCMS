@@ -24,7 +24,9 @@ class PostController extends Controller
      */
     public function indexAction(Request $request, Post $post)
     {
-        $listComment = $this->get('em')->repository('AppBundle:Comment')->findAllPaged($post->getId(), $request->query->getInt('page', 1), 5);
+        $listComment = $this->get('em')->repository('AppBundle:Comment')->findAllPaged(
+            $post->getId(), $request->query->getInt('page', 1), 5
+        );
         $formComment = null;
 
         // User cannot comment when not logged in
@@ -101,7 +103,8 @@ class PostController extends Controller
         // User cannot edit when not logged in
         if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des messages.");
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des ".
+                                                               "messages.");
             return $this->redirectToRoute('app_login');
 
         }
@@ -124,7 +127,9 @@ class PostController extends Controller
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($post);
-            $this->get('session')->getFlashBag()->add('success', "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié.");
+            $this->get('session')->getFlashBag()->add('success', "Votre message <strong>".
+                                                                 "&quot;{$post->getTitle()}&quot</strong> ".
+                                                                 "à bien été modifié.");
 
             // User is redirected to referrer page
             return $this->redirect( $request->get('callback') );
@@ -155,7 +160,8 @@ class PostController extends Controller
         // Deletes specified post
         $this->get('em')->remove($post);
         $this->get('em')->flush();
-        $this->get('session')->getFlashBag()->add('success', "Le message <strong>&quot;{$post->getTitle()}&quot;</strong> à été supprimé.");
+        $this->get('session')->getFlashBag()->add('success', "Le message <strong>&quot;".
+                                                             "{$post->getTitle()}&quot;</strong> à été supprimé.");
 
         // User is redirected to referrer page
         return $this->redirect( $request->get('callback') );

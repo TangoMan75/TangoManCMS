@@ -24,7 +24,8 @@ class CommentController extends Controller
         // User cannot edit when not logged in
         if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des commentaires.");
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des ".
+                                                               "commentaires.");
             return $this->redirectToRoute('app_login');
 
         }
@@ -43,7 +44,9 @@ class CommentController extends Controller
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($comment);
-            $this->get('session')->getFlashBag()->add('success', "Votre commentaire <strong>&quot;{$comment->getTitle()}&quot</strong> à bien été modifié.");
+            $this->get('session')->getFlashBag()->add('success', "Votre commentaire <strong>".
+                                                                 "&quot;{$comment->getTitle()}&quot</strong> ".
+                                                                 "à bien été modifié.");
 
             // User is redirected to referrer page
             return $this->redirect( $request->headers->get('referer') );

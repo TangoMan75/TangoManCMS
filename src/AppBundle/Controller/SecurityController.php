@@ -96,7 +96,11 @@ class SecurityController extends Controller
             ;
 
             $this->get('mailer')->send($message);
-            $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
+            $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
+                                                                 "bien été prise en compte.<br />Un lien de ".
+                                                                 "comfirmation vous à été envoyé à ".
+                                                                 "<strong>$email</strong>. <br /> Vérifiez votre ".
+                                                                 "boîte email.");
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -133,7 +137,8 @@ class SecurityController extends Controller
             // Deletes token
             $user->setToken(null);
             $this->get('em')->save($user);
-            $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le compte <strong>{$user->getUsername()}</strong>.");
+            $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le ".
+                                                                 "compte <strong>{$user->getUsername()}</strong>.");
             // Starts user session
             $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());
             $this->get('security.token_storage')->setToken($sessionToken);
@@ -180,7 +185,8 @@ class SecurityController extends Controller
             )
         ;
         $this->get('mailer')->send($message);
-        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à <strong>$username</strong>.");
+        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à ".
+                                                             "<strong>$username</strong>.");
 
         return $this->redirectToRoute('user_index');
     }
@@ -203,7 +209,8 @@ class SecurityController extends Controller
         // Removes token
         $user->setToken(null);
         $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à été validé.");
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> ".
+                                                             "à été validé.");
 
         return $this->redirectToRoute('user_index');
     }
@@ -229,7 +236,8 @@ class SecurityController extends Controller
             $this->get('em')->flush();
 
             // Sends success message
-            $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> à bien été supprimé.");
+            $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}".
+                                                                 "</strong> à bien été supprimé.");
 
             // Disconnects user who deletes his own account
             if ( $user == $this->getUser() ) {

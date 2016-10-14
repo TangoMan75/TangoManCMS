@@ -26,7 +26,7 @@ class AdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        if ( !$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ){
+        if ( !$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ) {
 
             $encoder = $this->getContainer()->get('security.password_encoder');
             // Generating admin account with pwd: "321"
