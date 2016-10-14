@@ -24,11 +24,13 @@ class SecurityController extends Controller
     public function loginAction()
     {
         $helper = $this->get('security.authentication_utils');
-
         $error = $helper->getLastAuthenticationError();
+
         if ($error) {
+
             $this->get('session')->getFlashBag()->add('error',$error);
             $this->get('session')->getFlashBag()->add('translate','true');
+
         }
 
         return $this->render('default/login.html.twig', [
@@ -69,7 +71,6 @@ class SecurityController extends Controller
         if ( $form->isSubmitted() ) {
 
             $email = $form->getData()['email'];
-            // $email = $request->get('email');
             $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
 
             // Sends error message when user not found
@@ -97,10 +98,10 @@ class SecurityController extends Controller
 
             $this->get('mailer')->send($message);
             $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
-                                                                 "bien été prise en compte.<br />Un lien de ".
-                                                                 "comfirmation vous à été envoyé à ".
-                                                                 "<strong>$email</strong>. <br /> Vérifiez votre ".
-                                                                 "boîte email.");
+                "bien été prise en compte.<br />Un lien de ".
+                "comfirmation vous à été envoyé à ".
+                "<strong>$email</strong>. <br /> Vérifiez votre ".
+                "boîte email.");
             return $this->redirectToRoute('app_homepage');
         }
 
