@@ -8,24 +8,24 @@
 
     <div class="center-block">
         <ul>
-            <li>Changer nom d'utilisateur.</li>
+            <li><a href="#">Changer de nom d'utilisateur.</a></li>
         </ul>
         <ul>
-            <li>Changer email.</li>
+            <li><a href="#">Changer d'adresse email.</a></li>
         </ul>
         <ul>
-            <li>Changer mot de passe.</li>
+            <li><a href="#">Changer de mot de passe.</a></li>
         </ul>
         <ul>
-            <li>Changer photo.</li>
+            <li><a href="#">Changer de photo.</a></li>
         </ul>
     </div>
 
-    <div id="post-form" class="jumbotron">
-        <h2 class="text-center"><span class="glyphicon glyphicon-user pull-left"></span>{{ user.username | capitalize }}</h2>
-        {{ form_start(form_user) }}
-        {{ form_widget(form_user) }}
-        <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>Publier</button>
-        {{ form_end(form_user) }}
-    </div>
+    {#<div id="post-form" class="jumbotron">#}
+        {#<h2 class="text-center"><span class="glyphicon glyphicon-user pull-left"></span>{{ user.username | capitalize }}</h2>#}
+        {#{{ form_start(form_user) }}#}
+        {#{{ form_widget(form_user) }}#}
+        {#<button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>Publier</button>#}
+        {#{{ form_end(form_user) }}#}
+    {#</div>#}
 {% endblock %}
