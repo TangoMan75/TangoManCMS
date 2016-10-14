@@ -49,7 +49,7 @@ class CommentController extends Controller
                                                                  "à bien été modifié.");
 
             // User is redirected to referrer page
-            return $this->redirect( $request->headers->get('referer') );
+            return $this->redirect( $request->get('callback') );
 
         }
 
@@ -80,7 +80,7 @@ class CommentController extends Controller
         $this->get('session')->getFlashBag()->add('success', "Le commentaire à été supprimé.");
 
         // User is redirected to referrer page
-        return $this->redirect( $request->headers->get('referer') );
+        return $this->redirect( $request->get('callback') );
     }
 
 }

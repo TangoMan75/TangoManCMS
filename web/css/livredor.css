@@ -67,8 +67,9 @@ article.post {
 	margin-left: .5em;
 }
 
-.comment header h3,
-.post header h3 {
+.comment header h1,
+.post header h1 {
+	font-size: 24px;
 	margin-top: 10px;
 }
 .comment header,
