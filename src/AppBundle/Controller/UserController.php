@@ -4,7 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Form\AvatarType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,10 +95,10 @@ class UserController extends Controller
     }
 
     /**
-     * Finds and deletes a User entity.
+     * Finds and edits a User entity.
      *
      * @Route("/edit/{id}", requirements={"id": "\d+"}, name="user_edit")
-     * @Method("GET")
+     * @ParamConverter("user", class="AppBundle:User")
      */
     public function editAction(Request $request, User $user)
     {
@@ -107,8 +109,25 @@ class UserController extends Controller
 
         }
 
+        dump($user);
+
+        $form = $this->createForm(AvatarType::class, $user);
+        $form->handleRequest($request);
+        $formImage = $form->createView();
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+
+            $this->get('em')->save($user);
+            $this->get('session')->getFlashBag()->add('success', 'Votre avatar a bien été enregistré.');
+
+            // User is redirected to referrer page
+            return $this->redirect( $request->get('callback') );
+
+        }
+
         return $this->render('user/edit.html.twig', [
-            'user' => $user
+            'user' => $user,
+            'form_avatar' => $formImage
         ]);
     }
 

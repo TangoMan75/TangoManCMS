@@ -45,7 +45,7 @@ class User implements UserInterface
      * @var string User's email address
      *
      * @ORM\Column(name="email", type="string", length=255, unique=true)
-     * @Assert\Email(checkMX=true, message="Votre email doit être valide.")
+     * @Assert\Email(message="Votre email doit être valide.")
      * @Assert\NotBlank(message="Vous devez renseigner votre adresse email.")
      */
     private $email;
@@ -63,6 +63,13 @@ class User implements UserInterface
      * @ORM\Column(name="token", type="string", length=255, nullable=true)
      */
     private $token;
+
+    /**
+     * @var string User's avatar
+     *
+     * @ORM\Column(name="avatar", type="text", nullable=true)
+     */
+    private $avatar;
 
     /**
      * @var Post[] User's posts
@@ -204,6 +211,22 @@ class User implements UserInterface
     public function getToken()
     {
         return $this->token;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatar()
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     */
+    public function setAvatar($avatar)
+    {
+        $this->avatar = $avatar;
     }
 
     /**
