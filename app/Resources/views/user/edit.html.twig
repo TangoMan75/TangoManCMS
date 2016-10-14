@@ -23,9 +23,11 @@
 
     <div id="profile-form" class="jumbotron">
         <h2 class="text-center"><span class="glyphicon glyphicon-user pull-left"></span>{{ user.username | capitalize }}</h2>
-        {{ form_start(form_avatar) }}
-        {{ form_widget(form_avatar) }}
-        <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Publier</button>
-        {{ form_end(form_avatar) }}
+        <div class="text-center">
+            {{ form_start(form_avatar) }}
+            {{ form_widget(form_avatar) }}
+            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Envoyer</button>
+            {{ form_end(form_avatar) }}
+        </div>
     </div>
 {% endblock %}

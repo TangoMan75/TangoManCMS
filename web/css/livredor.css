@@ -35,7 +35,20 @@ h1.user-list {
 
 #user-picture img {
 	border-radius: 50%;
+	max-width: 200px;
+	max-height: 200px;
 }
+
+/**
+ * Profile edit layout
+ */
+#avatar_avatar_figure #avatar_avatar_img {
+	margin: 1em;
+	border-radius: 1em;
+	max-width: 200px;
+	max-height: 200px;
+}
+
 
 /**
  * Posts layout
@@ -92,6 +105,8 @@ article.post {
 
 .post img {
 	margin: 1em;
+	max-width: 200px;
+	max-height: 200px;
 }
 
 .comment footer .glyphicon,
