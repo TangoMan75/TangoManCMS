@@ -25,9 +25,14 @@ class SecurityController extends Controller
     {
         $helper = $this->get('security.authentication_utils');
 
+        $error = $helper->getLastAuthenticationError();
+        if ($error) {
+            $this->get('session')->getFlashBag()->add('error',$error);
+            $this->get('session')->getFlashBag()->add('translate','true');
+        }
+
         return $this->render('default/login.html.twig', [
-            'last_username' => $helper->getLastUsername(),
-            'error'         => $helper->getLastAuthenticationError()
+            'last_username' => $helper->getLastUsername()
         ]);
     }
 

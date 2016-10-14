@@ -49,7 +49,12 @@ class UserController extends Controller
                 )
             ;
             $this->get('mailer')->send($message);
-            $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>, votre demande d'inscription a bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. <br /> Vérifiez votre boîte email.");
+            $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>, ".
+                                                                 "votre demande d'inscription a bien été ".
+                                                                 "prise en compte.".
+                                                                 "<br />Un lien de comfirmation vous à été".
+                                                                 "envoyé à <strong>$email</strong>. <br />".
+                                                                 "Vérifiez votre boîte email.");
 
             // User is redirected to referrer page
             return $this->redirect( $request->get('callback') );

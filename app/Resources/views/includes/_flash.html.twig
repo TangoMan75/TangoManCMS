@@ -1,3 +1,5 @@
+{% trans_default_domain "security" %}
+
 {% if app.session.flashbag.has('success') %}
     <div class="alert alert-success alert-dismissible anim-alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -15,7 +17,13 @@
             <span aria-hidden="true">&times;</span>
         </button>
         {% for message in app.session.flashbag.get('error') %}
-            <p><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;{{ message|raw }}</p>
+            <p><span class="glyphicon glyphicon-remove-sign"></span>&nbsp;
+                {% if app.session.flashbag.get('translate') %}
+                    {{ message.messageKey|trans(message.messageData, 'security') }}
+                {% else %}
+                    {{ message|raw }}
+                {% endif %}
+            </p>
         {% endfor %}
     </div>
 {% endif %}

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    {% block head %}
+        <meta charset="UTF-8" />
+        <style>
+	        body {
+	        	font-family : sans-serif;
+				line-height : 24px;
+				color       : #333333;
+	        }
+
+			h1, h2, h3, h4, h5, h6, a {
+				color : #337ab7;
+	        }
+	        </style>
+    {% endblock %}
+</head>
+<body>
+    {% block header %}
+    {% endblock %}
+
+    {% block body %}
+    {% endblock %}
+
+    {% block footer %}
+    {% endblock %}
+</body>
+</html>
