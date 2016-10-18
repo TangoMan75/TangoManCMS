@@ -2,7 +2,10 @@
 
 namespace AppBundle\Service;
 
+use Firebase\JWT\BeforeValidException;
+use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT as Codec;
+use Firebase\JWT\SignatureInvalidException;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -20,7 +23,7 @@ class JWT
     /**
      * @var array
      */
-    private $data;
+    private $claims;
 
     /**
      * @var \DateTime
@@ -37,9 +40,32 @@ class JWT
      */
     private $secret;
 
+    /**
+     * Invalid signature
+     * @var boolean
+     */
+    private $signatureInvalid;
+
+    /**
+     * Expired token
+     * @var boolean
+     */
+    private $expired;
+
+    /**
+     * Not valid yet
+     * @var boolean
+     */
+    private $beforeValid;
+
+    /**
+     * JWT constructor.
+     * @param $secret
+     * @param Router $router
+     */
     public function __construct($secret, Router $router)
     {
-        $this->data = [];
+        $this->claims['data'] = [];
 
         // Default encryption password taken from Symfony secret parameter
         $this->secret = $secret;
@@ -52,7 +78,7 @@ class JWT
      */
     public function get($key)
     {
-        return $this->data[$key];
+        return $this->claims['data'][$key];
     }
 
     /**
@@ -64,7 +90,7 @@ class JWT
      */
     public function set($key, $value)
     {
-        $this->data[$key] = $value;
+        $this->claims['data'][$key] = $value;
         return $this;
     }
 
@@ -76,7 +102,7 @@ class JWT
      */
     public function unset($key)
     {
-        $this->data[$key] = null;
+        $this->claims['data'][$key] = null;
         return $this;
     }
 
@@ -91,8 +117,7 @@ class JWT
     {
         $this->start = $start;
         $this->end = $end;
-//        $this->data['exp'] = $end->getTimestamp();
-        $this->data['end'] = $end->getTimestamp();
+        $this->claims['exp'] = $end->getTimestamp();
         return $this;
     }
 
@@ -169,20 +194,29 @@ class JWT
             $jwt = Codec::decode($token, $this->secret, ['HS256']);
             $this->token = $token;
             foreach ($jwt as $key => $value) {
-                $this->data[$key] = $value;
+                $this->claims['data'][$key] = $value;
             }
 
-            if (isset($this->data['end'])) {
+            if (isset($this->claims['exp'])) {
                 $end = new \DateTime();
-                $this->end = $end->setTimestamp($this->data['end']);
+                $this->end = $end->setTimestamp($this->claims['exp']);
             }
 
-            if (isset($this->data['start'])) {
+            if (isset($this->claims['nbf'])) {
                 $start = new \DateTime();
-                $this->start = $start->setTimestamp($this->data['start']);
+                $this->start = $start->setTimestamp($this->claims['nbf']);
             } else {
                 $this->start = new \DateTime();
             }
+        } catch (SignatureInvalidException $e) {
+            $this->signatureInvalid = true;
+
+        } catch (ExpiredException $e) {
+            $this->expired = true;
+
+        } catch (BeforeValidException $e) {
+            $this->beforeValid = true;
+
         } catch(\Exception $e){}
     }
 
@@ -194,9 +228,8 @@ class JWT
     public function encode()
     {
         // Default issuedAt is current time (UNIX timestamp)
-//        $this->data['iat'] = time();
-        $this->data['start'] = time();
+        $this->claims['iat'] = time();
 
-        return Codec::encode($this->data, $this->secret);
+        return Codec::encode($this->claims, $this->secret);
     }
 }

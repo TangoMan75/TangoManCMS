@@ -296,7 +296,7 @@ class SecurityController extends Controller
         $jwt = $this->get('jwt');
         $jwt->decode($token);
 
-//        dump($jwt);
+        dump($jwt);
 //        die();
 //        dump($token);
 
