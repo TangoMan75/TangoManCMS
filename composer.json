@@ -34,7 +34,8 @@
         "symfony/phpunit-bridge": "^3.0",
         "doctrine/doctrine-fixtures-bundle": "^2.3",
         "tiloweb/base64-bundle": "^1.0",
-        "lcobucci/jwt": "^3.2"
+        "lcobucci/jwt": "^3.2",
+        "firebase/php-jwt": "^4.0"
     },
     "scripts": {
         "symfony-scripts": [

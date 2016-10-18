@@ -12,7 +12,7 @@ class EntityManagerService
     private $em;
 
     /**
-     * DBService constructor.
+     * EntityManagerService constructor.
      *
      * @param EntityManager $em
      */

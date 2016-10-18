@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -78,12 +79,14 @@ class SecurityController extends Controller
 
                 $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
                 return $this->redirectToRoute('app_token');
-
             }
 
-            // Generates token from username and unix time
-            $user->setToken(md5(time().$user->getUsername()));
+            $user->setToken(md5(uniqid()));
+
+            // Saves token in base
             $this->get('em')->save($user);
+
+            // Sends validation email to user
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Réinitialisation de mot de passe.")
                 ->setFrom($this->getParameter('mailer_from'))
@@ -124,7 +127,6 @@ class SecurityController extends Controller
 
             $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
             return $this->redirectToRoute('app_homepage');
-
         }
 
         $form = $this->createForm(PwdType::class, $user);
@@ -166,7 +168,6 @@ class SecurityController extends Controller
 
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
             return $this->redirectToRoute('app_homepage');
-
         }
 
         $username = $user->getUsername();
@@ -204,7 +205,6 @@ class SecurityController extends Controller
 
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
             return $this->redirectToRoute('app_homepage');
-
         }
 
         // Removes token
@@ -246,11 +246,72 @@ class SecurityController extends Controller
                 $this->get('security.token_storage')->setToken(null);
                 $request->getSession()->invalidate();
                 return $this->redirectToRoute('app_homepage');
-
             }
 
             return $this->redirectToRoute('app_homepage');
         }
     }
 
+    /**
+     * setTokenAction
+     *
+     * @param string $token
+     * @Route("/set-token")
+     */
+    public function setTokenAction()
+    {
+        /**
+         * https://jwt.io
+         *
+         * iss: Issuer
+         * sub: Subject
+         * aud: Audience
+         * exp: Expiration Time
+         * nbf: Not Before
+         * iat: Issued At
+         * jti: JWT unique identifier ID
+         */
+        $jwt = $this->get('jwt');
+
+        $jwt->set('email', 'admin@example.com');
+        $jwt->set('name', 'Admin');
+
+        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 seconds'));
+        $token = $jwt->encode();
+
+//        dump($jwt);
+//        dump($token);
+//        die();
+
+        return new JsonResponse( array($token) );
+    }
+
+    /**
+     * getTokenAction
+     *
+     * @Route("/get-token/{token}")
+     */
+    public function getTokenAction(Request $request, $token)
+    {
+        $jwt = $this->get('jwt');
+        $jwt->decode($token);
+
+//        dump($jwt);
+//        die();
+//        dump($token);
+
+        if ( $jwt->isTooSoon() ) {
+            return new JsonResponse( array('error' => "Ce token n'est pas encore utilisable."));
+        }
+
+        if ( $jwt->isTooLate() ) {
+            return new JsonResponse( array('error' => "Ce token a expiré."));
+        }
+
+        if ( !$jwt->isValid() ) {
+            return new JsonResponse( array('error' => "Ce token n'est pas valide."));
+        }
+
+        return new JsonResponse( array('success' => "Ce token est valide.") );
+    }
 }

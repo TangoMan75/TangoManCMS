@@ -8,6 +8,10 @@ services:
         class: AppBundle\Service\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
+    jwt:
+        class: AppBundle\Service\JWT
+        arguments: [%secret%, "@router"]
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
