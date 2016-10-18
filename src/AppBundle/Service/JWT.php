@@ -128,12 +128,7 @@ class JWT
      */
     public function isValid()
     {
-        if (!empty($this->token)){
-            return true;
-        } else {
-            return false;
-        }
-
+        return $this->signatureInvalid;
     }
 
     /**

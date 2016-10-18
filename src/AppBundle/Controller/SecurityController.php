@@ -276,12 +276,12 @@ class SecurityController extends Controller
         $jwt->set('email', 'admin@example.com');
         $jwt->set('name', 'Admin');
 
-        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 seconds'));
+        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
         $token = $jwt->encode();
 
-//        dump($jwt);
-//        dump($token);
-//        die();
+        dump($jwt);
+        dump($token);
+        die();
 
         return new JsonResponse( array($token) );
     }
@@ -297,7 +297,7 @@ class SecurityController extends Controller
         $jwt->decode($token);
 
         dump($jwt);
-//        die();
+        die();
 //        dump($token);
 
         if ( $jwt->isTooSoon() ) {
