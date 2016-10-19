@@ -260,32 +260,21 @@ class SecurityController extends Controller
      */
     public function setTokenAction()
     {
-        /**
-         * https://jwt.io
-         *
-         * iss: Issuer
-         * sub: Subject
-         * aud: Audience
-         * exp: Expiration Time
-         * nbf: Not Before
-         * iat: Issued At
-         * jti: JWT unique identifier ID
-         */
         $valid = $this->get('jwt');
 
         $valid->set('email', 'admin@example.com');
         $valid->set('name', 'Admin');
-
         $valid->setPeriod(new \DateTime(), new \DateTime('+3 days'));
-        $token = $valid->encode();
+        // $token = $valid->encode();
 
         dump($valid);
 
         $expired = $this->get('jwt');
+
         $expired->set('email2', 'admin@example.com');
         $expired->set('name2', 'Admin');
         $expired->setPeriod(new \DateTime(), new \DateTime('+1 seconds'));
-        $token = $expired->encode();
+//        $token = $expired->encode();
 
         dump($expired);
         die();

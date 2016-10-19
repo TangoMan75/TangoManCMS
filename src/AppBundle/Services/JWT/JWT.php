@@ -1,9 +1,21 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Services\JWT;
+
 
 /**
- * JWT
+ * RFC 7519 - JSON Web Token (JWT)
+ * https://tools.ietf.org/html/rfc7519
+ *
+ * https://jwt.io
+ *
+ * iss: Issuer
+ * sub: Subject
+ * aud: Audience
+ * exp: Expiration Time
+ * nbf: Not Before
+ * iat: Issued At
+ * jti: JWT unique identifier ID
  */
 class JWT
 {
@@ -47,41 +59,17 @@ class JWT
      */
     private $beforeValid;
 
-    /**
-     * @var string
-     */
-    private $issuer;
+
 
     /**
-     * @var string
+     * JWT constructor.
+     * @param $secret
+     * @param Router $router
      */
-    private $subject;
-
-    /**
-     * @var string
-     */
-    private $audience;
-
-    /**
-     * @var int
-     */
-    private $expiration;
-
-    /**
-     * @var int
-     */
-    private $notBefore;
-
-    /**
-     * @var int
-     */
-    private $issuedAt;
-
-    /**
-     * @var string
-     */
-    private $jti;
-
+    public function __construct($secret, Router $router)
+    {
+        $this->claims = [];
+    }
 
     /**
      * Set token
@@ -284,7 +272,7 @@ class JWT
      */
     public function setIssuer($issuer)
     {
-        $this->issuer = $issuer;
+        $this->claims["iss"] = $issuer;
 
         return $this;
     }
@@ -296,7 +284,7 @@ class JWT
      */
     public function getIssuer()
     {
-        return $this->issuer;
+        return $this->claims["iss"];
     }
 
     /**
@@ -308,7 +296,7 @@ class JWT
      */
     public function setSubject($subject)
     {
-        $this->subject = $subject;
+        $this->claims["sub"] = $subject;
 
         return $this;
     }
@@ -320,7 +308,7 @@ class JWT
      */
     public function getSubject()
     {
-        return $this->subject;
+        return $this->claims["sub"];
     }
 
     /**
@@ -332,7 +320,7 @@ class JWT
      */
     public function setAudience($audience)
     {
-        $this->audience = $audience;
+        $this->claims["aud"] = $audience;
 
         return $this;
     }
@@ -344,7 +332,7 @@ class JWT
      */
     public function getAudience()
     {
-        return $this->audience;
+        return $this->claims["aud"];
     }
 
     /**
@@ -356,7 +344,7 @@ class JWT
      */
     public function setExpiration($expiration)
     {
-        $this->expiration = $expiration;
+        $this->claims["exp"] = $expiration;
 
         return $this;
     }
@@ -368,7 +356,7 @@ class JWT
      */
     public function getExpiration()
     {
-        return $this->expiration;
+        return $this->claims["exp"];
     }
 
     /**
@@ -380,7 +368,7 @@ class JWT
      */
     public function setNotBefore($notBefore)
     {
-        $this->notBefore = $notBefore;
+        $this->claims["nbf"] = $notBefore;
 
         return $this;
     }
@@ -392,7 +380,7 @@ class JWT
      */
     public function getNotBefore()
     {
-        return $this->notBefore;
+        return $this->claims["nbf"];
     }
 
     /**
@@ -404,7 +392,7 @@ class JWT
      */
     public function setIssuedAt($issuedAt)
     {
-        $this->issuedAt = $issuedAt;
+        $this->claims["iat"] = $issuedAt;
 
         return $this;
     }
@@ -416,7 +404,7 @@ class JWT
      */
     public function getIssuedAt()
     {
-        return $this->issuedAt;
+        return $this->claims["iat"];
     }
 
     /**
@@ -428,7 +416,7 @@ class JWT
      */
     public function setJti($jti)
     {
-        $this->jti = $jti;
+        $this->claims["jti"] = $jti;
 
         return $this;
     }
@@ -440,7 +428,7 @@ class JWT
      */
     public function getJti()
     {
-        return $this->jti;
+        return $this->claims["jti"];
     }
 }
 

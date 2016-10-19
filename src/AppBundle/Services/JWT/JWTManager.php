@@ -1,6 +1,7 @@
 <?php
 
-namespace AppBundle\Service;
+namespace AppBundle\Services\JWT;
+
 
 use Firebase\JWT\BeforeValidException;
 use Firebase\JWT\ExpiredException;
@@ -33,7 +34,7 @@ use Symfony\Component\Routing\Router;
  * ```
  *
  */
-class JWT
+class JWTManager
 {
     /**
      * @var string

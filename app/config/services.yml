@@ -5,11 +5,11 @@ parameters:
 
 services:
     em:
-        class: AppBundle\Service\EntityManagerService
+        class: AppBundle\Services\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
     jwt:
-        class: AppBundle\Service\JWT
+        class: AppBundle\Services\JWT\JWTManager
         arguments: [%secret%, "@router"]
 
 #    service_name:
