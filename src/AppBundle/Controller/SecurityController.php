@@ -260,6 +260,8 @@ class SecurityController extends Controller
      */
     public function setTokenAction()
     {
+        $mail = new \JWT();
+
         $valid = $this->get('jwt');
 
         $valid->set('email', 'admin@example.com');

@@ -120,10 +120,6 @@ class PostController extends Controller
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
 
-//        if ( !$form->isSubmitted() ) {
-//            $this->get('session')->set('back', $request->headers->get('referer'));
-//        }
-
         if ( $form->isSubmitted() && $form->isValid() ) {
 
             $this->get('em')->save($post);

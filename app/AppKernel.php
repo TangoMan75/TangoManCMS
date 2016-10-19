@@ -23,6 +23,7 @@ class AppKernel extends Kernel
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Tiloweb\PaginationBundle\TilowebPaginationBundle(),
+            new TangoMan\JWT\JWT('%secret%'),
         ];
 
         return $bundles;
