@@ -252,64 +252,64 @@ class SecurityController extends Controller
         }
     }
 
-    /**
-     * setTokenAction
-     *
-     * @param string $token
-     * @Route("/enc-token")
-     */
-    public function setTokenAction()
-    {
-        $mail = new \JWT();
-
-        $valid = $this->get('jwt');
-
-        $valid->set('email', 'admin@example.com');
-        $valid->set('name', 'Admin');
-        $valid->setPeriod(new \DateTime(), new \DateTime('+3 days'));
-        // $token = $valid->encode();
-
-        dump($valid);
-
-        $expired = $this->get('jwt');
-
-        $expired->set('email2', 'admin@example.com');
-        $expired->set('name2', 'Admin');
-        $expired->setPeriod(new \DateTime(), new \DateTime('+1 seconds'));
-//        $token = $expired->encode();
-
-        dump($expired);
-        die();
-
-        return new JsonResponse( array($token) );
-    }
-
-    /**
-     * getTokenAction
-     *
-     * @Route("/dec-token/{token}")
-     */
-    public function getTokenAction(Request $request, $token)
-    {
-        $jwt = $this->get('jwt');
-        $jwt->decode($token);
-
-        dump($jwt);
-        die();
-//        dump($token);
-
-        if ( $jwt->isTooSoon() ) {
-            return new JsonResponse( array('error' => "Ce token n'est pas encore utilisable."));
-        }
-
-        if ( $jwt->isTooLate() ) {
-            return new JsonResponse( array('error' => "Ce token a expiré."));
-        }
-
-        if ( !$jwt->isValid() ) {
-            return new JsonResponse( array('error' => "Ce token n'est pas valide."));
-        }
-
-        return new JsonResponse( array('success' => "Ce token est valide.") );
-    }
+//    /**
+//     * setTokenAction
+//     *
+//     * @param string $token
+//     * @Route("/enc-token")
+//     */
+//    public function setTokenAction()
+//    {
+//        $mail = new \JWT();
+//
+//        $valid = $this->get('jwt');
+//
+//        $valid->set('email', 'admin@example.com');
+//        $valid->set('name', 'Admin');
+//        $valid->setPeriod(new \DateTime(), new \DateTime('+3 days'));
+//        // $token = $valid->encode();
+//
+//        dump($valid);
+//
+//        $expired = $this->get('jwt');
+//
+//        $expired->set('email2', 'admin@example.com');
+//        $expired->set('name2', 'Admin');
+//        $expired->setPeriod(new \DateTime(), new \DateTime('+1 seconds'));
+////        $token = $expired->encode();
+//
+//        dump($expired);
+//        die();
+//
+//        return new JsonResponse( array($token) );
+//    }
+//
+//    /**
+//     * getTokenAction
+//     *
+//     * @Route("/dec-token/{token}")
+//     */
+//    public function getTokenAction(Request $request, $token)
+//    {
+//        $jwt = $this->get('jwt');
+//        $jwt->decode($token);
+//
+//        dump($jwt);
+//        die();
+////        dump($token);
+//
+//        if ( $jwt->isTooSoon() ) {
+//            return new JsonResponse( array('error' => "Ce token n'est pas encore utilisable."));
+//        }
+//
+//        if ( $jwt->isTooLate() ) {
+//            return new JsonResponse( array('error' => "Ce token a expiré."));
+//        }
+//
+//        if ( !$jwt->isValid() ) {
+//            return new JsonResponse( array('error' => "Ce token n'est pas valide."));
+//        }
+//
+//        return new JsonResponse( array('success' => "Ce token est valide.") );
+//    }
 }
