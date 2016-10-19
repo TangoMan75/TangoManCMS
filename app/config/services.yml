@@ -9,7 +9,7 @@ services:
         arguments: ["@doctrine.orm.entity_manager"]
 
     jwt:
-        class: AppBundle\Services\JWT\JWTManager
+        class: AppBundle\Services\JWTService
         arguments: [%secret%, "@router"]
 
 #    service_name:

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Services\JWT;
+namespace AppBundle\Models;
 
 
 /**
@@ -47,7 +47,7 @@ class JWT
     /**
      * @var bool
      */
-    private $signatureInvalid;
+    private $signatureStatus;
 
     /**
      * @var bool
@@ -60,15 +60,47 @@ class JWT
     private $beforeValid;
 
 
-
     /**
      * JWT constructor.
-     * @param $secret
-     * @param Router $router
      */
-    public function __construct($secret, Router $router)
+    public function __construct()
     {
         $this->claims = [];
+    }
+
+    /**
+     * Set token data
+     *
+     * @param $key
+     * @param $value
+     * @return JWT
+     */
+    public function set($key, $value)
+    {
+        $this->claims['data'][$key] = $value;
+        return $this;
+    }
+
+    /**
+     * Get token data
+     *
+     * @return array
+     */
+    public function get($key)
+    {
+        return $this->claims['data'][$key];
+    }
+
+    /**
+     * Removes token data
+     *
+     * @param $key
+     * @return JWT
+     */
+    public function remove($key)
+    {
+        $this->claims['data'][$key] = null;
+        return $this;
     }
 
     /**
@@ -96,27 +128,18 @@ class JWT
     }
 
     /**
-     * Set claims
+     * Sets token expiration period
      *
-     * @param array $claims
-     *
+     * @param \DateTime|null $start
+     * @param \DateTime|null $end
      * @return JWT
      */
-    public function setClaims($claims)
+    public function setPeriod(\DateTime $start = null, \DateTime $end = null)
     {
-        $this->claims = $claims;
-
+        $this->start = $start;
+        $this->end = $end;
+        $this->claims['exp'] = $end->getTimestamp();
         return $this;
-    }
-
-    /**
-     * Get claims
-     *
-     * @return array
-     */
-    public function getClaims()
-    {
-        return $this->claims;
     }
 
     /**
@@ -129,6 +152,7 @@ class JWT
     public function setStart($start)
     {
         $this->start = $start;
+        $this->claims['nbf'] = $start->getTimestamp();
 
         return $this;
     }
@@ -153,6 +177,7 @@ class JWT
     public function setEnd($end)
     {
         $this->end = $end;
+        $this->claims['exp'] = $end->getTimestamp();
 
         return $this;
     }
@@ -192,27 +217,27 @@ class JWT
     }
 
     /**
-     * Set signatureInvalid
+     * Set signatureStatus
      *
-     * @param boolean $signatureInvalid
+     * @param boolean $signatureStatus
      *
      * @return JWT
      */
-    public function setSignatureInvalid($signatureInvalid)
+    public function setSignatureStatus($signatureStatus)
     {
-        $this->signatureInvalid = $signatureInvalid;
+        $this->signatureStatus = $signatureStatus;
 
         return $this;
     }
 
     /**
-     * Get signatureInvalid
+     * Get signatureStatus
      *
      * @return bool
      */
-    public function getSignatureInvalid()
+    public function getSignatureStatus()
     {
-        return $this->signatureInvalid;
+        return $this->signatureStatus;
     }
 
     /**

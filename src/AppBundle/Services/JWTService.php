@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Services\JWT;
+namespace AppBundle\Services;
 
 
 use Firebase\JWT\BeforeValidException;
@@ -34,7 +34,7 @@ use Symfony\Component\Routing\Router;
  * ```
  *
  */
-class JWTManager
+class JWTService
 {
     /**
      * @var string
@@ -65,7 +65,7 @@ class JWTManager
      * Invalid signature
      * @var boolean
      */
-    private $signatureInvalid;
+    private $signatureStatus;
 
     /**
      * Expired token
@@ -93,7 +93,7 @@ class JWTManager
     }
 
     /**
-     * Gets specified token data
+     * Gets token data
      *
      * @return string
      */
@@ -103,7 +103,7 @@ class JWTManager
     }
 
     /**
-     * Sets given token data
+     * Sets token data
      *
      * @param $key
      * @param $value
@@ -116,12 +116,12 @@ class JWTManager
     }
 
     /**
-     * Unsets given token data
+     * Removes token data
      *
      * @param $key
      * @return $this
      */
-    public function unset($key)
+    public function remove($key)
     {
         $this->claims['data'][$key] = null;
         return $this;
@@ -137,6 +137,7 @@ class JWTManager
     public function setPeriod(\DateTime $start = null, \DateTime $end = null)
     {
         $this->start = $start;
+        $this->claims['nbf'] = $start->getTimestamp();
         $this->end = $end;
         $this->claims['exp'] = $end->getTimestamp();
         return $this;
@@ -149,7 +150,7 @@ class JWTManager
      */
     public function isValid()
     {
-        return $this->signatureInvalid;
+        return $this->signatureStatus;
     }
 
     /**
@@ -200,7 +201,20 @@ class JWTManager
     }
 
     /**
-     * Decyfers given token
+     * Encodes current JWT
+     *
+     * @return string
+     */
+    public function encode()
+    {
+        // Default issuedAt is current time (UNIX timestamp)
+        $this->claims['iat'] = time();
+
+        return Codec::encode($this->claims, $this->secret);
+    }
+
+    /**
+     * Decodes given token
      *
      * @param $token
      */
@@ -225,7 +239,7 @@ class JWTManager
                 $this->start = new \DateTime();
             }
         } catch (SignatureInvalidException $e) {
-            $this->signatureInvalid = true;
+            $this->signatureStatus = true;
 
         } catch (ExpiredException $e) {
             $this->expired = true;
@@ -236,16 +250,4 @@ class JWTManager
         } catch(\Exception $e){}
     }
 
-    /**
-     * Encodes current JWT
-     *
-     * @return string
-     */
-    public function encode()
-    {
-        // Default issuedAt is current time (UNIX timestamp)
-        $this->claims['iat'] = time();
-
-        return Codec::encode($this->claims, $this->secret);
-    }
 }
