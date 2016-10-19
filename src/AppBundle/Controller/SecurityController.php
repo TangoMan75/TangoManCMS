@@ -256,7 +256,7 @@ class SecurityController extends Controller
      * setTokenAction
      *
      * @param string $token
-     * @Route("/set-token")
+     * @Route("/enc-token")
      */
     public function setTokenAction()
     {
@@ -271,16 +271,23 @@ class SecurityController extends Controller
          * iat: Issued At
          * jti: JWT unique identifier ID
          */
-        $jwt = $this->get('jwt');
+        $valid = $this->get('jwt');
 
-        $jwt->set('email', 'admin@example.com');
-        $jwt->set('name', 'Admin');
+        $valid->set('email', 'admin@example.com');
+        $valid->set('name', 'Admin');
 
-        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
-        $token = $jwt->encode();
+        $valid->setPeriod(new \DateTime(), new \DateTime('+3 days'));
+        $token = $valid->encode();
 
-        dump($jwt);
-        dump($token);
+        dump($valid);
+
+        $expired = $this->get('jwt');
+        $expired->set('email2', 'admin@example.com');
+        $expired->set('name2', 'Admin');
+        $expired->setPeriod(new \DateTime(), new \DateTime('+1 seconds'));
+        $token = $expired->encode();
+
+        dump($expired);
         die();
 
         return new JsonResponse( array($token) );
@@ -289,7 +296,7 @@ class SecurityController extends Controller
     /**
      * getTokenAction
      *
-     * @Route("/get-token/{token}")
+     * @Route("/dec-token/{token}")
      */
     public function getTokenAction(Request $request, $token)
     {

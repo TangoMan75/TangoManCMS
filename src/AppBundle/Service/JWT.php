@@ -9,9 +9,29 @@ use Firebase\JWT\SignatureInvalidException;
 use Symfony\Component\Routing\Router;
 
 /**
- * JWT
+ * TangoMan JWT Symfony Bundle
+ * ===========================
  *
- * https://github.com/firebase/php-jwt
+ * **TangoMan JWT Bundle**, allows for easy JSON Web Tokens management inside your Symfony project.
+ *
+ * How does it work ?
+ * ------------------
+ *
+ * **TangoMan JWT Bundle** creates a service you can access in all of your symfony project.
+ * **TangoMan JWT Bundle** gets encryption password from your Symfony **secret** inside `parameters.yml`.
+ *
+ * How to use ?
+ * ------------
+ *
+ * Install the bundle
+ * ```
+ * composer require ***
+ * ```
+ * You will need to install [firebase/php-jwt](https://github.com/firebase/php-jwt) as well.
+ * ```
+ * composer require firebase/php-jwt
+ * ```
+ *
  */
 class JWT
 {
@@ -65,7 +85,7 @@ class JWT
      */
     public function __construct($secret, Router $router)
     {
-        $this->claims['data'] = [];
+        $this->claims = [];
 
         // Default encryption password taken from Symfony secret parameter
         $this->secret = $secret;
