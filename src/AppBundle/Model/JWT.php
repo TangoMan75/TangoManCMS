@@ -3,6 +3,8 @@
 namespace AppBundle\Model;
 
 /**
+ * Class JWT
+ *
  * RFC 7519 - JSON Web Token (JWT)
  * https://tools.ietf.org/html/rfc7519
  *
@@ -15,6 +17,8 @@ namespace AppBundle\Model;
  * nbf: Not Before
  * iat: Issued At
  * jti: JWT unique identifier ID
+ *
+ * @package AppBundle\Model
  */
 class JWT
 {
@@ -46,7 +50,7 @@ class JWT
     /**
      * @var bool
      */
-    private $signatureStatus;
+    private $signatureValidity;
 
     /**
      * @var bool
@@ -68,9 +72,9 @@ class JWT
     }
 
 
-    /********************************************************
-     * Basic functionality to get and set data inside token *
-     *******************************************************/
+    /******************
+     * Private claims *
+     *****************/
 
     /**
      * Set token data
@@ -107,9 +111,220 @@ class JWT
         return $this;
     }
 
-    /****************************************************
-     * Standard RFC 7519 JWT claims setters and getters *
-     ***************************************************/
+
+    /***************************
+     * Expiration and validity *
+     **************************/
+
+    /**
+     * Sets token expiration period
+     *
+     * @param \DateTime|null $start
+     * @param \DateTime|null $end
+     * @return JWT
+     */
+    public function setPeriod(\DateTime $start = null, \DateTime $end = null)
+    {
+        $this->start = $start;
+        $this->claims['nbf'] = $start->getTimestamp();
+
+        $this->end = $end;
+        $this->claims['exp'] = $end->getTimestamp();
+
+        return $this;
+    }
+
+    /**
+     * Set start
+     *
+     * @param \DateTime $start
+     *
+     * @return JWT
+     */
+    public function setStart($start)
+    {
+        $this->start = $start;
+        $this->claims['nbf'] = $start->getTimestamp();
+
+        return $this;
+    }
+
+    /**
+     * Get start
+     *
+     * @return \DateTime
+     */
+    public function getStart()
+    {
+        return $this->start;
+    }
+
+    /**
+     * Set end
+     *
+     * @param \DateTime $end
+     *
+     * @return JWT
+     */
+    public function setEnd($end)
+    {
+        $this->end = $end;
+        $this->claims['exp'] = $end->getTimestamp();
+
+        return $this;
+    }
+
+    /**
+     * Get end
+     *
+     * @return \DateTime
+     */
+    public function getEnd()
+    {
+        return $this->end;
+    }
+
+    /******************************
+     * Custom setters and getters *
+     *****************************/
+
+    /**
+     * Set token
+     *
+     * @param string $token
+     *
+     * @return JWT
+     */
+    public function setToken($token)
+    {
+        $this->token = $token;
+
+        return $this;
+    }
+
+    /**
+     * Get token
+     *
+     * @return string
+     */
+    public function getToken()
+    {
+        return $this->token;
+    }
+
+    /**
+     * Get claims
+     *
+     * @return array
+     */
+    public function getClaims()
+    {
+        return $this->claims;
+    }
+
+    /**
+     * Set secret
+     *
+     * @param string $secret
+     *
+     * @return JWT
+     */
+    public function setSecret($secret)
+    {
+        $this->secret = $secret;
+
+        return $this;
+    }
+
+    /**
+     * Get secret
+     *
+     * @return string
+     */
+    public function getSecret()
+    {
+        return $this->secret;
+    }
+
+    /***********************************************
+     * Setters and getters for validation purposes *
+     **********************************************/
+
+    /**
+     * Set signatureValidity
+     *
+     * @param boolean $signatureValidity
+     *
+     * @return JWT
+     */
+    public function setSignatureValidity($signatureValidity)
+    {
+        $this->signatureValidity = $signatureValidity;
+
+        return $this;
+    }
+
+    /**
+     * Get signatureValidity
+     *
+     * @return bool
+     */
+    public function getSignatureValidity()
+    {
+        return $this->signatureValidity;
+    }
+
+    /**
+     * Set expired
+     *
+     * @param boolean $expired
+     *
+     * @return JWT
+     */
+    public function setExpired($expired)
+    {
+        $this->expired = $expired;
+
+        return $this;
+    }
+
+    /**
+     * Get expired
+     *
+     * @return bool
+     */
+    public function getExpired()
+    {
+        return $this->expired;
+    }
+
+    /**
+     * Set beforeValid
+     *
+     * @param boolean $beforeValid
+     *
+     * @return JWT
+     */
+    public function setBeforeValid($beforeValid)
+    {
+        $this->beforeValid = $beforeValid;
+
+        return $this;
+    }
+
+    /**
+     * Get beforeValid
+     *
+     * @return bool
+     */
+    public function getBeforeValid()
+    {
+        return $this->beforeValid;
+    }
+
+    /***************************************
+     * Standard RFC 7519 JWT public claims *
+     **************************************/
 
     /**
      * Set issuer
@@ -194,6 +409,10 @@ class JWT
     {
         $this->claims["exp"] = $expiration;
 
+        // Converts UNIX timestamp into \DateTime
+        $end = new \DateTime();
+        $this->end = $end->setTimestamp($expiration);
+
         return $this;
     }
 
@@ -217,6 +436,10 @@ class JWT
     public function setNotBefore($notBefore)
     {
         $this->claims["nbf"] = $notBefore;
+
+        // Converts UNIX timestamp into \DateTime
+        $start = new \DateTime();
+        $this->start = $start->setTimestamp($notBefore);
 
         return $this;
     }
@@ -277,212 +500,6 @@ class JWT
     public function getJti()
     {
         return $this->claims["jti"];
-    }
-
-    /******************************
-     * Custom setters and getters *
-     *****************************/
-
-    /**
-     * Set token
-     *
-     * @param string $token
-     *
-     * @return JWT
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * Get token
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
-    }
-
-    /**
-     * Get claims
-     *
-     * @return array
-     */
-    public function getClaims()
-    {
-        return $this->claims;
-    }
-
-    /**
-     * Sets token expiration period
-     *
-     * @param \DateTime|null $start
-     * @param \DateTime|null $end
-     * @return JWT
-     */
-    public function setPeriod(\DateTime $start = null, \DateTime $end = null)
-    {
-        $this->start = $start;
-        $this->claims['nbf'] = $start->getTimestamp();
-
-        $this->end = $end;
-        $this->claims['exp'] = $end->getTimestamp();
-
-        return $this;
-    }
-
-    /**
-     * Set start
-     *
-     * @param \DateTime $start
-     *
-     * @return JWT
-     */
-    public function setStart($start)
-    {
-        $this->start = $start;
-        $this->claims['nbf'] = $start->getTimestamp();
-
-        return $this;
-    }
-
-    /**
-     * Get start
-     *
-     * @return \DateTime
-     */
-    public function getStart()
-    {
-        return $this->start;
-    }
-
-    /**
-     * Set end
-     *
-     * @param \DateTime $end
-     *
-     * @return JWT
-     */
-    public function setEnd($end)
-    {
-        $this->end = $end;
-        $this->claims['exp'] = $end->getTimestamp();
-
-        return $this;
-    }
-
-    /**
-     * Get end
-     *
-     * @return \DateTime
-     */
-    public function getEnd()
-    {
-        return $this->end;
-    }
-
-    /**
-     * Set secret
-     *
-     * @param string $secret
-     *
-     * @return JWT
-     */
-    public function setSecret($secret)
-    {
-        $this->secret = $secret;
-
-        return $this;
-    }
-
-    /**
-     * Get secret
-     *
-     * @return string
-     */
-    public function getSecret()
-    {
-        return $this->secret;
-    }
-
-    /******************************************************
-     * Custom setters and getters for validation purposes *
-     *****************************************************/
-
-    /**
-     * Set signatureStatus
-     *
-     * @param boolean $signatureStatus
-     *
-     * @return JWT
-     */
-    public function setSignatureStatus($signatureStatus)
-    {
-        $this->signatureStatus = $signatureStatus;
-
-        return $this;
-    }
-
-    /**
-     * Get signatureStatus
-     *
-     * @return bool
-     */
-    public function getSignatureStatus()
-    {
-        return $this->signatureStatus;
-    }
-
-    /**
-     * Set expired
-     *
-     * @param boolean $expired
-     *
-     * @return JWT
-     */
-    public function setExpired($expired)
-    {
-        $this->expired = $expired;
-
-        return $this;
-    }
-
-    /**
-     * Get expired
-     *
-     * @return bool
-     */
-    public function getExpired()
-    {
-        return $this->expired;
-    }
-
-    /**
-     * Set beforeValid
-     *
-     * @param boolean $beforeValid
-     *
-     * @return JWT
-     */
-    public function setBeforeValid($beforeValid)
-    {
-        $this->beforeValid = $beforeValid;
-
-        return $this;
-    }
-
-    /**
-     * Get beforeValid
-     *
-     * @return bool
-     */
-    public function getBeforeValid()
-    {
-        return $this->beforeValid;
     }
 }
 

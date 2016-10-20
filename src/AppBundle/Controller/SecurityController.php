@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
+use AppBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -260,23 +261,22 @@ class SecurityController extends Controller
      */
     public function setTokenAction()
     {
-        $valid = $this->get('jwt');
+        $jwt = new JWT();
 
-        $valid->set('email', 'admin@example.com');
-        $valid->set('name', 'Admin');
-        $valid->setPeriod(new \DateTime('+1 second'), new \DateTime('+3 days'));
-        $token = $valid->encode();
+        $jwt->setData('email', 'admin@example.com');
+        $jwt->setData('name', 'Admin');
+        $jwt->setPeriod(new \DateTime('+1 second'), new \DateTime('+3 days'));
 
-        dump($valid);
+        $token = $this->get('jwt')->encode($jwt);
+        dump($jwt);
+        dump($token);
 
-//        $expired = $this->get('jwt');
-//
-//        $expired->set('email2', 'admin@example.com');
-//        $expired->set('name2', 'Admin');
-//        $expired->setPeriod(new \DateTime(), new \DateTime('+1 seconds'));
-//        $token = $expired->encode();
-//
-//        dump($expired);
+//        $valid->set('email', 'admin@example.com');
+//        $valid->set('name', 'Admin');
+//        $valid->setPeriod(new \DateTime('+1 second'), new \DateTime('+3 days'));
+//        $token = $valid->encode();
+//        dump($valid);
+
         die();
 
         return new JsonResponse( array($token) );
@@ -289,8 +289,7 @@ class SecurityController extends Controller
      */
     public function getTokenAction(Request $request, $token)
     {
-        $jwt = $this->get('jwt');
-        $jwt->decode($token);
+        $jwt = $this->get('jwt')->decode($token);
 
         dump($jwt);
         die();
