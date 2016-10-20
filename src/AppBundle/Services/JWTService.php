@@ -64,47 +64,41 @@ class JWTService
         $jwt = new JWT();
         $jwt->setToken($token);
         $jwt->setSecret($this->secret);
+        $raw = [];
         try {
+            // Inits signature and period
+            $jwt->setSignatureValidity(true);
+            $jwt->setExpired(false);
+            $jwt->setBeforeValid(false);
+            // Returns object of type stdClass
             $raw = Codec::decode($token, $this->secret, ['HS256']);
-            // Converts token in object
-            foreach ($raw as $key => $value) {
-                // Retrieves public claims as defined in RFC7519 specification
-                switch ($key) {
-                    case 'iss':
-                        $jwt->setIssuer($value);
-                        break;
-                    case 'sub':
-                        $jwt->setSubject($value);
-                        break;
-                    case 'aud':
-                        $jwt->setAudience($value);
-                        break;
-                    case 'exp':
-                        $jwt->setExpiration($value);
-                        break;
-                    case 'nbf':
-                        $jwt->setNotBefore($value);
-                        break;
-                    case 'iat':
-                        $jwt->setIssuedAt($value);
-                        break;
-                    case 'jti':
-                        $jwt->setJti($value);
-                        break;
-                    case 'data':
-                        // Retrieves private claims from "data" branch
-                        foreach ($value as $item => $content) {
-                            $jwt->setData($item, $content);
-                        }
-                        break;
-                    default:
-                        // Moves private claims to "data" branch
-                        $jwt->setData($key, $value);
-                        break;
-                }
-                $jwt->setSignatureValidity(true);
-                $jwt->setExpired(false);
-                $jwt->setBeforeValid(false);
+            $raw = get_object_vars($raw);
+            // Retrieves public claims as defined in RFC7519 specification
+            // Will ignore non-standard public claims and private claims that are not in "data" branch
+            if (isset($raw['iss'])) {
+                $jwt->setIssuer($raw['iss']);
+            }
+            if (isset($raw['sub'])) {
+                $jwt->setSubject($raw['sub']);
+            }
+            if (isset($raw['aud'])) {
+                $jwt->setAudience($raw['aud']);
+            }
+            if (isset($raw['exp'])) {
+                $jwt->setExpiration($raw['exp']);
+            }
+            if (isset($raw['nbf'])) {
+                $jwt->setNotBefore($raw['nbf']);
+            }
+            if (isset($raw['iat'])) {
+                $jwt->setIssuedAt($raw['iat']);
+            }
+            if (isset($raw['jti'])) {
+                $jwt->setJti($raw['jti']);
+            }
+            // Retrieves private claims from "data" branch
+            foreach ($raw['data'] as $key => $value) {
+                $jwt->setData($key, $value);
             }
         } catch (SignatureInvalidException $e) {
             $jwt->setSignatureValidity(false);
@@ -198,9 +192,11 @@ class JWTService
         $now = new \DateTime();
 
         if ($now < $jwt->getStart()) {
+            $jwt->setBeforeValid(true);
             $this->errors['before'] = "Le token n'est pas encore valide.";
             return true;
         } else {
+            $jwt->setBeforeValid(false);
             return false;
         }
     }
@@ -216,9 +212,11 @@ class JWTService
         $now = new \DateTime();
 
         if ($jwt->getEnd() != null && $now > $jwt->getEnd()) {
+            $jwt->setExpired(true);
             $this->errors['expired'] = "Le token est expiré.";
             return true;
         } else {
+            $jwt->setExpired(false);
             return false;
         }
     }

@@ -265,10 +265,23 @@ class SecurityController extends Controller
 
         $jwt->setData('email', 'admin@example.com');
         $jwt->setData('name', 'Admin');
-        $jwt->setPeriod(new \DateTime('+1 second'), new \DateTime('+3 days'));
+        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
 
-        $token = $this->get('jwt')->encode($jwt);
+        $jwtService = $this->get('jwt');
+        $token = $jwtService->encode($jwt);
+        $jwtService->validate($jwt);
+
         dump($jwt);
+
+        $jwt2 = new JWT();
+
+        $jwt2->setData('email', 'admin@example.com');
+        $jwt2->setData('name', 'Admin');
+        $jwt2->setPeriod(new \DateTime('+1 day'), new \DateTime('+3 days'));
+
+        $token = $jwtService->encode($jwt2);
+        $jwtService->validate($jwt2);
+        dump($jwt2);
 
         return new JsonResponse( array($token) );
     }
