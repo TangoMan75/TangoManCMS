@@ -8,9 +8,9 @@ services:
         class: AppBundle\Services\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
-#    jwt:
-#        class: AppBundle\Services\JWTService
-#        arguments: [%secret%]
+    jwt:
+        class: AppBundle\Services\JWTService
+        arguments: [%secret%]
 
 #    service_name:
 #        class: AppBundle\Directory\ClassName
