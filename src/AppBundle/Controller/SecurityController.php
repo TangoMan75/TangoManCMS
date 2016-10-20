@@ -142,7 +142,7 @@ class SecurityController extends Controller
             $user->setToken(null);
             $this->get('em')->save($user);
             $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le ".
-                                                                 "compte <strong>{$user->getUsername()}</strong>.");
+                "compte <strong>{$user->getUsername()}</strong>.");
             // Starts user session
             $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());
             $this->get('security.token_storage')->setToken($sessionToken);
@@ -189,7 +189,7 @@ class SecurityController extends Controller
         ;
         $this->get('mailer')->send($message);
         $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à ".
-                                                             "<strong>$username</strong>.");
+            "<strong>$username</strong>.");
 
         return $this->redirectToRoute('user_index');
     }
@@ -212,7 +212,7 @@ class SecurityController extends Controller
         $user->setToken(null);
         $this->get('em')->save($user);
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> ".
-                                                             "à été validé.");
+            "à été validé.");
 
         return $this->redirectToRoute('user_index');
     }
@@ -239,7 +239,7 @@ class SecurityController extends Controller
 
             // Sends success message
             $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}".
-                                                                 "</strong> à bien été supprimé.");
+                "</strong> à bien été supprimé.");
 
             // Disconnects user who deletes his own account
             if ( $user == $this->getUser() ) {
@@ -269,15 +269,6 @@ class SecurityController extends Controller
 
         $token = $this->get('jwt')->encode($jwt);
         dump($jwt);
-        dump($token);
-
-//        $valid->set('email', 'admin@example.com');
-//        $valid->set('name', 'Admin');
-//        $valid->setPeriod(new \DateTime('+1 second'), new \DateTime('+3 days'));
-//        $token = $valid->encode();
-//        dump($valid);
-
-        die();
 
         return new JsonResponse( array($token) );
     }
@@ -289,22 +280,14 @@ class SecurityController extends Controller
      */
     public function getTokenAction(Request $request, $token)
     {
-        $jwt = $this->get('jwt')->decode($token);
+        $jwtService = $this->get('jwt');
+        $jwt = $jwtService->decode($token);
 
         dump($jwt);
-        die();
-//        dump($token);
+        dump($token);
 
-        if ( $jwt->isTooSoon() ) {
-            return new JsonResponse( array('error' => "Ce token n'est pas encore utilisable."));
-        }
-
-        if ( $jwt->isTooLate() ) {
-            return new JsonResponse( array('error' => "Ce token a expiré."));
-        }
-
-        if ( !$jwt->isValid() ) {
-            return new JsonResponse( array('error' => "Ce token n'est pas valide."));
+        if ( !$jwtService->validate($jwt) ) {
+            return new JsonResponse( array( $jwtService->getErrors() ));
         }
 
         return new JsonResponse( array('success' => "Ce token est valide.") );
