@@ -264,7 +264,7 @@ class SecurityController extends Controller
 
         $valid->set('email', 'admin@example.com');
         $valid->set('name', 'Admin');
-        $valid->setPeriod(new \DateTime(), new \DateTime('+3 days'));
+        $valid->setPeriod(new \DateTime('+1 second'), new \DateTime('+3 days'));
         $token = $valid->encode();
 
         dump($valid);

@@ -126,8 +126,11 @@ class JWTService
     public function setPeriod(\DateTime $start = null, \DateTime $end = null)
     {
         $this->start = $start;
+        $this->claims['nbf'] = $start->getTimestamp();
+
         $this->end = $end;
         $this->claims['exp'] = $end->getTimestamp();
+
         return $this;
     }
 
@@ -290,20 +293,22 @@ class JWTService
 
             $this->setToken($token);
 
+            // Sets retrieved data from token in object
             foreach ($jwt as $key => $value) {
                 $this->claims[$key] = $value;
             }
 
+            // Converts UNIX timestamp from token into \DateTime
             if (isset($this->claims['exp'])) {
                 $end = new \DateTime();
-                $this->end = $end->setTimestamp($this->getExpiration());
+                $this->end = $end->setTimestamp($this->claims['exp']);
             }
 
             if (isset($this->claims['nbf'])) {
                 $start = new \DateTime();
-                $this->start = $start->setTimestamp($this->getNotBefore());
-            } else {
-                $this->start = new \DateTime();
+                $this->start = $start->setTimestamp($this->claims['nbf']);
+//            } else {
+//                $this->start = new \DateTime();
             }
         } catch (SignatureInvalidException $e) {
             $this->setSignatureStatus(true);

@@ -327,8 +327,11 @@ class JWT
     public function setPeriod(\DateTime $start = null, \DateTime $end = null)
     {
         $this->start = $start;
+        $this->claims['nbf'] = $start->getTimestamp();
+
         $this->end = $end;
         $this->claims['exp'] = $end->getTimestamp();
+
         return $this;
     }
 
