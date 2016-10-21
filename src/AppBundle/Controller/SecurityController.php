@@ -86,10 +86,6 @@ class SecurityController extends Controller
             $jwt->set('email', $email);
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
-            $user->setToken($token);
-
-            // Saves token in base
-            $this->get('em')->save($user);
 
             // Sends validation email to user
             $message = \Swift_Message::newInstance()
@@ -123,15 +119,25 @@ class SecurityController extends Controller
      */
     public function passwordAction(Request $request, $token)
     {
-        // RFC 7519 JSON Web Token validation
+        // JSON Web Token validation
         $jwtService = $this->get('jwt');
         $jwt = $jwtService->decode($token);
 
+        $tokenData = $jwt->get();
+
+        $username = $tokenData['username'];
+        $email = $tokenData['email'];
+
         // Displays error message when token is invalid
-        if ( !$jwtService->validate($jwt) ) {
-            $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
+        if ( !$jwtService->validate() ) {
+            $this->get('session')->getFlashBag()->add('error', "Désolé <strong>$username</strong><br />".
+                "Votre lien de sécurité n'est pas valide ou à expiré.");
             return $this->redirectToRoute('app_homepage');
         }
+
+        $user = new User();
+        $user->setUsername($username);
+        $user->setEmail($email);
 
         $form = $this->createForm(PwdType::class, $user);
         $form->handleRequest($request);
@@ -140,12 +146,13 @@ class SecurityController extends Controller
 
             $encoder = $this->get('security.password_encoder');
             $encoded = $encoder->encodePassword($user, $user->getPassword());
+
             $user->setPassword($encoded);
-            // Deletes token
-            $user->setToken(null);
             $this->get('em')->save($user);
+
             $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le ".
                 "compte <strong>{$user->getUsername()}</strong>.");
+
             // Starts user session
             $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());
             $this->get('security.token_storage')->setToken($sessionToken);
@@ -272,20 +279,20 @@ class SecurityController extends Controller
 
         $jwt = new JWT();
         $jwt->set('email', 'admin@example.com');
-        $jwt->set('name', 'Admin');
+        $jwt->set('username', 'Admin');
         $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
         $token = $jwtService->encode($jwt);
 
         $jwt2 = new JWT();
         $jwt2->set('email', 'admin@example.com');
-        $jwt2->set('name', 'Admin');
+        $jwt2->set('username', 'Admin');
         $jwt2->setPeriod(new \DateTime('+1 day'), new \DateTime('+3 days'));
         $token2 = $jwtService->encode($jwt2);
 
         $jwt3 = new JWT();
         $jwt3->set('email', 'admin@example.com');
-        $jwt3->set('name', 'Admin');
-        $jwt3->setPeriod(new \DateTime('-3 day'), new \DateTime('-1 days'));
+        $jwt3->set('username', 'Admin');
+        $jwt3->setPeriod(new \DateTime('-3 days'), new \DateTime('-1 days'));
         $token3 = $jwtService->encode($jwt3);
 
         dump($jwt);
@@ -309,7 +316,7 @@ class SecurityController extends Controller
         $jwtService = $this->get('jwt');
         $jwt = $jwtService->decode($token);
 
-        if ( !$jwtService->validate($jwt) ) {
+        if ( !$jwtService->validate() ) {
 
             dump($jwt);
             dump($token);

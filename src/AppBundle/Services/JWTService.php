@@ -25,6 +25,11 @@ class JWTService
     private $errors;
 
     /**
+     * @var JWT
+     */
+    private $jwt;
+
+    /**
      * JWT constructor.
      */
     public function __construct($secret)
@@ -42,6 +47,7 @@ class JWTService
      */
     public function encode(JWT $jwt)
     {
+        $this->jwt = $jwt;
         $token = Codec::encode($jwt->getClaims(), $this->secret);
         return $token;
     }
@@ -54,26 +60,27 @@ class JWTService
      */
     public function decode($token)
     {
-        $jwt = new JWT();
+        $this->jwt = new JWT();
+
         try {
             // Returns object of type stdClass
             $raw = Codec::decode($token, $this->secret, ['HS256']);
-            // Retrieves public claims
-            $jwt->setStart($raw->public->start);
-            $jwt->setEnd($raw->public->end);
+            // Retrieves start and end public claims other claims are going to be ignored
+            $this->jwt->setStart($raw->public->start);
+            $this->jwt->setEnd($raw->public->end);
             // Retrieves private claims
             foreach ($raw->private as $key => $value) {
-                $jwt->set($key, $value);
+                $this->jwt->set($key, $value);
             }
         } catch (SignatureInvalidException $e) {
-            $jwt->setSignatureValid(false);
+            $this->jwt->setSignatureValid(false);
         } catch (ExpiredException $e) {
-            $jwt->setExpired(true);
+            $this->jwt->setExpired(true);
         } catch (BeforeValidException $e) {
-            $jwt->setBeforeValid(true);
+            $this->jwt->setBeforeValid(true);
         } catch(\Exception $e){}
 
-        return $jwt;
+        return $this->jwt;
     }
 
     /********************
@@ -83,35 +90,38 @@ class JWTService
     /**
      * Checks token validity
      *
-     * @param JWT $jwt
      * @return bool
      */
-    public function validate(JWT $jwt)
+    public function validate()
     {
         // Clears errors array
         unset($this->errors);
         $this->errors = [];
 
+        if (!isset($this->jwt)) {
+            $this->errors['error'] = "Aucun token n'a été chargé.";
+        }
+
         // Checks token signature validity
-        if (!$jwt->getSignatureValid()) {
+        if (!$this->jwt->getSignatureValid()) {
             $this->errors['signature'] = "La signature du token n'est pas valide.";
         }
 
         // Checks token validity period
         $now = new \DateTime();
-        if ($now < $jwt->getStart()) {
-            $jwt->setBeforeValid(true);
+        if ($now < $this->jwt->getStart()) {
+            $this->jwt->setBeforeValid(true);
             $this->errors['before'] = "Le token n'est pas encore valide.";
         } else {
-            $jwt->setBeforeValid(false);
+            $this->jwt->setBeforeValid(false);
         }
 
         // Checks token expiration
-        if ($jwt->getEnd() != null && $now > $jwt->getEnd()) {
-            $jwt->setExpired(true);
+        if ($this->jwt->getEnd() != null && $now > $this->jwt->getEnd()) {
+            $this->jwt->setExpired(true);
             $this->errors['expired'] = "Le token est expiré.";
         } else {
-            $jwt->setExpired(false);
+            $this->jwt->setExpired(false);
         }
 
         if (count($this->errors)) {

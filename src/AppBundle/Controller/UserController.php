@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\EmailType;
 use AppBundle\Form\UserType;
 use AppBundle\Form\AvatarType;
 use AppBundle\Model\JWT;
@@ -35,13 +36,17 @@ class UserController extends Controller
 
             $username = $user->getUsername();
             $email    = $user->getEmail();
-            // RFC 7519 Compliant JSON Web Token
+
+            // JSON Web Token
             $jwt = new JWT();
+            $jwt->set('username', $username);
             $jwt->set('email', $email);
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
+
             $user->setToken($token);
-            $this->get('em')->save($user);
+//            $this->get('em')->save($user);
+
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Confirmation d'inscription.")
                 ->setFrom($this->getParameter('mailer_from'))
@@ -54,12 +59,10 @@ class UserController extends Controller
                 )
             ;
             $this->get('mailer')->send($message);
-            $this->get('session')->getFlashBag()->add('success', "Merci <strong>$username</strong>, ".
-                                                                 "votre demande d'inscription a bien été ".
-                                                                 "prise en compte.".
-                                                                 "<br />Un lien de comfirmation vous à été".
-                                                                 "envoyé à <strong>$email</strong>. <br />".
-                                                                 "Vérifiez votre boîte email.");
+            $this->get('session')->getFlashBag()->add('success',
+                "Votre demande d'inscription a bien été prise en compte. ".
+                "<br />Un lien de confirmation vous à été envoyé à <strong>$email</strong>. <br />".
+                "Vérifiez votre boîte email.");
 
             // User is redirected to referrer page
             return $this->redirect( $request->get('callback') );
@@ -90,8 +93,8 @@ class UserController extends Controller
         $this->get('em')->remove($user);
         $this->get('em')->flush();
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur ".
-                                                             "<strong>&quot;{$user->getUsername()}&quot;</strong> à ".
-                                                             "bien été supprimé.");
+            "<strong>&quot;{$user->getUsername()}&quot;</strong> à ".
+            "bien été supprimé.");
 
         // Disconnects user
         if ($user == $this->getUser()) {

@@ -1,8 +1,20 @@
 {% extends "::email-base.html.twig" %}
 {% block body %}
     <h1>Bonjour {{ user.username|capitalize }}</h1>
-    <p>Une demande de réinitialisation de mot de passe pour votre compte <a href="{{ absolute_url(path('app_homepage')) }}">{{ site_name }}</a> a été formulée.</p>
-    <p>Si vou êtes bien à l'origine de cette requète cliquez sur le lien suivant <a href="{{ absolute_url(path('app_password', {'token':user.token })) }}">{{ absolute_url(path('app_password', {'token':user.token })) }}</a> pour réinitialiser votre mot de passe.</p>
-    <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer ce message. Votre compte n'a pas été compromis, vous pourrez toujours vous connecter avec vos identifiants habituels.</p>
+    <p>Une demande de réinitialisation de mot de passe pour votre compte
+        <a href="{{ absolute_url(path('app_homepage')) }}">
+            {{ site_name }}
+        </a>
+        a été formulée.
+    </p>
+    <p>Si vou êtes bien à l'origine de cette requète cliquez sur le lien suivant
+        <a href="{{ absolute_url(path('app_password', {'token':user.token })) }}">
+            {{ absolute_url(path('app_password', {'token':user.token })) }}
+        </a>
+        pour réinitialiser votre mot de passe.
+    </p>
+    <p>Ce lien n'est valable que pour une durée de 24 heures.</p>
+    <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer ce message.
+        Votre compte n'a pas été compromis, vous pourrez toujours vous connecter avec vos identifiants habituels.</p>
     <p>Cordialement</p>
 {% endblock %}
