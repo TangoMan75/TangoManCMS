@@ -316,18 +316,21 @@ class SecurityController extends Controller
         $jwtService = $this->get('jwt');
         $jwt = $jwtService->decode($token);
 
-        if ( !$jwtService->validate() ) {
-
-            dump($jwt);
-            dump($token);
-            die();
-
-            return new JsonResponse( array( $jwtService->getErrors() ));
-        }
-
         dump($jwt);
         dump($token);
         die();
+
+        if ($jwt->isSignatureValid()){
+            throw $this->createNotFoundException("La signature du token n'est pas valide.");
+        }
+
+        if ($jwt->isTooSoon()){
+            throw $this->createNotFoundException("Le token n'est pas encore valide.");
+        }
+
+        if ($jwt->isTooLate()){
+            throw $this->createNotFoundException("Le token est expiré.");
+        }
 
         return new JsonResponse( array('success' => "Ce token est valide.") );
     }
