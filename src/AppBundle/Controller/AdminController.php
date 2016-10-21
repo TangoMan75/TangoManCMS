@@ -69,9 +69,7 @@ class AdminController extends Controller
     public function exportCSVAction()
     {
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
-
         $delimiter = ';';
-
         $handle = fopen('php://memory', 'r+');
 
         fputcsv($handle, [
@@ -82,14 +80,12 @@ class AdminController extends Controller
         ], $delimiter);
 
         foreach ($users as $user) {
-
             fputcsv($handle, [
                 $user->getId(),
                 $user->getusername(),
                 $user->getEmail(),
                 $user->getDateCreated()->format('d/m/Y H:i:s')
             ], $delimiter);
-
         }
 
         rewind($handle);
@@ -105,7 +101,7 @@ class AdminController extends Controller
     /**
      * Finds and deletes a User entity.
      *
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="user_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="admin_user_delete")
      * @Method("GET")
      */
     public function deleteAction(Request $request, User $user)
@@ -118,6 +114,8 @@ class AdminController extends Controller
         // Deletes specified user
         $this->get('em')->remove($user);
         $this->get('em')->flush();
+
+        // Send flash notification
         $this->get('session')->getFlashBag()->add('success', "L'utilisateur ".
             "<strong>&quot;{$user->getUsername()}&quot;</strong> à ".
             "bien été supprimé.");
@@ -130,9 +128,7 @@ class AdminController extends Controller
         }
 
         // User is redirected to referrer page
-//        return $this->redirect( $request->get('callback') );
-        return $this->redirectToRoute('user_index');
-
+        return $this->redirectToRoute('app_homepage');
     }
 
     /**
@@ -142,8 +138,8 @@ class AdminController extends Controller
      */
     public function addRoleAction(Request $request, User $user, $role)
     {
+        // Check admin role
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles ".
                                                                "utilisateur.");
             return $this->redirectToRoute('app_homepage');
@@ -167,16 +163,17 @@ class AdminController extends Controller
      */
     public function removeRoleAction(Request $request, User $user, $role)
     {
+        // Check admin role
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles ".
-                                                               "utilisateur.");
+            // Send flash notification
+            $this->get('session')->getFlashBag()->add(
+                'error', "Vous n'êtes pas autorisé à modifier les roles utilisateur."
+            );
             return $this->redirectToRoute('app_homepage');
         }
 
         // Disconnects user who changes his own admin rights
         if ( $user == $this->getUser() ) {
-
             $this->get('security.token_storage')->setToken(null);
             $request->getSession()->invalidate();
             return $this->redirectToRoute('app_homepage');

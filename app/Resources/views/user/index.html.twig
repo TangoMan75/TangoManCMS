@@ -86,9 +86,13 @@
                     </td>
                     <td>
                         {% if 'ROLE_ADMIN' in user.roles %}
-                            <a href="{{ path('user_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}" class="btn btn-warning btn-sm"><span class="glyphicon glyphicon-king"></span>&nbsp;admin</a>
+                            <a href="{{ path('user_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}" class="btn btn-warning btn-sm">
+                                <span class="glyphicon glyphicon-king"></span>&nbsp;admin
+                            </a>
                         {% else %}
-                            <a href="{{ path('user_add_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-pawn"></span>&nbsp;user</a>
+                            <a href="{{ path('user_add_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}" class="btn btn-success btn-sm">
+                                <span class="glyphicon glyphicon-pawn"></span>&nbsp;user
+                            </a>
                         {% endif %}
                     </td>
                     {#<td>#}
@@ -104,7 +108,9 @@
                         {#</td>#}
                     {#{% endif %}#}
                     <td>
-                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".my-modal" data-username="{{ user.username }}" data-url="{{ path('user_delete', { 'id': user.id, 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer</button>
+                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target=".my-modal" data-username="{{ user.username }}" data-url="{{ path('admin_user_delete', { 'id': user.id, 'callback': app.request.uri }) }}">
+                            <span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer
+                        </button>
                     </td>
                 </tr>
             {% endfor %}

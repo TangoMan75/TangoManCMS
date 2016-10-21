@@ -111,49 +111,95 @@ class UserController extends Controller
     /**
      * Unsubscribe user.
      *
-     * @Route("/unsubscribe", name="user_unsubscribe")
+     * @Route("/unsubscribe/{id}", requirements={"id": "\d+"}, name="user_unsubscribe")
      * @param Request $request
-     * @param User $id
+     * @param User $user
      */
-    public function unsubscribeAction(Request $request, User $id)
+    public function unsubscribeAction(Request $request, User $user)
     {
-        $username = $user->getUsername();
-        $email    = $user->getEmail();
+        // Check if is account owner
+        if ( !$user == $this->getUser() ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+            return $this->redirectToRoute('app_homepage');
+        } else {
+            $username = $user->getUsername();
+            $email = $user->getEmail();
 
-        // Generate JSON Web Token
-        $jwt = new JWT();
-        $jwt->set('username', $username);
-        $jwt->set('email', $email);
-        $jwt->set('action', 'unsubscribe');
-        $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
-        $token = $this->get('jwt')->encode($jwt);
+            // Generate JSON Web Token
+            $jwt = new JWT();
+            $jwt->set('id', $user->getId());
+            $jwt->set('email', $email);
+            $jwt->set('action', 'unsubscribe');
+            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+            $token = $this->get('jwt')->encode($jwt);
 
-        // Create email containing token for validation
-        $message = \Swift_Message::newInstance()
-            ->setSubject("Livre D'Or | Confirmation de désinscription.")
-            ->setFrom($this->getParameter('mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView('email/validation.html.twig', [
-                    'user' => $user,
-                    'token' => $token
-                ]),
-                'text/html'
-            )
-        ;
+            // Create email containing token for validation
+            $message = \Swift_Message::newInstance()
+                ->setSubject("Livre D'Or | Confirmation de désinscription.")
+                ->setFrom($this->getParameter('mailer_from'))
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView('email/unsubscribe.html.twig', [
+                        'user' => $user,
+                        'token' => $token
+                    ]),
+                    'text/html'
+                );
             $this->get('mailer')->send($message);
+
+            // Send flash notification
             $this->get('session')->getFlashBag()->add('success',
-                "Votre demande d'inscription a bien été prise en compte. ".
-                "<br />Un lien de confirmation vous à été envoyé à <strong>$email</strong>. <br />".
+                "La demande de désactivation de votre compte &quot;<strong>$username</strong>&quot; à été enregistrée.<br />".
+                "Un lien de confirmation vous à été envoyé à <strong>$email</strong>. <br />".
                 "Vérifiez votre boîte email.");
 
             // User is redirected to referrer page
             return $this->redirect( $request->get('callback') );
         }
+    }
 
-        return $this->render('user/register.html.twig', [
-            'form_register' => $form->createView()
-        ]);
+    /**
+     * Finds and deletes a User entity.
+     *
+     * @Route("/delete/{token}", name="user_delete")
+     * @Method("GET")
+     */
+    public function deleteAction(Request $request, $token)
+    {
+        // JSON Web Token validation
+        $jwt = $this->get('jwt')->decode($token);
+        $id     = $jwt->get('id');
+        $email  = $jwt->get('email');
+        $action = $jwt->get('action');
+
+        // Instantiate user entity
+        $user = $this->get('em')->repository('AppBundle:User')->find($id);
+
+        // Displays error message when token is invalid
+        if ( !$jwt->isValid() || $action !== "unsubscribe" || $email !== $user->getEmail() ) {
+            $this->get('session')->getFlashBag()->add('error', "Désolé <strong>$username</strong><br />".
+                "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
+                "Vous devez recommencer le procéssus d'inscription."
+            );
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        // Deletes specified user
+        $this->get('em')->remove($user);
+        $this->get('em')->flush();
+
+        // Disconnects user
+        if ($user == $this->getUser()) {
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+        }
+
+        // Send flash notification
+        $this->get('session')->getFlashBag()->add('success',
+            "Au revoir <strong>&quot;{$user->getUsername()}&quot;</strong><br />".
+            "Votre compte a été supprimé.");
+
+        return $this->redirectToRoute('app_homepage');
     }
 
     /**

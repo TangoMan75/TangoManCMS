@@ -220,7 +220,7 @@ class SecurityController extends Controller
 //    {
 //        // Only admins are allowed to perform this action
 //        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-//            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
+//            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
 //            return $this->redirectToRoute('app_homepage');
 //        }
 //

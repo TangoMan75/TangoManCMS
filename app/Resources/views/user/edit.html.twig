@@ -19,6 +19,13 @@
         <ul>
             <li><a href="#">Changer de photo.</a></li>
         </ul>
+        <ul>
+            <li>
+                <a href="{{ path('user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">
+                    Supprimer mon compte.
+                </a>
+            </li>
+        </ul>
     </div>
 
     <div id="profile-form" class="jumbotron">
