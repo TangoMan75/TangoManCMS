@@ -29,10 +29,8 @@ class SecurityController extends Controller
         $error = $helper->getLastAuthenticationError();
 
         if ($error) {
-
-            $this->get('session')->getFlashBag()->add('error',$error);
-            $this->get('session')->getFlashBag()->add('translate','true');
-
+            $this->get('session')->getFlashBag()->add('error', $error);
+            $this->get('session')->getFlashBag()->add('translate', 'true');
         }
 
         return $this->render('default/login.html.twig', [
@@ -71,19 +69,19 @@ class SecurityController extends Controller
 
         // When form is submitted
         if ( $form->isSubmitted() ) {
-
             $email = $form->getData()['email'];
             $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
 
             // Sends error message when user not found
             if ( !$user ) {
-
                 $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
                 return $this->redirectToRoute('app_token');
             }
 
+            // Generates password reset token
             $jwt = new JWT();
             $jwt->set('email', $email);
+            $jwt->set('action', 'password');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
 
@@ -94,7 +92,8 @@ class SecurityController extends Controller
                 ->setTo($email)
                 ->setBody(
                     $this->renderView('email/reset.html.twig', [
-                        'user' => $user
+                        'user' => $user,
+                        'token' => $token
                     ]),
                     'text/html'
                 )
@@ -120,40 +119,43 @@ class SecurityController extends Controller
     public function passwordAction(Request $request, $token)
     {
         // JSON Web Token validation
-        $jwtService = $this->get('jwt');
-        $jwt = $jwtService->decode($token);
+        $jwt = $this->get('jwt')->decode($token);
 
-        $tokenData = $jwt->get();
-
-        $username = $tokenData['username'];
-        $email = $tokenData['email'];
+        $username = $jwt->get('username');
+        $email    = $jwt->get('email');
+        $action   = $jwt->get('action');
 
         // Displays error message when token is invalid
-        if ( !$jwtService->validate() ) {
+        if ( !$jwt->isValid() || $action != "password") {
             $this->get('session')->getFlashBag()->add('error', "Désolé <strong>$username</strong><br />".
-                "Votre lien de sécurité n'est pas valide ou à expiré.");
+                "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
+                "Vous devez recommencer le procéssus d'inscription."
+            );
             return $this->redirectToRoute('app_homepage');
         }
 
+        // Create new user
         $user = new User();
         $user->setUsername($username);
         $user->setEmail($email);
 
+        // Generate form
         $form = $this->createForm(PwdType::class, $user);
         $form->handleRequest($request);
 
+        // Check form validation
         if ( $form->isValid() ) {
-
             $encoder = $this->get('security.password_encoder');
             $encoded = $encoder->encodePassword($user, $user->getPassword());
 
             $user->setPassword($encoded);
+            // Persist password
             $this->get('em')->save($user);
 
             $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le ".
                 "compte <strong>{$user->getUsername()}</strong>.");
 
-            // Starts user session
+            // Start user session
             $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());
             $this->get('security.token_storage')->setToken($sessionToken);
             $this->get('session')->set('_security_main',serialize($sessionToken));
@@ -176,27 +178,28 @@ class SecurityController extends Controller
     {
         // Only admins are allowed to perform this action
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
             return $this->redirectToRoute('app_homepage');
         }
 
         $username = $user->getUsername();
         $email    = $user->getEmail();
-        // RFC 7519 Compliant JSON Web Token
+
+        // Generate JSON Web Token
         $jwt = new JWT();
         $jwt->set('email', $email);
+        $jwt->set('action', 'password');
         $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
         $token = $this->get('jwt')->encode($jwt);
-        $user->setToken($token);
-        $this->get('em')->save($user);
+
         $message = \Swift_Message::newInstance()
             ->setSubject("Livre D'Or | Confirmation d'inscription.")
             ->setFrom($this->getParameter('mailer_from'))
             ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView('email/validation.html.twig', [
-                    'user' => $user
+                    'user' => $user,
+                    'token' => $token
                 ]),
                 'text/html'
             )
@@ -213,23 +216,22 @@ class SecurityController extends Controller
      *
      * @Route("/validate/{id}", requirements={"id": "\d+"}, name="app_validate")
      */
-    public function validateUser(Request $request, User $user)
-    {
-        // Only admins are allowed to perform this action
-        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
-            return $this->redirectToRoute('app_homepage');
-        }
-
-        // Removes token
-        $user->setToken(null);
-        $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> ".
-            "à été validé.");
-
-        return $this->redirectToRoute('user_index');
-    }
+//    public function validateUser(Request $request, User $user)
+//    {
+//        // Only admins are allowed to perform this action
+//        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+//            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
+//            return $this->redirectToRoute('app_homepage');
+//        }
+//
+//        // Removes token
+//        $user->setToken(null);
+//        $this->get('em')->save($user);
+//        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> ".
+//            "à été validé.");
+//
+//        return $this->redirectToRoute('user_index');
+//    }
 
     /**
      * Finds and deletes user.
@@ -242,7 +244,6 @@ class SecurityController extends Controller
         $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['token'=>$token]);
 
         if ( !$user ) {
-
             $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
             return $this->redirectToRoute('app_homepage');
 

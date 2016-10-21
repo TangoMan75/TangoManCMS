@@ -103,6 +103,39 @@ class AdminController extends Controller
     }
 
     /**
+     * Finds and deletes a User entity.
+     *
+     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="user_delete")
+     * @Method("GET")
+     */
+    public function deleteAction(Request $request, User $user)
+    {
+        if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer cet utilisateur.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        // Deletes specified user
+        $this->get('em')->remove($user);
+        $this->get('em')->flush();
+        $this->get('session')->getFlashBag()->add('success', "L'utilisateur ".
+            "<strong>&quot;{$user->getUsername()}&quot;</strong> à ".
+            "bien été supprimé.");
+
+        // Disconnects user
+        if ($user == $this->getUser()) {
+            $this->get('security.token_storage')->setToken(null);
+            $request->getSession()->invalidate();
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        // User is redirected to referrer page
+//        return $this->redirect( $request->get('callback') );
+        return $this->redirectToRoute('user_index');
+
+    }
+
+    /**
      * Sets user roles.
      *
      * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"}, name="user_add_role")

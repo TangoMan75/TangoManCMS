@@ -1,0 +1,18 @@
+{% extends "::email-base.html.twig" %}
+{% block body %}
+    <h1>Bonjour {{ user.username|capitalize }}</h1>
+    <p>
+        Nous regrettons de vous voir résillier votre adhésion à
+        <a href="{{ absolute_url(path('app_homepage')) }}">
+            {{ site_name }}
+        </a>.
+    </p>
+    <p>Pour confirmer votre désinscription cliquez sur ce lien.
+        <a href="{{ absolute_url(path('app_delete', {'token': token })) }}">
+            {{ absolute_url(path('app_delete', {'token': token })) }}
+        </a>
+    </p>
+    <p>Si vous n'êtes pas à l'origine de cette demande il est probable que votre compte ait été compromi,
+        nous vous recommandons fortement de renouveller votre mot de passe.</p>
+    <p>Cordialement</p>
+{% endblock %}

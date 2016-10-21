@@ -3,8 +3,6 @@
 namespace AppBundle\Services;
 
 use AppBundle\Model\JWT;
-use Firebase\JWT\BeforeValidException;
-use Firebase\JWT\ExpiredException;
 use Firebase\JWT\JWT as Codec;
 use Firebase\JWT\SignatureInvalidException;
 
