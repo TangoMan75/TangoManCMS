@@ -316,10 +316,6 @@ class SecurityController extends Controller
         $jwtService = $this->get('jwt');
         $jwt = $jwtService->decode($token);
 
-        dump($jwt);
-        dump($token);
-        die();
-
         if ($jwt->isSignatureValid()){
             throw $this->createNotFoundException("La signature du token n'est pas valide.");
         }

@@ -211,5 +211,15 @@ class JWT
     {
         return !$this->isTooSoon() && !$this->isTooLate();
     }
+
+    /**
+     * Checks for global token validity
+     *
+     * @return bool
+     */
+    public function isValid()
+    {
+        return $this->isOnTime() && $this->isSignatureValid();
+    }
 }
 
