@@ -82,7 +82,11 @@ class SecurityController extends Controller
                 return $this->redirectToRoute('app_token');
             }
 
-            $user->setToken(md5(uniqid()));
+            $jwt = new JWT();
+            $jwt->set('email', $email);
+            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+            $token = $this->get('jwt')->encode($jwt);
+            $user->setToken($token);
 
             // Saves token in base
             $this->get('em')->save($user);
@@ -102,10 +106,8 @@ class SecurityController extends Controller
 
             $this->get('mailer')->send($message);
             $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
-                "bien été prise en compte.<br />Un lien de ".
-                "comfirmation vous à été envoyé à ".
-                "<strong>$email</strong>. <br /> Vérifiez votre ".
-                "boîte email.");
+                "bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. ".
+                "<br /> Vérifiez votre boîte email.");
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -121,11 +123,12 @@ class SecurityController extends Controller
      */
     public function passwordAction(Request $request, $token)
     {
-        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['token'=>$token]);
+        // RFC 7519 JSON Web Token validation
+        $jwtService = $this->get('jwt');
+        $jwt = $jwtService->decode($token);
 
         // Displays error message when token is invalid
-        if ( !$user ) {
-
+        if ( !$jwtService->validate($jwt) ) {
             $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
             return $this->redirectToRoute('app_homepage');
         }
@@ -173,8 +176,12 @@ class SecurityController extends Controller
 
         $username = $user->getUsername();
         $email    = $user->getEmail();
-        // Generates token from username and unix time
-        $user->setToken(md5(time().$username));
+        // RFC 7519 Compliant JSON Web Token
+        $jwt = new JWT();
+        $jwt->set('email', $email);
+        $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+        $token = $this->get('jwt')->encode($jwt);
+        $user->setToken($token);
         $this->get('em')->save($user);
         $message = \Swift_Message::newInstance()
             ->setSubject("Livre D'Or | Confirmation d'inscription.")
@@ -257,51 +264,63 @@ class SecurityController extends Controller
      * setTokenAction
      *
      * @param string $token
-     * @Route("/enc-token")
+     * @Route("/encode")
      */
     public function setTokenAction()
     {
-        $jwt = new JWT();
-
-        $jwt->setData('email', 'admin@example.com');
-        $jwt->setData('name', 'Admin');
-        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
-
         $jwtService = $this->get('jwt');
-        $token = $jwtService->encode($jwt);
-        $jwtService->validate($jwt);
 
-        dump($jwt);
+        $jwt = new JWT();
+        $jwt->set('email', 'admin@example.com');
+        $jwt->set('name', 'Admin');
+        $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
+        $token = $jwtService->encode($jwt);
 
         $jwt2 = new JWT();
-
-        $jwt2->setData('email', 'admin@example.com');
-        $jwt2->setData('name', 'Admin');
+        $jwt2->set('email', 'admin@example.com');
+        $jwt2->set('name', 'Admin');
         $jwt2->setPeriod(new \DateTime('+1 day'), new \DateTime('+3 days'));
+        $token2 = $jwtService->encode($jwt2);
 
-        $token = $jwtService->encode($jwt2);
-        $jwtService->validate($jwt2);
+        $jwt3 = new JWT();
+        $jwt3->set('email', 'admin@example.com');
+        $jwt3->set('name', 'Admin');
+        $jwt3->setPeriod(new \DateTime('-3 day'), new \DateTime('-1 days'));
+        $token3 = $jwtService->encode($jwt3);
+
+        dump($jwt);
+        dump($token);
         dump($jwt2);
+        dump($token2);
+        dump($jwt3);
+        dump($token3);
+        die();
 
-        return new JsonResponse( array($token) );
+        return new JsonResponse( array($token, $token2, $token3) );
     }
 
     /**
      * getTokenAction
      *
-     * @Route("/dec-token/{token}")
+     * @Route("/decode/{token}")
      */
     public function getTokenAction(Request $request, $token)
     {
         $jwtService = $this->get('jwt');
         $jwt = $jwtService->decode($token);
 
-        dump($jwt);
-        dump($token);
-
         if ( !$jwtService->validate($jwt) ) {
+
+            dump($jwt);
+            dump($token);
+            die();
+
             return new JsonResponse( array( $jwtService->getErrors() ));
         }
+
+        dump($jwt);
+        dump($token);
+        die();
 
         return new JsonResponse( array('success' => "Ce token est valide.") );
     }

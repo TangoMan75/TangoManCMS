@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
 use AppBundle\Form\AvatarType;
+use AppBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,8 +35,12 @@ class UserController extends Controller
 
             $username = $user->getUsername();
             $email    = $user->getEmail();
-            // Generates token from username and unix time
-            $user->setToken(md5(time().$username));
+            // RFC 7519 Compliant JSON Web Token
+            $jwt = new JWT();
+            $jwt->set('email', $email);
+            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+            $token = $this->get('jwt')->encode($jwt);
+            $user->setToken($token);
             $this->get('em')->save($user);
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Confirmation d'inscription.")
