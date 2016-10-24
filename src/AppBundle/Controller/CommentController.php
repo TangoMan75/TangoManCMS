@@ -15,42 +15,33 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CommentController extends Controller
 {
     /**
-     * Edits comment.
+     * Edit comment.
      *
      * @Route("/edit/{id}", requirements={"id": "\d+"}, name="comment_edit")
      */
     public function editAction(Request $request, Comment $comment)
     {
-        // User cannot edit when not logged in
-        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY') ) {
-
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour pouvoir éditer des ".
-                                                               "commentaires.");
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
             return $this->redirectToRoute('app_login');
-
         }
 
         // Only author or admin can edit comment
         if ( $this->getUser() !== $comment->getUser() && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à éditer ce message.");
             return $this->redirectToRoute('app_homepage');
-
         }
 
         $form = $this->createForm(CommentType::class, $comment);
         $form->handleRequest($request);
 
         if ( $form->isSubmitted() && $form->isValid() ) {
-
             $this->get('em')->save($comment);
-            $this->get('session')->getFlashBag()->add('success', "Votre commentaire <strong>".
-                                                                 "&quot;{$comment->getTitle()}&quot</strong> ".
-                                                                 "à bien été modifié.");
-
+            $this->get('session')->getFlashBag()->add('success',
+                "Votre commentaire <strong>&quot;{$comment->getTitle()}&quot</strong> à bien été modifié.");
             // User is redirected to referrer page
             return $this->redirect( $request->get('callback') );
-
         }
 
         return $this->render('post/edit.html.twig', [
@@ -60,21 +51,25 @@ class CommentController extends Controller
     }
 
     /**
-     * Deletes comment.
+     * Delete comment.
      *
      * @Route("/delete/{id}", requirements={"id": "\d+"}, name="comment_delete")
      */
     public function deleteAction(Request $request, Comment $comment)
     {
-        // Only author or admin can delete comment
-        if ( $this->getUser() !== $comment->getUser() && !in_array( 'ROLE_ADMIN', $this->getUser()->getRoles() ) ) {
-
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer ce commentaire.");
-            return $this->redirectToRoute('app_homepage');
-
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
         }
 
-        // Deletes specified comment
+        // Only author or admin can delete comment
+        if ( $this->getUser() !== $comment->getUser() && !in_array( 'ROLE_ADMIN', $this->getUser()->getRoles() ) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer ce commentaire.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
+        // Delete specified comment
         $this->get('em')->remove($comment);
         $this->get('em')->flush();
         $this->get('session')->getFlashBag()->add('success', "Le commentaire à été supprimé.");
