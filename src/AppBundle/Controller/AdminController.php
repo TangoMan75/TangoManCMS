@@ -167,7 +167,7 @@ class AdminController extends Controller
         }
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('app_homepage');
+        return $this->redirectToRoute('user_index');
     }
 
     /**

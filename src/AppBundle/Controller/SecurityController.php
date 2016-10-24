@@ -134,16 +134,23 @@ class SecurityController extends Controller
             return $this->redirectToRoute('app_homepage');
         }
 
-        if ($action = "create") {
+        if ($action == "create") {
             // Create new user
             $user = new User();
             $user->setUsername($username);
             $user->setEmail($email);
         }
 
-        if ($action = "reset") {
+        if ($action == "reset") {
             // Find user
             $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
+            // When user doesn't exist
+            if (!$user) {
+                $this->get('session')->getFlashBag()->add('error',
+                    "Désolé <strong>$username</strong> ce compte a été supprimé."
+                );
+                return $this->redirectToRoute('app_homepage');
+            }
         }
 
         // Generate form
@@ -179,95 +186,47 @@ class SecurityController extends Controller
     }
 
     /**
-     * Re-sends security token to user.
-     *
-     * @Route("/resend/{id}", requirements={"id": "\d+"}, name="app_resend_token")
-     */
-//    public function resendToken(Request $request, User $user)
-//    {
-//        // Only admins are allowed to perform this action
-//        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-//            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
-//            return $this->redirectToRoute('app_homepage');
-//        }
-//
-//        $username = $user->getUsername();
-//        $email    = $user->getEmail();
-//
-//        // Generate JSON Web Token
-//        $jwt = new JWT();
-//        $jwt->set('email', $email);
-//        $jwt->set('action', 'password');
-//        $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
-//        $token = $this->get('jwt')->encode($jwt);
-//
-//        $message = \Swift_Message::newInstance()
-//            ->setSubject("Livre D'Or | Confirmation d'inscription.")
-//            ->setFrom($this->getParameter('mailer_from'))
-//            ->setTo($user->getEmail())
-//            ->setBody(
-//                $this->renderView('email/validation.html.twig', [
-//                    'user' => $user,
-//                    'token' => $token
-//                ]),
-//                'text/html'
-//            )
-//        ;
-//        $this->get('mailer')->send($message);
-//        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à ".
-//            "<strong>$username</strong>.");
-//
-//        return $this->redirectToRoute('user_index');
-//    }
-
-    /**
-     * Force validate user.
-     *
-     * @Route("/validate/{id}", requirements={"id": "\d+"}, name="app_validate")
-     */
-//    public function validateUser(Request $request, User $user)
-//    {
-//        // Only admins are allowed to perform this action
-//        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-//            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
-//            return $this->redirectToRoute('app_homepage');
-//        }
-//
-//        // Removes token
-//        $user->setToken(null);
-//        $this->get('em')->save($user);
-//        $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}</strong> ".
-//            "à été validé.");
-//
-//        return $this->redirectToRoute('user_index');
-//    }
-
-    /**
      * Finds and deletes user.
      *
      * @Route("/delete/{token}", name="app_delete")
      */
     public function deleteAction(Request $request, $token)
     {
-        // Gets user entity by token
-        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['token'=>$token]);
+        // JSON Web Token validation
+        $jwt = $this->get('jwt')->decode($token);
 
-        if ( !$user ) {
-            $this->get('session')->getFlashBag()->add('error', "Votre lien de sécurité n'est pas valide ou à expiré.");
+        $id       = $jwt->get('id');
+        $username = $jwt->get('username');
+        $action   = $jwt->get('action');
+
+        // Display error message when token is invalid
+        if ( !$jwt->isValid() || $action != "unsubscribe" ) {
+            $this->get('session')->getFlashBag()->add('error', "Désolé <strong>$username</strong><br />".
+                "Votre lien de sécurité n'est pas valide ou à expiré."
+            );
             return $this->redirectToRoute('app_homepage');
+        }
 
+        // Find user
+        $user = $this->get('em')->repository('AppBundle:User')->find($id);
+        // When user doesn't exist
+        if (!$user) {
+            $this->get('session')->getFlashBag()->add('error',
+                "Désolé <strong>$username</strong> ce compte a été supprimé."
+            );
+            return $this->redirectToRoute('app_homepage');
         } else {
             // Removes user
             $this->get('em')->remove($user);
             $this->get('em')->flush();
 
             // Sends success message
-            $this->get('session')->getFlashBag()->add('success', "L'utilisateur <strong>{$user->getUsername()}".
-                "</strong> à bien été supprimé.");
+            $this->get('session')->getFlashBag()->add('success',
+                "L'utilisateur <strong>$username</strong> à bien été supprimé."
+            );
 
             // Disconnects user who deletes his own account
             if ( $user == $this->getUser() ) {
-
                 $this->get('security.token_storage')->setToken(null);
                 $request->getSession()->invalidate();
                 return $this->redirectToRoute('app_homepage');

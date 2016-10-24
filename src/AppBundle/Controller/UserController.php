@@ -126,6 +126,7 @@ class UserController extends Controller
             // Generate JSON Web Token
             $jwt = new JWT();
             $jwt->set('id', $user->getId());
+            $jwt->set('username', $user->getUsername());
             $jwt->set('email', $email);
             $jwt->set('action', 'unsubscribe');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
