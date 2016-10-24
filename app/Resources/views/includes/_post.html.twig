@@ -2,7 +2,7 @@
     <header class="panel-heading">
         <h1 class="text-center">
             <span class="glyphicon glyphicon-envelope pull-left"></span>{{ post.title }}
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (post.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">
                         <a href="{{ path("post_edit",   { 'id': post.id, 'callback': callback }) }}"

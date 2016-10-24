@@ -2,7 +2,7 @@
     <header class="panel-heading">
         <h1 class="text-center">
             <span class="glyphicon glyphicon-comment pull-left"></span>&nbsp;
-            {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (comment.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">
                         <a href="{{ path("comment_edit", { 'id': comment.id, 'callback': callback }) }}"
