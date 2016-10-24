@@ -26,6 +26,18 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Only admins are allowed to perform this action
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $users = $this->get('em')->repository('AppBundle:User')->sorting(
             $request->query->getInt('page', 1),
             20,
@@ -41,13 +53,23 @@ class AdminController extends Controller
     /**
      * Exports user list in json format.
      *
-     * @todo Firewall this route.
-     *
      * @Route("/export-json", name="user_export_json")
      * @Method("GET")
      */
     public function exportJsonAction()
     {
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Only admins are allowed to perform this action
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
 
         $response = serialize($users);
@@ -61,13 +83,23 @@ class AdminController extends Controller
     /**
      * Exports user list in csv format.
      *
-     * @todo Firewall this route.
-     *
      * @Route("/export-csv", name="user_export_csv")
      * @Method("GET")
      */
     public function exportCSVAction()
     {
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Only admins are allowed to perform this action
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+            return $this->redirectToRoute('app_homepage');
+        }
+
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
         $delimiter = ';';
         $handle = fopen('php://memory', 'r+');
@@ -106,8 +138,15 @@ class AdminController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
-        if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à supprimer cet utilisateur.");
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Only admins are allowed to perform this action
+        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -138,10 +177,15 @@ class AdminController extends Controller
      */
     public function addRoleAction(Request $request, User $user, $role)
     {
-        // Check admin role
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Only admins are allowed to perform this action
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier les roles ".
-                                                               "utilisateur.");
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -157,18 +201,19 @@ class AdminController extends Controller
     /**
      * Removes user role.
      *
-     * @todo Firewall this route instead of role checking.
-     *
      * @Route("/remove-role/{id}/{role}", requirements={"id": "\d+"}, name="user_remove_role")
      */
     public function removeRoleAction(Request $request, User $user, $role)
     {
-        // Check admin role
+        // User must log in
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
+
+        // Only admins are allowed to perform this action
         if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-            // Send flash notification
-            $this->get('session')->getFlashBag()->add(
-                'error', "Vous n'êtes pas autorisé à modifier les roles utilisateur."
-            );
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('app_homepage');
         }
 
@@ -187,5 +232,4 @@ class AdminController extends Controller
         // User is redirected to referrer page
         return $this->redirect( $request->headers->get('referer') );
     }
-
 }
