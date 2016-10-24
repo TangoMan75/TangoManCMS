@@ -7,11 +7,10 @@
         </a>
         a été formulée.
     </p>
-    <p>Si vou êtes bien à l'origine de cette requète cliquez sur le lien suivant
-        <a href="{{ absolute_url(path('app_password', {'token': token })) }}">
-            {{ absolute_url(path('app_password', {'token': token })) }}
+    <p>Si vou êtes bien à l'origine de cette requète cliquez sur le boutton suivant :<br />
+        <a class="btn" href="{{ absolute_url(path('app_password', {'token': token })) }}">
+            Réinitialiser mon mot de passe
         </a>
-        pour réinitialiser votre mot de passe.
     </p>
     <p>Ce lien n'est valable que pour une durée de 24 heures.</p>
     <p>Si vous n'êtes pas à l'origine de cette demande, vous pouvez ignorer ce message.

@@ -45,8 +45,6 @@ class UserController extends Controller
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
 
-            $user->setToken($token);
-
             // Create email containing token for validation
             $message = \Swift_Message::newInstance()
                 ->setSubject("Livre D'Or | Confirmation d'inscription.")
