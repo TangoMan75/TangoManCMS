@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 class SecurityController extends Controller
 {
     /**
-     * Builds login form.
+     * Build login form.
      *
      * @Route("/login", name="app_login")
      */
@@ -57,7 +57,7 @@ class SecurityController extends Controller
     }
 
     /**
-     * Sends email containing password reset security token.
+     * Send email containing password reset security token.
      *
      * @return mixed
      * @Route("/token", name="app_token")
@@ -68,20 +68,20 @@ class SecurityController extends Controller
         $form->handleRequest($request);
 
         // When form is submitted
-        if ( $form->isSubmitted() ) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
             $email = $form->getData()['email'];
             $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
 
-            // Sends error message when user not found
+            // Send error message when user not found
             if ( !$user ) {
                 $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
                 return $this->redirectToRoute('app_token');
             }
 
-            // Generates password reset token
+            // Generate password reset token
             $jwt = new JWT();
             $jwt->set('email', $email);
-            $jwt->set('action', 'password');
+            $jwt->set('action', 'reset');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
 
@@ -125,8 +125,8 @@ class SecurityController extends Controller
         $email    = $jwt->get('email');
         $action   = $jwt->get('action');
 
-        // Displays error message when token is invalid
-        if ( !$jwt->isValid() || $action != "password") {
+        // Display error message when token is invalid
+        if ( !$jwt->isValid() || $action != "create" && $action != "reset" ) {
             $this->get('session')->getFlashBag()->add('error', "Désolé <strong>$username</strong><br />".
                 "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
                 "Vous devez recommencer le procéssus d'inscription."
@@ -134,10 +134,17 @@ class SecurityController extends Controller
             return $this->redirectToRoute('app_homepage');
         }
 
-        // Create new user
-        $user = new User();
-        $user->setUsername($username);
-        $user->setEmail($email);
+        if ($action = "create") {
+            // Create new user
+            $user = new User();
+            $user->setUsername($username);
+            $user->setEmail($email);
+        }
+
+        if ($action = "reset") {
+            // Find user
+            $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
+        }
 
         // Generate form
         $form = $this->createForm(PwdType::class, $user);
@@ -145,15 +152,17 @@ class SecurityController extends Controller
 
         // Check form validation
         if ( $form->isValid() ) {
+            // Hash password
             $encoder = $this->get('security.password_encoder');
-            $encoded = $encoder->encodePassword($user, $user->getPassword());
+            $hash = $encoder->encodePassword($user, $user->getPassword());
 
-            $user->setPassword($encoded);
+            $user->setPassword($hash);
             // Persist password
             $this->get('em')->save($user);
 
-            $this->get('session')->getFlashBag()->add('success', "Un nouveau mot de passe à bien été créé pour le ".
-                "compte <strong>{$user->getUsername()}</strong>.");
+            $this->get('session')->getFlashBag()->add('success',
+                "Un nouveau mot de passe à bien été créé pour le compte <strong>{$user->getUsername()}</strong>."
+            );
 
             // Start user session
             $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());

@@ -41,7 +41,7 @@ class UserController extends Controller
             $jwt = new JWT();
             $jwt->set('username', $username);
             $jwt->set('email', $email);
-            $jwt->set('action', 'password');
+            $jwt->set('action', 'create');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
 

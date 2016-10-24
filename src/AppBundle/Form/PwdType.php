@@ -19,7 +19,7 @@ class PwdType extends AbstractType
         $builder->add('password', RepeatedType::Class, [
                 'type' => PasswordType::Class,
                 'first_options'  => ['label' => 'Votre mot de passe'],
-                'second_options' => ['label' => 'Confirmez votre mot de passe'],
+                'second_options' => ['label' => 'Confirmez votre mot de passe']
             ])
         ;
     }
@@ -32,5 +32,11 @@ class PwdType extends AbstractType
         $resolver->setDefaults([
             'data_class' => 'AppBundle\Entity\User'
         ]);
+    }
+
+
+    public function getName()
+    {
+        return 'password';
     }
 }
