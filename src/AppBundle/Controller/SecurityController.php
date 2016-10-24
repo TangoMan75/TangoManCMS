@@ -174,42 +174,42 @@ class SecurityController extends Controller
      *
      * @Route("/resend/{id}", requirements={"id": "\d+"}, name="app_resend_token")
      */
-    public function resendToken(Request $request, User $user)
-    {
-        // Only admins are allowed to perform this action
-        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
-            return $this->redirectToRoute('app_homepage');
-        }
-
-        $username = $user->getUsername();
-        $email    = $user->getEmail();
-
-        // Generate JSON Web Token
-        $jwt = new JWT();
-        $jwt->set('email', $email);
-        $jwt->set('action', 'password');
-        $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
-        $token = $this->get('jwt')->encode($jwt);
-
-        $message = \Swift_Message::newInstance()
-            ->setSubject("Livre D'Or | Confirmation d'inscription.")
-            ->setFrom($this->getParameter('mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView('email/validation.html.twig', [
-                    'user' => $user,
-                    'token' => $token
-                ]),
-                'text/html'
-            )
-        ;
-        $this->get('mailer')->send($message);
-        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à ".
-            "<strong>$username</strong>.");
-
-        return $this->redirectToRoute('user_index');
-    }
+//    public function resendToken(Request $request, User $user)
+//    {
+//        // Only admins are allowed to perform this action
+//        if ( !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+//            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à faire cette action.");
+//            return $this->redirectToRoute('app_homepage');
+//        }
+//
+//        $username = $user->getUsername();
+//        $email    = $user->getEmail();
+//
+//        // Generate JSON Web Token
+//        $jwt = new JWT();
+//        $jwt->set('email', $email);
+//        $jwt->set('action', 'password');
+//        $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+//        $token = $this->get('jwt')->encode($jwt);
+//
+//        $message = \Swift_Message::newInstance()
+//            ->setSubject("Livre D'Or | Confirmation d'inscription.")
+//            ->setFrom($this->getParameter('mailer_from'))
+//            ->setTo($user->getEmail())
+//            ->setBody(
+//                $this->renderView('email/validation.html.twig', [
+//                    'user' => $user,
+//                    'token' => $token
+//                ]),
+//                'text/html'
+//            )
+//        ;
+//        $this->get('mailer')->send($message);
+//        $this->get('session')->getFlashBag()->add('success', "Un nouveau mail de confirmation à été envoyé à ".
+//            "<strong>$username</strong>.");
+//
+//        return $this->redirectToRoute('user_index');
+//    }
 
     /**
      * Force validate user.

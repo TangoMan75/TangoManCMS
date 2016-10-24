@@ -58,13 +58,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @var string User's security token
-     *
-     * @ORM\Column(name="token", type="string", length=255, nullable=true)
-     */
-    private $token;
-
-    /**
      * @var string User's avatar
      *
      * @ORM\Column(name="avatar", type="text", nullable=true)
@@ -105,6 +98,7 @@ class User implements UserInterface
     {
         $this->roles = ["ROLE_USER"];
         $this->dateCreated = new \DateTime();
+        $this->active = false;
     }
 
     /**
@@ -187,30 +181,6 @@ class User implements UserInterface
     public function getPassword()
     {
         return $this->password;
-    }
-
-    /**
-     * Set token.
-     *
-     * @param string $token
-     *
-     * @return User
-     */
-    public function setToken($token)
-    {
-        $this->token = $token;
-
-        return $this;
-    }
-
-    /**
-     * Get token.
-     *
-     * @return string
-     */
-    public function getToken()
-    {
-        return $this->token;
     }
 
     /**

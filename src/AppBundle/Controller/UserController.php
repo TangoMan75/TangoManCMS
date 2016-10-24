@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * Registers new user.
+     * Register new User.
      *
      * @Route("/register", name="user_register")
      */
@@ -78,7 +78,7 @@ class UserController extends Controller
     }
 
     /**
-     * Finds and edits a User entity.
+     * Edit User.
      *
      * @Route("/edit/{id}", requirements={"id": "\d+"}, name="user_edit")
      * @ParamConverter("user", class="AppBundle:User")
@@ -109,7 +109,7 @@ class UserController extends Controller
     }
 
     /**
-     * Unsubscribe user.
+     * Unsubscribe User.
      *
      * @Route("/unsubscribe/{id}", requirements={"id": "\d+"}, name="user_unsubscribe")
      * @param Request $request
@@ -159,7 +159,7 @@ class UserController extends Controller
     }
 
     /**
-     * Finds and deletes a User entity.
+     * Delete User entity.
      *
      * @Route("/delete/{token}", name="user_delete")
      * @Method("GET")
@@ -203,7 +203,7 @@ class UserController extends Controller
     }
 
     /**
-     * Finds and displays a User entity.
+     * Display User entity.
      *
      * @Route("/{username}", name="user_show")
      */
