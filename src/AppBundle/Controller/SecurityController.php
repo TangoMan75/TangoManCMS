@@ -80,6 +80,8 @@ class SecurityController extends Controller
 
             // Generate password reset token
             $jwt = new JWT();
+            $jwt->set('id', $user->getId());
+            $jwt->set('username', $user->getUsername());
             $jwt->set('email', $email);
             $jwt->set('action', 'reset');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
@@ -143,7 +145,7 @@ class SecurityController extends Controller
 
         if ($action == "reset") {
             // Find user
-            $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
+            $user = $this->get('em')->repository('AppBundle:User')->find($jwt->get('id'));
             // When user doesn't exist
             if (!$user) {
                 $this->get('session')->getFlashBag()->add('error',
