@@ -39,7 +39,7 @@ class CommentController extends Controller
         if ( $form->isSubmitted() && $form->isValid() ) {
             $this->get('em')->save($comment);
             $this->get('session')->getFlashBag()->add('success',
-                "Votre commentaire <strong>&quot;{$comment->getTitle()}&quot</strong> à bien été modifié.");
+                "Votre commentaire à bien été modifié.");
             // User is redirected to referrer page
             return $this->redirect( $request->get('callback') );
         }

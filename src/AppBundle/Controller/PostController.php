@@ -17,8 +17,8 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class PostController extends Controller
 {
     /**
-     * Displays post and associated comments.
-     * Allows to publish comments.
+     * Display post with comments.
+     * Allow to publish comments.
      *
      * @Route("/{id}", requirements={"id": "\d+"}, name="post_index")
      */
@@ -45,7 +45,7 @@ class PostController extends Controller
                 $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
 
                 // User is redirected to referrer page
-                return $this->redirectToRoute('app_homepage');
+                return $this->redirect( $request->getUri() );
             }
         }
         return $this->render('post/index.html.twig', [
