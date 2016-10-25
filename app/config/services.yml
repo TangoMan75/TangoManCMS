@@ -10,7 +10,7 @@ services:
 
     jwt:
         class: AppBundle\Services\JWTService
-        arguments: [%secret%]
+        arguments: ["%secret%"]
 
 #    service_name:
 #        class: AppBundle\Directory\ClassName
