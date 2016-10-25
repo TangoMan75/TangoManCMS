@@ -77,7 +77,7 @@ class AdminController extends Controller
                                                              "&quot;{$user->getUsername()}&quot;</strong>.");
 
         // User is redirected to referrer page
-        return $this->redirect( $request->headers->get('referer') );
+        return $this->redirect($request->getUri());
     }
 
     /**
@@ -100,6 +100,6 @@ class AdminController extends Controller
                                                              "&quot;{$user->getUsername()}&quot;</strong>.");
 
         // User is redirected to referrer page
-        return $this->redirect( $request->headers->get('referer') );
+        return $this->redirect($request->getUri());
     }
 }

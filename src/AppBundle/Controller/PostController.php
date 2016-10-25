@@ -45,7 +45,7 @@ class PostController extends Controller
                 $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
 
                 // User is redirected to referrer page
-                return $this->redirect( $request->getUri() );
+                return $this->redirect($request->getUri());
             }
         }
         return $this->render('post/index.html.twig', [

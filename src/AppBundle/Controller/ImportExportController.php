@@ -66,8 +66,21 @@ class ImportExportController extends Controller
     public function importAction()
     {
         // Get file
-//        $file = $this->getParameter('kernel.root_dir').'/../web/users.csv';
         $file = $_FILES['import']['tmp_name'];
+        // Security checks
+        if ($_FILES['import']['error'] > 0) {
+            $erreur = "Erreur lors du transfert";
+            $this->get('session')->getFlashBag()->add('error',
+                "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer.");
+            return $this->redirectToRoute( $this->getUri() );
+        }
+        // Extension check
+        $validExtensions = ['csv'];
+        $uploadExtension = strtolower(substr(strrchr($_FILES['import']['name'], '.'), 1));
+        if ( !in_array($uploadExtension, $validExtensions) ) {
+            $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
+            return $this->redirectToRoute( $this->getUri() );
+        };
         // Get CSV reader service
         $reader = $this->get('services.csv_reader');
         // File check
