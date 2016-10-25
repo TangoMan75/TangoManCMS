@@ -98,16 +98,16 @@
                         {% endif %}
                     </td>
                     {#<td>#}
-                        {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>#}
+                    {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>#}
                     {#</td>#}
                     {#{% if user.token %}#}
-                        {#<td>#}
-                            {#<a href="{{ path('app_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>#}
-                        {#</td>#}
+                    {#<td>#}
+                    {#<a href="{{ path('app_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>#}
+                    {#</td>#}
                     {#{% else %}#}
-                        {#<td>#}
-                            {#<span class="glyphicon glyphicon-ok text-success"></span>#}
-                        {#</td>#}
+                    {#<td>#}
+                    {#<span class="glyphicon glyphicon-ok text-success"></span>#}
+                    {#</td>#}
                     {#{% endif %}#}
                     <td>
                         <button type="button"
@@ -126,27 +126,23 @@
             {{ pagination(users) }}
         </div>
 
-        <div class="text-center">
+        <div class="pull-left">
+            <p>
+                Importer une liste d'utilisateurs
+            </p>
+            <form method="post" action="{{ path('import') }}" enctype="multipart/form-data">
+                <input type="file" name="import" />
+                <input type="submit" name="submit" value="Importer" class="btn btn-primary btn-sm" />
+            </form>
+        </div>
+
+        <div class="pull-right">
             <p>
                 Exporter la liste d'utilisateurs
             </p>
             <p>
-                <a href="{{ path('user_export_json') }}" target="_blank" class="btn btn-primary btn-sm">
-                    Format Json
-                </a>&nbsp;
-                <a href="{{ path('user_export_csv') }}" target="_blank" class="btn btn-primary btn-sm">
-                    Format CSV
-                </a>
-            </p>
-        </div>
-
-        <div class="text-center">
-            <p>
-                Importer une liste d'utilisateurs
-            </p>
-            <p>
-                <a href="{{ path('import') }}" target="_blank" class="btn btn-primary btn-sm">
-                    Format CSV
+                <a href="{{ path('export') }}" class="btn btn-primary btn-sm">
+                    Exporter
                 </a>
             </p>
         </div>

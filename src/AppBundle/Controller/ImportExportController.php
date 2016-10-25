@@ -6,7 +6,6 @@ use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -18,26 +17,9 @@ use Symfony\Component\HttpFoundation\Response;
 class ImportExportController extends Controller
 {
     /**
-     * Exports user list in json format.
-     *
-     * @Route("/export-json", name="user_export_json")
-     * @Method("GET")
-     */
-    public function exportJsonAction()
-    {
-        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
-        $response = serialize($users);
-
-        return new JsonResponse($response, 200, [
-            'Content-Type' => 'application/force-download',
-            'Content-Disposition' => 'attachment; filename="export_users.json"'
-        ]);
-    }
-
-    /**
      * Exports user list in csv format.
      *
-     * @Route("/export-csv", name="user_export_csv")
+     * @Route("/export-csv", name="export")
      * @Method("GET")
      */
     public function exportCSVAction()
@@ -63,7 +45,7 @@ class ImportExportController extends Controller
                 $user->getEmail(),
                 $user->getPassword(),
                 $user->getAvatar(),
-                json_encode($user->getRoles()),
+                implode(",", $user->getRoles()),
                 $user->getDateCreated()->format('Y/m/d H:i:s')
             ], $delimiter);
         }
@@ -84,7 +66,8 @@ class ImportExportController extends Controller
     public function importAction()
     {
         // Get file
-        $file = $this->getParameter('kernel.root_dir').'/../web/users.csv';
+//        $file = $this->getParameter('kernel.root_dir').'/../web/users.csv';
+        $file = $_FILES['import']['tmp_name'];
         // Get CSV reader service
         $reader = $this->get('services.csv_reader');
         // File check
@@ -97,20 +80,20 @@ class ImportExportController extends Controller
             while (false !== ($line = $reader->readLine())) {
                 // Check if user with same email already exist
                 $user = $users->findOneByEmail($line->get('email'));
-                // When not found persists new user
+                // When not found persist new user
                 if(!$user) {
                     $user = new User();
                     $user->setUsername($line->get('username'));
                     $user->setEmail($line->get('email'));
                     $user->setPassword($line->get('password'));
                     $user->setAvatar($line->get('avatar'));
-//                    $user->setRoles($line->get('roles'));
-//                    $user->setDateCreated( date_create_from_format('Y/m/d H:i:s', $line->get('date_created')) );
+                    $user->setRoles(explode(",", $line->get('roles')));
+                    $user->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
                     $em->save($user);
                 }
             }
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute( $this->getUri() );
     }
 }
