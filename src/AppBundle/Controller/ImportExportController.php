@@ -6,6 +6,7 @@ use AppBundle\Entity\User;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
@@ -63,7 +64,7 @@ class ImportExportController extends Controller
     /**
      * @Route("/import", name="import")
      */
-    public function importAction()
+    public function importAction(Request $request)
     {
         // Get file
         $file = $_FILES['import']['tmp_name'];
@@ -72,14 +73,14 @@ class ImportExportController extends Controller
             $erreur = "Erreur lors du transfert";
             $this->get('session')->getFlashBag()->add('error',
                 "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer.");
-            return $this->redirectToRoute( $this->getUri() );
+            return $this->redirect($request->getUri());
         }
         // Extension check
         $validExtensions = ['csv'];
         $uploadExtension = strtolower(substr(strrchr($_FILES['import']['name'], '.'), 1));
         if ( !in_array($uploadExtension, $validExtensions) ) {
             $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
-            return $this->redirectToRoute( $this->getUri() );
+            return $this->redirect($request->getUri());
         };
         // Get CSV reader service
         $reader = $this->get('services.csv_reader');
@@ -107,6 +108,6 @@ class ImportExportController extends Controller
             }
         }
 
-        return $this->redirectToRoute( $this->getUri() );
+        return $this->redirect($request->getUri());
     }
 }
