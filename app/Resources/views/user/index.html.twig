@@ -134,6 +134,14 @@
                 <input type="file" name="import" />
                 <input type="submit" name="submit" value="Importer" class="btn btn-primary btn-sm" />
             </form>
+
+            {#{{ form_start(form) }}#}
+            {#{{ form_widget(form) }}#}
+            {#<button type="submit" class="btn btn-primary center-block">#}
+                {#<span class="glyphicon glyphicon-send"></span>Publier#}
+            {#</button>#}
+            {#{{ form_end(form) }}#}
+
         </div>
 
         <div class="pull-right">

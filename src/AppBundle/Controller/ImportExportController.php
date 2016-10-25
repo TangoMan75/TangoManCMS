@@ -64,28 +64,34 @@ class ImportExportController extends Controller
     /**
      * @Route("/import", name="import")
      */
-    public function importAction(Request $request)
+    public function importAction()
     {
-        // Get file
         $file = $_FILES['import']['tmp_name'];
+//        die(dump($file));
+//        $form = $this->createForm(FileType::class, $file);
+//        $form->handleRequest($request);
+
+//        $file->guessExtension();
+//        die();
+//        dump($file->guessExtension());
         // Security checks
-        if ($_FILES['import']['error'] > 0) {
-            $erreur = "Erreur lors du transfert";
+        if (!$file) {
             $this->get('session')->getFlashBag()->add('error',
                 "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer.");
-            return $this->redirect($request->getUri());
+            return $this->redirectToRoute('user_index');
         }
         // Extension check
-        $validExtensions = ['csv'];
-        $uploadExtension = strtolower(substr(strrchr($_FILES['import']['name'], '.'), 1));
-        if ( !in_array($uploadExtension, $validExtensions) ) {
-            $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
-            return $this->redirect($request->getUri());
-        };
+//        $validExtensions = ['csv'];
+//        $uploadExtension = $file['extension'];
+//        if ( !in_array($uploadExtension, $validExtensions) ) {
+//            $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
+//            return $this->redirectToRoute('user_index');
+//        };
         // Get CSV reader service
         $reader = $this->get('services.csv_reader');
         // File check
         if (is_file($file)) {
+            $counter = 0;
             // Init reader service
             $reader->init($file, 0, "\t");
             // Load user entity
@@ -96,6 +102,7 @@ class ImportExportController extends Controller
                 $user = $users->findOneByEmail($line->get('email'));
                 // When not found persist new user
                 if(!$user) {
+                    $counter++;
                     $user = new User();
                     $user->setUsername($line->get('username'));
                     $user->setEmail($line->get('email'));
@@ -108,6 +115,14 @@ class ImportExportController extends Controller
             }
         }
 
-        return $this->redirect($request->getUri());
+        if ($counter > 1) {
+            $success = "$counter comptes utilisateur ont été importés.";
+        } else {
+            $success = "Aucun compte utilisateur n'a été importé.";
+        }
+
+        $this->get('session')->getFlashBag()->add('success', $success);
+//        return $this->redirect($request->getUri());
+        return $this->redirectToRoute('user_index');
     }
 }
