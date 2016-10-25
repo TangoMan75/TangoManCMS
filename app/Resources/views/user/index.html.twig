@@ -129,10 +129,23 @@
         <div class="text-center">
             <p>
                 Exporter la liste d'utilisateurs
+            </p>
+            <p>
                 <a href="{{ path('user_export_json') }}" target="_blank" class="btn btn-primary btn-sm">
                     Format Json
                 </a>&nbsp;
                 <a href="{{ path('user_export_csv') }}" target="_blank" class="btn btn-primary btn-sm">
+                    Format CSV
+                </a>
+            </p>
+        </div>
+
+        <div class="text-center">
+            <p>
+                Importer une liste d'utilisateurs
+            </p>
+            <p>
+                <a href="{{ path('import') }}" target="_blank" class="btn btn-primary btn-sm">
                     Format CSV
                 </a>
             </p>
