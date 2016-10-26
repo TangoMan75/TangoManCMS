@@ -126,33 +126,35 @@
             {{ pagination(users) }}
         </div>
 
-        <div class="pull-left">
-            <p>
-                Importer une liste d'utilisateurs
-            </p>
-            <form method="post" action="{{ path('import') }}" enctype="multipart/form-data">
-                <input type="file" name="import" />
-                <input type="submit" name="submit" value="Importer" class="btn btn-primary btn-sm" />
-            </form>
-
-            {#{{ form_start(form) }}#}
-            {#{{ form_widget(form) }}#}
-            {#<button type="submit" class="btn btn-primary center-block">#}
-                {#<span class="glyphicon glyphicon-send"></span>Publier#}
-            {#</button>#}
-            {#{{ form_end(form) }}#}
-
+        <div class="panel panel-warning pull-left">
+            <div class="panel-heading">
+                <h1 class="text-center">
+                    Importer une liste d'utilisateurs
+                </h1>
+            </div>
+            <div class="panel-body text-center">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary center-block">
+                    <span class="glyphicon glyphicon-import"></span>&nbsp;Importer
+                </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="panel-footer"></div>
         </div>
 
-        <div class="pull-right">
-            <p>
-                Exporter la liste d'utilisateurs
-            </p>
-            <p>
-                <a href="{{ path('export') }}" class="btn btn-primary btn-sm">
-                    Exporter
+        <div class="panel panel-success pull-right">
+            <div class="panel-heading">
+                <h1 class="text-center">
+                    Exporter la liste d'utilisateurs
+                </h1>
+            </div>
+            <div class="panel-body text-center">
+                <a href="{{ path('export') }}" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-export"></span>&nbsp;Exporter
                 </a>
-            </p>
+            </div>
+            <div class="panel-footer"></div>
         </div>
 
         {% include "includes/_delete-modal.html.twig" %}
