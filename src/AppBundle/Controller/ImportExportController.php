@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class UserController
@@ -69,22 +70,23 @@ class ImportExportController extends Controller
      */
     public function importAction(Request $request)
     {
-        $form = $this->createFormBuilder()
-            ->setAction('import')
+        $form = $this->createFormBuilder(['csrf_protection' => false])
+//            ->setAction('import')
             ->add('Fichier', FileType::class, [
-//                'constraints' => [
-//                    new File([
-//                        'maxSize' => '10',
-//                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
-//                        'mimeTypes' => 'application/vnd.ms-excel',
-//                        'mimeTypesMessage' => "Vous ne pouvez importer que des fichiers de type CSV"
-//                    ]),
-//                ]
+                'constraints' => [
+                    new NotBlank(),
+                    new File([
+                        'maxSize' => '1024k',
+                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
+                        'mimeTypes' => 'application/vnd.ms-excel',
+                        'mimeTypesMessage' => "Vous ne pouvez importer que des fichiers de type CSV"
+                    ]),
+                ]
             ])
             ->getForm();
 
-        if ($request->isMethod('POST')) {
-//        if ( $form->isSubmitted() && $form->isValid() ) {
+//        if ($request->isMethod('POST')) {
+        if ( $form->isSubmitted() && $form->isValid() ) {
 
             $form->handleRequest($request);
             $file = $request->files->get('form')['Fichier'];
