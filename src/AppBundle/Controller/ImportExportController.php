@@ -76,77 +76,74 @@ class ImportExportController extends Controller
                 'constraints' => [
                     new NotBlank(),
                     new File([
-                        'maxSize' => '1024k',
-                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
+//                        'maxSize' => '1024k',
+//                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
                         'mimeTypes' => 'application/vnd.ms-excel',
                         'mimeTypesMessage' => "Vous ne pouvez importer que des fichiers de type CSV"
                     ]),
                 ]
             ])
-            ->getForm();
+            ->getForm()
+        ;
 
-//        if ($request->isMethod('POST')) {
-        if ( $form->isSubmitted() && $form->isValid() ) {
+        $form->handleRequest($request);
+        $file = $request->files->get('form')['Fichier'];
 
-            $form->handleRequest($request);
-            $file = $request->files->get('form')['Fichier'];
+        // Upload success check
+        if (!$file->isValid()) {
+            $this->get('session')->getFlashBag()->add('error',
+                "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer.");
+            return $this->redirectToRoute('user_index');
+        }
 
-            // Upload success check
-            if (!$file->isValid()) {
-                $this->get('session')->getFlashBag()->add('error',
-                    "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer.");
-                return $this->redirectToRoute('user_index');
-            }
+        // Security checks
+        $validExtensions = ['csv', 'tsv'];
+        $clientExtension = $file->getClientOriginalExtension();
 
-            // Security checks
-            $validExtensions = ['csv', 'tsv'];
-            $clientExtension = $file->getClientOriginalExtension();
+        if ($file->getClientMimeType() !== 'application/vnd.ms-excel' &&
+            !in_array($clientExtension, $validExtensions)) {
 
-            if ($file->getClientMimeType() !== 'application/vnd.ms-excel' &&
-                !in_array($clientExtension, $validExtensions)) {
-
-                $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
-                return $this->redirectToRoute('user_index');
-            } else {
-                // Get CSV reader service
-                $reader = $this->get('services.csv_reader');
-                $counter = 0;
-                $dupes = 0;
-                // File check
-                if (is_file($file)) {
-                    // Init reader service
-                    $reader->init($file, 0, ";");
-                    // Load user entity
-                    $em = $this->get('em');
-                    $users = $em->repository('AppBundle:User');
-                    while (false !== ($line = $reader->readLine())) {
-                        // Check if user with same email already exist
-                        $user = $users->findOneByEmail($line->get('email'));
-                        // When not found persist new user
-                        if (!$user) {
-                            $counter++;
-                            $user = new User();
-                            $user->setUsername($line->get('username'));
-                            $user->setEmail($line->get('email'));
-                            $user->setPassword($line->get('password'));
-                            $user->setAvatar($line->get('avatar'));
-                            $user->setRoles(explode(",", $line->get('roles')));
-                            $user->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
-                            $em->save($user);
-                        } else {
-                            $dupes++;
-                        }
+            $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
+            return $this->redirectToRoute('user_index');
+        } else {
+            // Get CSV reader service
+            $reader = $this->get('services.csv_reader');
+            $counter = 0;
+            $dupes = 0;
+            // File check
+            if (is_file($file)) {
+                // Init reader service
+                $reader->init($file, 0, ";");
+                // Load user entity
+                $em = $this->get('em');
+                $users = $em->repository('AppBundle:User');
+                while (false !== ($line = $reader->readLine())) {
+                    // Check if user with same email already exist
+                    $user = $users->findOneByEmail($line->get('email'));
+                    // When not found persist new user
+                    if (!$user) {
+                        $counter++;
+                        $user = new User();
+                        $user->setUsername($line->get('username'));
+                        $user->setEmail($line->get('email'));
+                        $user->setPassword($line->get('password'));
+                        $user->setAvatar($line->get('avatar'));
+                        $user->setRoles(explode(",", $line->get('roles')));
+                        $user->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
+                        $em->save($user);
+                    } else {
+                        $dupes++;
                     }
                 }
-
-                if ($counter > 1) {
-                    $success = "$counter comptes utilisateur ont été importés.";
-                } else {
-                    $success = "Aucun compte utilisateur n'a été importé.";
-                }
-
-                $this->get('session')->getFlashBag()->add('success', $success);
             }
+
+            if ($counter > 1) {
+                $success = "$counter comptes utilisateur ont été importés.";
+            } else {
+                $success = "Aucun compte utilisateur n'a été importé.";
+            }
+
+            $this->get('session')->getFlashBag()->add('success', $success);
         }
 
 //        return $this->redirect($request->getUri());
