@@ -1,6 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+    <section id="user-list">
+
     <h1 class="text-center user-list">Liste des utilisateurs</h1>
 
     {% if is_granted('ROLE_ADMIN') %}
@@ -125,37 +127,39 @@
         <div class="text-center">
             {{ pagination(users) }}
         </div>
+        </section>
+        <section id="import-export">
+            <div class="panel panel-warning pull-left">
+                <div class="panel-heading">
+                    <h1 class="text-center">
+                        Importer une liste d'utilisateurs
+                    </h1>
+                </div>
+                <div class="panel-body text-center">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <button type="submit" class="btn btn-primary center-block">
+                        <span class="glyphicon glyphicon-import"></span>&nbsp;Importer
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+                <div class="panel-footer"></div>
+            </div>
 
-        <div class="panel panel-warning pull-left">
-            <div class="panel-heading">
-                <h1 class="text-center">
-                    Importer une liste d'utilisateurs
-                </h1>
+            <div class="panel panel-success pull-right">
+                <div class="panel-heading">
+                    <h1 class="text-center">
+                        Exporter la liste d'utilisateurs
+                    </h1>
+                </div>
+                <div class="panel-body text-center">
+                    <a href="{{ path('export') }}" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-export"></span>&nbsp;Exporter
+                    </a>
+                </div>
+                <div class="panel-footer"></div>
             </div>
-            <div class="panel-body text-center">
-                {{ form_start(form) }}
-                {{ form_widget(form) }}
-                <button type="submit" class="btn btn-primary center-block">
-                    <span class="glyphicon glyphicon-import"></span>&nbsp;Importer
-                </button>
-                {{ form_end(form) }}
-            </div>
-            <div class="panel-footer"></div>
-        </div>
-
-        <div class="panel panel-success pull-right">
-            <div class="panel-heading">
-                <h1 class="text-center">
-                    Exporter la liste d'utilisateurs
-                </h1>
-            </div>
-            <div class="panel-body text-center">
-                <a href="{{ path('export') }}" class="btn btn-primary">
-                    <span class="glyphicon glyphicon-export"></span>&nbsp;Exporter
-                </a>
-            </div>
-            <div class="panel-footer"></div>
-        </div>
+        </section>
 
         {% include "includes/_delete-modal.html.twig" %}
 

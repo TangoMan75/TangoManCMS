@@ -13,13 +13,6 @@ body {
 }
 
 /**
- * User list layout
- */
-h1.user-list {
-	margin-bottom: 1em;
-}
-
-/**
  * Profiles layout
  */
 #user-profile {
@@ -49,6 +42,38 @@ h1.user-list {
 	max-height: 200px;
 }
 
+/**
+ * User list layout
+ */
+h1.user-list {
+	margin-bottom: 1em;
+}
+
+#user-list {
+	margin-bottom: 3em;
+}
+
+/**
+ * User index sorting
+ */
+th.DESC a:after {
+	content: "\e252";
+	float: right;
+	font-family: 'Glyphicons Halflings';
+}
+
+th.ASC a:after {
+	content: "\e253";
+	float: right;
+	font-family: 'Glyphicons Halflings';
+}
+
+/*!***/
+ /** pagination*/
+ /**!*/
+/*.pagination {*/
+	/*margin-bottom: 3em !important;*/
+/*}*/
 
 /**
  * Posts layout
@@ -199,21 +224,6 @@ div.alert {
 	z-index: 9999;
 	top: 12.5em;
 	right: 15%;
-}
-
-/**
- * User index
- */
-th.DESC a:after {
-	content: "\e252";
-	float: right;
-	font-family: 'Glyphicons Halflings';
-}
-
-th.ASC a:after {
-	content: "\e253";
-	float: right;
-	font-family: 'Glyphicons Halflings';
 }
 
 /**
