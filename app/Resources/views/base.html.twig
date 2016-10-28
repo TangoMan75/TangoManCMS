@@ -43,6 +43,14 @@
         <!-- Font-awesome CDN -->
         <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" /> -->
 
+        {#{% block og %}#}
+            {#<meta property="og:title" content="{{ block('title') }}"/>#}
+            {#<meta property="og:type" content="website"/>#}
+            {#<meta property="og:url" content="{{ app.request.uri }}"/>#}
+            {#<meta property="og:image" content="{{ asset('/images/logoOG.png', absolute = true) }}"/>#}
+            {#<meta property="og:description" content="{{ block('description') }}"/>#}
+        {#{% endblock %}#}
+
     {% endblock %}
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar">
