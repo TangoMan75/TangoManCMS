@@ -7,7 +7,7 @@ $(function() {
  * Floating back to top button.
  *
  * @version   0.1.0
- * @author    Matthias Morin <matthias.morin@gmail.com>
+ * @author    Matthias Morin <tangoman@free.fr>
  * @requires  jQuery & Bootstap
  * @requires  smooth scrolling
  */

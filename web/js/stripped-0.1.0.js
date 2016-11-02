@@ -2,7 +2,7 @@
  * Injects ARIA roles into HTML
  *
  * @url      https://www.w3.org/TR/html-aria/
- * @author   Matthias Morin <matthias.morin@gmail.com>
+ * @author   Matthias Morin <tangoman@free.fr>
  * @version  0.1.0
  */
 
@@ -158,7 +158,7 @@ $(window).on("scroll", function(){
 /**
  * Defines if an element is into view on the page.
  * 
- * @author    "Matthias Morin" <matthias.morin@gmail.com>
+ * @author    "Matthias Morin" <tangoman@free.fr>
  * @requires  jQuery
  * @note      Improved version found on this page
  * @link      http://stackoverflow.com/questions/487073/check-if-element-is-visible-after-scrolling
@@ -189,7 +189,7 @@ function isScrolledIntoView(objElement) {
 /**
  * Parallax animation
  *
- * @author         Matthias Morin <matthias.morin@gmail.com>
+ * @author         Matthias Morin <tangoman@free.fr>
  * @last-modified  14:00 06/09/2016
  * @requires       jQuery
  */

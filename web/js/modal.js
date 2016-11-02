@@ -2,7 +2,7 @@
  * Modal setup
  *
  * Listens to all buttons with data-toggle="modal"
- * @author    Matthias Morin <matthias.morin@gmail.com>
+ * @author    Matthias Morin <tangoman@free.fr>
  * @version   0.1.0
  * @requires  jQuery
  */
