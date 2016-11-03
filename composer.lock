@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "309400e3a6d04791c050b41ca0e8c33c",
-    "content-hash": "217992c8b76f01e321ae75f7349f022c",
+    "hash": "db56427ed2a035d156eae20cea5943f4",
+    "content-hash": "00296214526a75e8ebb7ce47fa0412fd",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2214,6 +2214,52 @@
                 "framework"
             ],
             "time": "2016-10-03 19:01:14"
+        },
+        {
+            "name": "tangoman/jwt-bundle",
+            "version": "0.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/JWTBundle.git",
+                "reference": "3c8f611ff2af9be9a5b9d7f562aa0f887d194356"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/3c8f611ff2af9be9a5b9d7f562aa0f887d194356",
+                "reference": "3c8f611ff2af9be9a5b9d7f562aa0f887d194356",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^4.0",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\JWTBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                }
+            ],
+            "description": "JWT Service Symfony Bundle",
+            "keywords": [
+                "bundle",
+                "json",
+                "jwt",
+                "service",
+                "symfony",
+                "token",
+                "web"
+            ],
+            "time": "2016-11-03 10:26:43"
         },
         {
             "name": "tiloweb/base64-bundle",

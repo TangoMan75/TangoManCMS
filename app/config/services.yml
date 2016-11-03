@@ -8,10 +8,6 @@ services:
         class: AppBundle\Services\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
-    jwt:
-        class: AppBundle\Services\JWTService
-        arguments: ["%secret%"]
-
     twig.extension.remove_url_query:
         class: AppBundle\TwigExtension\RemoveUrlQuery
         tags:
