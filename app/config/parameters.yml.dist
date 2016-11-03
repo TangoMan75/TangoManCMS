@@ -19,6 +19,8 @@ parameters:
     mailer_password:   ~
     mailer_from:       tech@argus-lab.com
     site_name:         "Livre d'Or"
+    site_slug:         'livredor'
+    site_author:       'Matthias Morin'
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt

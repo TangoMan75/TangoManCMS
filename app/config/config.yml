@@ -38,6 +38,8 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         site_name:    "%site_name%"
+        site_slug:    "%site_slug%"
+        site_author:  "%site_author%"
     form_themes:
         - bootstrap_3_layout.html.twig
         - TilowebBase64Bundle:form:fields.html.twig
