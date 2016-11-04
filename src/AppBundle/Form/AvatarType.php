@@ -12,10 +12,10 @@ class AvatarType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add("avatar", Base64Type::class, [
-                'label' => 'Avatar',
-                'required' => false
-            ]);
+        ->add("avatar", Base64Type::class, [
+            'label' => 'Votre avatar',
+            'required' => false
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)

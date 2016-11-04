@@ -3,38 +3,21 @@
 {% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
 
 {% block body %}
-
-    {% include "includes/_user-profile.html.twig" %}
-
-    <div class="center-block">
-        <ul>
-            <li><a href="#">Changer de nom d'utilisateur.</a></li>
-        </ul>
-        <ul>
-            <li><a href="#">Changer d'adresse email.</a></li>
-        </ul>
-        <ul>
-            <li><a href="#">Changer de mot de passe.</a></li>
-        </ul>
-        <ul>
-            <li><a href="#">Changer de photo.</a></li>
-        </ul>
-        <ul>
-            <li>
-                <a href="{{ path('user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">
-                    Supprimer mon compte.
-                </a>
-            </li>
-        </ul>
-    </div>
-
     <div id="profile-form" class="jumbotron">
-        <h2 class="text-center"><span class="glyphicon glyphicon-user pull-left"></span>{{ user.username | capitalize }}</h2>
+        <h2 class="text-center">
+            <span class="glyphicon glyphicon-edit pull-left"></span>
+            Modifier votre profil
+        </h2>
         <div class="text-center">
             {{ form_start(form_avatar) }}
             {{ form_widget(form_avatar) }}
-            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Envoyer</button>
+            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Valider</button>
             {{ form_end(form_avatar) }}
         </div>
+    </div>
+    <div class="text-center">
+        <a class="btn btn-danger" href="{{ path('user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">
+            Supprimer mon compte.
+        </a>
     </div>
 {% endblock %}

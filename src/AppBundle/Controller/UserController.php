@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
-use AppBundle\Form\AvatarType;
+use AppBundle\Form\ProfileType;
 use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -72,37 +72,6 @@ class UserController extends Controller
 
         return $this->render('user/register.html.twig', [
             'form_register' => $form->createView()
-        ]);
-    }
-
-    /**
-     * Edit User.
-     *
-     * @Route("/edit/{id}", requirements={"id": "\d+"}, name="user_edit")
-     * @ParamConverter("user", class="AppBundle:User")
-     */
-    public function editAction(Request $request, User $user)
-    {
-        if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier cet utilisateur.");
-            return $this->redirectToRoute('homepage');
-        }
-
-        $form = $this->createForm(AvatarType::class, $user);
-        $form->handleRequest($request);
-        $formImage = $form->createView();
-
-        if ( $form->isSubmitted() && $form->isValid() ) {
-            $this->get('em')->save($user);
-            $this->get('session')->getFlashBag()->add('success', 'Votre avatar a bien été enregistré.');
-
-            // User is redirected to referrer page
-            return $this->redirect( $request->get('callback') );
-        }
-
-        return $this->render('user/edit.html.twig', [
-            'user' => $user,
-            'form_avatar' => $formImage
         ]);
     }
 
@@ -202,6 +171,37 @@ class UserController extends Controller
     }
 
     /**
+     * Edit User.
+     *
+     * @Route("/edit/{id}", requirements={"id": "\d+"}, name="user_edit")
+     * @ParamConverter("user", class="AppBundle:User")
+     */
+    public function editAction(Request $request, User $user)
+    {
+        if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier cet utilisateur.");
+            return $this->redirectToRoute('homepage');
+        }
+
+        $form = $this->createForm(ProfileType::class, $user);
+        $form->handleRequest($request);
+        $formImage = $form->createView();
+
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $this->get('em')->save($user);
+            $this->get('session')->getFlashBag()->add('success', 'Votre profil a bien été enregistré.');
+
+            // User is redirected to referrer page
+            return $this->redirect( $request->get('callback') );
+        }
+
+        return $this->render('user/edit.html.twig', [
+            'user' => $user,
+            'form_avatar' => $formImage
+        ]);
+    }
+
+    /**
      * Display User entity.
      *
      * @Route("/{username}", name="user_show")
@@ -221,5 +221,4 @@ class UserController extends Controller
             'list_post' => $listPost
         ]);
     }
-
 }

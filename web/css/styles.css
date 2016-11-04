@@ -35,7 +35,7 @@ body {
 /**
  * Profile edit layout
  */
-#avatar_avatar_figure #avatar_avatar_img {
+#profile_avatar_figure #profile_avatar_img {
 	margin: 1em;
 	border-radius: 1em;
 	max-width: 200px;
