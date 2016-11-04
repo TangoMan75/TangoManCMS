@@ -102,7 +102,7 @@
     {% block body %}
     {% endblock %}
 </div>
-<footer id="footer"><p>Copyright 2016 | Matthias Morin</p></footer>
+<footer id="footer"><p>Copyright {{ "now"|date("Y") }} | {{ site_author }}</p></footer>
 
 {% block javascripts %}
     <!-- jQuery CDN -->
