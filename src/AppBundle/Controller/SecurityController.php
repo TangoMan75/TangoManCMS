@@ -87,11 +87,9 @@ class SecurityController extends Controller
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
             $token = $this->get('jwt')->encode($jwt);
 
-            $siteName = $this->container->getParameter('site_name');
-
             // Sends validation email to user
             $message = \Swift_Message::newInstance()
-                ->setSubject($siteName . " | Réinitialisation de mot de passe.")
+                ->setSubject($this->getParameter('site_name') . " | Réinitialisation de mot de passe.")
                 ->setFrom($this->getParameter('mailer_from'))
                 ->setTo($email)
                 ->setBody(

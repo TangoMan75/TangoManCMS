@@ -21,20 +21,6 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * site_name global variable
-     * @var  [String]
-     */
-    private $siteName;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->siteName = $this->container->getParameter('site_name');
-    }
- 
-    /**
      * Register new User.
      *
      * @Route("/register", name="user_register")
@@ -61,7 +47,7 @@ class UserController extends Controller
 
             // Create email containing token for validation
             $message = \Swift_Message::newInstance()
-                ->setSubject($this->siteName . " | Confirmation d'inscription.")
+                ->setSubject($this->getParameter('site_name') . " | Confirmation d'inscription.")
                 ->setFrom($this->getParameter('mailer_from'))
                 ->setTo($user->getEmail())
                 ->setBody(
@@ -148,7 +134,7 @@ class UserController extends Controller
 
             // Create email containing token for validation
             $message = \Swift_Message::newInstance()
-                ->setSubject($this->siteName . " | Confirmation de désinscription.")
+                ->setSubject($this->getParameter('site_name') . " | Confirmation de désinscription.")
                 ->setFrom($this->getParameter('mailer_from'))
                 ->setTo($user->getEmail())
                 ->setBody(
