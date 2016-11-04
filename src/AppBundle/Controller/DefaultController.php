@@ -13,7 +13,7 @@ class DefaultController extends Controller
 	/**
      * Displays homepage.
      *
-	 * @Route("/", name="app_homepage")
+	 * @Route("/", name="homepage")
 	 */
 	public function indexAction(Request $request)
 	{
@@ -33,7 +33,7 @@ class DefaultController extends Controller
 
 			    $this->get('em')->save($post);
 				$this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
-				return $this->redirectToRoute('app_homepage');
+				return $this->redirectToRoute('homepage');
 
 			}
 		}

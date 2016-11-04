@@ -2,7 +2,7 @@
 {% block body %}
     <h1>Bonjour {{ user.username|capitalize }}</h1>
     <p>Une demande de réinitialisation de mot de passe pour votre compte
-        <a href="{{ absolute_url(path('app_homepage')) }}">
+        <a href="{{ absolute_url(path('homepage')) }}">
             {{ site_name }}
         </a>
         a été formulée.

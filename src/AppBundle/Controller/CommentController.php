@@ -30,7 +30,7 @@ class CommentController extends Controller
         // Only author or admin can edit comment
         if ( $this->getUser() !== $comment->getUser() && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         $form = $this->createForm(CommentType::class, $comment);
@@ -66,7 +66,7 @@ class CommentController extends Controller
         // Only author or admin can delete comment
         if ( $this->getUser() !== $comment->getUser() && !in_array( 'ROLE_ADMIN', $this->getUser()->getRoles() ) ) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         // Delete specified comment

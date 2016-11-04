@@ -105,7 +105,7 @@ class SecurityController extends Controller
             $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
                 "bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. ".
                 "<br /> Vérifiez votre boîte email.");
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/reset.html.twig', [
@@ -133,7 +133,7 @@ class SecurityController extends Controller
                 "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
                 "Vous devez recommencer le procéssus d'inscription."
             );
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         if ($action == "create") {
@@ -151,7 +151,7 @@ class SecurityController extends Controller
                 $this->get('session')->getFlashBag()->add('error',
                     "Désolé <strong>$username</strong> ce compte a été supprimé."
                 );
-                return $this->redirectToRoute('app_homepage');
+                return $this->redirectToRoute('homepage');
             }
         }
 
@@ -178,7 +178,7 @@ class SecurityController extends Controller
             $this->get('security.token_storage')->setToken($sessionToken);
             $this->get('session')->set('_security_main',serialize($sessionToken));
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render('user/password.html.twig', [
@@ -206,7 +206,7 @@ class SecurityController extends Controller
             $this->get('session')->getFlashBag()->add('error', "Désolé <strong>$username</strong><br />".
                 "Votre lien de sécurité n'est pas valide ou à expiré."
             );
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         // Find user
@@ -216,7 +216,7 @@ class SecurityController extends Controller
             $this->get('session')->getFlashBag()->add('error',
                 "Désolé <strong>$username</strong> ce compte a été supprimé."
             );
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         } else {
             // Removes user
             $this->get('em')->remove($user);
@@ -231,10 +231,10 @@ class SecurityController extends Controller
             if ( $user == $this->getUser() ) {
                 $this->get('security.token_storage')->setToken(null);
                 $request->getSession()->invalidate();
-                return $this->redirectToRoute('app_homepage');
+                return $this->redirectToRoute('homepage');
             }
 
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
     }
 

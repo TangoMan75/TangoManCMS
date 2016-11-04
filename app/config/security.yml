@@ -26,10 +26,10 @@ security:
             form_login:
                 login_path: app_login
                 check_path: app_check
-                default_target_path: app_homepage
+                default_target_path: homepage
             logout:
                 path: app_logout
-                target: app_homepage
+                target: homepage
                 invalidate_session: true
 
         main:

@@ -76,7 +76,7 @@ class AdminController extends Controller
         if ($user == $this->getUser()) {
             $this->get('security.token_storage')->setToken(null);
             $request->getSession()->invalidate();
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
 
@@ -88,7 +88,7 @@ class AdminController extends Controller
     /**
      * Sets user roles.
      *
-     * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"}, name="user_add_role")
+     * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"}, name="admin_add_role")
      */
     public function addRoleAction(Request $request, User $user, $role)
     {
@@ -104,7 +104,7 @@ class AdminController extends Controller
     /**
      * Removes user role.
      *
-     * @Route("/remove-role/{id}/{role}", requirements={"id": "\d+"}, name="user_remove_role")
+     * @Route("/remove-role/{id}/{role}", requirements={"id": "\d+"}, name="admin_remove_role")
      */
     public function removeRoleAction(Request $request, User $user, $role)
     {
@@ -112,7 +112,7 @@ class AdminController extends Controller
         if ( $user == $this->getUser() ) {
             $this->get('security.token_storage')->setToken(null);
             $request->getSession()->invalidate();
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         $user->removeRole($role);

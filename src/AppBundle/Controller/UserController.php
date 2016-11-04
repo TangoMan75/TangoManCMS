@@ -85,7 +85,7 @@ class UserController extends Controller
     {
         if ( $this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier cet utilisateur.");
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         $form = $this->createForm(AvatarType::class, $user);
@@ -118,7 +118,7 @@ class UserController extends Controller
         // Check if is account owner
         if ( !$user == $this->getUser() ) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         } else {
             $username = $user->getUsername();
             $email = $user->getEmail();
@@ -180,7 +180,7 @@ class UserController extends Controller
                 "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
                 "Vous devez recommencer le procéssus d'inscription."
             );
-            return $this->redirectToRoute('app_homepage');
+            return $this->redirectToRoute('homepage');
         }
 
         // Deletes specified user
@@ -198,7 +198,7 @@ class UserController extends Controller
             "Au revoir <strong>&quot;{$user->getUsername()}&quot;</strong><br />".
             "Votre compte a été supprimé.");
 
-        return $this->redirectToRoute('app_homepage');
+        return $this->redirectToRoute('homepage');
     }
 
     /**

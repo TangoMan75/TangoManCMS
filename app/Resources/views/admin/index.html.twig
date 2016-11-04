@@ -88,12 +88,12 @@
                     </td>
                     <td>
                         {% if 'ROLE_ADMIN' in user.roles %}
-                            <a href="{{ path('user_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
+                            <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
                                class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-king"></span>&nbsp;admin
                             </a>
                         {% else %}
-                            <a href="{{ path('user_add_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
+                            <a href="{{ path('admin_add_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
                                class="btn btn-success btn-sm">
                                 <span class="glyphicon glyphicon-pawn"></span>&nbsp;user
                             </a>
