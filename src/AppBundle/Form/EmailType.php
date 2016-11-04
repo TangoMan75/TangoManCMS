@@ -30,4 +30,8 @@ class EmailType extends AbstractType
         $resolver->setDefaults([]);
     }
 
+    public function getName()
+    {
+        return 'email';
+    }
 }
