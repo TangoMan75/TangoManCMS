@@ -114,6 +114,59 @@ class SecurityController extends Controller
     }
 
     /**
+     * Send email containing password reset security token.
+     *
+     * @return mixed
+     * @Route("/password_change/{id}", requirements={"id": "\d+"}, name="app_password_change")
+     */
+    public function passwordChangeAction(Request $request, User $user)
+    {
+        // Only user is allowed to change his password
+        if ( $this->getUser() !== $user ) {
+            $email = $user->getEmail();
+
+            // Send error message when user not found
+            if ( !$user ) {
+                $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
+                return $this->redirectToRoute('app_token');
+            }
+
+            // Generate password reset token
+            $jwt = new JWT();
+            $jwt->set('id', $user->getId());
+            $jwt->set('username', $user->getUsername());
+            $jwt->set('email', $email);
+            $jwt->set('action', 'reset');
+            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+            $token = $this->get('jwt')->encode($jwt);
+
+            // Sends validation email to user
+            $message = \Swift_Message::newInstance()
+                ->setSubject($this->getParameter('site_name') . " | Réinitialisation de mot de passe.")
+                ->setFrom($this->getParameter('mailer_from'))
+                ->setTo($email)
+                ->setBody(
+                    $this->renderView('email/reset.html.twig', [
+                        'user' => $user,
+                        'token' => $token
+                    ]),
+                    'text/html'
+                )
+            ;
+
+            $this->get('mailer')->send($message);
+            $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
+                "bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. ".
+                "<br /> Vérifiez votre boîte email.");
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render('user/reset.html.twig', [
+            'form_reset' => $form->createView()
+        ]);
+    }
+
+    /**
      * Checks security token and allows password change.
      *
      * @Route("/password/{token}", name="app_password")
