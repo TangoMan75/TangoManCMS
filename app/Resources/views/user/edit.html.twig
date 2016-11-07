@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="text-center">
-        <a class="btn btn-danger" href="{{ path('user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">
+        <a class="btn btn-danger" href="{{ path('app_password_change', { 'id': user.id, 'callback': app.request.uri }) }}">
             Modifier mon mot de passe
         </a>
         <a class="btn btn-danger" href="{{ path('user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">

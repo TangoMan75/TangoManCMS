@@ -84,7 +84,7 @@ class SecurityController extends Controller
             $jwt->set('username', $user->getUsername());
             $jwt->set('email', $email);
             $jwt->set('action', 'reset');
-            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 day'));
             $token = $this->get('jwt')->encode($jwt);
 
             // Sends validation email to user
@@ -137,7 +137,7 @@ class SecurityController extends Controller
             $jwt->set('username', $user->getUsername());
             $jwt->set('email', $email);
             $jwt->set('action', 'reset');
-            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
+            $jwt->setPeriod(new \DateTime(), new \DateTime('+1 day'));
             $token = $this->get('jwt')->encode($jwt);
 
             // Sends validation email to user
@@ -158,12 +158,10 @@ class SecurityController extends Controller
             $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
                 "bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. ".
                 "<br /> Vérifiez votre boîte email.");
-            return $this->redirectToRoute('homepage');
         }
 
-        return $this->render('user/reset.html.twig', [
-            'form_reset' => $form->createView()
-        ]);
+        // User is redirected to referrer page
+        return $this->redirect( $request->get('callback') );
     }
 
     /**
