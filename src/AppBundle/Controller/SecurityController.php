@@ -121,15 +121,15 @@ class SecurityController extends Controller
      */
     public function passwordChangeAction(Request $request, User $user)
     {
-        // Only user is allowed to change his password
-        if ( $this->getUser() !== $user ) {
-            $email = $user->getEmail();
+        // Send error message when user not found
+        if ( !$user ) {
+            $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
+            return $this->redirectToRoute('app_token');
+        }
 
-            // Send error message when user not found
-            if ( !$user ) {
-                $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
-                return $this->redirectToRoute('app_token');
-            }
+        // Only user is allowed to change his password
+        if ( $this->getUser() == $user ) {
+            $email = $user->getEmail();
 
             // Generate password reset token
             $jwt = new JWT();
