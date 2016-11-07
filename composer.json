@@ -1,5 +1,5 @@
 {
-    "name": "morin matthias/.checkout",
+    "name": "livredor",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -78,7 +78,8 @@
                 "mailer_password": "POSTMARK_API_TOKEN",
                 "mailer_from": "MAILER_FROM",
                 "site_name": "SITE_NAME",
-                "site_author": "SITE_AUTHOR"
+                "site_author": "SITE_AUTHOR",
+                "analytics": "ANALYTICS"
             }
         }
     }

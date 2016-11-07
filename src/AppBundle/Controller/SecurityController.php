@@ -117,7 +117,7 @@ class SecurityController extends Controller
      * Send email containing password reset security token.
      *
      * @return mixed
-     * @Route("/password_change/{id}", requirements={"id": "\d+"}, name="app_password_change")
+     * @Route("/password-change/{id}", requirements={"id": "\d+"}, name="app_password_change")
      */
     public function passwordChangeAction(Request $request, User $user)
     {
