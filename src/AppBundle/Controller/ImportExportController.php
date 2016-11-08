@@ -13,9 +13,6 @@ use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class UserController
- *
- * @package AppBundle\Controller
  * @Route("/admin")
  */
 class ImportExportController extends Controller

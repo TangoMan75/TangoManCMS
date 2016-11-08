@@ -8,8 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 /**
- * Class SecurityController
- * @package AppBundle\Controller
  * @Route("/access")
  */
 class AccessController extends Controller

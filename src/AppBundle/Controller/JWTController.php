@@ -11,8 +11,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class SecurityController
- * @package AppBundle\Controller
  * @Route("/jwt")
  */
 class JWTController extends Controller

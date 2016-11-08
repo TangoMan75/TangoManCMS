@@ -12,8 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 /**
- * Class SecurityController
- * @package AppBundle\Controller
  * @Route("/security")
  */
 class SecurityController extends Controller
