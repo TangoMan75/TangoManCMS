@@ -6,9 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Comment
- *
- * @package AppBundle\Entity
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
  */
