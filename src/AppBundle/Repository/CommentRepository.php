@@ -19,14 +19,12 @@ class CommentRepository extends EntityRepository
     public function findAllPaged($post, $page = 1, $max = 10)
     {
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
             );
         }
 
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$max must be an integer ('.gettype($max).' : '.$max.')'
             );
@@ -45,9 +43,7 @@ class CommentRepository extends EntityRepository
         $paginator = new Paginator($query);
 
         if( ($paginator->count() <= $firstResult) && $page != 1 ) {
-
             throw new NotFoundHttpException('Page not found');
-
         }
 
         return $paginator;

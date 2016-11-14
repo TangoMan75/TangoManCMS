@@ -19,14 +19,12 @@ class PostRepository extends EntityRepository
     public function findAllPaged($page = 1, $max = 10)
     {
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
             );
         }
 
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$max must be an integer ('.gettype($max).' : '.$max.')'
             );
@@ -42,9 +40,7 @@ class PostRepository extends EntityRepository
         $paginator = new Paginator($query);
 
         if( ($paginator->count() <= $firstResult) && $page != 1 ) {
-
             throw new NotFoundHttpException('Page not found');
-
         }
 
         return $paginator;
@@ -61,14 +57,12 @@ class PostRepository extends EntityRepository
     public function findByUserPaged(User $user, $page = 1, $max = 10)
     {
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
             );
         }
 
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$max must be an integer ('.gettype($max).' : '.$max.')'
             );
@@ -89,9 +83,7 @@ class PostRepository extends EntityRepository
         $paginator = new Paginator($query);
 
         if( ($paginator->count() <= $firstResult) && $page != 1 ) {
-
             throw new NotFoundHttpException('Page not found');
-
         }
 
         return $paginator;
@@ -108,12 +100,10 @@ class PostRepository extends EntityRepository
     public function findByUsernamePaged($username, $page = 1, $max = 10)
     {
         if( !is_numeric($page) ) {
-
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
             );
         }
-
         if( !is_numeric($page) ) {
 
             throw new \InvalidArgumentException(
@@ -137,9 +127,7 @@ class PostRepository extends EntityRepository
         $paginator = new Paginator($query);
 
         if( ($paginator->count() <= $firstResult) && $page != 1 ) {
-
             throw new NotFoundHttpException('Page not found');
-
         }
 
         return $paginator;
