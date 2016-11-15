@@ -2,6 +2,7 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity\Post;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -11,12 +12,12 @@ class CommentRepository extends EntityRepository
     /**
      * Comments pagination.
      *
-     * @param int $post Post id
+     * @param Post $post
      * @param int $page
      * @param int $max
      * @return Paginator
      */
-    public function findAllPaged($post, $page = 1, $max = 10)
+    public function findAllPaged(Post $post, $page = 1, $max = 10)
     {
         if( !is_numeric($page) ) {
             throw new \InvalidArgumentException(

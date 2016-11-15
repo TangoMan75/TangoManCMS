@@ -23,7 +23,7 @@ class JWTController extends Controller
      */
     public function setTokenAction()
     {
-        $jwtService = $this->get('jwt');
+        $jwtService = $this->get('tangoman_jwt');
 
         $jwt = new JWT();
         $jwt->set('email', 'admin@example.com');
@@ -61,7 +61,7 @@ class JWTController extends Controller
      */
     public function getTokenAction(Request $request, $token)
     {
-        $jwt = $this->get('jwt')->decode($token);
+        $jwt = $this->get('tangoman_jwt')->decode($token);
 
 //        dump($jwt);
 //        dump($token);

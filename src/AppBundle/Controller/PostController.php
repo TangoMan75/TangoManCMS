@@ -25,7 +25,7 @@ class PostController extends Controller
     public function indexAction(Request $request, Post $post)
     {
         $listComment = $this->get('em')->repository('AppBundle:Comment')->findAllPaged(
-            $post->getId(), $request->query->getInt('page', 1), 5
+            $post, $request->query->getInt('page', 1), 5
         );
         $formComment = null;
 

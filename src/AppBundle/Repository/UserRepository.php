@@ -45,6 +45,13 @@ class UserRepository extends EntityRepository
         return $paginator;
     }
 
+    /**
+     * @param int $page
+     * @param int $max
+     * @param string $order
+     * @param string $way
+     * @return Paginator
+     */
     public function sorting($page = 1, $max = 10, $order = 'username', $way = 'DESC')
     {
         if( !is_numeric($page) ) {
@@ -61,11 +68,7 @@ class UserRepository extends EntityRepository
 
         $dql = $this->createQueryBuilder('user');
 
-//        $dql    ->addSelect('user.roles LIKE :role')
-//                ->setParameter('role', "%ROLE_ADMIN%");
-
-        switch( $order ) {
-
+        switch($order) {
             case "posts":
                 $dql->addSelect('COUNT(post.id) as orderParam');
                 $dql->leftJoin('user.posts', 'post');
@@ -79,7 +82,6 @@ class UserRepository extends EntityRepository
             default:
                 $dql->addSelect('user.'.$order.' as orderParam');
                 break;
-
         }
 
         $dql->groupBy('user.id');

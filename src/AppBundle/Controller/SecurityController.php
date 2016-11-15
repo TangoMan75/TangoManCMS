@@ -45,7 +45,7 @@ class SecurityController extends Controller
             $jwt->set('email', $email);
             $jwt->set('action', 'reset');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 day'));
-            $token = $this->get('jwt')->encode($jwt);
+            $token = $this->get('tangoman_jwt')->encode($jwt);
 
             // Sends validation email to user
             $message = \Swift_Message::newInstance()
@@ -98,7 +98,7 @@ class SecurityController extends Controller
             $jwt->set('email', $email);
             $jwt->set('action', 'reset');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 day'));
-            $token = $this->get('jwt')->encode($jwt);
+            $token = $this->get('tangoman_jwt')->encode($jwt);
 
             // Sends validation email to user
             $message = \Swift_Message::newInstance()
@@ -132,7 +132,7 @@ class SecurityController extends Controller
     public function passwordAction(Request $request, $token)
     {
         // JSON Web Token validation
-        $jwt = $this->get('jwt')->decode($token);
+        $jwt = $this->get('tangoman_jwt')->decode($token);
 
         $username = $jwt->get('username');
         $email    = $jwt->get('email');
@@ -206,7 +206,7 @@ class SecurityController extends Controller
     public function deleteAction(Request $request, $token)
     {
         // JSON Web Token validation
-        $jwt = $this->get('jwt')->decode($token);
+        $jwt = $this->get('tangoman_jwt')->decode($token);
 
         $id       = $jwt->get('id');
         $username = $jwt->get('username');

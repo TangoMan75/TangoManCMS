@@ -40,7 +40,7 @@ class UserController extends Controller
             $jwt->set('email', $email);
             $jwt->set('action', 'create');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
-            $token = $this->get('jwt')->encode($jwt);
+            $token = $this->get('tangoman_jwt')->encode($jwt);
 
             // Create email containing token for validation
             $message = \Swift_Message::newInstance()
@@ -96,7 +96,7 @@ class UserController extends Controller
             $jwt->set('email', $email);
             $jwt->set('action', 'unsubscribe');
             $jwt->setPeriod(new \DateTime(), new \DateTime('+1 days'));
-            $token = $this->get('jwt')->encode($jwt);
+            $token = $this->get('tangoman_jwt')->encode($jwt);
 
             // Create email containing token for validation
             $message = \Swift_Message::newInstance()
@@ -132,7 +132,7 @@ class UserController extends Controller
     public function deleteAction(Request $request, $token)
     {
         // JSON Web Token validation
-        $jwt = $this->get('jwt')->decode($token);
+        $jwt = $this->get('tangoman_jwt')->decode($token);
         $id     = $jwt->get('id');
         $email  = $jwt->get('email');
         $action = $jwt->get('action');
