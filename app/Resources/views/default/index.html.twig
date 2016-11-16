@@ -13,12 +13,7 @@
         {% for post in list_post %}
             {% include "includes/_post.html.twig" with {'callback': app.request.uri} %}
         {% else %}
-            <div class="jumbotron">
-                <div class="text-center">
-                    <h2>Il n'y a aucun message à afficher</h2>
-                    <p>Soyez le premier à publier un message dans <strong>{{ site_name }}</strong>.</p>
-                </div>
-            </div>
+            {% include "includes/_nothing.html.twig" %}
         {% endfor %}
         <div class="text-center">
             {{ pagination(list_post) }}

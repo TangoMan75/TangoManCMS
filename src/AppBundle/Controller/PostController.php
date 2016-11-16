@@ -79,7 +79,7 @@ class PostController extends Controller
                 $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
 
                 // User is redirected to referrer page
-                return $this->redirect( $request->get('callback') );
+                return $this->redirect($request->get('callback'));
             }
         }
         return $this->render('post/edit.html.twig', [
@@ -116,12 +116,11 @@ class PostController extends Controller
                 "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié."
             );
             // User is redirected to referrer page
-            return $this->redirect( $request->get('callback') );
+            return $this->redirect($request->get('callback'));
         }
         return $this->render('post/edit.html.twig', [
             'form_post' => $form->createView()
         ]);
-
     }
 
     /**
@@ -150,6 +149,6 @@ class PostController extends Controller
             "Le message <strong>&quot;{$post->getTitle()}&quot;</strong> à été supprimé."
         );
         // User is redirected to referrer page
-        return $this->redirect( $request->get('callback') );
+        return $this->redirect($request->get('callback'));
     }
 }
