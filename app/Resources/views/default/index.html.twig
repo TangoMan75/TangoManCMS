@@ -10,13 +10,13 @@
 
 {% block body %}
     <section id="posts">
-        {% for post in list_post %}
+        {% for post in posts %}
             {% include "includes/_post.html.twig" with {'callback': app.request.uri} %}
         {% else %}
             {% include "includes/_nothing.html.twig" %}
         {% endfor %}
         <div class="text-center">
-            {{ pagination(list_post) }}
+            {{ pagination(posts) }}
         </div>
     </section>
 

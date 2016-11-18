@@ -62,25 +62,25 @@ class PostController extends Controller
      */
     public function newAction(Request $request)
     {
-        $formPost = null;
-
         // User cannot post when not logged in
-        if ( $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            return $this->redirectToRoute('app_login');
+        }
 
-            $user = $this->getUser();
-            $post = new Post();
-            $post->setUser($user);
-            $form = $this->createForm(PostType::class, $post);
-            $form->handleRequest($request);
-            $formPost = $form->createView();
+        $user = $this->getUser();
+        $post = new Post();
+        $post->setUser($user);
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+        $formPost = $form->createView();
 
-            if ( $form->isSubmitted() && $form->isValid() ) {
-                $this->get('em')->save($post);
-                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
+        if ( $form->isSubmitted() && $form->isValid() ) {
+            $this->get('em')->save($post);
+            $this->get('session')->getFlashBag()->add('success', 'Le message intitulé <strong>'. $post->getTitle() .'</strong> a bien été enregistré.');
 
-                // User is redirected to referrer page
-                return $this->redirect($request->get('callback'));
-            }
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
         return $this->render('post/edit.html.twig', [
             'form_post' => $formPost
@@ -113,7 +113,7 @@ class PostController extends Controller
 
             $this->get('em')->save($post);
             $this->get('session')->getFlashBag()->add('success',
-                "Votre message <strong>&quot;{$post->getTitle()}&quot</strong> à bien été modifié."
+                "Votre message <strong>&quot;". $post->getTitle() ."&quot</strong> à bien été modifié."
             );
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -146,7 +146,7 @@ class PostController extends Controller
         $this->get('em')->remove($post);
         $this->get('em')->flush();
         $this->get('session')->getFlashBag()->add('success',
-            "Le message <strong>&quot;{$post->getTitle()}&quot;</strong> à été supprimé."
+            "Le message <strong>&quot;". $post->getTitle() ."&quot;</strong> à été supprimé."
         );
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));

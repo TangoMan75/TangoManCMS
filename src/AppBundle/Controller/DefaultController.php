@@ -17,11 +17,10 @@ class DefaultController extends Controller
 	 */
 	public function indexAction(Request $request)
 	{
-		$listPost = $this->get('em')->repository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
+		$posts = $this->get('em')->repository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
 		$formPost = null;
 
 		if ( $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
-
 			$user = $this->getUser();
 			$post = new Post();
 			$post->setUser($user);
@@ -30,17 +29,14 @@ class DefaultController extends Controller
 			$formPost = $form->createView();
 
 			if ($form->isValid()) {
-
 			    $this->get('em')->save($post);
 				$this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
 				return $this->redirectToRoute('homepage');
-
 			}
 		}
-
 		return $this->render('default/index.html.twig', [
 			'form_post' => $formPost,
-			'list_post' => $listPost,
+			'posts' => $posts,
 		]);
 	}
 

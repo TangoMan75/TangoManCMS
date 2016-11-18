@@ -12,6 +12,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
+
 /**
  * @Route("/user")
  */
@@ -161,7 +162,7 @@ class UserController extends Controller
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add('success',
-            "Au revoir <strong>&quot;{$user->getUsername()}&quot;</strong><br />".
+            "Au revoir <strong>&quot;". $user->getUsername() ."&quot;</strong><br />".
             "Votre compte a été supprimé.");
 
         return $this->redirectToRoute('homepage');
@@ -211,11 +212,11 @@ class UserController extends Controller
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
         }
 
-        $listPost = $this->get('em')->repository('AppBundle:Post')->findByUserPaged($user, $request->query->getInt('page', 1), 5);
+        $posts = $this->get('em')->repository('AppBundle:Post')->findByUserPaged($user, $request->query->getInt('page', 1), 5);
 
         return $this->render('user/show.html.twig', [
-            'user'      => $user,
-            'list_post' => $listPost
+            'user'  => $user,
+            'posts' => $posts
         ]);
     }
 }

@@ -7,13 +7,13 @@
     {% include "includes/_user-profile.html.twig" with {'user': user } %}
 
     <section id="posts">
-        {% for post in list_post %}
+        {% for post in posts %}
             {% include "includes/_post.html.twig"  with {'callback': app.request.uri} %}
         {% else %}
             <p class="text-center"><strong>{{ user.username | capitalize }}</strong> n'a publié aucun message.</p>
         {% endfor %}
         <div class="text-center">
-        {{ pagination(list_post) }}
+        {{ pagination(posts) }}
         </div>
     </section>
 {% endblock %}
