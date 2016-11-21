@@ -49,7 +49,7 @@ class PostController extends Controller
             }
         }
         return $this->render('post/index.html.twig', [
-            'form_post'    => $formComment,
+            'formPost'    => $formComment,
             'list_comment' => $listComment,
             'post'         => $post
         ]);
@@ -83,7 +83,7 @@ class PostController extends Controller
             return $this->redirect($request->get('callback'));
         }
         return $this->render('post/edit.html.twig', [
-            'form_post' => $formPost
+            'formPost' => $formPost
         ]);
     }
 
@@ -119,7 +119,7 @@ class PostController extends Controller
             return $this->redirect($request->get('callback'));
         }
         return $this->render('post/edit.html.twig', [
-            'form_post' => $form->createView()
+            'formPost' => $form->createView()
         ]);
     }
 

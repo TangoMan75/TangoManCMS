@@ -28,7 +28,7 @@ class AccessController extends Controller
         }
 
         return $this->render('default/login.html.twig', [
-            'last_username' => $helper->getLastUsername()
+            'lastUsername' => $helper->getLastUsername()
         ]);
     }
 
