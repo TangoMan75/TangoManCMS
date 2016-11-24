@@ -20,7 +20,7 @@ class DefaultController extends Controller
 		$posts = $this->get('em')->repository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
 		$formPost = null;
 
-		if ( $this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
+		if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
 			$user = $this->getUser();
 			$post = new Post();
 			$post->setUser($user);
@@ -39,5 +39,4 @@ class DefaultController extends Controller
 			'posts' => $posts,
 		]);
 	}
-
 }
