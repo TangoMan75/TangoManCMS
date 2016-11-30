@@ -156,7 +156,7 @@ class PostController extends Controller
 
             $this->get('em')->save($post);
             $this->get('session')->getFlashBag()->add('success',
-                "Votre message <strong>&quot;". $post->getTitle() ."&quot</strong> à bien été modifié."
+                'Votre message <strong>&quot;'. $post->getTitle() .'&quot</strong> à bien été modifié.'
            );
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -189,7 +189,7 @@ class PostController extends Controller
         $this->get('em')->remove($post);
         $this->get('em')->flush();
         $this->get('session')->getFlashBag()->add('success',
-            "Le message <strong>&quot;". $post->getTitle() ."&quot;</strong> à été supprimé."
+            'Le message <strong>&quot;'. $post->getTitle() .'&quot;</strong> à été supprimé.'
        );
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
