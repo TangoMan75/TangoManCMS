@@ -2,10 +2,7 @@
 
 namespace AppBundle\Services;
 
-/**
- * Class CSVLine
- * @package AppBundle\Services
- */
+
 class CSVLine
 {
     /**

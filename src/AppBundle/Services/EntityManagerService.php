@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services;
 
+
 use Doctrine\ORM\EntityManager;
 
 class EntityManagerService

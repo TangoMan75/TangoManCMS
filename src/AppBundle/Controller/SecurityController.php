@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+
 use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
 use TangoMan\JWTBundle\Model\JWT;

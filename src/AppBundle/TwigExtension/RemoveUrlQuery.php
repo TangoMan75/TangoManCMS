@@ -2,6 +2,7 @@
 
 namespace AppBundle\TwigExtension;
 
+
 /**
  * Class RemoveUrlQueryExtension.
  *

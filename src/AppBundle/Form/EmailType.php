@@ -2,6 +2,7 @@
 
 namespace AppBundle\Form;
 
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType as EmailInputType;
 use Symfony\Component\Form\FormBuilderInterface;
