@@ -29,7 +29,7 @@ class CommentController extends Controller
         }
 
         // Only author or admin can edit comment
-        if ( $this->getUser() !== $comment->getUser() && !in_array('ROLE_ADMIN', $this->getUser()->getRoles()) ) {
+        if ($this->getUser() !== $comment->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('homepage');
         }
@@ -65,7 +65,7 @@ class CommentController extends Controller
         }
 
         // Only author or admin can delete comment
-        if ( $this->getUser() !== $comment->getUser() && !in_array( 'ROLE_ADMIN', $this->getUser()->getRoles() ) ) {
+        if ($this->getUser() !== $comment->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('homepage');
         }

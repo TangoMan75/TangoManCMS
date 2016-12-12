@@ -145,7 +145,7 @@ class PostController extends Controller
         }
 
         // Only author or admin can edit post
-        if ($this->getUser() !== $post->getUser() && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('homepage');
         }
@@ -181,7 +181,7 @@ class PostController extends Controller
         }
 
         // Only author or admin can delete post
-        if ($this->getUser() !== $post->getUser() && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
+        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
             return $this->redirectToRoute('homepage');
         }
