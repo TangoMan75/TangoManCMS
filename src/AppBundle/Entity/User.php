@@ -209,7 +209,7 @@ class User implements UserInterface
     /**
      * Get roles.
      *
-     * @return string
+     * @return array
      */
     public function getRoles()
     {
@@ -225,7 +225,7 @@ class User implements UserInterface
      */
     public function addRole($role)
     {
-        if ( !in_array($role, $this->roles) ) {
+        if (!in_array($role, $this->roles)) {
             array_push($this->roles, $role);
         }
 
@@ -242,12 +242,10 @@ class User implements UserInterface
     public function removeRole($role)
     {
         $roles = $this->roles;
-
-        if ( in_array($role, $roles) ) {
+        if (in_array($role, $roles)) {
             $remove[] = $role;
             $this->roles = array_diff($roles, $remove);
         }
-
         return $this;
     }
 
