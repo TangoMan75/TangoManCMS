@@ -18,7 +18,7 @@ class CommentController extends Controller
     /**
      * Edit comment.
      *
-     * @Route("/edit/{id}", requirements={"id": "\d+"}, name="comment_edit")
+     * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Comment $comment)
     {
@@ -54,7 +54,7 @@ class CommentController extends Controller
     /**
      * Delete comment.
      *
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="comment_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Comment $comment)
     {

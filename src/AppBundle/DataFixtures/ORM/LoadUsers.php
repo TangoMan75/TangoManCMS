@@ -57,7 +57,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
             $manager->persist($user);
 
-            $postCount    = mt_rand(0, 10);
+            $postCount = mt_rand(0, 10);
             for ($j=0; $j < $postCount; $j++) {
 
                 $post = new Post();

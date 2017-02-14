@@ -5,12 +5,12 @@
             {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                 {% if (post.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">
-                        <a href="{{ path("post_edit",   { 'id': post.id, 'callback': callback }) }}"
+                        <a href="{{ path("app_post_edit",   { 'id': post.id, 'callback': callback }) }}"
                            class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                            data-original-title="Éditer ce message">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a href="{{ path("post_delete", { 'id': post.id, 'callback': callback | remove_url_query }) }}"
+                        <a href="{{ path("app_post_delete", { 'id': post.id, 'callback': callback | remove_url_query }) }}"
                            class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                            data-original-title="Supprimer ce message">
                             <span class="glyphicon glyphicon-trash"></span>
@@ -30,7 +30,7 @@
         <div class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</div>
         <div class="col-xs-12">
             <p>
-                <a href="{{ path('post_index', { 'id': post.id }) }}" class="btn btn-primary btn-sm pull-right">
+                <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="btn btn-primary btn-sm pull-right">
                     Commentaires&nbsp;&nbsp;<span class="badge">{{ post.comments | length }}</span>
                 </a>
             </p>

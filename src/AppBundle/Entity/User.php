@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -19,7 +18,7 @@ class User implements UserInterface
     /**
      * @var int User id
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -28,7 +27,7 @@ class User implements UserInterface
     /**
      * @var string User's name
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(type="string", length=255)
      * @Assert\Expression("value not in ['delete', 'edit', 'register', 'unsubscribe']", message="Ce nom d'utilisateur est réservé.")
      * @Assert\NotBlank(message="Vous devez renseigner un nom d'utilisateur.")
      */
@@ -37,23 +36,16 @@ class User implements UserInterface
     /**
      * @var string User's email address
      *
-     * @ORM\Column(name="email", type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Email(message="Votre email doit être valide.")
      * @Assert\NotBlank(message="Vous devez renseigner votre adresse email.")
      */
     private $email;
 
     /**
-     * @var string User's password hash
-     *
-     * @ORM\Column(name="password", type="string", length=255, nullable=true)
-     */
-    private $password;
-
-    /**
      * @var string User's avatar
      *
-     * @ORM\Column(name="avatar", type="text", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $avatar;
 
@@ -72,6 +64,13 @@ class User implements UserInterface
      * @ORM\OrderBy({"dateCreated"="DESC"})
      */
     private $comments;
+
+    /**
+     * @var string User's password hash
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=true)
+     */
+    private $password;
 
     /**
      * @var array User's roles
@@ -105,28 +104,60 @@ class User implements UserInterface
     }
 
     /**
-     * Set username.
-     *
-     * @param string $username
-     *
-     * @return User
+     * @return string
      */
-    public function setUsername($username)
+    public function getAvatar()
     {
-        $this->username = $username;
-
-        return $this;
+        return $this->avatar;
     }
 
     /**
-     * Get username.
-     *
-     * @return string
+     * @param string $avatar
      */
-    public function getUsername()
+    public function setAvatar($avatar)
     {
-        return $this->username;
+        $this->avatar = $avatar;
     }
+
+    /**
+     * Get user's posts.
+     *
+     * @return Post[]
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * Sets user posts.
+     *
+     * @param Post[] $posts
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+    }
+
+    /**
+     * @return Comment[] User comment
+     */
+    public function getComments()
+    {
+        return $this->comments;
+    }
+
+    /**
+     * @param Comment[] $comments
+     */
+    public function setComments($comments)
+    {
+        $this->comments = $comments;
+    }
+
+    /**
+     * These methods are optional but strongly recommended
+     */
 
     /**
      * Set email.
@@ -153,43 +184,23 @@ class User implements UserInterface
     }
 
     /**
-     * Set password.
+     * Get user's creation.
      *
-     * @param string $password
-     *
-     * @return User
+     * @return mixed
      */
-    public function setPassword($password)
+    public function getDateCreated()
     {
-        $this->password = $password;
-
-        return $this;
+        return $this->dateCreated;
     }
 
     /**
-     * Get password.
+     * Sets user's creation date.
      *
-     * @return string
+     * @param mixed $dateCreated
      */
-    public function getPassword()
+    public function setDateCreated(\DateTime $dateCreated)
     {
-        return $this->password;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAvatar()
-    {
-        return $this->avatar;
-    }
-
-    /**
-     * @param string $avatar
-     */
-    public function setAvatar($avatar)
-    {
-        $this->avatar = $avatar;
+        $this->dateCreated = $dateCreated;
     }
 
     /**
@@ -250,6 +261,34 @@ class User implements UserInterface
     }
 
     /**
+     * these methods are required by Symfony\Component\Security\Core\User\UserInterface
+     */
+
+    /**
+     * Set username.
+     *
+     * @param string $username
+     *
+     * @return User
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get username.
+     *
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
      * Erase user's credentials.
      *
      * Abstract method required by symfony core
@@ -259,39 +298,27 @@ class User implements UserInterface
     }
 
     /**
-     * Get user's posts.
+     * Set password.
      *
-     * @return Post[]
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
-
-    /**
-     * Sets user posts.
+     * @param string $password
      *
-     * @param Post[] $posts
+     * @return User
      */
-    public function setPosts($posts)
+    public function setPassword($password)
     {
-        $this->posts = $posts;
+        $this->password = $password;
+
+        return $this;
     }
 
     /**
-     * @return Comment[] User comment
+     * Get password.
+     *
+     * @return string
      */
-    public function getComments()
+    public function getPassword()
     {
-        return $this->comments;
-    }
-
-    /**
-     * @param Comment[] $comments
-     */
-    public function setComments($comments)
-    {
-        $this->comments = $comments;
+        return $this->password;
     }
 
     /**
@@ -304,26 +331,6 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
-    }
-
-    /**
-     * Get user's creation.
-     *
-     * @return mixed
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * Sets user's creation date.
-     *
-     * @param mixed $dateCreated
-     */
-    public function setDateCreated(\DateTime $dateCreated)
-    {
-        $this->dateCreated = $dateCreated;
     }
 
 }

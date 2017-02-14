@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-
+use AppBundle\Utils\Slug;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -38,6 +38,12 @@ class Post
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
 
     /**
      * @var String Message content
@@ -139,6 +145,25 @@ class Post
     public function setTitle($title)
     {
         $this->title = $title;
+        $this->setSlug($title);
+    }
+
+    /**
+     * Slug is generated from given string
+     *
+     * @param string $string
+     */
+    public function setSlug($string)
+    {
+        $this->slug = Slug::slugify($string) . '-' . uniqid();
+    }
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
     }
 
     /**

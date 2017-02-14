@@ -21,47 +21,7 @@ class PostController extends Controller
      * Display post with comments.
      * Allow to publish comments.
      *
-     * @Route("/{id}", requirements={"id": "\d+"}, name="post_index")
-     */
-    public function indexAction(Request $request, Post $post)
-    {
-        $listComment = $this->get('em')->repository('AppBundle:Comment')->findAllPaged(
-            $post, $request->query->getInt('page', 1), 5
-        );
-        $formComment = null;
-
-        // User cannot comment when not logged in
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-
-            $user = $this->getUser();
-            $comment = new Comment();
-            $comment->setUser($user);
-            $comment->setPost($post);
- 
-            $form = $this->createForm(CommentType::class, $comment);
-            $form->handleRequest($request);
-            $formComment = $form->createView();
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $this->get('em')->save($comment);
-                $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
-
-                // User is redirected to referrer page
-                return $this->redirect($request->getUri());
-            }
-        }
-        return $this->render('post/index.html.twig', [
-            'formPost'     => $formComment,
-            'list_comment' => $listComment,
-            'post'         => $post
-        ]);
-    }
-
-    /**
-     * Display post with comments.
-     * Allow to publish comments.
-     *
-     * @Route("/show/{slug}", requirements={"slug": "\w+"})
+     * @Route("/show/{slug}", requirements={"slug": "[\w-]+"})
      */
     public function showAction(Request $request, $slug)
     {
@@ -102,7 +62,7 @@ class PostController extends Controller
     /**
      * Creates new post.
      *
-     * @Route("/new", name="post_new")
+     * @Route("/new")
      */
     public function newAction(Request $request)
     {
@@ -134,7 +94,7 @@ class PostController extends Controller
     /**
      * Edits post.
      *
-     * @Route("/edit/{id}", requirements={"id": "\d+"}, name="post_edit")
+     * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Post $post)
     {
@@ -170,7 +130,7 @@ class PostController extends Controller
     /**
      * Deletes post.
      *
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="post_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Post $post)
     {
