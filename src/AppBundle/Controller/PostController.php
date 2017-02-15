@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Tag;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\PostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -17,6 +18,38 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class PostController extends Controller
 {
+    /**
+     * Displays post by tag.
+     *
+     * @Route("/{tag}", requirements={"tag": "[\w]+"})
+     */
+    public function indexAction(Request $request, $tag)
+    {
+        $tag = $this->get('em')->repository('AppBundle:Tag')->findOneByName(['name' => $tag]);
+
+        $posts = $this->get('em')->repository('AppBundle:Post')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+        $formPost = null;
+
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $user = $this->getUser();
+            $post = new Post();
+            $post->setUser($user);
+            $form = $this->createForm(PostType::class, $post);
+            $form->handleRequest($request);
+            $formPost = $form->createView();
+
+            if ($form->isValid()) {
+                $this->get('em')->save($post);
+                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
+                return $this->redirectToRoute('homepage');
+            }
+        }
+        return $this->render('default/index.html.twig', [
+            'formPost' => $formPost,
+            'posts' => $posts,
+        ]);
+    }
+
     /**
      * Display post with comments.
      * Allow to publish comments.

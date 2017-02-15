@@ -29,6 +29,13 @@ class Tag
     private $name;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
+
+    /**
      * @var Post[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      */
@@ -77,6 +84,30 @@ class Tag
     }
 
     /**
+     * Set type
+     *
+     * @param string $type
+     *
+     * @return Tag
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
      * Set posts
      *
      * @param Post $post
@@ -100,4 +131,3 @@ class Tag
         return $this->posts;
     }
 }
-

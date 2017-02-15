@@ -3,6 +3,7 @@
 namespace AppBundle\Repository;
 
 
+use AppBundle\Entity\Tag;
 use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -73,6 +74,49 @@ class PostRepository extends EntityRepository
         $dql = $this->createQueryBuilder('post');
         $dql->andWhere('post.user = :user');
         $dql->setParameter(':user', $user);
+        $dql->orderBy('post.dateCreated', 'DESC');
+
+        $firstResult = ($page - 1) * $max;
+
+        $query = $dql->getQuery();
+        $query->setFirstResult($firstResult);
+        $query->setMaxResults($max);
+
+        $paginator = new Paginator($query);
+
+        if( ($paginator->count() <= $firstResult) && $page != 1 ) {
+            throw new NotFoundHttpException('Page not found');
+        }
+
+        return $paginator;
+    }
+
+    /**
+     * Post pagination by tag
+     *
+     * @param Tag $tag
+     * @param int $page
+     * @param int $max
+     * @return Paginator
+     */
+    public function findByTagPaged(Tag $tag, $page = 1, $max = 10)
+    {
+        if( !is_numeric($page) ) {
+            throw new \InvalidArgumentException(
+                '$page must be an integer ('.gettype($page).' : '.$page.')'
+            );
+        }
+
+        if( !is_numeric($page) ) {
+            throw new \InvalidArgumentException(
+                '$max must be an integer ('.gettype($max).' : '.$max.')'
+            );
+        }
+
+        // Queries tag posts
+        $dql = $this->createQueryBuilder('post');
+        $dql->andWhere('post.tag = :tag');
+        $dql->setParameter(':tag', $tag);
         $dql->orderBy('post.dateCreated', 'DESC');
 
         $firstResult = ($page - 1) * $max;

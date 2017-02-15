@@ -48,6 +48,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         foreach ($tags as $name) {
             $tag = new Tag();
             $tag->setName($name);
+            $tag->setType($name);
             $manager->persist($tag);
             $tagCollection[] = $tag;
         }
@@ -76,8 +77,10 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
                 $post->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
                 shuffle($tagCollection);
-                $post->addTag($tagCollection[1]);
-                $post->addTag($tagCollection[2]);
+                $labelCount = mt_rand(0, 6);
+                for ($k = 0; $k < $labelCount; $k++) {
+                    $post->addTag($tagCollection[$k]);
+                }
 
                 $manager->persist($post);
 

@@ -30,6 +30,12 @@
         <div class="col-xs-12 col-sm-9">{{ post.content|raw|nl2br }}</div>
         <div class="col-xs-12">
             <p>
+                {% for tag in post.tags %}
+                    <a href="{{ path('app_post_index', { 'tag': tag.name }) }}" class="label label-{{ tag.type }}">
+                        {{ tag.name }}
+                    </a>&nbsp;
+                {% else %}
+                {% endfor %}
                 <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="btn btn-primary btn-sm pull-right">
                     Commentaires&nbsp;&nbsp;<span class="badge">{{ post.comments | length }}</span>
                 </a>
@@ -39,7 +45,8 @@
     <footer class="panel-footer">
         <div class="row">
             <div class="pull-left">
-                <span class="glyphicon glyphicon-send"></span>&nbsp;Publié le: {{ post.dateCreated|date('d/m/Y H:i:s') }}
+                <span class="glyphicon glyphicon-send"></span>&nbsp;Publié
+                le: {{ post.dateCreated|date('d/m/Y H:i:s') }}
             </div>
             <div class="pull-right"><a href="{{ path('user_show', { 'username': post.user.username }) }}">
                     {% if "ROLE_ADMIN" in post.user.roles %}
