@@ -46,6 +46,12 @@ class Post
     private $slug;
 
     /**
+     * @var Tag[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts")
+     */
+    private $tags;
+
+    /**
      * @var String Message content
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Votre message ne peut pas être vide")
@@ -65,6 +71,7 @@ class Post
     public function __construct()
     {
         $this->dateCreated = new \DateTime();
+        $this->tags = [];
     }
 
     /**
@@ -164,6 +171,22 @@ class Post
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * @return Tag[]
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
     }
 
     /**

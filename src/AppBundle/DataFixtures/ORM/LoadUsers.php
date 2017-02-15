@@ -2,9 +2,9 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Tag;
 use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -29,10 +29,10 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
      */
     public function load(ObjectManager $manager)
     {
-        $faker   = Factory::create('fr_FR');
+        $faker = Factory::create('fr_FR');
         $encoder = $this->container->get('security.password_encoder');
 
-        if ( !$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ) {
+        if (!$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN'])) {
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
@@ -44,8 +44,16 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $manager->persist($user);
         }
 
-        $userCount = 50;
-        for ($i=0; $i < $userCount; $i++) {
+        $tags = explode(' ', 'default primary info success warning danger');
+        foreach ($tags as $name) {
+            $tag = new Tag();
+            $tag->setName($name);
+            $manager->persist($tag);
+            $tagCollection[] = $tag;
+        }
+
+        $userCount = 10;
+        for ($i = 0; $i < $userCount; $i++) {
 
             $user = new User();
             $username = $faker->userName;
@@ -58,15 +66,18 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
             $manager->persist($user);
 
             $postCount = mt_rand(0, 10);
-            for ($j=0; $j < $postCount; $j++) {
-
+            for ($j = 0; $j < $postCount; $j++) {
                 $post = new Post();
                 $postLength = mt_rand(600, 2400);
-                $text = "<p>" . $faker->text($postLength) . "</p>";
+                $text = "<p>".$faker->text($postLength)."</p>";
                 $post->setUser($user);
                 $post->setTitle($faker->sentence(4, true));
                 $post->setContent($text);
                 $post->setDateCreated($faker->dateTimeThisYear($max = 'now'));
+
+                shuffle($tagCollection);
+                $post->addTag($tagCollection[1]);
+                $post->addTag($tagCollection[2]);
 
                 $manager->persist($post);
 
@@ -75,7 +86,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
                     $comment = new Comment();
                     $commentLength = mt_rand(300, 1200);
-                    $text = "<p>" . $faker->text($commentLength) . "</p>";
+                    $text = "<p>".$faker->text($commentLength)."</p>";
                     $comment->setUser($user);
                     $comment->setPost($post);
                     $comment->setContent($text);
