@@ -27,12 +27,7 @@ class User implements UserInterface
     /**
      * @var string User's name
      * @ORM\Column(type="string", length=255)
-     * @Assert\Expression("value not in [
-     *         'delete',
-     *         'edit',
-     *         'register',
-     *         'unsubscribe'
-     *     ]", message="Désolé, ce nom d'utilisateur est réservé.")
+     * @Assert\Expression("value not in ['delete','edit','register','unsubscribe']", message="Désolé, ce nom d'utilisateur est réservé.")
      * @Assert\NotBlank(message="Merci de renseigner un nom d'utilisateur.")
      */
     private $username;

@@ -64,7 +64,7 @@ class SecurityController extends Controller
 
             $this->get('mailer')->send($message);
             $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
-                "bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. ".
+                "bien été prise en compte.<br />Un lien de confirmation vous à été envoyé à <strong>$email</strong>. ".
                 "<br /> Vérifiez votre boîte email.");
             return $this->redirectToRoute('homepage');
         }
@@ -117,7 +117,7 @@ class SecurityController extends Controller
 
             $this->get('mailer')->send($message);
             $this->get('session')->getFlashBag()->add('success', "Votre demande de renouvellement de mot de passe a ".
-                "bien été prise en compte.<br />Un lien de comfirmation vous à été envoyé à <strong>$email</strong>. ".
+                "bien été prise en compte.<br />Un lien de confirmation vous à été envoyé à <strong>$email</strong>. ".
                 "<br /> Vérifiez votre boîte email.");
         }
 
@@ -202,7 +202,7 @@ class SecurityController extends Controller
     /**
      * Finds and deletes user.
      *
-     * @Route("/delete/{token}", name="app_delete")
+     * @Route("/delete/{token}")
      */
     public function deleteAction(Request $request, $token)
     {
