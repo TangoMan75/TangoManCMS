@@ -55,13 +55,11 @@
             "php bin/console doctrine:database:drop --force",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:schema:update --force",
+            "php bin/console doctrine:fixtures:load",
             "php bin/console cache:clear -e=prod"
         ],
         "post-update-cmd": [
             "@symfony-scripts",
-            "php bin/console doctrine:database:drop --force",
-            "php bin/console doctrine:database:create",
-            "php bin/console doctrine:schema:update --force",
             "php bin/console cache:clear -e=prod"
         ]
     },
