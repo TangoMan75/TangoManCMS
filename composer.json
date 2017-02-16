@@ -47,7 +47,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "warmup": [
-            "php bin/console admin",
+            "php bin/console admin"
         ],
         "post-install-cmd": [
             "@symfony-scripts",
