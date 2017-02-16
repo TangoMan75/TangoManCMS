@@ -79,7 +79,8 @@
                 "mailer_from": "MAILER_FROM",
                 "site_name": "SITE_NAME",
                 "site_author": "SITE_AUTHOR",
-                "analytics": "ANALYTICS"
+                "analytics": "ANALYTICS",
+                "app": "APP"
             }
         }
     }
