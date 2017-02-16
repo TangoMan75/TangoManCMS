@@ -48,11 +48,7 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "warmup": [
-            "php bin/console admin",
-            "php bin/console doctrine:database:drop --force",
-            "php bin/console doctrine:database:create",
-            "php bin/console doctrine:fixtures:load",
-            "php bin/console cache:clear -e=prod"
+            "php bin/console admin"
         ],
         "post-install-cmd": [
             "@symfony-scripts",
@@ -61,6 +57,8 @@
         ],
         "post-update-cmd": [
             "@symfony-scripts",
+            "php bin/console doctrine:database:drop --force",
+            "php bin/console doctrine:database:create",
             "php bin/console doctrine:schema:update --force",
             "php bin/console cache:clear -e=prod"
         ]
