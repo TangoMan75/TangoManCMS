@@ -120,20 +120,20 @@
                             {% elseif app.request.get('_route') == 'post_index' %}
                                 <li><a href="#post-form"><span class="glyphicon glyphicon-comment"></span>&nbsp;Commenter</a></li>
                             {% else %}
-                                <li><a href="{{ path('post_new', {'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
+                                <li><a href="{{ path('app_post_new', {'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
                             {% endif %}
                             {% if is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ path('user_index') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Utilisateurs</a></li>
+                                <li><a href="{{ path('app_admin_index') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Utilisateurs</a></li>
                             {% endif %}
                         </ul>
                     {% endif %}
                     <ul class="nav navbar-nav navbar-right">
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            <li><a href="{{ path('user_show', { 'username':app.user.username }) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username|capitalize }}</a></li>
-                            <li><a href="{{ path('user_edit', { 'id':app.user.id, 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Mon Compte</a></li>
+                            <li><a href="{{ path('app_user_show', { 'username':app.user.username }) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username|capitalize }}</a></li>
+                            <li><a href="{{ path('app_user_edit', { 'id':app.user.id, 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Mon Compte</a></li>
                             <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnexion</a></li>
                         {% else %}
-                            <li><a href="{{ path('user_register', { 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
+                            <li><a href="{{ path('app_user_register', { 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
                             <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-lock"></span>&nbsp;Connexion</a></li>
                         {% endif %}
                     </ul>

@@ -18,7 +18,6 @@ class User implements UserInterface
 {
     /**
      * @var int User id
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -27,32 +26,33 @@ class User implements UserInterface
 
     /**
      * @var string User's name
-     *
      * @ORM\Column(type="string", length=255)
-     * @Assert\Expression("value not in ['delete', 'edit', 'register', 'unsubscribe']", message="Ce nom d'utilisateur est réservé.")
-     * @Assert\NotBlank(message="Vous devez renseigner un nom d'utilisateur.")
+     * @Assert\Expression("value not in [
+     *         'delete',
+     *         'edit',
+     *         'register',
+     *         'unsubscribe'
+     *     ]", message="Désolé, ce nom d'utilisateur est réservé.")
+     * @Assert\NotBlank(message="Merci de renseigner un nom d'utilisateur.")
      */
     private $username;
 
     /**
      * @var string User's email address
-     *
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Email(message="Votre email doit être valide.")
-     * @Assert\NotBlank(message="Vous devez renseigner votre adresse email.")
+     * @Assert\NotBlank(message="Merci de renseigner votre adresse email.")
      */
     private $email;
 
     /**
      * @var string User's avatar
-     *
      * @ORM\Column(type="text", nullable=true)
      */
     private $avatar;
 
     /**
      * @var Post[] User's posts
-     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"dateCreated"="DESC"})
      */
@@ -60,7 +60,6 @@ class User implements UserInterface
 
     /**
      * @var Comment[] User's comments
-     *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"dateCreated"="DESC"})
      */
@@ -68,25 +67,31 @@ class User implements UserInterface
 
     /**
      * @var string User's password hash
-     *
      * @ORM\Column(name="password", type="string", length=255, nullable=true)
      */
     private $password;
 
     /**
-     * @var array User's roles
-     *
+     * @var array User roles
      * @ORM\Column(name="roles", type="simple_array")
      */
     private $roles;
 
     /**
+     * @var string User's slug
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
      * @var \DateTime User's registration date
-     *
      * @ORM\Column(type="datetime")
      */
     private $dateCreated;
 
+    /**
+     * User constructor.
+     */
     public function __construct()
     {
         $this->roles = ["ROLE_USER"];
@@ -105,6 +110,7 @@ class User implements UserInterface
     }
 
     /**
+     * Get user's avatar (Base64).
      * @return string
      */
     public function getAvatar()
@@ -113,11 +119,16 @@ class User implements UserInterface
     }
 
     /**
+     * Set user's avatar (Base64).
      * @param string $avatar
+     *
+     * @return $this
      */
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+
+        return $this;
     }
 
     /**
@@ -134,13 +145,18 @@ class User implements UserInterface
      * Sets user posts.
      *
      * @param Post[] $posts
+     *
+     * @return $this
      */
     public function setPosts($posts)
     {
         $this->posts = $posts;
+
+        return $this;
     }
 
     /**
+     * Get user's comments.
      * @return Comment[] User comment
      */
     public function getComments()
@@ -149,16 +165,31 @@ class User implements UserInterface
     }
 
     /**
+     * Set user's comments.
      * @param Comment[] $comments
+     *
+     * @return $this
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
+
+        return $this;
     }
 
     /**
      * These methods are optional but strongly recommended
      */
+
+    /**
+     * Get email.
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
 
     /**
      * Set email.
@@ -175,26 +206,6 @@ class User implements UserInterface
     }
 
     /**
-     * Get email.
-     *
-     * @return string
-     */
-    public function getEmail()
-    {
-        return $this->email;
-    }
-
-    /**
-     * Slug is generated from given string
-     *
-     * @param string $string
-     */
-    public function setSlug($string)
-    {
-        $this->slug = Slug::slugify($string) . '-' . uniqid();
-    }
-
-    /**
      * @return string
      */
     public function getSlug()
@@ -203,7 +214,21 @@ class User implements UserInterface
     }
 
     /**
-     * Get user's creation.
+     * Slug is generated from given string
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setSlug($string)
+    {
+        $this->slug = Slug::slugify($string).'-'.uniqid();
+
+        return $this;
+    }
+
+    /**
+     * Get user's registration date.
      *
      * @return mixed
      */
@@ -213,13 +238,27 @@ class User implements UserInterface
     }
 
     /**
-     * Sets user's creation date.
+     * Sets user's registration date.
      *
-     * @param mixed $dateCreated
+     * @param \DateTime $dateCreated
+     *
+     * @return $this
      */
     public function setDateCreated(\DateTime $dateCreated)
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * Get roles.
+     *
+     * @return array
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 
     /**
@@ -234,16 +273,6 @@ class User implements UserInterface
         $this->roles = $roles;
 
         return $this;
-    }
-
-    /**
-     * Get roles.
-     *
-     * @return array
-     */
-    public function getRoles()
-    {
-        return $this->roles;
     }
 
     /**
@@ -276,6 +305,7 @@ class User implements UserInterface
             $remove[] = $role;
             $this->roles = array_diff($roles, $remove);
         }
+
         return $this;
     }
 
@@ -284,7 +314,7 @@ class User implements UserInterface
      */
 
     /**
-     * Set username.
+     * Set username and slug.
      *
      * @param string $username
      *
@@ -293,6 +323,7 @@ class User implements UserInterface
     public function setUsername($username)
     {
         $this->username = $username;
+        $this->setSlug($username);
 
         return $this;
     }
@@ -309,7 +340,6 @@ class User implements UserInterface
 
     /**
      * Erase user's credentials.
-     *
      * Abstract method required by symfony core
      */
     public function eraseCredentials()
@@ -342,7 +372,6 @@ class User implements UserInterface
 
     /**
      * Get salt
-     *
      * Abstract method required by symfony core
      *
      * @return null

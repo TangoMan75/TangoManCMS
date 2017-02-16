@@ -21,7 +21,7 @@ class SecurityController extends Controller
      * Send email containing password reset security token.
      *
      * @return mixed
-     * @Route("/token", name="app_token")
+     * @Route("/token")
      */
     public function tokenRequestAction(Request $request)
     {
@@ -36,7 +36,7 @@ class SecurityController extends Controller
             // Send error message when user not found
             if ( !$user ) {
                 $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
-                return $this->redirectToRoute('app_token');
+                return $this->redirectToRoute('app_security_tokenrequest');
             }
 
             // Generate password reset token
@@ -78,14 +78,14 @@ class SecurityController extends Controller
      * Send email containing password reset security token.
      *
      * @return mixed
-     * @Route("/password-change/{id}", requirements={"id": "\d+"}, name="app_password_change")
+     * @Route("/password-change/{id}", requirements={"id": "\d+"})
      */
     public function passwordChangeAction(Request $request, User $user)
     {
         // Send error message when user not found
         if ( !$user ) {
             $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
-            return $this->redirectToRoute('app_token');
+            return $this->redirectToRoute('app_security_tokenrequest');
         }
 
         // Only user is allowed to change his password
@@ -128,7 +128,7 @@ class SecurityController extends Controller
     /**
      * Checks security token and allows password change.
      *
-     * @Route("/password/{token}", name="app_password")
+     * @Route("/password/{token}")
      */
     public function passwordAction(Request $request, $token)
     {

@@ -10,7 +10,7 @@
             <thead>
             <tr>
                 <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                    <a href="{{ path('user_index', {
+                    <a href="{{ path('app_admin_index', {
                         'order': 'id',
                         'way': app.request.query.get('order') == 'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
                     }) }}">
@@ -19,7 +19,7 @@
                 </th>
 
                 <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
-                    <a href="{{ path('user_index', {
+                    <a href="{{ path('app_admin_index', {
                         'order': 'username',
                         'way': app.request.query.get('order') == 'username' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
                     }) }}">
@@ -28,7 +28,7 @@
                 </th>
 
                 <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                    <a href="{{ path('user_index', {
+                    <a href="{{ path('app_admin_index', {
                         'order': 'email',
                         'way': app.request.query.get('order') == 'email' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
                     }) }}">
@@ -37,7 +37,7 @@
                 </th>
 
                 <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                    <a href="{{ path('user_index', {
+                    <a href="{{ path('app_admin_index', {
                         'order': 'dateCreated',
                         'way': app.request.query.get('order') == 'dateCreated' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
                     }) }}">
@@ -46,7 +46,7 @@
                 </th>
 
                 <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
-                    <a href="{{ path('user_index', {
+                    <a href="{{ path('app_admin_index', {
                         'order': 'posts',
                         'way': app.request.query.get('order') == 'posts' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
                     }) }}">
@@ -55,7 +55,7 @@
                 </th>
 
                 <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
-                    <a href="{{ path('user_index', {
+                    <a href="{{ path('app_admin_index', {
                         'order': 'comments',
                         'way': app.request.query.get('order') == 'comments' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
                     }) }}">
@@ -73,10 +73,10 @@
                 {% set user = user[0] %}
                 <tr>
                     <td>
-                        <a href="{{ path('user_show', { 'username': user.username }) }}">{{ user.id }}</a>
+                        <a href="{{ path('app_user_show', { 'username': user.username }) }}">{{ user.id }}</a>
                     </td>
                     <td>
-                        <a href="{{ path('user_show', { 'username': user.username }) }}">{{ user.username }}</a>
+                        <a href="{{ path('app_user_show', { 'username': user.username }) }}">{{ user.username }}</a>
                     </td>
                     <td>{{ user.email }}</td>
                     <td>{{ user.dateCreated|date('d/m/Y H:i:s') }}</td>
@@ -93,7 +93,7 @@
                                 <span class="glyphicon glyphicon-king"></span>&nbsp;admin
                             </a>
                         {% else %}
-                            <a href="{{ path('admin_add_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
+                            <a href="{{ path('app_admin_addrole', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
                                class="btn btn-success btn-sm">
                                 <span class="glyphicon glyphicon-pawn"></span>&nbsp;user
                             </a>
@@ -116,7 +116,7 @@
                                 class="btn btn-danger btn-sm"
                                 data-toggle="modal" data-target=".my-modal"
                                 data-username="{{ user.username }}"
-                                data-url="{{ path('admin_user_delete', { 'id': user.id, 'callback': app.request.uri }) }}">
+                                data-url="{{ path('app_admin_delete', { 'id': user.id, 'callback': app.request.uri }) }}">
                             <span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer
                         </button>
                     </td>
@@ -153,7 +153,7 @@
                     </h1>
                 </div>
                 <div class="panel-body text-center">
-                    <a href="{{ path('export') }}" class="btn btn-primary">
+                    <a href="{{ path('app_importexport_exportcsv') }}" class="btn btn-primary">
                         <span class="glyphicon glyphicon-export"></span>&nbsp;Exporter
                     </a>
                 </div>

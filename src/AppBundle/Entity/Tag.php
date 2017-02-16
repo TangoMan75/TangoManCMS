@@ -6,7 +6,6 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Tag
- *
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
  */
@@ -14,7 +13,6 @@ class Tag
 {
     /**
      * @var int
-     *
      * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -23,14 +21,12 @@ class Tag
 
     /**
      * @var string
-     *
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $name;
 
     /**
      * @var string
-     *
      * @ORM\Column(type="string", length=255)
      */
     private $type;
@@ -39,14 +35,14 @@ class Tag
      * @var Post[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      */
-    private $posts;
+    private $items;
 
     /**
      * Tag constructor.
      */
     public function __construct()
     {
-        $this->posts = [];
+        $this->items = [];
     }
 
     /**
@@ -108,26 +104,30 @@ class Tag
     }
 
     /**
-     * Set posts
-     *
-     * @param Post $post
+     * Set items
      *
      * @return Tag
      */
-    public function addPost(Post $post)
+    public function addItem($item)
     {
-        $this->posts[] = $post;
+        $this->items[] = $item;
 
         return $this;
     }
 
     /**
-     * Get posts
-     *
-     * @return Post[]
+     * Remove item
      */
-    public function getPosts()
+    public function removeItem($item)
     {
-        return $this->posts;
+        $this->items->removeElement($item);
+    }
+
+    /**
+     * Get items
+     */
+    public function getItems()
+    {
+        return $this->items;
     }
 }

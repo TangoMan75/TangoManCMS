@@ -21,7 +21,7 @@ class PostController extends Controller
     /**
      * Displays post by tag.
      *
-     * @Route("/{tag}", requirements={"tag": "[\w]+"})
+     * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
      */
     public function indexAction(Request $request, $tag)
     {

@@ -22,7 +22,7 @@ class UserController extends Controller
     /**
      * Register new User.
      *
-     * @Route("/register", name="user_register")
+     * @Route("/register")
      */
     public function registerAction(Request $request)
     {
@@ -77,7 +77,7 @@ class UserController extends Controller
     /**
      * Unsubscribe User.
      *
-     * @Route("/unsubscribe/{id}", requirements={"id": "\d+"}, name="user_unsubscribe")
+     * @Route("/unsubscribe/{id}", requirements={"id": "\d+"})
      * @param Request $request
      * @param User $user
      */
@@ -128,7 +128,7 @@ class UserController extends Controller
     /**
      * Delete User entity.
      *
-     * @Route("/delete/{token}", name="user_delete")
+     * @Route("/delete/{token}")
      * @Method("GET")
      */
     public function deleteAction(Request $request, $token)
@@ -172,7 +172,7 @@ class UserController extends Controller
     /**
      * Edit User.
      *
-     * @Route("/edit/{id}", requirements={"id": "\d+"}, name="user_edit")
+     * @Route("/edit/{id}", requirements={"id": "\d+"})
      * @ParamConverter("user", class="AppBundle:User")
      */
     public function editAction(Request $request, User $user)
@@ -203,7 +203,7 @@ class UserController extends Controller
     /**
      * Display User entity.
      *
-     * @Route("/{username}", name="user_show")
+     * @Route("/{username}")
      */
     public function showAction(Request $request, $username)
     {
