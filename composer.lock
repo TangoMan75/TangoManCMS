@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "11c07865510d260c516d327b13d0fb4a",
-    "content-hash": "e0cc9c24425945c8b7c8c71636366dbd",
+    "hash": "f0e88758b4d994fcc95b3cd8fd70a079",
+    "content-hash": "f73a73038f0fc8a747c2080152b17477",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1637,7 +1637,7 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.2.3",
+            "version": "v3.2.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
@@ -2234,16 +2234,16 @@
         },
         {
             "name": "tangoman/jwt-bundle",
-            "version": "0.2.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/JWTBundle.git",
-                "reference": "6f4cd71915eebc513648e5a9d219b05451d45df8"
+                "reference": "e689f9415e31ee9068ed8c6c0bf1f94aeffc0423"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/6f4cd71915eebc513648e5a9d219b05451d45df8",
-                "reference": "6f4cd71915eebc513648e5a9d219b05451d45df8",
+                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/e689f9415e31ee9068ed8c6c0bf1f94aeffc0423",
+                "reference": "e689f9415e31ee9068ed8c6c0bf1f94aeffc0423",
                 "shasum": ""
             },
             "require": {
@@ -2276,7 +2276,7 @@
                 "token",
                 "web"
             ],
-            "time": "2016-11-15 09:26:49"
+            "time": "2017-02-17 13:36:29"
         },
         {
             "name": "tiloweb/base64-bundle",
