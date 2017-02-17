@@ -136,8 +136,8 @@ class UserController extends Controller
                 "Vérifiez votre boîte email."
             );
 
-            // User is redirected to referrer page
-            return $this->redirect($request->get('callback'));
+            // User is redirected to homepage
+            return $this->redirectToRoute('homepage');
         }
     }
 
@@ -155,43 +155,54 @@ class UserController extends Controller
     {
         // JSON Web Token validation
         $jwt = $this->get('tangoman_jwt')->decode($token);
-        $id = $jwt->get('id');
-        $email = $jwt->get('email');
-        $action = $jwt->get('action');
+        $id       = $jwt->get('id');
+        $username = $jwt->get('username');
+        $email    = $jwt->get('email');
+        $action   = $jwt->get('action');
 
-        // Instantiate user entity
+        //Find user
         $user = $this->get('em')->repository('AppBundle:User')->find($id);
-
-        // Displays error message when token is invalid
-        if (!$jwt->isValid() || $action !== "unsubscribe" || $email !== $user->getEmail()) {
+        // When user doesn't exist
+        if (!$user) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                "Désolé <strong>$username</strong><br />".
-                "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
-                "Vous devez recommencer le procéssus d'inscription."
+                "Désolé <strong>$username</strong>, ce compte a déjà été supprimé."
+            );
+
+            return $this->redirectToRoute('homepage');
+        } else {
+
+            // Displays error message when token is invalid
+            if (!$jwt->isValid() || $action !== "unsubscribe" || $email !== $user->getEmail()) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "Désolé <strong>$username</strong><br />".
+                    "Votre lien de sécurité n'est pas valide ou à expiré.<br />".
+                    "Vous devez recommencer le procéssus d'inscription."
+                );
+
+                return $this->redirectToRoute('homepage');
+            }
+
+            // Deletes specified user
+            $this->get('em')->remove($user);
+            $this->get('em')->flush();
+
+            // Disconnects user
+            if ($user == $this->getUser()) {
+                $this->get('security.token_storage')->setToken(null);
+                $request->getSession()->invalidate();
+            }
+
+            // Send flash notification
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                "Au revoir <strong>&quot;".$user->getUsername()."&quot;</strong><br />".
+                "Votre compte a été supprimé."
             );
 
             return $this->redirectToRoute('homepage');
         }
-
-        // Deletes specified user
-        $this->get('em')->remove($user);
-        $this->get('em')->flush();
-
-        // Disconnects user
-        if ($user == $this->getUser()) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
-        }
-
-        // Send flash notification
-        $this->get('session')->getFlashBag()->add(
-            'success',
-            "Au revoir <strong>&quot;".$user->getUsername()."&quot;</strong><br />".
-            "Votre compte a été supprimé."
-        );
-
-        return $this->redirectToRoute('homepage');
     }
 
     /**
