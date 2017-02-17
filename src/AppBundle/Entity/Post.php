@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Utils\Slug;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Post
 {
+    use Slug;
+
     /**
      * @var Integer Post id
      * @ORM\Id
@@ -180,7 +181,7 @@ class Post
      */
     public function setSlug($string)
     {
-        $this->slug = Slug::slugify($string).'-'.uniqid();
+        $this->slug = $this->slugify($string).'-'.uniqid();
 
         return $this;
     }

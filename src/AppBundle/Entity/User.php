@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Utils\Slug;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -16,6 +15,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    use Slug;
+
     /**
      * @var int User id
      * @ORM\Column(type="integer")
@@ -217,7 +218,7 @@ class User implements UserInterface
      */
     public function setSlug($string)
     {
-        $this->slug = Slug::slugify($string).'-'.uniqid();
+        $this->slug = $this->slugify($string).'-'.uniqid();
 
         return $this;
     }

@@ -2238,12 +2238,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/JWTBundle.git",
-                "reference": "e689f9415e31ee9068ed8c6c0bf1f94aeffc0423"
+                "reference": "12817abf561fb1773b7b36a93b4e379762a61b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/e689f9415e31ee9068ed8c6c0bf1f94aeffc0423",
-                "reference": "e689f9415e31ee9068ed8c6c0bf1f94aeffc0423",
+                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/12817abf561fb1773b7b36a93b4e379762a61b58",
+                "reference": "12817abf561fb1773b7b36a93b4e379762a61b58",
                 "shasum": ""
             },
             "require": {
@@ -2276,7 +2276,7 @@
                 "token",
                 "web"
             ],
-            "time": "2017-02-17 13:36:29"
+            "time": "2017-02-17 13:50:06"
         },
         {
             "name": "tiloweb/base64-bundle",
