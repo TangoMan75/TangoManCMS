@@ -152,7 +152,9 @@
 {% endblock %}
 
 {% block footer %}
-    <footer id="footer"><p>Copyright {{ 'now'|date('Y') }} | {{ site_author }}</p></footer>
+    <footer id="footer">
+        <p>&copy; {{ 'now'|date('Y') }} | {{ site_author }}</p>
+    </footer>
 {% endblock %}
 
 {% block javascript %}
