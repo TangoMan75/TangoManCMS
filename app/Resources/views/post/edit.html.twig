@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
 
     {% if app.user %}
         {% include "includes/_post-form.html.twig" with {'callback': app.request.uri} %}
@@ -25,5 +26,5 @@
             </div>
         </div>
     {% endif %}
-
+</div>
 {% endblock %}

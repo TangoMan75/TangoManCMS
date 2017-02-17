@@ -3,6 +3,7 @@
 {% block title %}{{ parent() }} | Réinitialisation de mot de passe{% endblock %}
 
 {% block body %}
+<div class="container">
     <div id="reset-form" class="jumbotron">
         <div class="row">
             <h2 class="text-center">Réinitialisation de mot de passe</h2>
@@ -13,4 +14,5 @@
             {{ form_end(form_reset) }}
         </div>
     </div>
+</div>
 {% endblock %}

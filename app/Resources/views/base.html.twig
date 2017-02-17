@@ -99,6 +99,7 @@
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar">
 
+{% block navbar %}
 <div class="container">
     <!-- Header -->
     <header role="banner">
@@ -142,11 +143,17 @@
             </div>
         </nav>
     </header>
-    {% include "includes/_flash.html.twig" %}
-    {% block body %}
-    {% endblock %}
 </div>
-<footer id="footer"><p>Copyright {{ 'now'|date('Y') }} | {{ site_author }}</p></footer>
+{% endblock %}
+
+{% include "includes/_flash.html.twig" %}
+
+{% block body %}
+{% endblock %}
+
+{% block footer %}
+    <footer id="footer"><p>Copyright {{ 'now'|date('Y') }} | {{ site_author }}</p></footer>
+{% endblock %}
 
 {% block javascript %}
     <!-- jQuery CDN -->

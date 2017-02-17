@@ -9,6 +9,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
     <section id="posts">
         {% for post in posts %}
             {% include "includes/_post.html.twig" with {'callback': app.request.uri} %}
@@ -33,5 +34,5 @@
             </div>
         </div>
     {% endif %}
-
+</div>
 {% endblock %}

@@ -3,6 +3,7 @@
 {% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
 
 {% block body %}
+<div class="container">
     <div id="profile-form" class="jumbotron">
         <h2 class="text-center">
             <span class="glyphicon glyphicon-edit pull-left"></span>
@@ -23,4 +24,5 @@
             Supprimer mon compte
         </a>
     </div>
+</div>
 {% endblock %}
