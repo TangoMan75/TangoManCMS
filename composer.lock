@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b0b93e06791caa281c32750c94056b97",
-    "content-hash": "5093a778dd154614a4007cda902ec3bb",
+    "hash": "f0e88758b4d994fcc95b3cd8fd70a079",
+    "content-hash": "f73a73038f0fc8a747c2080152b17477",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -2234,16 +2234,16 @@
         },
         {
             "name": "tangoman/jwt-bundle",
-            "version": "0.2.0",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/JWTBundle.git",
-                "reference": "6f4cd71915eebc513648e5a9d219b05451d45df8"
+                "reference": "12817abf561fb1773b7b36a93b4e379762a61b58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/6f4cd71915eebc513648e5a9d219b05451d45df8",
-                "reference": "6f4cd71915eebc513648e5a9d219b05451d45df8",
+                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/12817abf561fb1773b7b36a93b4e379762a61b58",
+                "reference": "12817abf561fb1773b7b36a93b4e379762a61b58",
                 "shasum": ""
             },
             "require": {
@@ -2276,7 +2276,7 @@
                 "token",
                 "web"
             ],
-            "time": "2016-11-15 09:26:49"
+            "time": "2017-02-17 13:50:06"
         },
         {
             "name": "tiloweb/base64-bundle",

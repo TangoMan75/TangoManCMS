@@ -22,7 +22,7 @@
     </header>
     <div class="panel-body row">
         <figure class="col-xs-12 col-sm-3">
-            <a href="{{ path('user_show', { 'username': post.user.username }) }}">
+            <a href="{{ path('app_user_show', { 'username': post.user.username }) }}">
                 <img src="{{ post.user.avatar ? post.user.avatar : 'https://placehold.it/200x200' }}"
                      alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
             </a>
@@ -47,7 +47,7 @@
                 <span class="glyphicon glyphicon-send"></span>&nbsp;Publié
                 le: {{ post.dateCreated|date('d/m/Y H:i:s') }}
             </div>
-            <div class="pull-right"><a href="{{ path('user_show', { 'username': post.user.username }) }}">
+            <div class="pull-right"><a href="{{ path('app_user_show', { 'username': post.user.username }) }}">
                     {% if "ROLE_ADMIN" in post.user.roles %}
                         <span class="glyphicon glyphicon-king"></span>
                     {% else %}

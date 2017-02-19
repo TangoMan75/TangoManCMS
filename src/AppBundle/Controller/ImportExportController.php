@@ -21,7 +21,7 @@ class ImportExportController extends Controller
     /**
      * Exports user list in csv format.
      *
-     * @Route("/export-csv", name="export")
+     * @Route("/export-csv")
      * @Method("GET")
      */
     public function exportCSVAction()
@@ -63,7 +63,7 @@ class ImportExportController extends Controller
     }
 
     /**
-     * @Route("/import", name="import")
+     * @Route("/import")
      * @Method("POST")
      */
     public function importAction(Request $request)
@@ -91,7 +91,7 @@ class ImportExportController extends Controller
         if (!$file->isValid()) {
             $this->get('session')->getFlashBag()->add('error',
                 "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer.");
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('app_admin_index');
         }
 
         // Security checks
@@ -102,7 +102,7 @@ class ImportExportController extends Controller
             !in_array($clientExtension, $validExtensions)) {
 
             $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('app_admin_index');
         } else {
             // Get CSV reader service
             $reader = $this->get('services.csv_reader');
@@ -145,6 +145,6 @@ class ImportExportController extends Controller
         }
 
 //        return $this->redirect($request->getUri());
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('app_admin_index');
     }
 }

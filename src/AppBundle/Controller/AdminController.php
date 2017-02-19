@@ -20,7 +20,7 @@ class AdminController extends Controller
     /**
      * Lists all users.
      *
-     * @Route("/", name="user_index")
+     * @Route("/")
      */
     public function indexAction(Request $request)
     {
@@ -56,7 +56,7 @@ class AdminController extends Controller
     /**
      * Finds and deletes a User entity.
      *
-     * @Route("/delete/{id}", requirements={"id": "\d+"}, name="admin_user_delete")
+     * @Route("/delete/{id}", requirements={"id": "\d+"})
      * @Method("GET")
      */
     public function deleteAction(Request $request, User $user)
@@ -80,13 +80,13 @@ class AdminController extends Controller
 
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('app_admin_index');
     }
 
     /**
      * Sets user roles.
      *
-     * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"}, name="admin_add_role")
+     * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"})
      */
     public function addRoleAction(Request $request, User $user, $role)
     {
@@ -96,7 +96,7 @@ class AdminController extends Controller
             "&quot;{$user->getUsername()}&quot;</strong>.");
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('app_admin_index');
     }
 
     /**
@@ -119,6 +119,6 @@ class AdminController extends Controller
             "&quot;{$user->getUsername()}&quot;</strong>.");
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('app_admin_index');
     }
 }

@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
 
     {% if app.user %}
         {% include "includes/_post-form.html.twig" with {'callback': app.request.uri} %}
@@ -20,10 +21,10 @@
                 <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
                 <p>
                     <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">Se connecter</a>
-                    <a href="{{ path('user_register', { 'callback': app.request.uri }) }}" class="btn btn-danger btn-lg">S'inscrire</a>
+                    <a href="{{ path('app_user_register', { 'callback': app.request.uri }) }}" class="btn btn-danger btn-lg">S'inscrire</a>
                 </p>
             </div>
         </div>
     {% endif %}
-
+</div>
 {% endblock %}

@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
 
     <section id="posts">
         {% include "includes/_post.html.twig" with { 'callback': app.request.uri } %}
@@ -35,5 +36,5 @@
             {{ pagination(list_comment) }}
         </div>
     </section>
-
+</div>
 {% endblock %}

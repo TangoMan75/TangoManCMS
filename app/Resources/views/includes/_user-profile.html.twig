@@ -1,6 +1,6 @@
 <div id="user-profile" class="row">
     <div id="user-picture" class="col-xs-12 col-sm-6">
-        <img src="{{ user.avatar ? user.avatar : 'https://placehold.it/200x200' }}" alt="{{ user.username }}" />
+        <img src="{{ user.avatar ? user.avatar : 'https://placehold.it/200x200' }}" alt="{{ user.username }}"/>
     </div>
     <div id="user-detail" class="col-xs-12 col-sm-6">
         <table class="table-striped">
@@ -11,7 +11,7 @@
                 </td>
             </tr>
             </thead>
-            </tbody>
+            <tbody>
             <tr>
                 <th>Utilisateur</th>
                 <td>{{ user.username }}</td>
@@ -30,14 +30,13 @@
                     </ul>
                 </td>
             </tr>
-            </tr>
             {% if is_granted('ROLE_ADMIN') %}
                 <tr>
                     <th>
                         Modifier
                     </th>
                     <td>
-                        <a href="{{ path('user_index') }}">{{ user.username }}</a>
+                        <a href="{{ path('app_admin_index') }}">{{ user.username }}</a>
                     </td>
                 </tr>
             {% endif %}

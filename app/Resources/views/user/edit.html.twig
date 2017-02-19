@@ -3,6 +3,7 @@
 {% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
 
 {% block body %}
+<div class="container">
     <div id="profile-form" class="jumbotron">
         <h2 class="text-center">
             <span class="glyphicon glyphicon-edit pull-left"></span>
@@ -16,11 +17,12 @@
         </div>
     </div>
     <div class="text-center">
-        <a class="btn btn-danger" href="{{ path('app_password_change', { 'id': user.id, 'callback': app.request.uri }) }}">
+        <a class="btn btn-danger" href="{{ path('app_security_passwordchange', { 'id': user.id, 'callback': app.request.uri }) }}">
             Modifier mon mot de passe
         </a>
-        <a class="btn btn-danger" href="{{ path('user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">
+        <a class="btn btn-danger" href="{{ path('app_user_unsubscribe', { 'id': user.id, 'callback': app.request.uri }) }}">
             Supprimer mon compte
         </a>
     </div>
+</div>
 {% endblock %}

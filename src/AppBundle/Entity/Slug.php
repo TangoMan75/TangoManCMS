@@ -1,16 +1,15 @@
 <?php
 
-namespace AppBundle\Utils;
+namespace AppBundle\Entity;
 
-
-class Slug
+trait Slug
 {
     /**
      * Generates slug from string
      *
-     * @param  String   $string                       Source string
-     * @param  Boolean  $removeWesternEuropeanAccents [optional] When true, removes western european accents (ex. é => e) - default: true
-     * @param  String   $separator                    [optional] Character to use to replace non-alphanum chars - default: '-'
+     * @param  String  $string                       Source string
+     * @param  Boolean $removeWesternEuropeanAccents [optional] When true, removes western european accents (ex. é => e) - default: true
+     * @param  String  $separator                    [optional] Character to use to replace non-alphanum chars - default: '-'
      *
      * @return String  clean string
      */
@@ -26,6 +25,7 @@ class Slug
         $slug = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $slug);
         $slug = strtolower(trim($slug, $separator));
         $slug = preg_replace("/[\/_|+ -]+/", $separator, $slug);
+
         return $slug;
     }
 }

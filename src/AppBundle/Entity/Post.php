@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Utils\Slug;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,6 +11,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Post
 {
+    use Slug;
+
     /**
      * @var Integer Post id
      * @ORM\Id
@@ -75,6 +76,14 @@ class Post
     }
 
     /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getDateCreated()
@@ -84,10 +93,14 @@ class Post
 
     /**
      * @param \DateTime $dateCreated
+     *
+     * @return $this
      */
     public function setDateCreated(\DateTime $dateCreated)
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
     }
 
     /**
@@ -100,26 +113,14 @@ class Post
 
     /**
      * @param string $content
+     *
+     * @return $this
      */
     public function setContent($content)
     {
         $this->content = $content;
-    }
 
-    /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -132,10 +133,14 @@ class Post
 
     /**
      * @param Comment[] $comments Comment list
+     *
+     * @return $this
      */
     public function setComments($comments)
     {
         $this->comments = $comments;
+
+        return $this;
     }
 
     /**
@@ -148,21 +153,15 @@ class Post
 
     /**
      * @param string $title
+     *
+     * @return $this
      */
     public function setTitle($title)
     {
         $this->title = $title;
         $this->setSlug($title);
-    }
 
-    /**
-     * Slug is generated from given string
-     *
-     * @param string $string
-     */
-    public function setSlug($string)
-    {
-        $this->slug = Slug::slugify($string) . '-' . uniqid();
+        return $this;
     }
 
     /**
@@ -171,6 +170,20 @@ class Post
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Slug is generated from given string
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setSlug($string)
+    {
+        $this->slug = $this->slugify($string).'-'.uniqid();
+
+        return $this;
     }
 
     /**
@@ -183,10 +196,14 @@ class Post
 
     /**
      * @param Tag $tag
+     *
+     * @return $this
      */
     public function addTag(Tag $tag)
     {
         $this->tags[] = $tag;
+
+        return $this;
     }
 
     /**
@@ -199,10 +216,14 @@ class Post
 
     /**
      * @param User $user
+     *
+     * @return $this
      */
     public function setUser($user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
 }

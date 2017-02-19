@@ -11,6 +11,7 @@
 {% endblock %}
 
 {% block body %}
+<div class="container">
     <div id="login-form" class="jumbotron">
         <div class="row">
             <form method="post" action="{{ path('app_check') }}" class="form-horizontal col-md-6 col-md-offset-2">
@@ -39,8 +40,9 @@
         </div>
         <div class="row">
             <p class="text-center">
-                <small><a href="{{ path('app_token') }}">J'ai oublié mon mot de passe.</a></small>
+                <small><a href="{{ path('app_security_passwordresetrequest') }}">J'ai oublié mon mot de passe.</a></small>
             </p>
         </div>
     </div>
+</div>
 {% endblock %}

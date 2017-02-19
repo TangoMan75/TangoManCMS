@@ -28,19 +28,19 @@ class JWTController extends Controller
 
         $jwt = new JWT();
         $jwt->set('email', 'admin@example.com');
-        $jwt->set('username', 'Admin');
+        $jwt->set('username', 'Valid');
         $jwt->setPeriod(new \DateTime(), new \DateTime('+3 days'));
         $token = $jwtService->encode($jwt);
 
         $jwt2 = new JWT();
         $jwt2->set('email', 'admin@example.com');
-        $jwt2->set('username', 'Admin');
+        $jwt2->set('username', 'TooSoon');
         $jwt2->setPeriod(new \DateTime('+1 day'), new \DateTime('+3 days'));
         $token2 = $jwtService->encode($jwt2);
 
         $jwt3 = new JWT();
         $jwt3->set('email', 'admin@example.com');
-        $jwt3->set('username', 'Admin');
+        $jwt3->set('username', 'Expired');
         $jwt3->setPeriod(new \DateTime('-3 days'), new \DateTime('-1 days'));
         $token3 = $jwtService->encode($jwt3);
 

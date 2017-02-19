@@ -1,5 +1,6 @@
 {
-    "name": "livredor",
+    "name": "tangoman75/livredor",
+    "description": "Moteur de blog",
     "license": "proprietary",
     "type": "project",
     "autoload": {
@@ -35,7 +36,7 @@
         "tiloweb/pagination-bundle": "^1.1",
         "tiloweb/base64-bundle": "^1.0",
         "firebase/php-jwt": "^4.0",
-        "tangoman/jwt-bundle": "^0.2.0"
+        "tangoman/jwt-bundle": "^1.0"
     },
     "scripts": {
         "symfony-scripts": [
@@ -51,12 +52,14 @@
         ],
         "post-install-cmd": [
             "@symfony-scripts",
+            "php bin/console doctrine:database:drop --force",
+            "php bin/console doctrine:database:create",
             "php bin/console doctrine:schema:update --force",
+            "php bin/console doctrine:fixtures:load",
             "php bin/console cache:clear -e=prod"
         ],
         "post-update-cmd": [
             "@symfony-scripts",
-            "php bin/console doctrine:schema:update --force",
             "php bin/console cache:clear -e=prod"
         ]
     },

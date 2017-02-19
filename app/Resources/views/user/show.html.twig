@@ -3,6 +3,7 @@
 {% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
 
 {% block body %}
+<div class="container">
 
     {% include "includes/_user-profile.html.twig" with {'user': user } %}
 
@@ -16,4 +17,5 @@
         {{ pagination(posts) }}
         </div>
     </section>
+</div>
 {% endblock %}

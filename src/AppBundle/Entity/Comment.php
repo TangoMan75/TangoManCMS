@@ -53,6 +53,14 @@ class Comment
     }
 
     /**
+     * @return int Comment id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getDateCreated()
@@ -62,10 +70,14 @@ class Comment
 
     /**
      * @param \DateTime $dateCreated
+     *
+     * @return $this
      */
     public function setDateCreated(\DateTime $dateCreated)
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
     }
 
     /**
@@ -78,26 +90,14 @@ class Comment
 
     /**
      * @param string $content Comment content
+     *
+     * @return $this
      */
     public function setContent($content)
     {
         $this->content = $content;
-    }
 
-    /**
-     * @return int Comment id
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int $id Comment id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
+        return $this;
     }
 
     /**
@@ -110,10 +110,14 @@ class Comment
 
     /**
      * @param User $user Comment author
+     *
+     * @return $this
      */
     public function setUser($user)
     {
         $this->user = $user;
+
+        return $this;
     }
 
     /**
@@ -126,10 +130,14 @@ class Comment
 
     /**
      * @param Post $post Comment's post
+     *
+     * @return $this
      */
     public function setPost($post)
     {
         $this->post = $post;
+
+        return $this;
     }
 
 }

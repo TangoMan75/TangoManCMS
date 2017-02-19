@@ -19,8 +19,8 @@ $(function() {
     /* Applies CSS to injected element. */
     $("#scroll-top").css({
         "display": "none",
-        "bottom": "5em",
-        "right": "5em",
+        "bottom": "1em",
+        "right": "1em",
         "font-size": "2em",
         "line-height": "1.5em",
         "text-align": "center",
