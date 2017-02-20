@@ -48,7 +48,7 @@ class TokenController extends Controller
             $token['token']       = $this->genToken($user, 'password-reset');
             $token['title']       = 'Réinitialisation de mot de passe';
             $token['description'] = 'renouveler votre mot de passe';
-            $token['btn']         = 'Reinitialiser mon mot de passe';
+            $token['btn']         = 'Réinitialiser mon mot de passe';
 
             $this->sendToken($user, $token);
             $this->confirmMessage($user, $token);
