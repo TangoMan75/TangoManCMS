@@ -80,42 +80,12 @@ class TokenController extends Controller
             $this->loginUser($user);
         }
 
+        // Adds parameters
         array_unshift($params, $user);
         array_unshift($params, $request);
 
+        // Calls requested method
         return call_user_func_array([$this, $action], $params);
-
-        switch ($action) {
-            case 'account_delete':
-                return $this->account_delete($request, $user);
-
-            case 'email_change':
-                return $this->email_change($request, $user);
-
-            case 'password_change':
-                $page['title'] = 'Changer de mot de passe';
-
-                return $this->password_change($request, $user, $page);
-
-            case 'password_reset':
-                $page['title'] = 'Réinitialisation de mot de passe';
-
-                return $this->password_change($request, $user, $page);
-
-            case 'test':
-                array_unshift($params, $user);
-                array_unshift($params, $request);
-
-                return call_user_func_array([$this, $action], $params);
-
-            default:
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'Désolé <strong>'.$username.'</strong>, une erreur s\'est produite.'
-                );
-
-                return $this->redirectToRoute('homepage');
-        }
     }
 
     /**
@@ -171,9 +141,8 @@ class TokenController extends Controller
         }
 
         return $this->render(
-            'user/password.html.twig',
+            'user/password-change.html.twig',
             [
-                'page'         => $page,
                 'formPassword' => $form->createView(),
             ]
         );

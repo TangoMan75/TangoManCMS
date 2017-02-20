@@ -63,7 +63,7 @@ class AdminController extends Controller
     {
         $admin = $this->getUser();
 
-        if (in_array('ROLE_ADMIN', $admin->getRoles())) {
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$admin->getUsername().'</strong><br />'.
