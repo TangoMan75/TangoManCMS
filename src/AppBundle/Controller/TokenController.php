@@ -5,7 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\User;
 use AppBundle\Form\PwdType;
 use AppBundle\Form\EmailChangeType;
-use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,127 +15,6 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
  */
 class TokenController extends Controller
 {
-    /**
-     * Send email containing password reset security token.
-     * @Route("/password-reset")
-     *
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function passwordResetAction(Request $request)
-    {
-        $form = $this->createForm(\AppBundle\Form\EmailType::class);
-        $form->handleRequest($request);
-
-        // When form is submitted
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->getData()['email'];
-            $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
-
-            // Send error message when user not found
-            if (!$user) {
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'Désolé, aucun utilisateur n\'est enregistré avec l\'email <strong>'.$email.'</strong>.'
-                );
-
-                return $this->redirectToRoute('app_token_passwordreset');
-            }
-
-            // Generate password reset token
-            $token['token']       = $this->genToken($user, 'password-reset');
-            $token['title']       = 'Réinitialisation de mot de passe';
-            $token['description'] = 'renouveler votre mot de passe';
-            $token['btn']         = 'Réinitialiser mon mot de passe';
-
-            $this->sendToken($user, $token);
-            $this->confirmMessage($user, $token);
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        return $this->render(
-            'user/reset.html.twig',
-            [
-                'formReset' => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * Send email containing password reset security token.
-     * @Route("/request/{id}/{action}", requirements={"id": "\d+", "action": "account-delete|email-change|password-change|password-reset|user-login|user-unsubscribe"})
-     *
-     * @param Request $request
-     * @param   User     $user
-     * @param   string   $action
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function requestAction(Request $request, User $user, $action)
-    {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-            return $this->redirectToRoute('app_login');
-        }
-
-        // Only user can send tokens to self
-        if ($this->getUser() !== $user) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
-            return $this->redirectToRoute('homepage');
-        }
-
-        $token['token'] = $this->genToken($user, $action);
-
-        // Generates password reset and security warning
-        $token['reset'] = $this->genToken($user, 'password-reset');
-
-        switch ($action) {
-            case 'account-delete':
-                $token['title']       = 'Suppression de compte utilisateur';
-                $token['description'] = 'confirmer votre désinscription';
-                $token['btn']         = 'Supprimer mon compte';
-                break;
-
-            case 'email-change':
-                $token['title']       = 'Changement d\'adresse email de contact';
-                $token['description'] = 'enregistrer une nouvelle adresse email';
-                $token['btn']         = 'Changer mon email';
-                break;
-
-            case 'password-change':
-                $token['title']       = 'Changement de mot de passe';
-                $token['description'] = 'modifier votre mot de passe';
-                $token['btn']         = 'Changer mon mot de passe';
-                break;
-
-            case 'password-reset':
-                $token['title']       = 'Réinitialisation de mot de passe';
-                $token['description'] = 'renouveler votre mot de passe';
-                $token['btn']         = 'Réinitialiser mon mot de passe';
-                break;
-
-            case 'user-login':
-                $token['title']       = 'Lien de connexion';
-                $token['description'] = 'vous connecter à votre compte';
-                $token['btn']         = 'Me connecter';
-                break;
-
-            case 'user-unsubscribe':
-                $token['title']       = 'Désabonnement à la liste';
-                $token['description'] = 'vous désabonner à la liste';
-                $token['btn']         = 'Me désabonner';
-                break;
-        }
-
-        $this->sendToken($user, $token);
-        $this->confirmMessage($user, $token);
-
-        // User is redirected to referrer page
-        return $this->redirect($request->get('callback'));
-    }
-
     /**
      * Security token front controller.
      * @Route("/{token}")
@@ -149,11 +27,13 @@ class TokenController extends Controller
     public function tokenAction(Request $request, $token)
     {
         // JSON Web Token validation
-        $jwt      = $this->get('tangoman_jwt')->decode($token);
-        $id       = $jwt->get('id');
+        $jwt = $this->get('tangoman_jwt')->decode($token);
+        $id = $jwt->get('id');
         $username = $jwt->get('username');
-        $email    = $jwt->get('email');
-        $action   = $jwt->get('action');
+        $email = $jwt->get('email');
+        $action = $jwt->get('action');
+        $params = $jwt->get('params');
+        $login = $jwt->get('login');
 
         // Display error message when token is invalid
         if (!$jwt->isValid()) {
@@ -173,7 +53,7 @@ class TokenController extends Controller
         if (!$user) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                'Désolé <strong>'.$username.'</strong> ce compte a été supprimé.'
+                'Désolé <strong>'.$username.'</strong> ce compte n\'existe pas.'
             );
 
             return $this->redirectToRoute('homepage');
@@ -191,32 +71,32 @@ class TokenController extends Controller
         }
 
         // Starts user session
-        $this->loginUser($user);
+        if ($login) {
+            $this->loginUser($user);
+        }
 
         switch ($action) {
-            case 'account-delete':
-                return $this->removeUser($request, $user);
+            case 'account_delete':
+                return $this->account_delete($request, $user);
 
-            case 'email-change':
-                return $this->changeEmail($request, $user);
+            case 'email_change':
+                return $this->email_change($request, $user);
 
-            case 'password-change':
+            case 'password_change':
                 $page['title'] = 'Changer de mot de passe';
-                return $this->setPassword($request, $user, $page);
 
-            case 'password-reset':
+                return $this->password_change($request, $user, $page);
+
+            case 'password_reset':
                 $page['title'] = 'Réinitialisation de mot de passe';
-                return $this->setPassword($request, $user, $page);
 
-            case 'user-login':
-                $this->get('session')->getFlashBag()->add(
-                    'success',
-                    'Bonjour <strong>'.$username.'</strong>! <br />Bienvenue.'
-                );
-                return $this->redirectToRoute('homepage');
+                return $this->password_change($request, $user, $page);
 
-            case 'user-unsubscribe':
-                return $this->unsubscribe($request, $user);
+            case 'test':
+                array_unshift($params, $user);
+                array_unshift($params, $request);
+
+                return call_user_func_array([$this, $action], $params);
 
             default:
                 $this->get('session')->getFlashBag()->add(
@@ -229,11 +109,48 @@ class TokenController extends Controller
     }
 
     /**
+     * @param Request $request
+     * @param User    $user
+     * @param         $param1
+     * @param         $param2
+     * @param         $param3
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function test(Request $request, User $user, $param1, $param2, $param3)
+    {
+        dump($param1);
+        dump($param2);
+        dump($param3);
+        die();
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @param Request $request
+     * @param User    $user
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function user_login(Request $request, User $user)
+    {
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            'Bonjour <strong>'.$user->getUsername().'</strong>! <br />Bienvenue.'
+        );
+
+        return $this->redirectToRoute('homepage');
+    }
+
+    /**
      * Set password
+     *
      * @param   Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function setPassword(Request $request, User $user, $page)
+    public function password_change(Request $request, User $user, $page)
     {
         // Generate form
         $form = $this->createForm(PwdType::class, $user);
@@ -273,10 +190,12 @@ class TokenController extends Controller
 
     /**
      * Change email
+     *
      * @param   Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function changeEmail(Request $request, User $user)
+    public function email_change(Request $request, User $user)
     {
         // Generate form
         $form = $this->createForm(EmailChangeType::class, $user);
@@ -306,10 +225,12 @@ class TokenController extends Controller
 
     /**
      * Removes user
+     *
      * @param   Request $request
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function removeUser(Request $request, User $user)
+    public function account_delete(Request $request, User $user)
     {
         $username = $user->getUsername();
 
@@ -342,73 +263,16 @@ class TokenController extends Controller
     }
 
     /**
-     * Generates security token
-     * @param   User    $user    User
-     * @param   string  $action  Action
-     * @return  string           Token
-     */
-    public function genToken(User $user, $action, $validity = '+1 Day') {
-        // Generates token
-        $jwt = new JWT();
-        $jwt->set('id', $user->getId())
-            ->set('username', $user->getUsername())
-            ->set('email', $user->getEmail())
-            ->set('action', $action)
-            ->setPeriod(new \DateTime(), new \DateTime($validity));
-
-        return $this->get('tangoman_jwt')->encode($jwt);
-    }
-
-    /**
      * Start user session
-     * @param   User    $user  [description]
+     *
+     * @param   User $user [description]
      */
-    public function loginUser(User $user) {
+    public function loginUser(User $user)
+    {
         // Start user session
         $sessionToken = new UsernamePasswordToken($user, null, 'database', $user->getRoles());
         $this->get('security.token_storage')->setToken($sessionToken);
         $this->get('session')->set('_security_main', serialize($sessionToken));
-    }
-
-    /**
-     * Sends token with swift mailer
-     * @param   User    $user
-     * @param   string  $token
-     */
-    public function sendToken(User $user, $token)
-    {
-        // Sends email to user
-        $message = \Swift_Message::newInstance()
-            ->setSubject($this->getParameter('site_name').' | '.$token['title'])
-            ->setFrom($this->getParameter('mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    'email/token.html.twig',
-                    [
-                        'user' => $user,
-                        'token' => $token,
-                    ]
-                ),
-                'text/html'
-            );
-
-        $this->get('mailer')->send($message);
-    }
-
-    /**
-     * Sends notification message
-     * @param   User    $user
-     * @param   string  $token
-     */
-    public function confirmMessage(User $user, $token)
-    {
-        $this->get('session')->getFlashBag()->add(
-            'success',
-            'Votre demande de <strong>'.mb_strtolower($token['title'], 'UTF-8').'</strong> a '.
-            'bien été prise en compte.<br />Un lien de confirmation vous à été envoyé à <strong>'.$user->getEmail().'</strong>. '.
-            '<br /> Vérifiez votre boîte email.'
-        );
     }
 
 }

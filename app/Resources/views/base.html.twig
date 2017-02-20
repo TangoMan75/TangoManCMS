@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    {% set domain_name = absolute_url(path('homepage'))|split('//')[1]|trim('/') %}
     {% block head %}
         <meta charset="UTF-8" />
         <title>{% block title %}{{ site_name }}{% endblock %}</title>

@@ -17,13 +17,13 @@
         </div>
     </div>
     <div class="text-center">
-        <a class="btn btn-success" href="{{ path('app_token_request', { 'id': user.id, 'action': 'email-change', 'callback': app.request.uri }) }}">
+        <a class="btn btn-success" href="{{ path('app_request_create', { 'id': user.id, 'action': 'email_change', 'callback': app.request.uri }) }}">
             Modifier mon adresse email
         </a>&nbsp;
-        <a class="btn btn-danger" href="{{ path('app_token_request', { 'id': user.id, 'action': 'password-change', 'callback': app.request.uri }) }}">
+        <a class="btn btn-danger" href="{{ path('app_request_create', { 'id': user.id, 'action': 'password_change', 'callback': app.request.uri }) }}">
             Modifier mon mot de passe
         </a>&nbsp;
-        <a class="btn btn-danger" href="{{ path('app_token_request', { 'id': user.id, 'action': 'account-delete', 'callback': app.request.uri }) }}">
+        <a class="btn btn-danger" href="{{ path('app_request_create', { 'id': user.id, 'action': 'account_delete', 'callback': app.request.uri }) }}">
             Supprimer mon compte
         </a>
     </div>
