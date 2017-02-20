@@ -33,7 +33,7 @@
                 {% for tag in post.tags %}
                     <a href="{{ path('app_post_index', { 'tag': tag.name }) }}" class="label label-{{ tag.type }}">
                         {{ tag.name }}
-                    </a>
+                    </a>&nbsp;
                 {% endfor %}
                 <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="btn btn-primary btn-sm pull-right">
                     Commentaires&nbsp;&nbsp;<span class="badge">{{ post.comments|length }}</span>

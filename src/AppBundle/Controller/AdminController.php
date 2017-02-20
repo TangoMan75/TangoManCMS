@@ -41,7 +41,7 @@ class AdminController extends Controller
 //                        'maxSize' => '1024k',
 //                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
                         'mimeTypes' => 'application/vnd.ms-excel',
-                        'mimeTypesMessage' => "Vous ne pouvez importer que des fichiers de type CSV"
+                        'mimeTypesMessage' => 'Vous ne pouvez importer que des fichiers de type CSV'
                     ]),
                 ]
             ])
@@ -61,25 +61,28 @@ class AdminController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
+        $admin = $this->getUser();
+
+        if (in_array('ROLE_ADMIN', $admin->getRoles())) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Désolé, <strong>'.$admin->getUsername().'</strong><br />'.
+                'Il n\'est pas autorisé de supprimer un utilisateur ayant des droit d\'administration.'
+            );
+
+            return $this->redirectToRoute('app_admin_index');
+        }
+
         // Deletes specified user
         $this->get('em')->remove($user);
         $this->get('em')->flush();
 
         // Send flash notification
-        $this->get('session')->getFlashBag()->add('success', "L'utilisateur ".
-            "<strong>&quot;{$user->getUsername()}&quot;</strong> à ".
-            "bien été supprimé.");
+        $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur '.
+            '<strong>&quot;'.$user->getUsername().'&quot;</strong> à '.
+            'bien été supprimé.');
 
-        // Disconnects user
-        if ($user == $this->getUser()) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
-            return $this->redirectToRoute('homepage');
-        }
-
-
-
-        // User is redirected to referrer page
+        // Admin is redirected to referrer page
         return $this->redirectToRoute('app_admin_index');
     }
 
@@ -92,8 +95,8 @@ class AdminController extends Controller
     {
         $user->addRole($role);
         $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été attribué à ".
-            "&quot;{$user->getUsername()}&quot;</strong>.");
+        $this->get('session')->getFlashBag()->add('success', 'Le role <strong>&quot;'.$role.'&quot; à été attribué à '.
+            '&quot;'.$user->getUsername().'&quot;</strong>.');
 
         // User is redirected to referrer page
         return $this->redirectToRoute('app_admin_index');
@@ -106,17 +109,21 @@ class AdminController extends Controller
      */
     public function removeRoleAction(Request $request, User $user, $role)
     {
-        // Disconnects user who changes his own admin rights
-        if ( $user == $this->getUser() ) {
-            $this->get('security.token_storage')->setToken(null);
-            $request->getSession()->invalidate();
-            return $this->redirectToRoute('homepage');
+        // Admin can't change his own rigths
+        if ( $user == $this->getUser() && $role == 'ROLE_ADMIN') {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
+                'Vous n\'êtes pas autorisé à supprimer vos propres droit d\'administration.'
+            );
+
+            return $this->redirectToRoute('app_admin_index');
         }
 
         $user->removeRole($role);
         $this->get('em')->save($user);
-        $this->get('session')->getFlashBag()->add('success', "Le role <strong>&quot;$role&quot; à été retiré à ".
-            "&quot;{$user->getUsername()}&quot;</strong>.");
+        $this->get('session')->getFlashBag()->add('success', 'Le role <strong>&quot;'.$role.'&quot; à été retiré à '.
+            '&quot;'.$user->getUsername().'&quot;</strong>.');
 
         // User is redirected to referrer page
         return $this->redirectToRoute('app_admin_index');

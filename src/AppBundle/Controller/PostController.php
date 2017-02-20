@@ -99,9 +99,9 @@ class PostController extends Controller
      */
     public function newAction(Request $request)
     {
-        // User cannot post when not logged in
+        // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
             return $this->redirectToRoute('app_login');
         }
 
@@ -133,13 +133,13 @@ class PostController extends Controller
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
             return $this->redirectToRoute('app_login');
         }
 
         // Only author or admin can edit post
         if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
             return $this->redirectToRoute('homepage');
         }
 
@@ -169,13 +169,13 @@ class PostController extends Controller
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
             return $this->redirectToRoute('app_login');
         }
 
-        // Only author or admin can delete post
+        // Only author or admin can edit post
         if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
             return $this->redirectToRoute('homepage');
         }
 
