@@ -90,7 +90,7 @@
                     <td>
                         {% if 'ROLE_ADMIN' in user.roles %}
                             <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
-                               class="btn btn-warning btn-sm">
+                               class="btn btn-warning btn-sm{% if (user.id == app.user.id) %} disabled {% endif %}">
                                 <span class="glyphicon glyphicon-king"></span>&nbsp;admin
                             </a>
                         {% else %}
@@ -117,7 +117,8 @@
                                 class="btn btn-danger btn-sm"
                                 data-toggle="modal" data-target=".my-modal"
                                 data-username="{{ user.username }}"
-                                data-url="{{ path('app_admin_delete', { 'id': user.id, 'callback': app.request.uri }) }}">
+                                data-url="{{ path('app_admin_delete', { 'id': user.id, 'callback': app.request.uri }) }}"
+                                {% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
                             <span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer
                         </button>
                     </td>

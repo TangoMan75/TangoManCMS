@@ -44,3 +44,17 @@
         </table>
     </div>
 </div>
+<div id="toolbar" class="row">
+    <div class="col-xs-12">
+        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+            {% if (user.id == app.user.id) %}
+                <h4>M'envoyer un lien de connection en un clic par email.</h4>
+                <p>Pour reçevoir un lien de connexion rapide dans votre boite mail cliquez sur le bouton suivant: <br />
+                    <a class="btn btn-success" href="{{ path('app_token_request', {'id': user.id, 'action': 'user-login', 'callback': app.request.uri}) }}">
+                        Générer un lien
+                    </a>
+                </p>
+            {% endif %}
+        {% endif %}
+    </div>
+</div>

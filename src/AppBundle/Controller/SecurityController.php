@@ -7,7 +7,6 @@ use AppBundle\Form\PwdType;
 use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
@@ -89,66 +88,6 @@ class SecurityController extends Controller
     }
 
     /**
-     * Send email containing password reset security token.
-     * @Route("/password-change/{id}", requirements={"id": "\d+"})
-     *
-     * @param Request $request
-     * @param User    $user
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-//   public function passwordChangeAction(Request $request, User $user)
-//   {
-//       // Send error message when user not found
-//       if (!$user) {
-//           $this->get('session')->getFlashBag()->add('error', "Cet utilisateur n'exite pas.");
-//
-//           return $this->redirectToRoute('app_security_passwordresetrequest');
-//       }
-//
-//       // Only user is allowed to change his password
-//       if ($this->getUser() == $user) {
-//           $email = $user->getEmail();
-//
-//           // Generate password reset token
-//           $jwt = new JWT();
-//           $jwt->set('id', $user->getId());
-//           $jwt->set('username', $user->getUsername());
-//           $jwt->set('email', $email);
-//           $jwt->set('action', 'reset');
-//           $jwt->setPeriod(new \DateTime(), new \DateTime('+1 day'));
-//           $token = $this->get('tangoman_jwt')->encode($jwt);
-//
-//           // Sends validation email to user
-//           $message = \Swift_Message::newInstance()
-//               ->setSubject($this->getParameter('site_name')." | Réinitialisation de mot de passe.")
-//               ->setFrom($this->getParameter('mailer_from'))
-//               ->setTo($email)
-//               ->setBody(
-//                   $this->renderView(
-//                       'email/reset.html.twig',
-//                       [
-//                           'user'  => $user,
-//                           'token' => $token,
-//                       ]
-//                   ),
-//                   'text/html'
-//               );
-//
-//           $this->get('mailer')->send($message);
-//           $this->get('session')->getFlashBag()->add(
-//               'success',
-//               "Votre demande de renouvellement de mot de passe a ".
-//               "bien été prise en compte.<br />Un lien de confirmation vous à été envoyé à <strong>$email</strong>. ".
-//               "<br /> Vérifiez votre boîte email."
-//           );
-//       }
-//
-//       // User is redirected to referrer page
-//       return $this->redirect($request->get('callback'));
-//   }
-
-    /**
      * Checks security token and allows password change.
      * @Route("/password/{token}")
      *
@@ -226,6 +165,9 @@ class SecurityController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
+
+        $page['title'] = 'Création de mot de passe';
+
         return $this->render(
             'user/password.html.twig',
             [
@@ -295,76 +237,4 @@ class SecurityController extends Controller
             return $this->redirectToRoute('homepage');
         }
     }
-
-    /**
-     * Security token front controller.
-     * @Route("/front/{token}")
-     *
-     * @param Request $request
-     * @param         $token
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function frontTokenAction(Request $request, $token)
-    {
-        // JSON Web Token validation
-        $jwt = $this->get('tangoman_jwt')->decode($token);
-        $id = $jwt->get('id');
-        $username = $jwt->get('username');
-        $email = $jwt->get('email');
-        $action = $jwt->get('action');
-
-        // Display error message when token is invalid
-        if (!$jwt->isValid()) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                "Désolé <strong>$username</strong><br />".
-                "Votre lien de sécurité n'est pas valide ou à expiré."
-            );
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        // Find user
-        $user = $this->get('em')->repository('AppBundle:User')->find($id);
-        // When user doesn't exist
-        if (!$user) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                "Désolé <strong>$username</strong> ce compte a été supprimé."
-            );
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        return $this->redirectToRoute('homepage');
-    }
-
-    /**
-     * Sends an email with swift mailer
-     *
-     * @param $email
-     * @param $subject
-     * @param $message
-     */
-    public function sendEmail($email, $subject, $text)
-    {
-        // Sends password reset email to user
-        $message = \Swift_Message::newInstance()
-            ->setSubject($this->getParameter('site_name').' | '.$subject)
-            ->setFrom($this->getParameter('mailer_from'))
-            ->setTo($email)
-            ->setBody(
-                $this->renderView(
-                    'email/default.html.twig',
-                    [
-                        'message' => $text,
-                    ]
-                ),
-                'text/html'
-            );
-
-        $this->get('mailer')->send($message);
-    }
-
 }

@@ -23,14 +23,14 @@ class CommentController extends Controller
     public function editAction(Request $request, Comment $comment)
     {
         // User must log in
-        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
             return $this->redirectToRoute('app_login');
         }
 
-        // Only author or admin can edit comment
-        if ($this->getUser() !== $comment->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+        // Only author or admin can edit post
+        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
             return $this->redirectToRoute('homepage');
         }
 
@@ -59,14 +59,14 @@ class CommentController extends Controller
     public function deleteAction(Request $request, Comment $comment)
     {
         // User must log in
-        if ( !$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED') ) {
-            $this->get('session')->getFlashBag()->add('error', "Vous devez être connecté pour réaliser cette action.");
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
             return $this->redirectToRoute('app_login');
         }
 
-        // Only author or admin can delete comment
-        if ($this->getUser() !== $comment->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à réaliser cette action.");
+        // Only author or admin can edit post
+        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
             return $this->redirectToRoute('homepage');
         }
 

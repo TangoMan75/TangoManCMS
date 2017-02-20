@@ -1,0 +1,20 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
+
+{% block body %}
+<div class="container">
+    <div id="profile-form" class="jumbotron">
+        <h2 class="text-center">
+            <span class="glyphicon glyphicon-edit pull-left"></span>
+            Modifier votre email de contact
+        </h2>
+        <div class="text-center">
+            {{ form_start(formEmailChange) }}
+            {{ form_widget(formEmailChange) }}
+            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Valider</button>
+            {{ form_end(formEmailChange) }}
+        </div>
+    </div>
+</div>
+{% endblock %}
