@@ -46,6 +46,11 @@ class TokenController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
+        // When creating new account
+        if ($action == 'account_create') {
+            return $this->account_create($request, $username, $email);
+        }
+
         // Find user
         $user = $this->get('em')->repository('AppBundle:User')->find($id);
 
@@ -74,6 +79,11 @@ class TokenController extends Controller
         if ($login) {
             $this->loginUser($user);
         }
+
+        array_unshift($params, $user);
+        array_unshift($params, $request);
+
+        return call_user_func_array([$this, $action], $params);
 
         switch ($action) {
             case 'account_delete':
@@ -106,25 +116,6 @@ class TokenController extends Controller
 
                 return $this->redirectToRoute('homepage');
         }
-    }
-
-    /**
-     * @param Request $request
-     * @param User    $user
-     * @param         $param1
-     * @param         $param2
-     * @param         $param3
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
-     */
-    public function test(Request $request, User $user, $param1, $param2, $param3)
-    {
-        dump($param1);
-        dump($param2);
-        dump($param3);
-        die();
-
-        return $this->redirectToRoute('homepage');
     }
 
     /**
@@ -260,6 +251,75 @@ class TokenController extends Controller
         );
 
         return $this->redirectToRoute('homepage');
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function account_create(Request $request, $username, $email)
+    {
+        // Instantiate new user entity
+        $user = new User;
+        $user->setUsername($username);
+        $user->setEmail($email);
+
+        // generates password form
+        $form = $this->createForm(PwdType::class, $user);
+        $form->handleRequest($request);
+
+        // Check form
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Persists new user
+            $this->get('em')->save($user);
+
+            // Login user
+            $this->loginUser($user);
+            $this->user_login($request, $user);
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render(
+            'user/password-create.html.twig',
+            [
+                'formPassword' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function password_reset(Request $request, User $user)
+    {
+        // generates password form
+        $form = $this->createForm(PwdType::class, $user);
+        $form->handleRequest($request);
+
+        // Check form
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Persists new user
+            $this->get('em')->save($user);
+
+            // Login user
+            $this->loginUser($user);
+            $this->user_login($request, $user);
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render(
+            'user/password-reset.html.twig',
+            [
+                'formPassword' => $form->createView(),
+            ]
+        );
     }
 
     /**

@@ -14,7 +14,7 @@
         </a>
     </p>
     <p>Ce lien n'est valable que pour une durée de 24 heures.</p>
-    {% if token.reset is defined %}
+    {% if email.reset is defined %}
         <p>Si vous n'êtes pas à l'origine de cette demande il est probable que votre compte ait été compromi,
         nous vous recommandons fortement de <a href="{{ absolute_url(path('app_token_token', {'token': email.reset })) }}">renouveller votre mot de passe</a>.</p>
     {% else %}

@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\EmailChangeType;
 use AppBundle\Form\UserType;
 use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -44,13 +43,13 @@ class RequestController extends Controller
                 return $this->redirectToRoute('app_request_passwordreset');
             }
 
-            $email['title'] = 'Réinitialisation de mot de passe';
-            $email['description'] = 'renouveler votre mot de passe';
-            $email['btn'] = 'Réinitialiser mon mot de passe';
-            $email['token'] = $this->genToken($user, 'password_reset');
+            $message['title'] = 'Réinitialisation de mot de passe';
+            $message['description'] = 'renouveler votre mot de passe';
+            $message['btn'] = 'Réinitialiser mon mot de passe';
+            $message['token'] = $this->genToken($user, 'password_reset');
 
-            $this->sendToken($user, $email);
-            $this->confirmMessage($user, $email);
+            $this->sendToken($user, $message);
+            $this->confirmMessage($user, $message);
 
             return $this->redirectToRoute('homepage');
         }
@@ -81,17 +80,31 @@ class RequestController extends Controller
         // Check form
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $email['token']['params'] = [$user];
-            $email['title'] = 'Validation de votre inscription';
-            $email['description'] = 'confirmer votre inscription';
-            $email['btn'] = 'Valider mon compte';
+            $email['title'] = 'Création de compte';
             $email['token'] = $this->genToken($user, 'account_create');
 
-            $this->sendToken($user, $email);
+            // Sends email to user
+            $message = \Swift_Message::newInstance()
+                ->setSubject($this->getParameter('site_name').' | '.$email['title'])
+                ->setFrom($this->getParameter('mailer_from'))
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'email/register.html.twig',
+                        [
+                            'user'  => $user,
+                            'email' => $email,
+                        ]
+                    ),
+                    'text/html'
+                );
+
+            $this->get('mailer')->send($message);
+
             $this->confirmMessage($user, $email);
 
             // User is redirected to referrer page
-            return $this->redirect($request->get('callback'));
+            return $this->redirect($request->get('homepage'));
         }
 
         return $this->render(
@@ -145,6 +158,12 @@ class RequestController extends Controller
                 $email['title'] = 'Changement d\'adresse email de contact';
                 $email['description'] = 'enregistrer une nouvelle adresse email';
                 $email['btn'] = 'Changer mon email';
+                break;
+
+            case 'email_change_confirm':
+                $email['title'] = 'Validation de changement d\'adresse email';
+                $email['description'] = 'valider le changement de votre adresse email';
+                $email['btn'] = 'Valider ma nouvelle adresse';
                 break;
 
             case 'password_change':
