@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
 use AppBundle\Form\UserType;
+use AppBundle\Form\EmailChangeType;
 use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,55 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 class RequestController extends Controller
 {
     /**
-     * Emails security token to given user.
-     * @Route("/password_reset")
-     *
-     * @param Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function passwordResetAction(Request $request)
-    {
-        // Create form
-        $form = $this->createForm(\AppBundle\Form\EmailType::class);
-        $form->handleRequest($request);
-
-        // When form is submitted
-        if ($form->isSubmitted() && $form->isValid()) {
-            $email = $form->getData()['email'];
-            $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
-
-            // Send error message when user not found
-            if (!$user) {
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'Désolé, aucun utilisateur n\'est enregistré avec l\'email <strong>'.$email.'</strong>.'
-                );
-
-                return $this->redirectToRoute('app_request_passwordreset');
-            }
-
-            $message['title'] = 'Réinitialisation de mot de passe';
-            $message['description'] = 'renouveler votre mot de passe';
-            $message['btn'] = 'Réinitialiser mon mot de passe';
-            $message['token'] = $this->genToken($user, 'password_reset');
-
-            $this->sendToken($user, $message);
-            $this->confirmMessage($user, $message);
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        return $this->render(
-            'user/reset.html.twig',
-            [
-                'formReset' => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * Register new User.
+     * Register new user.
      * @Route("/register")
      *
      * @param Request $request
@@ -111,6 +64,89 @@ class RequestController extends Controller
             'user/register.html.twig',
             [
                 'formRegister' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Emails security token to given user.
+     * @Route("/password-reset")
+     *
+     * @param Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function passwordResetAction(Request $request)
+    {
+        // Create form
+        $form = $this->createForm(\AppBundle\Form\EmailType::class);
+        $form->handleRequest($request);
+
+        // When form is submitted
+        if ($form->isSubmitted() && $form->isValid()) {
+            $email = $form->getData()['email'];
+            $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
+
+            // Send error message when user not found
+            if (!$user) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'Désolé, aucun utilisateur n\'est enregistré avec l\'email <strong>'.$email.'</strong>.'
+                );
+
+                return $this->redirectToRoute('app_request_passwordreset');
+            }
+
+            $message['title'] = 'Réinitialisation de mot de passe';
+            $message['description'] = 'renouveler votre mot de passe';
+            $message['btn'] = 'Réinitialiser mon mot de passe';
+            $message['token'] = $this->genToken($user, 'password_reset');
+
+            $this->sendToken($user, $message);
+            $this->confirmMessage($user, $message);
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render(
+            'user/reset.html.twig',
+            [
+                'formReset' => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * Change email
+     * @Route("/change-email")
+     * @param   Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function changeEmail(Request $request, User $user)
+    {
+        // Generate form
+        $form = $this->createForm(EmailChangeType::class, $user);
+        $form->handleRequest($request);
+
+        // Check form validation
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Persist user
+            $this->get('em')->save($user);
+
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'L\'email de contact à bien été changé pour le compte <strong>'.$user->getUsername().'</strong>.'
+            );
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return $this->render(
+            'user/email-change.html.twig',
+            [
+                'user'            => $user,
+                'formEmailChange' => $form->createView(),
             ]
         );
     }
@@ -166,6 +202,12 @@ class RequestController extends Controller
                 $email['btn'] = 'Valider ma nouvelle adresse';
                 break;
 
+            case 'email_change_rollback':
+                $email['title'] = 'Validation de changement d\'adresse email';
+                $email['description'] = 'valider le changement de votre adresse email';
+                $email['btn'] = 'Valider ma nouvelle adresse';
+                break;
+
             case 'password_change':
                 $email['title'] = 'Changement de mot de passe';
                 $email['description'] = 'modifier votre mot de passe';
@@ -202,11 +244,11 @@ class RequestController extends Controller
     /**
      * Generates security token
      *
-     * @param  User     $user      User
-     * @param  string   $action    Action
-     * @param  array    $params    Parameters
-     * @param  boolean  $login     Login
-     * @param  string   $validity
+     * @param  User    $user   User
+     * @param  string  $action Action
+     * @param  array   $params Parameters
+     * @param  boolean $login  Login
+     * @param  string  $validity
      *
      * @return  string  Token
      */

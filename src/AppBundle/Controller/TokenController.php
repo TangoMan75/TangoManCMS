@@ -84,6 +84,10 @@ class TokenController extends Controller
         array_unshift($params, $user);
         array_unshift($params, $request);
 
+        if ($action == 'email_change') {
+            return call_user_func_array(['AppBundle\\Controller\\RequestController', 'email_change'], $params);
+        }
+
         // Calls requested method
         return call_user_func_array([$this, $action], $params);
     }
@@ -155,7 +159,7 @@ class TokenController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function email_change(Request $request, User $user)
+    public function email_change_confirm(Request $request, User $user)
     {
         // Generate form
         $form = $this->createForm(EmailChangeType::class, $user);
