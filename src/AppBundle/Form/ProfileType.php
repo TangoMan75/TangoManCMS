@@ -5,8 +5,6 @@ namespace AppBundle\Form;
 
 use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,11 +24,6 @@ class ProfileType extends AbstractType
             ])
             ->add('username', TextType::Class, [
                 'label' => 'Votre pseudo'
-            ])
-            ->add('email', RepeatedType::Class, [
-                'type' => EmailType::Class,
-                'first_options'  => ['label' => 'Votre email'],
-                'second_options' => ['label' => 'Confirmez votre email']
             ])
         ;
     }

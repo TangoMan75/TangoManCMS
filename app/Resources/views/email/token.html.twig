@@ -10,7 +10,7 @@
     </p>
     <p>Pour {{ email.description }} cliquez sur le bouton suivant :<br />
         <a class="btn" href="{{ absolute_url(path('app_token_token', {'token': email.token })) }}">
-            {{ token.btn }}
+            {{ email.btn }}
         </a>
     </p>
     <p>Ce lien n'est valable que pour une durée de 24 heures.</p>

@@ -6,8 +6,9 @@ namespace AppBundle\Repository;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 
-class UserRepository extends EntityRepository
+class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     /**
      * Gets all users by name paged
@@ -101,4 +102,18 @@ class UserRepository extends EntityRepository
         return $paginator;
     }
 
+    /**
+     * @param string $username
+     *
+     * @return mixed
+     */
+    public function loadUserByUsername($username)
+    {
+        return $this->createQueryBuilder('u')
+            ->where('u.username = :username OR u.email = :email')
+            ->setParameter('username', $username)
+            ->setParameter('email', $username)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 }

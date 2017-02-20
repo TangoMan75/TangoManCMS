@@ -97,7 +97,7 @@ class RequestController extends Controller
         return $this->render(
             'user/register.html.twig',
             [
-                'form_register' => $form->createView(),
+                'formRegister' => $form->createView(),
             ]
         );
     }
@@ -153,25 +153,11 @@ class RequestController extends Controller
                 $email['btn'] = 'Changer mon mot de passe';
                 break;
 
-            case 'password_reset':
-                $email['title'] = 'Réinitialisation de mot de passe';
-                $email['description'] = 'renouveler votre mot de passe';
-                $email['btn'] = 'Réinitialiser mon mot de passe';
-                $login = true;
-                break;
-
             case 'user_login':
                 $email['title'] = 'Lien de connexion';
                 $email['description'] = 'vous connecter à votre compte';
                 $email['btn'] = 'Me connecter';
                 $login = true;
-                break;
-
-            case 'test':
-                $email['title'] = 'Test';
-                $email['description'] = 'tester';
-                $email['btn'] = 'Tester';
-                $params = ['Param1', 'Param2', 'Param3'];
                 break;
 
             case 'newsletter_unsubscribe':
@@ -192,41 +178,6 @@ class RequestController extends Controller
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
-    }
-
-    /**
-     * Change email
-     *
-     * @param   Request $request
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
-     */
-    public function changeEmail(Request $request, User $user)
-    {
-        // Generate form
-        $form = $this->createForm(EmailChangeType::class, $user);
-        $form->handleRequest($request);
-
-        // Check form validation
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Persist user
-            $this->get('em')->save($user);
-
-            $this->get('session')->getFlashBag()->add(
-                'success',
-                'L\'email de contact à bien été changé pour le compte <strong>'.$user->getUsername().'</strong>.'
-            );
-
-            return $this->redirectToRoute('homepage');
-        }
-
-        return $this->render(
-            'user/email_change.html.twig',
-            [
-                'user'            => $user,
-                'formEmailChange' => $form->createView(),
-            ]
-        );
     }
 
     /**
@@ -259,13 +210,13 @@ class RequestController extends Controller
      * Sends token with swift mailer
      *
      * @param   User   $user
-     * @param   string $token
+     * @param   string $email
      */
-    public function sendToken(User $user, $token)
+    public function sendToken(User $user, $email)
     {
         // Sends email to user
         $message = \Swift_Message::newInstance()
-            ->setSubject($this->getParameter('site_name').' | '.$token['title'])
+            ->setSubject($this->getParameter('site_name').' | '.$email['title'])
             ->setFrom($this->getParameter('mailer_from'))
             ->setTo($user->getEmail())
             ->setBody(
@@ -273,7 +224,7 @@ class RequestController extends Controller
                     'email/token.html.twig',
                     [
                         'user'  => $user,
-                        'token' => $token,
+                        'email' => $email,
                     ]
                 ),
                 'text/html'
@@ -286,13 +237,13 @@ class RequestController extends Controller
      * Sends notification message
      *
      * @param   User   $user
-     * @param   string $token
+     * @param   string $email
      */
-    public function confirmMessage(User $user, $token)
+    public function confirmMessage(User $user, $email)
     {
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Votre demande de <strong>'.mb_strtolower($token['title'], 'UTF-8').'</strong> a '.
+            'Votre demande de <strong>'.mb_strtolower($email['title'], 'UTF-8').'</strong> a '.
             'bien été prise en compte.<br />Un lien de confirmation vous à été envoyé à <strong>'.$user->getEmail(
             ).'</strong>. '.
             '<br /> Vérifiez votre boîte email.'

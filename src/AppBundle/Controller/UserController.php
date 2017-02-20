@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
 use AppBundle\Form\ProfileType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -48,8 +47,8 @@ class UserController extends Controller
         return $this->render(
             'user/edit.html.twig',
             [
-                'user'        => $user,
-                'form_avatar' => $formImage,
+                'user'       => $user,
+                'formAvatar' => $formImage,
             ]
         );
     }
