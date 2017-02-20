@@ -356,7 +356,7 @@ class SecurityController extends Controller
             ->setTo($email)
             ->setBody(
                 $this->renderView(
-                    'email/activity.html.twig',
+                    'email/default.html.twig',
                     [
                         'message' => $text,
                     ]
