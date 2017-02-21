@@ -5,6 +5,34 @@ namespace AppBundle\Entity;
 trait Slug
 {
     /**
+     * @var string slug
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Slug is generated from given string
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setSlug($string)
+    {
+        $this->slug = $this->slugify($string).'-'.uniqid();
+
+        return $this;
+    }
+
+    /**
      * Generates slug from string
      *
      * @param  String  $string                       Source string

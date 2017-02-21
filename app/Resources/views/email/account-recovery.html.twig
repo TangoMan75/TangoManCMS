@@ -1,0 +1,22 @@
+{% extends "::email-base.html.twig" %}
+{% block body %}
+    <h1>Bonjour {{ user.username|capitalize }}</h1>
+    <p>
+        Une demande de <strong>changement d'email de contact</strong> sur
+        <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>
+        a été formulée.
+    </p>
+    <p>Nous utiliserons dorénavant l'adressse {{ user.email }} pour vous contacter.</p>
+    <p>{{ user.email }} sera également l'adresse avec laquelle vous pourrez vous connecter sur
+        <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>
+    </p>
+    <p>Si vous n'êtes pas à l'origine de cette demande, votre compte a vraisemblablement été compromi.</p>
+    <p>Cliquez sur le bouton suivant pour récupérer votre compte:<br/>
+        <a class="btn" href="{{ absolute_url(path('app_token_token', {'token': msg.token })) }}">
+            Récupérer mon compte
+        </a>
+    </p>
+    <p>Vous pourrez à nouveau vous connecter avec l'adresse : {{ msg.oldEmail }} et changer votre mot de passe.</p>
+    <p>Ce lien ne sera valide que pour une durée de 7 jours.</p>
+    <p>Cordialement</p>
+{% endblock %}

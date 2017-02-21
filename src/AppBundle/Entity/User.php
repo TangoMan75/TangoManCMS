@@ -74,12 +74,6 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * @var string User's slug
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $slug;
-
-    /**
      * @var \DateTime User's registration date
      * @ORM\Column(type="datetime")
      */
@@ -107,6 +101,7 @@ class User implements UserInterface
 
     /**
      * Get user's avatar (Base64).
+     *
      * @return string
      */
     public function getAvatar()
@@ -116,6 +111,7 @@ class User implements UserInterface
 
     /**
      * Set user's avatar (Base64).
+     *
      * @param string $avatar
      *
      * @return $this
@@ -153,6 +149,7 @@ class User implements UserInterface
 
     /**
      * Get user's comments.
+     *
      * @return Comment[] User comment
      */
     public function getComments()
@@ -162,6 +159,7 @@ class User implements UserInterface
 
     /**
      * Set user's comments.
+     *
      * @param Comment[] $comments
      *
      * @return $this
@@ -197,28 +195,6 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Slug is generated from given string
-     *
-     * @param string $string
-     *
-     * @return $this
-     */
-    public function setSlug($string)
-    {
-        $this->slug = $this->slugify($string).'-'.uniqid();
 
         return $this;
     }

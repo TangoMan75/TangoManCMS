@@ -50,7 +50,7 @@
             {% if (user.id == app.user.id) %}
                 <h4>M'envoyer un lien de connection en un clic par email.</h4>
                 <p>Pour reçevoir un lien de connexion rapide dans votre boite mail cliquez sur le bouton suivant: <br />
-                    <a class="btn btn-success" href="{{ path('app_request_create', {'id': user.id, 'action': 'user_login', 'callback': app.request.uri}) }}">
+                    <a class="btn btn-success" href="{{ path('app_security_create', {'id': user.id, 'action': 'user_login', 'callback': app.request.uri}) }}">
                         Générer un lien
                     </a>
                 </p>

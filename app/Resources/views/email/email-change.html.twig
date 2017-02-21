@@ -1,0 +1,11 @@
+{% extends "::email-base.html.twig" %}
+{% block body %}
+    <h1>Bonjour</h1>
+    <p>
+        Une demande de <strong>changement d'email de contact</strong> sur
+        <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>
+        a été formulée.
+    </p>
+    <p>Nous utiliserons dorénavant cette adressse pour vous contacter.</p>
+    <p>Cordialement</p>
+{% endblock %}

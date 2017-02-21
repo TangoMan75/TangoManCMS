@@ -135,7 +135,7 @@
                             <li><a href="{{ path('app_user_edit', { 'id':app.user.id, 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Mon Compte</a></li>
                             <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnexion</a></li>
                         {% else %}
-                            <li><a href="{{ path('app_request_register', { 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
+                            <li><a href="{{ path('app_security_register', { 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
                             <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-lock"></span>&nbsp;Connexion</a></li>
                         {% endif %}
                     </ul>

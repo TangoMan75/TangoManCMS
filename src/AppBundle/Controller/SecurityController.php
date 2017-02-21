@@ -9,11 +9,9 @@ use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
-/**
- * @Route("/request")
- */
-class RequestController extends Controller
+class SecurityController extends Controller
 {
     /**
      * Register new user.
@@ -33,31 +31,13 @@ class RequestController extends Controller
         // Check form
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $email['title'] = 'Création de compte';
-            $email['token'] = $this->genToken($user, 'account_create');
+            $msg['title'] = 'Création de compte';
+            $msg['token'] = $this->genToken($user, 'account_create');
 
-            // Sends email to user
-            $message = \Swift_Message::newInstance()
-                ->setSubject($this->getParameter('site_name').' | '.$email['title'])
-                ->setFrom($this->getParameter('mailer_from'))
-                ->setTo($user->getEmail())
-                ->setBody(
-                    $this->renderView(
-                        'email/register.html.twig',
-                        [
-                            'user'  => $user,
-                            'email' => $email,
-                        ]
-                    ),
-                    'text/html'
-                );
+            $this->sendEmail($user, $msg, 'email/user-register.html.twig');
+            $this->confirmMessage($user, $msg);
 
-            $this->get('mailer')->send($message);
-
-            $this->confirmMessage($user, $email);
-
-            // User is redirected to referrer page
-            return $this->redirect($request->get('homepage'));
+            return $this->redirectToRoute('homepage');
         }
 
         return $this->render(
@@ -70,7 +50,7 @@ class RequestController extends Controller
 
     /**
      * Emails security token to given user.
-     * @Route("/password-reset")
+     * @Route("/password_reset")
      *
      * @param Request $request
      *
@@ -94,16 +74,16 @@ class RequestController extends Controller
                     'Désolé, aucun utilisateur n\'est enregistré avec l\'email <strong>'.$email.'</strong>.'
                 );
 
-                return $this->redirectToRoute('app_request_passwordreset');
+                return $this->redirectToRoute('app_security_passwordreset');
             }
 
-            $message['title'] = 'Réinitialisation de mot de passe';
-            $message['description'] = 'renouveler votre mot de passe';
-            $message['btn'] = 'Réinitialiser mon mot de passe';
-            $message['token'] = $this->genToken($user, 'password_reset');
+            $msg['title'] = 'Réinitialisation de mot de passe';
+            $msg['description'] = 'renouveler votre mot de passe';
+            $msg['btn'] = 'Réinitialiser mon mot de passe';
+            $msg['token'] = $this->genToken($user, 'password_reset');
 
-            $this->sendToken($user, $message);
-            $this->confirmMessage($user, $message);
+            $this->sendEmail($user, $msg, 'email/token.html.twig');
+            $this->confirmMessage($user, $msg);
 
             return $this->redirectToRoute('homepage');
         }
@@ -118,28 +98,62 @@ class RequestController extends Controller
 
     /**
      * Change email
-     * @Route("/change-email")
+     * @Route("/security/email_change/{id}", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_USER')")
+     *
      * @param   Request $request
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function changeEmail(Request $request, User $user)
+    public function emailChange(Request $request, User $user)
     {
+        // Only user can send tokens to self
+        if ($this->getUser() !== $user) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        // Cache old user
+        $oldUser = clone $user;
+
         // Generate form
         $form = $this->createForm(EmailChangeType::class, $user);
         $form->handleRequest($request);
 
         // Check form validation
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // When emails are identical
+            if ($oldUser->getEmail() == $user->getEmail()) {
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'L\'email saisi est identique au précedent'
+                );
+
+                // User is redirected to referrer page
+                return $this->redirect($request->get('callback'));
+            }
+
             // Persist user
             $this->get('em')->save($user);
 
+            $recoveryMsg['token'] = $this->genToken($oldUser, 'account_recovery', [], true, '+1 Week');
+            $recoveryMsg['title'] = 'Récupération de compte';
+            $recoveryMsg['oldEmail'] = $oldUser->getEmail();
+            $this->sendEmail($oldUser, $recoveryMsg, 'email/account-recovery.html.twig');
+
+            $changeMsg['title'] = 'Changement d\'adresse email';
+            $this->sendEmail($user, $changeMsg, 'email/email-change.html.twig');
+
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'email de contact à bien été changé pour le compte <strong>'.$user->getUsername().'</strong>.'
+                'Votre demande de <strong>changement d\'adresse email</strong> a '.
+                'bien été prise en compte.<br />'
             );
 
-            return $this->redirectToRoute('homepage');
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
 
         return $this->render(
@@ -152,11 +166,12 @@ class RequestController extends Controller
     }
 
     /**
-     * Send email containing password reset security token.
-     * @Route("/{id}/{action}", requirements={
-     *     "id": "\d+",
-     *     "action": "account_delete|email_change|newsletter_unsubscribe|password_change|password_reset|user_login|user_unsubscribe"
+     * Send email containing security token.
+     * @Route("/security/{action}/{id}", requirements={
+     *     "action": "account_delete|password_change|user_login",
+     *     "id": "\d+"
      * })
+     * @Security("has_role('ROLE_ADMIN') or has_role('ROLE_USER')")
      *
      * @param Request  $request
      * @param   User   $user
@@ -164,7 +179,7 @@ class RequestController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function createAction(Request $request, User $user, $action)
+    public function createAction(Request $request, $action, User $user)
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
@@ -185,57 +200,32 @@ class RequestController extends Controller
 
         switch ($action) {
             case 'account_delete':
-                $email['title'] = 'Suppression de compte utilisateur';
-                $email['description'] = 'confirmer votre désinscription';
-                $email['btn'] = 'Supprimer mon compte';
-                break;
-
-            case 'email_change':
-                $email['title'] = 'Changement d\'adresse email de contact';
-                $email['description'] = 'enregistrer une nouvelle adresse email';
-                $email['btn'] = 'Changer mon email';
-                break;
-
-            case 'email_change_confirm':
-                $email['title'] = 'Validation de changement d\'adresse email';
-                $email['description'] = 'valider le changement de votre adresse email';
-                $email['btn'] = 'Valider ma nouvelle adresse';
-                break;
-
-            case 'email_change_rollback':
-                $email['title'] = 'Validation de changement d\'adresse email';
-                $email['description'] = 'valider le changement de votre adresse email';
-                $email['btn'] = 'Valider ma nouvelle adresse';
+                $msg['title'] = 'Suppression de compte utilisateur';
+                $msg['description'] = 'confirmer votre désinscription';
+                $msg['btn'] = 'Supprimer mon compte';
                 break;
 
             case 'password_change':
-                $email['title'] = 'Changement de mot de passe';
-                $email['description'] = 'modifier votre mot de passe';
-                $email['btn'] = 'Changer mon mot de passe';
+                $msg['title'] = 'Changement de mot de passe';
+                $msg['description'] = 'modifier votre mot de passe';
+                $msg['btn'] = 'Changer mon mot de passe';
                 break;
 
             case 'user_login':
-                $email['title'] = 'Lien de connexion';
-                $email['description'] = 'vous connecter à votre compte';
-                $email['btn'] = 'Me connecter';
-                $login = true;
-                break;
-
-            case 'newsletter_unsubscribe':
-                $email['title'] = 'Désabonnement à la liste';
-                $email['description'] = 'vous désabonner à la liste';
-                $email['btn'] = 'Me désabonner';
+                $msg['title'] = 'Lien de connexion';
+                $msg['description'] = 'vous connecter à votre compte';
+                $msg['btn'] = 'Me connecter';
                 $login = true;
                 break;
         }
 
-        $email['token'] = $this->genToken($user, $action, $params, $login);
+        $msg['token'] = $this->genToken($user, $action, $params, $login);
 
         // Generates password reset and security warning
-        $email['reset'] = $this->genToken($user, 'password_reset', [], true);
+        $msg['reset'] = $this->genToken($user, 'password_reset', [], true);
 
-        $this->sendToken($user, $email);
-        $this->confirmMessage($user, $email);
+        $this->sendEmail($user, $msg, 'email/token.html.twig');
+        $this->confirmMessage($user, $msg);
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
@@ -271,21 +261,21 @@ class RequestController extends Controller
      * Sends token with swift mailer
      *
      * @param   User   $user
-     * @param   string $email
+     * @param   string $msg
      */
-    public function sendToken(User $user, $email)
+    public function sendEmail(User $user, $msg, $view)
     {
         // Sends email to user
         $message = \Swift_Message::newInstance()
-            ->setSubject($this->getParameter('site_name').' | '.$email['title'])
+            ->setSubject($this->getParameter('site_name').' | '.$msg['title'])
             ->setFrom($this->getParameter('mailer_from'))
             ->setTo($user->getEmail())
             ->setBody(
                 $this->renderView(
-                    'email/token.html.twig',
+                    $view,
                     [
-                        'user'  => $user,
-                        'email' => $email,
+                        'user' => $user,
+                        'msg'  => $msg,
                     ]
                 ),
                 'text/html'
@@ -298,15 +288,15 @@ class RequestController extends Controller
      * Sends notification message
      *
      * @param   User   $user
-     * @param   string $email
+     * @param   string $msg
      */
-    public function confirmMessage(User $user, $email)
+    public function confirmMessage(User $user, $msg)
     {
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Votre demande de <strong>'.mb_strtolower($email['title'], 'UTF-8').'</strong> a '.
-            'bien été prise en compte.<br />Un lien de confirmation vous à été envoyé à <strong>'.$user->getEmail(
-            ).'</strong>. '.
+            'Votre demande de <strong>'.mb_strtolower($msg['title'], 'UTF-8').'</strong> a '.
+            'bien été prise en compte.<br />Un lien de confirmation sécurisé vous à été envoyé à <strong>'.
+            $user->getEmail().'</strong>. '.
             '<br /> Vérifiez votre boîte email.'
         );
     }
