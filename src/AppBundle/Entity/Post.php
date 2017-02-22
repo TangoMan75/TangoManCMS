@@ -48,7 +48,7 @@ class Post
 
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
     private $tags;
 
