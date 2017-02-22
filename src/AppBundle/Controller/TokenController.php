@@ -123,6 +123,10 @@ class TokenController extends Controller
 
         // Check form
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hash password
+            $encoder = $this->get('security.password_encoder');
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
 
             // Persists new user
             $this->get('em')->save($user);
@@ -159,6 +163,10 @@ class TokenController extends Controller
 
         // Check form
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hash password
+            $encoder = $this->get('security.password_encoder');
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
 
             // Persists new password
             $this->get('em')->save($user);
@@ -240,6 +248,10 @@ class TokenController extends Controller
 
         // Check form
         if ($form->isSubmitted() && $form->isValid()) {
+            // Hash password
+            $encoder = $this->get('security.password_encoder');
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
 
             // Persists new password
             $this->get('em')->save($user);
@@ -306,7 +318,7 @@ class TokenController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function password_change(Request $request, User $user, $page)
+    public function password_change(Request $request, User $user)
     {
         // Generate form
         $form = $this->createForm(PwdType::class, $user);
@@ -317,9 +329,9 @@ class TokenController extends Controller
             // Hash password
             $encoder = $this->get('security.password_encoder');
             $hash = $encoder->encodePassword($user, $user->getPassword());
-
             $user->setPassword($hash);
-            // Persist password
+
+            // Persist new password
             $this->get('em')->save($user);
 
             $this->get('session')->getFlashBag()->add(
