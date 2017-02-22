@@ -29,7 +29,7 @@
                 <span class="glyphicon glyphicon-send"></span>
                 &nbsp;Publié le: {{ comment.dateCreated|date('d/m/Y H:i:s') }}
             </div>
-            <div class="pull-right"><a href="{{ path('app_user_show', { 'username': comment.user.username }) }}">
+            <div class="pull-right"><a href="{{ path('app_user_show', { 'slug': comment.user.slug }) }}">
                     {% if "ROLE_ADMIN" in comment.user.roles %}
                         <span class="glyphicon glyphicon-king"></span>
                     {% else %}

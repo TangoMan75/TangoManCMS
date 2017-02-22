@@ -74,10 +74,10 @@
                     {% set user = user[0] %}
                     <tr>
                         <td>
-                            <a href="{{ path('app_user_show', { 'username': user.username }) }}">{{ user.id }}</a>
+                            <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">{{ user.id }}</a>
                         </td>
                         <td>
-                            <a href="{{ path('app_user_show', { 'username': user.username }) }}">{{ user.username }}</a>
+                            <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">{{ user.username }}</a>
                         </td>
                         <td>{{ user.email }}</td>
                         <td>{{ user.dateCreated|date('d/m/Y H:i:s') }}</td>

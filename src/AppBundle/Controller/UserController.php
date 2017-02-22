@@ -16,16 +16,18 @@ class UserController extends Controller
 {
     /**
      * Edit User.
-     * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @Route("/edit/{slug}", requirements={"slug": "[\w-]+"})
      * @ParamConverter("user", class="AppBundle:User")
      *
      * @param Request $request
-     * @param User    $user
+     * @param         $slug
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
-    public function editAction(Request $request, User $user)
+    public function editAction(Request $request, $slug)
     {
+        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['slug' => $slug]);
+
         if ($this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier cet utilisateur.");
 
@@ -55,16 +57,16 @@ class UserController extends Controller
 
     /**
      * Display User entity.
-     * @Route("/{username}")
+     * @Route("/{slug}", requirements={"slug": "[\w-]+"})
      *
      * @param Request $request
-     * @param         $username
+     * @param         $slug
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function showAction(Request $request, $username)
+    public function showAction(Request $request, $slug)
     {
-        $user = $this->get('em')->repository('AppBundle:User')->findOneByUsername($username);
+        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['slug' => $slug]);
 
         if (!$user) {
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");

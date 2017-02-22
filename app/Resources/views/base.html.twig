@@ -131,7 +131,7 @@
                     {% endif %}
                     <ul class="nav navbar-nav navbar-right">
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            <li><a href="{{ path('app_user_show', { 'username':app.user.username }) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username|capitalize }}</a></li>
+                            <li><a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username|capitalize }}</a></li>
                             <li><a href="{{ path('app_user_edit', { 'id':app.user.id, 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Mon Compte</a></li>
                             <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnexion</a></li>
                         {% else %}
