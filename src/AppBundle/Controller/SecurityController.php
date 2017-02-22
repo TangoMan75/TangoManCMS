@@ -140,7 +140,7 @@ class SecurityController extends Controller
 
             $recoveryMsg['token'] = $this->genToken($oldUser, 'account_recovery', [], true, '+1 Week');
             $recoveryMsg['title'] = 'Récupération de compte';
-            $recoveryMsg['oldEmail'] = $oldUser->getEmail();
+            $recoveryMsg['newEmail'] = $user->getEmail();
             $this->sendEmail($oldUser, $recoveryMsg, 'email/account-recovery.html.twig');
 
             $changeMsg['title'] = 'Changement d\'adresse email';

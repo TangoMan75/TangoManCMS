@@ -6,7 +6,7 @@
         <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>
         a été formulée.
     </p>
-    <p>Nous utiliserons dorénavant l'adressse <strong>{{ user.email }}</strong> pour vous contacter.</p>
+    <p>Nous utiliserons dorénavant l'adressse <strong>{{ msg.newEmail }}</strong> pour vous contacter.</p>
     <p>Cette adresse sera également avec laquelle vous devrez dorénavant vous connecter sur
         <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>
     </p>
@@ -16,7 +16,7 @@
             Récupérer mon compte
         </a>
     </p>
-    <p>Vous pourrez à nouveau vous connecter avec l'adresse : {{ msg.oldEmail }} et changer votre mot de passe.</p>
+    <p>Vous pourrez à nouveau vous connecter avec l'adresse : {{ user.email }} et changer votre mot de passe.</p>
     <p>Ce lien ne sera valide que pour une durée de 7 jours.</p>
     <p>Cordialement</p>
 {% endblock %}
