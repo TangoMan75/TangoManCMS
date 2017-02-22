@@ -7,7 +7,7 @@
         a été formulée.
     </p>
     <p>Pour {{ msg.description }} cliquez sur le bouton suivant :<br/>
-        <a class="btn" href="{{ absolute_url(path('app_token_token', {'token': msg.token })) }}">
+        <a class="btn" href="{{ absolute_url(path('app_token_action', {'token': msg.token })) }}">
             {{ msg.btn }}
         </a>
     </p>
@@ -15,7 +15,7 @@
     {% if msg.reset is defined %}
         <p>Si vous n'êtes pas à l'origine de cette demande il est probable que votre compte ait été compromi,
             nous vous recommandons fortement de
-            <a href="{{ absolute_url(path('app_token_token', {'token': msg.reset })) }}">renouveller votre mot de
+            <a href="{{ absolute_url(path('app_token_action', {'token': msg.reset })) }}">renouveller votre mot de
                 passe</a>.
         </p>
     {% else %}

@@ -12,7 +12,7 @@
     </p>
     <p>Si vous n'êtes pas à l'origine de cette demande, votre compte a vraisemblablement été compromi.</p>
     <p>Cliquez sur le bouton suivant pour récupérer votre compte:<br/>
-        <a class="btn" href="{{ absolute_url(path('app_token_token', {'token': msg.token })) }}">
+        <a class="btn" href="{{ absolute_url(path('app_token_action', {'token': msg.token })) }}">
             Récupérer mon compte
         </a>
     </p>
