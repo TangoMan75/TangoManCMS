@@ -24,7 +24,7 @@ class TokenController extends Controller
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function actionAction(Request $request, $token)
+    public function callAction(Request $request, $token)
     {
         // JSON Web Token validation
         $jwt = $this->get('tangoman_jwt')->decode($token);
@@ -410,5 +410,4 @@ class TokenController extends Controller
 
         $this->get('mailer')->send($message);
     }
-
 }

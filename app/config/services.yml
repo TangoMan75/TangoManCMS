@@ -5,7 +5,7 @@ parameters:
 
 services:
     em:
-        class: AppBundle\Services\EntityManagerService
+        class: AppBundle\Service\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
     twig.extension.remove_url_query:
@@ -14,4 +14,4 @@ services:
             - { name: twig.extension }
 
     services.csv_reader:
-        class: AppBundle\Services\CSVReaderService
+        class: AppBundle\Service\CSVReaderService

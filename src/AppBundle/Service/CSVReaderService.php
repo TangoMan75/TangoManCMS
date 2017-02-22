@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Services;
+namespace AppBundle\Service;
 
 
 require_once 'CSVLine.php';
