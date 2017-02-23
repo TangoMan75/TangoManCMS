@@ -3,7 +3,7 @@
 <head>
     {% set domain_name = absolute_url(path('homepage'))|split('//')[1]|trim('/') %}
     {% block head %}
-        <meta charset="UTF-8" />
+        <meta charset="UTF-8"/>
         <title>{% block title %}{{ site_name }}{% endblock %}</title>
 
         <!-- Disables Internet Explorer compatibility mode (for IE 9 and IE 8 support) -->
@@ -23,7 +23,7 @@
         <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('favicon/apple-icon-144x144.png') }}">
         <link rel="apple-touch-icon" sizes="152x152" href="{{ asset('favicon/apple-icon-152x152.png') }}">
         <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-icon-180x180.png') }}">
-        <link rel="icon" type="image/png" sizes="192x192"  href="{{ asset('favicon/android-icon-192x192.png') }}">
+        <link rel="icon" type="image/png" sizes="192x192" href="{{ asset('favicon/android-icon-192x192.png') }}">
         <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon/favicon-96x96.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('favicon/favicon-16x16.png') }}">
@@ -44,7 +44,7 @@
 
         {% block stylesheets %}
             <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" /> -->
-            <link rel="stylesheet" href="{{ asset('css/styles.css') }}" />
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}"/>
             <!-- Use with Gulp inject -->
             <!-- inject:css -->
             <!-- endinject -->
@@ -83,17 +83,17 @@
             <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 
             <!--[if lt IE 9]>
-                <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-                <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+            <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
             <![endif]-->
         {% endblock %}
 
         {#{% block og %}#}
-            {#<meta property="og:title" content="{{ block('title') }}"/>#}
-            {#<meta property="og:type" content="website"/>#}
-            {#<meta property="og:url" content="{{ app.request.uri }}"/>#}
-            {#<meta property="og:image" content="{{ asset('/images/logo.png', absolute = true) }}"/>#}
-            {#<meta property="og:description" content="{{ block('description') }}"/>#}
+        {#<meta property="og:title" content="{{ block('title') }}"/>#}
+        {#<meta property="og:type" content="website"/>#}
+        {#<meta property="og:url" content="{{ app.request.uri }}"/>#}
+        {#<meta property="og:image" content="{{ asset('/images/logo.png', absolute = true) }}"/>#}
+        {#<meta property="og:description" content="{{ block('description') }}"/>#}
         {#{% endblock %}#}
 
     {% endblock %}
@@ -101,50 +101,97 @@
 <body id="page-top" data-spy="scroll" data-target=".navbar">
 
 {% block navbar %}
-<div class="container">
-    <!-- Header -->
-    <header role="banner">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('homepage') }}"><span class="glyphicon glyphicon-book"></span>&nbsp;{{ site_name }}</a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <ul class="nav navbar-nav navbar-left">
-                            {% if app.request.get('_route') == 'homepage' %}
-                                <li><a href="#post-form" class="smooth"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
-                            {% elseif app.request.get('_route') == 'post_index' %}
-                                <li><a href="#post-form"><span class="glyphicon glyphicon-comment"></span>&nbsp;Commenter</a></li>
+    <div class="container">
+        <!-- Header -->
+        <header role="banner">
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse"
+                                data-target=".navbar-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="{{ path('homepage') }}">
+                            <span class="glyphicon glyphicon-book"></span>
+                            {{ site_name }}
+                        </a>
+                    </div>
+                    <div class="collapse navbar-collapse">
+                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                            <ul class="nav navbar-nav navbar-left">
+                                {% if app.request.get('_route') == 'homepage' %}
+                                    <li>
+                                        <a href="#post-form" class="smooth">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                            Publier
+                                        </a>
+                                    </li>
+                                {% elseif app.request.get('_route') == 'post_index' %}
+                                    <li>
+                                        <a href="#post-form">
+                                            <span class="glyphicon glyphicon-comment"></span>
+                                            Commenter
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{{ path('app_post_new', {'callback': app.request.uri }) }}">
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                            Publier
+                                        </a>
+                                    </li>
+                                {% endif %}
+                                {% if is_granted('ROLE_ADMIN') %}
+                                    <li>
+                                        <a href="{{ path('app_admin_index') }}">
+                                            <span class="glyphicon glyphicon-cog"></span>
+                                            Administration
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                        <ul class="nav navbar-nav navbar-right">
+                            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                                <li>
+                                    <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        {{ app.user.username|capitalize }}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_user_edit', { 'slug':app.user.slug, 'callback': app.request.uri }) }}">
+                                        <span class="glyphicon glyphicon-cog"></span>
+                                        Paramètres
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_logout') }}">
+                                        <span class="glyphicon glyphicon-off"></span>
+                                        Déconnexion
+                                    </a>
+                                </li>
                             {% else %}
-                                <li><a href="{{ path('app_post_new', {'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-pencil"></span>&nbsp;Publier</a></li>
-                            {% endif %}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li><a href="{{ path('app_admin_index') }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Utilisateurs</a></li>
+                                <li><a href="{{ path('app_security_register', { 'callback': app.request.uri }) }}">
+                                        <span class="glyphicon glyphicon-floppy-disk"></span>
+                                        Inscription
+                                    </a>
+                                </li>
+                                <li><a href="{{ path('app_login') }}">
+                                        <span class="glyphicon glyphicon-lock"></span>
+                                        Connexion
+                                    </a>
+                                </li>
                             {% endif %}
                         </ul>
-                    {% endif %}
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            <li><a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}"><span class="glyphicon glyphicon-user"></span>&nbsp;{{ app.user.username|capitalize }}</a></li>
-                            <li><a href="{{ path('app_user_edit', { 'slug':app.user.slug, 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-cog"></span>&nbsp;Mon Compte</a></li>
-                            <li><a href="{{ path('app_logout') }}"><span class="glyphicon glyphicon-off"></span>&nbsp;Déconnexion</a></li>
-                        {% else %}
-                            <li><a href="{{ path('app_security_register', { 'callback': app.request.uri }) }}"><span class="glyphicon glyphicon-floppy-disk"></span>&nbsp;Inscription</a></li>
-                            <li><a href="{{ path('app_login') }}"><span class="glyphicon glyphicon-lock"></span>&nbsp;Connexion</a></li>
-                        {% endif %}
-                    </ul>
 
+                    </div>
                 </div>
-            </div>
-        </nav>
-    </header>
-</div>
+            </nav>
+        </header>
+    </div>
 {% endblock %}
 
 {% include "includes/_flash.html.twig" %}

@@ -1,6 +1,6 @@
 <div id="user-profile" class="row">
     <div id="user-picture" class="col-xs-12 col-sm-6">
-        <img src="{{ user.avatar ? user.avatar : 'https://placehold.it/200x200' }}" alt="{{ user.username }}"/>
+        <img src="{{ user.avatar ? user.avatar : asset('img/user.jpg') }}" alt="{{ user.username }}"/>
     </div>
     <div id="user-detail" class="col-xs-12 col-sm-6">
         <table class="table-striped">
