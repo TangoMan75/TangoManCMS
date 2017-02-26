@@ -19,3 +19,9 @@ monolog:
             level: debug
         console:
             type:  console
+
+swiftmailer:
+    transport: "smtp"
+    host:      "127.0.0.1"
+    username:  ""
+    password:  ""
