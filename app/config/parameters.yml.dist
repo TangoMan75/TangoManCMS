@@ -23,4 +23,4 @@ parameters:
     analytics:         UA-XXXXXXXX-X
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            1291fdaae5be28c07a274dfe253c9272358a8743
+    secret:            89befbcf084a78dd505f185552f23f1b1de441e2
