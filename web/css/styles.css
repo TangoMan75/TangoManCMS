@@ -117,7 +117,7 @@ article.post {
 
 .comment .panel-body p,
 .post .panel-body p {
-	margin: 1em;
+	margin: 1em auto;
 	padding: 0 2em;
 	text-align: justify;
 }
