@@ -39,6 +39,7 @@ twig:
     globals:
         site_name:    "%site_name%"
         site_author:  "%site_author%"
+        mailer_from:  "%mailer_from%"
         analytics:    "%analytics%"
     form_themes:
         - bootstrap_3_layout.html.twig
