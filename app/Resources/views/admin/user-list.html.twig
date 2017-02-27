@@ -200,7 +200,7 @@
     </div>
 {% endblock %}
 
-    {% block javascript %}
-        {{ parent() }}
-        <script src="{{ asset('js/modal.js') }}"></script>
-    {% endblock %}
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('js/modal.js') }}"></script>
+{% endblock %}

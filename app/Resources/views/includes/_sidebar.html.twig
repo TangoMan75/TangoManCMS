@@ -16,7 +16,7 @@
         </ul>
     </div>
 
-    <nav class="sidebar-menu navbar-default">
+    <nav class="sidebar-menu navbar navbar-default">
         <ul class="nav nav-pills nav-stacked">
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_index' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_index') }}">

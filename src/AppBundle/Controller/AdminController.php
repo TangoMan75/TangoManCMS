@@ -96,7 +96,7 @@ class AdminController extends Controller
             'bien été supprimé.');
 
         // Admin is redirected to referrer page
-        return $this->redirectToRoute('app_admin_index');
+        return $this->redirectToRoute('app_admin_userlist');
     }
 
     /**
@@ -112,7 +112,7 @@ class AdminController extends Controller
             '&quot;'.$user->getUsername().'&quot;</strong>.');
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('app_admin_index');
+        return $this->redirectToRoute('app_admin_userlist');
     }
 
     /**
@@ -130,7 +130,7 @@ class AdminController extends Controller
                 'Vous n\'êtes pas autorisé à supprimer vos propres droit d\'administration.'
             );
 
-            return $this->redirectToRoute('app_admin_index');
+            return $this->redirectToRoute('app_admin_userlist');
         }
 
         $user->removeRole($role);
@@ -139,6 +139,6 @@ class AdminController extends Controller
             '&quot;'.$user->getUsername().'&quot;</strong>.');
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('app_admin_index');
+        return $this->redirectToRoute('app_admin_userlist');
     }
 }
