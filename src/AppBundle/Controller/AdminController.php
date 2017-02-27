@@ -25,7 +25,7 @@ class AdminController extends Controller
     public function indexAction(Request $request)
     {
         return $this->render('admin/index.html.twig', [
-            'user' => $this->getUser(),
+            'currentUser' => $this->getUser(),
         ]);
     }
 
@@ -60,7 +60,7 @@ class AdminController extends Controller
             ->getForm();
 
         return $this->render('admin/user-list.html.twig', [
-            'user' => $this->getUser(),
+            'currentUser' => $this->getUser(),
             'users' => $users,
             'form' => $form->createView()
         ]);

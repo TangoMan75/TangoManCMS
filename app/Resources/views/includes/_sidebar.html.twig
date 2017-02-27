@@ -1,16 +1,16 @@
 <div id="sidebar">
     <div class="user-avatar">
-        <img src="{{ user.avatar ? user.avatar : asset('img/user.jpg') }}" alt="{{ user.username }}"
+        <img src="{{ currentUser.avatar ? currentUser.avatar : asset('img/user.jpg') }}" alt="{{ currentUser.username }}"
              class="img-responsive">
     </div>
 
     <div class="sidebar-username">
-        {{ user.username }}
+        {{ currentUser.username }}
     </div>
 
     <div class="sidebar-roles">
         <ul>
-            {% for role in user.roles %}
+            {% for role in currentUser.roles %}
                 <li>{{ role }}</li>
             {% endfor %}
         </ul>
