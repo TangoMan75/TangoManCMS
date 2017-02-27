@@ -1,197 +1,30 @@
 {% extends 'base.html.twig' %}
 
+{% block styles %}
+{% endblock %}
+
 {% block body %}
-    <div class="container">
-        <section id="user-list">
 
-            <h1 class="text-center user-list">Liste des utilisateurs</h1>
-
-            {% if is_granted('ROLE_ADMIN') %}
-            <div class="table-responsive">
-                <table id="user-index" class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_index', {
-                                'order': 'id',
-                                'way': app.request.query.get('order') == 'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
-                            }) }}">
-                                Id
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
-                            <a href="{{ path('app_admin_index', {
-                                'order': 'username',
-                                'way': app.request.query.get('order') == 'username' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
-                            }) }}">
-                                Utilisateur
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_index', {
-                                'order': 'email',
-                                'way': app.request.query.get('order') == 'email' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
-                            }) }}">
-                                Email
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_index', {
-                                'order': 'dateCreated',
-                                'way': app.request.query.get('order') == 'dateCreated' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'
-                            }) }}">
-                                Date de création
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
-                            <a href="{{ path('app_admin_index', {
-                                'order': 'posts',
-                                'way': app.request.query.get('order') == 'posts' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
-                            }) }}">
-                                Post
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
-                            <a href="{{ path('app_admin_index', {
-                                'order': 'comments',
-                                'way': app.request.query.get('order') == 'comments' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'
-                            }) }}">
-                                Commentaires
-                            </a>
-                        </th>
-
-                        {#<th>Role</th>#}
-                        {#<th colspan="2">Token</th>#}
-                        <th colspan="2">Actions</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    {% for user in users %}
-                        {% set user = user[0] %}
-                        <tr>
-                            <td>
-                                <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">
-                                    {{ user.id }}
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">
-                                    {{ user.username }}
-                                </a>
-                            </td>
-                            <td>{{ user.email }}</td>
-                            <td>{{ user.dateCreated|date('d/m/Y H:i:s') }}</td>
-                            <td>
-                                <span class="label label-primary">
-                                    {{ user.posts | length }}
-                                </span>
-                            </td>
-                            <td>
-                                <span class="label label-success">
-                                    {{ user.comments | length }}
-                                </span>
-                            </td>
-                            <td>
-                                {% if 'ROLE_ADMIN' in user.roles %}
-                                    <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
-                                       class="btn btn-warning btn-sm{% if (user.id == app.user.id) %} disabled {% endif %}">
-                                        <span class="glyphicon glyphicon-king"></span>
-                                        admin
-                                    </a>
-                                {% else %}
-                                    <a href="{{ path('app_admin_addrole', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
-                                       class="btn btn-success btn-sm">
-                                        <span class="glyphicon glyphicon-pawn"></span>
-                                        user
-                                    </a>
-                                {% endif %}
-                            </td>
-                            {#<td>#}
-                            {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>#}
-                            {#</td>#}
-                            {#{% if user.token %}#}
-                            {#<td>#}
-                            {#<a href="{{ path('app_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>#}
-                            {#</td>#}
-                            {#{% else %}#}
-                            {#<td>#}
-                            {#<span class="glyphicon glyphicon-ok text-success"></span>#}
-                            {#</td>#}
-                            {#{% endif %}#}
-                            <td>
-                                <button type="button"
-                                        class="btn btn-danger btn-sm"
-                                        data-toggle="modal" data-target=".my-modal"
-                                        data-username="{{ user.username }}"
-                                        data-url="{{ path('app_admin_delete', { 'id': user.id, 'callback': app.request.uri }) }}"
-                                        {% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
-                                    <span class="glyphicon glyphicon-trash"></span>&nbsp;Supprimer
-                                </button>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
+    <div class="container-fluid">
+        <div class="row profile">
+            <div class="col-xs-12 col-md-2">
+                {% include "includes/_sidebar.html.twig" %}
             </div>
-            <div class="text-center">
-                {{ pagination(users) }}
-            </div>
-        </section>
-        <section id="import-export">
-            <div class="col-xs-12 col-md-6">
-                <div class="panel panel-warning">
-                    <div class="panel-heading">
-                        <h1 class="text-center">
-                            Importer une liste d'utilisateurs
-                        </h1>
-                    </div>
-                    <div class="panel-body text-center">
-                        {{ form_start(form) }}
-                        {{ form_widget(form) }}
-                        <button type="submit" class="btn btn-primary center-block">
-                            <span class="glyphicon glyphicon-import"></span>&nbsp;Importer
-                        </button>
-                        {{ form_end(form) }}
-                    </div>
-                    <div class="panel-footer"></div>
+
+            <div class="col-md-9">
+                <div class="profile-content">
+                    <h1 class="text-center">Tableau de bord</h1>
+                    <p class="text-center">Pour pouvez gérez ici le contenu de <strong>{{ site_name }}</strong>.</p>
+                    <p class="text-center">
+                        Si un aspect du site n'est pas modifiable,
+                        n'héstez pas à faire une demande de modification à l'administrateur {{ mailer_from }}
+                    </p>
                 </div>
             </div>
 
-        <div class="col-xs-12 col-md-6">
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h1 class="text-center">
-                        Exporter la liste d'utilisateurs
-                    </h1>
-                </div>
-                <div class="panel-body text-center">
-                    <a href="{{ path('app_importexport_exportcsv') }}" class="btn btn-primary">
-                        <span class="glyphicon glyphicon-export"></span>&nbsp;Exporter
-                    </a>
-                </div>
-                <div class="panel-footer"></div>
-            </div>
-            </div>
-        </section>
-
-        {% include "includes/_delete-modal.html.twig" %}
-
-        {% else %}
-            <div class="row">
-                <div class="col-xs-12">
-                    <p class="text-center">Vous devez être administrateur pour accèder à ces informations.</p>
-                </div>
-            </div>
-        {% endif %}
+        </div>
     </div>
 {% endblock %}
 
 {% block javascript %}
-    {{ parent() }}
-    <script src="{{ asset('js/modal.js') }}"></script>
 {% endblock %}

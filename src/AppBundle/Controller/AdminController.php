@@ -24,6 +24,18 @@ class AdminController extends Controller
      */
     public function indexAction(Request $request)
     {
+        return $this->render('admin/index.html.twig', [
+            'user' => $this->getUser(),
+        ]);
+    }
+
+    /**
+     * Lists all users.
+     *
+     * @Route("/user-list")
+     */
+    public function userListAction(Request $request)
+    {
         // Show paginated user list
         $users = $this->get('em')->repository('AppBundle:User')->sorting(
             $request->query->getInt('page', 1),
@@ -47,7 +59,8 @@ class AdminController extends Controller
             ])
             ->getForm();
 
-        return $this->render('admin/index.html.twig', [
+        return $this->render('admin/user-list.html.twig', [
+            'user' => $this->getUser(),
             'users' => $users,
             'form' => $form->createView()
         ]);
