@@ -81,12 +81,12 @@
                                 {% set user = user[0] %}
                                 <tr>
                                     <td>
-                                        <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">
+                                        <a href="{{ path('app_user_show', { 'slug':user.slug }) }}">
                                             {{ user.id }}
                                         </a>
                                     </td>
                                     <td>
-                                        <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">
+                                        <a href="{{ path('app_user_show', { 'slug':user.slug }) }}">
                                             {{ user.username }}
                                         </a>
                                     </td>
