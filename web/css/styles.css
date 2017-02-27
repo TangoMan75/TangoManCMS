@@ -153,15 +153,28 @@ article.post {
 
 .comment .panel-body p,
 .post .panel-body p {
+	padding: 0 1em;
 	margin: 1em auto;
-	padding: 0 2em;
 	text-align: justify;
+}
+
+@media (min-width: 576px) {
+	.comment .panel-body p,
+	.post .panel-body p {
+		padding: 0 2em;
+	}
 }
 
 .post img {
 	margin: 1em auto auto auto;
 	max-width: 200px;
 	max-height: 200px;
+}
+
+.post .tags,
+.post .comments {
+	text-align: center;
+	padding: 1em;
 }
 
 .comment footer .glyphicon,

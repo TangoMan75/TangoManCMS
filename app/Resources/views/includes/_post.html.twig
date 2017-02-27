@@ -20,27 +20,31 @@
             {% endif %}
         </h1>
     </header>
-    <div class="panel-body row">
-        <figure class="col-xs-12 col-md-3 text-center">
-            <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
-                <img src="{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}"
-                     alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
-            </a>
-        </figure>
-        <div class="col-xs-12 col-md-9">
-            {{ post.content|raw|nl2br }}
+    <div class="panel-body">
+        <div class="row">
+            <figure class="col-xs-12 col-md-3 text-center">
+                <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
+                    <img src="{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}"
+                         alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
+                </a>
+            </figure>
+            <div class="col-xs-12 col-md-9">
+                {{ post.content|raw|nl2br }}
+            </div>
         </div>
-        <div class="col-xs-12">
-            <div class="col-xs-12 col-sm-6">
+
+        <div class="row">
+            <div class="tags col-xs-12 col-sm-6">
                 {% for tag in post.tags %}
                     <a href="{{ path('app_post_index', { 'tag': tag.name }) }}" class="label label-{{ tag.type }}">
                         {{ tag.name }}
                     </a>&nbsp;
                 {% endfor %}
             </div>
-            <div class="col-xs-12 col-sm-6">
-                <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="btn btn-primary btn-sm pull-right">
-                    Commentaires&nbsp;&nbsp;<span class="badge">{{ post.comments|length }}</span>
+            <div class="comments col-xs-12 col-sm-6">
+                <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="btn btn-primary btn-sm">
+                    Commentaires
+                    <span class="badge">{{ post.comments|length }}</span>
                 </a>
             </div>
         </div>
