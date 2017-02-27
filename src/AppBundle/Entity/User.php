@@ -42,7 +42,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @var string User's avatar
+     * @var string Base64 user avatar image
      * @ORM\Column(type="text", nullable=true)
      */
     private $avatar;
@@ -69,13 +69,13 @@ class User implements UserInterface
 
     /**
      * @var string User's password hash
-     * @ORM\Column(name="password", type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $password;
 
     /**
      * @var array User roles
-     * @ORM\Column(name="roles", type="simple_array")
+     * @ORM\Column(type="simple_array")
      */
     private $roles;
 
@@ -90,9 +90,10 @@ class User implements UserInterface
      */
     public function __construct()
     {
+        $this->posts = [];
+        $this->comments = [];
         $this->roles = ["ROLE_USER"];
         $this->dateCreated = new \DateTime();
-        $this->active = false;
     }
 
     /**
