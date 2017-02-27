@@ -165,28 +165,6 @@ class Post
     }
 
     /**
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Slug is generated from given string
-     *
-     * @param string $string
-     *
-     * @return $this
-     */
-    public function setSlug($string)
-    {
-        $this->slug = $this->slugify($string).'-'.uniqid();
-
-        return $this;
-    }
-
-    /**
      * @return Tag[]
      */
     public function getTags()
