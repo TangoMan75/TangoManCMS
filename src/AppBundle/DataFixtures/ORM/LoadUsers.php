@@ -36,10 +36,11 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
-            $user->setUsername("admin");
-            $user->setEmail("tech@argus-lab.com");
-            $user->setPassword($encoder->encodePassword($user, "321"));
-            $user->setRoles(['ROLE_ADMIN']);
+            $user->setUsername("admin")
+                ->setEmail("tech@argus-lab.com")
+                ->setPassword($encoder->encodePassword($user, "321"))
+                ->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'])
+                ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
             $manager->persist($user);
         }
@@ -58,11 +59,12 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
             $user = new User();
             $username = $faker->userName;
-            $user->setUsername($username);
-            $user->setEmail($username.'@'.$faker->safeEmailDomain);
-            $user->setPassword($encoder->encodePassword($user, $username));
-            $user->setRoles(['ROLE_USER']);
-            $user->setDateCreated($faker->dateTimeThisYear($max = 'now'));
+            $user->setUsername($username)
+                ->setEmail($username.'@'.$faker->safeEmailDomain)
+                ->setPassword($encoder->encodePassword($user, $username))
+                ->setRoles(['ROLE_USER'])
+                ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
+                ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
             $manager->persist($user);
 

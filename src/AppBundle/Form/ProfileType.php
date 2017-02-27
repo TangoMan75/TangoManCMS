@@ -25,6 +25,9 @@ class ProfileType extends AbstractType
             ->add('username', TextType::Class, [
                 'label' => 'Votre pseudo'
             ])
+            ->add('bio', TextType::Class, [
+                'label' => 'Votre biographie'
+            ])
         ;
     }
 

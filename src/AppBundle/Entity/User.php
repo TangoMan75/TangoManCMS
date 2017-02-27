@@ -48,6 +48,12 @@ class User implements UserInterface
     private $avatar;
 
     /**
+     * @var String User biography
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $bio;
+
+    /**
      * @var Post[] User's posts
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"dateCreated"="DESC"})
@@ -119,6 +125,30 @@ class User implements UserInterface
     public function setAvatar($avatar)
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * Get user's bio
+     *
+     * @return String
+     */
+    public function getBio()
+    {
+        return $this->bio;
+    }
+
+    /**
+     * Set user's bio
+     *
+     * @param String $bio
+     *
+     * @return $this
+     */
+    public function setBio($bio)
+    {
+        $this->bio = $bio;
 
         return $this;
     }

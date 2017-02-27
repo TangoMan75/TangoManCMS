@@ -1,60 +1,70 @@
-<div id="user-profile" class="row">
-    <div id="user-picture" class="col-xs-12 col-sm-6">
-        <img src="{{ user.avatar ? user.avatar : asset('img/user.jpg') }}" alt="{{ user.username }}"/>
-    </div>
-    <div id="user-detail" class="col-xs-12 col-sm-6">
-        <table class="table-striped">
-            <thead>
-            <tr>
-                <td colspan="2">
-                    <h1 class="text-center">{{ user.username }}</h1>
-                </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <th>Utilisateur</th>
-                <td>{{ user.username }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>
-                    <ul>
-                        {% for role in user.roles %}
-                            <li>{{ role }}</li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-            {% if is_granted('ROLE_ADMIN') %}
+<div class="container">
+    <div id="user-profile" class="row">
+
+        <div class="user-avatar col-xs-12 col-sm-6">
+            <img src="{{ user.avatar ? user.avatar : asset('img/user.jpg') }}" alt="{{ user.username }}"/>
+        </div>
+
+        <div id="user-detail" class="col-xs-12 col-sm-6">
+            <table class="table-striped">
+                <thead>
                 <tr>
-                    <th>
-                        Modifier
-                    </th>
-                    <td>
-                        <a href="{{ path('app_admin_index') }}">{{ user.username }}</a>
+                    <td colspan="2">
+                        <h1 class="text-center">{{ user.username }}</h1>
                     </td>
                 </tr>
-            {% endif %}
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                <tr>
+                    <th>Utilisateur</th>
+                    <td>{{ user.username }}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th>Roles</th>
+                    <td>
+                        <ul>
+                            {% for role in user.roles %}
+                                <li>{{ role }}</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <tr>
+                        <th>
+                            Modifier
+                        </th>
+                        <td>
+                            <a href="{{ path('app_admin_index') }}">{{ user.username }}</a>
+                        </td>
+                    </tr>
+                {% endif %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="user-bio">{{ user.bio }}</div>
+
     </div>
-</div>
-<div id="toolbar" class="row">
-    <div class="col-xs-12">
-        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-            {% if (user.id == app.user.id) %}
-                <h4>M'envoyer un lien de connection en un clic par email.</h4>
-                <p>Pour reçevoir un lien de connexion rapide dans votre boite mail cliquez sur le bouton suivant: <br />
-                    <a class="btn btn-success" href="{{ path('app_security_create', {'id': user.id, 'action': 'user_login', 'callback': app.request.uri}) }}">
-                        Générer un lien
-                    </a>
-                </p>
+
+    <div id="toolbar" class="row">
+        <div class="col-xs-12">
+            {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                {% if (user.id == app.user.id) %}
+                    <h4>M'envoyer un lien de connection en un clic par email.</h4>
+                    <p>Pour reçevoir un lien de connexion rapide dans votre boite mail cliquez sur le bouton suivant:
+                        <br/>
+                        <a class="btn btn-success"
+                           href="{{ path('app_security_create', {'id': user.id, 'action': 'user_login', 'callback': app.request.uri}) }}">
+                            Générer un lien
+                        </a>
+                    </p>
+                {% endif %}
             {% endif %}
-        {% endif %}
+        </div>
     </div>
 </div>
