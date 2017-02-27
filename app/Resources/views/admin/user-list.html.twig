@@ -28,41 +28,41 @@
                             <thead>
                             <tr>
                                 <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_index', {'order': 'id' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_userlist', {'order': 'id' ,'way': app.request.query.get('order') ==
                                         'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Id
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_index', {'order': 'username' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_userlist', {'order': 'username' ,'way': app.request.query.get('order') ==
                                         'username' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Utilisateur
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_index', {'order': 'email' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_userlist', {'order': 'email' ,'way': app.request.query.get('order') ==
                                         'email' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Email
                                     </a>
                                 </th>
                                 <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_index', {'order': 'dateCreated' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_userlist', {'order': 'dateCreated' ,'way': app.request.query.get('order') ==
                                         'dateCreated' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Date de création
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_index', {'order': 'posts' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_userlist', {'order': 'posts' ,'way': app.request.query.get('order') ==
                                         'posts' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Post
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_index', {'order': 'comments' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_userlist', {'order': 'comments' ,'way': app.request.query.get('order') ==
                                         'comments' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Commentaires
                                     </a>
