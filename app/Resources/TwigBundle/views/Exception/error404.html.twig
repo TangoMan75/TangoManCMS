@@ -1,7 +1,11 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Erreur 404</h1>
-    <p>La page que vous recherchez n'est pas disponible.</p>
-    <a href="{{ path('homepage') }}" class="btn btn-success btn-lg">Accueil</a>
+    <div class="container">
+        <h1 class="text-center">Erreur 404</h1>
+        <p class="text-center">La page que vous recherchez n'est pas disponible.</p>
+        <p class="text-center">
+            <a href="{{ path('homepage') }}" class="btn btn-success btn-lg">Accueil</a>
+        </p>
+    </div>
 {% endblock %}
