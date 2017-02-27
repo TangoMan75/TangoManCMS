@@ -41,12 +41,6 @@ class Post
     private $title;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $slug;
-
-    /**
      * @var Tag[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
