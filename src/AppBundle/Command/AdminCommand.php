@@ -17,7 +17,7 @@ class AdminCommand extends ContainerAwareCommand
     {
         $this
             ->setName('admin')
-            ->setDescription('Creates admin account on remote server.')
+            ->setDescription('Creates ROLE_ADMIN account based on parameters.yml')
         ;
     }
 
@@ -27,24 +27,28 @@ class AdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        // When no admin found
         if ( !$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ) {
+
+            $email = $this->getContainer()->getParameter('mailer_from');
+            $username = $this->getContainer()->getParameter('site_author');
 
             $encoder = $this->getContainer()->get('security.password_encoder');
             // Generating admin account with pwd: "321"
             $user = new User();
-            $user->setUsername("admin")
-                ->setEmail($this->getContainer()->getParameter('mailer_from'))
+            $user->setUsername($username)
+                ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, "321"))
                 ->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'])
                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>")
             ;
 
             $this->getContainer()->get('em')->save($user);
-            $output->writeln('<question>"Admin" account created with password: "321"</question>');
+            $output->writeln('<question>'.$username.' account created with password: "321"</question>');
 
         } else {
 
-            $output->writeln('<question>"Admin" account exists already.</question>');
+            $output->writeln('<question>'.$username.' account exists already.</question>');
 
         }
     }

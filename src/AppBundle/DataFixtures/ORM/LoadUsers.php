@@ -34,12 +34,10 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
 
         if (!$this->container->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN'])) {
 
-            $email = $this->container->getParameter('mailer_from');
-
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
             $user->setUsername("admin")
-                ->setEmail($email)
+                ->setEmail("admin@localhost.dev")
                 ->setPassword($encoder->encodePassword($user, "321"))
                 ->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'])
                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
