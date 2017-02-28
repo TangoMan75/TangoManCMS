@@ -49,8 +49,8 @@ class Page
     private $sections;
 
     /**
-     * @var array
-     * @ORM\Column(name="tags", type="simple_array", nullable=true)
+     * @var Tag[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
     private $tags;
 
@@ -208,23 +208,7 @@ class Page
     }
 
     /**
-     * Set tags
-     *
-     * @param array $tags
-     *
-     * @return Page
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
-    /**
-     * Get tags
-     *
-     * @return array
+     * @return Tag[]
      */
     public function getTags()
     {
@@ -232,27 +216,28 @@ class Page
     }
 
     /**
-     * Set slug
-     *
-     * @param string $slug
+     * @param Tag $tag
      *
      * @return Page
      */
-    public function setSlug($slug)
+    public function addTag(Tag $tag)
     {
-        $this->slug = $slug;
+        $this->tags[] = $tag;
 
         return $this;
     }
 
     /**
-     * Get slug
+     * @param tag $tag
      *
-     * @return string
+     * @return Page
      */
-    public function getSlug()
+    public function removeTag(tag $tag)
     {
-        return $this->slug;
+        $this->tags->removeElement($tag);
+
+        return $this;
     }
+
 }
 

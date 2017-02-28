@@ -32,8 +32,9 @@ class Tag
     private $type;
 
     /**
-     * @var Post[]
+     * @var Post[]|Page[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      */
     private $items;
 
@@ -104,6 +105,16 @@ class Tag
     }
 
     /**
+     * Get items
+     *
+     * @return Post[]|array
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
      * Set items
      *
      * @return Tag
@@ -117,17 +128,16 @@ class Tag
 
     /**
      * Remove item
+     *
+     * @param $item
+     *
+     * @return tag
      */
     public function removeItem($item)
     {
         $this->items->removeElement($item);
+
+        return $this;
     }
 
-    /**
-     * Get items
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
 }

@@ -78,6 +78,26 @@ class Post
     }
 
     /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
      * @return \DateTime
      */
     public function getDateCreated()
@@ -93,6 +113,59 @@ class Post
     public function setDateCreated(\DateTime $dateCreated)
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        $this->setSlug($title);
+
+        return $this;
+    }
+
+    /**
+     * @return Tag[]
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * @param Tag $tag
+     *
+     * @return Post
+     */
+    public function addTag(Tag $tag)
+    {
+        $this->tags[] = $tag;
+
+        return $this;
+    }
+
+    /**
+     * @param tag $tag
+     *
+     * @return Post
+     */
+    public function removeTag(tag $tag)
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }
@@ -133,67 +206,6 @@ class Post
     public function setComments($comments)
     {
         $this->comments = $comments;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-        $this->setSlug($title);
-
-        return $this;
-    }
-
-    /**
-     * @return Tag[]
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * @param Tag $tag
-     *
-     * @return $this
-     */
-    public function addTag(Tag $tag)
-    {
-        $this->tags[] = $tag;
-
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
 
         return $this;
     }

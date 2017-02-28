@@ -24,8 +24,8 @@
                     Tableau de bord
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_pages' %} class="active"{% endif %}>
-                <a href="#">
+            <li{% if app.request.attributes.get('_route') starts with 'app_page' %} class="active"{% endif %}>
+                <a href="{{ path('app_page_index') }}">
                     <i class="glyphicon glyphicon-text-background"></i>
                     Pages
                 </a>
@@ -34,6 +34,12 @@
                 <a href="{{ path('app_admin_userlist') }}">
                     <i class="glyphicon glyphicon-user"></i>
                     Utilisateurs
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_privilege' %} class="active"{% endif %}>
+                <a href="{{ path('app_privilege_index') }}">
+                    <i class="glyphicon glyphicon-king"></i>
+                    Privileges
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_invitation' %} class="active"{% endif %}>
