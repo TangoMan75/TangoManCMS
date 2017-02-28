@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container-fluid">
+
+        <div class="col-xs-12 col-md-2">
+            {% include "admin/includes/_sidebar.html.twig" %}
+        </div>
+
+        <div class="col-xs-12 col-md-10">
+
+            <header>
+                <h1>Utilisateurs</h1>
+                <h2>Liste des utilisateurs</h2>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p>Vous pouvez ici accèder à la liste des utilisateurs de {{ site_name }}.</p>
+                {% else %}
+                    <p>Vous devez possèder des droits administrateur pour accéder à ces informations.</p>
+                {% endif %}
+            </header>
+
+            {% include "admin/includes/_user_tabs.html.twig" %}
+
+            {% if is_granted('ROLE_ADMIN') %}
+
+                <section id="import-export">
+                    <div class="col-xs-12 col-md-6">
+                        <div id="import" class="panel panel-warning">
+                            <div class="panel-heading">
+                                <h1 class="text-center">
+                                    Importer une liste d'utilisateurs
+                                </h1>
+                            </div>
+                            <div class="panel-body text-center">
+                                {{ form_start(form) }}
+                                {{ form_widget(form) }}
+                                <button type="submit" class="btn btn-primary center-block">
+                                    <span class="glyphicon glyphicon-import"></span>
+                                    Importer
+                                </button>
+                                {{ form_end(form) }}
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-md-6">
+                        <div id="export" class="panel panel-success">
+                            <div class="panel-heading">
+                                <h1 class="text-center">
+                                    Exporter la liste d'utilisateurs
+                                </h1>
+                            </div>
+                            <div class="panel-body text-center">
+                                <p><strong>{{ users|length }}</strong> utilisateur enregistrés</p>
+                                <a href="{{ path('app_admin_user_exportcsv') }}" class="btn btn-primary">
+                                    <span class="glyphicon glyphicon-export"></span>
+                                    Exporter
+                                </a>
+                            </div>
+                            <div class="panel-footer"></div>
+                        </div>
+                    </div>
+                </section>
+
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

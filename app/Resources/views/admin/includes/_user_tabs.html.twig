@@ -1,0 +1,28 @@
+<div id="tabs">
+    <ul class="nav nav-tabs">
+        <li{% if app.request.attributes.get('_route') ends with 'index' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_user_index') }}">
+                <i class="glyphicon glyphicon-list"></i>
+                Liste
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_user_new') }}">
+                <i class="glyphicon glyphicon-plus"></i>
+                Ajouter
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_user_importexport') }}">
+                <i class="glyphicon glyphicon-import"></i>
+                importer
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_user_exportcsv') }}">
+                <i class="glyphicon glyphicon-export"></i>
+                Exporter
+            </a>
+        </li>
+    </ul>
+</div>

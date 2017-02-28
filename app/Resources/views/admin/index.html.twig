@@ -1,5 +1,7 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}{{ parent() }} | Tableau de bord {% endblock %}
+
 {% block style %}
 {% endblock %}
 
@@ -8,7 +10,7 @@
     <div class="container-fluid">
         <div class="row profile">
             <div class="col-xs-12 col-md-2">
-                {% include "includes/_sidebar.html.twig" %}
+                {% include "admin/includes/_sidebar.html.twig" %}
             </div>
 
             <div class="col-md-9">

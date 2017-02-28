@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -21,7 +21,7 @@ class PageController extends Controller
         return $this->render(
             'admin/page/index.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -34,7 +34,7 @@ class PageController extends Controller
         return $this->render(
             'admin/page/new.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -47,7 +47,7 @@ class PageController extends Controller
         return $this->render(
             'admin/page/edit.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -60,7 +60,7 @@ class PageController extends Controller
         return $this->render(
             'admin/page/delete.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }

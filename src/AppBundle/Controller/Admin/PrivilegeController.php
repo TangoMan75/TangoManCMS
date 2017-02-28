@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Admin;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -14,14 +14,14 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class PrivilegeController extends Controller
 {
     /**
-     * @Route("/index")
+     * @Route("/")
      */
     public function indexAction()
     {
         return $this->render(
             'admin/privilege/index.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -34,7 +34,7 @@ class PrivilegeController extends Controller
         return $this->render(
             'admin/privilege/show.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -47,7 +47,7 @@ class PrivilegeController extends Controller
         return $this->render(
             'admin/privilege/new.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -60,7 +60,7 @@ class PrivilegeController extends Controller
         return $this->render(
             'admin/privilege/edit.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }
@@ -73,7 +73,7 @@ class PrivilegeController extends Controller
         return $this->render(
             'admin/privilege/delete.html.twig',
             [
-                // ...
+                'currentUser' => $this->getUser(),
             ]
         );
     }

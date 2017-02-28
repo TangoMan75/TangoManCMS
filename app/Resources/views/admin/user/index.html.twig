@@ -4,65 +4,65 @@
     <div class="container-fluid">
 
         <div class="col-xs-12 col-md-2">
-            {% include "includes/_sidebar.html.twig" %}
+            {% include "admin/includes/_sidebar.html.twig" %}
         </div>
 
         <div class="col-xs-12 col-md-10">
 
-            {% if not is_granted('ROLE_ADMIN') %}
-                <section>
-                    <h1 class="text-center user-list">Liste des utilisateurs</h1>
+            <header>
+                <h1>Utilisateurs</h1>
+                <h2>Liste des utilisateurs</h2>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <p>Vous pouvez ici accèder à la liste des utilisateurs de {{ site_name }}.</p>
+                {% else %}
+                    <p>Vous devez possèder des droits administrateur pour accéder à ces informations.</p>
+                {% endif %}
+            </header>
 
-                    <div>
-                        <p class="text-center">Vous devez être administrateur pour accèder à ces informations.</p>
-                    </div>
-                </section>
-            {% else %}
+            {% include "admin/includes/_user_tabs.html.twig" %}
 
+            {% if is_granted('ROLE_ADMIN') %}
                 <section id="user-list">
-
-                    <h1 class="text-center user-list">Liste des utilisateurs</h1>
-
                     <div class="table-responsive">
                         <table id="user-index" class="table table-striped">
                             <thead>
                             <tr>
                                 <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_userlist', {'order': 'id' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_user_index', {'order': 'id' ,'way': app.request.query.get('order') ==
                                         'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Id
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_userlist', {'order': 'username' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_user_index', {'order': 'username' ,'way': app.request.query.get('order') ==
                                         'username' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Utilisateur
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_userlist', {'order': 'email' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_user_index', {'order': 'email' ,'way': app.request.query.get('order') ==
                                         'email' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Email
                                     </a>
                                 </th>
                                 <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_userlist', {'order': 'dateCreated' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_user_index', {'order': 'dateCreated' ,'way': app.request.query.get('order') ==
                                         'dateCreated' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Date de création
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_userlist', {'order': 'posts' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_user_index', {'order': 'posts' ,'way': app.request.query.get('order') ==
                                         'posts' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Post
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_userlist', {'order': 'comments' ,'way': app.request.query.get('order') ==
+                                    <a href="{{ path('app_admin_user_index', {'order': 'comments' ,'way': app.request.query.get('order') ==
                                         'comments' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Commentaires
                                     </a>
@@ -114,7 +114,7 @@
                                                 admin
                                             </a>
                                         {% else %}
-                                            <a href="{{ path('app_admin_addrole', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
+                                            <a href="{{ path('app_admin_user_addrole', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
                                                class="btn btn-success btn-sm">
                                                 <span class="glyphicon glyphicon-pawn"></span>
                                                 user
@@ -136,7 +136,7 @@
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                                 data-target=".my-modal" data-username="{{ user.username }}"
-                                                data-url="{{ path('app_admin_delete', { 'id': user.id, 'callback': app.request.uri }) }}"{% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
+                                                data-url="{{ path('app_admin_user_delete', { 'id': user.id, 'callback': app.request.uri }) }}"{% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
                                             <span class="glyphicon glyphicon-trash"></span>
                                             Supprimer
                                         </button>
@@ -152,47 +152,7 @@
                     </div>
                 </section>
 
-                <section id="import-export">
-                    <div class="col-xs-12 col-md-6">
-                        <div id="import" class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h1 class="text-center">
-                                    Importer une liste d'utilisateurs
-                                </h1>
-                            </div>
-                            <div class="panel-body text-center">
-                                {{ form_start(form) }}
-                                {{ form_widget(form) }}
-                                <button type="submit" class="btn btn-primary center-block">
-                                    <span class="glyphicon glyphicon-import"></span>
-                                    Importer
-                                </button>
-                                {{ form_end(form) }}
-                            </div>
-                            <div class="panel-footer"></div>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-md-6">
-                        <div id="export" class="panel panel-success">
-                            <div class="panel-heading">
-                                <h1 class="text-center">
-                                    Exporter la liste d'utilisateurs
-                                </h1>
-                            </div>
-                            <div class="panel-body text-center">
-                                <p><strong>{{ users|length }}</strong> utilisateur enregistrés</p>
-                                <a href="{{ path('app_importexport_exportcsv') }}" class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-export"></span>
-                                    Exporter
-                                </a>
-                            </div>
-                            <div class="panel-footer"></div>
-                        </div>
-                    </div>
-                </section>
-
-                {% include "includes/_delete-modal.html.twig" %}
+                {% include "admin/includes/_delete-modal.html.twig" %}
 
             {% endif %}
 
