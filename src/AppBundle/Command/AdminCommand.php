@@ -22,7 +22,7 @@ class AdminCommand extends ContainerAwareCommand
     }
 
     /**
-     * @param InputInterface $input
+     * @param InputInterface  $input
      * @param OutputInterface $output
      */
     protected function execute(InputInterface $input, OutputInterface $output)
@@ -32,10 +32,13 @@ class AdminCommand extends ContainerAwareCommand
             $encoder = $this->getContainer()->get('security.password_encoder');
             // Generating admin account with pwd: "321"
             $user = new User();
-            $user->setUsername('admin');
-            $user->setEmail('tech@argus-lab.com');
-            $user->setPassword($encoder->encodePassword($user, "321"));
-            $user->setRoles(['ROLE_ADMIN']);
+            $user->setUsername("admin")
+                ->setEmail($this->getContainer()->getParameter('mailer_from'))
+                ->setPassword($encoder->encodePassword($user, "321"))
+                ->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'])
+                ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>")
+            ;
+
             $this->getContainer()->get('em')->save($user);
             $output->writeln('<question>"Admin" account created with password: "321"</question>');
 
