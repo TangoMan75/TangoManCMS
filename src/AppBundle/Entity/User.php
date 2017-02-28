@@ -81,7 +81,7 @@ class User implements UserInterface
 
     /**
      * @var array User privileges
-     * @ORM\Column(type="simple_array")
+     * @ORM\Column(type="simple_array", nullable=true)
      */
     private $privileges;
 
