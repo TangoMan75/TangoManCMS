@@ -70,6 +70,13 @@ body {
 }
 
 /**
+ * Tabs
+ */
+#tabs {
+	margin-bottom: 1em;
+}
+
+/**
  * Import Export
  */
 #import-export #import .panel-body,
