@@ -97,14 +97,14 @@
                                         {{ user.dateCreated|date('d/m/Y H:i:s') }}
                                     </td>
                                     <td>
-                                <span class="label label-primary">
-                                    {{ user.posts | length }}
-                                </span>
+                                        <span class="label label-primary">
+                                            {{ user.posts|length }}
+                                        </span>
                                     </td>
                                     <td>
-                                <span class="label label-success">
-                                    {{ user.comments | length }}
-                                </span>
+                                        <span class="label label-success">
+                                            {{ user.comments|length }}
+                                        </span>
                                     </td>
                                     <td>
                                         {% if 'ROLE_ADMIN' in user.roles %}
@@ -133,6 +133,14 @@
                                     {#<span class="glyphicon glyphicon-ok text-success"></span>#}
                                     {#</td>#}
                                     {#{% endif %}#}
+                                    <td>
+                                        <a href="{{ path('app_admin_user_edit', { 'id': user.id }) }}"
+                                            class="btn btn-warning btn-sm"{% if 'ROLE_ADMIN' in user.roles %}
+                                            disabled{% endif %}>
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                            Modifier
+                                        </a>
+                                    </td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                                 data-target=".my-modal" data-username="{{ user.username }}"

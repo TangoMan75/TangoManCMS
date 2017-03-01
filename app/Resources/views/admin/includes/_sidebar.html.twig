@@ -20,35 +20,35 @@
         <ul class="nav nav-pills nav-stacked">
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_admin_index' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_admin_index') }}">
-                    <i class="glyphicon glyphicon-home"></i>
+                    <i class="glyphicon glyphicon-dashboard"></i>
                     Tableau de bord
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_page' %} class="active"{% endif %}>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_page' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_page_index') }}">
                     <i class="glyphicon glyphicon-text-background"></i>
                     Pages
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_user_index' %} class="active"{% endif %}>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_user' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_user_index') }}">
                     <i class="glyphicon glyphicon-user"></i>
                     Utilisateurs
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_privilege' %} class="active"{% endif %}>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_privilege_index') }}">
                     <i class="glyphicon glyphicon-king"></i>
                     Privileges
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_admin_invitation' %} class="active"{% endif %}>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_invitation' %} class="active"{% endif %}>
                 <a href="#">
                     <i class="glyphicon glyphicon-send"></i>
                     invitations
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_admin_presence' %} class="active"{% endif %}>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_presence' %} class="active"{% endif %}>
                 <a href="#">
                     <i class="glyphicon glyphicon-ok"></i>
                     Emargement

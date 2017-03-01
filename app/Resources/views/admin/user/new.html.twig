@@ -1,0 +1,47 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}{{ parent() }} | Utilisateurs - Ajouter{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+		<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+		<script>tinymce.init({ selector:'textarea', height: '250' });</script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+<div class="container-fluid">
+
+	<div class="col-xs-12 col-md-2">
+		{% include "admin/includes/_sidebar.html.twig" %}
+	</div>
+
+	<div class="col-xs-12 col-md-10">
+
+		<header>
+			<h1>Utilisateurs</h1>
+			<h2>Ajouter un utilisateur</h2>
+			<p>Vous pouvez ici ajouter un nouvel utilisateur à {{ site_name }}</p>
+		</header>
+
+		{% include "admin/includes/_user_tabs.html.twig" %}
+
+		<section id="new">
+
+			<div class="jumbotron">
+				{{ form_start(form) }}
+				{{ form_widget(form) }}
+				<button type="submit" class="btn btn-primary center-block">
+					<span class="glyphicon glyphicon-send"></span>
+					Valider
+				</button>
+				{{ form_end(form) }}
+			</div>
+
+		</section>
+
+	</div>
+
+</div>
+{% endblock %}
