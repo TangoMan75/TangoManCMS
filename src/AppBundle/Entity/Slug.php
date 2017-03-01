@@ -27,7 +27,7 @@ trait Slug
      */
     public function setSlug($string)
     {
-        $this->slug = $this->slugify($string).'-'.uniqid();
+        $this->slug = $this->slugify($string);
 
         return $this;
     }

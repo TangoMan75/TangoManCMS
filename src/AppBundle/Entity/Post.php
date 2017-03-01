@@ -133,7 +133,9 @@ class Post
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->setSlug($title);
+        if (!$this->slug) {
+            $this->setSlug($title.'-'.uniqid());
+        }
 
         return $this;
     }
