@@ -36,7 +36,6 @@ class UserController extends Controller
 
         $form = $this->createForm(ProfileType::class, $user);
         $form->handleRequest($request);
-        $formImage = $form->createView();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->get('em')->save($user);
@@ -50,7 +49,7 @@ class UserController extends Controller
             'user/edit.html.twig',
             [
                 'user'       => $user,
-                'formAvatar' => $formImage,
+                'formAvatar' => $form->createView(),
             ]
         );
     }

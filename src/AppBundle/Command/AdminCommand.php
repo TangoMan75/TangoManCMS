@@ -40,7 +40,7 @@ class AdminCommand extends ContainerAwareCommand
                 ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, "321"))
                 ->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'])
-                ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>")
+                ->setBio("Ceci est le compte super administrateur.")
             ;
 
             $this->getContainer()->get('em')->save($user);

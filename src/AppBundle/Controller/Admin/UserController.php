@@ -3,14 +3,14 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\User;
+use AppBundle\Form\AdminNewUserType;
+use AppBundle\Form\AdminEditUserType;
+use AppBundle\Form\FileUploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * @Route("/admin/user")
@@ -23,7 +23,7 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Show paginated user list
+        // Show paginated sortable user list
         $users = $this->get('em')->repository('AppBundle:User')->sorting(
             $request->query->getInt('page', 1),
             20,
@@ -31,33 +31,61 @@ class UserController extends Controller
             $request->query->get('way', 'ASC')
         );
 
-        $form = $this->createFormBuilder(['csrf_protection' => false])
-            ->setAction('import')
-            ->add(
-                'Fichier',
-                FileType::class,
-                [
-                    'constraints' => [
-                        new NotBlank(),
-                        new File(
-                            [
-//                        'maxSize' => '1024k',
-//                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
-                                'mimeTypes'        => 'application/vnd.ms-excel',
-                                'mimeTypesMessage' => 'Vous ne pouvez importer que des fichiers de type CSV',
-                            ]
-                        ),
-                    ],
-                ]
-            )
-            ->getForm();
-
         return $this->render(
             'admin/user/index.html.twig',
             [
                 'currentUser' => $this->getUser(),
                 'users'       => $users,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/import")
+     */
+    public function importAction(Request $request)
+    {
+        $form = $this->createForm(FileUploadType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $file = $request->files->get('file_upload')['Fichier'];
+
+            if (!$file->isValid()) {
+                // Upload success check
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer."
+                );
+
+                return $this->redirectToRoute('app_admin_user_import');
+            }
+
+            return $this->importCSV($file);
+        }
+
+        return $this->render(
+            'admin/user/import.html.twig',
+            [
+                'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @Route("/export")
+     */
+    public function exportAction(Request $request)
+    {
+        $users = $this->get('em')->repository('AppBundle:User')->findAll();
+
+        return $this->render(
+            'admin/user/export.html.twig',
+            [
+                'currentUser' => $this->getUser(),
+                'users'       => $users,
             ]
         );
     }
@@ -65,58 +93,29 @@ class UserController extends Controller
     /**
      * @Route("/new")
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
+        $user = new User();
+        $form = $this->createForm(AdminNewUserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Hash password
+            $encoder = $this->get('security.password_encoder');
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
+
+            // Persists new user
+            $this->get('em')->save($user);
+
+            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été ajouté.');
+
+            // User is redirected to referrer page
+            return $this->redirectToRoute('app_admin_user_index');
+        }
+
         return $this->render(
             'admin/user/new.html.twig',
-            [
-                'currentUser' => $this->getUser(),
-            ]
-        );
-    }
-
-    /**
-     * @Route("/edit")
-     */
-    public function editAction()
-    {
-        return $this->render(
-            'admin/user/edit.html.twig',
-            [
-                'currentUser' => $this->getUser(),
-            ]
-        );
-    }
-
-    /**
-     * @Route("/import-export")
-     * @Method("POST")
-     */
-    public function importExportAction(Request $request)
-    {
-        $form = $this->createFormBuilder(['csrf_protection' => false])
-            ->setAction('import')
-            ->add(
-                'Fichier',
-                FileType::class,
-                [
-                    'constraints' => [
-                        new NotBlank(),
-                        new File(
-                            [
-//                        'maxSize' => '1024k',
-//                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
-                                'mimeTypes'        => 'application/vnd.ms-excel',
-                                'mimeTypesMessage' => 'Vous ne pouvez importer que des fichiers de type CSV',
-                            ]
-                        ),
-                    ],
-                ]
-            )
-            ->getForm();
-
-        return $this->render(
-            'admin/user/import-export.html.twig',
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
@@ -125,9 +124,39 @@ class UserController extends Controller
     }
 
     /**
+     * @Route("/edit/{id}", requirements={"id": "\d+"})
+     */
+    public function editAction(Request $request, User $user)
+    {
+        $form = $this->createForm(AdminEditUserType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Hash password
+            $encoder = $this->get('security.password_encoder');
+            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $user->setPassword($hash);
+            // Persists edited user
+            $this->get('em')->save($user);
+            // Displays success message
+            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été ajouté.');
+
+            return $this->redirectToRoute('app_admin_user_index');
+        }
+
+        return $this->render(
+            'admin/user/edit.html.twig',
+            [
+                'currentUser' => $this->getUser(),
+                'form'        => $form->createView(),
+                'user'        => $user,
+            ]
+        );
+    }
+
+    /**
      * Finds and deletes a User entity.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
-     * @Method("GET")
      */
     public function deleteAction(Request $request, User $user)
     {
@@ -207,45 +236,12 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/import-csv")
-     * @Method("POST")
+     * @param $file
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function importCSVAction(Request $request)
+    public function importCSV($file)
     {
-        $form = $this->createFormBuilder(['csrf_protection' => false])
-//            ->setAction('import')
-            ->add(
-                'Fichier',
-                FileType::class,
-                [
-                    'constraints' => [
-                        new NotBlank(),
-                        new File(
-                            [
-//                        'maxSize' => '1024k',
-//                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
-                                'mimeTypes'        => 'application/vnd.ms-excel',
-                                'mimeTypesMessage' => "Vous ne pouvez importer que des fichiers de type CSV",
-                            ]
-                        ),
-                    ],
-                ]
-            )
-            ->getForm();
-
-        $form->handleRequest($request);
-        $file = $request->files->get('form')['Fichier'];
-
-        // Upload success check
-        if (!$file->isValid()) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer."
-            );
-
-            return $this->redirectToRoute('app_admin_user_index');
-        }
-
         // Security checks
         $validExtensions = ['csv', 'tsv'];
         $clientExtension = $file->getClientOriginalExtension();
@@ -256,7 +252,7 @@ class UserController extends Controller
 
             $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
 
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirectToRoute('app_admin_user_import');
         } else {
             // Get CSV reader service
             $reader = $this->get('services.csv_reader');
@@ -276,12 +272,15 @@ class UserController extends Controller
                     if (!$user) {
                         $counter++;
                         $user = new User();
-                        $user->setUsername($line->get('username'));
-                        $user->setEmail($line->get('email'));
-                        $user->setPassword($line->get('password'));
-                        $user->setAvatar($line->get('avatar'));
-                        $user->setRoles(explode(",", $line->get('roles')));
-                        $user->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
+                        $user->setUsername($line->get('username'))
+                            ->setSlug($line->get('slug'))
+                            ->setBio($line->get('bio'))
+                            ->setEmail($line->get('email'))
+                            ->setPassword($line->get('password'))
+                            ->setAvatar($line->get('avatar'))
+                            ->setRoles(explode(",", $line->get('roles')))
+                            ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
+
                         $em->save($user);
                     } else {
                         $dupes++;
@@ -304,11 +303,11 @@ class UserController extends Controller
     /**
      * Exports user list in csv format.
      * @Route("/export-csv")
-     * @Method("GET")
      */
     public function exportCSVAction()
     {
         $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
+
         $delimiter = ";";
         $handle = fopen('php://memory', 'r+');
 
@@ -357,5 +356,4 @@ class UserController extends Controller
             ]
         );
     }
-
 }
