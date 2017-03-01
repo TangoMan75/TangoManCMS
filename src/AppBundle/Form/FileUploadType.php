@@ -10,20 +10,30 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 class FileUploadType extends AbstractType
 {
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array                $options
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('Fichier', FileType::class, [
-                'constraints' => [
-                    new NotBlank(),
-                    new File([
+        $builder
+            ->add(
+                'Fichier',
+                FileType::class,
+                [
+                    'constraints' => [
+                        new NotBlank(),
+                        new File(
+                            [
 //                        'maxSize' => '1024k',
 //                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
-                        'mimeTypes' => 'application/vnd.ms-excel',
-                        'mimeTypesMessage' => 'Vous ne pouvez importer que des fichiers de type CSV'
-                    ]),
+                                'mimeTypes'        => 'application/vnd.ms-excel',
+                                'mimeTypesMessage' => 'Vous ne pouvez importer que des fichiers de type CSV',
+                            ]
+                        ),
+                    ],
                 ]
-            ]
-        )
+            );
     }
 
     public function getName()

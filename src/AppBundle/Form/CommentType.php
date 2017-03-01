@@ -11,14 +11,18 @@ class CommentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('content', TextareaType::class, [
+        $builder->add(
+            'content',
+            TextareaType::class,
+            [
                 'label'    => 'Commentaire',
-                'required' => false
-            ]);
+                'required' => false,
+            ]
+        );
     }
 
     /**
@@ -26,10 +30,11 @@ class CommentType extends AbstractType
      */
     public function setDefaultOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Comment'
-        ]);
-
+        $resolver->setDefaults(
+            [
+                'data_class' => 'AppBundle\Entity\Comment',
+            ]
+        );
     }
 
     public function getName()

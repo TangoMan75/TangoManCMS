@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -13,17 +12,20 @@ class EmailChangeType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', RepeatedType::Class, [
-                'type' => EmailType::Class,
-                'first_options'  => ['label' => 'Votre email'],
-                'second_options' => ['label' => 'Confirmez votre email']
-            ])
-        ;
+            ->add(
+                'email',
+                RepeatedType::Class,
+                [
+                    'type'           => EmailType::Class,
+                    'first_options'  => ['label' => 'Votre email'],
+                    'second_options' => ['label' => 'Confirmez votre email'],
+                ]
+            );
     }
 
     /**
@@ -31,9 +33,11 @@ class EmailChangeType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\User'
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => 'AppBundle\Entity\User',
+            ]
+        );
     }
 
     public function getName()

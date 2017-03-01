@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType as EmailInputType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,15 +11,18 @@ class EmailType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('email', EmailInputType::Class, [
-                'label' => 'Votre email'
-            ])
-        ;
+            ->add(
+                'email',
+                EmailInputType::Class,
+                [
+                    'label' => 'Votre email',
+                ]
+            );
     }
 
     /**

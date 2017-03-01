@@ -4,12 +4,14 @@ namespace AppBundle\Form;
 
 use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProfileType extends AbstractType
+class AdminEditUserType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,27 +21,43 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add(
-                "avatar",
+                'avatar',
                 Base64Type::class,
                 [
-                    'label'    => 'Votre avatar',
+                    'label'    => 'Avatar',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'slug',
+                TextType::Class,
+                [
+                    'label' => 'Slug',
                 ]
             )
             ->add(
                 'username',
                 TextType::Class,
                 [
-                    'label' => 'Votre pseudo',
+                    'label' => 'Pseudo',
+                ]
+            )
+            ->add(
+                'email',
+                EmailType::Class,
+                [
+                    'label' => 'Email',
                 ]
             )
             ->add(
                 'bio',
                 TextareaType::Class,
                 [
-                    'label' => 'Votre biographie',
+                    'label'    => 'Biographie',
+                    'required' => false,
                 ]
-            );
+            )
+        ;
     }
 
     /**

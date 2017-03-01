@@ -2,7 +2,6 @@
 
 namespace AppBundle\Form;
 
-
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -13,16 +12,20 @@ class PwdType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('password', RepeatedType::Class, [
-                'type' => PasswordType::Class,
-                'first_options'  => ['label' => 'Votre mot de passe'],
-                'second_options' => ['label' => 'Confirmez votre mot de passe']
-            ])
-        ;
+        $builder
+            ->add(
+                'password',
+                RepeatedType::Class,
+                [
+                    'type'           => PasswordType::Class,
+                    'first_options'  => ['label' => 'Votre mot de passe'],
+                    'second_options' => ['label' => 'Confirmez votre mot de passe'],
+                ]
+            );
     }
 
     /**
@@ -30,9 +33,11 @@ class PwdType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\User'
-        ]);
+        $resolver->setDefaults(
+            [
+                'data_class' => 'AppBundle\Entity\User',
+            ]
+        );
     }
 
     public function getName()
