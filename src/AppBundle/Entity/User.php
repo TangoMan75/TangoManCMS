@@ -70,6 +70,11 @@ class User implements UserInterface
     /**
      * @var string User's password hash
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(min=8, minMessage="Votre mot de passe doit contenir au moins {{ limit }} caractères.")
+     * @Assert\Regex(
+     *     pattern="/(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%])/",
+     *     message="Votre mot de passe doit au moins contenir une minuscule, une majuscule, un chiffre, et un caractère spécial (@#$%)"
+     * )
      */
     private $password;
 
