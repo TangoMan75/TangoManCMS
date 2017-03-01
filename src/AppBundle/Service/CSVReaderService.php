@@ -2,11 +2,11 @@
 
 namespace AppBundle\Service;
 
-
 require_once 'CSVLine.php';
 
 /**
  * Class CSVReaderService
+ *
  * @package AppBundle\Services
  */
 class CSVReaderService
@@ -51,7 +51,6 @@ class CSVReaderService
      */
     private $lineCount = null;
 
-
     /**
      * CSVReaderService constructor.
      */
@@ -60,11 +59,11 @@ class CSVReaderService
     }
 
     /**
-     * @param $file
+     * @param            $file
      * @param array|bool $head
-     * @param string $delimiter
-     * @param string $enclosure
-     * @param string $escape
+     * @param string     $delimiter
+     * @param string     $enclosure
+     * @param string     $escape
      */
     public function init($file, $head = true, $delimiter = ",", $enclosure = '"', $escape = "\\")
     {
@@ -80,42 +79,46 @@ class CSVReaderService
         }
         $this->delimiter = $delimiter;
         $this->enclosure = $enclosure;
-        $this->escape    = $escape;
+        $this->escape = $escape;
     }
 
     /**
      * @return int|null
      */
-    public function countLines() {
+    public function countLines()
+    {
         if ($this->lineCount === null) {
             $lineCount = 0;
             $handle = fopen($this->file, "r");
-            while(!feof($handle)){
+            while (!feof($handle)) {
                 $line = fgets($handle, 4096);
                 $lineCount = $lineCount + substr_count($line, PHP_EOL);
             }
             fclose($handle);
             $this->lineCount = $lineCount - $this->hasHead;
         }
+
         return $this->lineCount;
     }
 
     /**
      * @return array|bool
      */
-    public function debug() {
+    public function debug()
+    {
         return $this->head;
     }
 
     /**
      * @return CSVLine|bool
      */
-    public function readLine() {
-        $rawLine = fgets($this->handle);
-        if ($rawLine!==false) {
-            $line = str_getcsv(utf8_encode($rawLine),$this->delimiter, $this->enclosure, $this->escape);
+    public function readLine()
+    {
+        $line = fgetcsv($this->handle, null, $this->delimiter, $this->enclosure, $this->escape);
+        if ($line !== false) {
             return new CSVLine($this->head, $line);
         }
+
         return false;
     }
 }
