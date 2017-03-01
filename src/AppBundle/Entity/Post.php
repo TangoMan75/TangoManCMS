@@ -134,7 +134,7 @@ class Post
     {
         $this->title = $title;
         if (!$this->slug) {
-            $this->setSlug($title.'-'.uniqid());
+            $this->setUniqueSlug($title);
         }
 
         return $this;

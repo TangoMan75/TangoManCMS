@@ -333,7 +333,7 @@ class User implements UserInterface
     {
         $this->username = $username;
         if (!$this->slug) {
-            $this->setSlug($username.'-'.uniqid());
+            $this->setUniqueSlug($username);
         }
 
         return $this;

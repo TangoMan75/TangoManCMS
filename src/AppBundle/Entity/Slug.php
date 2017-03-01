@@ -33,6 +33,20 @@ trait Slug
     }
 
     /**
+     * Unique slug is generated from given string
+     *
+     * @param string $string
+     *
+     * @return $this
+     */
+    public function setUniqueSlug($string)
+    {
+        $this->slug = $this->slugify($string.'-'.uniqid());
+
+        return $this;
+    }
+
+    /**
      * Generates slug from string
      *
      * @param  String  $string                       Source string
