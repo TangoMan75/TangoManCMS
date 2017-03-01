@@ -15,7 +15,7 @@
                 <h1>Utilisateurs</h1>
                 <h2>Liste des utilisateurs</h2>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <p>Vous pouvez ici accèder à la liste des utilisateurs de {{ site_name }}.</p>
+                    <p>Vous pouvez ici accèder à la liste complète des utilisateurs de {{ site_name }}.</p>
                 {% else %}
                     <p>Vous devez possèder des droits administrateur pour accéder à ces informations.</p>
                 {% endif %}
