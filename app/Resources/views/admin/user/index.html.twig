@@ -24,48 +24,157 @@
             {% include "admin/includes/_user_tabs.html.twig" %}
 
             {% if is_granted('ROLE_ADMIN') %}
+
+                <section id="search">
+                    <div class="jumbotron">
+                        <form method="get" class="form-horizontal">
+                            <div class="row">
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <label class="control-label col-sm-4" for="inputId">Id</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="id" id="inputId" class="form-control"
+                                                   value="{{ app.request.get('id') }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <label class="control-label col-sm-4" for="inputUsername">Utilisateur</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" name="username" id="inputUsername" class="form-control"
+                                                   value="{{ app.request.get('username') }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <label class="control-label col-sm-4" for="inputEmail">Email</label>
+                                        <div class="col-sm-8">
+                                            <input type="text" id="inputEmail" name="email" class="form-control"
+                                                   value="{{ app.request.get('email') }}"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 col-md-3">
+                                        <label class="control-label col-sm-4" for="selectRole">Role</label>
+                                        <div class="col-sm-8">
+                                            <select name="role" class="form-control" id="selectRole">
+                                                <option value="">Tous</option>
+                                                <option value="ROLE_SUPER_ADMIN"
+                                                        {% if app.request.get('role') == "ROLE_SUPER_ADMIN" %}selected{% endif %}>
+                                                    ROLE_SUPER_ADMIN
+                                                </option>
+                                                <option value="ROLE_ADMIN"
+                                                        {% if app.request.get('role') == "ROLE_ADMIN" %}selected{% endif %}>
+                                                    ROLE_ADMIN
+                                                </option>
+                                                <option value="ROLE_SUPER_USER"
+                                                        {% if app.request.get('role') == "ROLE_SUPER_USER" %}selected{% endif %}>
+                                                    ROLE_SUPER_USER
+                                                </option>
+                                                <option value="ROLE_USER"
+                                                        {% if app.request.get('role') == "ROLE_USER" %}selected{% endif %}>
+                                                    ROLE_USER
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div class="pull-right">
+                                        <button type="submit" class="btn btn-primary">
+                                            <span class="glyphicon glyphicon-search"></span> Filtrer ({{ users.count }})
+                                        </button>
+                                        <button id="reset" class="btn btn-warning">
+                                            <span class="glyphicon glyphicon-remove"></span> Effacer
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </section>
+
                 <section id="user-list">
                     <div class="table-responsive">
                         <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_user_index', {'order': 'id' ,'way': app.request.query.get('order') ==
-                                        'id' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                                    <a href="{{ path('app_admin_user_index', {
+                                        'page'     : app.request.query.get('page', 1),
+                                        'id'       : app.request.query.get('id'),
+                                        'username' : app.request.query.get('username'),
+                                        'email'    : app.request.query.get('email'),
+                                        'role'     : app.request.query.get('role'),
+                                        'order'    : 'id',
+                                        'way'      : app.request.query.get('order') == 'id'
+                                        and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Id
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_user_index', {'order': 'username' ,'way': app.request.query.get('order') ==
-                                        'username' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
+                                    <a href="{{ path('app_admin_user_index', {
+                                        'page'     : app.request.query.get('page', 1),
+                                        'id'       : app.request.query.get('id'),
+                                        'username' : app.request.query.get('username'),
+                                        'email'    : app.request.query.get('email'),
+                                        'role'     : app.request.query.get('role'),
+                                        'order'    : 'username',
+                                        'way'      : app.request.query.get('order') == 'username'
+                                        and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Utilisateur
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_user_index', {'order': 'email' ,'way': app.request.query.get('order') ==
-                                        'email' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                                    <a href="{{ path('app_admin_user_index', {
+                                        'page'     : app.request.query.get('page', 1),
+                                        'id'       : app.request.query.get('id'),
+                                        'username' : app.request.query.get('username'),
+                                        'email'    : app.request.query.get('email'),
+                                        'role'     : app.request.query.get('role'),
+                                        'order'    : 'email',
+                                        'way'      : app.request.query.get('order') == 'email'
+                                        and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Email
                                     </a>
                                 </th>
                                 <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                                    <a href="{{ path('app_admin_user_index', {'order': 'dateCreated' ,'way': app.request.query.get('order') ==
-                                        'dateCreated' and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                                    <a href="{{ path('app_admin_user_index', {
+                                        'page'     : app.request.query.get('page', 1),
+                                        'id'       : app.request.query.get('id'),
+                                        'username' : app.request.query.get('username'),
+                                        'email'    : app.request.query.get('email'),
+                                        'role'     : app.request.query.get('role'),
+                                        'order'    : 'dateCreated',
+                                        'way'      : app.request.query.get('order') == 'dateCreated'
+                                        and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                                         Date de création
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_user_index', {'order': 'posts' ,'way': app.request.query.get('order') ==
-                                        'posts' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
+                                    <a href="{{ path('app_admin_user_index', {
+                                        'page'     : app.request.query.get('page', 1),
+                                        'id'       : app.request.query.get('id'),
+                                        'username' : app.request.query.get('username'),
+                                        'email'    : app.request.query.get('email'),
+                                        'role'     : app.request.query.get('role'),
+                                        'order'    : 'posts',
+                                        'way'      : app.request.query.get('order') == 'posts'
+                                        and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Post
                                     </a>
                                 </th>
 
                                 <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
-                                    <a href="{{ path('app_admin_user_index', {'order': 'comments' ,'way': app.request.query.get('order') ==
-                                        'comments' and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
+                                    <a href="{{ path('app_admin_user_index', {
+                                        'page'     : app.request.query.get('page', 1),
+                                        'id'       : app.request.query.get('id'),
+                                        'username' : app.request.query.get('username'),
+                                        'email'    : app.request.query.get('email'),
+                                        'role'     : app.request.query.get('role'),
+                                        'order'    : 'comments',
+                                        'way'      : app.request.query.get('order') == 'comments'
+                                        and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
                                         Commentaires
                                     </a>
                                 </th>
@@ -89,6 +198,7 @@
                                     </td>
                                     <td>
                                         <a href="{{ path('app_user_show', { 'slug':user.slug }) }}">
+
                                             {{ user.username }}
                                         </a>
                                     </td>
@@ -109,7 +219,8 @@
                                         </span>
                                     </td>
                                     <td>
-                                        {% if 'ROLE_ADMIN' in user.roles %}
+                                        {# admin cannot change his own role #}
+                                        {% if 'ROLE_SUPER_ADMIN' in user.roles %}
                                             <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
                                                class="btn btn-warning btn-sm{% if (user.id == app.user.id) %} disabled{% endif %}">
                                                 <span class="glyphicon glyphicon-king"></span>
@@ -136,9 +247,17 @@
                                     {#</td>#}
                                     {#{% endif %}#}
                                     <td>
-                                        <a href="{{ path('app_admin_user_edit', { 'id': user.id }) }}"
-                                            class="btn btn-warning btn-sm"{% if 'ROLE_ADMIN' in user.roles %}
-                                            disabled{% endif %}>
+                                        <a href="{{ path('app_admin_user_edit', {
+                                            'page'     : app.request.query.get('page', 1),
+                                            'order'    : app.request.query.get('order'),
+                                            'way'      : app.request.query.get('way', 'ASC'),
+                                            'id'       : user.id,
+                                            'username' : app.request.query.get('username'),
+                                            'email'    : app.request.query.get('email'),
+                                            'role'     : app.request.query.get('role')
+                                        }) }}"
+                                           class="btn btn-warning btn-sm"{% if 'ROLE_ADMIN' in user.roles %}
+                                        disabled{% endif %}>
                                             <span class="glyphicon glyphicon-edit"></span>
                                             Modifier
                                         </a>
@@ -170,7 +289,13 @@
     </div>
 {% endblock %}
 
-{% block javascript %}
-    {{ parent() }}
-    <script src="{{ asset('js/modal.js') }}"></script>
-{% endblock %}
+    {% block javascript %}
+        {{ parent() }}
+        <script src="{{ asset('js/modal.js') }}"></script>
+        <script>
+            $('#reset').click(function(){
+                $('form').find('input:text, input:password, select, textarea').val('');
+                $('form').find('input:radio, input:checkbox').prop('checked', false);
+            });
+        </script>
+    {% endblock %}

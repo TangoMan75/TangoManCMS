@@ -6,7 +6,6 @@ use AppBundle\Entity\User;
 use AppBundle\Form\AdminNewUserType;
 use AppBundle\Form\AdminEditUserType;
 use AppBundle\Form\FileUploadType;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -23,13 +22,8 @@ class UserController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Show paginated sortable user list
-        $users = $this->get('em')->repository('AppBundle:User')->sorting(
-            $request->query->getInt('page', 1),
-            20,
-            $request->query->get('order', 'username'),
-            $request->query->get('way', 'ASC')
-        );
+        // Show searchable, sortable, paginated user list
+        $users = $this->get('em')->repository('AppBundle:User')->sortedSearchPaged($request->query, 20);
 
         return $this->render(
             'admin/user/index.html.twig',
@@ -141,7 +135,17 @@ class UserController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été modifié.');
 
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirectToRoute(
+                'app_admin_user_index',
+                [
+                    'page'     => $request->query->get('page', 1),
+                    'order'    => $request->query->get('order'),
+                    'way'      => $request->query->get('way', 'ASC'),
+                    'username' => $request->query->get('username'),
+                    'email'    => $request->query->get('email'),
+                    'role'     => $request->query->get('role'),
+                ]
+            );
         }
 
         return $this->render(
