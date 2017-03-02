@@ -297,8 +297,7 @@ class SecurityController extends Controller
             'Votre demande de <strong>'.mb_strtolower($msg['title'], 'UTF-8').'</strong> a bien été prise en compte.<br />'.
             'Un lien de confirmation sécurisé vous à été envoyé à <strong>'.$user->getEmail().'</strong>.<br/>'.
             'Vérifiez votre boîte email.<br/>'.
-            'Si vous ne reçevez pas d\'email et qu\'il n\'est pas dans votre dossier de spam,'.
-            'il est possible que vous soyez enregistré avec un email différent.'
+            'Si vous ne reçevez pas d\'email, il est possible qu\'il soit dans votre dossier de spam.'
         );
     }
 
