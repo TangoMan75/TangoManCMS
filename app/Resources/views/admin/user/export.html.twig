@@ -15,7 +15,7 @@
                 <h1>Utilisateurs</h1>
                 <h2>Exporter la liste d'utilisateurs</h2>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <p>Vous pouvez ici exporter la liste des utilisateurs de {{ site_name }} au format CSV.</p>
+                    <p>Ici vous pouvez exporter la liste des utilisateurs de {{ site_name }} au format CSV.</p>
                 {% else %}
                     <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
                 {% endif %}

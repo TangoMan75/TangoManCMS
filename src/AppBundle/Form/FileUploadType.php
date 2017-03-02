@@ -18,9 +18,10 @@ class FileUploadType extends AbstractType
     {
         $builder
             ->add(
-                'Fichier',
+                'file',
                 FileType::class,
                 [
+                    'label' => false,
                     'constraints' => [
                         new NotBlank(),
                         new File(

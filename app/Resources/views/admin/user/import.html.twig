@@ -15,7 +15,7 @@
                 <h1>Utilisateurs</h1>
                 <h2>Importer des utilisateurs</h2>
                 {% if is_granted('ROLE_ADMIN') %}
-                    <p>Vous pouvez ici importer une liste d'utilisateurs dans {{ site_name }} au format CSV.</p>
+                    <p>Ici vous pouvez importer une liste d'utilisateurs dans {{ site_name }} au format CSV.</p>
                 {% else %}
                     <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
                 {% endif %}

@@ -50,13 +50,13 @@ class UserController extends Controller
 
         if ($form->isSubmitted()) {
 
-            $file = $request->files->get('file_upload')['Fichier'];
+            $file = $request->files->get('file_upload')['file'];
 
             if (!$file->isValid()) {
                 // Upload success check
                 $this->get('session')->getFlashBag()->add(
                     'error',
-                    "Une erreur s'est produite lors du transfert. <br />Veuillez réessayer."
+                    'Une erreur s\'est produite lors du transfert.<br/>Veuillez réessayer.'
                 );
 
                 return $this->redirectToRoute('app_admin_user_import');
@@ -250,7 +250,7 @@ class UserController extends Controller
             !in_array($clientExtension, $validExtensions)
         ) {
 
-            $this->get('session')->getFlashBag()->add('error', "Ce format du fichier n'est pas supporté.");
+            $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
 
             return $this->redirectToRoute('app_admin_user_import');
         } else {
