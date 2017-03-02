@@ -26,8 +26,38 @@
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_page' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_page_index') }}">
-                    <i class="glyphicon glyphicon-text-background"></i>
+                    <i class="glyphicon glyphicon-file"></i>
                     Pages
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_section' %} class="active"{% endif %}>
+                <a href="#">
+                    <i class="glyphicon glyphicon-text-background"></i>
+                    Sections
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_post' %} class="active"{% endif %}>
+                <a href="#">
+                    <i class="glyphicon glyphicon-text-color"></i>
+                    Articles
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_tag' %} class="active"{% endif %}>
+                <a href="#">
+                    <i class="glyphicon glyphicon-bookmark"></i>
+                    Étiquettes
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_media' %} class="active"{% endif %}>
+                <a href="#">
+                    <i class="glyphicon glyphicon-music"></i>
+                    Medias
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_gallery' %} class="active"{% endif %}>
+                <a href="#">
+                    <i class="glyphicon glyphicon-picture"></i>
+                    Galeries
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_user' %} class="active"{% endif %}>
@@ -39,19 +69,7 @@
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_privilege_index') }}">
                     <i class="glyphicon glyphicon-king"></i>
-                    Privileges
-                </a>
-            </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_invitation' %} class="active"{% endif %}>
-                <a href="#">
-                    <i class="glyphicon glyphicon-send"></i>
-                    invitations
-                </a>
-            </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_presence' %} class="active"{% endif %}>
-                <a href="#">
-                    <i class="glyphicon glyphicon-ok"></i>
-                    Emargement
+                    Privilèges
                 </a>
             </li>
         </ul>
