@@ -36,25 +36,54 @@ class PageController extends Controller
     /**
      * @Route("/new")
      */
-    public function newAction()
+    public function newAction(Request $request)
     {
+        $page = new Page();
+        $form = $this->createForm(AdminNewPageType::class, $page);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Persists new page
+            $this->get('em')->save($page);
+
+            $this->get('session')->getFlashBag()->add('success', 'La page a bien été ajoutée.');
+
+            // User is redirected to referrer page
+            return $this->redirectToRoute('app_admin_page_index');
+        }
+
         return $this->render(
             'admin/page/new.html.twig',
             [
                 'currentUser' => $this->getUser(),
+                'form'        => $form->createView(),
             ]
         );
     }
 
     /**
-     * @Route("/edit")
+     * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction()
+    public function editAction(Request $request, Page $page)
     {
+        $form = $this->createForm(AdminEditPageType::class, $page);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Persists edited page
+            $this->get('em')->save($page);
+            // Displays success message
+            $this->get('session')->getFlashBag()->add('success', 'La page a bien été modifiée.');
+
+            return $this->redirectToRoute('app_admin_user_index');
+        }
+
         return $this->render(
-            'admin/page/edit.html.twig',
+            'admin/user/edit.html.twig',
             [
                 'currentUser' => $this->getUser(),
+                'form'        => $form->createView(),
+                'page'        => $page,
             ]
         );
     }
@@ -84,9 +113,7 @@ class PageController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La page '.
-            '<strong>&quot;'.$page->getTitle().'&quot;</strong> à '.
-            'bien été supprimée.'
+            'La page <strong>&quot;'.$page->getTitle().'&quot;</strong> à bien été supprimée.'
         );
 
         // Admin is redirected to referrer page

@@ -139,7 +139,7 @@ class UserController extends Controller
             // Persists edited user
             $this->get('em')->save($user);
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été modifié.');
 
             return $this->redirectToRoute('app_admin_user_index');
         }
@@ -179,9 +179,7 @@ class UserController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'utilisateur '.
-            '<strong>&quot;'.$user->getUsername().'&quot;</strong> à '.
-            'bien été supprimé.'
+            'L\'utilisateur <strong>&quot;'.$user->getUsername().'&quot;</strong> à bien été supprimé.'
         );
 
         // Admin is redirected to referrer page

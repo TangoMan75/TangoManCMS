@@ -6,34 +6,39 @@
     {{ parent() }}
     {% if app.user %}
         <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'textarea' });</script>
+        <script>tinymce.init({selector: 'textarea', height: '250'});</script>
     {% endif %}
 {% endblock %}
 
 {% block body %}
-<div class="container">
-    <div id="profile-form" class="jumbotron">
-        <h2 class="text-center">
-            <span class="glyphicon glyphicon-edit pull-left"></span>
-            Modifier votre profil
-        </h2>
+    <div class="container">
+        <div id="profile-form" class="jumbotron">
+            <h2 class="text-center">
+                <span class="glyphicon glyphicon-edit pull-left"></span>
+                Modifier votre profil
+            </h2>
+            <div class="text-center">
+                {{ form_start(formAvatar) }}
+                {{ form_widget(formAvatar) }}
+                <button type="submit" class="btn btn-primary center-block"><span
+                            class="glyphicon glyphicon-send"></span>&nbsp;Valider
+                </button>
+                {{ form_end(formAvatar) }}
+            </div>
+        </div>
         <div class="text-center">
-            {{ form_start(formAvatar) }}
-            {{ form_widget(formAvatar) }}
-            <button type="submit" class="btn btn-primary center-block"><span class="glyphicon glyphicon-send"></span>&nbsp;Valider</button>
-            {{ form_end(formAvatar) }}
+            <a class="btn btn-success"
+               href="{{ path('app_security_emailchange', { 'id': user.id, 'callback': app.request.uri }) }}">
+                Modifier mon adresse email
+            </a>&nbsp;
+            <a class="btn btn-danger"
+               href="{{ path('app_security_create', { 'id': user.id, 'action': 'password_change', 'callback': app.request.uri }) }}">
+                Modifier mon mot de passe
+            </a>&nbsp;
+            <a class="btn btn-danger"
+               href="{{ path('app_security_create', { 'id': user.id, 'action': 'account_delete', 'callback': app.request.uri }) }}">
+                Supprimer mon compte
+            </a>
         </div>
     </div>
-    <div class="text-center">
-        <a class="btn btn-success" href="{{ path('app_security_emailchange', { 'id': user.id, 'callback': app.request.uri }) }}">
-            Modifier mon adresse email
-        </a>&nbsp;
-        <a class="btn btn-danger" href="{{ path('app_security_create', { 'id': user.id, 'action': 'password_change', 'callback': app.request.uri }) }}">
-            Modifier mon mot de passe
-        </a>&nbsp;
-        <a class="btn btn-danger" href="{{ path('app_security_create', { 'id': user.id, 'action': 'account_delete', 'callback': app.request.uri }) }}">
-            Supprimer mon compte
-        </a>
-    </div>
-</div>
 {% endblock %}

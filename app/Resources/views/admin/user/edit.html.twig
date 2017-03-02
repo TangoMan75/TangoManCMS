@@ -6,7 +6,7 @@
     {{ parent() }}
     {% if app.user %}
         <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'textarea', height: '250' });</script>
+        <script>tinymce.init({selector: 'textarea', height: '250'});</script>
     {% endif %}
 {% endblock %}
 
@@ -27,7 +27,7 @@
 
             {% include "admin/includes/_user_tabs.html.twig" %}
 
-            <section id="new">
+            <section id="edit">
 
                 <div class="jumbotron">
                     {{ form_start(form) }}
