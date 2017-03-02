@@ -26,7 +26,7 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <section id="user-list">
                     <div class="table-responsive">
-                        <table id="user-index" class="table table-striped">
+                        <table class="table table-striped">
                             <thead>
                             <tr>
                                 <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
@@ -70,10 +70,10 @@
                                     </a>
                                 </th>
 
-                                {#<th>Role</th>#}
+                                <th>Role</th>
                                 {#<th colspan="2">Token</th>#}
 
-                                <th colspan="3">
+                                <th colspan="2">
                                     Actions
                                 </th>
                             </tr>
@@ -145,8 +145,8 @@
                                     </td>
                                     <td>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target=".my-modal" data-username="{{ user.username }}"
-                                                data-url="{{ path('app_admin_user_delete', { 'id': user.id, 'callback': app.request.uri }) }}"{% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
+                                                data-target=".my-modal" data-item="{{ user.username }}"
+                                                data-path="{{ path('app_admin_user_delete', { 'id': user.id, 'callback': app.request.uri }) }}"{% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
                                             <span class="glyphicon glyphicon-trash"></span>
                                             Supprimer
                                         </button>
@@ -162,7 +162,7 @@
                     </div>
                 </section>
 
-                {% include "admin/includes/_delete-modal.html.twig" %}
+                {% include "admin/includes/_delete-user-modal.html.twig" %}
 
             {% endif %}
 
