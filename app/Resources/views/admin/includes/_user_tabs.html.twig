@@ -6,6 +6,12 @@
                 Liste
             </a>
         </li>
+        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_user_new') }}">
+                <i class="glyphicon glyphicon-plus"></i>
+                Ajouter
+            </a>
+        </li>
         <li{% if app.request.attributes.get('_route') ends with 'import' %} class="active"{% endif %}>
             <a href="{{ path('app_admin_user_import') }}">
                 <i class="glyphicon glyphicon-import"></i>
@@ -16,12 +22,6 @@
             <a href="{{ path('app_admin_user_export') }}">
                 <i class="glyphicon glyphicon-export"></i>
                 Exporter
-            </a>
-        </li>
-        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_user_new') }}">
-                <i class="glyphicon glyphicon-plus"></i>
-                Ajouter
             </a>
         </li>
         {% if user is defined %}
