@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Page;
+use AppBundle\Form\AdminPageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 class PageController extends Controller
 {
     /**
-     * Lists all users.
+     * Lists all pages.
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -39,7 +40,7 @@ class PageController extends Controller
     public function newAction(Request $request)
     {
         $page = new Page();
-        $form = $this->createForm(AdminNewPageType::class, $page);
+        $form = $this->createForm(AdminPageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -66,7 +67,7 @@ class PageController extends Controller
      */
     public function editAction(Request $request, Page $page)
     {
-        $form = $this->createForm(AdminEditPageType::class, $page);
+        $form = $this->createForm(AdminPageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -75,11 +76,11 @@ class PageController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add('success', 'La page a bien été modifiée.');
 
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirectToRoute('app_admin_page_index');
         }
 
         return $this->render(
-            'admin/user/edit.html.twig',
+            'admin/page/edit.html.twig',
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),

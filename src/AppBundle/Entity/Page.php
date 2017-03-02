@@ -38,12 +38,6 @@ class Page
     private $description;
 
     /**
-     * @var string Base64 page cover image
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $cover;
-
-    /**
      * @var Section[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="pages", cascade={"remove"})
      * @ORM\Column(name="sections", type="simple_array", nullable=true)
@@ -157,30 +151,6 @@ class Page
     }
 
     /**
-     * Set cover
-     *
-     * @param string $cover
-     *
-     * @return Page
-     */
-    public function setCover($cover)
-    {
-        $this->cover = $cover;
-
-        return $this;
-    }
-
-    /**
-     * Get cover
-     *
-     * @return string
-     */
-    public function getCover()
-    {
-        return $this->cover;
-    }
-
-    /**
      * Get description
      *
      * @return string
@@ -247,4 +217,3 @@ class Page
     }
 
 }
-
