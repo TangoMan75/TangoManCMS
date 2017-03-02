@@ -221,16 +221,28 @@
                                     <td>
                                         {# admin cannot change his own role #}
                                         {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+                                            <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_SUPER_ADMIN' }) }}"
+                                               class="btn btn-danger btn-sm{% if (user.id == app.user.id) %} disabled{% endif %}">
+                                                <span class="glyphicon glyphicon-king"></span>
+                                                Super Admin
+                                            </a>
+                                        {% elseif 'ROLE_ADMIN' in user.roles %}
                                             <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
                                                class="btn btn-warning btn-sm{% if (user.id == app.user.id) %} disabled{% endif %}">
-                                                <span class="glyphicon glyphicon-king"></span>
-                                                admin
+                                                <span class="glyphicon glyphicon-knight"></span>
+                                                Admin
+                                            </a>
+                                        {% elseif 'ROLE_SUPER_USER' in user.roles %}
+                                            <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_SUPER_USER' }) }}"
+                                               class="btn btn-success btn-sm{% if (user.id == app.user.id) %} disabled{% endif %}">
+                                                <span class="glyphicon glyphicon-bishop"></span>
+                                                Super User
                                             </a>
                                         {% else %}
                                             <a href="{{ path('app_admin_user_addrole', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
-                                               class="btn btn-success btn-sm">
+                                               class="btn btn-primary btn-sm">
                                                 <span class="glyphicon glyphicon-pawn"></span>
-                                                user
+                                                User
                                             </a>
                                         {% endif %}
                                     </td>
