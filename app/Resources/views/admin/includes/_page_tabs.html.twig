@@ -13,14 +13,14 @@
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'export' %} class="active"{% endif %}>
-            {# <a href="{{ path('app_admin_page_importexport') }}"#}
+            {# <a href="{{ path('app_admin_page_export') }}"#}
             <a href="#">
                 <i class="glyphicon glyphicon-import"></i>
                 importer
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'import' %} class="active"{% endif %}>
-            {# <a href="{{ path('app_admin_page_exportcsv') }}"#}
+            {# <a href="{{ path('app_admin_page_export') }}"#}
             <a href="#">
                 <i class="glyphicon glyphicon-export"></i>
                 Exporter

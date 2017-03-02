@@ -10,6 +10,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Page
 {
+    use Slug;
+
     /**
      * @var int
      * @ORM\Column(name="id", type="integer", unique=true)
@@ -97,6 +99,11 @@ class Page
     public function setTitle($title)
     {
         $this->title = $title;
+
+        // Sets Slug when empty
+        if (!$this->slug) {
+            $this->setUniqueSlug($title);
+        }
 
         return $this;
     }

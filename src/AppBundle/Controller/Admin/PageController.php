@@ -2,8 +2,10 @@
 
 namespace AppBundle\Controller\Admin;
 
+use AppBundle\Entity\Page;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class PageController
@@ -14,14 +16,19 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class PageController extends Controller
 {
     /**
-     * @Route("/index")
+     * Lists all users.
+     * @Route("/")
      */
-    public function indexAction()
+    public function indexAction(Request $request)
     {
+        // Show paginated sortable user list
+        $pages = $this->get('em')->repository('AppBundle:Page')->findAll();
+
         return $this->render(
             'admin/page/index.html.twig',
             [
                 'currentUser' => $this->getUser(),
+                'pages'       => $pages,
             ]
         );
     }
@@ -53,16 +60,37 @@ class PageController extends Controller
     }
 
     /**
-     * @Route("/delete")
+     * Finds and deletes a Page.
+     * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction()
+    public function deleteAction(Request $request, Page $page)
     {
-        return $this->render(
-            'admin/page/delete.html.twig',
-            [
-                'currentUser' => $this->getUser(),
-            ]
+        $user = $this->getUser();
+
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
+                'Vous n\'êtes pas autorisé à effectuer cette action.'
+            );
+
+            return $this->redirectToRoute('app_admin_page_index');
+        }
+
+        // Deletes specified user
+        $this->get('em')->remove($page);
+        $this->get('em')->flush();
+
+        // Send flash notification
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            'La page '.
+            '<strong>&quot;'.$page->getTitle().'&quot;</strong> à '.
+            'bien été supprimée.'
         );
+
+        // Admin is redirected to referrer page
+        return $this->redirectToRoute('app_admin_page_index');
     }
 
 }

@@ -14,15 +14,103 @@
 		<header>
 			<h1>Pages</h1>
 			<h2>Liste des pages</h2>
-			<p>Vous pouvez ici accèder à la liste des pages de {{ site_name }}.</p>
+			<p>Ici vous pouvez accèder à la liste des pages de {{ site_name }}.</p>
 		</header>
 
 		{% include "admin/includes/_page_tabs.html.twig" %}
 
 		<section id="index">
+			<div class="table-responsive">
+				<table class="table table-striped">
+					<thead>
+					<tr>
+						<th>
+								Id
+						</th>
+						<th>
+								Slug
+						</th>
+						<th>
+								Titre
+						</th>
+						<th>
+								Sous-titre
+						</th>
+						<th>
+								Description
+						</th>
+						<th>
+								Cover
+						</th>
+						<th>
+								Sections
+						</th>
+						<th>
+								Tags
+						</th>
+						<th colspan="2">
+								Actions
+						</th>
+					</tr>
+					</thead>
+					<tbody>
+                    {% for page in pages %}
+						<tr>
+							<td>
+                                {{ page.id }}
+							</td>
+							<td>
+                                {{ page.slug }}
+							</td>
+							<td>
+                                {{ page.title }}
+							</td>
+							<td>
+                                {{ page.subtitle }}
+							</td>
+							<td>
+                                {{ page.description }}
+							</td>
+							<td>
+                                {{ page.cover }}
+							</td>
+							<td>
+                                {{ page.sections|length }}
+							</td>
+							<td>
+                                {{ page.tags|length }}
+							</td>
+                            <td>
+                                <a href="{{ path('app_admin_page_edit', { 'id': page.id }) }}"
+                                   class="btn btn-warning btn-sm">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    Modifier
+                                </a>
+                            </td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                        data-target=".my-modal" data-item="{{ page.title }}"
+                                        data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri }) }}">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Supprimer
+                                </button>
+                            </td>
+						</tr>
+					{% endfor %}
+					</tbody>
+				</table>
+
+			</div>
 		</section>
+
+        {% include "admin/includes/_delete-page-modal.html.twig" %}
 
 	</div>
 
 </div>
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('js/modal.js') }}"></script>
 {% endblock %}
