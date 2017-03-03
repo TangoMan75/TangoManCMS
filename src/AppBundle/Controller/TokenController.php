@@ -52,7 +52,8 @@ class TokenController extends Controller
         }
 
         // Find user
-        $user = $this->get('em')->repository('AppBundle:User')->find($id);
+        $em = $this->get('doctrine')->getManager();
+        $user = $em->getRepository('AppBundle:User')->find($id);
 
         // When user doesn't exist
         if (!$user) {
@@ -101,7 +102,8 @@ class TokenController extends Controller
     public function account_create(Request $request, $username, $email)
     {
         // Checks if user already exists
-        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
+        $em = $this->get('doctrine')->getManager();
+        $user = $em->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
 
         if ($user) {
             $this->get('session')->getFlashBag()->add(
@@ -129,7 +131,8 @@ class TokenController extends Controller
             $user->setPassword($hash);
 
             // Persists new user
-            $this->get('em')->save($user);
+            $em->persist($user);
+            $em->flush();
 
             // Login user
             $this->loginUser($user);
@@ -169,7 +172,9 @@ class TokenController extends Controller
             $user->setPassword($hash);
 
             // Persists new password
-            $this->get('em')->save($user);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($user);
+            $em->flush($user);
 
             // Login user
             $this->loginUser($user);
@@ -202,7 +207,9 @@ class TokenController extends Controller
         // Check form validation
         if ($form->isSubmitted() && $form->isValid()) {
             // Persist user
-            $this->get('em')->save($user);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($user);
+            $em->flush();
 
             $this->get('session')->getFlashBag()->add(
                 'success',
@@ -240,7 +247,9 @@ class TokenController extends Controller
         $user->setEmail($email);
 
         // Persists recovered user
-        $this->get('em')->save($user);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($user);
+        $em->flush();
 
         // generates password form
         $form = $this->createForm(PwdType::class, $user);
@@ -254,7 +263,8 @@ class TokenController extends Controller
             $user->setPassword($hash);
 
             // Persists new password
-            $this->get('em')->save($user);
+            $em->persist($user);
+            $em->flush();
 
             // Login user
             $this->loginUser($user);
@@ -293,8 +303,9 @@ class TokenController extends Controller
         }
 
         // Removes user
-        $this->get('em')->remove($user);
-        $this->get('em')->flush();
+        $em = $this->get('doctrine')->getManager();
+        $em->remove($user);
+        $em->flush();
 
         // Disconnects user
         if ($user == $this->getUser()) {
@@ -332,7 +343,9 @@ class TokenController extends Controller
             $user->setPassword($hash);
 
             // Persist new password
-            $this->get('em')->save($user);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($user);
+            $em->flush();
 
             $this->get('session')->getFlashBag()->add(
                 'success',

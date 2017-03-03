@@ -65,7 +65,8 @@ class SecurityController extends Controller
         // When form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->getData()['email'];
-            $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['email' => $email]);
+            $em = $this->get('doctrine')->getManager();
+            $user = $em->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
 
             // Send error message when user not found
             if (!$user) {
@@ -136,7 +137,9 @@ class SecurityController extends Controller
             }
 
             // Persist user
-            $this->get('em')->save($user);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($user);
+            $em->flush();
 
             $recoveryMsg['token'] = $this->genToken($oldUser, 'account_recovery', [], true, '+1 Week');
             $recoveryMsg['title'] = 'Récupération de compte';
@@ -294,7 +297,10 @@ class SecurityController extends Controller
     {
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Votre demande de <strong>'.mb_strtolower($msg['title'], 'UTF-8').'</strong> a bien été prise en compte.<br />'.
+            'Votre demande de <strong>'.mb_strtolower(
+                $msg['title'],
+                'UTF-8'
+            ).'</strong> a bien été prise en compte.<br />'.
             'Un lien de confirmation sécurisé vous à été envoyé à <strong>'.$user->getEmail().'</strong>.<br/>'.
             'Vérifiez votre boîte email.<br/>'.
             'Si vous ne reçevez pas d\'email, il est possible qu\'il soit dans votre dossier de spam.'

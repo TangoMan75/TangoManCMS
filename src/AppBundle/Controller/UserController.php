@@ -26,7 +26,8 @@ class UserController extends Controller
      */
     public function editAction(Request $request, $slug)
     {
-        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['slug' => $slug]);
+        $em = $this->get('doctrine')->getManager();
+        $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
 
         if ($this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
             $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier cet utilisateur.");
@@ -38,7 +39,8 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->get('em')->save($user);
+            $em->persist($user);
+            $em->flush();
             $this->get('session')->getFlashBag()->add('success', 'Votre profil a bien été enregistré.');
 
             // User is redirected to referrer page
@@ -65,13 +67,14 @@ class UserController extends Controller
      */
     public function showAction(Request $request, $slug)
     {
-        $user = $this->get('em')->repository('AppBundle:User')->findOneBy(['slug' => $slug]);
+        $em = $this->get('doctrine')->getManager();
+        $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
 
         if (!$user) {
             throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
         }
 
-        $posts = $this->get('em')->repository('AppBundle:Post')->findByUserPaged(
+        $posts = $em->getRepository('AppBundle:Post')->findByUserPaged(
             $user,
             $request->query->getInt('page', 1),
             5

@@ -23,7 +23,8 @@ class PageController extends Controller
     public function indexAction(Request $request)
     {
         // Show paginated sortable user list
-        $pages = $this->get('em')->repository('AppBundle:Page')->findAll();
+        $em = $this->get('doctrine')->getManager();
+        $pages = $em->getRepository('AppBundle:Page')->findAll();
 
         return $this->render(
             'admin/page/index.html.twig',
@@ -45,7 +46,9 @@ class PageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists new page
-            $this->get('em')->save($page);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($page);
+            $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'La page a bien été ajoutée.');
 
@@ -72,7 +75,9 @@ class PageController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists edited page
-            $this->get('em')->save($page);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($page);
+            $em->flush();
             // Displays success message
             $this->get('session')->getFlashBag()->add('success', 'La page a bien été modifiée.');
 
@@ -108,8 +113,9 @@ class PageController extends Controller
         }
 
         // Deletes specified user
-        $this->get('em')->remove($page);
-        $this->get('em')->flush();
+        $em = $this->get('doctrine')->getManager();
+        $em->remove($page);
+        $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(

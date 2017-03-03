@@ -23,7 +23,6 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated user list
-//        $users = $this->get('em')->repository('AppBundle:User')->sortedSearchPaged($request->query, 20);
         $em = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->sortedSearchPaged($request->query, 20);
 
@@ -75,7 +74,8 @@ class UserController extends Controller
      */
     public function exportAction(Request $request)
     {
-        $users = $this->get('em')->repository('AppBundle:User')->findAll();
+        $em = $this->get('doctrine')->getManager();
+        $users = $em->getRepository('AppBundle:User')->findAll();
 
         return $this->render(
             'admin/user/export.html.twig',
@@ -102,7 +102,9 @@ class UserController extends Controller
             $user->setPassword($hash);
 
             // Persists new user
-            $this->get('em')->save($user);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($user);
+            $em->flush();
 
             $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été ajouté.');
 
@@ -133,7 +135,9 @@ class UserController extends Controller
             $hash = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             // Persists edited user
-            $this->get('em')->save($user);
+            $em = $this->get('doctrine')->getManager();
+            $em->persist($user);
+            $em->flush();
             // Displays success message
             $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été modifié.');
 
@@ -179,8 +183,9 @@ class UserController extends Controller
         }
 
         // Deletes specified user
-        $this->get('em')->remove($user);
-        $this->get('em')->flush();
+        $em = $this->get('doctrine')->getManager();
+        $em->remove($user);
+        $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
@@ -199,7 +204,9 @@ class UserController extends Controller
     public function addRoleAction(Request $request, User $user, $role)
     {
         $user->addRole($role);
-        $this->get('em')->save($user);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($user);
+        $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
             'Le role <strong>&quot;'.$role.'&quot; à été attribué à '.
@@ -228,7 +235,9 @@ class UserController extends Controller
         }
 
         $user->removeRole($role);
-        $this->get('em')->save($user);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($user);
+        $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
             'Le role <strong>&quot;'.$role.'&quot; à été retiré à '.
@@ -267,8 +276,8 @@ class UserController extends Controller
                 // Init reader service
                 $reader->init($file, 0, ";");
                 // Load user entity
-                $em = $this->get('em');
-                $users = $em->repository('AppBundle:User');
+                $em = $this->get('doctrine')->getManager();
+                $users = $em->getRepository('AppBundle:User');
                 while (false !== ($line = $reader->readLine())) {
                     // Check if user with same email already exist
                     $user = $users->findOneByEmail($line->get('email'));
@@ -310,7 +319,8 @@ class UserController extends Controller
      */
     public function exportCSVAction()
     {
-        $users = $this->get('em')->repository('AppBundle:User')->findBy([], ['username' => 'ASC']);
+        $em = $this->get('doctrine')->getManager();
+        $users = $em->getRepository('AppBundle:User')->findBy([], ['username' => 'ASC']);
 
         $delimiter = ";";
         $handle = fopen('php://memory', 'r+');
