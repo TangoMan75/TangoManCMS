@@ -57,7 +57,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface
         }
 
         // Load Users
-        $userCount = 250;
+        $userCount = 10;
         for ($i = 0; $i < $userCount; $i++) {
 
             $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
