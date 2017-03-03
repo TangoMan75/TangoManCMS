@@ -31,6 +31,12 @@ class UserController extends Controller
             [
                 'currentUser' => $this->getUser(),
                 'users'       => $users,
+                'page'        => $request->query->get('page', 1),
+                'order'       => $request->query->get('order'),
+                'way'         => $request->query->get('way', 'ASC'),
+                'username'    => $request->query->get('username'),
+                'email'       => $request->query->get('email'),
+                'role'        => $request->query->get('role'),
             ]
         );
     }

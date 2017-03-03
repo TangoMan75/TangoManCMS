@@ -27,7 +27,7 @@
 
                 <section id="search">
                     <div class="jumbotron">
-                        <form method="get" class="form-horizontal">
+                        <form method="GET" class="form-horizontal">
                             <div class="row">
                                 <div class="form-group">
                                     <div class="col-xs-12 col-sm-6 col-md-3">
@@ -76,6 +76,13 @@
                                         </div>
                                     </div>
                                 </div>
+                                <input type="hidden" name="page"     value="{{ app.request.query.get('page', 1) }}"/>
+                                <input type="hidden" name="id"       value="{{ app.request.query.get('id') }}"/>
+                                <input type="hidden" name="username" value="{{ app.request.query.get('username') }}"/>
+                                <input type="hidden" name="email"    value="{{ app.request.query.get('email') }}"/>
+                                <input type="hidden" name="role"     value="{{ app.request.query.get('role') }}"/>
+                                <input type="hidden" name="order"    value="{{ app.request.query.get('order') }}"/>
+                                <input type="hidden" name="way"      value="{{ app.request.query.get('way') }}"/>
                                 <div class="col-xs-12">
                                     <div class="pull-right">
                                         <button type="submit" class="btn btn-primary">
@@ -110,7 +117,7 @@
                                     </a>
                                 </th>
 
-                                <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'DESC') }}">
+                                <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
                                     <a href="{{ path('app_admin_user_index', {
                                         'page'     : app.request.query.get('page', 1),
                                         'id'       : app.request.query.get('id'),
@@ -151,7 +158,7 @@
                                     </a>
                                 </th>
 
-                                <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'DESC') }}">
+                                <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
                                     <a href="{{ path('app_admin_user_index', {
                                         'page'     : app.request.query.get('page', 1),
                                         'id'       : app.request.query.get('id'),
@@ -165,7 +172,7 @@
                                     </a>
                                 </th>
 
-                                <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'DESC') }}">
+                                <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
                                     <a href="{{ path('app_admin_user_index', {
                                         'page'     : app.request.query.get('page', 1),
                                         'id'       : app.request.query.get('id'),
