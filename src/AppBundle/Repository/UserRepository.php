@@ -60,7 +60,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         // Sets default values
         $page = $query->get('page', 1);
         $order = $query->get('order', 'username');
-        $way = $query->get('way', 'DESC');
+        $way = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(

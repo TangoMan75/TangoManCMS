@@ -180,11 +180,17 @@
                                 </th>
 
                                 <th>Role</th>
-                                {#<th colspan="2">Token</th>#}
 
-                                <th colspan="2">
-                                    Actions
-                                </th>
+                                {#<th colspan="2">Token</th>#}
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <th colspan="2">
+                                        Actions
+                                    </th>
+                                {% else %}
+                                    <th colspan="1">
+                                        Actions
+                                    </th>
+                                {% endif %}
                             </tr>
                             </thead>
                             <tbody>
@@ -219,32 +225,123 @@
                                         </span>
                                     </td>
                                     <td>
-                                        {# super admin cannot change his own role #}
                                         {% if 'ROLE_SUPER_ADMIN' in user.roles %}
-                                            <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_SUPER_ADMIN' }) }}"
-                                               class="btn btn-danger btn-sm{% if (user.id == app.user.id) %} disabled{% endif %}">
+                                            <span class="btn btn-danger btn-sm">
                                                 <span class="glyphicon glyphicon-king"></span>
-                                                Super Admin
-                                            </a>
+                                            </span>
                                         {% elseif 'ROLE_ADMIN' in user.roles %}
-                                            <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
-                                               class="btn btn-warning btn-sm">
+                                            <span class="btn btn-warning btn-sm">
                                                 <span class="glyphicon glyphicon-tower"></span>
-                                                Admin
-                                            </a>
+                                            </span>
                                         {% elseif 'ROLE_SUPER_USER' in user.roles %}
-                                            <a href="{{ path('admin_remove_role', { 'id': user.id, 'role': 'ROLE_SUPER_USER' }) }}"
-                                               class="btn btn-success btn-sm">
+                                            <span class="btn btn-success btn-sm">
                                                 <span class="glyphicon glyphicon-bishop"></span>
-                                                Super User
-                                            </a>
+                                            </span>
                                         {% else %}
-                                            <a href="{{ path('app_admin_user_addrole', { 'id': user.id, 'role': 'ROLE_ADMIN' }) }}"
-                                               class="btn btn-primary btn-sm">
+                                            <span class="btn btn-primary btn-sm">
                                                 <span class="glyphicon glyphicon-pawn"></span>
-                                                User
-                                            </a>
+                                            </span>
                                         {% endif %}
+
+                                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                            {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+                                                {# super admin cannot change his own role #}
+                                                {% if (user.id == app.user.id) %}
+                                                    <span class="btn btn-warning btn-xs disabled">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </span>
+                                                {% else %}
+                                                    <a href="{{ path('app_admin_user_removerole', {
+                                                        'page'     : app.request.query.get('page', 1),
+                                                        'order'    : app.request.query.get('order'),
+                                                        'way'      : app.request.query.get('way', 'ASC'),
+                                                        'id'       : user.id,
+                                                        'username' : app.request.query.get('username'),
+                                                        'email'    : app.request.query.get('email'),
+                                                        'role'     : app.request.query.get('role'),
+                                                        'remove'   : 'ROLE_SUPER_ADMIN'
+                                                    }) }}"
+                                                       class="btn btn-warning btn-xs">
+                                                        <span class="glyphicon glyphicon-minus"></span>
+                                                    </a>
+                                                {% endif %}
+                                                <span class="btn btn-success btn-xs disabled">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </span>
+                                            {% elseif 'ROLE_ADMIN' in user.roles %}
+                                                <a href="{{ path('app_admin_user_removerole', {
+                                                    'page'     : app.request.query.get('page', 1),
+                                                    'order'    : app.request.query.get('order'),
+                                                    'way'      : app.request.query.get('way', 'ASC'),
+                                                    'id'       : user.id,
+                                                    'username' : app.request.query.get('username'),
+                                                    'email'    : app.request.query.get('email'),
+                                                    'role'     : app.request.query.get('role'),
+                                                    'remove'   : 'ROLE_ADMIN'
+                                                }) }}"
+                                                   class="btn btn-warning btn-xs">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                </a>
+                                                <a href="{{ path('app_admin_user_addrole', {
+                                                    'page'     : app.request.query.get('page', 1),
+                                                    'order'    : app.request.query.get('order'),
+                                                    'way'      : app.request.query.get('way', 'ASC'),
+                                                    'id'       : user.id,
+                                                    'username' : app.request.query.get('username'),
+                                                    'email'    : app.request.query.get('email'),
+                                                    'role'     : app.request.query.get('role'),
+                                                    'add'      : 'ROLE_SUPER_ADMIN'
+                                                }) }}"
+                                                   class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </a>
+                                            {% elseif 'ROLE_SUPER_USER' in user.roles %}
+                                                <a href="{{ path('app_admin_user_removerole', {
+                                                    'page'     : app.request.query.get('page', 1),
+                                                    'order'    : app.request.query.get('order'),
+                                                    'way'      : app.request.query.get('way', 'ASC'),
+                                                    'id'       : user.id,
+                                                    'username' : app.request.query.get('username'),
+                                                    'email'    : app.request.query.get('email'),
+                                                    'role'     : app.request.query.get('role'),
+                                                    'remove'   : 'ROLE_SUPER_USER'
+                                                }) }}"
+                                                   class="btn btn-warning btn-xs">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                </a>
+                                                <a href="{{ path('app_admin_user_addrole', {
+                                                    'page'     : app.request.query.get('page', 1),
+                                                    'order'    : app.request.query.get('order'),
+                                                    'way'      : app.request.query.get('way', 'ASC'),
+                                                    'id'       : user.id,
+                                                    'username' : app.request.query.get('username'),
+                                                    'email'    : app.request.query.get('email'),
+                                                    'role'     : app.request.query.get('role'),
+                                                    'add'      : 'ROLE_ADMIN'
+                                                }) }}"
+                                                   class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </a>
+                                            {% else %}
+                                                <span class="btn btn-warning btn-xs disabled">
+                                                    <span class="glyphicon glyphicon-minus"></span>
+                                                </span>
+                                                <a href="{{ path('app_admin_user_addrole', {
+                                                    'page'     : app.request.query.get('page', 1),
+                                                    'order'    : app.request.query.get('order'),
+                                                    'way'      : app.request.query.get('way', 'ASC'),
+                                                    'id'       : user.id,
+                                                    'username' : app.request.query.get('username'),
+                                                    'email'    : app.request.query.get('email'),
+                                                    'role'     : app.request.query.get('role'),
+                                                    'add'      : 'ROLE_SUPER_USER'
+                                                }) }}"
+                                                   class="btn btn-success btn-xs">
+                                                    <span class="glyphicon glyphicon-plus"></span>
+                                                </a>
+                                            {% endif %}
+                                        {% endif %}
+
                                     </td>
                                     {#<td>#}
                                     {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>#}
@@ -268,20 +365,29 @@
                                             'email'    : app.request.query.get('email'),
                                             'role'     : app.request.query.get('role')
                                         }) }}"
-                                           class="btn btn-warning btn-sm"{% if 'ROLE_ADMIN' in user.roles %}
-                                        disabled{% endif %}>
+                                           class="btn btn-warning btn-sm">
                                             <span class="glyphicon glyphicon-edit"></span>
                                             Modifier
                                         </a>
                                     </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                                data-target=".my-modal" data-item="{{ user.username }}"
-                                                data-path="{{ path('app_admin_user_delete', { 'id': user.id, 'callback': app.request.uri }) }}"{% if 'ROLE_ADMIN' in user.roles %} disabled{% endif %}>
-                                            <span class="glyphicon glyphicon-trash"></span>
-                                            Supprimer
-                                        </button>
-                                    </td>
+                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                        <td>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                                    data-target=".my-modal" data-item="{{ user.username }}"
+                                                    data-path="{{ path('app_admin_user_delete', {
+                                                        'page'     : app.request.query.get('page', 1),
+                                                        'order'    : app.request.query.get('order'),
+                                                        'way'      : app.request.query.get('way', 'ASC'),
+                                                        'id'       : user.id,
+                                                        'username' : app.request.query.get('username'),
+                                                        'email'    : app.request.query.get('email'),
+                                                        'role'     : app.request.query.get('role')
+                                                    }) }}"{% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                                Supprimer
+                                            </button>
+                                        </td>
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -305,7 +411,7 @@
         {{ parent() }}
         <script src="{{ asset('js/modal.js') }}"></script>
         <script>
-            $('#reset').click(function(){
+            $('#reset').click(function () {
                 $('form').find('input:text, input:password, select, textarea').val('');
                 $('form').find('input:radio, input:checkbox').prop('checked', false);
             });

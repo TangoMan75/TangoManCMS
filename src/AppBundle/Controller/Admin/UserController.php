@@ -172,14 +172,24 @@ class UserController extends Controller
     {
         $admin = $this->getUser();
 
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$admin->getUsername().'</strong><br />'.
                 'Il n\'est pas autorisé de supprimer un utilisateur ayant des droit d\'administration.'
             );
 
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirectToRoute(
+                'app_admin_user_index',
+                [
+                    'page'     => $request->query->get('page', 1),
+                    'order'    => $request->query->get('order'),
+                    'way'      => $request->query->get('way', 'ASC'),
+                    'username' => $request->query->get('username'),
+                    'email'    => $request->query->get('email'),
+                    'role'     => $request->query->get('role'),
+                ]
+            );
         }
 
         // Deletes specified user
@@ -194,58 +204,119 @@ class UserController extends Controller
         );
 
         // Admin is redirected to referrer page
-        return $this->redirectToRoute('app_admin_user_index');
+        return $this->redirectToRoute(
+            'app_admin_user_index',
+            [
+                'page'     => $request->query->get('page', 1),
+                'order'    => $request->query->get('order'),
+                'way'      => $request->query->get('way', 'ASC'),
+                'username' => $request->query->get('username'),
+                'email'    => $request->query->get('email'),
+                'role'     => $request->query->get('role'),
+            ]
+        );
     }
 
     /**
      * Sets user roles.
-     * @Route("/add-role/{id}/{role}", requirements={"id": "\d+"})
+     * @Route("/add-role/{id}/{add}", requirements={"id": "\d+"})
      */
-    public function addRoleAction(Request $request, User $user, $role)
+    public function addRoleAction(Request $request, User $user, $add)
     {
-        $user->addRole($role);
+        // Only admin manage user roles
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Désolé, <strong>'.$this->getUser().'</strong><br />'.
+                'Vous n\'êtes pas autorisé à modifier les roles utilisateur.'
+            );
+
+            return $this->redirectToRoute('homepage');
+        }
+        $user->addRole($add);
         $em = $this->get('doctrine')->getManager();
         $em->persist($user);
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le role <strong>&quot;'.$role.'&quot; à été attribué à '.
+            'Le role <strong>&quot;'.$add.'&quot; à été attribué à '.
             '&quot;'.$user->getUsername().'&quot;</strong>.'
         );
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('app_admin_user_index');
+        return $this->redirectToRoute(
+            'app_admin_user_index',
+            [
+                'page'     => $request->query->get('page', 1),
+                'order'    => $request->query->get('order'),
+                'way'      => $request->query->get('way', 'ASC'),
+                'username' => $request->query->get('username'),
+                'email'    => $request->query->get('email'),
+                'role'     => $request->query->get('role'),
+            ]
+        );
     }
 
     /**
      * Removes user role.
-     * @Route("/remove-role/{id}/{role}", requirements={"id": "\d+"}, name="admin_remove_role")
+     * @Route("/remove-role/{id}/{remove}", requirements={"id": "\d+"})
      */
-    public function removeRoleAction(Request $request, User $user, $role)
+    public function removeRoleAction(Request $request, User $user, $remove)
     {
-        // Admin can't change his own rigths
-        if ($user == $this->getUser() && $role == 'ROLE_ADMIN') {
+        // Only admin manage user roles
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Désolé, <strong>'.$this->getUser().'</strong><br />'.
+                'Vous n\'êtes pas autorisé à modifier les roles utilisateur.'
+            );
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        // Super admins can't change own role
+        if ($user == $this->getUser() && $remove == 'ROLE_SUPER_ADMIN') {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
                 'Vous n\'êtes pas autorisé à supprimer vos propres droit d\'administration.'
             );
 
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirectToRoute(
+                'app_admin_user_index',
+                [
+                    'page'     => $request->query->get('page', 1),
+                    'order'    => $request->query->get('order'),
+                    'way'      => $request->query->get('way', 'ASC'),
+                    'username' => $request->query->get('username'),
+                    'email'    => $request->query->get('email'),
+                    'role'     => $request->query->get('role'),
+                ]
+            );
         }
 
-        $user->removeRole($role);
+        $user->removeRole($remove);
         $em = $this->get('doctrine')->getManager();
         $em->persist($user);
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le role <strong>&quot;'.$role.'&quot; à été retiré à '.
+            'Le role <strong>&quot;'.$remove.'&quot; à été retiré à '.
             '&quot;'.$user->getUsername().'&quot;</strong>.'
         );
 
         // User is redirected to referrer page
-        return $this->redirectToRoute('app_admin_user_index');
+        return $this->redirectToRoute(
+            'app_admin_user_index',
+            [
+                'page'     => $request->query->get('page', 1),
+                'order'    => $request->query->get('order'),
+                'way'      => $request->query->get('way', 'ASC'),
+                'username' => $request->query->get('username'),
+                'email'    => $request->query->get('email'),
+                'role'     => $request->query->get('role'),
+            ]
+        );
     }
 
     /**
@@ -294,7 +365,8 @@ class UserController extends Controller
                             ->setRoles(explode(",", $line->get('roles')))
                             ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
 
-                        $em->save($user);
+                        $em->persist($user);
+                        $em->flush();
                     } else {
                         $dupes++;
                     }

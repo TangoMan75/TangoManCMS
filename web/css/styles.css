@@ -23,6 +23,16 @@ body {
 }
 
 /**
+ * Background images
+ */
+.cover {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	display: inline-block;
+}
+
+/**
  * Profiles layout
  */
 #user-profile {
@@ -37,15 +47,30 @@ body {
 }
 
 .user-avatar img {
+	margin: auto;
 	border-radius: 50%;
 	max-width: 200px;
 	max-height: 200px;
 }
 
+.user-avatar div {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	display: inline-block;
+	border-radius: 50%;
+	width: 200px;
+	height: 200px;
+}
+
+.user-avatar {
+	text-align: center;
+}
+
 /**
  * Profile edit layout
  */
-#profile_avatar_figure #profile_avatar_img {
+form div .form-group figure img {
 	margin: 1em;
 	border-radius: 1em;
 	max-width: 200px;
@@ -66,6 +91,11 @@ body {
 .sidebar-username {
 	text-align: center;
 	font-weight: 700;
+	margin-bottom: 1em;
+}
+
+.sidebar-roles {
+	text-align: center;
 	margin-bottom: 1em;
 }
 

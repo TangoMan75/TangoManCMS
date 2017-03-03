@@ -103,7 +103,7 @@ class User implements UserInterface
     {
         $this->posts = [];
         $this->comments = [];
-        $this->roles = ["ROLE_USER"];
+        $this->roles = ['ROLE_USER'];
         $this->dateCreated = new \DateTime();
     }
 
@@ -284,6 +284,12 @@ class User implements UserInterface
      */
     public function setRoles($roles)
     {
+        foreach ($roles as $role) {
+            if (!in_array($role, $this->roles)) {
+                array_push($this->roles, $role);
+            }
+        }
+
         $this->roles = $roles;
 
         return $this;
@@ -298,6 +304,20 @@ class User implements UserInterface
      */
     public function addRole($role)
     {
+        $hierarchy = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
+
+        foreach ($hierarchy as $key => $value) {
+            if ($role == $value) {
+                for ($i = $key; $i < count($hierarchy); $i++) {
+                    if (!in_array($hierarchy[$i], $this->roles)) {
+                        array_push($this->roles, $hierarchy[$i]);
+                    }
+                }
+
+                return $this;
+            }
+        }
+
         if (!in_array($role, $this->roles)) {
             array_push($this->roles, $role);
         }
