@@ -36,7 +36,8 @@
         "tiloweb/pagination-bundle": "^1.1",
         "tiloweb/base64-bundle": "^1.0",
         "firebase/php-jwt": "^4.0",
-        "tangoman/jwt-bundle": "^1.0"
+        "tangoman/jwt-bundle": "^1.0",
+        "twig/extensions": "^1.4"
     },
     "scripts": {
         "symfony-scripts": [

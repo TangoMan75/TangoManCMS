@@ -23,7 +23,9 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated user list
-        $users = $this->get('em')->repository('AppBundle:User')->sortedSearchPaged($request->query, 20);
+//        $users = $this->get('em')->repository('AppBundle:User')->sortedSearchPaged($request->query, 20);
+        $em = $this->get('doctrine')->getManager();
+        $users = $em->getRepository('AppBundle:User')->sortedSearchPaged($request->query, 20);
 
         return $this->render(
             'admin/user/index.html.twig',

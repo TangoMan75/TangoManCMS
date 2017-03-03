@@ -26,5 +26,13 @@
                 Exporter
             </a>
         </li>
+        {% if page is defined %}
+            <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
+                <a href="{{ path('app_admin_page_edit', { 'id': page.id }) }}">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    {{ page.title|truncate(20) }}
+                </a>
+            </li>
+        {% endif %}
     </ul>
 </div>
