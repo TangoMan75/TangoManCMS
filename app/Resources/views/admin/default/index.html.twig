@@ -1,0 +1,15 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Tableau de bord {% endblock %}
+
+{% block admin %}
+    <div>
+        <h1 class="text-center">Tableau de bord</h1>
+        <p class="text-center">Pour pouvez gérez ici le contenu de <strong>{{ site_name }}</strong>.
+        </p>
+        <p class="text-center">
+            Si un aspect du site n'est pas modifiable,
+            n'héstez pas à faire une demande de modification à l'administrateur {{ mailer_from }}
+        </p>
+    </div>
+{% endblock %}

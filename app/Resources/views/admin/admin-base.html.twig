@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Tableau de bord {% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block body %}
+    <div class="container-fluid">
+        <div class="row">
+            {% block sidebar %}
+                {% include "admin/includes/_sidebar.html.twig" %}
+            {% endblock %}
+            <div class="col-xs-12 col-sm-11 col-md-10">
+                {% block admin %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

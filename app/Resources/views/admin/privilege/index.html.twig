@@ -1,28 +1,14 @@
-{% extends "::base.html.twig" %}
+{% extends 'admin/admin-base.html.twig' %}
 
 {% block title %}{{ parent() }} | Privilèges - Liste{% endblock %}
 
-{% block body %}
-<div class="container-fluid">
-
-	<div class="col-xs-12 col-md-2">
-		{% include "admin/includes/_sidebar.html.twig" %}
-	</div>
-
-	<div class="col-xs-12 col-md-10">
-
-		<header>
-			<h1>Privilèges</h1>
-			<h2>Liste des privilèges</h2>
-			<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam at animi, a eligendi nemo modi, mollitia eos possimus incidunt esse, voluptas omnis quia optio, voluptatibus sequi error. Optio, quos nam.</p>
-		</header>
-
-		{% include "admin/includes/_privilege_tabs.html.twig" %}
-
-		<section id="index">
-		</section>
-
-	</div>
-
-</div>
+{% block admin %}
+	<header>
+		<h1>Privilèges</h1>
+		<h2>Liste des privilèges</h2>
+		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ipsam at animi, a eligendi nemo modi, mollitia eos possimus incidunt esse, voluptas omnis quia optio, voluptatibus sequi error. Optio, quos nam.</p>
+	</header>
+	{% include "admin/includes/_privilege_tabs.html.twig" %}
+	<section id="index">
+	</section>
 {% endblock %}

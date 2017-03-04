@@ -1,53 +1,39 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin-base.html.twig' %}
 
 {% block title %}{{ parent() }} | Utilisateurs - Importer{% endblock %}
 
-{% block body %}
-    <div class="container-fluid">
-
-        <div class="col-xs-12 col-md-2">
-            {% include "admin/includes/_sidebar.html.twig" %}
-        </div>
-
-        <div class="col-xs-12 col-md-10">
-
-            <header>
-                <h1>Utilisateurs</h1>
-                <h2>Importer des utilisateurs</h2>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <p>Ici vous pouvez importer une liste d'utilisateurs dans {{ site_name }} au format CSV.</p>
-                {% else %}
-                    <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
-                {% endif %}
-            </header>
-
-            {% include "admin/includes/_user_tabs.html.twig" %}
-
-            {% if is_granted('ROLE_ADMIN') %}
-
-                <section id="import">
-                    <div class="col-xs-12 col-md-6">
-                        <div id="import" class="panel panel-warning">
-                            <div class="panel-heading">
-                                <h1 class="text-center">
-                                    Importer une liste d'utilisateurs
-                                </h1>
-                            </div>
-                            <div class="panel-body text-center">
-                                {{ form_start(form) }}
-                                {{ form_widget(form) }}
-                                <button type="submit" class="btn btn-primary center-block">
-                                    <span class="glyphicon glyphicon-import"></span>
-                                    Importer
-                                </button>
-                                {{ form_end(form) }}
-                            </div>
-                            <div class="panel-footer"></div>
-                        </div>
-                    </div>
-                </section>
-
-            {% endif %}
+{% block admin %}
+<header>
+    <h1>Utilisateurs</h1>
+    <h2>Importer des utilisateurs</h2>
+    {% if is_granted('ROLE_ADMIN') %}
+    <p>Ici vous pouvez importer une liste d'utilisateurs dans {{ site_name }} au format CSV.</p>
+    {% else %}
+    <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
+    {% endif %}
+</header>
+{% include "admin/includes/_user_tabs.html.twig" %}
+{% if is_granted('ROLE_ADMIN') %}
+<section id="import">
+    <div class="col-xs-12 col-md-6">
+        <div id="import" class="panel panel-warning">
+            <div class="panel-heading">
+                <h1 class="text-center">
+                    Importer une liste d'utilisateurs
+                </h1>
+            </div>
+            <div class="panel-body text-center">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary center-block">
+                    <span class="glyphicon glyphicon-import"></span>
+                    Importer
+                </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="panel-footer"></div>
         </div>
     </div>
+</section>
+{% endif %}
 {% endblock %}

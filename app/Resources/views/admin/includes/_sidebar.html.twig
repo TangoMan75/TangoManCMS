@@ -1,90 +1,93 @@
-<div id="sidebar">
-    <div class="user-avatar">
-        <img src="{{ currentUser.avatar ? currentUser.avatar : asset('img/user.jpg') }}" alt="{{ currentUser.username }}">
-    </div>
+<div id="sidebar" class="col-xs-12 col-sm-1 col-md-2">
 
-    <div class="sidebar-username">
-        {{ currentUser.username }}
-    </div>
+    <div class="sidebar-avatar">
+        <div class="user-avatar">
+            <img src="{{ currentUser.avatar ? currentUser.avatar : asset('img/user.jpg') }}" alt="{{ currentUser.username }}">
+        </div>
 
-    <div class="sidebar-roles">
-        {% if 'ROLE_SUPER_ADMIN' in currentUser.roles %}
-            <div class="btn btn-danger btn-sm">
-                <span class="glyphicon glyphicon-king"></span>
-                Super Administrateur
-            </div>
-        {% elseif 'ROLE_ADMIN' in currentUser.roles %}
-            <div class="btn btn-warning btn-sm">
-                <span class="glyphicon glyphicon-tower"></span>
-                Administrateur
-            </div>
-        {% elseif 'ROLE_SUPER_USER' in currentUser.roles %}
-            <div class="btn btn-success btn-sm">
-                <span class="glyphicon glyphicon-bishop"></span>
-            </div>
-            Super Utilisateur
-        {% else %}
-            <div class="btn btn-primary btn-sm">
-                <span class="glyphicon glyphicon-pawn"></span>
-                Utilisateur
-            </div>
-        {% endif %}
+        <div class="sidebar-username">
+            {{ currentUser.username }}
+        </div>
+
+        <div class="sidebar-roles">
+            {% if 'ROLE_SUPER_ADMIN' in currentUser.roles %}
+                <div class="btn btn-danger btn-sm">
+                    <span class="glyphicon glyphicon-king"></span>
+                    Super Administrateur
+                </div>
+            {% elseif 'ROLE_ADMIN' in currentUser.roles %}
+                <div class="btn btn-warning btn-sm">
+                    <span class="glyphicon glyphicon-tower"></span>
+                    Administrateur
+                </div>
+            {% elseif 'ROLE_SUPER_USER' in currentUser.roles %}
+                <div class="btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-bishop"></span>
+                </div>
+                Super Utilisateur
+            {% else %}
+                <div class="btn btn-primary btn-sm">
+                    <span class="glyphicon glyphicon-pawn"></span>
+                    Utilisateur
+                </div>
+            {% endif %}
+        </div>
     </div>
 
     <nav class="sidebar-menu navbar navbar-default">
         <ul class="nav nav-pills nav-stacked">
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_admin_index' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_admin_index') }}">
-                    <i class="glyphicon glyphicon-dashboard"></i>
-                    Tableau de bord
+                    <span class="glyphicon glyphicon-dashboard"></span>
+                    <span class="sidebar-label">Tableau de bord</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_page' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_page_index') }}">
-                    <i class="glyphicon glyphicon-file"></i>
-                    Pages
+                    <span class="glyphicon glyphicon-file"></span>
+                    <span class="sidebar-label">Pages</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_section' %} class="active"{% endif %}>
                 <a href="#">
-                    <i class="glyphicon glyphicon-text-background"></i>
-                    Sections
+                    <span class="glyphicon glyphicon-text-background"></span>
+                    <span class="sidebar-label">Sections</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_post' %} class="active"{% endif %}>
                 <a href="#">
-                    <i class="glyphicon glyphicon-text-color"></i>
-                    Articles
+                    <span class="glyphicon glyphicon-text-color"></span>
+                    <span class="sidebar-label">Articles</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_tag' %} class="active"{% endif %}>
                 <a href="#">
-                    <i class="glyphicon glyphicon-bookmark"></i>
-                    Étiquettes
+                    <span class="glyphicon glyphicon-bookmark"></span>
+                    <span class="sidebar-label">Étiquettes</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_media' %} class="active"{% endif %}>
                 <a href="#">
-                    <i class="glyphicon glyphicon-music"></i>
-                    Medias
+                    <span class="glyphicon glyphicon-music"></span>
+                    <span class="sidebar-label">Medias</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_gallery' %} class="active"{% endif %}>
                 <a href="#">
-                    <i class="glyphicon glyphicon-picture"></i>
-                    Galeries
+                    <span class="glyphicon glyphicon-picture"></span>
+                    <span class="sidebar-label">Galeries</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_user' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_user_index') }}">
-                    <i class="glyphicon glyphicon-user"></i>
-                    Utilisateurs
+                    <span class="glyphicon glyphicon-user"></span>
+                    <span class="sidebar-label">Utilisateurs</span>
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_privilege_index') }}">
-                    <i class="glyphicon glyphicon-king"></i>
-                    Privilèges
+                    <span class="glyphicon glyphicon-king"></span>
+                    <span class="sidebar-label">Privilèges</span>
                 </a>
             </li>
         </ul>

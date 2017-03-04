@@ -1,4 +1,4 @@
-{% extends "::base.html.twig" %}
+{% extends 'admin/admin-base.html.twig' %}
 
 {% block title %}{{ parent() }} | Utilisateurs - Ajouter{% endblock %}
 
@@ -11,28 +11,21 @@
 {% endblock %}
 
 {% block body %}
-    <div class="container-fluid">
-        <div class="col-xs-12 col-md-2">
-            {% include "admin/includes/_sidebar.html.twig" %}
+    <header>
+        <h1>Utilisateurs</h1>
+        <h2>Ajouter un utilisateur</h2>
+        <p>ici vous pouvez ajouter un nouvel utilisateur à {{ site_name }}</p>
+    </header>
+    {% include "admin/includes/_user_tabs.html.twig" %}
+    <section id="new">
+        <div class="jumbotron">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary center-block">
+                <span class="glyphicon glyphicon-send"></span>
+                Valider
+            </button>
+            {{ form_end(form) }}
         </div>
-        <div class="col-xs-12 col-md-10">
-            <header>
-                <h1>Utilisateurs</h1>
-                <h2>Ajouter un utilisateur</h2>
-                <p>ici vous pouvez ajouter un nouvel utilisateur à {{ site_name }}</p>
-            </header>
-            {% include "admin/includes/_user_tabs.html.twig" %}
-            <section id="new">
-                <div class="jumbotron">
-                    {{ form_start(form) }}
-                    {{ form_widget(form) }}
-                    <button type="submit" class="btn btn-primary center-block">
-                        <span class="glyphicon glyphicon-send"></span>
-                        Valider
-                    </button>
-                    {{ form_end(form) }}
-                </div>
-            </section>
-        </div>
-    </div>
+    </section>
 {% endblock %}

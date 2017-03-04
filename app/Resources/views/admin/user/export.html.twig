@@ -1,51 +1,37 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/admin-base.html.twig' %}
 
 {% block title %}{{ parent() }} | Utilisateurs - Exporter{% endblock %}
 
-{% block body %}
-    <div class="container-fluid">
-
-        <div class="col-xs-12 col-md-2">
-            {% include "admin/includes/_sidebar.html.twig" %}
-        </div>
-
-        <div class="col-xs-12 col-md-10">
-
-            <header>
-                <h1>Utilisateurs</h1>
-                <h2>Exporter la liste d'utilisateurs</h2>
-                {% if is_granted('ROLE_ADMIN') %}
-                    <p>Ici vous pouvez exporter la liste des utilisateurs de {{ site_name }} au format CSV.</p>
-                {% else %}
-                    <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
-                {% endif %}
-            </header>
-
-            {% include "admin/includes/_user_tabs.html.twig" %}
-
-            {% if is_granted('ROLE_ADMIN') %}
-
-                <section id="export">
-                    <div class="col-xs-12 col-md-6">
-                        <div id="export" class="panel panel-success">
-                            <div class="panel-heading">
-                                <h1 class="text-center">
-                                    Exporter la liste d'utilisateurs
-                                </h1>
-                            </div>
-                            <div class="panel-body text-center">
-                                <p><strong>{{ users|length }}</strong> utilisateur enregistrés</p>
-                                <a href="{{ path('app_admin_user_exportcsv') }}" class="btn btn-primary">
-                                    <span class="glyphicon glyphicon-export"></span>
-                                    Exporter
-                                </a>
-                            </div>
-                            <div class="panel-footer"></div>
-                        </div>
+{% block admin %}
+    <header>
+        <h1>Utilisateurs</h1>
+        <h2>Exporter la liste d'utilisateurs</h2>
+        {% if is_granted('ROLE_ADMIN') %}
+            <p>Ici vous pouvez exporter la liste des utilisateurs de {{ site_name }} au format CSV.</p>
+        {% else %}
+            <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
+        {% endif %}
+    </header>
+    {% include "admin/includes/_user_tabs.html.twig" %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <section id="export">
+            <div class="col-xs-12 col-md-6">
+                <div id="export" class="panel panel-success">
+                    <div class="panel-heading">
+                        <h1 class="text-center">
+                            Exporter la liste d'utilisateurs
+                        </h1>
                     </div>
-                </section>
-
-            {% endif %}
-        </div>
-    </div>
+                    <div class="panel-body text-center">
+                        <p><strong>{{ users|length }}</strong> utilisateur enregistrés</p>
+                        <a href="{{ path('app_admin_user_exportcsv') }}" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-export"></span>
+                            Exporter
+                        </a>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+        </section>
+    {% endif %}
 {% endblock %}
