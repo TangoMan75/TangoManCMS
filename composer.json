@@ -75,7 +75,7 @@
             "file": "app/config/parameters.yml",
             "env-map": {
                 "database_url": "DATABASE_URL",
-                "secret": "SECRET_TOKEN",
+                "secret": "SECRET",
                 "symfony_env": "SYMFONY_ENV",
                 "mailer_host": "POSTMARK_SMTP_SERVER",
                 "mailer_user": "POSTMARK_API_KEY",
@@ -83,6 +83,7 @@
                 "mailer_from": "MAILER_FROM",
                 "site_name": "SITE_NAME",
                 "site_author": "SITE_AUTHOR",
+                "super_admin_pwd": "SUPER_ADMIN_PWD",
                 "analytics": "ANALYTICS"
             }
         }

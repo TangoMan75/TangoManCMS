@@ -17,7 +17,7 @@ class AdminCommand extends ContainerAwareCommand
     {
         $this
             ->setName('admin')
-            ->setDescription('Creates ROLE_ADMIN account based on parameters.yml')
+            ->setDescription('Creates ROLE_SUPER_ADMIN account based on parameters.yml')
         ;
     }
 
@@ -28,23 +28,23 @@ class AdminCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         // When no admin found
-        if ( !$this->getContainer()->get('em')->repository('AppBundle:User')->findByRoles(['ROLE_ADMIN']) ) {
+        if ( !$this->getContainer()->get('em')->repository('AppBundle:User')->findByRole('ROLE_SUPER_ADMIN') ) {
 
             $email = $this->getContainer()->getParameter('mailer_from');
             $username = $this->getContainer()->getParameter('site_author');
+            $pwd = $this->getContainer()->getParameter('super_admin_pwd');
 
             $encoder = $this->getContainer()->get('security.password_encoder');
-            // Generating admin account with pwd: "321"
             $user = new User();
             $user->setUsername($username)
                 ->setEmail($email)
-                ->setPassword($encoder->encodePassword($user, "321"))
-                ->setRoles(['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'])
+                ->setPassword($encoder->encodePassword($user, $pwd))
+                ->addRole('ROLE_SUPER_ADMIN')
                 ->setBio("Ceci est le compte super administrateur.")
             ;
 
             $this->getContainer()->get('em')->save($user);
-            $output->writeln('<question>'.$username.' account created with password: "321"</question>');
+            $output->writeln('<question>'.$username.' account created with password: "'.$pwd.'"</question>');
 
         } else {
 

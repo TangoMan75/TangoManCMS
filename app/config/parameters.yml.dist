@@ -20,6 +20,7 @@ parameters:
     mailer_from:       tech@argus-lab.com
     site_name:         "Livre d'Or"
     site_author:       "Matthias Morin"
+    super_admin_pwd:   "321"
     analytics:         UA-XXXXXXXX-X
 
     # A secret key that's used to generate certain security-related tokens
