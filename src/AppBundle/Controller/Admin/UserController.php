@@ -352,9 +352,9 @@ class UserController extends Controller
             return $this->redirectToRoute('app_admin_user_import');
         } else {
             // Get CSV reader service
-            $reader = $this->get('services.csv_reader');
+            $reader  = $this->get('services.csv_reader');
             $counter = 0;
-            $dupes = 0;
+            $dupes   = 0;
             // File check
             if (is_file($file)) {
                 // Init reader service
@@ -370,13 +370,13 @@ class UserController extends Controller
                         $counter++;
                         $user = new User();
                         $user->setUsername($line->get('username'))
-                            ->setSlug($line->get('slug'))
-                            ->setBio($line->get('bio'))
-                            ->setEmail($line->get('email'))
-                            ->setPassword($line->get('password'))
-                            ->setAvatar($line->get('avatar'))
-                            ->setRoles(explode(",", $line->get('roles')))
-                            ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
+                             ->setSlug($line->get('slug'))
+                             ->setBio($line->get('bio'))
+                             ->setEmail($line->get('email'))
+                             ->setPassword($line->get('password'))
+                             ->setAvatar($line->get('avatar'))
+                             ->setRoles(explode(",", $line->get('roles')))
+                             ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
 
                         $em->persist($user);
                         $em->flush();

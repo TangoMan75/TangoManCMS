@@ -356,7 +356,7 @@ class User implements UserInterface
      */
     public function setUsername($username)
     {
-        $this->username = $username;
+        $this->username = $this->slugify($username);
 
         // Sets Slug when empty
         if (!$this->slug) {
