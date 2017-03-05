@@ -32,11 +32,12 @@ class UserController extends Controller
                 'currentUser' => $this->getUser(),
                 'users'       => $users,
                 'page'        => $request->query->get('page', 1),
-                'order'       => $request->query->get('order'),
+                'order'       => $request->query->get('order', 'username'),
                 'way'         => $request->query->get('way', 'ASC'),
-                'username'    => $request->query->get('username'),
-                'email'       => $request->query->get('email'),
-                'role'        => $request->query->get('role'),
+                's_id'        => $request->query->get('s_id'),
+                's_username'  => $request->query->get('s_username'),
+                's_email'     => $request->query->get('s_email'),
+                's_role'      => $request->query->get('s_role'),
             ]
         );
     }
@@ -150,12 +151,13 @@ class UserController extends Controller
             return $this->redirectToRoute(
                 'app_admin_user_index',
                 [
-                    'page'     => $request->query->get('page', 1),
-                    'order'    => $request->query->get('order'),
-                    'way'      => $request->query->get('way', 'ASC'),
-                    'username' => $request->query->get('username'),
-                    'email'    => $request->query->get('email'),
-                    'role'     => $request->query->get('role'),
+                    'page'       => $request->query->get('page', 1),
+                    'order'      => $request->query->get('order', 'username'),
+                    'way'        => $request->query->get('way', 'ASC'),
+                    's_id'       => $request->query->get('s_id'),
+                    's_username' => $request->query->get('s_username'),
+                    's_email'    => $request->query->get('s_email'),
+                    's_role'     => $request->query->get('s_role'),
                 ]
             );
         }
@@ -188,12 +190,13 @@ class UserController extends Controller
             return $this->redirectToRoute(
                 'app_admin_user_index',
                 [
-                    'page'     => $request->query->get('page', 1),
-                    'order'    => $request->query->get('order'),
-                    'way'      => $request->query->get('way', 'ASC'),
-                    'username' => $request->query->get('username'),
-                    'email'    => $request->query->get('email'),
-                    'role'     => $request->query->get('role'),
+                    'page'       => $request->query->get('page', 1),
+                    'order'      => $request->query->get('order', 'username'),
+                    'way'        => $request->query->get('way', 'ASC'),
+                    's_id'       => $request->query->get('s_id'),
+                    's_username' => $request->query->get('s_username'),
+                    's_email'    => $request->query->get('s_email'),
+                    's_role'     => $request->query->get('s_role'),
                 ]
             );
         }
@@ -213,12 +216,13 @@ class UserController extends Controller
         return $this->redirectToRoute(
             'app_admin_user_index',
             [
-                'page'     => $request->query->get('page', 1),
-                'order'    => $request->query->get('order'),
-                'way'      => $request->query->get('way', 'ASC'),
-                'username' => $request->query->get('username'),
-                'email'    => $request->query->get('email'),
-                'role'     => $request->query->get('role'),
+                'page'       => $request->query->get('page', 1),
+                'order'      => $request->query->get('order', 'username'),
+                'way'        => $request->query->get('way', 'ASC'),
+                's_id'       => $request->query->get('s_id'),
+                's_username' => $request->query->get('s_username'),
+                's_email'    => $request->query->get('s_email'),
+                's_role'     => $request->query->get('s_role'),
             ]
         );
     }
@@ -253,12 +257,13 @@ class UserController extends Controller
         return $this->redirectToRoute(
             'app_admin_user_index',
             [
-                'page'     => $request->query->get('page', 1),
-                'order'    => $request->query->get('order'),
-                'way'      => $request->query->get('way', 'ASC'),
-                'username' => $request->query->get('username'),
-                'email'    => $request->query->get('email'),
-                'role'     => $request->query->get('role'),
+                'page'       => $request->query->get('page', 1),
+                'order'      => $request->query->get('order', 'username'),
+                'way'        => $request->query->get('way', 'ASC'),
+                's_id'       => $request->query->get('s_id'),
+                's_username' => $request->query->get('s_username'),
+                's_email'    => $request->query->get('s_email'),
+                's_role'     => $request->query->get('s_role'),
             ]
         );
     }
@@ -291,12 +296,13 @@ class UserController extends Controller
             return $this->redirectToRoute(
                 'app_admin_user_index',
                 [
-                    'page'     => $request->query->get('page', 1),
-                    'order'    => $request->query->get('order'),
-                    'way'      => $request->query->get('way', 'ASC'),
-                    'username' => $request->query->get('username'),
-                    'email'    => $request->query->get('email'),
-                    'role'     => $request->query->get('role'),
+                    'page'       => $request->query->get('page', 1),
+                    'order'      => $request->query->get('order', 'username'),
+                    'way'        => $request->query->get('way', 'ASC'),
+                    's_id'       => $request->query->get('s_id'),
+                    's_username' => $request->query->get('s_username'),
+                    's_email'    => $request->query->get('s_email'),
+                    's_role'     => $request->query->get('s_role'),
                 ]
             );
         }
@@ -315,12 +321,13 @@ class UserController extends Controller
         return $this->redirectToRoute(
             'app_admin_user_index',
             [
-                'page'     => $request->query->get('page', 1),
-                'order'    => $request->query->get('order'),
-                'way'      => $request->query->get('way', 'ASC'),
-                'username' => $request->query->get('username'),
-                'email'    => $request->query->get('email'),
-                'role'     => $request->query->get('role'),
+                'page'       => $request->query->get('page', 1),
+                'order'      => $request->query->get('order', 'username'),
+                'way'        => $request->query->get('way', 'ASC'),
+                's_id'       => $request->query->get('s_id'),
+                's_username' => $request->query->get('s_username'),
+                's_email'    => $request->query->get('s_email'),
+                's_role'     => $request->query->get('s_role'),
             ]
         );
     }

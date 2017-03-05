@@ -12,6 +12,71 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     /**
+     * @param ParameterBag $query
+     *
+     * @return Paginator
+     */
+    public function sortedSearchPaged(ParameterBag $query, $limit = 10)
+    {
+        // Sets default values
+        $page  = $query->get('page', 1);
+        $order = $query->get('order', 'username');
+        $way   = $query->get('way', 'ASC');
+
+        if (!is_numeric($page)) {
+            throw new \InvalidArgumentException(
+                '$page must be an integer ('.gettype($page).' : '.$page.')'
+            );
+        }
+
+        if (!is_numeric($limit)) {
+            throw new \InvalidArgumentException(
+                '$limit must be an integer ('.gettype($limit).' : '.$limit.')'
+            );
+        }
+
+        $dql = $this->createQueryBuilder('user');
+
+        if ($query->get('s_role')) {
+            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('s_role'));
+        }
+
+        $dql = $this->search($dql, $query);
+
+        // Order according to ownership count
+        switch ($order) {
+            case 'posts':
+                $dql->addSelect('COUNT(post.id) as orderParam');
+                $dql->leftJoin('user.posts', 'post');
+                break;
+
+            case 'comments':
+                $dql->addSelect('COUNT(comment.id) as orderParam');
+                $dql->leftJoin('user.comments', 'comment');
+                break;
+
+            default:
+                $dql->addSelect('user.'.$order.' as orderParam');
+                break;
+        }
+
+        $dql->groupBy('user.id');
+        $dql->orderBy('orderParam', $way);
+
+        $firstResult = ($page - 1) * $limit;
+        $query = $dql->getQuery();
+        $query->setFirstResult($firstResult);
+        $query->setMaxResults($limit);
+        $paginator = new Paginator($query);
+
+        if (($paginator->count() <= $firstResult) && $page != 1) {
+            throw new NotFoundHttpException('Page not found');
+        }
+
+        return $paginator;
+    }
+
+    /**
      * Gets all users by name paged
      *
      * @param int $page
@@ -36,71 +101,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $dql = $this->createQueryBuilder('user');
 
         $dql->orderBy('user.username', 'ASC');
-
-        $firstResult = ($page - 1) * $limit;
-        $query = $dql->getQuery();
-        $query->setFirstResult($firstResult);
-        $query->setMaxResults($limit);
-        $paginator = new Paginator($query);
-
-        if (($paginator->count() <= $firstResult) && $page != 1) {
-            throw new NotFoundHttpException('Page not found');
-        }
-
-        return $paginator;
-    }
-
-    /**
-     * @param ParameterBag $query
-     *
-     * @return Paginator
-     */
-    public function sortedSearchPaged(ParameterBag $query, $limit = 10)
-    {
-        // Sets default values
-        $page = $query->get('page', 1);
-        $order = $query->get('order', 'username');
-        $way = $query->get('way', 'ASC');
-
-        if (!is_numeric($page)) {
-            throw new \InvalidArgumentException(
-                '$page must be an integer ('.gettype($page).' : '.$page.')'
-            );
-        }
-
-        if (!is_numeric($limit)) {
-            throw new \InvalidArgumentException(
-                '$limit must be an integer ('.gettype($limit).' : '.$limit.')'
-            );
-        }
-
-        $dql = $this->createQueryBuilder('user');
-
-        if ($query->get('role')) {
-            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
-        }
-
-        $dql = $this->search($dql, $query);
-
-        // Order according to ownership count
-        switch ($order) {
-            case 'posts':
-                $dql->addSelect('COUNT(post.id) as orderParam');
-                $dql->leftJoin('user.posts', 'post');
-                break;
-
-            case 'comments':
-                $dql->addSelect('COUNT(comment.id) as orderParam');
-                $dql->leftJoin('user.comments', 'comment');
-                break;
-
-            default:
-                $dql->addSelect('user.'.$order.' as orderParam');
-                break;
-        }
-
-        $dql->groupBy('user.id');
-        $dql->orderBy('orderParam', $way);
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
