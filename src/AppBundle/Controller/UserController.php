@@ -30,7 +30,7 @@ class UserController extends Controller
         $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
 
         if ($this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
-            $this->get('session')->getFlashBag()->add('error', "Vous n'êtes pas autorisé à modifier cet utilisateur.");
+            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à modifier cet utilisateur.');
 
             return $this->redirectToRoute('homepage');
         }
@@ -71,7 +71,7 @@ class UserController extends Controller
         $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
 
         if (!$user) {
-            throw $this->createNotFoundException("Cet utilisateur n'existe pas.");
+            throw $this->createNotFoundException('Cet utilisateur n\'existe pas.');
         }
 
         $posts = $em->getRepository('AppBundle:Post')->findByUserPaged(

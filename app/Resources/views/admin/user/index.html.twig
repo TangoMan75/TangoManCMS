@@ -255,7 +255,7 @@
                                                 's_email'    : app.request.query.get('s_email'),
                                                 's_role'     : app.request.query.get('s_role'),
                                                 'page'       : app.request.query.get('page', 1),
-                                                'order'      : app.request.query.get('order'),
+                                                'order'      : app.request.query.get('order', 'username'),
                                                 'way'        : app.request.query.get('way', 'ASC'),
                                                 'id'         : user.id,
                                                 'remove'     : 'ROLE_SUPER_ADMIN'
@@ -274,7 +274,7 @@
                                             's_email'    : app.request.query.get('s_email'),
                                             's_role'     : app.request.query.get('s_role'),
                                             'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order'),
+                                            'order'      : app.request.query.get('order', 'username'),
                                             'way'        : app.request.query.get('way', 'ASC'),
                                             'id'         : user.id,
                                             'remove'   : 'ROLE_ADMIN'
@@ -288,7 +288,7 @@
                                             's_email'    : app.request.query.get('s_email'),
                                             's_role'     : app.request.query.get('s_role'),
                                             'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order'),
+                                            'order'      : app.request.query.get('order', 'username'),
                                             'way'        : app.request.query.get('way', 'ASC'),
                                             'id'         : user.id,
                                             'add'      : 'ROLE_SUPER_ADMIN'
@@ -303,7 +303,7 @@
                                             's_email'    : app.request.query.get('s_email'),
                                             's_role'     : app.request.query.get('s_role'),
                                             'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order'),
+                                            'order'      : app.request.query.get('order', 'username'),
                                             'way'        : app.request.query.get('way', 'ASC'),
                                             'id'         : user.id,
                                             'remove'   : 'ROLE_SUPER_USER'
@@ -317,7 +317,7 @@
                                             's_email'    : app.request.query.get('s_email'),
                                             's_role'     : app.request.query.get('s_role'),
                                             'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order'),
+                                            'order'      : app.request.query.get('order', 'username'),
                                             'way'        : app.request.query.get('way', 'ASC'),
                                             'id'         : user.id,
                                             'add'      : 'ROLE_ADMIN'
@@ -335,7 +335,7 @@
                                             's_email'    : app.request.query.get('s_email'),
                                             's_role'     : app.request.query.get('s_role'),
                                             'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order'),
+                                            'order'      : app.request.query.get('order', 'username'),
                                             'way'        : app.request.query.get('way', 'ASC'),
                                             'id'         : user.id,
                                             'add'      : 'ROLE_SUPER_USER'
@@ -366,7 +366,7 @@
                                     's_email'    : app.request.query.get('s_email'),
                                     's_role'     : app.request.query.get('s_role'),
                                     'page'       : app.request.query.get('page', 1),
-                                    'order'      : app.request.query.get('order'),
+                                    'order'      : app.request.query.get('order', 'username'),
                                     'way'        : app.request.query.get('way', 'ASC'),
                                     'id'         : user.id,
                                 }) }}"
@@ -385,7 +385,7 @@
                                             's_email'    : app.request.query.get('s_email'),
                                             's_role'     : app.request.query.get('s_role'),
                                             'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order'),
+                                            'order'      : app.request.query.get('order', 'username'),
                                             'way'        : app.request.query.get('way', 'ASC'),
                                             'id'         : user.id,
                                             }) }}"{% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
