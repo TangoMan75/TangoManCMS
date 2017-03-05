@@ -26,7 +26,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
     public function getOrder()
     {
-        return 4;
+        return 5;
     }
 
     /**
@@ -41,10 +41,11 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
         for ($i = 0; $i < $pageCount; $i++) {
 
             $page = new Page();
+            // Pages do not have auto id strategy
             $page->setId($i)
-                ->setTitle($faker->sentence(4, true))
-                ->setSubTitle($faker->sentence(4, true))
-                ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                 ->setTitle($faker->sentence(4, true))
+                 ->setSubTitle($faker->sentence(4, true))
+                 ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
             $manager->persist($page);
 
@@ -55,9 +56,9 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 $sectionLength = mt_rand(600, 2400);
                 $text = "<p>".$faker->text($sectionLength)."</p>";
                 $section->setPage($page)
-                ->setTitle($faker->sentence(4, true))
-                ->setSubTitle($faker->sentence(4, true))
-                ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                        ->setTitle($faker->sentence(4, true))
+                        ->setSubTitle($faker->sentence(4, true))
+                        ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
                 $manager->persist($section);
             }

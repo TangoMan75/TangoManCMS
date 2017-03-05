@@ -46,10 +46,10 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
             $user->setUsername("admin")
-                ->setEmail("admin@localhost.dev")
-                ->setPassword($encoder->encodePassword($user, '321'))
-                ->addRole('ROLE_SUPER_ADMIN')
-                ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                 ->setEmail("admin@localhost.dev")
+                 ->setPassword($encoder->encodePassword($user, '321'))
+                 ->addRole('ROLE_SUPER_ADMIN')
+                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
             $manager->persist($user);
             $manager->flush();

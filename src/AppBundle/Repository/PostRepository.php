@@ -181,4 +181,16 @@ class PostRepository extends EntityRepository
 
         return $paginator;
     }
+
+    /**
+     * Get Post count
+     * @return int $count Post count
+     */
+    public function count()
+    {
+        return $this->createQueryBuilder('post')
+            ->select('COUNT(post)')
+            ->getQuery()
+            ->getSingleScalarResult();
+    }
 }

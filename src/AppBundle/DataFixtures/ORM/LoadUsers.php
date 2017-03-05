@@ -51,20 +51,20 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // }
 
         // Load Users
-        $userCount = 400;
-        for ($i = 0; $i < $userCount; $i++) {
+        $userCount = 10;
+        for ($i = 1; $i <= $userCount; $i++) {
 
             $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
 
             $user = new User();
             $username = $faker->userName;
             $user->setUsername($username)
-                ->setEmail($username.'@'.$faker->safeEmailDomain)
-                ->setPassword($encoder->encodePassword($user, $username))
-                ->addRole($roles[mt_rand(0, 3)])
-//                ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
-                ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                 ->setEmail($username.'@'.$faker->safeEmailDomain)
+                 ->setPassword($encoder->encodePassword($user, $username))
+                 ->addRole($roles[mt_rand(0, 3)])
+//                 ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
+                 ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
+                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
             $manager->persist($user);
 

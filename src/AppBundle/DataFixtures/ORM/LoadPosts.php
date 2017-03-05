@@ -48,15 +48,14 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         }
 
         // Get total Users count
-        $count = $this->container->get('em')->repository('AppBundle:User')->count());
+        $count = $this->container->get('em')->repository('AppBundle:User')->count();
 
         $userCount = 10;
         for ($i = 0; $i < $userCount; $i++) {
             // Get random number
             $rnd = mt_rand(1, $count);
-
             // Load random user
-            $user = $this->container->get('em')->repository('AppBundle:User')->find($rnd));
+            $user = $this->container->get('em')->repository('AppBundle:User')->find($rnd);
 
             if($user) {
                 // Creates random Post amount for each user
@@ -92,10 +91,17 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                             ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
                         $manager->persist($comment);
+
+                        // Manager flushes every ten persisted items 
+                        // This is mandatory when persisting large numbers of fixtures
+                        // Which can cause a memory overflow
+                        if ($i % 10 === 0) {
+                            $manager->flush();
+                        }
                     }
                 }
 
-                $manager->flush();
+                // $manager->flush();
             }
         }
     }
