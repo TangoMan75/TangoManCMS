@@ -37,10 +37,12 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         $dql = $this->createQueryBuilder('user');
 
+        // Search inside simple arrays
         if ($query->get('s_role')) {
             $dql = $this->searchSimpleArray($dql, 'roles', $query->get('s_role'));
         }
 
+        // Search inside id, username and email columns
         $dql = $this->search($dql, $query);
 
         // Order according to ownership count
@@ -123,19 +125,19 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('id')) {
+        if ($query->get('s_id')) {
             $dql->andWhere('user.id = :id')
-                ->setParameter('id', $query->get('id'));
+                ->setParameter('id', $query->get('s_id'));
         }
 
-        if ($query->get('username')) {
+        if ($query->get('s_username')) {
             $dql->andWhere('user.username LIKE :username')
-                ->setParameter('username', '%'.$query->get('username').'%');
+                ->setParameter('username', '%'.$query->get('s_username').'%');
         }
 
-        if ($query->get('email')) {
+        if ($query->get('s_email')) {
             $dql->andWhere('user.email LIKE :email')
-                ->setParameter('email', '%'.$query->get('email').'%');
+                ->setParameter('email', '%'.$query->get('s_email').'%');
         }
 
         return $dql;
