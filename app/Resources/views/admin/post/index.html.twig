@@ -215,9 +215,17 @@
                 {% for post in posts %}
                     {% set post = post[0] %}
                     <tr>
-                        <td>{{ post.id }}</td>
+                        <td>
+                            <a href="{{ path('app_post_show', { 'slug':post.slug }) }}">
+                                {{ post.id }}
+                            </a>
+                        </td>
                         <td>{{ post.slug }}</td>
-                        <td>{{ post.title }}</td>
+                        <td>
+                            <a href="{{ path('app_post_show', { 'slug':post.slug }) }}">
+                                {{ post.title }}
+                            </a>
+                        </td>
                         <td>{{ post.subtitle }}</td>
                         <td>
                             <div class="post-content">
@@ -225,7 +233,11 @@
                             </div>
                         </td>
                         <td>{{ post.dateCreated|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ post.user.username }}</td>
+                        <td>
+                            <a href="{{ path('app_user_show', { 'slug':post.user.slug }) }}">
+                                {{ post.user.username }}
+                            </a>
+                        </td>
                         <td>{{ post.user.comments|length }}</td>
                         <td>
                             {% for tag in post.tags %}
