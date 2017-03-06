@@ -15,6 +15,9 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
+    /**
+     * @var ContainerInterface
+     */
     private $container;
 
     /**
@@ -47,39 +50,29 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $tagCollection[] = $tag;
         }
 
-        // Get total Users count
-        $userCount = $this->container->get('em')->repository('AppBundle:User')->count();
+        // Gets users
+        $users = $manager->getRepository('AppBundle:User')->findBy([], null, 10);
 
-        for ($i = 1; $i <= 10; $i++) {
-            // Get random number
-            $rnd = mt_rand(1, $userCount);
-            // Load random user
-            $user = $this->container->get('em')->repository('AppBundle:User')->find($rnd);
+        foreach ($users as $user) {
+            // Creates random Post amount for each user
+            $postCount = mt_rand(1, 10);
+            for ($j = 1; $j < $postCount; $j++) {
+                $post = new Post();
+                $postLength = mt_rand(600, 2400);
+                $text = "<p>".$faker->text($postLength)."</p>";
+                $post->setUser($user)
+                     ->setTitle($faker->sentence(4, true))
+                     ->setContent($text)
+                     ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
-            dump($rnd);
-            dump($user);
-
-            if($user) {
-                // Creates random Post amount for each user
-                $postCount = mt_rand(1, 10);
-                for ($j = 1; $j < $postCount; $j++) {
-                    $post = new Post();
-                    $postLength = mt_rand(600, 2400);
-                    $text = "<p>".$faker->text($postLength)."</p>";
-                    $post->setUser($user)
-                         ->setTitle($faker->sentence(4, true))
-                         ->setContent($text)
-                         ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
-
-                    // Sets random amount of tags to User's Post
-                    shuffle($tagCollection);
-                    $labelCount = mt_rand(0, 6);
-                    for ($k = 0; $k < $labelCount; $k++) {
-                        $post->addTag($tagCollection[$k]);
-                    }
-
-                    $manager->persist($post);
+                // Sets random amount of tags to User's Post
+                shuffle($tagCollection);
+                $labelCount = mt_rand(0, 6);
+                for ($k = 0; $k < $labelCount; $k++) {
+                    $post->addTag($tagCollection[$k]);
                 }
+
+                $manager->persist($post);
             }
         }
 

@@ -2,8 +2,8 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\User;
 use AppBundle\Entity\Tag;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;

@@ -37,38 +37,23 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
     {
         $faker = Factory::create('fr_FR');
 
-        // Get total Users count
-        $userCount = $this->container->get('em')->repository('AppBundle:User')->count();
+        // Get Users
+        $users = $manager->getRepository('AppBundle:User')->findBy([], null, 10);
 
-        // Get total Users count
-        $postCount = $this->container->get('em')->repository('AppBundle:Post')->count();
+        // Get Posts
+        $posts = $manager->getRepository('AppBundle:Post')->findBy([], null, 10);
 
-        for ($i = 1; $i <= 10; $i++) {
-            // Get random number
-            $rnd = mt_rand(1, $userCount);
-            // Load random user
-            $user = $this->container->get('em')->repository('AppBundle:User')->find($rnd);
+        foreach ($users as $user) {
+            foreach ($posts as $post) {
+                $comment = new Comment();
+                $commentLength = mt_rand(300, 1200);
+                $text = "<p>".$faker->text($commentLength)."</p>";
+                $comment->setUser($user)
+                    ->setPost($post)
+                    ->setContent($text)
+                    ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
-            // Get random number
-            $rnd = mt_rand(1, $postCount);
-            // Load random post
-            $post = $this->container->get('em')->repository('AppBundle:Post')->find($rnd);
-
-            if ($user && $post) {
-                // Load Comments
-                $commentCount = mt_rand(0, 10);
-                for ($j = 0; $j < $commentCount; $j++) {
-                    $comment = new Comment();
-                    $commentLength = mt_rand(300, 1200);
-                    $text = "<p>".$faker->text($commentLength)."</p>";
-                    $comment->setUser($user)
-                            ->setPost($post)
-                            ->setContent($text)
-                            ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
-
-                    $manager->persist($comment);
-
-                }
+                $manager->persist($comment);
             }
 
             $manager->flush();

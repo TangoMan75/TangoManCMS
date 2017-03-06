@@ -102,7 +102,7 @@ form div .form-group figure img {
 /**
  * Responsive sidebar labels
  */
-@media (min-width: 768px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 1200px) {
 	.sidebar-avatar,
 	.sidebar-label {
 		display: none;
@@ -116,9 +116,9 @@ form div .form-group figure img {
 /**
  * Responsive page index descriptions
  */
-@media (min-width: 768px) and (max-width: 992px) {
+@media (min-width: 768px) and (max-width: 1400px) {
 	.page-description {
-		max-height: 10em;
+		max-height: 15em;
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}

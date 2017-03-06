@@ -170,7 +170,7 @@ class Section
     /**
      * Set page
      *
-     * @param array $page
+     * @param Page $page
      *
      * @return Section
      */

@@ -40,16 +40,6 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Pasword encoder
         $encoder = $this->container->get('security.password_encoder');
 
-        // // Load Tags
-        // $tags = explode(' ', 'default primary info success warning danger');
-        // foreach ($tags as $name) {
-        //     $tag = new Tag();
-        //     $tag->setName($name);
-        //     $tag->setType($name);
-        //     $manager->persist($tag);
-        //     $tagCollection[] = $tag;
-        // }
-
         // Load Users
         $userCount = 10;
         for ($i = 1; $i <= $userCount; $i++) {
@@ -74,43 +64,6 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
             if ($i % 10 === 0) {
                 $manager->flush();
             }
-
-            // Load Posts
-            // $postCount = mt_rand(0, 10);
-            // for ($j = 0; $j < $postCount; $j++) {
-            //     $post = new Post();
-            //     $postLength = mt_rand(600, 2400);
-            //     $text = "<p>".$faker->text($postLength)."</p>";
-            //     $post->setUser($user)
-            //         ->setTitle($faker->sentence(4, true))
-            //         ->setContent($text)
-            //         ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
-
-            //     shuffle($tagCollection);
-            //     $labelCount = mt_rand(0, 6);
-            //     for ($k = 0; $k < $labelCount; $k++) {
-            //         $post->addTag($tagCollection[$k]);
-            //     }
-
-            //     $manager->persist($post);
-
-            //     // Load Comments
-            //     $commentCount = mt_rand(0, 10);
-            //     for ($k = 0; $k < $commentCount; $k++) {
-
-            //         $comment = new Comment();
-            //         $commentLength = mt_rand(300, 1200);
-            //         $text = "<p>".$faker->text($commentLength)."</p>";
-            //         $comment->setUser($user)
-            //             ->setPost($post)
-            //             ->setContent($text)
-            //             ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
-
-            //         $manager->persist($comment);
-            //     }
-            // }
         }
-
-        // $manager->flush();
     }
 }
