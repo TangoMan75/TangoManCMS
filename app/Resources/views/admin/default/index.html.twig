@@ -3,13 +3,61 @@
 {% block title %}{{ parent() }} | Tableau de bord {% endblock %}
 
 {% block admin %}
-    <div>
-        <h1 class="text-center">Tableau de bord</h1>
-        <p class="text-center">Pour pouvez gérez ici le contenu de <strong>{{ site_name }}</strong>.
-        </p>
-        <p class="text-center">
-            Si un aspect du site n'est pas modifiable,
-            n'héstez pas à faire une demande de modification à l'administrateur {{ mailer_from }}
-        </p>
-    </div>
+    <section>
+        <header class="header">
+            <h1 class="text-center">{{ site_name }}</h1>
+            <h2 class="text-center">Tableau de bord</h2>
+            <p class="text-center">Bienvenue, <strong>{{ currentUser.username }}</strong>. Vous pouvez gérez ici le contenu de <strong>{{ site_name }}</strong>.</p>
+        </header>
+        <div class="body">
+            <p class="text-center">
+                Si un aspect du site n'est pas modifiable,
+                n'héstez pas à faire une demande de modification à l'administrateur <strong>{{ mailer_from }}</strong>
+            </p>
+
+            <div class="col-xs-12 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Nombre d'utilisateurs enregistrés
+                        </h4>
+                    </div>
+                    <div class="panel-body text-center">
+                        {{ userCount }} utilisateurs.
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Pages
+                        </h4>
+                    </div>
+                    <div class="panel-body text-center">
+                        {{ pageCount }} Pages créées contenant {{ sectionCount }} sections.
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+
+            <div class="col-xs-12 col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4 class="text-center">
+                            Nombre d'articles
+                        </h4>
+                    </div>
+                    <div class="panel-body text-center">
+                        {{ postCount }} articles publiés, {{ commentCount }} commentaires.
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+
+        </div>
+        <footer class="footer"></footer>
+    </section>
 {% endblock %}

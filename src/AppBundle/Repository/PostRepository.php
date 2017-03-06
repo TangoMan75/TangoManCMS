@@ -183,8 +183,8 @@ class PostRepository extends EntityRepository
     }
 
     /**
-     * Get Post count
-     * @return int $count Post count
+     * Get post count
+     * @return int $count post count
      */
     public function count()
     {

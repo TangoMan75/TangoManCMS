@@ -20,7 +20,12 @@ class AdminController extends Controller
         return $this->render(
             'admin/default/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
+                'currentUser'  => $this->getUser(),
+                'userCount'    => $this->get('doctrine')->getRepository('AppBundle:User')->count(),
+                'pageCount'    => $this->get('doctrine')->getRepository('AppBundle:Page')->count(),
+                'sectionCount' => $this->get('doctrine')->getRepository('AppBundle:Section')->count(),
+                'postCount'    => $this->get('doctrine')->getRepository('AppBundle:Post')->count(),
+                'commentCount' => $this->get('doctrine')->getRepository('AppBundle:Comment')->count(),
             ]
         );
     }

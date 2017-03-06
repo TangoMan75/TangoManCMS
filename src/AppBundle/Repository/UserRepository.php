@@ -81,7 +81,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     /**
      * Get user count
      *
-     * @return int $count User count
+     * @return int $count user count
      */
     public function count()
     {
