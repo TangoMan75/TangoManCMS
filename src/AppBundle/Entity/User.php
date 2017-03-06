@@ -85,12 +85,6 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * @var array User privileges
-     * @ORM\Column(type="simple_array", nullable=true)
-     */
-    private $privileges;
-
-    /**
      * @var \DateTime User's registration date
      * @ORM\Column(type="datetime")
      */
