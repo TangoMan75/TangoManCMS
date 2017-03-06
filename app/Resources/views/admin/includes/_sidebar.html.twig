@@ -84,12 +84,6 @@
                     <span class="sidebar-label">Utilisateurs</span>
                 </a>
             </li>
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_privilege_index') }}">
-                    <span class="glyphicon glyphicon-king"></span>
-                    <span class="sidebar-label">Privilèges</span>
-                </a>
-            </li>
         </ul>
     </nav>
 </div>
