@@ -33,7 +33,7 @@
 						<td>{{ page.subtitle }}</td>
 						<td>
 							<div class="page-description">
-								{{ page.description|striptags }}
+								{{ page.description|striptags|truncate(255) }}
 							</div>
 						</td>
 						<td>{{ page.sections|length }}</td>

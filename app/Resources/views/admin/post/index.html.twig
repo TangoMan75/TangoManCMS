@@ -96,7 +96,6 @@
                             's_user'     : app.request.query.get('s_user'),
                             's_tag'      : app.request.query.get('s_tag'),
                             'page'       : app.request.query.get('page', 1),
-                            'id'         : app.request.query.get('id'),
                             'order'      : 'id',
                             'way'        : app.request.query.get('order') == 'id'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
@@ -112,9 +111,8 @@
                             's_user'     : app.request.query.get('s_user'),
                             's_tag'      : app.request.query.get('s_tag'),
                             'page'       : app.request.query.get('page', 1),
-                            'id'         : app.request.query.get('id'),
                             'order'      : 'slug',
-                            'way'        : app.request.query.get('order') == 'id'
+                            'way'        : app.request.query.get('order') == 'slug'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                             Slug
                         </a>
@@ -128,9 +126,8 @@
                             's_user'     : app.request.query.get('s_user'),
                             's_tag'      : app.request.query.get('s_tag'),
                             'page'       : app.request.query.get('page', 1),
-                            'id'         : app.request.query.get('id'),
                             'order'      : 'title',
-                            'way'        : app.request.query.get('order') == 'id'
+                            'way'        : app.request.query.get('order') == 'title'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                             Titre
                         </a>
@@ -144,9 +141,8 @@
                             's_user'     : app.request.query.get('s_user'),
                             's_tag'      : app.request.query.get('s_tag'),
                             'page'       : app.request.query.get('page', 1),
-                            'id'         : app.request.query.get('id'),
                             'order'      : 'subtitle',
-                            'way'        : app.request.query.get('order') == 'id'
+                            'way'        : app.request.query.get('order') == 'subtitle'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                             Sous-titre
                         </a>
@@ -160,9 +156,8 @@
                             's_user'     : app.request.query.get('s_user'),
                             's_tag'      : app.request.query.get('s_tag'),
                             'page'       : app.request.query.get('page', 1),
-                            'id'         : app.request.query.get('id'),
                             'order'      : 'content',
-                            'way'        : app.request.query.get('order') == 'id'
+                            'way'        : app.request.query.get('order') == 'content'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                             Contenu
                         </a>
@@ -176,16 +171,43 @@
                             's_user'     : app.request.query.get('s_user'),
                             's_tag'      : app.request.query.get('s_tag'),
                             'page'       : app.request.query.get('page', 1),
-                            'id'         : app.request.query.get('id'),
                             'order'      : 'dateCreated',
-                            'way'        : app.request.query.get('order') == 'id'
+                            'way'        : app.request.query.get('order') == 'dateCreated'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
                             Date de création
                         </a>
                     </th>
-                    <th>
-                        Tag
+                    <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_post_index', {
+                            's_id'       : app.request.query.get('s_id'),
+                            's_title'    : app.request.query.get('s_title'),
+                            's_subtitle' : app.request.query.get('s_subtitle'),
+                            's_content'  : app.request.query.get('s_content'),
+                            's_user'     : app.request.query.get('s_user'),
+                            's_tag'      : app.request.query.get('s_tag'),
+                            'page'       : app.request.query.get('page', 1),
+                            'order'      : 'author',
+                            'way'        : app.request.query.get('order') == 'author'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                            Auteur
+                        </a>
                     </th>
+                    <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_post_index', {
+                            's_id'       : app.request.query.get('s_id'),
+                            's_title'    : app.request.query.get('s_title'),
+                            's_subtitle' : app.request.query.get('s_subtitle'),
+                            's_content'  : app.request.query.get('s_content'),
+                            's_user'     : app.request.query.get('s_user'),
+                            's_tag'      : app.request.query.get('s_tag'),
+                            'page'       : app.request.query.get('page', 1),
+                            'order'      : 'comments',
+                            'way'        : app.request.query.get('order') == 'comments'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                            Commentaires
+                        </a>
+                    </th>
+                    <th>Étiquette</th>
                     <th colspan="2">Actions</th>
                 </tr>
                 </thead>
@@ -199,10 +221,12 @@
                         <td>{{ post.subtitle }}</td>
                         <td>
                             <div class="post-content">
-                                {{ post.content|striptags }}
+                                {{ post.content|striptags|truncate(255) }}
                             </div>
                         </td>
                         <td>{{ post.dateCreated|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ post.user.username }}</td>
+                        <td>{{ post.user.comments|length }}</td>
                         <td>
                             {% for tag in post.tags %}
                                 <span class="label label-{{ tag.type }}">

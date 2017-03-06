@@ -48,11 +48,16 @@ class PostRepository extends EntityRepository
                 $dql->leftJoin('post.comments', 'comment');
                 break;
 
+            case 'author':
+                $dql->addSelect('user.username as orderParam');
+                break;
+
             default:
                 $dql->addSelect('post.'.$order.' as orderParam');
                 break;
         }
 
+        $dql->leftJoin('post.user', 'user');
         $dql->groupBy('post.id');
         $dql->orderBy('orderParam', $way);
 
@@ -282,12 +287,12 @@ class PostRepository extends EntityRepository
         }
 
         if ($query->get('s_user')) {
-            $dql->andWhere('post.user LIKE :user')
+            $dql->andWhere('user.username LIKE :user')
                 ->setParameter(':user', '%'.$query->get('s_user').'%');
         }
 
         if ($query->get('s_tag')) {
-            $dql->andWhere('post.tag LIKE :tag')
+            $dql->andWhere('tag.name LIKE :tag')
                 ->leftJoin('post.tags', 'tag')
                 ->setParameter(':tag', '%'.$query->get('s_tag').'%');
         }

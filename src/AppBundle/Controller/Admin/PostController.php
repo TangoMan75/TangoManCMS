@@ -24,7 +24,7 @@ class PostController extends Controller
     {
         // Show searchable, sortable, paginated user list
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->sortedSearchPaged($request->query, 20);
+        $posts = $em->getRepository('AppBundle:Post')->sortedSearchPaged($request->query, 10);
 
         return $this->render(
             'admin/post/index.html.twig',
@@ -39,7 +39,7 @@ class PostController extends Controller
                 's_subtitle'  => $request->query->get('s_subtitle'),
                 's_content'   => $request->query->get('s_content'),
                 's_user'      => $request->query->get('s_user'),
-                's_tags'      => $request->query->get('s_tags'),
+                's_tag'       => $request->query->get('s_tag'),
             ]
         );
     }
