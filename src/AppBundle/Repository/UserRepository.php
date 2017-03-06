@@ -16,10 +16,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
      *
      * @return Paginator
      */
-    public function sortedSearchPaged(ParameterBag $query, $limit = 10)
+    public function sortedSearchPaged(ParameterBag $query)
     {
         // Sets default values
         $page = $query->get('page', 1);
+        $limit = $query->get('limit', 10);
         $order = $query->get('order', 'username');
         $way = $query->get('way', 'ASC');
 
