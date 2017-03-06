@@ -48,14 +48,16 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         }
 
         // Get total Users count
-        $count = $this->container->get('em')->repository('AppBundle:User')->count();
+        $userCount = $this->container->get('em')->repository('AppBundle:User')->count();
 
-        $userCount = 10;
-        for ($i = 0; $i < $userCount; $i++) {
+        for ($i = 1; $i <= 10; $i++) {
             // Get random number
-            $rnd = mt_rand(1, $count);
+            $rnd = mt_rand(1, $userCount);
             // Load random user
             $user = $this->container->get('em')->repository('AppBundle:User')->find($rnd);
+
+            dump($rnd);
+            dump($user);
 
             if($user) {
                 // Creates random Post amount for each user
@@ -65,9 +67,9 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     $postLength = mt_rand(600, 2400);
                     $text = "<p>".$faker->text($postLength)."</p>";
                     $post->setUser($user)
-                        ->setTitle($faker->sentence(4, true))
-                        ->setContent($text)
-                        ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
+                         ->setTitle($faker->sentence(4, true))
+                         ->setContent($text)
+                         ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
                     // Sets random amount of tags to User's Post
                     shuffle($tagCollection);
@@ -77,32 +79,10 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     }
 
                     $manager->persist($post);
-
-                    // Load Comments
-                    $commentCount = mt_rand(0, 10);
-                    for ($k = 0; $k < $commentCount; $k++) {
-
-                        $comment = new Comment();
-                        $commentLength = mt_rand(300, 1200);
-                        $text = "<p>".$faker->text($commentLength)."</p>";
-                        $comment->setUser($user)
-                            ->setPost($post)
-                            ->setContent($text)
-                            ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
-
-                        $manager->persist($comment);
-
-                        // Manager flushes every ten persisted items 
-                        // This is mandatory when persisting large numbers of fixtures
-                        // Which can cause a memory overflow
-                        if ($i % 10 === 0) {
-                            $manager->flush();
-                        }
-                    }
                 }
-
-                // $manager->flush();
             }
         }
+
+        $manager->flush();
     }
 }

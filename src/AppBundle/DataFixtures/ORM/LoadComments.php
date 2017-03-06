@@ -68,15 +68,10 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
 
                     $manager->persist($comment);
 
-                    // Manager flushes every ten persisted items 
-                    // This is mandatory when persisting large numbers of fixtures
-                    // Which can cause a memory overflow
-                    if ($i % 10 === 0) {
-                        $manager->flush();
-                    }
                 }
-
             }
+
+            $manager->flush();
         }
     }
 }
