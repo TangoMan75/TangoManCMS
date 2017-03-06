@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Pages - Modifier {{ page.title }}{% endblock %}
+{% block title %}{{ parent() }} | Article - Modifier {{ post.title }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,11 +12,11 @@
 
 {% block admin %}
     <header>
-        <h1>Pages</h1>
-        <h2>Modifier la page &quot;{{ page.title }}&quot;</h2>
-        <p>Ici vous pouvez modifier la page &quot;{{ page.title }}&quot; de {{ site_name }}</p>
+        <h1>Articles</h1>
+        <h2>Modifier l'article &quot;{{ post.title }}&quot;</h2>
+        <p>Ici vous pouvez modifier l'article &quot;{{ post.title }}&quot; de {{ site_name }}</p>
     </header>
-    {% include "admin/includes/_page_tabs.html.twig" %}
+    {% include "admin/includes/_post_tabs.html.twig" %}
     <section id="edit">
         <div class="jumbotron">
             {{ form_start(form) }}

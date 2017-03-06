@@ -1,0 +1,38 @@
+<div id="tabs">
+    <ul class="nav nav-tabs">
+        <li{% if app.request.attributes.get('_route') ends with 'index' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_post_index') }}">
+                <i class="glyphicon glyphicon-list"></i>
+                Liste
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_post_new') }}">
+                <i class="glyphicon glyphicon-plus"></i>
+                Ajouter
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'export' %} class="active"{% endif %}>
+            {# <a href="{{ path('app_admin_post_export') }}"#}
+            <a href="#">
+                <i class="glyphicon glyphicon-import"></i>
+                importer
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'import' %} class="active"{% endif %}>
+            {# <a href="{{ path('app_admin_post_export') }}"#}
+            <a href="#">
+                <i class="glyphicon glyphicon-export"></i>
+                Exporter
+            </a>
+        </li>
+        {% if post is defined %}
+            <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
+                <a href="{{ path('app_admin_post_edit', { 'id': post.id }) }}">
+                    <i class="glyphicon glyphicon-edit"></i>
+                    {{ post.title|truncate(20) }}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

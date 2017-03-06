@@ -117,6 +117,7 @@ form div .form-group figure img {
  * Responsive page index descriptions
  */
 @media (min-width: 768px) and (max-width: 1400px) {
+	.post-content,
 	.page-description {
 		max-height: 15em;
 		overflow: hidden;
@@ -208,19 +209,18 @@ article.post {
 	background-color: #337AB7;
 }
 
-.comment .panel-body,
-.post .panel-body {
-	margin-top: 1em;
-}
-
-.comment .panel-body p,
+.comment .panel-body h4,
+.post .panel-body h4,
+.comment .panel-body  p,
 .post .panel-body p {
-	padding: 0 1em;
 	margin: 1em auto;
+	padding: 0 1em;
 	text-align: justify;
 }
 
 @media (min-width: 576px) {
+	.comment .panel-body h4,
+	.post .panel-body h4,
 	.comment .panel-body p,
 	.post .panel-body p {
 		padding: 0 2em;

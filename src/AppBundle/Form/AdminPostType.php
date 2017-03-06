@@ -8,7 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PostType extends AbstractType
+class AdminPostType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -29,6 +29,13 @@ class PostType extends AbstractType
                 TextType::Class,
                 [
                     'label' => 'Sous-Titre',
+                ]
+            )
+            ->add(
+                'slug',
+                TextType::Class,
+                [
+                    'label' => 'Slug',
                 ]
             )
             ->add(

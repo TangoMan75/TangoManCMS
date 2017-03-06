@@ -55,7 +55,7 @@
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_post' %} class="active"{% endif %}>
-                <a href="#">
+                <a href="{{ path('app_admin_post_index') }}">
                     <span class="glyphicon glyphicon-text-color"></span>
                     <span class="sidebar-label">Articles</span>
                 </a>

@@ -62,6 +62,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 $text = "<p>".$faker->text($postLength)."</p>";
                 $post->setUser($user)
                      ->setTitle($faker->sentence(4, true))
+                     ->setSubtitle($faker->sentence(4, true))
                      ->setContent($text)
                      ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 

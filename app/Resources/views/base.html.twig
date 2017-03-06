@@ -43,7 +43,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 
         {% block stylesheets %}
-            <!-- <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" /> -->
+            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}" />
             <link rel="stylesheet" href="{{ asset('css/styles.css') }}"/>
             <!-- Use with Gulp inject -->
             <!-- inject:css -->
@@ -54,44 +54,46 @@
         {% endblock %}
 
         {% block cdn %}
-            <!-- Google fonts CDN -->
-            <!-- <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu|Roboto:100" /> -->
+            {#<!-- Google fonts CDN -->#}
+            {#<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu|Roboto:100" />#}
 
-            <!-- Font-awesome CDN -->
-            <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" /> -->
+            {#<!-- Font-awesome CDN -->#}
+            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />#}
 
-            <!-- Reset CDN -->
-            <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" /> -->
+            {#<!-- Reset CDN -->#}
+            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />#}
 
-            <!-- Normalize CDN -->
-            <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" /> -->
+            {#<!-- Normalize CDN -->#}
+            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />#}
 
-            <!-- Bootstrap CSS CDN -->
-            <!-- Note: normalize.css, and reset.css are unnecessary with Bootstrap -->
-            <!-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"> -->
-            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            {#<!-- Bootstrap CSS CDN -->#}
+            {#<!-- Note: normalize.css, and reset.css are unnecessary with Bootstrap -->#}
+            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">#}
+            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">#}
 
-            <!-- TinyMCE CDN -->
-            <!-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script> -->
-            <!-- <script>tinymce.init({ selector:'textarea', height: '250' });</script> -->
+            {#<!-- TinyMCE CDN -->#}
+            {#<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>#}
+            {#<!-- TinyMCE Local -->#}
+            {#<script src="{{ asset('js/tinymce.js') }}></script>#}
+            {#<script>tinymce.init({ selector:'textarea', height: '250' });</script>#}
 
-            <!-- Magnific Popup core CSS file -->
-            <!-- <link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}"> -->
+            {#<!-- Magnific Popup core CSS file -->#}
+            {#<link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}">#}
 
-            <!-- Highlight CDN -->
-            <!-- <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css"> -->
-            <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script> -->
+            {#<!-- Highlight CDN -->#}
+            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">#}
+            {#<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>#}
 
-            <!-- reCAPTCHA -->
-            <!-- <script src='//www.google.com/recaptcha/api.js'></script> -->
+            {#<!-- reCAPTCHA -->#}
+            {#<script src='//www.google.com/recaptcha/api.js'></script>#}
 
-            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            {#<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->#}
+            {#<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->#}
 
-            <!--[if lt IE 9]>
+<!--             [if lt IE 9]>
             <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-            <![endif]-->
+            <![endif] -->
         {% endblock %}
 
         {#{% block og %}#}
@@ -122,21 +124,24 @@
 {% endblock %}
 
 {% block javascript %}
-    <!-- jQuery CDN -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script> -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script> -->
-    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script> -->
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+    {#<!-- jQuery CDN -->#}
+    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>#}
+    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>#}
+    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>#}
+    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>#}
 
-    <!-- jQuery UI CDN -->
-    <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script> -->
+    <!-- jQuery local -->
+    <script src="{{ asset('js/jquery.js') }}"></script>
 
-    <!-- Bootstrap JavaScript CDN -->
-    <!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script> -->
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    {#<!-- jQuery UI CDN -->#}
+    {#<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>#}
 
-    <!-- Masonry CDN -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script> -->
+    {#<!-- Bootstrap JavaScript CDN -->#}
+    {#<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>#}
+    {#<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
+
+    {#<!-- Masonry CDN -->#}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>#}
 
     {# Magnific popup initialisation #}
     {#{% if 'photo' in gallery %}#}

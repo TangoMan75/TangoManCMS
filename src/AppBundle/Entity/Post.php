@@ -35,10 +35,16 @@ class Post
 
     /**
      * @var string Post title
-     * @ORM\Column()
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
+
+    /**
+     * @var string Post subtitle
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $subtitle;
 
     /**
      * @var Tag[]
@@ -128,7 +134,7 @@ class Post
     /**
      * @param string $title
      *
-     * @return $this
+     * @return Post
      */
     public function setTitle($title)
     {
@@ -136,6 +142,26 @@ class Post
         if (!$this->slug) {
             $this->setUniqueSlug($title);
         }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return Post
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
 
         return $this;
     }
@@ -183,7 +209,7 @@ class Post
     /**
      * @param string $content
      *
-     * @return $this
+     * @return Post
      */
     public function setContent($content)
     {
@@ -203,7 +229,7 @@ class Post
     /**
      * @param Comment[] $comments Comment list
      *
-     * @return $this
+     * @return Post
      */
     public function setComments($comments)
     {

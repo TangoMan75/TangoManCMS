@@ -5,7 +5,7 @@
 {% block head %}
     {{ parent() }}
     {% if app.user %}
-        <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
         <script>tinymce.init({ selector:'textarea' });</script>
     {% endif %}
 {% endblock %}
