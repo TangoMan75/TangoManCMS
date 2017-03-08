@@ -42,15 +42,15 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
         // Gets users
         // findBy is the only working method in fixtures
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 10);
+        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
         foreach ($users as $user) {
+
             // Creates random Post amount for each user
-            $postCount = mt_rand(1, 10);
-            for ($j = 1; $j < $postCount; $j++) {
+            for ($j = 0; $j < mt_rand(1, 10); $j++) {
+
                 $post = new Post();
-                $postLength = mt_rand(600, 2400);
-                $text = "<p>".$faker->text($postLength)."</p>";
+                $text = "<p>".$faker->text(mt_rand(600, 2400))."</p>";
                 $post->setUser($user)
                      ->setTitle($faker->sentence(4, true))
                      ->setSubtitle($faker->sentence(4, true))
@@ -65,8 +65,8 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
                 $em->persist($post);
             }
-        }
 
-        $em->flush();
+            $em->flush();
+        }
     }
 }

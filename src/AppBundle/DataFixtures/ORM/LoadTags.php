@@ -46,7 +46,6 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
             'success' => 'success',
             'warning' => 'warning',
             'danger'  => 'danger',
-            'import'  => 'default',
         ];
 
         foreach ($tags as $name => $type) {

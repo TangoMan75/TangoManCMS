@@ -44,8 +44,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
 
         // Load Users
-        $userCount = 1000;
-        for ($i = 1; $i <= $userCount; $i++) {
+        for ($i = 1; $i <= 1000; $i++) {
 
             // Makes sure user doesn't exists
             // findBy is the only working method in fixtures
@@ -66,7 +65,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
             $em->persist($user);
 
-            // Manager flushes every ten persisted items 
+            // Manager flushes every ten persisted items
             // This is mandatory when persisting large numbers of fixtures
             // Which can cause a memory overflow
             if ($i % 10 === 0) {
