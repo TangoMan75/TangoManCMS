@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Post;
-use AppBundle\Form\PostType;
+use AppBundle\Form\NewPostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class DefaultController extends Controller
             $user = $this->getUser();
             $post = new Post();
             $post->setUser($user);
-            $form = $this->createForm(PostType::class, $post);
+            $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
             $formPost = $form->createView();
 
