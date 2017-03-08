@@ -251,7 +251,8 @@ class UserController extends Controller
                 'bio',
                 'password',
                 'roles',
-                'date_created',
+                'created',
+                'modified',
             ],
             $delimiter
         );
@@ -268,7 +269,8 @@ class UserController extends Controller
                     $user->getBio(),
                     $user->getPassword(),
                     implode(",", $user->getRoles()),
-                    $user->getDateCreated()->format('Y/m/d H:i:s'),
+                    $user->getCreated()->format('Y/m/d H:i:s'),
+                    $user->getModified()->format('Y/m/d H:i:s'),
                 ],
                 $delimiter
             );
@@ -365,7 +367,8 @@ class UserController extends Controller
                          ->setPassword($line->get('password'))
                          ->setAvatar($line->get('avatar'))
                          ->setRoles(explode(",", $line->get('roles')))
-                         ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
+                         ->setCreated(date_create_from_format('Y/m/d H:i:s', $line->get('created')))
+                         ->setModified(date_create_from_format('Y/m/d H:i:s', $line->get('modified')));
 
                     $em->persist($user);
                     $em->flush();

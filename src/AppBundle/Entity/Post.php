@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Post
 {
     use Slug;
+    use UpdateDateTime;
 
     /**
      * @var Integer Post id
@@ -26,12 +27,6 @@ class Post
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
      */
     private $user;
-
-    /**
-     * @var \DateTime Post date
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreated;
 
     /**
      * @var string Post title
@@ -62,17 +57,30 @@ class Post
     /**
      * @var Comment[] Post comments
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
-     * @ORM\OrderBy({"dateCreated"="DESC"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean")
+     */
+    private $published;
 
     /**
      * Post constructor.
      */
     public function __construct()
     {
-        $this->dateCreated = new \DateTime();
+        $this->published = false;
+
         $this->tags = [];
+
+        $this->modified = new \DateTime();
+
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
     }
 
     /**
@@ -99,26 +107,6 @@ class Post
     public function setUser($user)
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @param \DateTime $dateCreated
-     *
-     * @return $this
-     */
-    public function setDateCreated(\DateTime $dateCreated)
-    {
-        $this->dateCreated = $dateCreated;
 
         return $this;
     }
@@ -181,7 +169,6 @@ class Post
      */
     public function addTag(Tag $tag)
     {
-
         // Only one of each is allowed
         if (!in_array($tag, $this->tags)) {
             array_push($this->tags, $tag);
@@ -242,4 +229,22 @@ class Post
         return $this;
     }
 
+    /**
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param boolean $published
+     * @return Post
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
+    }
 }

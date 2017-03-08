@@ -244,7 +244,8 @@ class PostController extends Controller
                          ->addTag($tag)
                          ->setContent($import->post_content);
 
-                    // $post->setDateCreated($import->post_dateCreated);
+                    // $post->setCreated($import->post_created);
+                    // $post->setModified($import->post_modified);
 
                     $em->persist($post);
                     $em->flush();

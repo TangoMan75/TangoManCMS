@@ -12,10 +12,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur est déjà utilisé.")
  * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
+ * @ORM\HasLifecycleCallbacks
  */
 class User implements UserInterface
 {
     use Slug;
+    use UpdateDateTime;
 
     /**
      * @var int User id
@@ -56,14 +58,14 @@ class User implements UserInterface
     /**
      * @var Post[] User's posts
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
-     * @ORM\OrderBy({"dateCreated"="DESC"})
+     * @ORM\OrderBy({"created"="DESC"})
      */
     private $posts;
 
     /**
      * @var Comment[] User's comments
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove"})
-     * @ORM\OrderBy({"dateCreated"="DESC"})
+     * @ORM\OrderBy({"created"="DESC"})
      */
     private $comments;
 
@@ -85,12 +87,6 @@ class User implements UserInterface
     private $roles;
 
     /**
-     * @var \DateTime User's registration date
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreated;
-
-    /**
      * User constructor.
      */
     public function __construct()
@@ -98,7 +94,12 @@ class User implements UserInterface
         $this->posts = [];
         $this->comments = [];
         $this->roles = ['ROLE_USER'];
-        $this->dateCreated = new \DateTime();
+
+        $this->modified = new \DateTime();
+
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
     }
 
     /**
@@ -231,30 +232,6 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get user's registration date.
-     *
-     * @return mixed
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * Sets user's registration date.
-     *
-     * @param \DateTime $dateCreated
-     *
-     * @return $this
-     */
-    public function setDateCreated(\DateTime $dateCreated)
-    {
-        $this->dateCreated = $dateCreated;
 
         return $this;
     }

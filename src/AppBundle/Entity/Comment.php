@@ -8,9 +8,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="comment")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Comment
 {
+    use UpdateDateTime;
+
     /**
      * @var integer Comment id
      * @ORM\Id
@@ -32,12 +35,6 @@ class Comment
     private $post;
 
     /**
-     * @var \DateTime Comment date
-     * @ORM\Column(type="datetime")
-     */
-    private $dateCreated;
-
-    /**
      * @var string Message content
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Votre message ne peut pas être vide")
@@ -49,7 +46,11 @@ class Comment
      */
     public function __construct()
     {
-        $this->dateCreated = new \DateTime();
+        $this->modified = new \DateTime();
+
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
     }
 
     /**
@@ -58,26 +59,6 @@ class Comment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return \DateTime
-     */
-    public function getDateCreated()
-    {
-        return $this->dateCreated;
-    }
-
-    /**
-     * @param \DateTime $dateCreated
-     *
-     * @return $this
-     */
-    public function setDateCreated(\DateTime $dateCreated)
-    {
-        $this->dateCreated = $dateCreated;
-
-        return $this;
     }
 
     /**

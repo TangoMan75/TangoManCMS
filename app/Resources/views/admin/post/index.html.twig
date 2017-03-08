@@ -127,12 +127,20 @@
                             Contenu
                         </a>
                     </th>
-                    <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'order' : 'dateCreated',
-                            'way'   : app.request.query.get('order') == 'dateCreated'
+                            'order' : 'created',
+                            'way'   : app.request.query.get('order') == 'created'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Date de création
+                            Création
+                        </a>
+                    </th>
+                    <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'modified',
+                            'way'   : app.request.query.get('order') == 'modified'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Modification
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
@@ -176,7 +184,8 @@
                                 {{ post.content|striptags|truncate(255) }}
                             </div>
                         </td>
-                        <td>{{ post.dateCreated|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ post.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ post.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
                                 {{ post.user.username }}

@@ -54,7 +54,7 @@
         <div class="row">
             <div class="pull-left">
                 <span class="glyphicon glyphicon-send"></span>&nbsp;Publié
-                le: {{ post.dateCreated|date('d/m/Y H:i:s') }}
+                le: {{ post.created|date('d/m/Y H:i:s') }}
             </div>
             <div class="pull-right">
                 <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">

@@ -110,7 +110,7 @@ class PostRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('post');
-        $dql->orderBy('post.dateCreated', 'DESC');
+        $dql->orderBy('post.modified', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
@@ -153,7 +153,7 @@ class PostRepository extends EntityRepository
         $dql->join('post.tags', 'tag')
             ->where('tag = :tag')
             ->setParameter(':tag', $tag)
-            ->orderBy('post.dateCreated', 'DESC');
+            ->orderBy('post.created', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
 
@@ -197,7 +197,7 @@ class PostRepository extends EntityRepository
         $dql = $this->createQueryBuilder('post');
         $dql->where('post.user = :user')
             ->setParameter(':user', $user)
-            ->orderBy('post.dateCreated', 'DESC');
+            ->orderBy('post.modified', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
 
@@ -242,7 +242,7 @@ class PostRepository extends EntityRepository
         $dql->join('post.user', 'user')
             ->andWhere('user.username = :username')
             ->setParameter(':username', $username)
-            ->orderBy('post.dateCreated', 'DESC');
+            ->orderBy('post.modified', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
 

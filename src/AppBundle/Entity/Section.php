@@ -7,9 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="section")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SectionRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Section
 {
+    use UpdateDateTime;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -59,6 +62,11 @@ class Section
      */
     public function __construct()
     {
+        $this->modified = new \DateTime();
+
+        if (!$this->created) {
+            $this->created = new \DateTime();
+        }
     }
 
     /**
