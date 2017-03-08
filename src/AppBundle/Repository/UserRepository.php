@@ -19,10 +19,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     public function sortedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page = $query->get('page', 1);
+        $page  = $query->get('page', 1);
         $limit = $query->get('limit', 10);
         $order = $query->get('order', 'username');
-        $way = $query->get('way', 'ASC');
+        $way   = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -91,45 +91,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->getQuery()
             ->getSingleScalarResult();
     }
-
-//    /**
-//     * Gets all users by name paged
-//     *
-//     * @param int $page
-//     * @param int $limit
-//     *
-//     * @return Paginator
-//     */
-//    public function findByNamePaged($page = 1, $limit = 10)
-//    {
-//        if (!is_numeric($page)) {
-//            throw new \InvalidArgumentException(
-//                '$page must be an integer ('.gettype($page).' : '.$page.')'
-//            );
-//        }
-//
-//        if (!is_numeric($page)) {
-//            throw new \InvalidArgumentException(
-//                '$limit must be an integer ('.gettype($limit).' : '.$limit.')'
-//            );
-//        }
-//
-//        $dql = $this->createQueryBuilder('user');
-//
-//        $dql->orderBy('user.username', 'ASC');
-//
-//        $firstResult = ($page - 1) * $limit;
-//        $query = $dql->getQuery();
-//        $query->setFirstResult($firstResult);
-//        $query->setMaxResults($limit);
-//        $paginator = new Paginator($query);
-//
-//        if (($paginator->count() <= $firstResult) && $page != 1) {
-//            throw new NotFoundHttpException('Page not found');
-//        }
-//
-//        return $paginator;
-//    }
 
     /**
      * @param QueryBuilder $dql
