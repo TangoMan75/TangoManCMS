@@ -36,57 +36,6 @@ class UserController extends Controller
     }
 
     /**
-     * @Route("/import")
-     */
-    public function importAction(Request $request)
-    {
-        $form = $this->createForm(FileUploadType::class);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-
-            $file = $request->files->get('file_upload')['file'];
-
-            if (!$file->isValid()) {
-                // Upload success check
-                $this->get('session')->getFlashBag()->add(
-                    'error',
-                    'Une erreur s\'est produite lors du transfert.<br/>Veuillez réessayer.'
-                );
-
-                return $this->redirectToRoute('app_admin_user_import');
-            }
-
-            return $this->importCSV($file);
-        }
-
-        return $this->render(
-            'admin/user/import.html.twig',
-            [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-            ]
-        );
-    }
-
-    /**
-     * @Route("/export")
-     */
-    public function exportAction(Request $request)
-    {
-        $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        return $this->render(
-            'admin/user/export.html.twig',
-            [
-                'currentUser' => $this->getUser(),
-                'users'       => $users,
-            ]
-        );
-    }
-
-    /**
      * @Route("/new")
      */
     public function newAction(Request $request)
@@ -263,69 +212,20 @@ class UserController extends Controller
     }
 
     /**
-     * @param $file
-     *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @Route("/export")
      */
-    public function importCSV($file)
+    public function exportAction(Request $request)
     {
-        // Security checks
-        $validExtensions = ['csv', 'tsv'];
-        $clientExtension = $file->getClientOriginalExtension();
+        $em = $this->get('doctrine')->getManager();
+        $users = $em->getRepository('AppBundle:User')->findAll();
 
-        if ($file->getClientMimeType() !== 'application/vnd.ms-excel' &&
-            !in_array($clientExtension, $validExtensions)
-        ) {
-
-            $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
-
-            return $this->redirectToRoute('app_admin_user_import');
-        } else {
-            // Get CSV reader service
-            $reader  = $this->get('services.csv_reader');
-            $counter = 0;
-            $dupes   = 0;
-            // File check
-            if (is_file($file)) {
-                // Init reader service
-                $reader->init($file, 0, ";");
-                // Load user entity
-                $em = $this->get('doctrine')->getManager();
-                $users = $em->getRepository('AppBundle:User');
-                while (false !== ($line = $reader->readLine())) {
-                    // Check if user with same email already exist
-                    $user = $users->findOneByEmail($line->get('email'));
-                    // When not found persist new user
-                    if (!$user) {
-                        $counter++;
-                        $user = new User();
-                        $user->setUsername($line->get('username'))
-                             ->setSlug($line->get('slug'))
-                             ->setBio($line->get('bio'))
-                             ->setEmail($line->get('email'))
-                             ->setPassword($line->get('password'))
-                             ->setAvatar($line->get('avatar'))
-                             ->setRoles(explode(",", $line->get('roles')))
-                             ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
-
-                        $em->persist($user);
-                        $em->flush();
-                    } else {
-                        $dupes++;
-                    }
-                }
-            }
-
-            if ($counter > 1) {
-                $success = "$counter comptes utilisateur ont été importés.";
-            } else {
-                $success = "Aucun compte utilisateur n'a été importé.";
-            }
-
-            $this->get('session')->getFlashBag()->add('success', $success);
-        }
-
-        return $this->redirectToRoute('app_admin_user_index');
+        return $this->render(
+            'admin/user/export.html.twig',
+            [
+                'currentUser' => $this->getUser(),
+                'users'       => $users,
+            ]
+        );
     }
 
     /**
@@ -384,5 +284,105 @@ class UserController extends Controller
                 'Content-Disposition' => 'attachment; filename="users.csv"',
             ]
         );
+    }
+
+    /**
+     * @Route("/import")
+     */
+    public function importAction(Request $request)
+    {
+        $form = $this->createForm(FileUploadType::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted()) {
+
+            $file = $request->files->get('file_upload')['file'];
+
+            if (!$file->isValid()) {
+                // Upload success check
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'Une erreur s\'est produite lors du transfert.<br/>Veuillez réessayer.'
+                );
+
+                return $this->redirectToRoute('app_admin_user_import');
+            }
+
+            return $this->importCSV($file);
+        }
+
+        return $this->render(
+            'admin/user/import.html.twig',
+            [
+                'currentUser' => $this->getUser(),
+                'form'        => $form->createView(),
+            ]
+        );
+    }
+
+    /**
+     * @param $file
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function importCSV($file)
+    {
+        // Security checks
+        $validExtensions = ['csv', 'tsv'];
+        $clientExtension = $file->getClientOriginalExtension();
+
+        if ($file->getClientMimeType() !== 'application/vnd.ms-excel' &&
+            !in_array($clientExtension, $validExtensions)
+        ) {
+
+            $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+
+            return $this->redirectToRoute('app_admin_user_import');
+        }
+        
+        // Get CSV reader service
+        $reader  = $this->get('services.csv_reader');
+        $counter = 0;
+        $dupes   = 0;
+        // File check
+        if (is_file($file)) {
+            // Init reader service
+            $reader->init($file, 0, ";");
+            // Load user entity
+            $em = $this->get('doctrine')->getManager();
+            $users = $em->getRepository('AppBundle:User');
+            while (false !== ($line = $reader->readLine())) {
+                // Check if user with same email already exist
+                $user = $users->findOneByEmail($line->get('email'));
+                // When not found persist new user
+                if (!$user) {
+                    $counter++;
+                    $user = new User();
+                    $user->setUsername($line->get('username'))
+                         ->setSlug($line->get('slug'))
+                         ->setBio($line->get('bio'))
+                         ->setEmail($line->get('email'))
+                         ->setPassword($line->get('password'))
+                         ->setAvatar($line->get('avatar'))
+                         ->setRoles(explode(",", $line->get('roles')))
+                         ->setDateCreated(date_create_from_format('Y/m/d H:i:s', $line->get('date_created')));
+
+                    $em->persist($user);
+                    $em->flush();
+                } else {
+                    $dupes++;
+                }
+            }
+        }
+
+        if ($counter > 1) {
+            $success = "$counter comptes utilisateur ont été importés.";
+        } else {
+            $success = "Aucun compte utilisateur n'a été importé.";
+        }
+
+        $this->get('session')->getFlashBag()->add('success', $success);
+
+        return $this->redirectToRoute('app_admin_user_index');
     }
 }
