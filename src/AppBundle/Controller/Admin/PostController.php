@@ -3,6 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Tag;
 use AppBundle\Form\EditPostType;
 use AppBundle\Form\FileUploadType;
 use AppBundle\Form\NewPostType;

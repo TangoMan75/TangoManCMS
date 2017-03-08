@@ -118,7 +118,7 @@
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'order' : 'dateCreated',
                                 'way'   : app.request.query.get('order') == 'dateCreated'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Date de création
                             </a>
                         </th>
