@@ -2,34 +2,32 @@
     <ul class="nav nav-tabs">
         <li{% if app.request.attributes.get('_route') ends with 'index' %} class="active"{% endif %}>
             <a href="{{ path('app_admin_post_index') }}">
-                <i class="glyphicon glyphicon-list"></i>
+                <span class="glyphicon glyphicon-list"></span>
                 Liste
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
             <a href="{{ path('app_admin_post_new', { 'callback': app.request.uri }) }}">
-                <i class="glyphicon glyphicon-plus"></i>
+                <span class="glyphicon glyphicon-plus"></span>
                 Ajouter
             </a>
         </li>
-        <li{% if app.request.attributes.get('_route') ends with 'export' %} class="active"{% endif %}>
-            {# <a href="{{ path('app_admin_post_export') }}"#}
-            <a href="#">
-                <i class="glyphicon glyphicon-import"></i>
-                importer
+        <li{% if app.request.attributes.get('_route') ends with 'import' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_post_import') }}">
+                <span class="glyphicon glyphicon-import"></span>
+                Importer
             </a>
         </li>
-        <li{% if app.request.attributes.get('_route') ends with 'import' %} class="active"{% endif %}>
-            {# <a href="{{ path('app_admin_post_export') }}"#}
-            <a href="#">
-                <i class="glyphicon glyphicon-export"></i>
+        <li{% if app.request.attributes.get('_route') ends with 'export' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_post_export') }}">
+                <span class="glyphicon glyphicon-export"></span>
                 Exporter
             </a>
         </li>
         {% if post is defined %}
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri }) }}">
-                    <i class="glyphicon glyphicon-edit"></i>
+                    <span class="glyphicon glyphicon-edit"></span>
                     {{ post.title|truncate(20) }}
                 </a>
             </li>
