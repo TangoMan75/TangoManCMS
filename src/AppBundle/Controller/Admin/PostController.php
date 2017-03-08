@@ -206,14 +206,23 @@ class PostController extends Controller
         $dupes   = 0;
         // File check
         if (is_file($file)) {
-            // Load post entity
+            // Load entities
             $em = $this->get('doctrine')->getManager();
             $posts = $em->getRepository('AppBundle:Post');
+            $tags  = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
 
-            foreach (json_decode(file_get_contents($file)) as $import) {
+            // Creates "import" tag when non-existent
+            $tag = $tags->findOneByName('import');
+            if (!$tag) {
+                $tag = new Tag();
+                $tag->setName('import');
+                $tag->setType('default');
+                $em->persist($tag);
+                $em->flush();
+            }
 
-                // die(dump($import));
+            foreach (json_decode(file_get_contents($file)) as $import) {
 
                 // Check if post exists already
                 if (!$posts->findOneBySlug($import->post_slug)) {
@@ -231,6 +240,7 @@ class PostController extends Controller
                          ->setTitle($import->post_title)
                          ->setSubtitle($import->post_subtitle)
                          ->setSlug($import->post_slug)
+                         ->addTag($tag)
                          ->setContent($import->post_content);
 
                     // $post->setDateCreated($import->post_dateCreated);
