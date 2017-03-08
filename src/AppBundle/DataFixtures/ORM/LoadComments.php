@@ -31,17 +31,17 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
     }
 
     /**
-     * @param ObjectManager $manager
+     * @param ObjectManager $em
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
 
         // Get Users
         // findBy is the only working method in fixtures
-        $users = $manager->getRepository('AppBundle:User')->findBy([], null, 10);
+        $users = $em->getRepository('AppBundle:User')->findBy([], null, 10);
         // Get Posts
-        $posts = $manager->getRepository('AppBundle:Post')->findBy([], null, 10);
+        $posts = $em->getRepository('AppBundle:Post')->findBy([], null, 10);
 
         foreach ($users as $user) {
             foreach ($posts as $post) {
@@ -53,10 +53,10 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
                     ->setContent($text)
                     ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
-                $manager->persist($comment);
+                $em->persist($comment);
             }
 
-            $manager->flush();
+            $em->flush();
         }
     }
 }

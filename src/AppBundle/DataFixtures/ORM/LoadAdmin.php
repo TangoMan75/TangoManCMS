@@ -31,9 +31,9 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
     }
 
     /**
-     * @param ObjectManager $manager
+     * @param ObjectManager $em
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
 
@@ -41,7 +41,7 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $encoder = $this->container->get('security.password_encoder');
 
         // Load Super Admin
-        if (!$manager->getRepository('AppBundle:User')->findByRole('ROLE_SUPER_ADMIN')) {
+        if (!$em->getRepository('AppBundle:User')->findByRole('ROLE_SUPER_ADMIN')) {
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
@@ -51,8 +51,8 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
                  ->addRole('ROLE_SUPER_ADMIN')
                  ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
-            $manager->persist($user);
-            $manager->flush();
+            $em->persist($user);
+            $em->flush();
         }
     }
 }

@@ -31,9 +31,9 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
     }
 
     /**
-     * @param ObjectManager $manager
+     * @param ObjectManager $em
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
 
@@ -47,29 +47,30 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $userCount = 10000;
         for ($i = 1; $i <= $userCount; $i++) {
 
-            $username = $faker->userName;
-
+            // Makes sure user doesn't exists
             // findBy is the only working method in fixtures
-            if (!$manager->getRepository('AppBundle:User')->findBy(['username' => $username])) {
-                $user = new User();
-                $user->setUsername($username)
-                     ->setEmail($username.'@'.$faker->safeEmailDomain)
-                     // ->setEmail($username.'@'.$faker->freeEmailDomain)
-                     // ->setEmail($faker->email)
-                     // ->setPassword($encoder->encodePassword($user, $username))
-                     ->addRole($roles[mt_rand(0, 3)])
-                     // ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
-                     ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
-                     ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+            do {
+                $username = $faker->userName;
+            } while ($em->getRepository('AppBundle:User')->findBy(['username' => $username]))
 
-                $manager->persist($user);
-            }
+            $user = new User();
+            $user->setUsername($username)
+                 ->setEmail($username.'@'.$faker->safeEmailDomain)
+                 // ->setEmail($username.'@'.$faker->freeEmailDomain)
+                 // ->setEmail($faker->email)
+                 // ->setPassword($encoder->encodePassword($user, $username))
+                 ->addRole($roles[mt_rand(0, 3)])
+                 // ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
+                 ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
+                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+
+            $em->persist($user);
 
             // Manager flushes every ten persisted items 
             // This is mandatory when persisting large numbers of fixtures
             // Which can cause a memory overflow
             if ($i % 10 === 0) {
-                $manager->flush();
+                $em->flush();
             }
         }
     }

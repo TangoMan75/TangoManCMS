@@ -34,9 +34,9 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
     }
 
     /**
-     * @param ObjectManager $manager
+     * @param ObjectManager $em
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $em)
     {
         // Load Tags
         $tags = [
@@ -51,14 +51,14 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
 
         foreach ($tags as $name => $type) {
             // findBy is the only working method in fixtures
-            if (!$manager->getRepository('AppBundle:Tag')->findBy(['name' => $name])) {
+            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $name])) {
                 $tag = new Tag();
                 $tag->setName($name);
                 $tag->setType($type);
-                $manager->persist($tag);
+                $em->persist($tag);
             }
         }
 
-        $manager->flush();
+        $em->flush();
     }
 }

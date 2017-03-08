@@ -30,9 +30,9 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
     }
 
     /**
-     * @param ObjectManager $manager
+     * @param ObjectManager $em
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
 
@@ -46,7 +46,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
                  ->setSubTitle($faker->sentence(4, true))
                  ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
-            $manager->persist($page);
+            $em->persist($page);
 
             // Load Sections
             $sectionCount = mt_rand(0, 10);
@@ -59,10 +59,10 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
                         ->setSubTitle($faker->sentence(4, true))
                         ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
-                $manager->persist($section);
+                $em->persist($section);
             }
         }
 
-        $manager->flush();
+        $em->flush();
     }
 }

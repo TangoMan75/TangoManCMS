@@ -34,15 +34,15 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
     }
 
     /**
-     * @param ObjectManager $manager
+     * @param ObjectManager $em
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
 
         // Gets users
         // findBy is the only working method in fixtures
-        $users = $manager->getRepository('AppBundle:User')->findBy([], null, 10);
+        $users = $em->getRepository('AppBundle:User')->findBy([], null, 10);
 
         foreach ($users as $user) {
             // Creates random Post amount for each user
@@ -57,16 +57,16 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                      ->setContent($text)
                      ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
-                $tags = $manager->getRepository('AppBundle:Tag')->findAll();
+                $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
                 for ($k = 0; $k < mt_rand(0, 5); $k++) {
                     $post->addTag($tags[mt_rand(0, 5)]);
                 }
 
-                $manager->persist($post);
+                $em->persist($post);
             }
         }
 
-        $manager->flush();
+        $em->flush();
     }
 }
