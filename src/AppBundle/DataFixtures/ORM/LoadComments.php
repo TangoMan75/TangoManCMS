@@ -27,7 +27,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
 
     public function getOrder()
     {
-        return 4;
+        return 5;
     }
 
     /**
@@ -38,8 +38,8 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
         $faker = Factory::create('fr_FR');
 
         // Get Users
+        // findBy is the only working method in fixtures
         $users = $manager->getRepository('AppBundle:User')->findBy([], null, 10);
-
         // Get Posts
         $posts = $manager->getRepository('AppBundle:Post')->findBy([], null, 10);
 

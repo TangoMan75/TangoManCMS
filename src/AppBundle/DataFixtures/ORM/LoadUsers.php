@@ -40,23 +40,30 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Pasword encoder
         $encoder = $this->container->get('security.password_encoder');
 
+        // Default roles
+        $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
+
         // Load Users
-        $userCount = 100;
+        $userCount = 10000;
         for ($i = 1; $i <= $userCount; $i++) {
 
-            $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
-
-            $user = new User();
             $username = $faker->userName;
-            $user->setUsername($username)
-                 ->setEmail($username.'@'.$faker->safeEmailDomain)
-                 ->setPassword($encoder->encodePassword($user, $username))
-                 ->addRole($roles[mt_rand(0, 3)])
-//                 ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
-                 ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
-                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
 
-            $manager->persist($user);
+            // findBy is the only working method in fixtures
+            if (!$manager->getRepository('AppBundle:User')->findBy(['username' => $username])) {
+                $user = new User();
+                $user->setUsername($username)
+                     ->setEmail($username.'@'.$faker->safeEmailDomain)
+                     // ->setEmail($username.'@'.$faker->freeEmailDomain)
+                     // ->setEmail($faker->email)
+                     // ->setPassword($encoder->encodePassword($user, $username))
+                     ->addRole($roles[mt_rand(0, 3)])
+                     // ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
+                     ->setDateCreated($faker->dateTimeThisYear($max = 'now'))
+                     ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+
+                $manager->persist($user);
+            }
 
             // Manager flushes every ten persisted items 
             // This is mandatory when persisting large numbers of fixtures

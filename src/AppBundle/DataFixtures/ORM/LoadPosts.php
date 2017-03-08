@@ -30,7 +30,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
     public function getOrder()
     {
-        return 3;
+        return 4;
     }
 
     /**
@@ -40,17 +40,8 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         $faker = Factory::create('fr_FR');
 
-        // Load Tags
-        $tags = explode(' ', 'default primary info success warning danger');
-        foreach ($tags as $name) {
-            $tag = new Tag();
-            $tag->setName($name);
-            $tag->setType($name);
-            $manager->persist($tag);
-            $tagCollection[] = $tag;
-        }
-
         // Gets users
+        // findBy is the only working method in fixtures
         $users = $manager->getRepository('AppBundle:User')->findBy([], null, 10);
 
         foreach ($users as $user) {
@@ -66,11 +57,10 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                      ->setContent($text)
                      ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
 
-                // Sets random amount of tags to User's Post
-                shuffle($tagCollection);
-                $labelCount = mt_rand(0, 6);
-                for ($k = 0; $k < $labelCount; $k++) {
-                    $post->addTag($tagCollection[$k]);
+                $tags = $manager->getRepository('AppBundle:Tag')->findAll();
+
+                for ($k = 0; $k < mt_rand(0, 5); $k++) {
+                    $post->addTag($tags[mt_rand(0, 5)]);
                 }
 
                 $manager->persist($post);
