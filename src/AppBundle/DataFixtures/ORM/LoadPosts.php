@@ -55,7 +55,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                      ->setTitle($faker->sentence(4, true))
                      ->setSubtitle($faker->sentence(4, true))
                      ->setContent($text)
-                     ->setDateCreated($faker->dateTimeThisYear($max = 'now'));
+                     ->setCreated($faker->dateTimeThisYear($max = 'now'));
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
