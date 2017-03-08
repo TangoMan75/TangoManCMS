@@ -3,9 +3,10 @@
 namespace AppBundle\Entity;
 
 /**
- * @ORM\HasLifecycleCallbacks
+ * Adds created at and modified at timestamps to entities.
+ * Requires that entities are marked with the HasLifecycleCallbacks annotation.
  */
-trait UpdateDateTime
+trait Timestampable
 {
     /**
      * @var \DateTime Creation date

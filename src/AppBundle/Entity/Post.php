@@ -8,11 +8,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Post
 {
-    use Slug;
-    use UpdateDateTime;
+    use Slugable;
+
+    use Timestampable;
 
     /**
      * @var Integer Post id

@@ -2,7 +2,7 @@
 
 namespace AppBundle\Entity;
 
-trait Slug
+trait Slugable
 {
     /**
      * @var string slug

@@ -7,10 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Table(name="page")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Page
 {
-    use Slug;
+    use Slugable;
+
+    use Timestampable;
 
     /**
      * @var int

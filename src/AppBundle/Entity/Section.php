@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Section
 {
-    use UpdateDateTime;
+    use Timestampable;
 
     /**
      * @var int
