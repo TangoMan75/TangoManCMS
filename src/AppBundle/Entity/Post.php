@@ -181,7 +181,11 @@ class Post
      */
     public function addTag(Tag $tag)
     {
-        $this->tags[] = $tag;
+
+        // Only one of each is allowed
+        if (!in_array($tag, $this->tags)) {
+            array_push($this->tags, $tag);
+        }
 
         return $this;
     }

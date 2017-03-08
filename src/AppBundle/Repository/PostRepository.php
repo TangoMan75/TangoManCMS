@@ -76,6 +76,18 @@ class PostRepository extends EntityRepository
     }
 
     /**
+     * All Posts with joins
+     */
+    public function findAllPosts()
+    {
+        return $this->createQueryBuilder('post')
+                    ->leftJoin('post.user', 'user')
+                    ->addSelect('user.email AS user_email')
+                    ->getQuery()
+                    ->getScalarResult();
+    }
+
+    /**
      * Posts pagination
      *
      * @param int $page
