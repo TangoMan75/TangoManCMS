@@ -6,7 +6,8 @@ use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\CommentType;
-use AppBundle\Form\PostType;
+use AppBundle\Form\EditPostType;
+use AppBundle\Form\NewPostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,7 +34,7 @@ class PostController extends Controller
             $user = $this->getUser();
             $post = new Post();
             $post->setUser($user);
-            $form = $this->createForm(PostType::class, $post);
+            $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
             $formPost = $form->createView();
 
@@ -97,9 +98,9 @@ class PostController extends Controller
         return $this->render(
             'post/index.html.twig',
             [
-                'formPost' => $formComment,
+                'formPost'     => $formComment,
                 'list_comment' => $listComment,
-                'post' => $post,
+                'post'         => $post,
             ]
         );
     }
@@ -117,10 +118,9 @@ class PostController extends Controller
             return $this->redirectToRoute('app_login');
         }
 
-        $user = $this->getUser();
         $post = new Post();
-        $post->setUser($user);
-        $form = $this->createForm(PostType::class, $post);
+        $post->setUser($this->getUser());
+        $form = $this->createForm(NewPostType::class, $post);
         $form->handleRequest($request);
         $formPost = $form->createView();
 
@@ -168,7 +168,7 @@ class PostController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        $form = $this->createForm(PostType::class, $post);
+        $form = $this->createForm(EditPostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

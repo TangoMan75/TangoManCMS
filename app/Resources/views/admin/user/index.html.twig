@@ -65,7 +65,7 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="page"  value="{{ app.request.query.get('page', 1) }}"/>
+                        <input type="hidden" name="page"  value="1"/>
                         <input type="hidden" name="order" value="{{ app.request.query.get('order', 'username') }}"/>
                         <input type="hidden" name="way"   value="{{ app.request.query.get('way', 'ASC') }}"/>
                         <div class="col-xs-12">
@@ -89,84 +89,54 @@
                     <thead>
                     <tr>
                         <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', {
-                                's_id'       : app.request.query.get('s_id'),
-                                's_username' : app.request.query.get('s_username'),
-                                's_email'    : app.request.query.get('s_email'),
-                                's_role'     : app.request.query.get('s_role'),
-                                'page'       : app.request.query.get('page', 1),
-                                'order'      : 'id',
-                                'way'        : app.request.query.get('order') == 'id'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'order' : 'id',
+                                'way'   : app.request.query.get('order') == 'id'
+                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                                 Id
                             </a>
                         </th>
 
                         <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', {
-                                's_id'       : app.request.query.get('s_id'),
-                                's_username' : app.request.query.get('s_username'),
-                                's_email'    : app.request.query.get('s_email'),
-                                's_role'     : app.request.query.get('s_role'),
-                                'page'       : app.request.query.get('page', 1),
-                                'order'      : 'username',
-                                'way'        : app.request.query.get('order') == 'username'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'order' : 'username',
+                                'way'   : app.request.query.get('order') == 'username'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Utilisateur
                             </a>
                         </th>
 
                         <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', {
-                                's_id'       : app.request.query.get('s_id'),
-                                's_username' : app.request.query.get('s_username'),
-                                's_email'    : app.request.query.get('s_email'),
-                                's_role'     : app.request.query.get('s_role'),
-                                'page'       : app.request.query.get('page', 1),
-                                'order'      : 'email',
-                                'way'        : app.request.query.get('order') == 'email'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'order' : 'email',
+                                'way'   : app.request.query.get('order') == 'email'
+                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                                 Email
                             </a>
                         </th>
                         <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', {
-                                's_id'       : app.request.query.get('s_id'),
-                                's_username' : app.request.query.get('s_username'),
-                                's_email'    : app.request.query.get('s_email'),
-                                's_role'     : app.request.query.get('s_role'),
-                                'page'       : app.request.query.get('page', 1),
-                                'order'      : 'dateCreated',
-                                'way'        : app.request.query.get('order') == 'dateCreated'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'order' : 'dateCreated',
+                                'way'   : app.request.query.get('order') == 'dateCreated'
+                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                                 Date de création
                             </a>
                         </th>
 
                         <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', {
-                                's_id'       : app.request.query.get('s_id'),
-                                's_username' : app.request.query.get('s_username'),
-                                's_email'    : app.request.query.get('s_email'),
-                                's_role'     : app.request.query.get('s_role'),
-                                'page'       : app.request.query.get('page', 1),
-                                'order'      : 'posts',
-                                'way'        : app.request.query.get('order') == 'posts'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'order' : 'posts',
+                                'way'   : app.request.query.get('order') == 'posts'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Post
                             </a>
                         </th>
 
                         <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', {
-                                's_id'       : app.request.query.get('s_id'),
-                                's_username' : app.request.query.get('s_username'),
-                                's_email'    : app.request.query.get('s_email'),
-                                's_role'     : app.request.query.get('s_role'),
-                                'page'       : app.request.query.get('page', 1),
-                                'order'      : 'comments',
-                                'way'        : app.request.query.get('order') == 'comments'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'}) }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'order' : 'comments',
+                                'way'   : app.request.query.get('order') == 'comments'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Commentaires
                             </a>
                         </th>
@@ -190,12 +160,12 @@
                         {% set user = user[0] %}
                         <tr>
                             <td>
-                                <a href="{{ path('app_user_show', { 'slug':user.slug }) }}">
+                                <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
                                     {{ user.id }}
                                 </a>
                             </td>
                             <td>
-                                <a href="{{ path('app_user_show', { 'slug':user.slug }) }}">
+                                <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
                                     {{ user.username }}
                                 </a>
                             </td>
@@ -242,17 +212,10 @@
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </span>
                                         {% else %}
-                                            <a href="{{ path('app_admin_user_removerole', {
-                                                's_id'       : app.request.query.get('s_id'),
-                                                's_username' : app.request.query.get('s_username'),
-                                                's_email'    : app.request.query.get('s_email'),
-                                                's_role'     : app.request.query.get('s_role'),
-                                                'page'       : app.request.query.get('page', 1),
-                                                'order'      : app.request.query.get('order', 'username'),
-                                                'way'        : app.request.query.get('way', 'ASC'),
-                                                'id'         : user.id,
-                                                'remove'     : 'ROLE_SUPER_ADMIN'
-                                            }) }}"
+                                            <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
+                                                'id'     : user.id,
+                                                'remove' : 'ROLE_SUPER_ADMIN'
+                                                })) }}"
                                                class="btn btn-warning btn-xs">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </a>
@@ -261,60 +224,32 @@
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </span>
                                     {% elseif 'ROLE_ADMIN' in user.roles %}
-                                        <a href="{{ path('app_admin_user_removerole', {
-                                            's_id'       : app.request.query.get('s_id'),
-                                            's_username' : app.request.query.get('s_username'),
-                                            's_email'    : app.request.query.get('s_email'),
-                                            's_role'     : app.request.query.get('s_role'),
-                                            'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order', 'username'),
-                                            'way'        : app.request.query.get('way', 'ASC'),
-                                            'id'         : user.id,
-                                            'remove'   : 'ROLE_ADMIN'
-                                        }) }}"
+                                        <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
+                                            'id'     : user.id,
+                                            'remove' : 'ROLE_ADMIN'
+                                            })) }}"
                                            class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
-                                        <a href="{{ path('app_admin_user_addrole', {
-                                            's_id'       : app.request.query.get('s_id'),
-                                            's_username' : app.request.query.get('s_username'),
-                                            's_email'    : app.request.query.get('s_email'),
-                                            's_role'     : app.request.query.get('s_role'),
-                                            'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order', 'username'),
-                                            'way'        : app.request.query.get('way', 'ASC'),
-                                            'id'         : user.id,
-                                            'add'      : 'ROLE_SUPER_ADMIN'
-                                        }) }}"
+                                        <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
+                                            'id'  : user.id,
+                                            'add' : 'ROLE_SUPER_ADMIN'
+                                            })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                     {% elseif 'ROLE_SUPER_USER' in user.roles %}
-                                        <a href="{{ path('app_admin_user_removerole', {
-                                            's_id'       : app.request.query.get('s_id'),
-                                            's_username' : app.request.query.get('s_username'),
-                                            's_email'    : app.request.query.get('s_email'),
-                                            's_role'     : app.request.query.get('s_role'),
-                                            'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order', 'username'),
-                                            'way'        : app.request.query.get('way', 'ASC'),
-                                            'id'         : user.id,
-                                            'remove'   : 'ROLE_SUPER_USER'
-                                        }) }}"
+                                        <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
+                                            'id'     : user.id,
+                                            'remove' : 'ROLE_SUPER_USER'
+                                            })) }}"
                                            class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
-                                        <a href="{{ path('app_admin_user_addrole', {
-                                            's_id'       : app.request.query.get('s_id'),
-                                            's_username' : app.request.query.get('s_username'),
-                                            's_email'    : app.request.query.get('s_email'),
-                                            's_role'     : app.request.query.get('s_role'),
-                                            'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order', 'username'),
-                                            'way'        : app.request.query.get('way', 'ASC'),
-                                            'id'         : user.id,
-                                            'add'      : 'ROLE_ADMIN'
-                                        }) }}"
+                                        <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
+                                            'id'  : user.id,
+                                            'add' : 'ROLE_ADMIN'
+                                        })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
@@ -322,17 +257,10 @@
                                         <span class="btn btn-warning btn-xs disabled">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </span>
-                                        <a href="{{ path('app_admin_user_addrole', {
-                                            's_id'       : app.request.query.get('s_id'),
-                                            's_username' : app.request.query.get('s_username'),
-                                            's_email'    : app.request.query.get('s_email'),
-                                            's_role'     : app.request.query.get('s_role'),
-                                            'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order', 'username'),
-                                            'way'        : app.request.query.get('way', 'ASC'),
-                                            'id'         : user.id,
-                                            'add'      : 'ROLE_SUPER_USER'
-                                        }) }}"
+                                        <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
+                                            'id'  : user.id,
+                                            'add' : 'ROLE_SUPER_USER'
+                                            })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
@@ -353,16 +281,7 @@
                             {#</td>#}
                             {#{% endif %}#}
                             <td>
-                                <a href="{{ path('app_admin_user_edit', {
-                                    's_id'       : app.request.query.get('s_id'),
-                                    's_username' : app.request.query.get('s_username'),
-                                    's_email'    : app.request.query.get('s_email'),
-                                    's_role'     : app.request.query.get('s_role'),
-                                    'page'       : app.request.query.get('page', 1),
-                                    'order'      : app.request.query.get('order', 'username'),
-                                    'way'        : app.request.query.get('way', 'ASC'),
-                                    'id'         : user.id,
-                                }) }}"
+                                <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri }) }}"
                                    class="btn btn-warning btn-sm">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     Modifier
@@ -372,16 +291,8 @@
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target=".my-modal" data-item="{{ user.username }}"
-                                            data-path="{{ path('app_admin_user_delete', {
-                                            's_id'       : app.request.query.get('s_id'),
-                                            's_username' : app.request.query.get('s_username'),
-                                            's_email'    : app.request.query.get('s_email'),
-                                            's_role'     : app.request.query.get('s_role'),
-                                            'page'       : app.request.query.get('page', 1),
-                                            'order'      : app.request.query.get('order', 'username'),
-                                            'way'        : app.request.query.get('way', 'ASC'),
-                                            'id'         : user.id,
-                                            }) }}"{% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
+                                            data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri }) }}"
+                                            {% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
                                         <span class="glyphicon glyphicon-trash"></span>
                                         Supprimer
                                     </button>

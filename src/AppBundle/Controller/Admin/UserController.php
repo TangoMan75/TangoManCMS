@@ -31,14 +31,6 @@ class UserController extends Controller
             [
                 'currentUser' => $this->getUser(),
                 'users'       => $users,
-                'page'        => $request->query->get('page', 1),
-                'limit'       => $request->query->get('limit'),
-                'order'       => $request->query->get('order', 'username'),
-                'way'         => $request->query->get('way', 'ASC'),
-                's_id'        => $request->query->get('s_id'),
-                's_username'  => $request->query->get('s_username'),
-                's_email'     => $request->query->get('s_email'),
-                's_role'      => $request->query->get('s_role'),
             ]
         );
     }
@@ -117,7 +109,7 @@ class UserController extends Controller
             $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été ajouté.');
 
             // User is redirected to referrer page
-            return $this->redirectToRoute('app_admin_user_index');
+            return $this->redirect($request->get('callback'));
         }
 
         return $this->render(
@@ -149,18 +141,8 @@ class UserController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été modifié.');
 
-            return $this->redirectToRoute(
-                'app_admin_user_index',
-                [
-                    'page'       => $request->query->get('page', 1),
-                    'order'      => $request->query->get('order', 'username'),
-                    'way'        => $request->query->get('way', 'ASC'),
-                    's_id'       => $request->query->get('s_id'),
-                    's_username' => $request->query->get('s_username'),
-                    's_email'    => $request->query->get('s_email'),
-                    's_role'     => $request->query->get('s_role'),
-                ]
-            );
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
 
         return $this->render(
@@ -188,18 +170,8 @@ class UserController extends Controller
                 'Il n\'est pas autorisé de supprimer un utilisateur ayant des droit d\'administration.'
             );
 
-            return $this->redirectToRoute(
-                'app_admin_user_index',
-                [
-                    'page'       => $request->query->get('page', 1),
-                    'order'      => $request->query->get('order', 'username'),
-                    'way'        => $request->query->get('way', 'ASC'),
-                    's_id'       => $request->query->get('s_id'),
-                    's_username' => $request->query->get('s_username'),
-                    's_email'    => $request->query->get('s_email'),
-                    's_role'     => $request->query->get('s_role'),
-                ]
-            );
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
 
         // Deletes specified user
@@ -213,19 +185,8 @@ class UserController extends Controller
             'L\'utilisateur <strong>&quot;'.$user->getUsername().'&quot;</strong> à bien été supprimé.'
         );
 
-        // Admin is redirected to referrer page
-        return $this->redirectToRoute(
-            'app_admin_user_index',
-            [
-                'page'       => $request->query->get('page', 1),
-                'order'      => $request->query->get('order', 'username'),
-                'way'        => $request->query->get('way', 'ASC'),
-                's_id'       => $request->query->get('s_id'),
-                's_username' => $request->query->get('s_username'),
-                's_email'    => $request->query->get('s_email'),
-                's_role'     => $request->query->get('s_role'),
-            ]
-        );
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
     }
 
     /**
@@ -254,19 +215,8 @@ class UserController extends Controller
             '&quot;'.$user->getUsername().'&quot;</strong>.'
         );
 
-        // User is redirected to referrer page
-        return $this->redirectToRoute(
-            'app_admin_user_index',
-            [
-                'page'       => $request->query->get('page', 1),
-                'order'      => $request->query->get('order', 'username'),
-                'way'        => $request->query->get('way', 'ASC'),
-                's_id'       => $request->query->get('s_id'),
-                's_username' => $request->query->get('s_username'),
-                's_email'    => $request->query->get('s_email'),
-                's_role'     => $request->query->get('s_role'),
-            ]
-        );
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
     }
 
     /**
@@ -294,18 +244,8 @@ class UserController extends Controller
                 'Vous n\'êtes pas autorisé à supprimer vos propres droit d\'administration.'
             );
 
-            return $this->redirectToRoute(
-                'app_admin_user_index',
-                [
-                    'page'       => $request->query->get('page', 1),
-                    'order'      => $request->query->get('order', 'username'),
-                    'way'        => $request->query->get('way', 'ASC'),
-                    's_id'       => $request->query->get('s_id'),
-                    's_username' => $request->query->get('s_username'),
-                    's_email'    => $request->query->get('s_email'),
-                    's_role'     => $request->query->get('s_role'),
-                ]
-            );
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
 
         $user->removeRole($remove);
@@ -318,19 +258,8 @@ class UserController extends Controller
             '&quot;'.$user->getUsername().'&quot;</strong>.'
         );
 
-        // User is redirected to referrer page
-        return $this->redirectToRoute(
-            'app_admin_user_index',
-            [
-                'page'       => $request->query->get('page', 1),
-                'order'      => $request->query->get('order', 'username'),
-                'way'        => $request->query->get('way', 'ASC'),
-                's_id'       => $request->query->get('s_id'),
-                's_username' => $request->query->get('s_username'),
-                's_email'    => $request->query->get('s_email'),
-                's_role'     => $request->query->get('s_role'),
-            ]
-        );
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
     }
 
     /**

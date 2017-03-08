@@ -41,7 +41,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $encoder = $this->container->get('security.password_encoder');
 
         // Load Users
-        $userCount = 10;
+        $userCount = 100;
         for ($i = 1; $i <= $userCount; $i++) {
 
             $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];

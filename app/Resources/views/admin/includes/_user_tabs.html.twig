@@ -7,7 +7,7 @@
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_user_new') }}">
+            <a href="{{ path('app_admin_user_new', { 'callback': app.request.uri } ) }}">
                 <i class="glyphicon glyphicon-plus"></i>
                 Ajouter
             </a>
@@ -26,7 +26,7 @@
         </li>
         {% if user is defined %}
         <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_user_edit', { 'id': user.id }) }}">
+            <a href="{{ path('app_admin_user_edit', { 'id': user.id, 'callback': app.request.uri }) }}">
                 <i class="glyphicon glyphicon-edit"></i>
                 {{ user.username|truncate(20) }}
             </a>

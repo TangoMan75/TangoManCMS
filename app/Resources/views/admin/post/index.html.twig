@@ -64,7 +64,7 @@
                         </div>
 
                     </div>
-                    <input type="hidden" name="page" value="{{ app.request.query.get('page', 1) }}"/>
+                    <input type="hidden" name="page" value="1"/>
                     <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
                     <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                     <div class="col-xs-12">
@@ -88,122 +88,66 @@
                 <thead>
                 <tr>
                     <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'id',
-                            'way'        : app.request.query.get('order') == 'id'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'id',
+                            'way'   : app.request.query.get('order') == 'id'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Id
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'slug',
-                            'way'        : app.request.query.get('order') == 'slug'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'slug',
+                            'way'   : app.request.query.get('order') == 'slug'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Slug
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'title',
-                            'way'        : app.request.query.get('order') == 'title'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'title',
+                            'way'   : app.request.query.get('order') == 'title'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Titre
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'subtitle' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'subtitle',
-                            'way'        : app.request.query.get('order') == 'subtitle'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'subtitle',
+                            'way'   : app.request.query.get('order') == 'subtitle'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Sous-titre
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'content' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'content',
-                            'way'        : app.request.query.get('order') == 'content'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'content',
+                            'way'   : app.request.query.get('order') == 'content'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Contenu
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'dateCreated' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'dateCreated',
-                            'way'        : app.request.query.get('order') == 'dateCreated'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'dateCreated',
+                            'way'   : app.request.query.get('order') == 'dateCreated'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Date de création
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'author',
-                            'way'        : app.request.query.get('order') == 'author'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'author',
+                            'way'   : app.request.query.get('order') == 'author'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Auteur
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', {
-                            's_id'       : app.request.query.get('s_id'),
-                            's_title'    : app.request.query.get('s_title'),
-                            's_subtitle' : app.request.query.get('s_subtitle'),
-                            's_content'  : app.request.query.get('s_content'),
-                            's_user'     : app.request.query.get('s_user'),
-                            's_tag'      : app.request.query.get('s_tag'),
-                            'page'       : app.request.query.get('page', 1),
-                            'order'      : 'comments',
-                            'way'        : app.request.query.get('order') == 'comments'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'}) }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'order' : 'comments',
+                            'way'   : app.request.query.get('order') == 'comments'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Commentaires
                         </a>
                     </th>
@@ -216,13 +160,13 @@
                     {% set post = post[0] %}
                     <tr>
                         <td>
-                            <a href="{{ path('app_post_show', { 'slug':post.slug }) }}">
+                            <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
                                 {{ post.id }}
                             </a>
                         </td>
                         <td>{{ post.slug }}</td>
                         <td>
-                            <a href="{{ path('app_post_show', { 'slug':post.slug }) }}">
+                            <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
                                 {{ post.title }}
                             </a>
                         </td>
@@ -234,7 +178,7 @@
                         </td>
                         <td>{{ post.dateCreated|date('d/m/Y H:i:s') }}</td>
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug':post.user.slug }) }}">
+                            <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
                                 {{ post.user.username }}
                             </a>
                         </td>
@@ -247,7 +191,7 @@
                             {% endfor %}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_post_edit', { 'id': post.id }) }}"
+                            <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri }) }}"
                                class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Modifier
