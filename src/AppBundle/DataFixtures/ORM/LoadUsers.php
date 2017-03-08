@@ -44,14 +44,14 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $roles = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
 
         // Load Users
-        $userCount = 10000;
+        $userCount = 1000;
         for ($i = 1; $i <= $userCount; $i++) {
 
             // Makes sure user doesn't exists
             // findBy is the only working method in fixtures
             do {
                 $username = $faker->userName;
-            } while ($em->getRepository('AppBundle:User')->findBy(['username' => $username]))
+            } while ($em->getRepository('AppBundle:User')->findBy(['username' => $username]));
 
             $user = new User();
             $user->setUsername($username)
