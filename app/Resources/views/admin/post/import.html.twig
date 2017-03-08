@@ -1,0 +1,39 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Articles - Importer{% endblock %}
+
+{% block admin %}
+<header>
+    <h1>Articles</h1>
+    <h2>Importer des articles</h2>
+    {% if is_granted('ROLE_ADMIN') %}
+    <p>Ici vous pouvez importer une liste d'articles dans {{ site_name }} au format JSON.</p>
+    {% else %}
+    <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
+    {% endif %}
+</header>
+{% include "admin/includes/_post_tabs.html.twig" %}
+{% if is_granted('ROLE_ADMIN') %}
+<section id="import">
+    <div class="col-xs-12 col-md-6">
+        <div id="import" class="panel panel-warning">
+            <div class="panel-heading">
+                <h1 class="text-center">
+                    Importer une liste d'articles
+                </h1>
+            </div>
+            <div class="panel-body text-center">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button type="submit" class="btn btn-primary center-block">
+                    <span class="glyphicon glyphicon-import"></span>
+                    Importer
+                </button>
+                {{ form_end(form) }}
+            </div>
+            <div class="panel-footer"></div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
