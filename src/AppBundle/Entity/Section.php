@@ -62,11 +62,8 @@ class Section
      */
     public function __construct()
     {
+        $this->created = new \DateTime();
         $this->modified = new \DateTime();
-
-        if (!$this->created) {
-            $this->created = new \DateTime();
-        }
     }
 
     /**

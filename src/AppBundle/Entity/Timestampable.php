@@ -21,7 +21,6 @@ trait Timestampable
     private $modified;
 
     /**
-     * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
     public function updateModified() {

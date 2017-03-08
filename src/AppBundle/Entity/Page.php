@@ -58,6 +58,8 @@ class Page
      */
     public function __construct()
     {
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
         $this->sections = [];
         $this->tags = [];
     }

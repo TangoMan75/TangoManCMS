@@ -92,15 +92,11 @@ class User implements UserInterface
      */
     public function __construct()
     {
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
         $this->posts = [];
         $this->comments = [];
         $this->roles = ['ROLE_USER'];
-
-        $this->modified = new \DateTime();
-
-        if (!$this->created) {
-            $this->created = new \DateTime();
-        }
     }
 
     /**

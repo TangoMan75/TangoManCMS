@@ -74,15 +74,10 @@ class Post
      */
     public function __construct()
     {
-        $this->published = false;
-
-        $this->tags = [];
-
+        $this->created = new \DateTime();
         $this->modified = new \DateTime();
-
-        if (!$this->created) {
-            $this->created = new \DateTime();
-        }
+        $this->tags = [];
+        $this->published = false;
     }
 
     /**
