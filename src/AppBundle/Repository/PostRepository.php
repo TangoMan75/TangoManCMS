@@ -20,10 +20,10 @@ class PostRepository extends EntityRepository
     public function sortedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page = $query->get('page', 1);
+        $page  = $query->get('page', 1);
         $limit = $query->get('limit', 10);
         $order = $query->get('order', 'title');
-        $way = $query->get('way', 'ASC');
+        $way   = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -45,7 +45,7 @@ class PostRepository extends EntityRepository
         // Order according to ownership count
         switch ($order) {
             case 'comments':
-                $dql->addSelect('COUNT(comment.id) as orderParam');
+                $dql->addSelect('COUNT(comment) as orderParam');
                 $dql->leftJoin('post.comments', 'comment');
                 break;
 
