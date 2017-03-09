@@ -26,7 +26,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
     public function getOrder()
     {
-        return 6;
+        return 7;
     }
 
     /**
@@ -37,18 +37,21 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $faker = Factory::create('fr_FR');
 
         // Load Pages
-        for ($i = 1; $i <= 10; $i++) {
+        $pages = $em->getRepository('AppBundle:Page')->findAll();
 
-            $page = new Page();
-            // Pages do not have auto id strategy
-            $page->setId($i)
-                 ->setTitle($faker->sentence(4, true))
-                 ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
+        foreach ($pages as $page) {
 
-            $em->persist($page);
+            // Load Sections
+            for ($i = 0; $i < mt_rand(1, 10); $i++) {
+                $section = new Section();
+                $section->setPage($page)
+                        ->setTitle($faker->sentence(4, true))
+                        ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
+                $em->persist($section);
+            }
+
+            $em->flush();
         }
-
-        $em->flush();
     }
 }
