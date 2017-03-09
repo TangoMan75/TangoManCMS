@@ -25,13 +25,6 @@ class NewPostType extends AbstractType
                 ]
             )
             ->add(
-                'subtitle',
-                TextType::Class,
-                [
-                    'label' => 'Sous-Titre',
-                ]
-            )
-            ->add(
                 'content',
                 TextareaType::Class,
                 [

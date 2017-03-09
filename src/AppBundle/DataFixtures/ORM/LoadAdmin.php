@@ -49,7 +49,7 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
                  ->setEmail("admin@localhost.dev")
                  ->setPassword($encoder->encodePassword($user, '321'))
                  ->addRole('ROLE_SUPER_ADMIN')
-                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                 ->setBio('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
             $em->persist($user);
             $em->flush();

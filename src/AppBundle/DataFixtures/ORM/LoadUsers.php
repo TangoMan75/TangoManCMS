@@ -46,7 +46,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Load Users
         for ($i = 1; $i <= 100; $i++) {
 
-            // Makes sure user doesn't exists
+            // Makes sure user doesn't exist
             // findBy is the only working method in fixtures
             do {
                 $username = $faker->userName;
@@ -61,7 +61,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
                  ->addRole($roles[mt_rand(0, 3)])
                  // ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
                  ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                 ->setBio("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                 ->setBio('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
             $em->persist($user);
 

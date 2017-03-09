@@ -25,13 +25,6 @@ class EditPostType extends AbstractType
                 ]
             )
             ->add(
-                'subtitle',
-                TextType::Class,
-                [
-                    'label' => 'Sous-Titre',
-                ]
-            )
-            ->add(
                 'slug',
                 TextType::Class,
                 [

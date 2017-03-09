@@ -50,11 +50,10 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
             for ($j = 0; $j < mt_rand(1, 10); $j++) {
 
                 $comment = new Comment();
-                $text = "<p>".$faker->text(mt_rand(300, 1200))."</p>";
                 $comment->setUser($users[mt_rand(1, count($users)-1)])
-                    ->setPost($post)
-                    ->setContent($text)
-                    ->setCreated($faker->dateTimeThisYear($max = 'now'));
+                        ->setPost($post)
+                        ->setContent('<p>'.$faker->text(mt_rand(300, 1200)).'</p>')
+                        ->setCreated($faker->dateTimeThisYear($max = 'now'));
 
                 $em->persist($comment);
 

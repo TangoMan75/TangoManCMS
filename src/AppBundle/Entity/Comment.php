@@ -59,26 +59,6 @@ class Comment
     }
 
     /**
-     * @return string Comment content
-     */
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    /**
-     * @param string $content Comment content
-     *
-     * @return $this
-     */
-    public function setContent($content)
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    /**
      * @return User Comment author
      */
     public function getUser()
@@ -118,4 +98,23 @@ class Comment
         return $this;
     }
 
+    /**
+     * @return string Comment content
+     */
+    public function getContent()
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string $content Comment content
+     *
+     * @return $this
+     */
+    public function setContent($content)
+    {
+        $this->content = $content;
+
+        return $this;
+    }
 }

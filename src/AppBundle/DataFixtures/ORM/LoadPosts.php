@@ -46,15 +46,13 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
         foreach ($users as $user) {
 
-            // Creates random Post amount for each user
+            // Creates between 1 & 10 posts for each user
             for ($j = 0; $j < mt_rand(1, 10); $j++) {
 
                 $post = new Post();
-                $text = "<p>".$faker->text(mt_rand(600, 2400))."</p>";
                 $post->setUser($user)
                      ->setTitle($faker->sentence(4, true))
-                     ->setSubtitle($faker->sentence(4, true))
-                     ->setContent($text)
+                     ->setContent('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                      ->setCreated($faker->dateTimeThisYear($max = 'now'));
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();

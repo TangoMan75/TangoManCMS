@@ -12,25 +12,6 @@ Trait Publishable
     private $title;
 
     /**
-     * @var string Subtitle
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $subtitle;
-
-    /**
-     * @var String Description
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
-
-    /**
-     * @var String Message content
-     * @ORM\Column(type="text")
-     * @Assert\NotBlank(message="Votre message ne peut pas être vide")
-     */
-    private $content;
-
-    /**
      * @var Tag[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
@@ -38,7 +19,7 @@ Trait Publishable
 
     /**
      * @var boolean
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $published;
 
@@ -53,66 +34,16 @@ Trait Publishable
     /**
      * @param string $title
      *
-     * @return Post
+     * @return $this
      */
     public function setTitle($title)
     {
+
+        // Sets slug when empty
         $this->title = $title;
         if (!$this->slug) {
             $this->setUniqueSlug($title);
         }
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSubtitle()
-    {
-        return $this->subtitle;
-    }
-
-    /**
-     * @param string $title
-     *
-     * @return Post
-     */
-    public function setSubtitle($subtitle)
-    {
-        $this->subtitle = $subtitle;
-
-        return $this;
-    }
-
-    /**
-     * @param tag $tag
-     *
-     * @return Post
-     */
-    public function removeTag(tag $tag)
-    {
-        $this->tags->removeElement($tag);
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     *
-     * @return Post
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
 
         return $this;
     }
@@ -127,7 +58,7 @@ Trait Publishable
 
     /**
      * @param boolean $published
-     * @return Post
+     * @return $this
      */
     public function setPublished($published)
     {
@@ -147,7 +78,7 @@ Trait Publishable
     /**
      * @param Tag $tag
      *
-     * @return Post
+     * @return $this
      */
     public function addTag(Tag $tag)
     {
@@ -155,6 +86,18 @@ Trait Publishable
         if (!in_array($tag, $this->tags)) {
             array_push($this->tags, $tag);
         }
+
+        return $this;
+    }
+
+    /**
+     * @param tag $tag
+     *
+     * @return $this
+     */
+    public function removeTag(tag $tag)
+    {
+        $this->tags->removeElement($tag);
 
         return $this;
     }

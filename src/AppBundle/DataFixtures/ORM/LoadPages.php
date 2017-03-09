@@ -43,8 +43,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
             // Pages do not have auto id strategy
             $page->setId($i)
                  ->setTitle($faker->sentence(4, true))
-                 ->setSubTitle($faker->sentence(4, true))
-                 ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                 ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
             $em->persist($page);
 
@@ -52,12 +51,9 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $sectionCount = mt_rand(0, 10);
             for ($j = 0; $j < $sectionCount; $j++) {
                 $section = new Section();
-                $sectionLength = mt_rand(600, 2400);
-                $text = "<p>".$faker->text($sectionLength)."</p>";
                 $section->setPage($page)
                         ->setTitle($faker->sentence(4, true))
-                        ->setSubTitle($faker->sentence(4, true))
-                        ->setDescription("<p>".$faker->text(mt_rand(600, 1200))."</p>");
+                        ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
                 $em->persist($section);
             }
