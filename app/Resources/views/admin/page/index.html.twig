@@ -17,10 +17,7 @@
 					<th>Id</th>
 					<th>Slug</th>
 					<th>Titre</th>
-					<th>Sous-titre</th>
-					<th>Description</th>
 					<th>Sections</th>
-					<th>Tags</th>
 					<th colspan="2">Actions</th>
 				</tr>
 				</thead>
@@ -30,14 +27,12 @@
 						<td>{{ page.id }}</td>
 						<td>{{ page.slug }}</td>
 						<td>{{ page.title }}</td>
-						<td>{{ page.subtitle }}</td>
-						<td>
-							<div class="page-description">
-								{{ page.description|striptags|truncate(255) }}
-							</div>
-						</td>
+						{#<td>#}
+							{#<div class="page-description">#}
+								{#{{ page.description|striptags|truncate(255) }}#}
+							{#</div>#}
+						{#</td>#}
 						<td>{{ page.sections|length }}</td>
-						<td>{{ page.tags|length }}</td>
                         <td>
                             <a href="{{ path('app_admin_page_edit', { 'id': page.id }) }}"
                                class="btn btn-warning btn-sm">

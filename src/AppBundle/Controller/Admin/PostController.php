@@ -239,7 +239,6 @@ class PostController extends Controller
                     $post = new Post();
                     $post->setUser($user)
                          ->setTitle($import->post_title)
-                         ->setSubtitle($import->post_subtitle)
                          ->setSlug($import->post_slug)
                          ->addTag($tag)
                          ->setContent($import->post_content);
