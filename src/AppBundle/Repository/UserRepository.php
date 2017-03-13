@@ -20,7 +20,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     {
         // Sets default values
         $page  = $query->get('page', 1);
-        $limit = $query->get('limit', 10);
+        $limit = $query->get('limit', 20);
         $order = $query->get('order', 'username');
         $way   = $query->get('way', 'ASC');
 
