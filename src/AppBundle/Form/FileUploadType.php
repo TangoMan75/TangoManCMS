@@ -28,8 +28,6 @@ class FileUploadType extends AbstractType
                             [
 //                        'maxSize' => '1024k',
 //                        'maxSizeMessage' => "Le fichier que vous tentez d'importer est trop volumineux",
-                                'mimeTypes'        => 'application/vnd.ms-excel',
-                                'mimeTypesMessage' => 'Vous ne pouvez importer que des fichiers de type CSV',
                             ]
                         ),
                     ],
