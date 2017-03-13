@@ -2,9 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Page;
 use AppBundle\Entity\Section;
-use AppBundle\Entity\Tag;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -12,7 +10,7 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadSections implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
 
@@ -45,8 +43,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
                 $section = new Section();
                 $section->setPage($page)
-                        ->setTitle($faker->sentence(4, true))
-                        ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
+                        ->setTitle($faker->sentence(4, true));
 
                 $em->persist($section);
             }

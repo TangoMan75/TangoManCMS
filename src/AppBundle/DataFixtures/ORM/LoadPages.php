@@ -3,8 +3,6 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Page;
-use AppBundle\Entity\Section;
-use AppBundle\Entity\Tag;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -42,8 +40,8 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $page = new Page();
             // Pages do not have auto id strategy
             $page->setId($i)
-                 ->setTitle($faker->sentence(4, true))
-                 ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
+                 ->setTitle($faker->sentence(4, true));
+//                 ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
             $em->persist($page);
 
