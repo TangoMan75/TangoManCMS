@@ -121,7 +121,7 @@ class PageController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La page <strong>&quot;'.$page->getTitle().'&quot;</strong> à bien été supprimée.'
+            'La page <strong>&quot;'.$page->getTitle().'&quot;</strong> a bien été supprimée.'
         );
 
         // Admin is redirected to referrer page

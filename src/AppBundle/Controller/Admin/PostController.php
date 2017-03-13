@@ -114,7 +114,7 @@ class PostController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'article <strong>&quot;'.$post->getTitle().'&quot;</strong> à bien été supprimé.'
+            'L\'article <strong>&quot;'.$post->getTitle().'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page

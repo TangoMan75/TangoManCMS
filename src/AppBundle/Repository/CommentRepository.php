@@ -43,12 +43,12 @@ class CommentRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'user':
-                $dql->addSelect('comment.'.$order.' as orderParam');
-                break;
-            case 'post':
-                $dql->addSelect('comment.'.$order.' as orderParam');
-                break;
+//            case 'user':
+//                $dql->addSelect('comment.'.$order.' as orderParam');
+//                break;
+//            case 'post':
+//                $dql->addSelect('comment.'.$order.' as orderParam');
+//                break;
             default:
                 $dql->addSelect('comment.'.$order.' as orderParam');
                 break;

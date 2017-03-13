@@ -131,7 +131,7 @@ class UserController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'utilisateur <strong>&quot;'.$user->getUsername().'&quot;</strong> à bien été supprimé.'
+            'L\'utilisateur <strong>&quot;'.$user->getUsername().'&quot;</strong> a bien été supprimé.'
         );
 
             // User is redirected to referrer page
@@ -160,7 +160,7 @@ class UserController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le role <strong>&quot;'.$add.'&quot; à été attribué à '.
+            'Le role <strong>&quot;'.$add.'&quot; a été attribué à '.
             '&quot;'.$user->getUsername().'&quot;</strong>.'
         );
 
@@ -203,7 +203,7 @@ class UserController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le role <strong>&quot;'.$remove.'&quot; à été retiré à '.
+            'Le role <strong>&quot;'.$remove.'&quot; a été retiré à '.
             '&quot;'.$user->getUsername().'&quot;</strong>.'
         );
 
