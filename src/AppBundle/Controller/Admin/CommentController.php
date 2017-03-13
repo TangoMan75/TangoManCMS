@@ -30,7 +30,7 @@ class CommentController extends Controller
             'admin/comment/index.html.twig',
             [
                 'currentUser' => $this->getUser(),
-                'comments'       => $comments,
+                'comments'    => $comments,
             ]
         );
     }
@@ -40,24 +40,24 @@ class CommentController extends Controller
      */
     public function newAction(Request $request)
     {
-        $page = new Comment();
-        $form = $this->createForm(AdminEditCommentType::class, $page);
+        $comment = new Comment();
+        $form = $this->createForm(AdminEditCommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists new page
             $em = $this->get('doctrine')->getManager();
-            $em->persist($page);
+            $em->persist($comment);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La page a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add('success', 'Le commentaire a bien été ajouté.');
 
             // User is redirected to referrer page
-            return $this->redirectToRoute('app_admin_page_index');
+            return $this->redirectToRoute('app_admin_comment_index');
         }
 
         return $this->render(
-            'admin/page/new.html.twig',
+            'admin/comment/new.html.twig',
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
@@ -68,28 +68,28 @@ class CommentController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Comment $page)
+    public function editAction(Request $request, Comment $comment)
     {
-        $form = $this->createForm(AdminEditCommentType::class, $page);
+        $form = $this->createForm(AdminEditCommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists edited page
             $em = $this->get('doctrine')->getManager();
-            $em->persist($page);
+            $em->persist($comment);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'La page a bien été modifiée.');
+            $this->get('session')->getFlashBag()->add('success', 'Le commentaire a bien été modifié.');
 
-            return $this->redirectToRoute('app_admin_page_index');
+            return $this->redirectToRoute('app_admin_comment_index');
         }
 
         return $this->render(
-            'admin/page/edit.html.twig',
+            'admin/comment/edit.html.twig',
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
-                'page'        => $page,
+                'comment'     => $comment,
             ]
         );
     }
@@ -98,7 +98,7 @@ class CommentController extends Controller
      * Finds and deletes a Comment.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Comment $page)
+    public function deleteAction(Request $request, Comment $comment)
     {
         $user = $this->getUser();
 
@@ -109,22 +109,22 @@ class CommentController extends Controller
                 'Vous n\'êtes pas autorisé à effectuer cette action.'
             );
 
-            return $this->redirectToRoute('app_admin_page_index');
+            return $this->redirectToRoute('app_admin_comment_index');
         }
 
         // Deletes specified user
         $em = $this->get('doctrine')->getManager();
-        $em->remove($page);
+        $em->remove($comment);
         $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La page <strong>&quot;'.$page->getTitle().'&quot;</strong> à bien été supprimée.'
+            'Le commentaire a bien été supprimée.'
         );
 
-        // Admin is redirected to referrer page
-        return $this->redirectToRoute('app_admin_page_index');
+        // Admin is redirected to referrer comment
+        return $this->redirectToRoute('app_admin_comment_index');
     }
 
 }
