@@ -12,9 +12,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    use Timestampable;
+    use Traits\Timestampable;
 
-    use Publishable;
+    use Traits\Publishable;
 
     /**
      * @var integer Comment id

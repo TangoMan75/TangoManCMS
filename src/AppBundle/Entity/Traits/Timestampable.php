@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Traits;
 
 /**
  * Adds created at and modified at timestamps to entities.

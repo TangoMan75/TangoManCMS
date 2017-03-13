@@ -1,6 +1,8 @@
 <?php
 
-namespace AppBundle\Entity;
+namespace AppBundle\Entity\Traits;
+
+use AppBundle\Entity\Tag;
 
 Trait Tagable
 {

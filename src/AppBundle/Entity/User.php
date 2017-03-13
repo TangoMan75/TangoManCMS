@@ -16,9 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
-    use Slugable;
+    use Traits\Slugable;
 
-    use Timestampable;
+    use Traits\Timestampable;
 
     /**
      * @var int User id

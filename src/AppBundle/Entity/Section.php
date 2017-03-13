@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Section
 {
-    use Publishable;
+    use Traits\Publishable;
 
     /**
      * @var int

@@ -12,11 +12,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
-    use Slugable;
+    use Traits\Slugable;
 
-    use Publishable;
+    use Traits\Publishable;
 
-    use Tagable;
+    use Traits\Tagable;
 
     /**
      * @var int

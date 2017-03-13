@@ -12,13 +12,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Post
 {
-    use Slugable;
+    use Traits\Slugable;
 
-    use Timestampable;
+    use Traits\Timestampable;
 
-    use Tagable;
+    use Traits\Tagable;
 
-    use Publishable;
+    use Traits\Publishable;
 
     /**
      * @var Integer Post id
