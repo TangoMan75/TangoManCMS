@@ -34,8 +34,7 @@ class Page
 
     /**
      * @var Section[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="pages", cascade={"remove"})
-     * @ORM\Column(name="sections", type="simple_array", nullable=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="page", cascade={"remove"})
      */
     private $sections;
 

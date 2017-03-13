@@ -23,9 +23,9 @@ class PageController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Show paginated sortable user list
+        // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        $pages = $em->getRepository('AppBundle:Page')->sortedSearchPaged($request->query);
 
         return $this->render(
             'admin/page/index.html.twig',

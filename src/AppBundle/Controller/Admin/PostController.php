@@ -26,7 +26,7 @@ class PostController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Show searchable, sortable, paginated user list
+        // Show searchable, sortable, paginated post list
         $em = $this->get('doctrine')->getManager();
         $posts = $em->getRepository('AppBundle:Post')->sortedSearchPaged($request->query);
 

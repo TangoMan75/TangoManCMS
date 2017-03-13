@@ -14,6 +14,8 @@ class Section
 {
     use Traits\Publishable;
 
+    use Traits\Tagable;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -34,13 +36,6 @@ class Section
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="sections")
      */
     private $page;
-
-    /**
-     * Section constructor.
-     */
-    public function __construct()
-    {
-    }
 
     /**
      * Get id

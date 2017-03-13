@@ -7,6 +7,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
 class AdminEditPageType extends AbstractType
 {
@@ -32,13 +34,28 @@ class AdminEditPageType extends AbstractType
                 ]
             )
             ->add(
+                'tags',
+                EntityType::class,
+                [
+                    'label'         => 'Étiquette',
+                    'class'         => 'AppBundle:Tag',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('t')
+                            ->join('t.items', 'items');
+                    },
+                ]
+            )
+            ->add(
                 'published',
                 CheckboxType::class,
                 [
-                    'label' => 'Publier',
+                    'label'    => 'Publier',
+                    'required' => false,
                 ]
-            )
-        ;
+            );
     }
 
     /**
