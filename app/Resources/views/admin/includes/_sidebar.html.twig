@@ -60,6 +60,12 @@
                     <span class="sidebar-label">Articles</span>
                 </a>
             </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_comment' %} class="active"{% endif %}>
+                <a href="{{ path('app_admin_comment_index') }}">
+                    <span class="glyphicon glyphicon-comment"></span>
+                    <span class="sidebar-label">Commentaires</span>
+                </a>
+            </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_tag' %} class="active"{% endif %}>
                 <a href="#">
                     <span class="glyphicon glyphicon-bookmark"></span>
