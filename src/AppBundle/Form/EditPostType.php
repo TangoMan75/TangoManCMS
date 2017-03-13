@@ -34,18 +34,20 @@ class EditPostType extends AbstractType
                     'label' => 'Slug',
                 ]
             )
-//            ->add(
-//                'tag',
-//                EntityType::class,
-//                [
-//                    'label' => 'tag.name',
-//                    'class' => 'AppBundle:Post',
-//                    'query_builder' => function (EntityRepository $em) use ($options) {
-//                        return $em->createQueryBuilder('post')
-//                            ->join('post.tags', 'tag');
-//                    },
-//                ]
-//            )
+            ->add(
+                'tags',
+                EntityType::class,
+                [
+                    'label' => 'Étiquette',
+                    'class' => 'AppBundle:Tag',
+                    'multiple' => true,
+//                    'expanded' => true,
+                    'query_builder' => function (EntityRepository $em) use ($options) {
+                        return $em->createQueryBuilder('t')
+                            ->join('t.items', 'items');
+                    },
+                ]
+            )
             ->add(
                 'published',
                 CheckboxType::class,
