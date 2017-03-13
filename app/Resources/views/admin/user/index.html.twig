@@ -90,6 +90,7 @@
                     <tr>
                         <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'id',
                                 'way'   : app.request.query.get('order') == 'id'
                                 and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -99,6 +100,7 @@
 
                         <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'username',
                                 'way'   : app.request.query.get('order') == 'username'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -108,6 +110,7 @@
 
                         <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'email',
                                 'way'   : app.request.query.get('order') == 'email'
                                 and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -116,6 +119,7 @@
                         </th>
                         <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'created',
                                 'way'   : app.request.query.get('order') == 'created'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -125,6 +129,7 @@
 
                         <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'modified',
                                 'way'   : app.request.query.get('order') == 'modified'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -134,6 +139,7 @@
 
                         <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'posts',
                                 'way'   : app.request.query.get('order') == 'posts'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -143,6 +149,7 @@
 
                         <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
                                 'order' : 'comments',
                                 'way'   : app.request.query.get('order') == 'comments'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -190,7 +197,7 @@
                                 {{ user.modified|date('d/m/Y H:i:s') }}
                             </td>
                             <td>
-                                <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'s_user' : user.username})) }}">
+                                <a href="{{ path('app_admin_post_index', {'s_user' : user.username}) }}">
                                     <span class="label label-primary">
                                         {{ user.posts|length }}
                                     </span>

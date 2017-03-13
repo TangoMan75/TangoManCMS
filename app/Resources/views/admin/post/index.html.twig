@@ -81,6 +81,7 @@
                 <tr>
                     <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'id',
                             'way'   : app.request.query.get('order') == 'id'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -89,6 +90,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'slug',
                             'way'   : app.request.query.get('order') == 'slug'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -97,6 +99,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'title',
                             'way'   : app.request.query.get('order') == 'title'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -105,6 +108,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'content' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'content',
                             'way'   : app.request.query.get('order') == 'content'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -113,6 +117,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'created',
                             'way'   : app.request.query.get('order') == 'created'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -121,6 +126,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'modified',
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -129,6 +135,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'author',
                             'way'   : app.request.query.get('order') == 'author'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -137,6 +144,7 @@
                     </th>
                     <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'comments',
                             'way'   : app.request.query.get('order') == 'comments'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
