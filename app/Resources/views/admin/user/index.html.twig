@@ -150,6 +150,8 @@
                             </a>
                         </th>
 
+                        <th>Actif</th>
+
                         <th>Role</th>
 
                         {#<th colspan="2">Token</th>#}
@@ -198,6 +200,17 @@
                                 <span class="label label-success">
                                     {{ user.comments|length }}
                                 </span>
+                            </td>
+                            <td>
+                                {% if user.password %}
+                                    <span class="btn btn-success btn-sm">
+                                        <span class="glyphicon glyphicon-ok"></span>
+                                    </span>
+                                    {% else %}
+                                    <span class="btn btn-danger btn-sm">
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </span>
+                                {% endif %}
                             </td>
                             <td>
                                 {% if 'ROLE_SUPER_ADMIN' in user.roles %}
