@@ -354,21 +354,60 @@ class UserController extends Controller
             $em = $this->get('doctrine')->getManager();
             $users = $em->getRepository('AppBundle:User');
             while (false !== ($line = $reader->readLine())) {
+
+                // Check import validity
+                // Minimum required to import user are username and email
+                $username = $line->get('username');
+                $email = $line->get('email');
+
+                if (!$email || !$username) {
+                    $this->get('session')->getFlashBag()->add('error', 'Le format du fichier que vous tentez d\'importer n\'est pas valide');
+                    return $this->redirectToRoute('app_admin_user_index');
+                }
+
                 // Check if user with same email already exist
                 $user = $users->findOneByEmail($line->get('email'));
                 // When not found persist new user
                 if (!$user) {
                     $counter++;
                     $user = new User();
-                    $user->setUsername($line->get('username'))
-                         ->setSlug($line->get('slug'))
-                         ->setBio($line->get('bio'))
-                         ->setEmail($line->get('email'))
-                         ->setPassword($line->get('password'))
-                         ->setAvatar($line->get('avatar'))
-                         ->setRoles(explode(",", $line->get('roles')))
-                         ->setCreated(date_create_from_format('Y/m/d H:i:s', $line->get('created')))
-                         ->setModified(date_create_from_format('Y/m/d H:i:s', $line->get('modified')));
+                    $user->setUsername($username)
+                         ->setEmail($email);
+
+                    $slug = $line->get('slug');
+                    if ($slug) {
+                        $user->setSlug($slug);
+                    }
+
+                    $bio = $line->get('bio');
+                    if ($bio) {
+                        $user->setBio($bio);
+                    }
+
+                    $password = $line->get('password');
+                    if ($password) {
+                        $user->setPassword($password);
+                    }
+
+                    $avatar = $line->get('avatar');
+                    if ($avatar) {
+                        $user->setAvatar($avatar);
+                    }
+
+                    $roles = $line->get('roles');
+                    if ($roles) {
+                        $user->setRoles(explode(",", $line->get('roles')));
+                    }
+
+                    $created = $line->get('created');
+                    if ($created) {
+                        $user->setCreated(date_create_from_format('Y/m/d H:i:s', $line->get('created')));
+                    }
+
+                    $modified = $line->get('modified');
+                    if ($modified) {
+                        $user->setModified(date_create_from_format('Y/m/d H:i:s', $line->get('modified')));
+                    }
 
                     $em->persist($user);
                     $em->flush();
