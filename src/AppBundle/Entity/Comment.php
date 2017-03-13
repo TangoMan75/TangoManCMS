@@ -14,6 +14,8 @@ class Comment
 {
     use Timestampable;
 
+    use Publishable;
+
     /**
      * @var integer Comment id
      * @ORM\Id

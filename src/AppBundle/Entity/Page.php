@@ -24,10 +24,11 @@ class Page
     private $id;
 
     /**
-     * @var string Description
-     * @ORM\Column(type="text", nullable=true)
+     * @var string Title
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
-    private $description;
+    private $title;
 
     /**
      * @var Section[]
@@ -71,19 +72,24 @@ class Page
     /**
      * @return string
      */
-    public function getDescription()
+    public function getTitle()
     {
-        return $this->description;
+        return $this->title;
     }
 
     /**
-     * @param string $description
+     * @param string $title
      *
      * @return $this
      */
-    public function setDescription($description)
+    public function setTitle($title)
     {
-        $this->description = $description;
+
+        // Sets slug when empty
+        $this->title = $title;
+        if (!$this->slug) {
+            $this->setUniqueSlug($title);
+        }
 
         return $this;
     }

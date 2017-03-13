@@ -23,6 +23,13 @@ class Section
     private $id;
 
     /**
+     * @var string Title
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le titre doit être renseigné")
+     */
+    private $title;
+
+    /**
      * @var Page
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="sections")
      */
@@ -43,6 +50,28 @@ class Section
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+
+        // Sets slug when empty
+        $this->title = $title;
+
+        return $this;
     }
 
     /**

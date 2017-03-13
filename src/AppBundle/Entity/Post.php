@@ -16,6 +16,8 @@ class Post
 
     use Timestampable;
 
+    use Tagable;
+
     use Publishable;
 
     /**
@@ -25,6 +27,13 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var string Title
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="Le titre doit être renseigné")
+     */
+    private $title;
 
     /**
      * @var User Post author
@@ -62,6 +71,31 @@ class Post
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     *
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+
+        // Sets slug when empty
+        $this->title = $title;
+        if (!$this->slug) {
+            $this->setUniqueSlug($title);
+        }
+
+        return $this;
     }
 
     /**
