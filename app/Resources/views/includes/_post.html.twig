@@ -42,7 +42,7 @@
                 {% endfor %}
             </div>
             <div class="comments col-xs-12 col-sm-6">
-                <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="btn btn-primary btn-sm">
+                <a href="{{ path('app_post_show', {'slug': post.slug}) }}" class="btn btn-primary btn-sm">
                     Commentaires
                     <span class="badge">{{ post.comments|length }}</span>
                 </a>
