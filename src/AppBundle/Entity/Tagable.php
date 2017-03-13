@@ -8,7 +8,7 @@ Trait Tagable
      * @var Tag[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
-    private $tags;
+    private $tags = [];
 
     /**
      * @return Tag[]
@@ -16,6 +16,20 @@ Trait Tagable
     public function getTags()
     {
         return $this->tags;
+    }
+
+    /**
+     * @param Tag $tag
+     *
+     * @return bool
+     */
+    public function hasTag(Tag $tag)
+    {
+        if (in_array($tag, $this->tags)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**

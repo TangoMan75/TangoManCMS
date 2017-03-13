@@ -61,7 +61,6 @@ class Post
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-        $this->tags = [];
         $this->published = false;
     }
 

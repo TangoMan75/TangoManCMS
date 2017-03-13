@@ -16,6 +16,8 @@ class Page
 
     use Publishable;
 
+    use Tagable;
+
     /**
      * @var int
      * @ORM\Column(name="id", type="integer", unique=true)
