@@ -39,14 +39,6 @@ class Tag
     private $items;
 
     /**
-     * Tag constructor.
-     */
-    public function __construct()
-    {
-        $this->items = [];
-    }
-
-    /**
      * Get id
      *
      * @return int
