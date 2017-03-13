@@ -174,7 +174,11 @@
                                 {{ post.user.username }}
                             </a>
                         </td>
-                        <td>{{ post.comments|length }}</td>
+                        <td>
+                            <span class="label label-success">
+                                {{ post.comments|length }}
+                            </span>
+                        </td>
                         <td>
                             {% for tag in post.tags %}
                                 <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'s_tag' : tag.name})) }}"

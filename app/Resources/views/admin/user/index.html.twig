@@ -65,9 +65,9 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" name="page"  value="1"/>
+                        <input type="hidden" name="page" value="1"/>
                         <input type="hidden" name="order" value="{{ app.request.query.get('order', 'username') }}"/>
-                        <input type="hidden" name="way"   value="{{ app.request.query.get('way', 'ASC') }}"/>
+                        <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                         <div class="col-xs-12">
                             <div class="pull-right">
                                 <button type="submit" class="btn btn-primary">
@@ -137,7 +137,7 @@
                                 'order' : 'posts',
                                 'way'   : app.request.query.get('order') == 'posts'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Post
+                                Articles
                             </a>
                         </th>
 
@@ -188,9 +188,11 @@
                                 {{ user.modified|date('d/m/Y H:i:s') }}
                             </td>
                             <td>
-                                <span class="label label-primary">
-                                    {{ user.posts|length }}
-                                </span>
+                                <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'s_user' : user.username})) }}">
+                                    <span class="label label-primary">
+                                        {{ user.posts|length }}
+                                    </span>
+                                </a>
                             </td>
                             <td>
                                 <span class="label label-success">
@@ -228,7 +230,7 @@
                                                 'id'       : user.id,
                                                 'remove'   : 'ROLE_SUPER_ADMIN',
                                                 'callback' : app.request.uri
-                                                })) }}"
+                                            })) }}"
                                                class="btn btn-warning btn-xs">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </a>
@@ -241,7 +243,7 @@
                                             'id'       : user.id,
                                             'remove'   : 'ROLE_ADMIN',
                                             'callback' : app.request.uri
-                                            })) }}"
+                                        })) }}"
                                            class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
@@ -249,7 +251,7 @@
                                             'id'       : user.id,
                                             'add'      : 'ROLE_SUPER_ADMIN',
                                             'callback' : app.request.uri
-                                            })) }}"
+                                        })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
@@ -258,7 +260,7 @@
                                             'id'       : user.id,
                                             'remove'   : 'ROLE_SUPER_USER',
                                             'callback' : app.request.uri
-                                            })) }}"
+                                        })) }}"
                                            class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
@@ -278,7 +280,7 @@
                                             'id'       : user.id,
                                             'add'      : 'ROLE_SUPER_USER',
                                             'callback' : app.request.uri
-                                            })) }}"
+                                        })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
