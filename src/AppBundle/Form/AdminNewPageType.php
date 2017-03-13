@@ -2,14 +2,13 @@
 
 namespace AppBundle\Form;
 
-use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProfileType extends AbstractType
+class AdminNewPageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,27 +18,20 @@ class ProfileType extends AbstractType
     {
         $builder
             ->add(
-                'avatar',
-                Base64Type::class,
-                [
-                    'label'    => 'Votre avatar',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'username',
+                'title',
                 TextType::Class,
                 [
-                    'label' => 'Votre pseudo',
+                    'label' => 'Titre',
                 ]
             )
             ->add(
-                'bio',
-                TextareaType::Class,
+                'published',
+                CheckboxType::class,
                 [
-                    'label' => 'Votre biographie',
+                    'label' => 'Publier',
                 ]
-            );
+            )
+        ;
     }
 
     /**
@@ -49,13 +41,13 @@ class ProfileType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\User',
+                'data_class' => 'AppBundle\Entity\Page',
             ]
         );
     }
 
     public function getName()
     {
-        return 'user';
+        return 'page';
     }
 }

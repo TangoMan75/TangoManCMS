@@ -2,8 +2,8 @@
 
 namespace AppBundle\Form;
 
-use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -26,25 +26,10 @@ class PageType extends AbstractType
                 ]
             )
             ->add(
-                'subtitle',
-                TextType::Class,
+                'published',
+                CheckboxType::class,
                 [
-                    'label' => 'Sous-Titre',
-                ]
-            )
-            ->add(
-                'description',
-                TextareaType::Class,
-                [
-                    'label' => 'Description',
-                ]
-            )
-            ->add(
-                'cover',
-                Base64Type::class,
-                [
-                    'label'    => 'Couverture',
-                    'required' => false,
+                    'label' => 'Publier',
                 ]
             )
         ;

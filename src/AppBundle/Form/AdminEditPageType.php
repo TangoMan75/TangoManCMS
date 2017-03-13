@@ -2,14 +2,13 @@
 
 namespace AppBundle\Form;
 
-use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AdminPageType extends AbstractType
+class AdminEditPageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,18 +25,17 @@ class AdminPageType extends AbstractType
                 ]
             )
             ->add(
-                'subtitle',
+                'slug',
                 TextType::Class,
                 [
-                    'label' => 'Sous-Titre',
+                    'label' => 'Slug',
                 ]
             )
             ->add(
-                'description',
-                TextareaType::Class,
+                'published',
+                CheckboxType::class,
                 [
-                    'label'    => 'Description',
-                    'required' => false,
+                    'label' => 'Publier',
                 ]
             )
         ;
