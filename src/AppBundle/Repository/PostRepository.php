@@ -76,7 +76,7 @@ class PostRepository extends EntityRepository
     }
 
     /**
-     * All Posts with joins
+     * All Posts with joined author email
      */
     public function findAllPosts()
     {
@@ -302,6 +302,11 @@ class PostRepository extends EntityRepository
         if ($query->get('s_user')) {
             $dql->andWhere('user.username LIKE :user')
                 ->setParameter(':user', '%'.$query->get('s_user').'%');
+        }
+
+        if ($query->get('s_published')) {
+            $dql->andWhere('post.published = :published')
+                ->setParameter(':published', $query->get('s_published'));
         }
 
         if ($query->get('s_tag')) {

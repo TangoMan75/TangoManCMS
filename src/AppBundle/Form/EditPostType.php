@@ -41,8 +41,9 @@ class EditPostType extends AbstractType
                     'label' => 'Étiquette',
                     'class' => 'AppBundle:Tag',
                     'multiple' => true,
-//                    'expanded' => true,
-                    'query_builder' => function (EntityRepository $em) use ($options) {
+                    'expanded' => false,
+                    'required' => false,
+                    'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('t')
                             ->join('t.items', 'items');
                     },
