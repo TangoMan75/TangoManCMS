@@ -1,0 +1,31 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Sections - Ajouter{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({selector: 'textarea', height: '250'});</script>
+    {% endif %}
+{% endblock %}
+
+{% block admin %}
+    <header>
+        <h1>Sections</h1>
+        <h2>Ajouter des sections</h2>
+        <p>Ici vous pouvez ajouter des sections à {{ site_name }}.</p>
+    </header>
+    {% include "admin/includes/_section_tabs.html.twig" %}
+    <section id="new">
+        <div class="jumbotron">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit" class="btn btn-primary center-block">
+                <span class="glyphicon glyphicon-send"></span>
+                Valider
+            </button>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}

@@ -49,7 +49,7 @@
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_section' %} class="active"{% endif %}>
-                <a href="#">
+                <a href="{{ path('app_admin_section_index') }}">
                     <span class="glyphicon glyphicon-text-background"></span>
                     <span class="sidebar-label">Sections</span>
                 </a>

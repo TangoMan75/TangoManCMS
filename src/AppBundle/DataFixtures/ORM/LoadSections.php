@@ -37,6 +37,9 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
         // Load Pages
         $pages = $em->getRepository('AppBundle:Page')->findAll();
 
+        // Load Tags
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+
         foreach ($pages as $page) {
 
             // Creates random section amount for each page
@@ -44,6 +47,10 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
                 $section = new Section();
                 $section->addPage($page)
                     ->setTitle($faker->sentence(4, true));
+
+                for ($j = 0; $j < mt_rand(0, 5); $j++) {
+                    $section->addTag($tags[mt_rand(0, 5)]);
+                }
 
                 $em->persist($section);
             }
