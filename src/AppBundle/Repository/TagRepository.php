@@ -8,7 +8,7 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-class PageRepository extends EntityRepository
+class TagRepository extends EntityRepository
 {
     /**
      * @param ParameterBag $query
@@ -20,7 +20,7 @@ class PageRepository extends EntityRepository
         // Sets default values
         $page  = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'title');
+        $order = $query->get('order', 'id');
         $way   = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {

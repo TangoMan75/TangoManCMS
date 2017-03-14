@@ -2,14 +2,14 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Entity\Page;
-use AppBundle\Form\AdminPageType;
+use AppBundle\Entity\Tag;
+use AppBundle\Form\AdminTagType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PageController
+ * Class TagController
  * @Route("/admin/tags")
  *
  * @package AppBundle\Controller
@@ -24,7 +24,7 @@ class TagController extends Controller
     {
         // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $tags = $em->getRepository('AppBundle:Page')->sortedSearchPaged($request->query);
+        $tags = $em->getRepository('AppBundle:Tag')->sortedSearchPaged($request->query);
 
         return $this->render(
             'admin/tag/index.html.twig',
@@ -40,17 +40,17 @@ class TagController extends Controller
      */
     public function newAction(Request $request)
     {
-        $page = new Page();
-        $form = $this->createForm(AdminPageType::class, $page);
+        $tag = new Tag();
+        $form = $this->createForm(AdminTagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists new page
             $em = $this->get('doctrine')->getManager();
-            $em->persist($page);
+            $em->persist($tag);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La page a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add('success', 'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été ajoutée.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -68,20 +68,20 @@ class TagController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Page $page)
+    public function editAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm(AdminPageType::class, $page);
+        $form = $this->createForm(AdminTagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists edited page
             $em = $this->get('doctrine')->getManager();
-            $em->persist($page);
+            $em->persist($tag);
             $em->flush();
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La page <strong>&quot;'.$page.'&quot;</strong> a bien été modifiée.'
+                'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -93,42 +93,29 @@ class TagController extends Controller
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
-                'page'        => $page,
+                'tag'         => $tag,
             ]
         );
     }
 
     /**
-     * Finds and deletes a Page.
+     * Finds and deletes a Tag.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Page $page)
+    public function deleteAction(Request $request, Tag $tag)
     {
-        $user = $this->getUser();
-
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
-                'Vous n\'êtes pas autorisé à effectuer cette action.'
-            );
-
-            return $this->redirectToRoute('app_admin_page_index');
-        }
-
-        // Deletes specified user
+        // Deletes specified tag
         $em = $this->get('doctrine')->getManager();
-        $em->remove($page);
+        $em->remove($tag);
         $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La page <strong>&quot;'.$page->getTitle().'&quot;</strong> a bien été supprimée.'
+            'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été supprimée.'
         );
 
-        // Admin is redirected to referrer page
-        return $this->redirectToRoute('app_admin_page_index');
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
-
 }
