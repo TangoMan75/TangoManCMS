@@ -131,7 +131,7 @@ class UserController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'utilisateur <strong>&quot;'.$user->getUsername().'&quot;</strong> a bien été supprimé.'
+            'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été supprimé.'
         );
 
             // User is redirected to referrer page
@@ -161,7 +161,7 @@ class UserController extends Controller
         $this->get('session')->getFlashBag()->add(
             'success',
             'Le role <strong>&quot;'.$add.'&quot; a été attribué à '.
-            '&quot;'.$user->getUsername().'&quot;</strong>.'
+            '&quot;'.$user.'&quot;</strong>.'
         );
 
             // User is redirected to referrer page
@@ -189,7 +189,7 @@ class UserController extends Controller
         if ($user == $this->getUser() && $remove == 'ROLE_SUPER_ADMIN') {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
+                'Désolé, <strong>'.$user.'</strong><br />'.
                 'Vous n\'êtes pas autorisé à supprimer vos propres droit d\'administration.'
             );
 
@@ -204,7 +204,7 @@ class UserController extends Controller
         $this->get('session')->getFlashBag()->add(
             'success',
             'Le role <strong>&quot;'.$remove.'&quot; a été retiré à '.
-            '&quot;'.$user->getUsername().'&quot;</strong>.'
+            '&quot;'.$user.'&quot;</strong>.'
         );
 
             // User is redirected to referrer page
@@ -263,7 +263,7 @@ class UserController extends Controller
                 [
                     $user->getId(),
                     $user->getSlug(),
-                    $user->getUsername(),
+                    $user,
                     $user->getEmail(),
                     $user->getAvatar(),
                     $user->getBio(),

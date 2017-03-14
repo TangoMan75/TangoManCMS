@@ -8,7 +8,7 @@ Trait Publishable
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $published;
+    private $published = false;
 
     /**
      * @return boolean

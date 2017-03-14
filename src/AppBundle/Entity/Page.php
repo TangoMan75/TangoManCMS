@@ -22,6 +22,7 @@ class Page
      * @var int
      * @ORM\Column(name="id", type="integer", unique=true)
      * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
@@ -36,7 +37,7 @@ class Page
      * @var Section[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages")
      */
-    private $sections;
+    private $sections = [];
 
     /**
      * Set id

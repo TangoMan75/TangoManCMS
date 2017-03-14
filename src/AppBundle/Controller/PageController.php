@@ -18,13 +18,13 @@ class PageController extends Controller
     {
         $em = $this->get('doctrine')->getManager();
         $page = $em->getRepository('AppBundle:Page')->findOneBy(['slug' => $slug]);
-        $sections = $em->getRepository('AppBundle:Section')->findBy(['page' => $page]);
+//        $sections = $em->getRepository('AppBundle:Section')->findBy(['page' => $page]);
 
         return $this->render(
             'page/show.html.twig',
             [
                 'page'     => $page,
-                'sections' => $sections,
+//                'sections' => $sections,
             ]
         );
     }

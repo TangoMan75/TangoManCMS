@@ -133,13 +133,17 @@
                     {% set page = page[0] %}
 					<tr>
 						<td>
-							<a href="{{ path('app_admin_page_edit', { 'id': page.id }) }}">
+							<a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
                                 {{ page.id }}
 							</a>
 						</td>
-						<td>{{ page.slug }}</td>
 						<td>
-							<a href="{{ path('app_admin_page_edit', { 'id': page.id }) }}">
+							<a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
+                                {{ page.slug }}
+							</a>
+						</td>
+						<td>
+							<a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
                                 {{ page.title }}
 							</a>
 						</td>
