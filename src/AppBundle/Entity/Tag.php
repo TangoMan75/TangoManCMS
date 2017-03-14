@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -36,7 +37,15 @@ class Tag
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      */
-    private $items;
+    private $items = [];
+
+    /**
+     * Tag constructor.
+     */
+    public function __construct()
+    {
+//        $this->items = [];
+    }
 
     /**
      * Get id
@@ -113,7 +122,6 @@ class Tag
      */
     public function addItem($item)
     {
-
         if (!in_array($item, $this->items)) {
             $this->items[] = $item;
         }

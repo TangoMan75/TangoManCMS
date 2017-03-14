@@ -41,8 +41,8 @@ Trait Tagable
      */
     public function addTag(Tag $tag)
     {
-        // Only one of each is allowed
         if (!in_array($tag, $this->tags)) {
+//            $tag->addItem($this);
             $this->tags[] = $tag;
         }
 

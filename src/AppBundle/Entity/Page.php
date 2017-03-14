@@ -35,10 +35,10 @@ class Page
      */
     private $title;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", mappedBy="page")
-     */
-    private $content;
+//    /**
+//     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", mappedBy="page")
+//     */
+//    private $content;
 
     /**
      * Post constructor.
