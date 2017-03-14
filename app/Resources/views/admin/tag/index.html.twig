@@ -23,10 +23,10 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-4">
-                            <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
+                            <label class="control-label col-sm-4" for="inputName">Nom</label>
                             <div class="col-sm-8">
-                                <input type="text" name="s_tag" id="inputTag" class="form-control"
-                                       value="{{ app.request.get('s_tag') }}"/>
+                                <input type="text" name="s_name" id="inputName" class="form-control"
+                                       value="{{ app.request.get('s_name') }}"/>
                             </div>
                         </div>
 
@@ -71,13 +71,13 @@
                             Id
                         </a>
                     </th>
-                    <th class="{{ app.request.query.get('order') == 'tag' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'name' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'tag',
-                            'way'   : app.request.query.get('order') == 'tag'
+                            'order' : 'name',
+                            'way'   : app.request.query.get('order') == 'name'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Étiquette
+                            Nom
                         </a>
                     </th>
                     <th class="{{ app.request.query.get('order') == 'type' ? app.request.query.get('way', 'ASC') }}">
@@ -100,7 +100,7 @@
                             {{ tag.id }}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}"
+                            <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}">
                                 {{ tag.name }}
                             </a>
                         </td>
@@ -116,7 +116,7 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target=".my-modal" data-item="{{ tag.title }}"
+                                    data-target=".my-modal" data-item="{{ tag.name }}"
                                     data-path="{{ path('app_admin_tag_delete', { 'id': tag.id, 'callback': app.request.uri }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer
