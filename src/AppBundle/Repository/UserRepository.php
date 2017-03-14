@@ -80,19 +80,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
-     * Get user count
-     *
-     * @return int $count user count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('user')
-            ->select('COUNT(user)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
      * @param QueryBuilder $dql
      * @param ParameterBag $query
      *
@@ -167,5 +154,18 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             ->setParameter('email', $username)
             ->getQuery()
             ->getOneOrNullResult();
+    }
+
+    /**
+     * Get user count
+     *
+     * @return int $count user count
+     */
+    public function count()
+    {
+        return $this->createQueryBuilder('user')
+            ->select('COUNT(user)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

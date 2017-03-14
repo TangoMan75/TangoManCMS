@@ -69,18 +69,6 @@ class PageRepository extends EntityRepository
     }
 
     /**
-     * Get page count
-     * @return int $count page count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('page')
-            ->select('COUNT(page)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
      * @param QueryBuilder $dql
      * @param ParameterBag $query
      *
@@ -115,5 +103,17 @@ class PageRepository extends EntityRepository
         }
 
         return $dql;
+    }
+
+    /**
+     * Get page count
+     * @return int $count page count
+     */
+    public function count()
+    {
+        return $this->createQueryBuilder('page')
+            ->select('COUNT(page)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }

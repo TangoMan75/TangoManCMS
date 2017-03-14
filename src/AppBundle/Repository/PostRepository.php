@@ -260,18 +260,6 @@ class PostRepository extends EntityRepository
     }
 
     /**
-     * Get post count
-     * @return int $count post count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('post')
-            ->select('COUNT(post)')
-            ->getQuery()
-            ->getSingleScalarResult();
-    }
-
-    /**
      * @param QueryBuilder $dql
      * @param ParameterBag $query
      *
@@ -316,5 +304,17 @@ class PostRepository extends EntityRepository
         }
 
         return $dql;
+    }
+
+    /**
+     * Get post count
+     * @return int $count post count
+     */
+    public function count()
+    {
+        return $this->createQueryBuilder('post')
+            ->select('COUNT(post)')
+            ->getQuery()
+            ->getSingleScalarResult();
     }
 }
