@@ -50,7 +50,7 @@ class PageController extends Controller
             $em->persist($page);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La page a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add('success', 'La page <strong>&quot;'.$page.'&quot;</strong> a bien été ajoutée.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -104,16 +104,15 @@ class PageController extends Controller
      */
     public function deleteAction(Request $request, Page $page)
     {
-        $user = $this->getUser();
-
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
+                'Désolé, <strong>'.$this->getUser().'</strong><br />'.
                 'Vous n\'êtes pas autorisé à effectuer cette action.'
             );
 
-            return $this->redirectToRoute('app_admin_page_index');
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
 
         // Deletes specified user
@@ -124,11 +123,10 @@ class PageController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La page <strong>&quot;'.$page->getTitle().'&quot;</strong> a bien été supprimée.'
+            'La page <strong>&quot;'.$page.'&quot;</strong> a bien été supprimée.'
         );
 
-        // Admin is redirected to referrer page
-        return $this->redirectToRoute('app_admin_page_index');
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
-
 }
