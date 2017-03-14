@@ -110,12 +110,21 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
-        $admin = $this->getUser();
+        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Désolé, <strong>'.$this->getUser().'</strong><br />'.
+                'Vous n\'êtes pas autorisé à effectuer cette action.'
+            );
+
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
+        }
 
         if (in_array('ROLE_SUPER_ADMIN', $user->getRoles())) {
             $this->get('session')->getFlashBag()->add(
                 'error',
-                'Désolé, <strong>'.$admin->getUsername().'</strong><br />'.
+                'Désolé, <strong>'.$this->getUser().'</strong><br />'.
                 'Il n\'est pas autorisé de supprimer un utilisateur ayant des droit d\'administration.'
             );
 
