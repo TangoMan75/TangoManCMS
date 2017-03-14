@@ -25,14 +25,14 @@ Trait Tagable
      *
      * @return bool
      */
-//    public function hasTag(Tag $tag)
-//    {
-//        if (in_array($tag, $this->tags)) {
-//            return true;
-//        }
-//
-//        return false;
-//    }
+    public function hasTag(Tag $tag)
+    {
+        if (in_array($tag, $this->tags)) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @param Tag $tag
@@ -43,7 +43,8 @@ Trait Tagable
     {
         // Only one of each is allowed
         if (!in_array($tag, $this->tags)) {
-            array_push($this->tags, $tag);
+//            array_push($this->tags, $tag);
+            $this->tags[] = $tag;
         }
 
         return $this;

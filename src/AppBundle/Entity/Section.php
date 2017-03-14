@@ -32,10 +32,10 @@ class Section
     private $title;
 
     /**
-     * @var Page
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="sections")
+     * @var Page[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections")
      */
-    private $page;
+    private $pages = [];
 
     /**
      * Get id
@@ -58,11 +58,10 @@ class Section
     /**
      * @param string $title
      *
-     * @return $this
+     * @return Section
      */
     public function setTitle($title)
     {
-
         // Sets slug when empty
         $this->title = $title;
 
@@ -70,26 +69,60 @@ class Section
     }
 
     /**
-     * Set page
-     *
+     * @return Page[]
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+    /**
      * @param Page $page
      *
-     * @return Section
+     * @return bool
      */
-    public function setPage($page)
+    public function hasPage(Page $page)
     {
-        $this->page = $page;
+        if (in_array($page, $this->pages)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Page $page
+     *
+     * @return $this
+     */
+    public function addPage(Page $page)
+    {
+        // Only one of each is allowed
+        if (!in_array($page, $this->pages)) {
+            array_push($this->pages, $page);
+//            $this->pages[] = $page;
+        }
 
         return $this;
     }
 
     /**
-     * Get page
+     * @param page $page
      *
-     * @return Page
+     * @return $this
      */
-    public function getPage()
+    public function removePage(page $page)
     {
-        return $this->page;
+        $this->pages->removeElement($page);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->title;
     }
 }

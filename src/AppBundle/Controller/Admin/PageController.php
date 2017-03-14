@@ -3,8 +3,7 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Page;
-use AppBundle\Form\AdminNewPageType;
-use AppBundle\Form\AdminEditPageType;
+use AppBundle\Form\AdminPageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,7 +41,7 @@ class PageController extends Controller
     public function newAction(Request $request)
     {
         $page = new Page();
-        $form = $this->createForm(AdminNewPageType::class, $page);
+        $form = $this->createForm(AdminPageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -54,7 +53,7 @@ class PageController extends Controller
             $this->get('session')->getFlashBag()->add('success', 'La page a bien été ajoutée.');
 
             // User is redirected to referrer page
-            return $this->redirectToRoute('app_admin_page_index');
+            return $this->redirect($request->get('callback'));
         }
 
         return $this->render(
@@ -71,7 +70,7 @@ class PageController extends Controller
      */
     public function editAction(Request $request, Page $page)
     {
-        $form = $this->createForm(AdminEditPageType::class, $page);
+        $form = $this->createForm(AdminPageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -80,9 +79,13 @@ class PageController extends Controller
             $em->persist($page);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'La page a bien été modifiée.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La page <strong>&quot;'.$page.'&quot;</strong> a bien été modifiée.'
+            );
 
-            return $this->redirectToRoute('app_admin_page_index');
+            // User is redirected to referrer page
+            return $this->redirect($request->get('callback'));
         }
 
         return $this->render(

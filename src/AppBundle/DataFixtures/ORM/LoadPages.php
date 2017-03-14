@@ -43,6 +43,12 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
                  ->setTitle($faker->sentence(4, true));
 //                 ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
+            $tags = $em->getRepository('AppBundle:Tag')->findAll();
+
+            for ($j = 0; $j < mt_rand(0, 5); $j++) {
+                $page->addTag($tags[mt_rand(0, 5)]);
+            }
+
             $em->persist($page);
 
         }

@@ -39,11 +39,11 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
 
         foreach ($pages as $page) {
 
-            // Load Sections
+            // Creates random section amount for each page
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
                 $section = new Section();
-                $section->setPage($page)
-                        ->setTitle($faker->sentence(4, true));
+                $section->addPage($page)
+                    ->setTitle($faker->sentence(4, true));
 
                 $em->persist($section);
             }

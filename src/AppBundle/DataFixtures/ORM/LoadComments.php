@@ -35,7 +35,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
         $faker = Factory::create('fr_FR');
 
         // findBy is the only working method in fixtures
-        // Get Posts
+        // Get 100 Posts
         $posts = $em->getRepository('AppBundle:Post')->findBy([], null, 100);
         // Get Users
         // $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
@@ -44,7 +44,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
         foreach ($posts as $post) {
 
             // Creates random comment amount for each post
-            for ($j = 0; $j < mt_rand(1, 10); $j++) {
+            for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
                 $comment = new Comment();
                 $comment->setUser($users[mt_rand(1, count($users)-1)])

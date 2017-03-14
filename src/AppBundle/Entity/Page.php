@@ -34,17 +34,9 @@ class Page
 
     /**
      * @var Section[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="page", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages")
      */
     private $sections;
-
-    /**
-     * Page constructor.
-     */
-    public function __construct()
-    {
-        $this->sections = [];
-    }
 
     /**
      * Set id
@@ -85,7 +77,6 @@ class Page
      */
     public function setTitle($title)
     {
-
         // Sets slug when empty
         $this->title = $title;
         if (!$this->slug) {
@@ -96,26 +87,48 @@ class Page
     }
 
     /**
-     * Set sections
+     * Get sections
      *
-     * @param array $sections
+     * @return Section[]
+     */
+    public function getSections()
+    {
+        return $this->sections;
+    }
+
+    /**
+     * Add section
      *
      * @return Page
      */
-    public function setSections($sections)
+    public function addSection($section)
     {
-        $this->sections = $sections;
+        if (!in_array($section, $this->sections)) {
+            $this->sections[] = $section;
+        }
 
         return $this;
     }
 
     /**
-     * Get sections
+     * Remove section
      *
-     * @return array
+     * @param $section
+     *
+     * @return Page
      */
-    public function getSections()
+    public function removeSection($section)
     {
-        return $this->sections;
+        $this->sections->removeElement($section);
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->title;
     }
 }

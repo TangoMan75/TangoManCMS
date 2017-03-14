@@ -4,13 +4,14 @@ namespace AppBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class AdminEditPageType extends AbstractType
+class AdminPageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -19,6 +20,13 @@ class AdminEditPageType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add(
+                'id',
+                IntegerType::Class,
+                [
+                    'label' => 'Id',
+                ]
+            )
             ->add(
                 'title',
                 TextType::Class,
@@ -34,6 +42,21 @@ class AdminEditPageType extends AbstractType
                 ]
             )
             ->add(
+                'sections',
+                EntityType::class,
+                [
+                    'label'         => 'Sections',
+                    'class'         => 'AppBundle:Page',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $pageManager) {
+                        return $pageManager->createQueryBuilder('p')
+                            ->join('p.sections', 'sections');
+                    },
+                ]
+            )
+            ->add(
                 'tags',
                 EntityType::class,
                 [
@@ -42,8 +65,8 @@ class AdminEditPageType extends AbstractType
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('t')
+                    'query_builder' => function (EntityRepository $itemManager) {
+                        return $itemManager->createQueryBuilder('t')
                             ->join('t.items', 'items');
                     },
                 ]

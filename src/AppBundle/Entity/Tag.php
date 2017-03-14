@@ -99,7 +99,7 @@ class Tag
     /**
      * Get items
      *
-     * @return Post[]|array
+     * @return Page[]|Post[]
      */
     public function getItems()
     {
@@ -107,13 +107,31 @@ class Tag
     }
 
     /**
-     * Set items
+     * Has item
+     *
+     * @param $item
+     *
+     * @return bool
+     */
+    public function hasItem($item)
+    {
+        if (in_array($item, $this->items)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Add item
      *
      * @return Tag
      */
     public function addItem($item)
     {
-        $this->items[] = $item;
+        if (!in_array($item, $this->items)) {
+            $this->items[] = $item;
+        }
 
         return $this;
     }
@@ -123,7 +141,7 @@ class Tag
      *
      * @param $item
      *
-     * @return tag
+     * @return Tag
      */
     public function removeItem($item)
     {
