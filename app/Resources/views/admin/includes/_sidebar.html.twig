@@ -61,7 +61,7 @@
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_tag' %} class="active"{% endif %}>
-                <a href="#">
+                <a href="{{ path('app_admin_tag_index') }}">
                     <span class="glyphicon glyphicon-bookmark"></span>
                     <span class="sidebar-label">Étiquettes</span>
                 </a>

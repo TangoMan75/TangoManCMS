@@ -1,0 +1,146 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Étiquettes{% endblock %}
+
+{% block admin %}
+    <header>
+        <h1>Étiquettes</h1>
+        <h2>Liste des étiquettes</h2>
+        <p>Ici vous pouvez accèder à la liste des étiquettes de {{ site_name }}.</p>
+    </header>
+    {% include "admin/includes/_tag_tabs.html.twig" %}
+    <section id="search">
+        <div class="jumbotron">
+            <form method="GET" class="form-horizontal">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputId">Id</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_id" id="inputId" class="form-control"
+                                       value="{{ app.request.get('s_id') }}"/>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_tag" id="inputTag" class="form-control"
+                                       value="{{ app.request.get('s_tag') }}"/>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputType">Type</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_type" id="inputType" class="form-control"
+                                       value="{{ app.request.get('s_type') }}"/>
+                            </div>
+                        </div>
+
+                    </div>
+                    <input type="hidden" name="page" value="1"/>
+                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'id') }}"/>
+                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
+                    <div class="col-xs-12">
+                        <div class="pull-right">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span> Filtrer ({{ tags.count }})
+                            </button>
+                            <button id="reset" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-remove"></span> Effacer
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="tag-list">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'id',
+                            'way'   : app.request.query.get('order') == 'id'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Id
+                        </a>
+                    </th>
+                    <th class="{{ app.request.query.get('order') == 'tag' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'tag',
+                            'way'   : app.request.query.get('order') == 'tag'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Étiquette
+                        </a>
+                    </th>
+                    <th class="{{ app.request.query.get('order') == 'type' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'type',
+                            'way'   : app.request.query.get('order') == 'type'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Type
+                        </a>
+                    </th>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tag in tags %}
+                    {% set tag = tag[0] %}
+                    <tr>
+                        <td>
+                            {{ tag.id }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}"
+                                {{ tag.name }}
+                            </a>
+                        </td>
+                        <td>
+                            {{ tag.type }}
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}"
+                               class="btn btn-warning btn-sm">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                Modifier
+                            </a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target=".my-modal" data-item="{{ tag.title }}"
+                                    data-path="{{ path('app_admin_tag_delete', { 'id': tag.id, 'callback': app.request.uri }) }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                Supprimer
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            {{ pagination(tags) }}
+        </div>
+    </section>
+    {% include "admin/includes/_delete-tag-modal.html.twig" %}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('js/modal.js') }}"></script>
+    <script>
+        $('#reset').click(function () {
+            $('form').find('input:text, input:password, select, textarea').val('');
+            $('form').find('input:radio, input:checkbox').prop('checked', false);
+        });
+    </script>
+{% endblock %}
