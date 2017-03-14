@@ -106,7 +106,6 @@ class Tag
         return $this->items;
     }
 
-
     /**
      * Add item
      *
@@ -121,8 +120,6 @@ class Tag
 
         return $this;
     }
-
-
 
     /**
      * Remove item

@@ -21,9 +21,9 @@ class Post
     use Traits\Publishable;
 
     /**
-     * @var Integer Post id
+     * @var int Post id
      * @ORM\Id
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;

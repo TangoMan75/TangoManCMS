@@ -21,9 +21,9 @@ class Page
     use Traits\Publishable;
 
     /**
-     * @var int
-     * @ORM\Column(name="id", type="integer", unique=true)
+     * @var int Page id
      * @ORM\Id
+     * @ORM\Column(type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
@@ -36,26 +36,17 @@ class Page
     private $title;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", mappedBy="page")
+     */
+    private $content;
+
+    /**
      * Post constructor.
      */
     public function __construct()
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-    }
-
-    /**
-     * Set id
-     *
-     * @param string $id
-     *
-     * @return Page
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-
-        return $this;
     }
 
     /**

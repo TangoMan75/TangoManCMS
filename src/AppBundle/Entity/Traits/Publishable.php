@@ -20,6 +20,7 @@ Trait Publishable
 
     /**
      * @param boolean $published
+     *
      * @return $this
      */
     public function setPublished($published)
