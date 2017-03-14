@@ -14,9 +14,11 @@ class Page
 {
     use Traits\Slugable;
 
-    use Traits\Publishable;
+    use Traits\Timestampable;
 
     use Traits\Tagable;
+
+    use Traits\Publishable;
 
     /**
      * @var int
@@ -34,10 +36,13 @@ class Page
     private $title;
 
     /**
-     * @var Section[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages")
+     * Post constructor.
      */
-    private $sections = [];
+    public function __construct()
+    {
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
+    }
 
     /**
      * Set id
@@ -83,44 +88,6 @@ class Page
         if (!$this->slug) {
             $this->setUniqueSlug($title);
         }
-
-        return $this;
-    }
-
-    /**
-     * Get sections
-     *
-     * @return Section[]
-     */
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    /**
-     * Add section
-     *
-     * @return Page
-     */
-    public function addSection($section)
-    {
-        if (!in_array($section, $this->sections)) {
-            $this->sections[] = $section;
-        }
-
-        return $this;
-    }
-
-    /**
-     * Remove section
-     *
-     * @param $section
-     *
-     * @return Page
-     */
-    public function removeSection($section)
-    {
-        $this->sections->removeElement($section);
 
         return $this;
     }

@@ -34,21 +34,6 @@ class AdminPageType extends AbstractType
                 ]
             )
             ->add(
-                'sections',
-                EntityType::class,
-                [
-                    'label'         => 'Sections',
-                    'class'         => 'AppBundle:Section',
-                    'multiple'      => true,
-                    'expanded'      => false,
-                    'required'      => false,
-                    'query_builder' => function (EntityRepository $pageManager) {
-                        return $pageManager->createQueryBuilder('s')
-                            ->join('s.pages', 'pages');
-                    },
-                ]
-            )
-            ->add(
                 'tags',
                 EntityType::class,
                 [

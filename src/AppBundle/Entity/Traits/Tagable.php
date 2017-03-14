@@ -43,7 +43,6 @@ Trait Tagable
     {
         // Only one of each is allowed
         if (!in_array($tag, $this->tags)) {
-//            array_push($this->tags, $tag);
             $this->tags[] = $tag;
         }
 

@@ -106,21 +106,6 @@ class Tag
         return $this->items;
     }
 
-    /**
-     * Has item
-     *
-     * @param $item
-     *
-     * @return bool
-     */
-    public function hasItem($item)
-    {
-        if (in_array($item, $this->items)) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Add item
@@ -129,12 +114,15 @@ class Tag
      */
     public function addItem($item)
     {
+
         if (!in_array($item, $this->items)) {
             $this->items[] = $item;
         }
 
         return $this;
     }
+
+
 
     /**
      * Remove item

@@ -23,7 +23,6 @@ class AdminController extends Controller
                 'currentUser'  => $this->getUser(),
                 'userCount'    => $this->get('doctrine')->getRepository('AppBundle:User')->count(),
                 'pageCount'    => $this->get('doctrine')->getRepository('AppBundle:Page')->count(),
-                'sectionCount' => $this->get('doctrine')->getRepository('AppBundle:Section')->count(),
                 'postCount'    => $this->get('doctrine')->getRepository('AppBundle:Post')->count(),
                 'commentCount' => $this->get('doctrine')->getRepository('AppBundle:Comment')->count(),
             ]
