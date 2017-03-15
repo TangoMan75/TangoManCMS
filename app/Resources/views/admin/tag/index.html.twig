@@ -118,17 +118,9 @@
                 {% for tag in tags %}
                     {% set tag = tag[0] %}
                     <tr>
-                        <td>
-                            {{ tag.id }}
-                        </td>
-                        <td>
-                            <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}">
-                                {{ tag.name }}
-                            </a>
-                        </td>
-                        <td>
-                            {{ tag.type }}
-                        </td>
+                        <td>{{ tag.id }}</td>
+                        <td>{{ tag.name }}</td>
+                        <td>{{ tag.type }}</td>
                         <td>
                             <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}"
                                class="btn btn-warning btn-sm">
