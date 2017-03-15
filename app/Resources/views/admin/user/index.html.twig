@@ -117,6 +117,7 @@
                                 Email
                             </a>
                         </th>
+
                         <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,

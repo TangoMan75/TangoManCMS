@@ -24,7 +24,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
 
     public function getOrder()
     {
-        return 5;
+        return 6;
     }
 
     /**

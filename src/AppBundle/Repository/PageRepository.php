@@ -20,7 +20,7 @@ class PageRepository extends EntityRepository
         // Sets default values
         $page  = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'title');
+        $order = $query->get('order', 'id');
         $way   = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
@@ -42,9 +42,9 @@ class PageRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'sections':
-                $dql->addSelect('COUNT(section) as orderParam');
-                $dql->leftJoin('page.sections', 'section');
+            case 'items':
+                $dql->addSelect('COUNT(item) as orderParam');
+                $dql->leftJoin('page.items', 'items');
                 break;
 
             default:

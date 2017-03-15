@@ -96,6 +96,7 @@
                             Id
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -105,6 +106,7 @@
                             Slug
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -114,6 +116,7 @@
                             Titre
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'content' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -123,6 +126,7 @@
                             Contenu
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -132,6 +136,7 @@
                             Création
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -141,6 +146,7 @@
                             Modification
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -150,6 +156,7 @@
                             Auteur
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -159,6 +166,9 @@
                             Commentaires
                         </a>
                     </th>
+
+                    <th>Étiquette</th>
+
                     <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -168,7 +178,7 @@
                             Publié
                         </a>
                     </th>
-                    <th>Étiquette</th>
+
                     <th colspan="2">Actions</th>
                 </tr>
                 </thead>
@@ -205,6 +215,14 @@
                             </span>
                         </td>
                         <td>
+                            {% for tag in post.tags %}
+                                <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'s_tag' : tag.name})) }}"
+                                   class="label label-{{ tag.type }}">
+                                    {{ tag.name }}
+                                </a><br/>
+                            {% endfor %}
+                        </td>
+                        <td>
                             {% if post.published %}
                                 <span class="btn btn-success btn-xs">
                                     <span class="glyphicon glyphicon-ok"></span>
@@ -214,14 +232,6 @@
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </span>
                             {% endif %}
-                        </td>
-                        <td>
-                            {% for tag in post.tags %}
-                                <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'s_tag' : tag.name})) }}"
-                                   class="label label-{{ tag.type }}">
-                                    {{ tag.name }}
-                                </a><br/>
-                            {% endfor %}
                         </td>
                         <td>
                             <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri }) }}"
