@@ -45,8 +45,13 @@ class PostRepository extends EntityRepository
         // Order according to ownership count
         switch ($order) {
             case 'comments':
-                $dql->addSelect('COUNT(comment) as orderParam');
-                $dql->leftJoin('post.comments', 'comment');
+                $dql->addSelect('COUNT(comments) as orderParam');
+                $dql->leftJoin('post.comments', 'comments');
+                break;
+
+            case 'tags':
+                $dql->addSelect('COUNT(ctags) as orderParam');
+                $dql->leftJoin('post.tags', 'ctags');
                 break;
 
             case 'author':
@@ -118,9 +123,14 @@ class PostRepository extends EntityRepository
                 ->setParameter(':page', '%'.$query->get('s_page').'%');
         }
 
-        if ($query->get('s_published') !== null) {
-            $dql->andWhere('post.published = :published')
-                ->setParameter(':published', $query->get('s_published'));
+        switch ($query->get('s_published')) {
+            case 'true':
+                $dql->andWhere('post.published = :published')
+                    ->setParameter(':published', 1);
+                break;
+            case 'false':
+                $dql->andWhere('post.published = :published')
+                    ->setParameter(':published', 0);
         }
 
         if ($query->get('s_tag')) {

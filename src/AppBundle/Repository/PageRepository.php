@@ -18,10 +18,10 @@ class PageRepository extends EntityRepository
     public function sortedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page  = $query->get('page', 1);
+        $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'modified');
-        $way   = $query->get('way', 'DESC');
+        $way = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -45,6 +45,11 @@ class PageRepository extends EntityRepository
             case 'items':
                 $dql->addSelect('COUNT(items) as orderParam');
                 $dql->leftJoin('page.items', 'items');
+                break;
+
+            case 'tags':
+                $dql->addSelect('COUNT(ctags) as orderParam');
+                $dql->leftJoin('page.tags', 'ctags');
                 break;
 
             default:
@@ -91,9 +96,14 @@ class PageRepository extends EntityRepository
                 ->setParameter(':title', '%'.$query->get('s_title').'%');
         }
 
-        if ($query->get('s_published') !== null) {
-            $dql->andWhere('page.published = :published')
-                ->setParameter(':published', $query->get('s_published'));
+        switch ($query->get('s_published')) {
+            case 'true':
+                $dql->andWhere('page.published = :published')
+                    ->setParameter(':published', 1);
+                break;
+            case 'false':
+                $dql->andWhere('page.published = :published')
+                    ->setParameter(':published', 0);
         }
 
         if ($query->get('s_tag')) {
@@ -107,6 +117,7 @@ class PageRepository extends EntityRepository
 
     /**
      * Get page count
+     *
      * @return int $count page count
      */
     public function count()

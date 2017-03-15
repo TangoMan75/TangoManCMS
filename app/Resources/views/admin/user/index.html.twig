@@ -48,12 +48,12 @@
                             <div class="col-sm-8">
                                 <select name="s_status" id="selectStatus" class="form-control">
                                     <option value="">Tous</option>
-                                    <option value="1"
-                                            {% if app.request.get('s_status') == "1" %}selected{% endif %}>
+                                    <option value="true"
+                                            {% if app.request.get('s_status') == "true" %}selected{% endif %}>
                                         Actif
                                     </option>
-                                    <option value="0"
-                                            {% if app.request.get('s_status') == "0" %}selected{% endif %}>
+                                    <option value="false"
+                                            {% if app.request.get('s_status') == "false" %}selected{% endif %}>
                                         Inactif
                                     </option>
                                 </select>

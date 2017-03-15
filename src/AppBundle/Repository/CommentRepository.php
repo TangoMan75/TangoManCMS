@@ -104,9 +104,14 @@ class CommentRepository extends EntityRepository
                 ->setParameter(':content', '%'.$query->get('s_content').'%');
         }
 
-        if ($query->get('s_published') !== null) {
-            $dql->andWhere('comment.published = :published')
-                ->setParameter(':published', $query->get('s_published'));
+        switch ($query->get('s_published')) {
+            case 'true':
+                $dql->andWhere('comment.published = :published')
+                    ->setParameter(':published', 1);
+                break;
+            case 'false':
+                $dql->andWhere('comment.published = :published')
+                    ->setParameter(':published', 0);
         }
 
         return $dql;

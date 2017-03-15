@@ -98,12 +98,11 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         }
 
         switch ($query->get('s_status')) {
-            case 1:
+            case 'true':
                 $dql->andWhere('user.password IS NOT NULL');
                 break;
-            case 0:
+            case 'false':
                 $dql->andWhere('user.password IS NULL');
-                break;
         }
 
         if ($query->get('s_email')) {

@@ -46,10 +46,19 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputPublished">Publié</label>
+                        <label class="control-label col-sm-4" for="selectStatus">Status</label>
                         <div class="col-sm-8">
-                            <input type="checkbox" name="s_published" id="inputPublished" class="checkbox"
-                                   value="1"{% if app.request.query.get('s_published') %} checked{% endif %}/>
+                            <select name="s_published" id="selectStatus" class="form-control">
+                                <option value="">Tous</option>
+                                <option value="true"
+                                        {% if app.request.get('s_published') == "true" %}selected{% endif %}>
+                                    Publié
+                                </option>
+                                <option value="false"
+                                        {% if app.request.get('s_published') == "false" %}selected{% endif %}>
+                                    Non-publié
+                                </option>
+                            </select>
                         </div>
                     </div>
 
@@ -84,6 +93,7 @@
                             Id
                         </a>
                     </th>
+
                     <th class="{{ app.request.query.get('order') == 'post' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -93,6 +103,17 @@
                             Article
                         </a>
                     </th>
+
+                    <th class="{{ app.request.query.get('order') == 'content' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'content',
+                            'way'   : app.request.query.get('order') == 'content'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Commentaire
+                        </a>
+                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'user' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -102,15 +123,7 @@
                             Auteur
                         </a>
                     </th>
-                    <th class="{{ app.request.query.get('order') == 'content' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'content',
-                            'way'   : app.request.query.get('order') == 'content'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Contenu
-                        </a>
-                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -120,6 +133,27 @@
                             Publié
                         </a>
                     </th>
+
+                    <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'created',
+                            'way'   : app.request.query.get('order') == 'created'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Création
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'modified',
+                            'way'   : app.request.query.get('order') == 'modified'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Modification
+                        </a>
+                    </th>
+
                     <th colspan="2">Actions</th>
                 </tr>
                 </thead>
@@ -138,14 +172,14 @@
                             </a>
                         </td>
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': comment.user.slug }) }}">
-                                {{ comment.user.username }}
-                            </a>
-                        </td>
-                        <td>
                             <div class="table-text">
                                 {{ comment.content|striptags|truncate(255) }}
                             </div>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_user_show', { 'slug': comment.user.slug }) }}">
+                                {{ comment.user.username }}
+                            </a>
                         </td>
                         <td>
                             {% if comment.published %}
@@ -160,6 +194,8 @@
                                 </a>
                             {% endif %}
                         </td>
+                        <td>{{ comment.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ comment.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri }) }}"
                                class="btn btn-warning btn-sm">
