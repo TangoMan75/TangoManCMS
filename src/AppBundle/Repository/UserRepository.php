@@ -19,10 +19,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     public function sortedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page  = $query->get('page', 1);
+        $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'username');
-        $way   = $query->get('way', 'ASC');
+        $way = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -95,6 +95,15 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         if ($query->get('s_username')) {
             $dql->andWhere('user.username LIKE :username')
                 ->setParameter(':username', '%'.$query->get('s_username').'%');
+        }
+
+        switch ($query->get('s_active') !== null) {
+            case true:
+                $dql->andWhere('user.password IS NOT NULL');
+                break;
+            case false:
+                $dql->andWhere('user.password IS NULL');
+                break;
         }
 
         if ($query->get('s_email')) {
