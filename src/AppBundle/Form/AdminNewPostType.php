@@ -33,9 +33,11 @@ class AdminNewPostType extends AbstractType
                 [
                     'label'         => 'Page',
                     'class'         => 'AppBundle:Page',
+                    'placeholder'   => 'Selectionner une page',
+                    'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
-                    'required'      => true,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('p')
                             ->orderBy('p.title');

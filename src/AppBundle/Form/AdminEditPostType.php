@@ -40,7 +40,7 @@ class AdminEditPostType extends AbstractType
                 [
                     'label'         => 'Page',
                     'class'         => 'AppBundle:Page',
-                    'placeholder'   => 'Selectionnez une page',
+                    'placeholder'   => 'Selectionner une page',
                     'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
