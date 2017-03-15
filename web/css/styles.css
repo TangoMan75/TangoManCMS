@@ -114,13 +114,22 @@ form div .form-group figure img {
 }
 
 /**
- * Responsive page index descriptions
+ * Responsive table text overflow
  */
+.table-text {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 @media (min-width: 768px) and (max-width: 1400px) {
 	.table-text {
 		max-height: 15em;
-		overflow: hidden;
-		text-overflow: ellipsis;
+	}
+}
+
+@media (max-width: 768px) {
+	.table-text {
+		max-width: 15em;
 	}
 }
 
