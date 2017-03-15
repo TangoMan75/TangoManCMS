@@ -117,8 +117,7 @@ form div .form-group figure img {
  * Responsive page index descriptions
  */
 @media (min-width: 768px) and (max-width: 1400px) {
-	.post-content,
-	.page-description {
+	.table-text {
 		max-height: 15em;
 		overflow: hidden;
 		text-overflow: ellipsis;
