@@ -81,6 +81,58 @@ class PostRepository extends EntityRepository
     }
 
     /**
+     * @param QueryBuilder $dql
+     * @param ParameterBag $query
+     *
+     * @return QueryBuilder
+     */
+    public function search(QueryBuilder $dql, ParameterBag $query)
+    {
+        if ($query->get('s_id')) {
+            $dql->andWhere('post.id = :id')
+                ->setParameter(':id', $query->get('s_id'));
+        }
+
+        if ($query->get('s_title')) {
+            $dql->andWhere('post.title LIKE :title')
+                ->setParameter(':title', '%'.$query->get('s_title').'%');
+        }
+
+        if ($query->get('s_subtitle')) {
+            $dql->andWhere('post.subtitle LIKE :subtitle')
+                ->setParameter(':subtitle', '%'.$query->get('s_subtitle').'%');
+        }
+
+        if ($query->get('s_content')) {
+            $dql->andWhere('post.content LIKE :content')
+                ->setParameter(':content', '%'.$query->get('s_content').'%');
+        }
+
+        if ($query->get('s_user')) {
+            $dql->andWhere('user.username LIKE :user')
+                ->setParameter(':user', '%'.$query->get('s_user').'%');
+        }
+
+        if ($query->get('s_page')) {
+            $dql->andWhere('page.title LIKE :page')
+                ->setParameter(':page', '%'.$query->get('s_page').'%');
+        }
+
+        if ($query->get('s_published') !== null) {
+            $dql->andWhere('post.published = :published')
+                ->setParameter(':published', $query->get('s_published'));
+        }
+
+        if ($query->get('s_tag')) {
+            $dql->andWhere('tag.name LIKE :tag')
+                ->leftJoin('post.tags', 'tag')
+                ->setParameter(':tag', '%'.$query->get('s_tag').'%');
+        }
+
+        return $dql;
+    }
+
+    /**
      * All Posts with joined author email
      */
     public function findAllPosts()
@@ -262,58 +314,6 @@ class PostRepository extends EntityRepository
         }
 
         return $paginator;
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function search(QueryBuilder $dql, ParameterBag $query)
-    {
-        if ($query->get('s_id')) {
-            $dql->andWhere('post.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
-        }
-
-        if ($query->get('s_title')) {
-            $dql->andWhere('post.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('s_title').'%');
-        }
-
-        if ($query->get('s_subtitle')) {
-            $dql->andWhere('post.subtitle LIKE :subtitle')
-                ->setParameter(':subtitle', '%'.$query->get('s_subtitle').'%');
-        }
-
-        if ($query->get('s_content')) {
-            $dql->andWhere('post.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('s_content').'%');
-        }
-
-        if ($query->get('s_user')) {
-            $dql->andWhere('user.username LIKE :user')
-                ->setParameter(':user', '%'.$query->get('s_user').'%');
-        }
-
-        if ($query->get('s_page')) {
-            $dql->andWhere('page.title LIKE :page')
-                ->setParameter(':page', '%'.$query->get('s_page').'%');
-        }
-
-        if ($query->get('s_published') !== null) {
-            $dql->andWhere('post.published = :published')
-                ->setParameter(':published', $query->get('s_published'));
-        }
-
-        if ($query->get('s_tag')) {
-            $dql->andWhere('tag.name LIKE :tag')
-                ->leftJoin('post.tags', 'tag')
-                ->setParameter(':tag', '%'.$query->get('s_tag').'%');
-        }
-
-        return $dql;
     }
 
     /**
