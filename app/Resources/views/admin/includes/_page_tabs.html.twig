@@ -12,20 +12,6 @@
                 Ajouter
             </a>
         </li>
-        <li{% if app.request.attributes.get('_route') ends with 'export' %} class="active"{% endif %}>
-            {# <a href="{{ path('app_admin_page_export') }}"#}
-            <a href="#">
-                <i class="glyphicon glyphicon-import"></i>
-                Importer
-            </a>
-        </li>
-        <li{% if app.request.attributes.get('_route') ends with 'import' %} class="active"{% endif %}>
-            {# <a href="{{ path('app_admin_page_export') }}"#}
-            <a href="#">
-                <i class="glyphicon glyphicon-export"></i>
-                Exporter
-            </a>
-        </li>
         {% if page is defined %}
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri }) }}">
