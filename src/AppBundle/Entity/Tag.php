@@ -37,14 +37,14 @@ class Tag
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      */
-    private $items = [];
+    private $items;
 
     /**
      * Tag constructor.
      */
     public function __construct()
     {
-//        $this->items = [];
+        $this->items = new ArrayCollection();
     }
 
     /**

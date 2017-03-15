@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -94,8 +95,8 @@ class User implements UserInterface
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-        $this->posts = [];
-        $this->comments = [];
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
     }
 

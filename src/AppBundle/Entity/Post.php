@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -67,6 +68,7 @@ class Post
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
+        $this->comments = new ArrayCollection();
     }
 
     /**

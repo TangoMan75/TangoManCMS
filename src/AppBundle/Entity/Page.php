@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -48,6 +49,7 @@ class Page
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
+        $this->items = new ArrayCollection();
     }
 
     /**
