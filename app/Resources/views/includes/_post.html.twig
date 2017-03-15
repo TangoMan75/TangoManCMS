@@ -57,12 +57,17 @@
             </div>
             <div class="pull-right">
                 <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
-                    {% if "ROLE_ADMIN" in post.user.roles %}
-                        <span class="glyphicon glyphicon-king"></span>
+                    {% if 'ROLE_SUPER_ADMIN' in post.user.roles %}
+                            <span class="glyphicon glyphicon-king"></span>
+                    {% elseif 'ROLE_ADMIN' in post.user.roles %}
+                            <span class="glyphicon glyphicon-tower"></span>
+                    {% elseif 'ROLE_SUPER_USER' in post.user.roles %}
+                            <span class="glyphicon glyphicon-bishop"></span>
                     {% else %}
-                        <span class="glyphicon glyphicon-user"></span>
+                            <span class="glyphicon glyphicon-pawn"></span>
                     {% endif %}
-                    &nbsp;{{ post.user.username }}</a>&nbsp;
+                    {{ post.user.username }}
+                </a>
             </div>
         </div>
     </footer>

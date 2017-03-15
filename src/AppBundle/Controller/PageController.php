@@ -22,7 +22,7 @@ class PageController extends Controller
         return $this->render(
             'page/show.html.twig',
             [
-                'page'     => $page,
+                'page' => $page,
             ]
         );
     }
