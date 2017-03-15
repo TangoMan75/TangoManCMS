@@ -46,7 +46,7 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="selectStatus">Status</label>
+                        <label class="control-label col-sm-4" for="selectStatus">Publication</label>
                         <div class="col-sm-8">
                             <select name="s_published" id="selectStatus" class="form-control">
                                 <option value="">Tous</option>
@@ -141,7 +141,7 @@
                             'order' : 'published',
                             'way'   : app.request.query.get('order') == 'published'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Publié
+                            Publication
                         </a>
                     </th>
 
