@@ -22,8 +22,8 @@ class PostRepository extends EntityRepository
         // Sets default values
         $page  = $query->get('page', 1);
         $limit = $query->get('limit', 10);
-        $order = $query->get('order', 'title');
-        $way   = $query->get('way', 'ASC');
+        $order = $query->get('order', 'modified');
+        $way   = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -51,6 +51,11 @@ class PostRepository extends EntityRepository
 
             case 'author':
                 $dql->addSelect('user.username as orderParam');
+                break;
+
+            case 'page':
+                $dql->addSelect('page.title as orderParam');
+                $dql->leftJoin('post.page', 'page');
                 break;
 
             default:
@@ -292,7 +297,12 @@ class PostRepository extends EntityRepository
                 ->setParameter(':user', '%'.$query->get('s_user').'%');
         }
 
-        if ($query->get('s_published')) {
+        if ($query->get('s_page')) {
+            $dql->andWhere('page.title LIKE :page')
+                ->setParameter(':page', '%'.$query->get('s_page').'%');
+        }
+
+        if ($query->get('s_published') !== null) {
             $dql->andWhere('post.published = :published')
                 ->setParameter(':published', $query->get('s_published'));
         }

@@ -4,9 +4,9 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
-use AppBundle\Form\EditPostType;
+use AppBundle\Form\AdminEditPostType;
+use AppBundle\Form\AdminNewPostType;
 use AppBundle\Form\FileUploadType;
-use AppBundle\Form\NewPostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +46,7 @@ class PostController extends Controller
     {
         $post = new Post();
         $post->setUser($this->getUser());
-        $form = $this->createForm(NewPostType::class, $post);
+        $form = $this->createForm(AdminNewPostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -55,7 +55,7 @@ class PostController extends Controller
             $em->persist($post);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'article a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add('success', 'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été ajouté.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -75,7 +75,7 @@ class PostController extends Controller
      */
     public function editAction(Request $request, Post $post)
     {
-        $form = $this->createForm(EditPostType::class, $post);
+        $form = $this->createForm(AdminEditPostType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -84,7 +84,7 @@ class PostController extends Controller
             $em->persist($post);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'L\'article a bien été modifié.');
+            $this->get('session')->getFlashBag()->add('success', 'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été modifié.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -114,7 +114,7 @@ class PostController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'article <strong>&quot;'.$post->getTitle().'&quot;</strong> a bien été supprimé.'
+            'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page

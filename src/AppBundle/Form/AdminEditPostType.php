@@ -11,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
-class EditPostType extends AbstractType
+class AdminEditPostType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -32,6 +32,23 @@ class EditPostType extends AbstractType
                 TextType::Class,
                 [
                     'label' => 'Slug',
+                ]
+            )
+            ->add(
+                'page',
+                EntityType::class,
+                [
+                    'label'         => 'Page',
+                    'class'         => 'AppBundle:Page',
+                    'placeholder'   => 'Selectionnez une page',
+                    'empty_data'    => null,
+                    'multiple'      => false,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('p')
+                            ->orderBy('p.title');
+                    },
                 ]
             )
             ->add(

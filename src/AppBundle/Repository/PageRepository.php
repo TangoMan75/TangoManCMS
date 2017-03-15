@@ -20,8 +20,8 @@ class PageRepository extends EntityRepository
         // Sets default values
         $page  = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'id');
-        $way   = $query->get('way', 'ASC');
+        $order = $query->get('order', 'modified');
+        $way   = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -43,7 +43,7 @@ class PageRepository extends EntityRepository
         // Order according to ownership count
         switch ($order) {
             case 'items':
-                $dql->addSelect('COUNT(item) as orderParam');
+                $dql->addSelect('COUNT(items) as orderParam');
                 $dql->leftJoin('page.items', 'items');
                 break;
 
@@ -91,7 +91,7 @@ class PageRepository extends EntityRepository
                 ->setParameter(':title', '%'.$query->get('s_title').'%');
         }
 
-        if ($query->get('s_published')) {
+        if ($query->get('s_published') !== null) {
             $dql->andWhere('page.published = :published')
                 ->setParameter(':published', $query->get('s_published'));
         }

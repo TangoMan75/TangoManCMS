@@ -26,18 +26,18 @@ class NewPostType extends AbstractType
                 ]
             )
             ->add(
-                'published',
-                CheckboxType::class,
-                [
-                    'label' => 'Publier',
-                ]
-            )
-            ->add(
                 'content',
                 TextareaType::Class,
                 [
                     'label'    => 'Contenu',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'published',
+                CheckboxType::class,
+                [
+                    'label' => 'Publier',
                 ]
             );
     }

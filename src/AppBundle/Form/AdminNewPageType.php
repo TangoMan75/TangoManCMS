@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class AdminPageType extends AbstractType
+class AdminNewPageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -27,13 +27,6 @@ class AdminPageType extends AbstractType
                 ]
             )
             ->add(
-                'slug',
-                TextType::Class,
-                [
-                    'label' => 'Slug',
-                ]
-            )
-            ->add(
                 'tags',
                 EntityType::class,
                 [
@@ -42,9 +35,24 @@ class AdminPageType extends AbstractType
                     'multiple'      => true,
                     'expanded'      => true,
                     'required'      => false,
-                    'query_builder' => function (EntityRepository $itemManager) {
-                        return $itemManager->createQueryBuilder('t')
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('t')
                             ->join('t.items', 'items');
+                    },
+                ]
+            )
+            ->add(
+                'items',
+                EntityType::class,
+                [
+                    'label'         => 'Articles',
+                    'class'         => 'AppBundle:Post',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('p')
+                            ->join('p.page', 'page');
                     },
                 ]
             )

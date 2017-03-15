@@ -3,232 +3,235 @@
 {% block title %}{{ parent() }} | Pages{% endblock %}
 
 {% block admin %}
-	<header>
-		<h1>Pages</h1>
-		<h2>Liste des pages</h2>
-		<p>Ici vous pouvez accèder à la liste des pages de {{ site_name }}.</p>
-	</header>
-	{% include "admin/includes/_page_tabs.html.twig" %}
-	<section id="search">
-		<div class="jumbotron">
-			<form method="GET" class="form-horizontal">
-				<div class="row">
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-6 col-md-4">
-							<label class="control-label col-sm-4" for="inputId">Id</label>
-							<div class="col-sm-8">
-								<input type="text" name="s_id" id="inputId" class="form-control"
-									   value="{{ app.request.get('s_id') }}"/>
-							</div>
-						</div>
+    <header>
+        <h1>Pages</h1>
+        <h2>Liste des pages</h2>
+        <p>Ici vous pouvez accèder à la liste des pages de {{ site_name }}.</p>
+    </header>
+    {% include "admin/includes/_page_tabs.html.twig" %}
+    <section id="search">
+        <div class="jumbotron">
+            <form method="GET" class="form-horizontal">
+                <div class="row">
+                    <div class="form-group">
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputId">Id</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_id" id="inputId" class="form-control"
+                                       value="{{ app.request.get('s_id') }}"/>
+                            </div>
+                        </div>
 
-						<div class="col-xs-12 col-sm-6 col-md-4">
-							<label class="control-label col-sm-4" for="inputSlug">Slug</label>
-							<div class="col-sm-8">
-								<input type="text" name="s_title" id="inputSlug" class="form-control"
-									   value="{{ app.request.get('s_slug') }}"/>
-							</div>
-						</div>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputSlug">Slug</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_title" id="inputSlug" class="form-control"
+                                       value="{{ app.request.get('s_slug') }}"/>
+                            </div>
+                        </div>
 
-						<div class="col-xs-12 col-sm-6 col-md-4">
-							<label class="control-label col-sm-4" for="inputTitle">Titre</label>
-							<div class="col-sm-8">
-								<input type="text" name="s_title" id="inputTitle" class="form-control"
-									   value="{{ app.request.get('s_title') }}"/>
-							</div>
-						</div>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputTitle">Titre</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_title" id="inputTitle" class="form-control"
+                                       value="{{ app.request.get('s_title') }}"/>
+                            </div>
+                        </div>
 
 
-						<div class="col-xs-12 col-sm-6 col-md-4">
-							<label class="control-label col-sm-4" for="inputTag">Étiquette</label>
-							<div class="col-sm-8">
-								<input type="text" name="s_tag" id="inputTag" class="form-control"
-									   value="{{ app.request.get('s_tag') }}"/>
-							</div>
-						</div>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
+                            <div class="col-sm-8">
+                                <input type="text" name="s_tag" id="inputTag" class="form-control"
+                                       value="{{ app.request.get('s_tag') }}"/>
+                            </div>
+                        </div>
 
-						<div class="col-xs-12 col-sm-6 col-md-4">
-							<label class="control-label col-sm-4" for="inputPublished">Publié</label>
-							<div class="col-sm-8">
-								<input type="checkbox" name="s_published" id="inputPublished" class="form-control"
-									   value="1"{% if app.request.query.get('s_published') %} checked{% endif %}/>
-							</div>
-						</div>
+                        <div class="col-xs-12 col-sm-6 col-md-4">
+                            <label class="control-label col-sm-4" for="inputPublished">Publié</label>
+                            <div class="col-sm-8">
+                                <input type="checkbox" name="s_published" id="inputPublished" class="checkbox"
+                                       value="1"{% if app.request.query.get('s_published') %} checked{% endif %}/>
+                            </div>
+                        </div>
 
-					</div>
-					<input type="hidden" name="page" value="1"/>
-					<input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
-					<input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
-					<div class="col-xs-12">
-						<div class="pull-right">
-							<button type="submit" class="btn btn-primary">
-								<span class="glyphicon glyphicon-search"></span> Filtrer ({{ pages.count }})
-							</button>
-							<button id="reset" class="btn btn-warning">
-								<span class="glyphicon glyphicon-remove"></span> Effacer
-							</button>
-						</div>
-					</div>
-				</div>
-			</form>
-		</div>
-	</section>
+                        <div class="col-xs-12 text-center">
+                            <button type="submit" class="btn btn-primary">
+                                <span class="glyphicon glyphicon-search"></span> Filtrer ({{ pages.count }})
+                            </button>
+                            <button id="reset" class="btn btn-warning">
+                                <span class="glyphicon glyphicon-remove"></span> Effacer
+                            </button>
+                        </div>
 
-	<section id="page-list">
-		<div class="table-responsive">
-			<table class="table table-striped">
-				<thead>
-				<tr>
-					<th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                    </div>
+
+                    <input type="hidden" name="page" value="1"/>
+                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
+                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
+
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <section id="page-list">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'id',
                             'way'   : app.request.query.get('order') == 'id'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-							Id
-						</a>
-					</th>
+                            Id
+                        </a>
+                    </th>
 
-					<th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                    <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'slug',
                             'way'   : app.request.query.get('order') == 'slug'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-							Slug
-						</a>
-					</th>
+                            Slug
+                        </a>
+                    </th>
 
-					<th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                    <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'title',
                             'way'   : app.request.query.get('order') == 'title'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-							Titre
-						</a>
-					</th>
+                            Titre
+                        </a>
+                    </th>
 
-					<th class="{{ app.request.query.get('order') == 'items' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                    <th class="{{ app.request.query.get('order') == 'items' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'items',
                             'way'   : app.request.query.get('order') == 'items'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-							Contenus
-						</a>
-					</th>
+                            Contenus
+                        </a>
+                    </th>
 
-					<th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                    <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'created',
                             'way'   : app.request.query.get('order') == 'created'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-							Création
-						</a>
-					</th>
+                            Création
+                        </a>
+                    </th>
 
-					<th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                    <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'modified',
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-							Modification
-						</a>
-					</th>
+                            Modification
+                        </a>
+                    </th>
 
-					<th>Étiquette</th>
+                    <th>Étiquette</th>
 
-					<th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
-						<a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'published',
                             'way'   : app.request.query.get('order') == 'published'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-							Publié
-						</a>
-					</th>
+                            Publié
+                        </a>
+                    </th>
 
-					<th colspan="2">Actions</th>
-				</tr>
-				</thead>
-				<tbody>
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
                 {% for page in pages %}
                     {% set page = page[0] %}
-					<tr>
-						<td>
-							<a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
+                    <tr>
+                        <td>
+                            <a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
                                 {{ page.id }}
-							</a>
-						</td>
-						<td>{{ page.slug }}</td>
-						<td>
-							<a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
+                            </a>
+                        </td>
+                        <td>{{ page.slug }}</td>
+                        <td>
+                            <a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
                                 {{ page.title }}
-							</a>
-						</td>
+                            </a>
+                        </td>
                         <td>
                             <span class="label label-success">
                                 {{ page.items|length }}
                             </span>
                         </td>
-						<td>{{ page.created|date('d/m/Y H:i:s') }}</td>
-						<td>{{ page.modified|date('d/m/Y H:i:s') }}</td>
-						<td>
+                        <td>{{ page.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ page.modified|date('d/m/Y H:i:s') }}</td>
+                        <td>
                             {% for tag in page.tags %}
-								<a href="{{ path('app_admin_page_index', app.request.query.all|merge({'s_tag' : tag.name})) }}"
-								   class="label label-{{ tag.type }}">
+                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'s_tag' : tag.name})) }}"
+                                   class="label label-{{ tag.type }}">
                                     {{ tag.name }}
-								</a><br/>
+                                </a><br/>
                             {% endfor %}
-						</td>
-						<td>
+                        </td>
+                        <td>
                             {% if page.published %}
-								<span class="btn btn-success btn-xs">
+                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'s_published' : 1})) }}"
+                                   class="btn btn-success btn-xs">
                                     <span class="glyphicon glyphicon-ok"></span>
-                                </span>
+                                </a>
                             {% else %}
-								<span class="btn btn-warning btn-xs">
+                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'s_published' : 0})) }}"
+                                   class="btn btn-warning btn-xs">
                                     <span class="glyphicon glyphicon-remove"></span>
-                                </span>
+                                </a>
                             {% endif %}
-						</td>
-						<td>
-							<a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri }) }}"
-							   class="btn btn-warning btn-sm">
-								<span class="glyphicon glyphicon-edit"></span>
-								Modifier
-							</a>
-						</td>
-						<td>
-							<button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-									data-target=".my-modal" data-item="{{ page.title }}"
-									data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri }) }}">
-								<span class="glyphicon glyphicon-trash"></span>
-								Supprimer
-							</button>
-						</td>
-					</tr>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri }) }}"
+                               class="btn btn-warning btn-sm">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                Modifier
+                            </a>
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target=".my-modal" data-item="{{ page.title }}"
+                                    data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri }) }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                Supprimer
+                            </button>
+                        </td>
+                    </tr>
                 {% endfor %}
-				</tbody>
-			</table>
-		</div>
-		<div class="text-center">
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
             {{ pagination(pages) }}
-		</div>
-	</section>
+        </div>
+    </section>
     {% include "admin/includes/_delete-page-modal.html.twig" %}
 {% endblock %}
 
 {% block javascript %}
     {{ parent() }}
-	<script src="{{ asset('js/modal.js') }}"></script>
-	<script>
+    <script src="{{ asset('js/modal.js') }}"></script>
+    <script>
         $('#reset').click(function () {
             $('form').find('input:text, input:password, select, textarea').val('');
             $('form').find('input:radio, input:checkbox').prop('checked', false);
         });
-	</script>
+    </script>
 {% endblock %}

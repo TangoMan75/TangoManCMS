@@ -21,8 +21,8 @@ class CommentRepository extends EntityRepository
         // Sets default values
         $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'id');
-        $way = $query->get('way', 'ASC');
+        $order = $query->get('order', 'modified');
+        $way = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -43,12 +43,16 @@ class CommentRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-//            case 'user':
-//                $dql->addSelect('comment.'.$order.' as orderParam');
-//                break;
-//            case 'post':
-//                $dql->addSelect('comment.'.$order.' as orderParam');
-//                break;
+            case 'user':
+                $dql->addSelect('user.username as orderParam');
+                $dql->leftJoin('comment.user', 'user');
+                break;
+
+            case 'post':
+                $dql->addSelect('post.title as orderParam');
+                $dql->leftJoin('comment.post', 'post');
+                break;
+
             default:
                 $dql->addSelect('comment.'.$order.' as orderParam');
                 break;
@@ -95,7 +99,7 @@ class CommentRepository extends EntityRepository
                 ->setParameter(':user', '%'.$query->get('s_user').'%');
         }
 
-        if ($query->get('s_published')) {
+        if ($query->get('s_published') !== null) {
             $dql->andWhere('comment.published = :published')
                 ->setParameter(':published', $query->get('s_published'));
         }

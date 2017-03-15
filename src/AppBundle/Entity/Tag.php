@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Tag
@@ -23,6 +24,7 @@ class Tag
     /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="L'étiquette doit avoir un nom.")
      */
     private $name;
 

@@ -3,7 +3,8 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Page;
-use AppBundle\Form\AdminPageType;
+use AppBundle\Form\AdminNewPageType;
+use AppBundle\Form\AdminEditPageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +42,7 @@ class PageController extends Controller
     public function newAction(Request $request)
     {
         $page = new Page();
-        $form = $this->createForm(AdminPageType::class, $page);
+        $form = $this->createForm(AdminNewPageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -70,7 +71,7 @@ class PageController extends Controller
      */
     public function editAction(Request $request, Page $page)
     {
-        $form = $this->createForm(AdminPageType::class, $page);
+        $form = $this->createForm(AdminEditPageType::class, $page);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
