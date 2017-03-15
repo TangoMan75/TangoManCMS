@@ -31,10 +31,35 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-4">
-                            <label class="control-label col-sm-4" for="inputType">Type</label>
+                            <label class="control-label col-sm-4" for="selectRole">Type</label>
                             <div class="col-sm-8">
-                                <input type="text" name="s_type" id="inputType" class="form-control"
-                                       value="{{ app.request.get('s_type') }}"/>
+                                <select name="s_type" id="selectRole" class="form-control">
+                                    <option value="">Tous</option>
+                                    <option value="default"
+                                            {% if app.request.get('s_type') == "default" %}selected{% endif %}>
+                                        default
+                                    </option>
+                                    <option value="primary"
+                                            {% if app.request.get('s_type') == "primary" %}selected{% endif %}>
+                                        primary
+                                    </option>
+                                    <option value="info"
+                                            {% if app.request.get('s_type') == "info" %}selected{% endif %}>
+                                        info
+                                    </option>
+                                    <option value="success"
+                                            {% if app.request.get('s_type') == "success" %}selected{% endif %}>
+                                        success
+                                    </option>
+                                    <option value="warning"
+                                            {% if app.request.get('s_type') == "warning" %}selected{% endif %}>
+                                        warning
+                                    </option>
+                                    <option value="danger"
+                                            {% if app.request.get('s_type') == "danger" %}selected{% endif %}>
+                                        danger
+                                    </option>
+                                </select>
                             </div>
                         </div>
 

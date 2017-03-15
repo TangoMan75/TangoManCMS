@@ -35,10 +35,11 @@ class Page
      */
     private $title;
 
-//    /**
-//     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", mappedBy="page")
-//     */
-//    private $content;
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="page")
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $items;
 
     /**
      * Post constructor.
@@ -79,6 +80,44 @@ class Page
         if (!$this->slug) {
             $this->setUniqueSlug($title);
         }
+
+        return $this;
+    }
+
+    /**
+     * Get items
+     *
+     * @return Page[]|Post[]
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+    /**
+     * Add item
+     *
+     * @return Page
+     */
+    public function addItem($item)
+    {
+        if (!in_array($item, $this->items)) {
+            $this->items[] = $item;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove item
+     *
+     * @param $item
+     *
+     * @return Page
+     */
+    public function removeItem($item)
+    {
+        $this->items->removeElement($item);
 
         return $this;
     }
