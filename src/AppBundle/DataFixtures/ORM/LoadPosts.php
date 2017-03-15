@@ -27,7 +27,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
     public function getOrder()
     {
-        return 4;
+        return 5;
     }
 
     /**
@@ -41,6 +41,9 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // findBy is the only working method in fixtures
         $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
+        // Gets pages
+        $pages = $em->getRepository('AppBundle:Page')->findAll();
+
         foreach ($users as $user) {
 
             // Creates between 1 & 10 posts for each user
@@ -51,8 +54,8 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                      ->setTitle($faker->sentence(4, true))
                      ->setContent('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                      ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                     ->setPage($pages[mt_rand(0, count($pages)-1)])
                      ->setPublished($i%2);
-
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();
 

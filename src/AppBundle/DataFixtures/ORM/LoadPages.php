@@ -24,7 +24,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
     public function getOrder()
     {
-        return 6;
+        return 4;
     }
 
     /**
@@ -37,22 +37,12 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Load Tags
         $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
-        // Gets users
-        // findBy is the only working method in fixtures
-        $posts = $em->getRepository('AppBundle:Post')->findBy([], null, 100);
-
         // Load Pages
         for ($i = 1; $i <= 10; $i++) {
 
             $page = new Page();
-            // Pages do not have auto id strategy
             $page->setTitle($faker->sentence(4, true))
                 ->setPublished($i%2);
-//                 ->setDescription('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
-
-            for ($j = 0; $j < mt_rand(0, 5); $j++) {
-                $page->addItem($posts[$j]);
-            }
 
             for ($j = 0; $j < mt_rand(0, 5); $j++) {
                 $page->addTag($tags[mt_rand(0, 5)]);

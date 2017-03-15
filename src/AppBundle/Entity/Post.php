@@ -56,7 +56,7 @@ class Post
 
     /**
      * @var Page Post page
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="content")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="items")
      */
     private $page;
 
