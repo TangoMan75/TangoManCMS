@@ -44,6 +44,23 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                            <label class="control-label col-sm-4" for="selectStatus">Status</label>
+                            <div class="col-sm-8">
+                                <select name="s_status" id="selectStatus" class="form-control">
+                                    <option value="">Tous</option>
+                                    <option value="1"
+                                            {% if app.request.get('s_status') == "1" %}selected{% endif %}>
+                                        Actif
+                                    </option>
+                                    <option value="0"
+                                            {% if app.request.get('s_status') == "0" %}selected{% endif %}>
+                                        Inactif
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <label class="control-label col-sm-4" for="selectRole">Role</label>
                             <div class="col-sm-8">
                                 <select name="s_role" id="selectRole" class="form-control">
