@@ -20,10 +20,10 @@ class PostRepository extends EntityRepository
     public function sortedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page  = $query->get('page', 1);
+        $page = $query->get('page', 1);
         $limit = $query->get('limit', 10);
         $order = $query->get('order', 'modified');
-        $way   = $query->get('way', 'DESC');
+        $way = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -148,10 +148,10 @@ class PostRepository extends EntityRepository
     public function findAllPosts()
     {
         return $this->createQueryBuilder('post')
-                    ->leftJoin('post.user', 'user')
-                    ->addSelect('user.email AS user_email')
-                    ->getQuery()
-                    ->getScalarResult();
+            ->leftJoin('post.user', 'user')
+            ->addSelect('user.email AS user_email')
+            ->getQuery()
+            ->getScalarResult();
     }
 
     /**
@@ -177,7 +177,8 @@ class PostRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('post');
-        $dql->orderBy('post.modified', 'DESC');
+        $dql->orderBy('post.modified', 'DESC')
+            ->andWhere('post.published = 1');
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
@@ -219,6 +220,7 @@ class PostRepository extends EntityRepository
         $dql = $this->createQueryBuilder('post');
         $dql->join('post.tags', 'tag')
             ->where('tag = :tag')
+            ->andWhere('post.published = 1')
             ->setParameter(':tag', $tag)
             ->orderBy('post.created', 'DESC');
 
@@ -264,6 +266,7 @@ class PostRepository extends EntityRepository
         $dql = $this->createQueryBuilder('post');
         $dql->where('post.user = :user')
             ->setParameter(':user', $user)
+            ->andWhere('post.published = 1')
             ->orderBy('post.modified', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
@@ -309,6 +312,7 @@ class PostRepository extends EntityRepository
         $dql->join('post.user', 'user')
             ->andWhere('user.username = :username')
             ->setParameter(':username', $username)
+            ->andWhere('post.published = 1')
             ->orderBy('post.modified', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
@@ -328,6 +332,7 @@ class PostRepository extends EntityRepository
 
     /**
      * Get post count
+     *
      * @return int $count post count
      */
     public function count()
