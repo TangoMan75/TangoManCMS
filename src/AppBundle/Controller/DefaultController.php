@@ -17,7 +17,13 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
+
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $posts = $em->getRepository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5, false);
+        } else {
+            $posts = $em->getRepository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
+        }
+
         $formPost = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {

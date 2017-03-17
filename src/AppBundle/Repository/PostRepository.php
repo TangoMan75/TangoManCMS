@@ -162,7 +162,7 @@ class PostRepository extends EntityRepository
      *
      * @return Paginator
      */
-    public function findAllPaged($page = 1, $limit = 10)
+    public function findAllPaged($page = 1, $limit = 10, $published = true)
     {
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -177,8 +177,11 @@ class PostRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('post');
-        $dql->orderBy('post.modified', 'DESC')
-            ->andWhere('post.published = 1');
+        $dql->orderBy('post.modified', 'DESC');
+
+        if ($published) {
+            $dql->andWhere('post.published = 1');
+        }
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
@@ -248,7 +251,7 @@ class PostRepository extends EntityRepository
      *
      * @return Paginator
      */
-    public function findByUserPaged(User $user, $page = 1, $limit = 10)
+    public function findByUserPaged(User $user, $page = 1, $limit = 10, $published = true)
     {
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -266,8 +269,11 @@ class PostRepository extends EntityRepository
         $dql = $this->createQueryBuilder('post');
         $dql->where('post.user = :user')
             ->setParameter(':user', $user)
-            ->andWhere('post.published = 1')
             ->orderBy('post.modified', 'DESC');
+
+        if ($published) {
+            $dql->andWhere('post.published = 1');
+        }
 
         $firstResult = ($page - 1) * $limit;
 
