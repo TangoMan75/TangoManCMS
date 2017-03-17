@@ -94,7 +94,7 @@ class CommentRepository extends EntityRepository
         }
 
         if ($query->get('s_user')) {
-            $dql->andWhere('user.name LIKE :user')
+            $dql->andWhere('user.username LIKE :user')
                 ->leftJoin('comment.users', 'user')
                 ->setParameter(':user', '%'.$query->get('s_user').'%');
         }
