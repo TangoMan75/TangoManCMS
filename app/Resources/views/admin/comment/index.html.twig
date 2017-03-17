@@ -183,12 +183,12 @@
                         </td>
                         <td>
                             {% if comment.published %}
-                                <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({'s_published' : 1})) }}"
+                                <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({ 's_published' : 'true' })) }}"
                                    class="btn btn-success btn-xs">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({'s_published' : 0})) }}"
+                                <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({ 's_published' : 'false' })) }}"
                                    class="btn btn-warning btn-xs">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
