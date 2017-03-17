@@ -177,7 +177,15 @@
                             </a>
                         </th>
 
-                        <th>Actif</th>
+                        <th class="{{ app.request.query.get('order') == 'status' ? app.request.query.get('way', 'ASC') }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
+                                'order' : 'status',
+                                'way'   : app.request.query.get('order') == 'status'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                                Actif
+                            </a>
+                        </th>
 
                         <th>Role</th>
 
@@ -224,19 +232,25 @@
                                 </a>
                             </td>
                             <td>
-                                <span class="label label-success">
-                                    {{ user.comments|length }}
-                                </span>
+                                <a href="{{ path('app_admin_comment_index', {'s_user' : user.username}) }}">
+                                    <span class="label label-success">
+                                        {{ user.comments|length }}
+                                    </span>
+                                </a>
                             </td>
                             <td>
                                 {% if user.password %}
-                                    <span class="btn btn-success btn-sm">
-                                        <span class="glyphicon glyphicon-ok"></span>
-                                    </span>
+                                    <a href="{{ path('app_admin_user_index', {'s_status' : 1}) }}">
+                                        <span class="btn btn-success btn-sm">
+                                            <span class="glyphicon glyphicon-ok"></span>
+                                        </span>
+                                    </a>
                                 {% else %}
-                                    <span class="btn btn-danger btn-sm">
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </span>
+                                    <a href="{{ path('app_admin_user_index', {'s_status' : 0}) }}">
+                                        <span class="btn btn-danger btn-sm">
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </span>
+                                    </a>
                                 {% endif %}
                             </td>
                             <td>
