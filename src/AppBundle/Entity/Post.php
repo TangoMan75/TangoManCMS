@@ -2,6 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\Slugable;
+use AppBundle\Entity\Traits\Timestampable;
+use AppBundle\Entity\Traits\Tagable;
+use AppBundle\Entity\Traits\Publishable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -13,13 +17,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Post
 {
-    use Traits\Slugable;
+    use Slugable;
 
-    use Traits\Timestampable;
+    use Timestampable;
 
-    use Traits\Tagable;
+    use Tagable;
 
-    use Traits\Publishable;
+    use Publishable;
 
     /**
      * @var int Post id

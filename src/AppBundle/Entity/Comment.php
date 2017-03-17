@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Traits\Publishable;
+use AppBundle\Entity\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -12,9 +14,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    use Traits\Timestampable;
+    use Timestampable;
 
-    use Traits\Publishable;
+    use Publishable;
 
     /**
      * @var integer Comment id
