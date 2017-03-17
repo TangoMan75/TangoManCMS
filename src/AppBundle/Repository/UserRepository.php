@@ -48,6 +48,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         // Order according to ownership count
         switch ($order) {
+            case 'status':
+                $dql->addSelect('COUNT(user.password) as orderParam');
+                break;
+
             case 'posts':
                 $dql->addSelect('COUNT(post.id) as orderParam');
                 $dql->leftJoin('user.posts', 'post');
