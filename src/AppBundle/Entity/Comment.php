@@ -119,4 +119,12 @@ class Comment
 
         return $this;
     }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return substr(strip_tags($this->content), 0, 20).'...';
+    }
 }

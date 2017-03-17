@@ -100,19 +100,7 @@ class CommentController extends Controller
      */
     public function deleteAction(Request $request, Comment $comment)
     {
-        $user = $this->getUser();
-
-        if (in_array('ROLE_ADMIN', $user->getRoles())) {
-            $this->get('session')->getFlashBag()->add(
-                'error',
-                'Désolé, <strong>'.$user->getUsername().'</strong><br />'.
-                'Vous n\'êtes pas autorisé à effectuer cette action.'
-            );
-
-            return $this->redirectToRoute('app_admin_comment_index');
-        }
-
-        // Deletes specified user
+        // Deletes specified post
         $em = $this->get('doctrine')->getManager();
         $em->remove($comment);
         $em->flush();
@@ -120,11 +108,10 @@ class CommentController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le commentaire a bien été supprimée.'
+            'Le commentaire <strong>&quot;'.$comment.'&quot;</strong> a bien été supprimé.'
         );
 
-        // Admin is redirected to referrer comment
-        return $this->redirectToRoute('app_admin_comment_index');
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
-
 }
