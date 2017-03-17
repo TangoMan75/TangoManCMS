@@ -88,8 +88,8 @@ class CommentRepository extends EntityRepository
         }
 
         if ($query->get('s_post')) {
-            $dql->andWhere('post.name LIKE :post')
-                ->leftJoin('comment.posts', 'post')
+            $dql->andWhere('s_post.title LIKE :post')
+                ->leftJoin('comment.post', 's_post')
                 ->setParameter(':post', '%'.$query->get('s_post').'%');
         }
 
