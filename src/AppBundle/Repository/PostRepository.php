@@ -50,8 +50,8 @@ class PostRepository extends EntityRepository
                 break;
 
             case 'tags':
-                $dql->addSelect('COUNT(ctags) as orderParam');
-                $dql->leftJoin('post.tags', 'ctags');
+                $dql->addSelect('COUNT(tags) as orderParam');
+                $dql->leftJoin('post.tags', 'tags');
                 break;
 
             case 'author':
@@ -134,8 +134,8 @@ class PostRepository extends EntityRepository
         }
 
         if ($query->get('s_tag')) {
-            $dql->andWhere('tag.name LIKE :tag')
-                ->leftJoin('post.tags', 'tag')
+            $dql->andWhere('s_tag.name LIKE :tag')
+                ->leftJoin('post.tags', 's_tag')
                 ->setParameter(':tag', '%'.$query->get('s_tag').'%');
         }
 
