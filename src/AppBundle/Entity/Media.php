@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class Media
 {
-
     use Slugable;
 
     use Timestampable;
@@ -46,6 +45,11 @@ class Media
     private $description;
 
     /**
+     * @var ArrayCollection
+     */
+    private $type;
+
+    /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
@@ -69,6 +73,7 @@ class Media
      */
     public function __construct()
     {
+        $this->type = New ArrayCollection();
     }
 
     /**
@@ -192,16 +197,16 @@ class Media
             switch ($parsed['host']) {
                 case 'www.youtube.com':
                 case 'youtu.be':
-                    $this->addTag('youtube');
+                    $this->setType('youtube');
                     $this->thumbnail = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
                     break;
                 case 'dai.ly':
                 case 'www.dailymotion.com':
-                    $this->addTag('dailymotion');
+                    $this->setType('dailymotion');
                     $this->thumbnail = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
                     break;
                 case 'vimeo.com':
-                    $this->addTag('vimeo');
+                    $this->setType('vimeo');
                     $xml = unserialize(
                         file_get_contents('http://vimeo.com/api/v2/video/'.$this->getHash($link).'.php')
                     );
@@ -209,7 +214,7 @@ class Media
                     break;
                 case 'www.car360app.com':
                 case 'www.argus360.fr':
-                    $this->addTag('argus360');
+                    $this->setType('argus360');
                     // https://car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
                     $this->thumbnail = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
@@ -252,6 +257,22 @@ class Media
                 }
         }
         return null;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param ArrayCollection $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
     /**
