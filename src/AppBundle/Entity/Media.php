@@ -46,6 +46,7 @@ class Media
 
     /**
      * @var ArrayCollection
+     * @ORM\Column(type="string", nullable=true)
      */
     private $type;
 
@@ -165,7 +166,7 @@ class Media
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
-        $this->link = '/uploads/'.$this->getCategory().'/'.$fileName;
+        $this->link = '/uploads/'.$this->getType().'/'.$fileName;
     }
 
     /**
@@ -282,7 +283,7 @@ class Media
     public function setDefaultTitle()
     {
         if (!$this->title) {
-            $this->setTitle($this->dateCreated->format('d/m/Y H:i:s'));
+            $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
     }
 
@@ -292,7 +293,7 @@ class Media
      */
     public function deleteFile()
     {
-        switch ($this->getCategory()) {
+        switch ($this->getType()) {
             case 'photo':
             case 'thetas':
                 // Get thumbnail path
