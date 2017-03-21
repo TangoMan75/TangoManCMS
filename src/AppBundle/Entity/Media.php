@@ -45,7 +45,7 @@ class Media
     private $description;
 
     /**
-     * @var ArrayCollection
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
     private $type;
@@ -134,6 +134,22 @@ class Media
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
     }
 
     /**
@@ -231,56 +247,39 @@ class Media
     public function getEmbed()
     {
         if ($this->link) {
-            foreach($this->getTags() as $tag)
-                switch ($tag) {
-                    case 'argus360':
-                        return '<iframe src="//car360app.com/viewer/portable.php?spin='.
-                            $this->getHash($this->link).
-                            '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
-                        break;
-                    case 'youtube':
-                        return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
-                            $this->getHash($this->link).
-                            '"></iframe>';
-                        break;
-                    case 'dailymotion':
-                        return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
-                            $this->getHash($this->link).
-                            '?autoplay=0&mute=1" allowfullscreen></iframe>';
-                        break;
-                    case 'vimeo':
-                        return '<iframe src="//player.vimeo.com/video/'.
-                            $this->getHash($this->link).
-                            '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-                        break;
-                    default:
-                        return null;
-                }
+            switch ($this->type) {
+                case 'argus360':
+                    return '<iframe src="//car360app.com/viewer/portable.php?spin='.
+                        $this->getHash($this->link).
+                        '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
+                    break;
+                case 'youtube':
+                    return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
+                        $this->getHash($this->link).
+                        '"></iframe>';
+                    break;
+                case 'dailymotion':
+                    return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
+                        $this->getHash($this->link).
+                        '?autoplay=0&mute=1" allowfullscreen></iframe>';
+                    break;
+                case 'vimeo':
+                    return '<iframe src="//player.vimeo.com/video/'.
+                        $this->getHash($this->link).
+                        '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+                    break;
+                default:
+                    return null;
+            }
         }
-        return null;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param ArrayCollection $type
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
     }
 
     /**
      * Set current date as default title
      * @ORM\PrePersist()
      */
-    public function setDefaultTitle()
+    public
+    function setDefaultTitle()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
@@ -291,7 +290,8 @@ class Media
      * Delete image file and cached thumbnail
      * @ORM\PreRemove()
      */
-    public function deleteFile()
+    public
+    function deleteFile()
     {
         switch ($this->getType()) {
             case 'photo':
@@ -320,7 +320,8 @@ class Media
      *
      * @return String|null
      */
-    private function getHash($url)
+    private
+    function getHash($url)
     {
         switch (parse_url($url)['host']) {
             case 'www.youtube.com':

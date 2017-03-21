@@ -1,7 +1,7 @@
 {
-    "name": "tangoman75/livredor",
-    "description": "Moteur de blog",
-    "license": "proprietary",
+    "name": "tangoman75/tangomancms",
+    "description": "Simple Symfony 3 Content Manager And Blog Engine",
+    "license": "MIT",
     "type": "project",
     "autoload": {
         "psr-4": {
