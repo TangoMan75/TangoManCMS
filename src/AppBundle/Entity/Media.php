@@ -278,7 +278,7 @@ class Media
      */
     public function deleteFile()
     {
-        switch ($this->getType()) {
+        switch ($this->type) {
             case 'photo':
             case 'thetas':
                 // Get thumbnail path
@@ -331,10 +331,10 @@ class Media
                     return $result['video'];
                 }
 
+                // https://www.dailymotion.com/video/x5232zo_jaguar-i-pace-concept-2016_auto
                 return strstr(ltrim(strrchr(parse_url($url)['path'], '/'), '/'), '_', true);
                 break;
             case 'www.argus360.fr':
-                // https://www.dailymotion.com/video/x5232zo_jaguar-i-pace-concept-2016_auto
                 // https://www.argus360.fr/viewer/share/3e7802c1cd69f08f2a3bae389816ece6?res=1920x1080&vdp=off
                 return ltrim(strrchr(parse_url($url)['path'], '/'), '/');
                 break;
