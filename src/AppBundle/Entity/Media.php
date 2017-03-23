@@ -86,14 +86,6 @@ class Media
     }
 
     /**
-     * @param int $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @return string
      */
     public function getTitle()
@@ -110,14 +102,6 @@ class Media
     {
         $this->title = $title;
         $this->setUniqueSlug($title);
-    }
-
-    /**
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
     }
 
     /**
@@ -272,14 +256,15 @@ class Media
                     return null;
             }
         }
+
+        return null;
     }
 
     /**
      * Set current date as default title
      * @ORM\PrePersist()
      */
-    public
-    function setDefaultTitle()
+    public function setDefaultTitle()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
@@ -290,8 +275,7 @@ class Media
      * Delete image file and cached thumbnail
      * @ORM\PreRemove()
      */
-    public
-    function deleteFile()
+    public function deleteFile()
     {
         switch ($this->getType()) {
             case 'photo':
@@ -320,8 +304,7 @@ class Media
      *
      * @return String|null
      */
-    private
-    function getHash($url)
+    private function getHash($url)
     {
         switch (parse_url($url)['host']) {
             case 'www.youtube.com':
