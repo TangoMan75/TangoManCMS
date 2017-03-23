@@ -230,6 +230,7 @@ class Media
      */
     public function getEmbed()
     {
+        // TODO soundcloud, deezer, spotify
         if ($this->link) {
             switch ($this->type) {
                 case 'argus360':
@@ -306,6 +307,7 @@ class Media
      */
     private function getHash($url)
     {
+        // TODO soundcloud, deezer, spotify
         switch (parse_url($url)['host']) {
             case 'www.youtube.com':
                 // https://www.youtube.com/watch?v=Vhx_wC1pve8
