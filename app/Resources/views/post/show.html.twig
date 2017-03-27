@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | {{ post.title | capitalize }} {% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({selector: 'textarea'});</script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+
+        <section id="posts">
+            {% include "includes/_post.html.twig" with { 'callback': app.request.uri } %}
+        </section>
+
+        {% if app.user %}
+            <section>
+                {% include "includes/_comment-form.html.twig" %}
+            </section>
+        {% else %}
+            <section>
+                <div class="jumbotron">
+                    <div class="text-center">
+                        <h2>Vous devez être connecté pour pouvoir commenter les publications.</h2>
+                        <p>
+                            <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">Se connecter</a>
+                            <a href="{{ path('app_security_register', { 'callback': app.request.uri }) }}"
+                               class="btn btn-danger btn-lg">S'inscrire
+                            </a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        <section id="comments">
+            {% for comment in list_comment %}
+                {% include "includes/_comment.html.twig" with { 'callback': app.request.uri } %}
+            {% else %}
+                <div class="jumbotron">
+                    <div class="text-center">
+                        <h2>Il n'y a aucun commentaires pour cette publication.</h2>
+                        <p>Soyez le premier à commenter cet article.</p>
+                    </div>
+                </div>
+            {% endfor %}
+            <div class="text-center">
+                {{ pagination(list_comment) }}
+            </div>
+        </section>
+    </div>
+{% endblock %}

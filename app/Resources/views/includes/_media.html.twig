@@ -1,0 +1,79 @@
+{% if media.published or is_granted('ROLE_ADMIN') %}
+    <article class="panel panel-primary post">
+        <header class="panel-heading">
+            <h1 class="text-center">
+                <span class="glyphicon glyphicon-music pull-left"></span>{{ media.title }}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {% if (media.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
+                        <div class="pull-right btn-group" role="group">
+                            <a href="{{ path("app_media_edit",   { 'id': media.id, 'callback': callback }) }}"
+                               class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
+                               data-original-title="Éditer ce media">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                            <a href="{{ path("app_media_delete", { 'id': media.id, 'callback': callback|remove_url_query }) }}"
+                               class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
+                               data-original-title="Supprimer ce media">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+            </h1>
+        </header>
+        <div class="panel-body">
+            <div class="row">
+                <figure class="col-xs-12 col-md-3 text-center">
+                    <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}">
+                        <img src="{{ media.user.avatar ? media.user.avatar : asset('img/user.jpg') }}"
+                             alt="{{ media.user.username }}" class="img-rounded img-responsive"/>
+                    </a>
+                </figure>
+                <div class="col-xs-12 col-md-9">
+                    {{ media.embed }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="tags col-xs-12 col-sm-6">
+                    {% for tag in media.tags %}
+                        <a href="{{ path('app_media_index', { 'tag': tag.name }) }}" class="label label-{{ tag.type }}">
+                            {{ tag.name }}
+                        </a>&nbsp;
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <footer class="panel-footer">
+            <div class="row">
+                <div class="pull-left">
+                    {% if media.published %}
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <span class="glyphicon glyphicon-ok-circle text-success"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-send text-primary"></span>
+                        {% endif %}
+                        Publié le: {{ media.modified|date('d/m/Y H:i:s') }}
+                    {% else %}
+                        <span class="glyphicon glyphicon-remove-circle text-danger"></span>
+                        Non-publié, création le: {{ media.created|date('d/m/Y H:i:s') }}
+                    {% endif %}
+                </div>
+                <div class="pull-right">
+                    <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}">
+                        {% if 'ROLE_SUPER_ADMIN' in media.user.roles %}
+                            <span class="glyphicon glyphicon-king"></span>
+                        {% elseif 'ROLE_ADMIN' in media.user.roles %}
+                            <span class="glyphicon glyphicon-tower"></span>
+                        {% elseif 'ROLE_SUPER_USER' in media.user.roles %}
+                            <span class="glyphicon glyphicon-bishop"></span>
+                        {% else %}
+                            <span class="glyphicon glyphicon-pawn"></span>
+                        {% endif %}
+                        {{ media.user.username }}
+                    </a>
+                </div>
+            </div>
+        </footer>
+    </article>
+{% endif %}

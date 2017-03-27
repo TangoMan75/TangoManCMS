@@ -1,40 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | {{ post.title | capitalize }} {% endblock %}
-
-{% block head %}
-    {{ parent() }}
-    {% if app.user %}
-        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'textarea' });</script>
-    {% endif %}
-{% endblock %}
+{% block title %}{{ parent() }} | {{ media.title }}{% endblock %}
 
 {% block body %}
-<div class="container">
-
-    <section id="posts">
-        {% include "includes/_post.html.twig" with { 'callback': app.request.uri } %}
-    </section>
-
-    {% if app.user %}
-        {% include "includes/_comment-form.html.twig" %}
-    {% endif %}
-
-    <section id="comments">
-        {% for comment in list_comment %}
-            {% include "includes/_comment.html.twig" with { 'callback': app.request.uri } %}
-        {% else %}
-            <div class="jumbotron">
-                <div class="text-center">
-                    <h2>Il n'y a aucun commentaires pour cette publication.</h2>
-                    <p>Soyez le premier à commenter ce message.</p>
-                </div>
-            </div>
-        {% endfor %}
-        <div class="text-center">
-            {{ pagination(list_comment) }}
-        </div>
-    </section>
-</div>
+    <div class="container">
+        <header class="media-header">
+            <h1 class="media-title">{{ media.title }}</h1>
+        </header>
+        <section>
+            {% for media in mediaList %}
+                {% include "includes/_media.html.twig" with { 'media': item, 'callback': app.request.uri } %}
+            {% endfor %}
+        </section>
+    </div>
 {% endblock %}

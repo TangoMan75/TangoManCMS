@@ -8,9 +8,7 @@
             <h1 class="media-title">{{ media.title }}</h1>
         </header>
         <section>
-            {% for item in media.items %}
-                {% include "includes/_media.html.twig" with { 'media': item, 'callback': app.request.uri } %}
-            {% endfor %}
+            {% include "includes/_media.html.twig" with { 'media': item, 'callback': app.request.uri } %}
         </section>
     </div>
 {% endblock %}

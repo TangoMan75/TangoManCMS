@@ -155,13 +155,23 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'content' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'link' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'content',
-                            'way'   : app.request.query.get('order') == 'content'
+                            'order' : 'link',
+                            'way'   : app.request.query.get('order') == 'link'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Lien
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'description' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'description',
+                            'way'   : app.request.query.get('order') == 'description'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Contenu
+                            Description
                         </a>
                     </th>
 
@@ -241,6 +251,11 @@
                         <td>
                             <a href="{{ path('app_media_show', { 'slug': media.slug }) }}">
                                 {{ media.title }}
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('app_media_show', { 'slug': media.slug }) }}">
+                                {{ media.link }}
                             </a>
                         </td>
                         <td>

@@ -33,7 +33,7 @@ class MediaController extends Controller
             'admin/media/index.html.twig',
             [
                 'currentUser' => $this->getUser(),
-                'mediaList'       => $mediaList,
+                'mediaList'   => $mediaList,
             ]
         );
     }
@@ -54,7 +54,10 @@ class MediaController extends Controller
             $em->persist($media);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'article <strong>&quot;'.$media.'&quot;</strong> a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été ajouté.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -83,7 +86,10 @@ class MediaController extends Controller
             $em->persist($media);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'L\'article <strong>&quot;'.$media.'&quot;</strong> a bien été modifié.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été modifié.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -94,7 +100,7 @@ class MediaController extends Controller
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
-                'media'        => $media,
+                'media'       => $media,
             ]
         );
     }
@@ -113,7 +119,7 @@ class MediaController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'article <strong>&quot;'.$media.'&quot;</strong> a bien été supprimé.'
+            'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page
@@ -132,7 +138,7 @@ class MediaController extends Controller
             'admin/media/export.html.twig',
             [
                 'currentUser' => $this->getUser(),
-                'mediaList'       => $mediaList,
+                'mediaList'   => $mediaList,
             ]
         );
     }
@@ -148,7 +154,7 @@ class MediaController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type'        => 'application/force-download',
+                'Content-Type' => 'application/force-download',
                 'Content-Disposition' => 'attachment; filename="mediaList.json"',
             ]
         );
@@ -197,19 +203,20 @@ class MediaController extends Controller
     {
         // Security checks
         $clientExtension = $file->getClientOriginalExtension();
-        if ($file->getClientMimeType() !== 'application/json' && !in_array($clientExtension, ['json']) ) {
+        if ($file->getClientMimeType() !== 'application/json' && !in_array($clientExtension, ['json'])) {
             $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+
             return $this->redirectToRoute('app_admin_media_import');
         }
 
         $counter = 0;
-        $dupes   = 0;
+        $dupes = 0;
         // File check
         if (is_file($file)) {
             // Load entities
             $em = $this->get('doctrine')->getManager();
             $mediaList = $em->getRepository('AppBundle:Media');
-            $tags  = $em->getRepository('AppBundle:Tag');
+            $tags = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
 
             // Creates "import" tag when non-existent
@@ -237,10 +244,10 @@ class MediaController extends Controller
 
                     $media = new Media();
                     $media->setUser($user)
-                         ->setTitle($import->media_title)
-                         ->setSlug($import->media_slug)
-                         ->addTag($tag)
-                         ->setContent($import->media_content);
+                        ->setTitle($import->media_title)
+                        ->setSlug($import->media_slug)
+                        ->addTag($tag)
+                        ->setDescription($import->media_content);
 
                     // $media->setCreated($import->media_created);
                     // $media->setModified($import->media_modified);

@@ -96,7 +96,7 @@ class PostController extends Controller
         }
 
         return $this->render(
-            'post/index.html.twig',
+            'post/show.html.twig',
             [
                 'formPost'     => $formComment,
                 'list_comment' => $listComment,

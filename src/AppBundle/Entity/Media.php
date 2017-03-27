@@ -43,7 +43,6 @@ class Media
     /**
      * @var String Media title
      * @ORM\Column(type="string", nullable=true)
-     * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
 

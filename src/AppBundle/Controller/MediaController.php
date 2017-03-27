@@ -66,41 +66,10 @@ class MediaController extends Controller
         $em = $this->get('doctrine')->getManager();
         $media = $em->getRepository('AppBundle:Media')->findOneBy(['slug' => $slug]);
 
-        $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
-            $media,
-            $request->query->getInt('page', 1),
-            5
-        );
-        $formComment = null;
-
-        // User cannot comment when not logged in
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-
-            $user = $this->getUser();
-            $comment = new Comment();
-            $comment->setUser($user);
-            $comment->setMedia($media);
-
-            $form = $this->createForm(CommentType::class, $comment);
-            $form->handleRequest($request);
-            $formComment = $form->createView();
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                $em->persist($comment);
-                $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
-
-                // User is redirected to same page
-                return $this->redirect($request->getUri());
-            }
-        }
-
         return $this->render(
-            'media/index.html.twig',
+            'media/show.html.twig',
             [
-                'formMedia'     => $formComment,
-                'list_comment' => $listComment,
-                'media'         => $media,
+                'media' => $media,
             ]
         );
     }
