@@ -32,6 +32,12 @@ class Media
     private $id;
 
     /**
+     * @var User Media author
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="mediaList")
+     */
+    private $user;
+
+    /**
      * @var String Media title
      * @ORM\Column(type="string", nullable=true)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
@@ -86,6 +92,26 @@ class Media
     }
 
     /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -97,11 +123,15 @@ class Media
      * Slug is generated from title
      *
      * @param string $title
+     *
+     * @return $this
      */
     public function setTitle($title)
     {
         $this->title = $title;
         $this->setUniqueSlug($title);
+
+        return $this;
     }
 
     /**
@@ -114,10 +144,14 @@ class Media
 
     /**
      * @param string $description
+     *
+     * @return $this
      */
     public function setDescription($description)
     {
         $this->description = $description;
+
+        return $this;
     }
 
     /**
@@ -130,10 +164,14 @@ class Media
 
     /**
      * @param string $type
+     *
+     * @return $this
      */
     public function setType($type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -146,10 +184,14 @@ class Media
 
     /**
      * @param string $thumbnail
+     *
+     * @return $this
      */
     public function setThumbnail($thumbnail)
     {
         $this->thumbnail = $thumbnail;
+
+        return $this;
     }
 
     /**
@@ -162,11 +204,15 @@ class Media
 
     /**
      * @param String $fileName
+     *
+     * @return $this
      */
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
         $this->link = '/uploads/'.$this->getType().'/'.$fileName;
+
+        return $this;
     }
 
     /**
@@ -179,6 +225,8 @@ class Media
 
     /**
      * @param String $link
+     *
+     * @return $this
      */
     public function setLink($link)
     {
@@ -221,6 +269,8 @@ class Media
                     break;
             }
         }
+
+        return $this;
     }
 
     /**
@@ -264,17 +314,23 @@ class Media
     /**
      * Set current date as default title
      * @ORM\PrePersist()
+     *
+     * @return $this
      */
     public function setDefaultTitle()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
+
+        return $this;
     }
 
     /**
      * Delete image file and cached thumbnail
      * @ORM\PreRemove()
+     *
+     * @return $this
      */
     public function deleteFile()
     {
@@ -296,6 +352,8 @@ class Media
                 }
                 break;
         }
+
+        return $this;
     }
 
     /**

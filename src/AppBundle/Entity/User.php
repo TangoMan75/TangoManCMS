@@ -60,6 +60,13 @@ class User implements UserInterface
     private $bio;
 
     /**
+     * @var Media[] User's media
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="user", cascade={"remove"})
+     * @ORM\OrderBy({"created"="DESC"})
+     */
+    private $mediaList;
+
+    /**
      * @var Post[] User's posts
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"created"="DESC"})
@@ -156,6 +163,30 @@ class User implements UserInterface
     public function setBio($bio)
     {
         $this->bio = $bio;
+
+        return $this;
+    }
+
+    /**
+     * Get user's mediaList.
+     *
+     * @return Media[]
+     */
+    public function getMediaList()
+    {
+        return $this->mediaList;
+    }
+
+    /**
+     * Sets user mediaList.
+     *
+     * @param Media[] $mediaList
+     *
+     * @return $this
+     */
+    public function setMediaList($mediaList)
+    {
+        $this->mediaList = $mediaList;
 
         return $this;
     }

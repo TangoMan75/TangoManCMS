@@ -1,0 +1,37 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Medias - Ajouter{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({selector: 'textarea', height: '250'});</script>
+    {% endif %}
+{% endblock %}
+
+{% block admin %}
+    <header>
+        <h1>Posts</h1>
+        <h2>Ajouter des mediaList</h2>
+        <p>Ici vous pouvez ajouter des mediaList à {{ site_name }}.</p>
+    </header>
+    {% include "admin/includes/_media_tabs.html.twig" %}
+    <section id="new">
+        <div class="jumbotron">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    Enregister
+                </button>
+                <a href="{{ path('app_admin_media_index') }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Annuler
+                </a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}
