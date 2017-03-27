@@ -77,7 +77,8 @@ class AdminEditPostType extends AbstractType
                 'published',
                 CheckboxType::class,
                 [
-                    'label' => 'Publier',
+                    'label'    => 'Publier',
+                    'required' => false,
                 ]
             );
     }

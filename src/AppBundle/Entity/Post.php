@@ -60,12 +60,6 @@ class Post
     private $comments;
 
     /**
-     * @var Page Post page
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="items")
-     */
-    private $page;
-
-    /**
      * Post constructor.
      */
     public function __construct()
@@ -164,26 +158,6 @@ class Post
     public function setComments($comments)
     {
         $this->comments = $comments;
-
-        return $this;
-    }
-
-    /**
-     * @return Page
-     */
-    public function getPage()
-    {
-        return $this->page;
-    }
-
-    /**
-     * @param Page $page
-     *
-     * @return $this
-     */
-    public function setPage($page)
-    {
-        $this->page = $page;
 
         return $this;
     }

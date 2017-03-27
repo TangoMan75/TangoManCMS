@@ -98,14 +98,19 @@ class MediaRepository extends EntityRepository
                 ->setParameter(':id', $query->get('s_id'));
         }
 
+        if ($query->get('s_slug')) {
+            $dql->andWhere('media.slug LIKE :slug')
+                ->setParameter(':slug', '%'.$query->get('s_slug').'%');
+        }
+
         if ($query->get('s_title')) {
             $dql->andWhere('media.title LIKE :title')
                 ->setParameter(':title', '%'.$query->get('s_title').'%');
         }
 
-        if ($query->get('s_subtitle')) {
-            $dql->andWhere('media.subtitle LIKE :subtitle')
-                ->setParameter(':subtitle', '%'.$query->get('s_subtitle').'%');
+        if ($query->get('s_description')) {
+            $dql->andWhere('media.description LIKE :description')
+                ->setParameter(':description', '%'.$query->get('s_description').'%');
         }
 
         if ($query->get('s_content')) {

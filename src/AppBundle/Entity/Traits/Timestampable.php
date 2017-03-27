@@ -4,7 +4,10 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Adds created at and modified at timestamps to entities.
- * Requires that entities are marked with the HasLifecycleCallbacks annotation.
+ * 1. Requires that entities are marked with the HasLifecycleCallbacks annotation.
+ * 2. Entities constructors are to initialize DateTime object
+ *     $this->created = new \DateTime();
+ *     $this->modified = new \DateTime();
  */
 trait Timestampable
 {

@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Page;
+
 Trait Publishable
 {
     /**
@@ -9,6 +11,12 @@ Trait Publishable
      * @ORM\Column(type="boolean", nullable=true)
      */
     private $published = false;
+
+    /**
+     * @var Page Post page
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Page", inversedBy="items")
+     */
+    private $page;
 
     /**
      * @return boolean
@@ -26,6 +34,26 @@ Trait Publishable
     public function setPublished($published)
     {
         $this->published = $published;
+
+        return $this;
+    }
+
+    /**
+     * @return Page
+     */
+    public function getPage()
+    {
+        return $this->page;
+    }
+
+    /**
+     * @param Page $page
+     *
+     * @return $this
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
 
         return $this;
     }

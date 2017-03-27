@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use AppBundle\Entity\Traits\Slugable;
 use AppBundle\Entity\Traits\Tagable;
 use AppBundle\Entity\Traits\Timestampable;
+use AppBundle\Entity\Traits\Publishable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,6 +23,8 @@ class Media
     use Timestampable;
 
     use Tagable;
+
+    use Publishable;
 
     /**
      * @var Integer Media id
@@ -80,7 +83,8 @@ class Media
      */
     public function __construct()
     {
-        $this->type = New ArrayCollection();
+        $this->created = new \DateTime();
+        $this->modified = new \DateTime();
     }
 
     /**
@@ -405,5 +409,13 @@ class Media
             default:
                 return null;
         }
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->title;
     }
 }

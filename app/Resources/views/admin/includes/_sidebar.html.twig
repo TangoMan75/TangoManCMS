@@ -67,7 +67,7 @@
                 </a>
             </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_media' %} class="active"{% endif %}>
-                <a href="#">
+                <a href="{{ path('app_admin_media_index') }}">
                     <span class="glyphicon glyphicon-music"></span>
                     <span class="sidebar-label">Medias</span>
                 </a>

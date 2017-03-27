@@ -98,6 +98,11 @@ class PostRepository extends EntityRepository
                 ->setParameter(':id', $query->get('s_id'));
         }
 
+        if ($query->get('s_slug')) {
+            $dql->andWhere('post.slug LIKE :slug')
+                ->setParameter(':slug', '%'.$query->get('s_slug').'%');
+        }
+
         if ($query->get('s_title')) {
             $dql->andWhere('post.title LIKE :title')
                 ->setParameter(':title', '%'.$query->get('s_title').'%');
