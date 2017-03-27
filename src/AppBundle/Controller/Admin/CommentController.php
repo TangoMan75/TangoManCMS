@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 class CommentController extends Controller
 {
     /**
-     * Lists all comments.
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -95,7 +94,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Finds and deletes a Comment.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Comment $comment)

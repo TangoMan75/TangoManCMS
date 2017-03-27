@@ -106,7 +106,6 @@ class PostController extends Controller
     }
 
     /**
-     * Creates new post.
      * @Route("/new")
      */
     public function newAction(Request $request)
@@ -146,7 +145,6 @@ class PostController extends Controller
     }
 
     /**
-     * Edits post.
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Post $post)
@@ -194,7 +192,6 @@ class PostController extends Controller
     }
 
     /**
-     * Deletes post.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Post $post)

@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Session\Session;
 class CommentController extends Controller
 {
     /**
-     * Edit comment.
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Comment $comment)
@@ -63,7 +62,6 @@ class CommentController extends Controller
     }
 
     /**
-     * Delete comment.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Comment $comment)
@@ -94,5 +92,4 @@ class CommentController extends Controller
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
     }
-
 }

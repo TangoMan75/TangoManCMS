@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Response;
 class UserController extends Controller
 {
     /**
-     * Lists all users.
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -105,7 +104,6 @@ class UserController extends Controller
     }
 
     /**
-     * Finds and deletes a User entity.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, User $user)
@@ -143,8 +141,8 @@ class UserController extends Controller
             'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été supprimé.'
         );
 
-            // User is redirected to referrer page
-            return $this->redirect($request->get('callback'));
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
 
     /**
@@ -173,8 +171,8 @@ class UserController extends Controller
             '&quot;'.$user.'&quot;</strong>.'
         );
 
-            // User is redirected to referrer page
-            return $this->redirect($request->get('callback'));
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
 
     /**
@@ -216,8 +214,8 @@ class UserController extends Controller
             '&quot;'.$user.'&quot;</strong>.'
         );
 
-            // User is redirected to referrer page
-            return $this->redirect($request->get('callback'));
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
 
     /**
@@ -291,7 +289,7 @@ class UserController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type'        => 'application/force-download',
+                'Content-Type' => 'application/force-download',
                 'Content-Disposition' => 'attachment; filename="users.csv"',
             ]
         );
@@ -350,11 +348,11 @@ class UserController extends Controller
 
             return $this->redirectToRoute('app_admin_user_import');
         }
-        
+
         // Get CSV reader service
-        $reader  = $this->get('services.csv_reader');
+        $reader = $this->get('services.csv_reader');
         $counter = 0;
-        $dupes   = 0;
+        $dupes = 0;
         // File check
         if (is_file($file)) {
             // Init reader service
@@ -370,7 +368,11 @@ class UserController extends Controller
                 $email = $line->get('email');
 
                 if (!$email || !$username) {
-                    $this->get('session')->getFlashBag()->add('error', 'Le format du fichier que vous tentez d\'importer n\'est pas valide');
+                    $this->get('session')->getFlashBag()->add(
+                        'error',
+                        'Le format du fichier que vous tentez d\'importer n\'est pas valide'
+                    );
+
                     return $this->redirectToRoute('app_admin_user_index');
                 }
 
@@ -381,7 +383,7 @@ class UserController extends Controller
                     $counter++;
                     $user = new User();
                     $user->setUsername($username)
-                         ->setEmail($email);
+                        ->setEmail($email);
 
                     $slug = $line->get('slug');
                     if ($slug) {
@@ -405,7 +407,7 @@ class UserController extends Controller
 
                     $roles = $line->get('roles');
                     if ($roles) {
-                        $user->setRoles(explode(",", $line->get('roles')));
+                        $user->setRoles(explode(',', $line->get('roles')));
                     }
 
                     $created = $line->get('created');
@@ -427,9 +429,9 @@ class UserController extends Controller
         }
 
         if ($counter > 1) {
-            $success = "$counter comptes utilisateur ont été importés.";
+            $success = $counter.' comptes utilisateur ont été importés.';
         } else {
-            $success = "Aucun compte utilisateur n'a été importé.";
+            $success = 'Aucun compte utilisateur n\'a été importé.';
         }
 
         $this->get('session')->getFlashBag()->add('success', $success);

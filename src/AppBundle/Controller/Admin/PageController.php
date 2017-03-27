@@ -18,7 +18,6 @@ use Symfony\Component\HttpFoundation\Request;
 class PageController extends Controller
 {
     /**
-     * Lists all pages.
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -100,7 +99,6 @@ class PageController extends Controller
     }
 
     /**
-     * Finds and deletes a Page.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Page $page)

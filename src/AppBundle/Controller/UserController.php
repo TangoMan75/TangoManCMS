@@ -15,7 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 class UserController extends Controller
 {
     /**
-     * Display User entity.
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
      *
      * @param Request $request
@@ -59,7 +58,6 @@ class UserController extends Controller
     }
 
     /**
-     * Edit User.
      * @Route("/edit/{slug}", requirements={"slug": "[\w-]+"})
      * @ParamConverter("user", class="AppBundle:User")
      *

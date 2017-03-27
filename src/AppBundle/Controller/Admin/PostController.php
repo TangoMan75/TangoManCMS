@@ -21,7 +21,6 @@ use Symfony\Component\HttpFoundation\Response;
 class PostController extends Controller
 {
     /**
-     * Lists all users.
      * @Route("/")
      */
     public function indexAction(Request $request)

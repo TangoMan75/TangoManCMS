@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\Request;
 class AdminController extends Controller
 {
     /**
-     * Shows dashboard
      * @Route("/")
      */
     public function indexAction(Request $request)

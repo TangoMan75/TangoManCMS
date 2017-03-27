@@ -17,7 +17,6 @@ use Symfony\Component\HttpFoundation\Request;
 class TagController extends Controller
 {
     /**
-     * Lists all tags.
      * @Route("/")
      */
     public function indexAction(Request $request)
@@ -99,7 +98,6 @@ class TagController extends Controller
     }
 
     /**
-     * Finds and deletes a Tag.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Tag $tag)

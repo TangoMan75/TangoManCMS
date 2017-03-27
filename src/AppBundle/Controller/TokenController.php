@@ -174,7 +174,7 @@ class TokenController extends Controller
             // Persists new password
             $em = $this->get('doctrine')->getManager();
             $em->persist($user);
-            $em->flush($user);
+            $em->flush();
 
             // Login user
             $this->loginUser($user);
