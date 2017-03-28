@@ -23,7 +23,7 @@ class CommentController extends Controller
     {
         // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $comments = $em->getRepository('AppBundle:Comment')->sortedSearchPaged($request->query);
+        $comments = $em->getRepository('AppBundle:Comment')->orderedSearchPaged($request->query);
 
         return $this->render(
             'admin/comment/index.html.twig',

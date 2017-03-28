@@ -17,7 +17,7 @@ class PostRepository extends EntityRepository
      *
      * @return Paginator
      */
-    public function sortedSearchPaged(ParameterBag $query)
+    public function orderedSearchPaged(ParameterBag $query)
     {
         // Sets default values
         $page = $query->get('page', 1);

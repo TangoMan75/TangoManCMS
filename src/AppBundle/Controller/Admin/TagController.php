@@ -23,7 +23,7 @@ class TagController extends Controller
     {
         // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $tags = $em->getRepository('AppBundle:Tag')->sortedSearchPaged($request->query);
+        $tags = $em->getRepository('AppBundle:Tag')->orderedSearchPaged($request->query);
 
         return $this->render(
             'admin/tag/index.html.twig',

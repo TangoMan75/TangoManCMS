@@ -27,7 +27,7 @@ class MediaController extends Controller
     {
         // Show searchable, sortable, paginated media list
         $em = $this->get('doctrine')->getManager();
-        $mediaList = $em->getRepository('AppBundle:Media')->sortedSearchPaged($request->query);
+        $mediaList = $em->getRepository('AppBundle:Media')->orderedSearchPaged($request->query);
 
         return $this->render(
             'admin/media/index.html.twig',
