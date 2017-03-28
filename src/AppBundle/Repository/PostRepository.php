@@ -148,7 +148,7 @@ class PostRepository extends EntityRepository
     }
 
     /**
-     * All Posts with joined author email
+     * All Posts with joined author email (for export)
      */
     public function findAllPosts()
     {
@@ -210,7 +210,7 @@ class PostRepository extends EntityRepository
      *
      * @return Paginator
      */
-    public function findByTagPaged(Tag $tag, $page = 1, $limit = 10)
+    public function findByTagPaged(Tag $tag, $page = 1, $limit = 10, $published = true)
     {
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -228,9 +228,12 @@ class PostRepository extends EntityRepository
         $dql = $this->createQueryBuilder('post');
         $dql->join('post.tags', 'tag')
             ->where('tag = :tag')
-            ->andWhere('post.published = 1')
             ->setParameter(':tag', $tag)
             ->orderBy('post.created', 'DESC');
+
+        if ($published) {
+            $dql->andWhere('post.published = 1');
+        }
 
         $firstResult = ($page - 1) * $limit;
 

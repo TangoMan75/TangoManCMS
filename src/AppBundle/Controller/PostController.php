@@ -20,20 +20,25 @@ class PostController extends Controller
 {
     /**
      * Displays post by tag.
-     * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
+     * @Route()
      */
-    public function indexAction(Request $request, $tag)
+    public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
-        $posts = $em->getRepository('AppBundle:Post')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $posts = $em->getRepository('AppBundle:Post')
+                ->findAllPaged($request->query->getInt('page', 1), 5, false);
+        } else {
+            $posts = $em->getRepository('AppBundle:Post')
+                ->findAllPaged($request->query->getInt('page', 1), 5);
+        }
+
         $formPost = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $user = $this->getUser();
             $post = new Post();
-            $post->setUser($user);
+            $post->setUser($this->getUser());
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
             $formPost = $form->createView();
@@ -41,7 +46,57 @@ class PostController extends Controller
             if ($form->isValid()) {
                 $em->persist($post);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Votre message &quot;'.$post.'&quot; a bien été enregistré.'
+                );
+
+                return $this->redirectToRoute('homepage');
+            }
+        }
+
+        return $this->render(
+            'default/index.html.twig',
+            [
+                'formPost' => $formPost,
+                'posts'    => $posts,
+            ]
+        );
+    }
+
+    /**
+     * Displays post by tag.
+     * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
+     */
+    public function indexByTagAction(Request $request, $tag)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
+
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $posts = $em->getRepository('AppBundle:Post')
+                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5, false);
+        } else {
+            $posts = $em->getRepository('AppBundle:Post')
+                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+        }
+
+        $formPost = null;
+
+        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $post = new Post();
+            $post->setUser($this->getUser());
+            $form = $this->createForm(NewPostType::class, $post);
+            $form->handleRequest($request);
+            $formPost = $form->createView();
+
+            if ($form->isValid()) {
+                $em->persist($post);
+                $em->flush();
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Votre message &quot;'.$post.'&quot; a bien été enregistré.'
+                );
 
                 return $this->redirectToRoute('homepage');
             }
@@ -71,14 +126,14 @@ class PostController extends Controller
             $request->query->getInt('page', 1),
             5
         );
+
         $formComment = null;
 
         // User cannot comment when not logged in
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
 
-            $user = $this->getUser();
             $comment = new Comment();
-            $comment->setUser($user);
+            $comment->setUser($this->getUser());
             $comment->setPost($post);
 
             $form = $this->createForm(CommentType::class, $comment);
@@ -98,9 +153,9 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'formPost'     => $formComment,
+                'formPost' => $formComment,
                 'list_comment' => $listComment,
-                'post'         => $post,
+                'post' => $post,
             ]
         );
     }
@@ -129,7 +184,7 @@ class PostController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le message intitulé <strong>'.$post->getTitle().'</strong> a bien été enregistré.'
+                'Le message intitulé <strong>'.$post.'</strong> a bien été enregistré.'
             );
 
             // User is redirected to referrer page
@@ -176,7 +231,7 @@ class PostController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre message <strong>&quot;'.$post->getTitle().'&quot</strong> à bien été modifié.'
+                'Votre message <strong>&quot;'.$post.'&quot</strong> à bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -219,7 +274,7 @@ class PostController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le message <strong>&quot;'.$post->getTitle().'&quot;</strong> à été supprimé.'
+            'Le message <strong>&quot;'.$post.'&quot;</strong> à été supprimé.'
         );
 
         // User is redirected to referrer page
