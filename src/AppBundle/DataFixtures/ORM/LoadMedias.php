@@ -71,7 +71,8 @@ class LoadMedias implements FixtureInterface, ContainerAwareInterface, OrderedFi
 
                 $media = new Media();
                 $media->setUser($user)
-//                    ->setTitle($faker->sentence(4, true))
+                    ->setTitle($faker->sentence(4, true))
+                    ->setDescription($faker->text(mt_rand(100, 255)))
                     ->setLink($links[$i])
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
                     ->setPage($pages[mt_rand(0, count($pages) - 1)])

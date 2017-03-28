@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Article - Modifier {{ media.title }}{% endblock %}
+{% block title %}{{ parent() }} | Médias - Modifier {{ media.title }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -13,8 +13,8 @@
 {% block admin %}
     <header>
         <h1>Medias</h1>
-        <h2>Modifier l'article &quot;{{ media.title }}&quot;</h2>
-        <p>Ici vous pouvez modifier l'article &quot;{{ media.title }}&quot; de {{ site_name }}</p>
+        <h2>Modifier le média &quot;{{ media.title }}&quot;</h2>
+        <p>Ici vous pouvez modifier le média &quot;{{ media.title }}&quot; de <strong>{{ site_name }}</strong></p>
     </header>
     {% include "admin/includes/_media_tabs.html.twig" %}
     <section id="edit">

@@ -1,13 +1,13 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Medias - Exporter{% endblock %}
+{% block title %}{{ parent() }} | Médias - Exporter{% endblock %}
 
 {% block admin %}
     <header>
         <h1>Medias</h1>
-        <h2>Exporter la liste d'medias</h2>
+        <h2>Exporter la liste de médias</h2>
         {% if is_granted('ROLE_ADMIN') %}
-            <p>Ici vous pouvez exporter la liste des medias de {{ site_name }} au format JSON.</p>
+            <p>Ici vous pouvez exporter les médias de <strong>{{ site_name }}</strong> au format JSON.</p>
         {% else %}
             <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
         {% endif %}
@@ -19,7 +19,7 @@
                 <div id="export" class="panel panel-success">
                     <div class="panel-heading">
                         <h1 class="text-center">
-                            Exporter la liste d'medias
+                            Exporter la liste de médias
                         </h1>
                     </div>
                     <div class="panel-body text-center">

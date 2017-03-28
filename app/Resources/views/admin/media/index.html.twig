@@ -6,7 +6,7 @@
     <header>
         <h1>Medias</h1>
         <h2>Liste des medias</h2>
-        <p>Ici vous pouvez accèder à la liste des medias de <strong>{{ site_name }}</strong>.</p>
+        <p>Ici vous pouvez accèder à la liste des médias de <strong>{{ site_name }}</strong>.</p>
     </header>
     {% include "admin/includes/_media_tabs.html.twig" %}
 
@@ -26,7 +26,7 @@
                         <label class="control-label col-sm-4" for="inputSlug">Slug</label>
                         <div class="col-sm-8">
                             <input type="text" name="s_slug" id="inputSlug" class="form-control"
-                            value="{{ app.request.get('s_slug') }}"/>
+                                   value="{{ app.request.get('s_slug') }}"/>
                         </div>
                     </div>
 
@@ -261,13 +261,19 @@
                         <td>
                             <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'s_type' : media.type})) }}"
                                class="label label-primary">
-                            {{ media.type }}
+                                {{ media.type }}
                             </a>
                         </td>
                         <td>
-                            <a href="{{ media.link }}" target="_blank">
-                                http:{{ media.link }}
-                            </a>
+                            {% if media.type == 'pdf' or media.type == 'pptx' %}
+                                <a href="{{ media.link }}" target="_blank">
+                                    {{ domain_name }}{{ media.link }}
+                                </a>
+                            {% else %}
+                                <a href="{{ media.link }}" target="_blank">
+                                    http:{{ media.link }}
+                                </a>
+                            {% endif %}
                         </td>
                         <td>
                             <a href="{{ path('app_media_show', { 'slug': media.slug }) }}">

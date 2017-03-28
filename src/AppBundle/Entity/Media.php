@@ -228,7 +228,7 @@ class Media
     public function setFileName($fileName)
     {
         $this->fileName = $fileName;
-        $this->link = '/uploads/'.$this->getType().'/'.$fileName;
+        $this->link = '/uploads/'.$fileName;
 
         return $this;
     }

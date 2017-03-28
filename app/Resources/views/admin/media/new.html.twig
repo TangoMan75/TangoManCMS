@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Medias - Ajouter{% endblock %}
+{% block title %}{{ parent() }} | Médias - Ajouter{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,9 +12,9 @@
 
 {% block admin %}
     <header>
-        <h1>Posts</h1>
-        <h2>Ajouter des mediaList</h2>
-        <p>Ici vous pouvez ajouter des mediaList à {{ site_name }}.</p>
+        <h1>Médias</h1>
+        <h2>Ajouter des médias</h2>
+        <p>Ici vous pouvez ajouter des médias à <strong>{{ site_name }}</strong>.</p>
     </header>
     {% include "admin/includes/_media_tabs.html.twig" %}
     <section id="new">
