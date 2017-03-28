@@ -3,8 +3,8 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\AdminNewUserType;
-use AppBundle\Form\AdminEditUserType;
+use AppBundle\Form\Admin\AdminNewUserType;
+use AppBundle\Form\Admin\AdminEditUserType;
 use AppBundle\Form\FileUploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

@@ -1,18 +1,16 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Admin;
 
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class AdminNewMediaType extends AbstractType
+class AdminEditPageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -25,35 +23,38 @@ class AdminNewMediaType extends AbstractType
                 'title',
                 TextType::Class,
                 [
-                    'label'    => 'Titre',
-                    'required' => false,
+                    'label' => 'Titre',
                 ]
             )
             ->add(
-                'description',
-                TextareaType::Class,
-                [
-                    'label'    => 'Description',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'link',
+                'slug',
                 TextType::Class,
                 [
-                    'label'    => 'Lien',
-                    'required' => false,
+                    'label' => 'Slug',
                 ]
             )
             ->add(
-                'page',
+                'tags',
                 EntityType::class,
                 [
-                    'label'         => 'Page',
-                    'class'         => 'AppBundle:Page',
-                    'placeholder'   => 'Selectionner une page',
-                    'empty_data'    => null,
-                    'multiple'      => false,
+                    'label'         => 'Étiquette',
+                    'class'         => 'AppBundle:Tag',
+                    'multiple'      => true,
+                    'expanded'      => true,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('t')
+                            ->join('t.items', 'items');
+                    },
+                ]
+            )
+            ->add(
+                'items',
+                EntityType::class,
+                [
+                    'label'         => 'Articles',
+                    'class'         => 'AppBundle:Post',
+                    'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
@@ -69,20 +70,6 @@ class AdminNewMediaType extends AbstractType
                     'label'    => 'Publier',
                     'required' => false,
                 ]
-            )
-            ->add(
-                'tags',
-                EntityType::class,
-                [
-                    'label'         => 'Étiquette',
-                    'class'         => 'AppBundle:Tag',
-                    'multiple'      => true,
-                    'expanded'      => true,
-                    'required'      => false,
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('t');
-                    },
-                ]
             );
     }
 
@@ -93,13 +80,13 @@ class AdminNewMediaType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\Media',
+                'data_class' => 'AppBundle\Entity\Page',
             ]
         );
     }
 
     public function getName()
     {
-        return 'media';
+        return 'page';
     }
 }

@@ -55,7 +55,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 // ->setEmail($username.'@'.$faker->freeEmailDomain)
                 // ->setEmail($faker->email)
                 // ->setPassword($encoder->encodePassword($user, $username))
-                ->setPassword($i%2?'$2y$13$lPJ8KtvstiwLmvTAX3SxoOL3/Nj.sZQBwh7Pyldw0GAl8mnyU8Wg.':null)
+                ->setPassword($i % 2 ? '$2y$13$lPJ8KtvstiwLmvTAX3SxoOL3/Nj.sZQBwh7Pyldw0GAl8mnyU8Wg.' : null)
                 ->addRole($roles[mt_rand(0, 3)])
                 // ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))

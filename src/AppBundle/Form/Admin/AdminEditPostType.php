@@ -1,10 +1,9 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Admin;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -12,7 +11,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
-class AdminEditMediaType extends AbstractType
+class AdminEditPostType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -29,51 +28,10 @@ class AdminEditMediaType extends AbstractType
                 ]
             )
             ->add(
-                'description',
-                TextareaType::Class,
-                [
-                    'label'    => 'Description',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'link',
+                'slug',
                 TextType::Class,
                 [
-                    'label' => 'Lien',
-                ]
-            )
-            ->add(
-                'type',
-                ChoiceType::Class,
-                [
-                    'label'   => 'Type',
-                    'choices' => [
-                        'argus360'    => 'argus360',
-                        'dailymotion' => 'dailymotion',
-                        'deezer'      => 'deezer',
-                        'soundcloud'  => 'soundcloud',
-                        'spotify'     => 'spotify',
-                        'vimeo'       => 'vimeo',
-                        'youtube'     => 'youtube',
-                    ],
-                ]
-            )
-            ->add(
-                'user',
-                EntityType::class,
-                [
-                    'label'         => 'Auteur',
-                    'class'         => 'AppBundle:User',
-                    'placeholder'   => 'Selectionner un utilisateur',
-                    'empty_data'    => null,
-                    'multiple'      => false,
-                    'expanded'      => false,
-                    'required'      => false,
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                            ->orderBy('u.username');
-                    },
+                    'label' => 'Slug',
                 ]
             )
             ->add(
@@ -94,14 +52,6 @@ class AdminEditMediaType extends AbstractType
                 ]
             )
             ->add(
-                'published',
-                CheckboxType::class,
-                [
-                    'label' => 'Publier',
-                    'required' => false,
-                ]
-            )
-            ->add(
                 'tags',
                 EntityType::class,
                 [
@@ -114,6 +64,22 @@ class AdminEditMediaType extends AbstractType
                         return $em->createQueryBuilder('t');
                     },
                 ]
+            )
+            ->add(
+                'content',
+                TextareaType::Class,
+                [
+                    'label'    => 'Contenu',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'published',
+                CheckboxType::class,
+                [
+                    'label'    => 'Publier',
+                    'required' => false,
+                ]
             );
     }
 
@@ -124,13 +90,13 @@ class AdminEditMediaType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\Media',
+                'data_class' => 'AppBundle\Entity\Post',
             ]
         );
     }
 
     public function getName()
     {
-        return 'media';
+        return 'post';
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Admin;
 
 use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Component\Form\AbstractType;

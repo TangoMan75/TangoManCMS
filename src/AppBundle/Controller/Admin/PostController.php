@@ -4,8 +4,8 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
-use AppBundle\Form\AdminEditPostType;
-use AppBundle\Form\AdminNewPostType;
+use AppBundle\Form\Admin\AdminEditPostType;
+use AppBundle\Form\Admin\AdminNewPostType;
 use AppBundle\Form\FileUploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

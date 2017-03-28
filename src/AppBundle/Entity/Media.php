@@ -138,6 +138,21 @@ class Media
     }
 
     /**
+     * Set current date as default title
+     * @ORM\PrePersist()
+     *
+     * @return $this
+     */
+    public function setDefaultTitle()
+    {
+        if (!$this->title) {
+            $this->setTitle($this->created->format('d/m/Y H:i:s'));
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getDescription()
@@ -219,6 +234,36 @@ class Media
     }
 
     /**
+     * Delete image file and cached thumbnail
+     * @ORM\PreRemove()
+     *
+     * @return $this
+     */
+    public function deleteFile()
+    {
+        switch ($this->type) {
+            case 'photo':
+            case 'thetas':
+                // Get thumbnail path
+                $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
+                // Delete file if exists
+                if (is_file($path)) {
+                    unlink($path);
+                }
+            case 'document':
+                // Get file path
+                $path = __DIR__."/../../../web".$this->getLink();
+                // Delete file if exists
+                if (is_file($path)) {
+                    unlink($path);
+                }
+                break;
+        }
+
+        return $this;
+    }
+
+    /**
      * @return String
      */
     public function getLink()
@@ -247,6 +292,9 @@ class Media
         if (isset($parsed['host'])) {
             // Automatically set media category according to given url
             switch ($parsed['host']) {
+                case 'gist.github.com':
+                    $this->setType('gist');
+                    break;
                 case 'www.youtube.com':
                 case 'youtu.be':
                     $this->setType('youtube');
@@ -283,9 +331,13 @@ class Media
      */
     public function getEmbed()
     {
-        // TODO soundcloud, deezer, spotify
         if ($this->link) {
             switch ($this->type) {
+                case 'gist':
+                    return '<script src="//gist.github.com/'.
+                        $this->getHash($this->link).
+                        '.js"></script>';
+                    break;
                 case 'argus360':
                     return '<iframe src="//car360app.com/viewer/portable.php?spin='.
                         $this->getHash($this->link).
@@ -315,51 +367,6 @@ class Media
     }
 
     /**
-     * Set current date as default title
-     * @ORM\PrePersist()
-     *
-     * @return $this
-     */
-    public function setDefaultTitle()
-    {
-        if (!$this->title) {
-            $this->setTitle($this->created->format('d/m/Y H:i:s'));
-        }
-
-        return $this;
-    }
-
-    /**
-     * Delete image file and cached thumbnail
-     * @ORM\PreRemove()
-     *
-     * @return $this
-     */
-    public function deleteFile()
-    {
-        switch ($this->type) {
-            case 'photo':
-            case 'thetas':
-                // Get thumbnail path
-                $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
-                // Delete file if exists
-                if (is_file($path)) {
-                    unlink($path);
-                }
-            case 'document':
-                // Get file path
-                $path = __DIR__."/../../../web".$this->getLink();
-                // Delete file if exists
-                if (is_file($path)) {
-                    unlink($path);
-                }
-                break;
-        }
-
-        return $this;
-    }
-
-    /**
      * Get video hash from url
      *
      * @param $url
@@ -368,8 +375,12 @@ class Media
      */
     private function getHash($url)
     {
-        // TODO soundcloud, deezer, spotify
         switch (parse_url($url)['host']) {
+            case 'gist.github.com':
+                // https://gist.github.com/TangoMan75/5bd8b17613e6b6c7a9c80d156c058f96
+
+                return parse_url($url)['path'];
+                break;
             case 'www.youtube.com':
                 // https://www.youtube.com/watch?v=Vhx_wC1pve8
                 parse_str(parse_url($url)['query'], $result);

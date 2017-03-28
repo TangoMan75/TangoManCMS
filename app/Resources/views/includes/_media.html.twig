@@ -21,16 +21,11 @@
                 {% endif %}
             </h1>
         </header>
+
         <div class="panel-body">
             <div class="row">
-                <figure class="col-xs-12 col-md-3 text-center">
-                    <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}">
-                        <img src="{{ media.user.avatar ? media.user.avatar : asset('img/user.jpg') }}"
-                             alt="{{ media.user.username }}" class="img-rounded img-responsive"/>
-                    </a>
-                </figure>
-                <div class="col-xs-12 col-md-9">
-                    {{ media.embed }}
+                <div class="col-xs-12 text-center">
+                    {{ media.embed|raw }}
                 </div>
             </div>
 
@@ -44,6 +39,7 @@
                 </div>
             </div>
         </div>
+
         <footer class="panel-footer">
             <div class="row">
                 <div class="pull-left">

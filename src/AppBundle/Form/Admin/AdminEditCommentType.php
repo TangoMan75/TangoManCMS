@@ -1,16 +1,16 @@
 <?php
 
-namespace AppBundle\Form;
+namespace AppBundle\Form\Admin;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
-class AdminNewPageType extends AbstractType
+class AdminEditCommentType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -20,38 +20,35 @@ class AdminNewPageType extends AbstractType
     {
         $builder
             ->add(
-                'title',
-                TextType::Class,
-                [
-                    'label' => 'Titre',
-                ]
-            )
-            ->add(
-                'tags',
+                'user',
                 EntityType::class,
                 [
-                    'label'         => 'Étiquette',
-                    'class'         => 'AppBundle:Tag',
-                    'multiple'      => true,
-                    'expanded'      => true,
-                    'required'      => false,
+                    'label'         => 'Auteur',
+                    'class'         => 'AppBundle:User',
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('t');
+                        return $em->createQueryBuilder('u')
+                            ->orderBy('u.username');
                     },
                 ]
             )
             ->add(
-                'items',
+                'post',
                 EntityType::class,
                 [
-                    'label'         => 'Articles',
+                    'label'         => 'Article',
                     'class'         => 'AppBundle:Post',
-                    'multiple'      => true,
-                    'expanded'      => false,
-                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('p');
+                        return $em->createQueryBuilder('p')
+                            ->orderBy('p.title');
                     },
+                ]
+            )
+            ->add(
+                'content',
+                TextareaType::class,
+                [
+                    'label'    => 'Commentaire',
+                    'required' => false,
                 ]
             )
             ->add(
@@ -67,17 +64,17 @@ class AdminNewPageType extends AbstractType
     /**
      * @param OptionsResolver $resolver
      */
-    public function configureOptions(OptionsResolver $resolver)
+    public function setDefaultOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\Page',
+                'data_class' => 'AppBundle\Entity\Comment',
             ]
         );
     }
 
     public function getName()
     {
-        return 'page';
+        return 'comment';
     }
 }

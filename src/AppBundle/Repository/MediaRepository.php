@@ -44,11 +44,6 @@ class MediaRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'comments':
-                $dql->addSelect('COUNT(comments) as orderParam');
-                $dql->leftJoin('media.comments', 'comments');
-                break;
-
             case 'tags':
                 $dql->addSelect('COUNT(tags) as orderParam');
                 $dql->leftJoin('media.tags', 'tags');
@@ -103,6 +98,16 @@ class MediaRepository extends EntityRepository
                 ->setParameter(':slug', '%'.$query->get('s_slug').'%');
         }
 
+        if ($query->get('s_type')) {
+            $dql->andWhere('media.type LIKE :type')
+                ->setParameter(':type', '%'.$query->get('s_type').'%');
+        }
+
+        if ($query->get('s_link')) {
+            $dql->andWhere('media.link LIKE :link')
+                ->setParameter(':link', '%'.$query->get('s_link').'%');
+        }
+
         if ($query->get('s_title')) {
             $dql->andWhere('media.title LIKE :title')
                 ->setParameter(':title', '%'.$query->get('s_title').'%');
@@ -111,11 +116,6 @@ class MediaRepository extends EntityRepository
         if ($query->get('s_description')) {
             $dql->andWhere('media.description LIKE :description')
                 ->setParameter(':description', '%'.$query->get('s_description').'%');
-        }
-
-        if ($query->get('s_content')) {
-            $dql->andWhere('media.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('s_content').'%');
         }
 
         if ($query->get('s_user')) {

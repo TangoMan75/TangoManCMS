@@ -3,8 +3,8 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Page;
-use AppBundle\Form\AdminNewPageType;
-use AppBundle\Form\AdminEditPageType;
+use AppBundle\Form\Admin\AdminNewPageType;
+use AppBundle\Form\Admin\AdminEditPageType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;

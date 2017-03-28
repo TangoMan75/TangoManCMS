@@ -4,8 +4,8 @@ namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Media;
 use AppBundle\Entity\Tag;
-use AppBundle\Form\AdminEditMediaType;
-use AppBundle\Form\AdminNewMediaType;
+use AppBundle\Form\Admin\AdminEditMediaType;
+use AppBundle\Form\Admin\AdminNewMediaType;
 use AppBundle\Form\FileUploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

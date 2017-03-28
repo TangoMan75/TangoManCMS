@@ -42,14 +42,13 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
             $page = new Page();
             $page->setTitle($faker->sentence(4, true))
-                ->setPublished($i%2);
+                ->setPublished($i % 2);
 
             for ($j = 0; $j < mt_rand(0, 5); $j++) {
                 $page->addTag($tags[mt_rand(0, 5)]);
             }
 
             $em->persist($page);
-
         }
 
         $em->flush();
