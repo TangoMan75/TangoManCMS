@@ -39,8 +39,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         $dql = $this->createQueryBuilder('user');
 
         // Search inside simple arrays
-        if ($query->get('s_role')) {
-            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('s_role'));
+        if ($query->get('role')) {
+            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
         }
 
         // Search inside id, username and email columns
@@ -91,17 +91,17 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('s_id')) {
+        if ($query->get('id')) {
             $dql->andWhere('user.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
+                ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('s_username')) {
+        if ($query->get('username')) {
             $dql->andWhere('user.username LIKE :username')
-                ->setParameter(':username', '%'.$query->get('s_username').'%');
+                ->setParameter(':username', '%'.$query->get('username').'%');
         }
 
-        switch ($query->get('s_status')) {
+        switch ($query->get('status')) {
             case 'true':
                 $dql->andWhere('user.password IS NOT NULL');
                 break;
@@ -109,9 +109,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 $dql->andWhere('user.password IS NULL');
         }
 
-        if ($query->get('s_email')) {
+        if ($query->get('email')) {
             $dql->andWhere('user.email LIKE :email')
-                ->setParameter(':email', '%'.$query->get('s_email').'%');
+                ->setParameter(':email', '%'.$query->get('email').'%');
         }
 
         return $dql;

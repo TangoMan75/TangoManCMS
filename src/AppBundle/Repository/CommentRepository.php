@@ -82,29 +82,29 @@ class CommentRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('s_id')) {
+        if ($query->get('id')) {
             $dql->andWhere('comment.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
+                ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('s_post')) {
-            $dql->andWhere('s_post.title LIKE :post')
-                ->leftJoin('comment.post', 's_post')
-                ->setParameter(':post', '%'.$query->get('s_post').'%');
+        if ($query->get('post')) {
+            $dql->andWhere('post.title LIKE :post')
+                ->leftJoin('comment.post', 'post')
+                ->setParameter(':post', '%'.$query->get('post').'%');
         }
 
-        if ($query->get('s_user')) {
+        if ($query->get('user')) {
             $dql->andWhere('user.username LIKE :user')
                 ->leftJoin('comment.user', 'user')
-                ->setParameter(':user', '%'.$query->get('s_user').'%');
+                ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
-        if ($query->get('s_content')) {
+        if ($query->get('content')) {
             $dql->andWhere('comment.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('s_content').'%');
+                ->setParameter(':content', '%'.$query->get('content').'%');
         }
 
-        switch ($query->get('s_published')) {
+        switch ($query->get('published')) {
             case 'true':
                 $dql->andWhere('comment.published = :published')
                     ->setParameter(':published', 1);

@@ -93,42 +93,37 @@ class PostRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('s_id')) {
+        if ($query->get('id')) {
             $dql->andWhere('post.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
+                ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('s_slug')) {
+        if ($query->get('slug')) {
             $dql->andWhere('post.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('s_slug').'%');
+                ->setParameter(':slug', '%'.$query->get('slug').'%');
         }
 
-        if ($query->get('s_title')) {
+        if ($query->get('title')) {
             $dql->andWhere('post.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('s_title').'%');
+                ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
-        if ($query->get('s_subtitle')) {
+        if ($query->get('subtitle')) {
             $dql->andWhere('post.subtitle LIKE :subtitle')
-                ->setParameter(':subtitle', '%'.$query->get('s_subtitle').'%');
+                ->setParameter(':subtitle', '%'.$query->get('subtitle').'%');
         }
 
-        if ($query->get('s_content')) {
+        if ($query->get('content')) {
             $dql->andWhere('post.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('s_content').'%');
+                ->setParameter(':content', '%'.$query->get('content').'%');
         }
 
-        if ($query->get('s_user')) {
+        if ($query->get('user')) {
             $dql->andWhere('user.username LIKE :user')
-                ->setParameter(':user', '%'.$query->get('s_user').'%');
+                ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
-        if ($query->get('s_page')) {
-            $dql->andWhere('page.title LIKE :page')
-                ->setParameter(':page', '%'.$query->get('s_page').'%');
-        }
-
-        switch ($query->get('s_published')) {
+        switch ($query->get('published')) {
             case 'true':
                 $dql->andWhere('post.published = :published')
                     ->setParameter(':published', 1);
@@ -138,10 +133,16 @@ class PostRepository extends EntityRepository
                     ->setParameter(':published', 0);
         }
 
-        if ($query->get('s_tag')) {
-            $dql->andWhere('s_tag.name LIKE :tag')
-                ->leftJoin('post.tags', 's_tag')
-                ->setParameter(':tag', '%'.$query->get('s_tag').'%');
+        if ($query->get('s_page')) {
+            $dql->andWhere('page.title LIKE :page')
+                ->leftJoin('post.page', 'page')
+                ->setParameter(':page', '%'.$query->get('s_page').'%');
+        }
+
+        if ($query->get('tag')) {
+            $dql->andWhere('tag.name LIKE :tag')
+                ->leftJoin('post.tags', 'tag')
+                ->setParameter(':tag', '%'.$query->get('tag').'%');
         }
 
         return $dql;

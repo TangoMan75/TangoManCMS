@@ -81,22 +81,22 @@ class PageRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('s_id')) {
+        if ($query->get('id')) {
             $dql->andWhere('page.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
+                ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('s_slug')) {
+        if ($query->get('slug')) {
             $dql->andWhere('page.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('s_slug').'%');
+                ->setParameter(':slug', '%'.$query->get('slug').'%');
         }
 
-        if ($query->get('s_title')) {
+        if ($query->get('title')) {
             $dql->andWhere('page.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('s_title').'%');
+                ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
-        switch ($query->get('s_published')) {
+        switch ($query->get('published')) {
             case 'true':
                 $dql->andWhere('page.published = :published')
                     ->setParameter(':published', 1);
@@ -106,10 +106,10 @@ class PageRepository extends EntityRepository
                     ->setParameter(':published', 0);
         }
 
-        if ($query->get('s_tag')) {
+        if ($query->get('tag')) {
             $dql->andWhere('tag.name LIKE :tag')
                 ->leftJoin('page.tags', 'tag')
-                ->setParameter(':tag', '%'.$query->get('s_tag').'%');
+                ->setParameter(':tag', '%'.$query->get('tag').'%');
         }
 
         return $dql;

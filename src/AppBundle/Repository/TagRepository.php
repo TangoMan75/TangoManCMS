@@ -76,19 +76,19 @@ class TagRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('s_id')) {
+        if ($query->get('id')) {
             $dql->andWhere('tag.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
+                ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('s_name')) {
+        if ($query->get('name')) {
             $dql->andWhere('tag.name LIKE :name')
-                ->setParameter(':name', '%'.$query->get('s_name').'%');
+                ->setParameter(':name', '%'.$query->get('name').'%');
         }
 
-        if ($query->get('s_type')) {
+        if ($query->get('type')) {
             $dql->andWhere('tag.type LIKE :type')
-                ->setParameter(':type', '%'.$query->get('s_type').'%');
+                ->setParameter(':type', '%'.$query->get('type').'%');
         }
 
         return $dql;

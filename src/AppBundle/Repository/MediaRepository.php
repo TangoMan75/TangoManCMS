@@ -88,47 +88,42 @@ class MediaRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        if ($query->get('s_id')) {
+        if ($query->get('id')) {
             $dql->andWhere('media.id = :id')
-                ->setParameter(':id', $query->get('s_id'));
+                ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('s_slug')) {
+        if ($query->get('slug')) {
             $dql->andWhere('media.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('s_slug').'%');
+                ->setParameter(':slug', '%'.$query->get('slug').'%');
         }
 
-        if ($query->get('s_type')) {
+        if ($query->get('type')) {
             $dql->andWhere('media.type LIKE :type')
-                ->setParameter(':type', '%'.$query->get('s_type').'%');
+                ->setParameter(':type', '%'.$query->get('type').'%');
         }
 
-        if ($query->get('s_link')) {
+        if ($query->get('link')) {
             $dql->andWhere('media.link LIKE :link')
-                ->setParameter(':link', '%'.$query->get('s_link').'%');
+                ->setParameter(':link', '%'.$query->get('link').'%');
         }
 
-        if ($query->get('s_title')) {
+        if ($query->get('title')) {
             $dql->andWhere('media.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('s_title').'%');
+                ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
-        if ($query->get('s_description')) {
+        if ($query->get('description')) {
             $dql->andWhere('media.description LIKE :description')
-                ->setParameter(':description', '%'.$query->get('s_description').'%');
+                ->setParameter(':description', '%'.$query->get('description').'%');
         }
 
-        if ($query->get('s_user')) {
+        if ($query->get('user')) {
             $dql->andWhere('user.username LIKE :user')
-                ->setParameter(':user', '%'.$query->get('s_user').'%');
+                ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
-        if ($query->get('s_page')) {
-            $dql->andWhere('page.title LIKE :page')
-                ->setParameter(':page', '%'.$query->get('s_page').'%');
-        }
-
-        switch ($query->get('s_published')) {
+        switch ($query->get('published')) {
             case 'true':
                 $dql->andWhere('media.published = :published')
                     ->setParameter(':published', 1);
@@ -138,10 +133,16 @@ class MediaRepository extends EntityRepository
                     ->setParameter(':published', 0);
         }
 
-        if ($query->get('s_tag')) {
-            $dql->andWhere('s_tag.name LIKE :tag')
-                ->leftJoin('media.tags', 's_tag')
-                ->setParameter(':tag', '%'.$query->get('s_tag').'%');
+        if ($query->get('s_page')) {
+            $dql->andWhere('page.title LIKE :page')
+                ->leftJoin('media.page', 'page')
+                ->setParameter(':page', '%'.$query->get('s_page').'%');
+        }
+
+        if ($query->get('tag')) {
+            $dql->andWhere('tag.name LIKE :tag')
+                ->leftJoin('media.tags', 'tag')
+                ->setParameter(':tag', '%'.$query->get('tag').'%');
         }
 
         return $dql;
