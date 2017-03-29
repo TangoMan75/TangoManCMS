@@ -4,7 +4,7 @@ namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Tag;
 
-Trait Tagable
+Trait Taggable
 {
     /**
      * @var Tag[]
@@ -42,7 +42,6 @@ Trait Tagable
     public function addTag(Tag $tag)
     {
         if (!in_array($tag, $this->tags)) {
-//            $tag->addItem($this);
             $this->tags[] = $tag;
         }
 

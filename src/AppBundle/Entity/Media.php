@@ -2,8 +2,8 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\Slugable;
-use AppBundle\Entity\Traits\Tagable;
+use AppBundle\Entity\Traits\Sluggable;
+use AppBundle\Entity\Traits\Taggable;
 use AppBundle\Entity\Traits\Timestampable;
 use AppBundle\Entity\Traits\Publishable;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -18,11 +18,11 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class Media
 {
-    use Slugable;
+    use Sluggable;
 
     use Timestampable;
 
-    use Tagable;
+    use Taggable;
 
     use Publishable;
 
