@@ -41,7 +41,7 @@ class AdminNewPageType extends AbstractType
                 ]
             )
             ->add(
-                'items',
+                'posts',
                 EntityType::class,
                 [
                     'label'         => 'Articles',
@@ -51,6 +51,21 @@ class AdminNewPageType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('p');
+                    },
+                ]
+            )
+            ->add(
+                'listMedia',
+                EntityType::class,
+                [
+                    'label'         => 'Médias',
+                    'class'         => 'AppBundle:Media',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('m')
+                            ->orderBy('m.title');
                     },
                 ]
             )

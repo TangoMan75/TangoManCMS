@@ -49,7 +49,7 @@ class AdminEditPageType extends AbstractType
                 ]
             )
             ->add(
-                'items',
+                'posts',
                 EntityType::class,
                 [
                     'label'         => 'Articles',
@@ -60,6 +60,21 @@ class AdminEditPageType extends AbstractType
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('p')
                             ->orderBy('p.title');
+                    },
+                ]
+            )
+            ->add(
+                'listMedia',
+                EntityType::class,
+                [
+                    'label'         => 'Médias',
+                    'class'         => 'AppBundle:Media',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('m')
+                            ->orderBy('m.title');
                     },
                 ]
             )
