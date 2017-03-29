@@ -63,7 +63,7 @@ class Page
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-        $this->items = new ArrayCollection();
+        $this->posts = new ArrayCollection();
         $this->listMedia = new ArrayCollection();
     }
 
@@ -124,7 +124,7 @@ class Page
     /**
      * Get posts
      *
-     * @return Post[]
+     * @return ArrayCollection
      */
     public function getPosts()
     {
@@ -166,7 +166,7 @@ class Page
      *
      * @return ArrayCollection
      */
-    public function getListMedias()
+    public function getListMedia()
     {
         return $this->listMedia;
     }
@@ -178,7 +178,7 @@ class Page
      *
      * @return $this
      */
-    public function addListMedia($media)
+    public function addMedia($media)
     {
         if (!in_array($media, $this->listMedia)) {
             $this->listMedia[] = $media;

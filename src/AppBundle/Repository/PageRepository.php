@@ -47,9 +47,9 @@ class PageRepository extends EntityRepository
                 $dql->leftJoin('page.posts', 'posts');
                 break;
 
-            case 'media':
-                $dql->addSelect('COUNT(media) as orderParam');
-                $dql->leftJoin('page.media', 'media');
+            case 'listMedia':
+                $dql->addSelect('COUNT(listMedia) as orderParam');
+                $dql->leftJoin('page.listMedia', 'listMedia');
                 break;
 
             case 'tags':
