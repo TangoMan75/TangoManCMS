@@ -36,7 +36,7 @@ class Media
 
     /**
      * @var User Media author
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="mediaList")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="listMedia")
      */
     private $user;
 

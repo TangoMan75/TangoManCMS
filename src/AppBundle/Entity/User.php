@@ -64,7 +64,7 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"created"="DESC"})
      */
-    private $mediaList;
+    private $listMedia;
 
     /**
      * @var Post[] User's posts
@@ -168,25 +168,25 @@ class User implements UserInterface
     }
 
     /**
-     * Get user's mediaList.
+     * Get user's listMedia.
      *
      * @return Media[]
      */
-    public function getMediaList()
+    public function getListMedia()
     {
-        return $this->mediaList;
+        return $this->listMedia;
     }
 
     /**
-     * Sets user mediaList.
+     * Sets user listMedia.
      *
-     * @param Media[] $mediaList
+     * @param Media[] $listMedia
      *
      * @return $this
      */
-    public function setMediaList($mediaList)
+    public function setListMedia($listMedia)
     {
-        $this->mediaList = $mediaList;
+        $this->listMedia = $listMedia;
 
         return $this;
     }

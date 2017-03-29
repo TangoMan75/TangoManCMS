@@ -27,13 +27,13 @@ class MediaController extends Controller
     {
         // Show searchable, sortable, paginated media list
         $em = $this->get('doctrine')->getManager();
-        $mediaList = $em->getRepository('AppBundle:Media')->orderedSearchPaged($request->query);
+        $listMedia = $em->getRepository('AppBundle:Media')->orderedSearchPaged($request->query);
 
         return $this->render(
             'admin/media/index.html.twig',
             [
                 'currentUser' => $this->getUser(),
-                'mediaList'   => $mediaList,
+                'listMedia'   => $listMedia,
             ]
         );
     }
@@ -132,13 +132,13 @@ class MediaController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $mediaList = $em->getRepository('AppBundle:Media')->findAll();
+        $listMedia = $em->getRepository('AppBundle:Media')->findAll();
 
         return $this->render(
             'admin/media/export.html.twig',
             [
                 'currentUser' => $this->getUser(),
-                'mediaList'   => $mediaList,
+                'listMedia'   => $listMedia,
             ]
         );
     }
@@ -149,13 +149,13 @@ class MediaController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $mediaList = $em->getRepository('AppBundle:Media')->findAllMedias();
-        $response = json_encode($mediaList);
+        $listMedia = $em->getRepository('AppBundle:Media')->findAllMedias();
+        $response = json_encode($listMedia);
 
         return new Response(
             $response, 200, [
                 'Content-Type' => 'application/force-download',
-                'Content-Disposition' => 'attachment; filename="mediaList.json"',
+                'Content-Disposition' => 'attachment; filename="listMedia.json"',
             ]
         );
     }
@@ -215,7 +215,7 @@ class MediaController extends Controller
         if (is_file($file)) {
             // Load entities
             $em = $this->get('doctrine')->getManager();
-            $mediaList = $em->getRepository('AppBundle:Media');
+            $listMedia = $em->getRepository('AppBundle:Media');
             $tags = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
 
@@ -232,7 +232,7 @@ class MediaController extends Controller
             foreach (json_decode(file_get_contents($file)) as $import) {
 
                 // Check if media exists already
-                if (!$mediaList->findOneBySlug($import->media_slug)) {
+                if (!$listMedia->findOneBySlug($import->media_slug)) {
                     $counter++;
 
                     // Check if media author exists

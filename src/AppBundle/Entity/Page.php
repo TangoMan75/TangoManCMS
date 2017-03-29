@@ -23,8 +23,6 @@ class Page
 
     use Taggable;
 
-    use Publishable;
-
     /**
      * @var int Page id
      * @ORM\Id
@@ -32,6 +30,12 @@ class Page
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var boolean
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $published = false;
 
     /**
      * @var string Title
@@ -44,7 +48,13 @@ class Page
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="page")
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $items;
+    private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="page")
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $listMedia;
 
     /**
      * Post constructor.
@@ -54,6 +64,7 @@ class Page
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
         $this->items = new ArrayCollection();
+        $this->listMedia = new ArrayCollection();
     }
 
     /**
@@ -64,6 +75,26 @@ class Page
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isPublished()
+    {
+        return $this->published;
+    }
+
+    /**
+     * @param boolean $published
+     *
+     * @return $this
+     */
+    public function setPublished($published)
+    {
+        $this->published = $published;
+
+        return $this;
     }
 
     /**
@@ -91,39 +122,81 @@ class Page
     }
 
     /**
-     * Get items
+     * Get posts
      *
-     * @return Page[]|Post[]
+     * @return Post[]
      */
-    public function getItems()
+    public function getPosts()
     {
-        return $this->items;
+        return $this->posts;
     }
 
     /**
-     * Add item
+     * Add post
      *
-     * @return Page
+     * @param $post
+     *
+     * @return $this
      */
-    public function addItem($item)
+    public function addPost($post)
     {
-        if (!in_array($item, $this->items)) {
-            $this->items[] = $item;
+        if (!in_array($post, $this->posts)) {
+            $this->posts[] = $post;
         }
 
         return $this;
     }
 
     /**
-     * Remove item
+     * Remove post
      *
-     * @param $item
+     * @param $post
      *
-     * @return Page
+     * @return $this
      */
-    public function removeItem($item)
+    public function removePost($post)
     {
-        $this->items->removeElement($item);
+        $this->posts->removeElement($post);
+
+        return $this;
+    }
+
+    /**
+     * Get listMedia
+     *
+     * @return ArrayCollection
+     */
+    public function getListMedias()
+    {
+        return $this->listMedia;
+    }
+
+    /**
+     * Add media
+     *
+     * @param $media
+     *
+     * @return $this
+     */
+    public function addListMedia($media)
+    {
+        if (!in_array($media, $this->listMedia)) {
+            $this->listMedia[] = $media;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param $media
+     *
+     * @return $this
+     */
+    public function removeMedia($media)
+    {
+        $this->listMedia->removeElement($media);
 
         return $this;
     }
