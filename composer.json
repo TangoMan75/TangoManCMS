@@ -37,7 +37,8 @@
         "tiloweb/base64-bundle": "^1.0",
         "firebase/php-jwt": "^4.0",
         "tangoman/jwt-bundle": "^1.0",
-        "twig/extensions": "^1.4"
+        "twig/extensions": "^1.4",
+        "vich/uploader-bundle": "^1.5"
     },
     "scripts": {
         "symfony-scripts": [
@@ -49,13 +50,17 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "warmup": [
-            "php bin/console admin"
+            "php bin/console admin",
+            "@symfony-scripts",
+            "php bin/console cache:clear -e=prod"
         ],
         "post-install-cmd": [
+            "php bin/console admin",
             "@symfony-scripts",
             "php bin/console cache:clear -e=prod"
         ],
         "post-update-cmd": [
+            "php bin/console admin",
             "@symfony-scripts",
             "php bin/console cache:clear -e=prod"
         ]

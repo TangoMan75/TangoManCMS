@@ -21,7 +21,7 @@ class FileUploadType extends AbstractType
                 'file',
                 FileType::class,
                 [
-                    'label' => false,
+                    'label'       => false,
                     'constraints' => [
                         new NotBlank(),
                         new File(
