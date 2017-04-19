@@ -2,9 +2,13 @@
 
 namespace AppBundle\Service;
 
-
 use Doctrine\ORM\EntityManager;
 
+/**
+ * Class EntityManagerService
+ *
+ * @package AppBundle\Service
+ */
 class EntityManagerService
 {
     /**
@@ -65,6 +69,7 @@ class EntityManagerService
      * Gets entity repository.
      *
      * @param $entity
+     *
      * @return \Doctrine\ORM\EntityRepository
      */
     public function repository($entity)
