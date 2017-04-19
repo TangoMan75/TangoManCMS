@@ -4,6 +4,12 @@ namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Page;
 
+/**
+ * Class Publishable
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity\Traits
+ */
 Trait Publishable
 {
     /**

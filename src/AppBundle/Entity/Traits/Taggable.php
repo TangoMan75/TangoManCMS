@@ -4,11 +4,17 @@ namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Tag;
 
+/**
+ * Class Taggable
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity\Traits
+ */
 Trait Taggable
 {
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items", fetch="EAGER")
      */
     private $tags = [];
 

@@ -3,11 +3,15 @@
 namespace AppBundle\Entity\Traits;
 
 /**
+ * Class Timestampable
  * Adds created at and modified at timestamps to entities.
  * 1. Requires that entities are marked with the HasLifecycleCallbacks annotation.
- * 2. Entities constructors are to initialize DateTime object
+ * 2. Entities constructors must initialize DateTime object
  *     $this->created = new \DateTime();
  *     $this->modified = new \DateTime();
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity\Traits
  */
 trait Timestampable
 {
@@ -22,13 +26,6 @@ trait Timestampable
      * @ORM\Column(type="datetime")
      */
     private $modified;
-
-    /**
-     * @ORM\PreUpdate()
-     */
-    public function updateModified() {
-        $this->modified = new \DateTime();
-    }
 
     /**
      * @return \DateTime
@@ -68,5 +65,13 @@ trait Timestampable
         $this->modified = $modified;
 
         return $this;
+    }
+
+    /**
+     * @ORM\PreUpdate()
+     */
+    public function updateModified()
+    {
+        $this->modified = new \DateTime();
     }
 }

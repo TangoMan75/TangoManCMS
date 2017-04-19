@@ -2,6 +2,12 @@
 
 namespace AppBundle\Entity\Traits;
 
+/**
+ * Class Sluggable
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity\Traits
+ */
 trait Sluggable
 {
     /**
