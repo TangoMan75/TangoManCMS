@@ -39,19 +39,19 @@ class Comment
     private $post;
 
     /**
-     * @var string Message content
+     * @var string Message text
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Votre message ne peut pas être vide")
      */
-    private $content;
+    private $text;
 
     /**
      * Comment constructor.
      */
     public function __construct()
     {
-        $this->created = new \DateTime();
-        $this->modified = new \DateTime();
+        $this->created = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
     }
 
     /**
@@ -103,21 +103,21 @@ class Comment
     }
 
     /**
-     * @return string Comment content
+     * @return string Comment text
      */
-    public function getContent()
+    public function getText()
     {
-        return $this->content;
+        return $this->text;
     }
 
     /**
-     * @param string $content Comment content
+     * @param string $text Comment text
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setText($text)
     {
-        $this->content = $content;
+        $this->text = $text;
 
         return $this;
     }
@@ -127,6 +127,6 @@ class Comment
      */
     public function __toString()
     {
-        return substr(strip_tags($this->content), 0, 20).'...';
+        return substr(strip_tags($this->text), 0, 20).'...';
     }
 }

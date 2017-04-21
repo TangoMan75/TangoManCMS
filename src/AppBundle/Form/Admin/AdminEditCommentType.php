@@ -44,7 +44,7 @@ class AdminEditCommentType extends AbstractType
                 ]
             )
             ->add(
-                'content',
+                'text',
                 TextareaType::class,
                 [
                     'label'    => 'Commentaire',

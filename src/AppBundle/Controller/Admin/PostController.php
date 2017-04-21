@@ -240,7 +240,7 @@ class PostController extends Controller
                          ->setTitle($import->post_title)
                          ->setSlug($import->post_slug)
                          ->addTag($tag)
-                         ->setContent($import->post_content);
+                         ->setText($import->post_text);
 
                     // $post->setCreated($import->post_created);
                     // $post->setModified($import->post_modified);
@@ -251,7 +251,7 @@ class PostController extends Controller
             }
 
             if ($counter > 1) {
-                $success = "$counter aticles ont été importés.";
+                $success = "$counter articles ont été importés.";
             } else {
                 $success = "Aucun article n'a été importé.";
             }

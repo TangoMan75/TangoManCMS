@@ -99,9 +99,9 @@ class CommentRepository extends EntityRepository
                 ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
-        if ($query->get('content')) {
+        if ($query->get('text')) {
             $dql->andWhere('comment.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('content').'%');
+                ->setParameter(':content', '%'.$query->get('text').'%');
         }
 
         switch ($query->get('published')) {

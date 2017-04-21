@@ -258,9 +258,9 @@ class MediaController extends Controller
             }
 
             if ($counter > 1) {
-                $success = "$counter aticles ont été importés.";
+                $success = "$counter medias ont été importés.";
             } else {
-                $success = "Aucun article n'a été importé.";
+                $success = "Aucun media n'a été importé.";
             }
 
             $this->get('session')->getFlashBag()->add('success', $success);

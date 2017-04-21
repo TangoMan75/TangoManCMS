@@ -113,9 +113,9 @@ class PostRepository extends EntityRepository
                 ->setParameter(':subtitle', '%'.$query->get('subtitle').'%');
         }
 
-        if ($query->get('content')) {
+        if ($query->get('text')) {
             $dql->andWhere('post.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('content').'%');
+                ->setParameter(':content', '%'.$query->get('text').'%');
         }
 
         if ($query->get('user')) {

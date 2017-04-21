@@ -49,7 +49,7 @@ class EditPostType extends AbstractType
                 ]
             )
             ->add(
-                'content',
+                'text',
                 TextareaType::Class,
                 [
                     'label'    => 'Contenu',

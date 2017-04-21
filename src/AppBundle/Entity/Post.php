@@ -2,10 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\Sluggable;
-use AppBundle\Entity\Traits\Timestampable;
-use AppBundle\Entity\Traits\Taggable;
-use AppBundle\Entity\Traits\Publishable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,13 +13,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Post
 {
-    use Sluggable;
-
-    use Timestampable;
-
-    use Taggable;
-
-    use Publishable;
+    use Traits\Publishable;
+    use Traits\Sluggable;
+    use Traits\Taggable;
+    use Traits\Timestampable;
+    use Traits\Categorized;
 
     /**
      * @var int Post id
@@ -40,17 +34,17 @@ class Post
     private $user;
 
     /**
-     * @var string Title
+     * @var string Post Title
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
 
     /**
-     * @var string Content
+     * @var string Post Text
      * @ORM\Column(type="text", nullable=true)
      */
-    private $content;
+    private $text;
 
     /**
      * @var Comment[] Post comments
@@ -64,8 +58,8 @@ class Post
      */
     public function __construct()
     {
-        $this->created = new \DateTime();
-        $this->modified = new \DateTime();
+        $this->created = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
     }
 
@@ -125,19 +119,19 @@ class Post
     /**
      * @return string
      */
-    public function getContent()
+    public function getText()
     {
-        return $this->content;
+        return $this->text;
     }
 
     /**
-     * @param string $content
+     * @param string $text
      *
      * @return $this
      */
-    public function setContent($content)
+    public function setText($text)
     {
-        $this->content = $content;
+        $this->text = $text;
 
         return $this;
     }

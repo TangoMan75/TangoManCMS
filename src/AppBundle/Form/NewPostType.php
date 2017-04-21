@@ -26,7 +26,7 @@ class NewPostType extends AbstractType
                 ]
             )
             ->add(
-                'content',
+                'text',
                 TextareaType::Class,
                 [
                     'label'    => 'Contenu',

@@ -16,7 +16,7 @@
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri }) }}">
                     <span class="glyphicon glyphicon-edit"></span>
-                    {{ comment.content|striptags|truncate(20) }}
+                    {{ comment.text|striptags|truncate(20) }}
                 </a>
             </li>
         {% endif %}
