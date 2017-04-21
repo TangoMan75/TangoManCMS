@@ -49,7 +49,10 @@ class TagController extends Controller
             $em->persist($tag);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été ajoutée.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));

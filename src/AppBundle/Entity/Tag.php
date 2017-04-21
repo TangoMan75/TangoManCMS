@@ -168,15 +168,11 @@ class Tag
     }
 
     /**
-     * @param bool $readOnly
-     *
      * @return Tag
      */
-    public function setReadOnly($readOnly)
+    public function setReadOnly()
     {
-        if (!$this->readOnly) {
-            $this->readOnly = $readOnly;
-        }
+        $this->readOnly = true;
 
         return $this;
     }
