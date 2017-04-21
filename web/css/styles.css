@@ -342,9 +342,9 @@ table th {
 	min-width: 6em;
 }
 
-/**
- * Flash messages
- */
+/******************
+ * Flash messages *
+ ******************/
 div.alert {
 	position: fixed;
 	z-index: 9999;
@@ -352,20 +352,24 @@ div.alert {
 	right: 15%;
 }
 
-/**
- * Animations
- */
 .anim-alert {
-	animation: 1s anim-alert;
+	animation: 2s anim-alert;
 	animation-timing-function: cubic-bezier(0, 0, 0.5, 1);
+	animation-iteration-count: 2;
+	animation-direction: alternate;
+	animation-fill-mode: forwards;
 }
 
 @keyframes anim-alert {
-	from {
+	0% {
 		opacity: 0;
 		top: -5em;
 	}
-	to {
+	25% {
+		opacity: 1;
+		top: 12.5em;
+	}
+	100% {
 		opacity: 1;
 		top: 12.5em;
 	}
