@@ -54,7 +54,10 @@ class PostController extends Controller
             $em->persist($post);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été ajouté.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -67,6 +70,32 @@ class PostController extends Controller
                 'form'        => $form->createView(),
             ]
         );
+    }
+
+    /**
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     */
+    public function publishAction(Request $request, Post $post, $publish)
+    {
+        $post->setPublished($publish);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($post);
+        $em->flush();
+
+        if ($publish) {
+            $message = 'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été publié.';
+        } else {
+            $message = 'La publication de l\'article <strong>&quot;'.$post.'&quot;</strong> a bien été annulée.';
+        }
+
+        // Send flash notification
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $message
+        );
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
     }
 
     /**
@@ -83,7 +112,10 @@ class PostController extends Controller
             $em->persist($post);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été modifié.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été modifié.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -148,7 +180,7 @@ class PostController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type'        => 'application/force-download',
+                'Content-Type' => 'application/force-download',
                 'Content-Disposition' => 'attachment; filename="posts.json"',
             ]
         );
@@ -197,19 +229,20 @@ class PostController extends Controller
     {
         // Security checks
         $clientExtension = $file->getClientOriginalExtension();
-        if ($file->getClientMimeType() !== 'application/json' && !in_array($clientExtension, ['json']) ) {
+        if ($file->getClientMimeType() !== 'application/json' && !in_array($clientExtension, ['json'])) {
             $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+
             return $this->redirectToRoute('app_admin_post_import');
         }
 
         $counter = 0;
-        $dupes   = 0;
+        $dupes = 0;
         // File check
         if (is_file($file)) {
             // Load entities
             $em = $this->get('doctrine')->getManager();
             $posts = $em->getRepository('AppBundle:Post');
-            $tags  = $em->getRepository('AppBundle:Tag');
+            $tags = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
 
             // Creates "import" tag when non-existent
@@ -237,10 +270,10 @@ class PostController extends Controller
 
                     $post = new Post();
                     $post->setUser($user)
-                         ->setTitle($import->post_title)
-                         ->setSlug($import->post_slug)
-                         ->addTag($tag)
-                         ->setText($import->post_text);
+                        ->setTitle($import->post_title)
+                        ->setSlug($import->post_slug)
+                        ->addTag($tag)
+                        ->setText($import->post_text);
 
                     // $post->setCreated($import->post_created);
                     // $post->setModified($import->post_modified);

@@ -181,21 +181,21 @@
                                 {{ comment.user.username }}
                             </a>
                         </td>
+                        <td>{{ comment.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ comment.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             {% if comment.published %}
-                                <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({ 'published' : 'true' })) }}"
+                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 0, 'callback': app.request.uri }) }}"
                                    class="btn btn-success btn-xs">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({ 'published' : 'false' })) }}"
+                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 1, 'callback': app.request.uri }) }}"
                                    class="btn btn-warning btn-xs">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}
                         </td>
-                        <td>{{ comment.created|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ comment.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri }) }}"
                                class="btn btn-warning btn-sm">

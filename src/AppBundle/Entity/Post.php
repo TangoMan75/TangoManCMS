@@ -106,7 +106,6 @@ class Post
      */
     public function setTitle($title)
     {
-
         // Sets slug when empty
         $this->title = $title;
         if (!$this->slug) {

@@ -65,6 +65,32 @@ class CommentController extends Controller
     }
 
     /**
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     */
+    public function publishAction(Request $request, Comment $comment, $publish)
+    {
+        $comment->setPublished($publish);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($comment);
+        $em->flush();
+
+        if ($publish) {
+            $message = 'Le commentaire <strong>&quot;'.$comment.'&quot;</strong> a bien été validé.';
+        } else {
+            $message = 'La publication du commentaire  <strong>&quot;'.$comment.'&quot;</strong> a bien été refusée.';
+        }
+
+        // Send flash notification
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $message
+        );
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
+    }
+
+    /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Comment $comment)

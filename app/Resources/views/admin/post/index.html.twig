@@ -267,21 +267,21 @@
                                 </a><br/>
                             {% endfor %}
                         </td>
+                        <td>{{ post.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ post.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             {% if post.published %}
-                                <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'published' : 'true'})) }}"
+                                <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 0, 'callback': app.request.uri }) }}"
                                    class="btn btn-success btn-xs">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'published' : 'false'})) }}"
+                                <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 1, 'callback': app.request.uri }) }}"
                                    class="btn btn-warning btn-xs">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}
                         </td>
-                        <td>{{ post.created|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ post.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri }) }}"
                                class="btn btn-warning btn-sm">
