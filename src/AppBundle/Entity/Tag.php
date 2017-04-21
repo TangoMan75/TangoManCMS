@@ -42,11 +42,18 @@ class Tag
     private $items;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $readOnly;
+
+    /**
      * Tag constructor.
      */
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->readOnly = false;
     }
 
     /**
@@ -68,7 +75,9 @@ class Tag
      */
     public function setName($name)
     {
-        $this->name = $name;
+        if (!$this->readOnly) {
+            $this->name = $name;
+        }
 
         return $this;
     }
@@ -92,7 +101,9 @@ class Tag
      */
     public function setType($type)
     {
-        $this->type = $type;
+        if (!$this->readOnly) {
+            $this->type = $type;
+        }
 
         return $this;
     }
@@ -105,16 +116,6 @@ class Tag
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * Get items
-     *
-     * @return Page[]|Post[]
-     */
-    public function getItems()
-    {
-        return $this->items;
     }
 
     /**
@@ -132,6 +133,17 @@ class Tag
     }
 
     /**
+     * Get items
+     *
+     * @return Page[]|Post[]
+     */
+    public function getItems()
+    {
+        return $this->items;
+    }
+
+
+    /**
      * Remove item
      *
      * @param $item
@@ -140,7 +152,31 @@ class Tag
      */
     public function removeItem($item)
     {
-        $this->items->removeElement($item);
+        if (!$this->readOnly) {
+            $this->items->removeElement($item);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return $this->readOnly;
+    }
+
+    /**
+     * @param bool $readOnly
+     *
+     * @return Tag
+     */
+    public function setReadOnly($readOnly)
+    {
+        if (!$this->readOnly) {
+            $this->readOnly = $readOnly;
+        }
 
         return $this;
     }
