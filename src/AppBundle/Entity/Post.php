@@ -34,17 +34,17 @@ class Post
     private $id;
 
     /**
+     * @var User Post author
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
+     */
+    private $user;
+
+    /**
      * @var string Title
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
-
-    /**
-     * @var User Post author
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
-     */
-    private $user;
 
     /**
      * @var string Content
@@ -78,6 +78,26 @@ class Post
     }
 
     /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setUser($user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function getTitle()
@@ -98,26 +118,6 @@ class Post
         if (!$this->slug) {
             $this->setUniqueSlug($title);
         }
-
-        return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
 
         return $this;
     }

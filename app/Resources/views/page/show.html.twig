@@ -8,7 +8,7 @@
             <h1 class="page-title">{{ page.title }}</h1>
         </header>
         <section>
-            {% for item in page.items %}
+            {% for item in page.posts %}
                 {% include "includes/_post.html.twig" with { 'post': item, 'callback': app.request.uri } %}
             {% endfor %}
         </section>

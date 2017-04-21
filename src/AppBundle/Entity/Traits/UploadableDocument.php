@@ -77,6 +77,17 @@ Trait UploadableDocument
     }
 
     /**
+     * Builds file name from slug
+     * @return String|null
+     */
+    public function getDocumentPrettyFileName()
+    {
+        $extension = explode('.', $this->documentFileName);
+        // Returns string left part before last dash
+        return substr($this->slug, 0, strrpos($this->slug, '-')) . '.' . end($extension);
+    }
+
+    /**
      * @param String $documentFileName
      *
      * @return $this

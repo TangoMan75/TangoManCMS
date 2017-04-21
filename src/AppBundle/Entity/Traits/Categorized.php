@@ -30,6 +30,8 @@ Trait Categorized
 
     /**
      * @param String $category
+     *
+     * @return $this
      */
     public function addCategory($category)
     {
@@ -42,13 +44,15 @@ Trait Categorized
 
     /**
      * @param String $category
+     *
+     * @return $this
      */
     public function removeCategory($category)
     {
-        $categories = $this->categories;
-        if (in_array($category, $categories)) {
-            $remove[] = $category;
-            $this->categories = array_diff($categories, $remove);
+        if (in_array($category, $this->categories)) {
+            $this->categories = array_diff($this->categories, [$category]);
         }
+
+        return $this;
     }
 }
