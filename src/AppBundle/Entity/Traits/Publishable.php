@@ -7,6 +7,7 @@ use AppBundle\Entity\Page;
 /**
  * Class Publishable
  *
+ * @TODO    publish into sections
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */

@@ -74,14 +74,16 @@ Trait UploadableImage
     }
 
     /**
-     * Builds file name from slug
+     * Generates file name from slug
+     *
      * @return String|null
      */
     public function getImagePrettyFileName()
     {
         $extension = explode('.', $this->imageFileName);
+
         // Returns string left part before last dash
-        return substr($this->slug, 0, strrpos($this->slug, '-')) . '.' . end($extension);
+        return substr($this->slug, 0, strrpos($this->slug, '-')).'.'.end($extension);
     }
 
     /**

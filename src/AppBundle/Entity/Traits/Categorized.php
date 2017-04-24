@@ -4,6 +4,7 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Class Categorized
+ * This class is designed to provide a simple and straitforward way to categorize entities.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -15,6 +16,22 @@ Trait Categorized
      * @ORM\Column(type="simple_array", nullable=true)
      */
     private $categories = [];
+
+    /**
+     * @return array
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * @param array $categories
+     */
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+    }
 
     /**
      * @return bool

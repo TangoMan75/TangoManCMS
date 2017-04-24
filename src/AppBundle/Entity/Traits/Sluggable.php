@@ -11,7 +11,7 @@ namespace AppBundle\Entity\Traits;
 trait Sluggable
 {
     /**
-     * @var string slug
+     * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $slug;
@@ -48,6 +48,21 @@ trait Sluggable
     public function setUniqueSlug($string)
     {
         $this->slug = $this->slugify($string.'-'.uniqid());
+
+        return $this;
+    }
+
+    /**
+     * Set default slug
+     *
+     * @todo  prepersist callback
+     * @return $this
+     */
+    public function setDefaultSlug()
+    {
+        if (!$this->slug) {
+            $this->setUniqueSlug($this->title);
+        }
 
         return $this;
     }

@@ -34,14 +34,14 @@ class Post
     private $user;
 
     /**
-     * @var string Post Title
+     * @var String Post Title
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
 
     /**
-     * @var string Post Text
+     * @var String Post Text
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;
@@ -61,6 +61,7 @@ class Post
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
+        $this->setDefaultTitle();
     }
 
     /**

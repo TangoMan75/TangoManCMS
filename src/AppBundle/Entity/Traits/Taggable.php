@@ -14,7 +14,7 @@ Trait Taggable
 {
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items", fetch="EAGER")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
     private $tags = [];
 
