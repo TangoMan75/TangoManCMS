@@ -104,7 +104,7 @@ class CommentController extends Controller
             $em->persist($comment);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'Le commentaire a bien été modifié.');
+            $this->get('session')->getFlashBag()->add('success', 'Le commentaire <strong>&quot;'.$comment.'&quot;</strong> a bien été modifié.');
 
             return $this->redirectToRoute('app_admin_comment_index');
         }

@@ -8,7 +8,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class UploadableImage
- * Requires Timestampable trait
+ * Requires entity to own "Timestampable" and "Sluggable" traits.
+ * Requires entity to have "Uploadable" annotation.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -16,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 Trait UploadableImage
 {
     /**
-     * @Vich\UploadableField(mapping="upload", fileNameProperty="imageFileName")
+     * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageFileName", size="imageSize")
      * @Assert\File(maxSize="2M", mimeTypes={
      *     "image/gif",
      *     "image/jpeg",
@@ -34,7 +35,7 @@ Trait UploadableImage
     private $imageFileName;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @var integer
      */
     private $imageSize;

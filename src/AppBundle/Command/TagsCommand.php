@@ -7,14 +7,14 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class TagCommand extends ContainerAwareCommand
+class TagsCommand extends ContainerAwareCommand
 {
     /**
      * Creates command with description
      */
     protected function configure()
     {
-        $this->setName('tag')
+        $this->setName('tags')
             ->setDescription('Creates default tags');
     }
 

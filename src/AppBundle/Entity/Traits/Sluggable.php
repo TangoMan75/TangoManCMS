@@ -53,21 +53,6 @@ trait Sluggable
     }
 
     /**
-     * Set default slug
-     *
-     * @todo  prepersist callback
-     * @return $this
-     */
-    public function setDefaultSlug()
-    {
-        if (!$this->slug) {
-            $this->setUniqueSlug($this->title);
-        }
-
-        return $this;
-    }
-
-    /**
      * Generates slug from string
      *
      * @param  String  $string                       Source string

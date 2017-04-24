@@ -63,7 +63,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     function ($filename) {
                         return basename($filename);
                     },
-                    glob($this->rootdir."/uploads/*.{pptx,PPTX}", GLOB_BRACE)
+                    glob($this->rootdir."/uploads/documents/*.{pptx,PPTX}", GLOB_BRACE)
                 );
 
                 for ($j = 0; $j < count($fileNames); $j++) {
@@ -83,7 +83,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     function ($filename) {
                         return basename($filename);
                     },
-                    glob($this->rootdir."/uploads/*.{pdf,PDF}", GLOB_BRACE)
+                    glob($this->rootdir."/uploads/documents/*.{pdf,PDF}", GLOB_BRACE)
                 );
 
                 for ($j = 0; $j < count($fileNames); $j++) {

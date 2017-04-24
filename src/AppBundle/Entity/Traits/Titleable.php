@@ -13,7 +13,7 @@ Trait Titleable
 {
     /**
      * @var String
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
 
@@ -35,6 +35,11 @@ Trait Titleable
     public function setTitle($title)
     {
         $this->title = $title;
+
+        // Generates slug from title when empty
+        if (!$this->slug) {
+            $this->setUniqueSlug($title);
+        }
 
         return $this;
     }

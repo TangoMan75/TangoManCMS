@@ -5,10 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\HttpFoundation\File\File;
 
 /**
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
+ * @Vich\Uploadable
  * @ORM\HasLifecycleCallbacks
  */
 class Post
@@ -17,7 +20,9 @@ class Post
     use Traits\Sluggable;
     use Traits\Taggable;
     use Traits\Timestampable;
+    use Traits\Titleable;
     use Traits\Categorized;
+    use Traits\UploadableImage;
 
     /**
      * @var int Post id
@@ -32,13 +37,6 @@ class Post
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
      */
     private $user;
-
-    /**
-     * @var String Post Title
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le titre doit être renseigné")
-     */
-    private $title;
 
     /**
      * @var String Post Text
@@ -61,7 +59,6 @@ class Post
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
-        $this->setDefaultTitle();
     }
 
     /**
@@ -88,30 +85,6 @@ class Post
     public function setUser($user)
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
-    {
-        // Sets slug when empty
-        $this->title = $title;
-        if (!$this->slug) {
-            $this->setUniqueSlug($title);
-        }
 
         return $this;
     }

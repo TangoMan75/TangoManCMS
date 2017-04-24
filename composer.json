@@ -38,7 +38,8 @@
         "firebase/php-jwt": "^4.0",
         "tangoman/jwt-bundle": "^1.0",
         "twig/extensions": "^1.4",
-        "vich/uploader-bundle": "1.4.0"
+        "vich/uploader-bundle": "1.4.0",
+        "liip/imagine-bundle": "^1.7"
     },
     "scripts": {
         "symfony-scripts": [
@@ -50,17 +51,16 @@
             "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::prepareDeploymentTarget"
         ],
         "warmup": [
-            "php bin/console admin",
             "@symfony-scripts",
             "php bin/console cache:clear -e=prod"
         ],
         "post-install-cmd": [
             "php bin/console admin",
+            "php bin/console tags",
             "@symfony-scripts",
             "php bin/console cache:clear -e=prod"
         ],
         "post-update-cmd": [
-            "php bin/console admin",
             "@symfony-scripts",
             "php bin/console cache:clear -e=prod"
         ]
@@ -78,9 +78,13 @@
                 "database_url": "DATABASE_URL",
                 "secret": "SECRET",
                 "symfony_env": "SYMFONY_ENV",
-                "mailer_host": "POSTMARK_SMTP_SERVER",
-                "mailer_user": "POSTMARK_API_KEY",
-                "mailer_password": "POSTMARK_API_TOKEN",
+                "mailgun_api_key": "MAILGUN_API_KEY",
+                "mailgun_domain": "MAILGUN_DOMAIN",
+                "mailgun_public_key": "MAILGUN_PUBLIC_KEY",
+                "mailgun_smtp_login": "MAILGUN_SMTP_LOGIN",
+                "mailgun_smtp_password": "MAILGUN_SMTP_PASSWORD",
+                "mailgun_smtp_port": "MAILGUN_SMTP_PORT",
+                "mailgun_smtp_server": "MAILGUN_SMTP_SERVER",
                 "mailer_from": "MAILER_FROM",
                 "site_name": "SITE_NAME",
                 "site_author": "SITE_AUTHOR",
