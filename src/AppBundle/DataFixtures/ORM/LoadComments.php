@@ -22,6 +22,9 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 6;

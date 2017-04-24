@@ -30,6 +30,9 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 8;

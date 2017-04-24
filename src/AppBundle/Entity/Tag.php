@@ -35,7 +35,7 @@ class Tag
     private $type;
 
     /**
-     * @var Post[]|Page[]
+     * @var ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      */
@@ -135,13 +135,12 @@ class Tag
     /**
      * Get items
      *
-     * @return Page[]|Post[]
+     * @return ArrayCollection
      */
     public function getItems()
     {
         return $this->items;
     }
-
 
     /**
      * Remove item
@@ -184,5 +183,4 @@ class Tag
     {
         return $this->name;
     }
-
 }

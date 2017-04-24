@@ -22,6 +22,9 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 2;
@@ -64,8 +67,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $em->persist($user);
 
             // Manager flushes every ten persisted items
-            // This is mandatory when persisting large numbers of fixtures
-            // Which can cause a memory overflow
+            // This avoids memory overflow when persisting large numbers of fixtures
             if ($i % 10 === 0) {
                 $em->flush();
             }

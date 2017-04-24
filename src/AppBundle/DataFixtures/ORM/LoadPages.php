@@ -22,6 +22,9 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 4;

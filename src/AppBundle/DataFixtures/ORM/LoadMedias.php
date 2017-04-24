@@ -25,6 +25,9 @@ class LoadMedias implements FixtureInterface, ContainerAwareInterface, OrderedFi
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 7;

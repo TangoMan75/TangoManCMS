@@ -25,6 +25,9 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 5;

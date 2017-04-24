@@ -24,6 +24,9 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
         $this->container = $container;
     }
 
+    /**
+     * @return int
+     */
     public function getOrder()
     {
         return 3;
@@ -36,12 +39,12 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
     {
         // Load Tags
         $tags = [
-            'default' => 'default',
-            'primary' => 'primary',
-            'info'    => 'info',
-            'success' => 'success',
-            'warning' => 'warning',
-            'danger'  => 'danger',
+            'Défaut'    => 'default',
+            'Principal' => 'primary',
+            'Info'      => 'info',
+            'Succès'    => 'success',
+            'Alerte'    => 'warning',
+            'Danger'    => 'danger',
         ];
 
         foreach ($tags as $name => $type) {
@@ -50,6 +53,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
                 $tag = new Tag();
                 $tag->setName($name);
                 $tag->setType($type);
+                $tag->setReadOnly();
                 $em->persist($tag);
             }
         }
