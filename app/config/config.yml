@@ -63,6 +63,56 @@ swiftmailer:
     password:  "%mailer_password%"
     spool:     { type: memory }
 
+# liip imagine Configuration
+liip_imagine:
+    resolvers:
+        default:
+            web_path: ~
+    filter_sets:
+        cache: ~
+        # Thumbnail filter set configuration
+        thumbnail:
+            quality: 90
+            filters:
+                thumbnail: { size: [300, 300], mode: outbound }
+        # ThetaS filter set configuration
+        thumbnail_thetas:
+            quality: 90
+            filters:
+                crop:
+                    size: [ 800, 800 ]
+                    # Original ThetaS size : 5376 x 2688
+                    start: [ 2288, 944 ]
+                thumbnail: { size: [300, 300], mode: outbound }
+        # Scale down oversized pictures
+        resize:
+            filters:
+                downscale:
+                    max: [ 1920, 1200 ]
+
+# backend filtering
+        # Thumbnail filter set configuration
+        thumbnail_backend:
+            data_loader: binary_image_data_loader
+            quality: 75
+            filters:
+                thumbnail: { size: [300, 300], mode: outbound }
+        # ThetaS filter set configuration
+        thumbnail_thetas_backend:
+            data_loader: binary_image_data_loader
+            quality: 75
+            filters:
+                crop:
+                    size: [ 800, 800 ]
+                    # Original ThetaS size : 5376 x 2688
+                    start: [ 2288, 944 ]
+                thumbnail: { size: [300, 300], mode: outbound }
+        resize_backend:
+            data_loader: binary_image_data_loader
+            filters:
+                downscale:
+                    max: [ 1920, 1200 ]
+
 vich_uploader:
     db_driver: orm
     mappings:

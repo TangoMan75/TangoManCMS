@@ -129,6 +129,8 @@
                         </a>
                     </th>
 
+                    <th>Couverture</th>
+
                     <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -232,6 +234,7 @@
                             </a>
                         </td>
                         <td>{{ post.slug }}</td>
+                        <td style="background-image: url('{{ post.thumbnail ? post.thumbnail|imagine_filter('thumbnail') : '//placehold.it/200?text=Photo' }}');"></td>
                         <td>
                             <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
                                 {{ post.title }}

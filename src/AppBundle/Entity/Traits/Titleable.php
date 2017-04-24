@@ -4,7 +4,7 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Class Titleable
- * Requires that entities owns Sluggable and Timestampable traits.
+ * Requires entities to own "Sluggable" and "Timestampable" traits.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits

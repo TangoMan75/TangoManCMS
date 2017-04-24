@@ -8,7 +8,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class UploadableDocument
- * Requires Timestampable trait
+ * 1. Requires entities to own "Categorized", "Timestampable" and "Sluggable" traits.
+ * 2. Requires entities to be marked with "Uploadable" annotation.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -16,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 Trait UploadableDocument
 {
     /**
-     * @Vich\UploadableField(mapping="documents", fileNameProperty="documentFileName")
+     * @Vich\UploadableField(mapping="documents", fileNameProperty="documentFileName", size="documentSize")
      * @Assert\File(maxSize="100M", mimeTypes={
      *     "application/msword",
      *     "application/pdf",
@@ -37,7 +38,7 @@ Trait UploadableDocument
     private $documentFileName;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      * @var integer
      */
     private $documentSize;
@@ -119,5 +120,31 @@ Trait UploadableDocument
         $this->documentSize = $documentSize;
 
         return $this;
+    }
+
+    /**
+     * Deletes file
+     * @ORM\PreRemove()
+     */
+    public function deleteFile()
+    {
+        switch ($this->getCategory()) {
+            case 'photo':
+            case 'thetas':
+                // Get thumbnail path
+                $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
+                // Delete file if exists
+                if (is_file($path)) {
+                    unlink($path);
+                }
+            case 'document':
+                // Get file path
+                $path = __DIR__."/../../../web".$this->getLink();
+                // Delete file if exists
+                if (is_file($path)) {
+                    unlink($path);
+                }
+                break;
+        }
     }
 }

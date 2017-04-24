@@ -8,8 +8,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class UploadableImage
- * Requires entity to own "Timestampable" and "Sluggable" traits.
- * Requires entity to have "Uploadable" annotation.
+ * 1. Requires entities to own "Categorized", "Timestampable" and "Sluggable" traits.
+ * 2. Requires entities to be marked with "Uploadable" annotation.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -117,5 +117,31 @@ Trait UploadableImage
         $this->imageSize = $imageSize;
 
         return $this;
+    }
+
+    /**
+     * Delete image file and cached thumbnail
+     * @ORM\PreRemove()
+     */
+    public function deleteFile()
+    {
+        switch ($this->getCategory()) {
+            case 'photo':
+            case 'thetas':
+                // Get thumbnail path
+                $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
+                // Delete file if exists
+                if (is_file($path)) {
+                    unlink($path);
+                }
+            case 'document':
+                // Get file path
+                $path = __DIR__."/../../../web".$this->getLink();
+                // Delete file if exists
+                if (is_file($path)) {
+                    unlink($path);
+                }
+                break;
+        }
     }
 }

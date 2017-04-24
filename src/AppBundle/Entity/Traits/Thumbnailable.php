@@ -35,4 +35,22 @@ Trait Thumbnailable
 
         return $this;
     }
+
+    /**
+     * Setsd default thumbnail
+     * @ORM\PrePersist()
+     *
+     * @return $this
+     */
+    public function setDefaultThumbnail()
+    {
+        if (!$this->thumbnail) {
+            $imageFile = $this->getImageFile();
+            if ($imageFile) {
+                $this->setThumbnail($imageFile);
+            }
+        }
+
+        return $this;
+    }
 }

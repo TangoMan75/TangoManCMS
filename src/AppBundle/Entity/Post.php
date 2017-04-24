@@ -21,6 +21,7 @@ class Post
     use Traits\Taggable;
     use Traits\Timestampable;
     use Traits\Titleable;
+    use Traits\Thumbnailable;
     use Traits\Categorized;
     use Traits\UploadableImage;
 
