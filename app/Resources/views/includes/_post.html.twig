@@ -23,10 +23,10 @@
         </header>
         <div class="panel-body">
             {% if post.image %}
-                <div class="cover" style="padding-bottom: 50%; background-image: url('{{ post.image }}')"></div>
+                <div class="post-cover" style="background-image: url('{{ post.image }}')"></div>
             {% endif %}
             <div class="row">
-                <figure class="col-xs-12 col-md-3 text-center">
+                <figure class="col-xs-12 col-md-3 text-center"{% if post.image %} style="top: -150px;"{% endif %}>
                     <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
                         <img src="{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}"
                              alt="{{ post.user.username }}" class="img-rounded img-responsive"/>

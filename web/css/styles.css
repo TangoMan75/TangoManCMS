@@ -209,6 +209,19 @@ th.ASC a:after {
 	margin-bottom: 5em;
 }
 
+article.post div.panel-body{
+	padding: 0;
+	position: relative;
+}
+
+.post-cover {
+	background-size: cover;
+	background-repeat: no-repeat;
+	background-position: center;
+	padding-bottom: 50%;
+	margin-bottom: 2em;
+}
+
 article.comment,
 article.post {
 	margin-bottom: 3em;
@@ -241,6 +254,7 @@ article.post {
 }
 
 .post header:after {
+	z-index: 1;
 	left: 31px;
 	background-color: #337AB7;
 }
