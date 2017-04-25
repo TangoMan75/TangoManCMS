@@ -29,7 +29,7 @@ body {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
-	display: inline-block;
+	/*display: inline-block;*/
 }
 
 /**
@@ -191,6 +191,15 @@ th.ASC a:after {
 	content: "\e253";
 	float: right;
 	font-family: 'Glyphicons Halflings';
+}
+
+/********
+ * Vich *
+ ********/
+.vich-image img {
+	padding: .5em;
+	max-width: 80px;
+	max-height: 80px;
 }
 
 /**

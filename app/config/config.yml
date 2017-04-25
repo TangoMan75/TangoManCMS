@@ -118,14 +118,14 @@ vich_uploader:
     mappings:
         image_upload:
             uri_prefix:         /uploads/images
-            upload_destination: %kernel.root_dir%/../web/uploads/images
+            upload_destination: "%kernel.root_dir%/../web/uploads/images"
             namer:              vich_uploader.namer_uniqid
             inject_on_load:     false
             delete_on_update:   true
             delete_on_remove:   true
         document_upload:
             uri_prefix:         /uploads/documents
-            upload_destination: %kernel.root_dir%/../web/uploads/documents
+            upload_destination: "%kernel.root_dir%/../web/uploads/documents"
             namer:              vich_uploader.namer_uniqid
             inject_on_load:     false
             delete_on_update:   true
