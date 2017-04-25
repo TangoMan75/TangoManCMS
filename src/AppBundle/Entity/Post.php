@@ -16,14 +16,15 @@ use Symfony\Component\HttpFoundation\File\File;
  */
 class Post
 {
+    use Traits\Categorized;
+    use Traits\Illustrable;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;
     use Traits\Timestampable;
     use Traits\Titleable;
-    use Traits\Thumbnailable;
-    use Traits\Categorized;
     use Traits\UploadableImage;
+//    use Traits\UploadableDocument;
 
     /**
      * @var int Post id

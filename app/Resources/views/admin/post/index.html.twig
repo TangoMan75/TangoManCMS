@@ -234,7 +234,9 @@
                             </a>
                         </td>
                         <td>{{ post.slug }}</td>
-                        <td style="background-image: url('{{ post.thumbnail ? post.thumbnail|imagine_filter('thumbnail') : '//placehold.it/200?text=Photo' }}');"></td>
+                        <td>
+                            <div class="cover" style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');"></div>
+                        </td>
                         <td>
                             <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
                                 {{ post.title }}

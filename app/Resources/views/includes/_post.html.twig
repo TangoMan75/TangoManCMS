@@ -22,6 +22,9 @@
             </h1>
         </header>
         <div class="panel-body">
+            {% if post.image %}
+                <div class="cover" style="padding-bottom: 50%; background-image: url('{{ post.image }}')"></div>
+            {% endif %}
             <div class="row">
                 <figure class="col-xs-12 col-md-3 text-center">
                     <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">

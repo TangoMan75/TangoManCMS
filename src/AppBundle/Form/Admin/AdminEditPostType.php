@@ -41,8 +41,8 @@ class AdminEditPostType extends AbstractType
                 [
                     'label'         => 'Image de couverture',
                     'required'      => false,
-                    'allow_delete'  => false,
-                    'download_link' => false,
+                    'allow_delete'  => true,
+                    'download_link' => true,
                 ]
             )
             ->add(
