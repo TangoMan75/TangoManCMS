@@ -16,5 +16,7 @@
 /web/bundles/
 /.idea/
 /web/uploads/*
+/web/uploads/documents/
 !/web/uploads/documents/.gitkeep
+/web/uploads/images/
 !/web/uploads/images/.gitkeep
