@@ -8,7 +8,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class UploadableImage
- * 1. Requires entities to own "Categorized", "Timestampable" and "Sluggable" traits.
+ * 1. Requires entities to own "Categorized", "Timestampable", "Illustrable" and "Sluggable" traits.
  * 2. Requires entities to be marked with "Uploadable" annotation.
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 Trait UploadableImage
 {
     /**
-     * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageFileName", size="imageSize")
+     * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageFileName")
      * @Assert\File(maxSize="2M", mimeTypes={
      *     "image/gif",
      *     "image/jpeg",
@@ -35,17 +35,11 @@ Trait UploadableImage
     private $imageFileName;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
-     * @var integer
-     */
-    private $imageSize;
-
-    /**
      * @return String
      */
     public function getImageFile()
     {
-        return $this->imageFileName;
+        return $this->imageFile;
     }
 
     /**
@@ -95,26 +89,7 @@ Trait UploadableImage
     public function setImageFileName($imageFileName)
     {
         $this->imageFileName = $imageFileName;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getImageSize()
-    {
-        return $this->imageSize;
-    }
-
-    /**
-     * @param int $imageSize
-     *
-     * @return $this
-     */
-    public function setImageSize($imageSize)
-    {
-        $this->imageSize = $imageSize;
+        $this->setImage('/uploads/images/'.$imageFileName);
 
         return $this;
     }
@@ -123,25 +98,15 @@ Trait UploadableImage
      * Delete image file and cached thumbnail
      * @ORM\PreRemove()
      */
-    public function deleteFile()
+    public function deleteImageFile()
     {
-        switch ($this->getCategory()) {
-            case 'photo':
-            case 'thetas':
-                // Get thumbnail path
-                $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
-                // Delete file if exists
-                if (is_file($path)) {
-                    unlink($path);
-                }
-            case 'document':
-                // Get file path
-                $path = __DIR__."/../../../web".$this->getLink();
-                // Delete file if exists
-                if (is_file($path)) {
-                    unlink($path);
-                }
-                break;
+        if ($this->hasCategory('photo') || $this->hasCategory('thetas')) {
+            // Get thumbnail path
+            $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
+            // Delete file if exists
+            if (is_file($path)) {
+                unlink($path);
+            }
         }
     }
 }

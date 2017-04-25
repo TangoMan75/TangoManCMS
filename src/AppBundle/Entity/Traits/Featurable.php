@@ -12,9 +12,9 @@ Trait Featurable
 {
     /**
      * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
-    private $featured;
+    private $featured = false;
 
     /**
      * @return bool

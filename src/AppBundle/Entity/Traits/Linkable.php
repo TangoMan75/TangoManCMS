@@ -30,17 +30,18 @@ Trait Linkable
      */
     public function setLink($link)
     {
+        // Remove scheme from url (doesn't change relative URLs)
         if (stripos($link, '//')) {
-            // Remove scheme from url
             $link = ltrim($link, 'http://');
             $link = ltrim($link, 'https://');
             $link = '//'.$link;
         }
 
         $this->link = $link;
-        // On malformed URLs, returns FALSE
-        $parsed = parse_url($link);
 
+        // (parse_url function returns false on malformed URLs)
+        $parsed = parse_url($link);
+        // Sets category according to url
         if (isset($parsed['host'])) {
             // Automatically set media category according to given url
             switch ($parsed['host']) {
@@ -78,31 +79,23 @@ Trait Linkable
      */
     public function getEmbed()
     {
-
         if ($this->link) {
-            switch ($this->getCategory()) {
-                case 'argus360':
-                    return '<iframe src="//car360app.com/viewer/portable.php?spin='.
-                        $this->getHash($this->link).
-                        '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
-                    break;
-                case 'youtube':
-                    return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
-                        $this->getHash($this->link).
-                        '"></iframe>';
-                    break;
-                case 'dailymotion':
-                    return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
-                        $this->getHash($this->link).
-                        '?autoplay=0&mute=1" allowfullscreen></iframe>';
-                    break;
-                case 'vimeo':
-                    return '<iframe src="//player.vimeo.com/video/'.
-                        $this->getHash($this->link).
-                        '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-                    break;
-                default:
-                    return null;
+            if ($this->hasCategory('argus360')) {
+                return '<iframe src="//car360app.com/viewer/portable.php?spin='.
+                    $this->getHash($this->link).
+                    '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
+            } elseif ($this->hasCategory('youtube')) {
+                return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
+                    $this->getHash($this->link).
+                    '"></iframe>';
+            } elseif ($this->hasCategory('dailymotion')) {
+                return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
+                    $this->getHash($this->link).
+                    '?autoplay=0&mute=1" allowfullscreen></iframe>';
+            } elseif ($this->hasCategory('vimeo')) {
+                return '<iframe src="//player.vimeo.com/video/'.
+                    $this->getHash($this->link).
+                    '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
             }
         }
 
@@ -116,7 +109,7 @@ Trait Linkable
      *
      * @return String|null
      */
-    private function getHash($url)
+    public function getHash($url)
     {
         switch (parse_url($url)['host']) {
             case 'www.youtube.com':

@@ -48,7 +48,7 @@ Trait UploadableDocument
      */
     public function getDocumentFile()
     {
-        return $this->documentFileName;
+        return $this->documentFile;
     }
 
     /**
@@ -123,28 +123,18 @@ Trait UploadableDocument
     }
 
     /**
-     * Deletes file
+     * Delete image file and cached thumbnail
      * @ORM\PreRemove()
      */
-    public function deleteFile()
+    public function deleteDocumentFile()
     {
-        switch ($this->getCategory()) {
-            case 'photo':
-            case 'thetas':
-                // Get thumbnail path
-                $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
-                // Delete file if exists
-                if (is_file($path)) {
-                    unlink($path);
-                }
-            case 'document':
-                // Get file path
-                $path = __DIR__."/../../../web".$this->getLink();
-                // Delete file if exists
-                if (is_file($path)) {
-                    unlink($path);
-                }
-                break;
+        if ($this->hasCategory('document')) {
+            // Get file path
+            $path = __DIR__."/../../../web".$this->getLink();
+            // Delete file if exists
+            if (is_file($path)) {
+                unlink($path);
+            }
         }
     }
 }

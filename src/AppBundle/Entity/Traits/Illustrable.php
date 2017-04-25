@@ -3,35 +3,35 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Class Coverable
+ * Class Illustrable
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Coverable
+Trait Illustrable
 {
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $cover;
+    private $image;
 
     /**
      * @return string
      */
-    public function getCover()
+    public function getImage()
     {
-        return $this->cover;
+        return $this->image;
     }
 
     /**
-     * @param string $cover
+     * @param string $image
      *
      * @return $this
      */
-    public function setCover($cover)
+    public function setImage($image)
     {
-        $this->cover = $cover;
+        $this->image = $image;
 
         return $this;
     }
