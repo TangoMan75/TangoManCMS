@@ -88,8 +88,8 @@
                 "secret": "SECRET",
                 "site_author": "SITE_AUTHOR",
                 "site_name": "SITE_NAME",
-                "super_admin_username": "SUPER_ADMIN_USERNAME",
                 "super_admin_pwd": "SUPER_ADMIN_PWD",
+                "super_admin_username": "SUPER_ADMIN_USERNAME",
                 "symfony_env": "SYMFONY_ENV"
             }
         }
