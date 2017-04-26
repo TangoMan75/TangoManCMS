@@ -30,7 +30,7 @@ class AdminCommand extends ContainerAwareCommand
         if (!$em->getRepository('AppBundle:User')->findByRole('ROLE_SUPER_ADMIN')) {
 
             $email = $this->getContainer()->getParameter('mailer_from');
-            $username = $this->getContainer()->getParameter('site_author');
+            $username = $this->getContainer()->getParameter('super_admin_username');
             $pwd = $this->getContainer()->getParameter('super_admin_pwd');
 
             $encoder = $this->getContainer()->get('security.password_encoder');

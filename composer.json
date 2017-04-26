@@ -75,9 +75,9 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml",
             "env-map": {
+                "analytics": "ANALYTICS",
                 "database_url": "DATABASE_URL",
-                "secret": "SECRET",
-                "symfony_env": "SYMFONY_ENV",
+                "mailer_from": "MAILER_FROM",
                 "mailgun_api_key": "MAILGUN_API_KEY",
                 "mailgun_domain": "MAILGUN_DOMAIN",
                 "mailgun_public_key": "MAILGUN_PUBLIC_KEY",
@@ -85,11 +85,12 @@
                 "mailgun_smtp_password": "MAILGUN_SMTP_PASSWORD",
                 "mailgun_smtp_port": "MAILGUN_SMTP_PORT",
                 "mailgun_smtp_server": "MAILGUN_SMTP_SERVER",
-                "mailer_from": "MAILER_FROM",
-                "site_name": "SITE_NAME",
+                "secret": "SECRET",
                 "site_author": "SITE_AUTHOR",
+                "site_name": "SITE_NAME",
+                "super_admin_username": "SUPER_ADMIN_USERNAME",
                 "super_admin_pwd": "SUPER_ADMIN_PWD",
-                "analytics": "ANALYTICS"
+                "symfony_env": "SYMFONY_ENV"
             }
         }
     }
