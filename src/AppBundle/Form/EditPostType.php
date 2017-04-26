@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EditPostType extends AbstractType
 {
@@ -25,6 +26,16 @@ class EditPostType extends AbstractType
                 TextType::Class,
                 [
                     'label' => 'Titre',
+                ]
+            )
+            ->add(
+                'imageFile',
+                VichImageType::class,
+                [
+                    'label'         => 'Image de couverture',
+                    'required'      => false,
+                    'allow_delete'  => true,
+                    'download_link' => false,
                 ]
             )
             ->add(

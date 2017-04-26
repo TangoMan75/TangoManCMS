@@ -99,6 +99,12 @@ Trait UploadableDocument
     {
         $this->documentFileName = $documentFileName;
 
+        if ($documentFileName) {
+            $this->setDocument('/uploads/documents/'.$documentFileName);
+        } else {
+            $this->setDocument(NULL);
+        }
+
         return $this;
     }
 

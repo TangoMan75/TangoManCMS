@@ -89,7 +89,12 @@ Trait UploadableImage
     public function setImageFileName($imageFileName)
     {
         $this->imageFileName = $imageFileName;
-        $this->setImage('/uploads/images/'.$imageFileName);
+
+        if ($imageFileName) {
+            $this->setImage('/uploads/images/'.$imageFileName);
+        } else {
+            $this->setImage(NULL);
+        }
 
         return $this;
     }
