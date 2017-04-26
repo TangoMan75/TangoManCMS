@@ -56,6 +56,8 @@
         ],
         "post-install-cmd": [
             "@symfony-scripts",
+            "php bin/console admin",
+            "php bin/console tags",
             "php bin/console cache:clear -e=prod"
         ],
         "post-update-cmd": [
