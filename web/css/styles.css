@@ -209,17 +209,38 @@ th.ASC a:after {
 	margin-bottom: 5em;
 }
 
-article.post div.panel-body{
-	padding: 0;
-	position: relative;
-}
-
 .post-cover {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
 	padding-bottom: 50%;
 	margin-bottom: 2em;
+}
+
+article.post div.panel-body{
+	padding: 0;
+	position: relative;
+}
+
+/* Move user avatar on backgroud image responsive */
+.post-body-cover {
+	padding: 0;
+	position: relative;
+}
+
+.post-body-no-cover {
+	padding-top: 2em;
+}
+
+.post-user-cover {
+	position: relative;
+	top: -150px;
+}
+
+@media (max-width: 992px) {
+	.post-user-cover {
+		display: none;
+	}
 }
 
 article.comment,

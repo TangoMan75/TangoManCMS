@@ -25,13 +25,15 @@
             {% if post.image %}
                 <div class="post-cover" style="background-image: url('{{ post.image }}')"></div>
             {% endif %}
-            <div class="row"{% if not post.image %} style="margin-top: 1em;"{% endif %}>
-                <figure class="col-xs-12 col-md-3 text-center"{% if post.image %} style="top: -150px;"{% endif %}>
-                    <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
-                        <img src="{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}"
-                             alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
-                    </a>
-                </figure>
+            <div class="row{% if post.image %} post-body-cover{% else %} post-body-no-cover{% endif %}">
+                <div class="col-xs-12 col-md-3 text-center">
+                    <figure class="post-user{% if post.image %} post-user-cover{% endif %}">
+                        <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
+                            <img src="{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}"
+                                 alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
+                        </a>
+                    </figure>
+                </div>
                 <div class="col-xs-12 col-md-9">
                     {{ post.text|raw|nl2br }}
                 </div>
