@@ -45,7 +45,7 @@ class TagsCommand extends ContainerAwareCommand
                     ->setReadOnly();
 
                 $em->persist($tag);
-                $output->writeln('<question>Tag '.$tag.' created with type'.$type.'</question>');
+                $output->writeln('<question>Tag "'.$tag.'" created with type :"'.$type.'"</question>');
             }
         }
 
