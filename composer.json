@@ -55,7 +55,7 @@
             "php bin/console cache:clear -e=prod"
         ],
         "post-install-cmd": [
-            "php bin/console admin",
+            "php bin/console superadmin",
             "php bin/console tags",
             "@symfony-scripts",
             "php bin/console cache:clear -e=prod"
