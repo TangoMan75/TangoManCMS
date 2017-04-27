@@ -365,7 +365,7 @@
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target=".my-modal" data-item="{{ user.username }}"
-                                            data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
+                                            data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri|remove_query }) }}"
                                             {% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
                                         <span class="glyphicon glyphicon-trash"></span>
                                         Supprimer
