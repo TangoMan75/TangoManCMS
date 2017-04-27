@@ -241,13 +241,17 @@
                             <td>
                                 {% if user.password %}
                                     <a href="{{ path('app_admin_user_index', {'status' : 1}) }}">
-                                        <span class="btn btn-success btn-sm">
+                                        <span class="btn btn-success btn-sm"
+                                              data-toggle="tooltip" data-placement="top"
+                                              data-original-title="Utilisateur inactif">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </span>
                                     </a>
                                 {% else %}
                                     <a href="{{ path('app_admin_user_index', {'status' : 0}) }}">
-                                        <span class="btn btn-danger btn-sm">
+                                        <span class="btn btn-danger btn-sm"
+                                              data-toggle="tooltip" data-placement="top"
+                                              data-original-title="Utilisateur valide">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </span>
                                     </a>
@@ -256,19 +260,27 @@
                             <td>
                                 {% if 'ROLE_SUPER_ADMIN' in user.roles %}
                                     <span class="btn btn-danger btn-sm">
-                                        <span class="glyphicon glyphicon-king"></span>
+                                        <span class="glyphicon glyphicon-king"
+                                              data-toggle="tooltip" data-placement="top"
+                                              data-original-title="Super Administateur"></span>
                                     </span>
                                 {% elseif 'ROLE_ADMIN' in user.roles %}
                                     <span class="btn btn-warning btn-sm">
-                                        <span class="glyphicon glyphicon-tower"></span>
+                                        <span class="glyphicon glyphicon-tower"
+                                              data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Administateur"></span>
                                     </span>
                                 {% elseif 'ROLE_SUPER_USER' in user.roles %}
                                     <span class="btn btn-success btn-sm">
-                                        <span class="glyphicon glyphicon-bishop"></span>
+                                        <span class="glyphicon glyphicon-bishop"
+                                              data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Super Utilisateur"></span>
                                     </span>
                                 {% else %}
                                     <span class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-pawn"></span>
+                                        <span class="glyphicon glyphicon-pawn"
+                                              data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Utilisateur"></span>
                                     </span>
                                 {% endif %}
 
@@ -356,7 +368,9 @@
                             {#{% endif %}#}
                             <td>
                                 <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
-                                   class="btn btn-warning btn-sm">
+                                   class="btn btn-warning btn-sm"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Modifier l'utilisateur">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     Modifier
                                 </a>
@@ -366,6 +380,8 @@
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target=".my-modal" data-item="{{ user.username }}"
                                             data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri|remove_query }) }}"
+                                            data-toggle="tooltip" data-placement="top"
+                                            data-original-title="Supprimer l'utilisateur"
                                             {% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
                                         <span class="glyphicon glyphicon-trash"></span>
                                         Supprimer
