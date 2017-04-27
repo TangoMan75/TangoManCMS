@@ -32,11 +32,13 @@
                 Modifier mon adresse email
             </a>&nbsp;
             <a class="btn btn-danger"
-               href="{{ path('app_security_create', { 'id': user.id, 'action': 'password_change', 'callback': app.request.uri }) }}">
+               href="{{ path('app_security_create', { 'id': user.id, 'action': 'password_change',
+                   'callback': app.request.uri }) }}">
                 Modifier mon mot de passe
             </a>&nbsp;
             <a class="btn btn-danger"
-               href="{{ path('app_security_create', { 'id': user.id, 'action': 'account_delete', 'callback': app.request.uri }) }}">
+               href="{{ path('app_security_create', { 'id': user.id, 'action': 'account_delete',
+                   'callback': path('app_user_show', { 'slug': user.slug }) }) }}">
                 Supprimer mon compte
             </a>
         </div>
