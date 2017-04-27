@@ -11,7 +11,7 @@
                                data-original-title="Éditer ce media">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            <a href="{{ path("app_media_delete", { 'id': media.id, 'callback': callback|remove_url_query }) }}"
+                            <a href="{{ path("app_media_delete", { 'id': media.id, 'callback': app.request.uri|remove_query }) }}"
                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                data-original-title="Supprimer ce media">
                                 <span class="glyphicon glyphicon-trash"></span>

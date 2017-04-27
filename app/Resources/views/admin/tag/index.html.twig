@@ -132,7 +132,7 @@
                                     Modifier
                                 </span>
                             {% else %}
-                                <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri }) }}"
+                                <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-sm">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     Modifier
@@ -149,7 +149,7 @@
                             {% else %}
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target=".my-modal" data-item="{{ tag.name }}"
-                                        data-path="{{ path('app_admin_tag_delete', { 'id': tag.id, 'callback': app.request.uri }) }}">
+                                        data-path="{{ path('app_admin_tag_delete', { 'id': tag.id, 'callback': app.request.uri|callback }) }}">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Supprimer
                                 </button>

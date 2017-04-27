@@ -227,7 +227,7 @@
                         <td>{{ page.created|date('d/m/Y H:i:s') }}</td>
                         <td>{{ page.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
-                            <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri }) }}"
+                            <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Modifier
@@ -236,7 +236,7 @@
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ page.title }}"
-                                    data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri }) }}">
+                                    data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri|callback }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer
                             </button>

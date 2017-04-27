@@ -3,20 +3,20 @@
 {% block title %}{{ parent() }} | Inscription{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div id="register-form" class="jumbotron">
-        <div class="row">
-            <h2 class="text-center">S'inscrire pour publier dans {{ site_name }}</h2>
-            <p>
-                Choisissez un nom d'utilisateur et renseignez votre email, vous reçevrez un lien
-                pour valider votre compte dans votre boîte.
-            </p>
-            {{ form_start(formRegister) }}
-            {{ form_row(formRegister.username) }}
-            {{ form_row(formRegister.email) }}
-            <input type="submit" class="btn btn-primary center-block" value="Inscription"/>
-            {{ form_end(formRegister) }}
+    <div class="container">
+        <div id="register-form" class="jumbotron">
+            <div class="row">
+                <h2 class="text-center">S'inscrire pour publier dans {{ site_name }}</h2>
+                <p>
+                    Choisissez un nom d'utilisateur et renseignez votre email, vous reçevrez un lien
+                    pour valider votre compte dans votre boîte.
+                </p>
+                {{ form_start(formRegister) }}
+                {{ form_row(formRegister.username) }}
+                {{ form_row(formRegister.email) }}
+                <input type="submit" class="btn btn-primary center-block" value="Inscription"/>
+                {{ form_end(formRegister) }}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

@@ -283,7 +283,7 @@
                                             <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
                                                 'id'       : user.id,
                                                 'remove'   : 'ROLE_SUPER_ADMIN',
-                                                'callback' : app.request.uri
+                                                'callback' : app.request.uri|callback
                                             })) }}"
                                                class="btn btn-warning btn-xs">
                                                 <span class="glyphicon glyphicon-minus"></span>
@@ -296,7 +296,7 @@
                                         <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
                                             'id'       : user.id,
                                             'remove'   : 'ROLE_ADMIN',
-                                            'callback' : app.request.uri
+                                            'callback' : app.request.uri|callback
                                         })) }}"
                                            class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-minus"></span>
@@ -304,7 +304,7 @@
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
                                             'id'       : user.id,
                                             'add'      : 'ROLE_SUPER_ADMIN',
-                                            'callback' : app.request.uri
+                                            'callback' : app.request.uri|callback
                                         })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -313,7 +313,7 @@
                                         <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
                                             'id'       : user.id,
                                             'remove'   : 'ROLE_SUPER_USER',
-                                            'callback' : app.request.uri
+                                            'callback' : app.request.uri|callback
                                         })) }}"
                                            class="btn btn-warning btn-xs">
                                             <span class="glyphicon glyphicon-minus"></span>
@@ -321,7 +321,7 @@
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
                                             'id'       : user.id,
                                             'add'      : 'ROLE_ADMIN',
-                                            'callback' : app.request.uri
+                                            'callback' : app.request.uri|callback
                                         })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -333,7 +333,7 @@
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
                                             'id'       : user.id,
                                             'add'      : 'ROLE_SUPER_USER',
-                                            'callback' : app.request.uri
+                                            'callback' : app.request.uri|callback
                                         })) }}"
                                            class="btn btn-success btn-xs">
                                             <span class="glyphicon glyphicon-plus"></span>
@@ -355,7 +355,7 @@
                             {#</td>#}
                             {#{% endif %}#}
                             <td>
-                                <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri }) }}"
+                                <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-sm">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     Modifier
@@ -365,7 +365,7 @@
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                             data-target=".my-modal" data-item="{{ user.username }}"
-                                            data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri }) }}"
+                                            data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
                                             {% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
                                         <span class="glyphicon glyphicon-trash"></span>
                                         Supprimer

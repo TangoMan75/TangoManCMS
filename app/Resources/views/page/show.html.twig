@@ -9,7 +9,7 @@
         </header>
         <section>
             {% for item in page.posts %}
-                {% include "includes/_post.html.twig" with { 'post': item, 'callback': app.request.uri } %}
+                {% include "includes/_post.html.twig" with { 'post': item, 'callback': app.request.uri|callback } %}
             {% endfor %}
         </section>
     </div>

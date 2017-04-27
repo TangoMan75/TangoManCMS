@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -30,6 +31,20 @@ class Role
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
      */
     private $users;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer")
+     */
+    private $hierarchy;
+
+    /**
+     * Role constructor.
+     */
+    public function __construct()
+    {
+        $this->users = new ArrayCollection();
+    }
 
     /**
      * Get id
@@ -97,6 +112,26 @@ class Role
     public function removeUser($user)
     {
         $this->users->removeElement($user);
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getHierarchy()
+    {
+        return $this->hierarchy;
+    }
+
+    /**
+     * @param $hierarchy
+     *
+     * @return $this
+     */
+    public function setHierarchy($hierarchy)
+    {
+        $this->hierarchy = $hierarchy;
 
         return $this;
     }

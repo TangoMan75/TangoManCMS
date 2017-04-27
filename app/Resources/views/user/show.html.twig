@@ -1,22 +1,23 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ parent() }} | {{ user.username | capitalize }}{% endblock %}
+{% block title %}{{ parent() }} | {{ 'callback': app.request.uri|callback }}{% endblock %}
 
 {% block body %}
-<div class="container">
+    <div class="container">
 
-    {% include "includes/_user-profile.html.twig" with {'user': user } %}
+        {% include "includes/_user-profile.html.twig" with {'user': user } %}
 
-    <section id="posts">
-        {% for post in posts %}
-            {% include "includes/_post.html.twig"  with {'callback': app.request.uri} %}
-        {% else %}
-            <p class="text-center"><strong>{{ user.username | capitalize }}</strong> n'a publié aucun message.</p>
-        {% endfor %}
-        <div class="text-center">
-        {{ pagination(posts) }}
-        </div>
-    </section>
-</div>
+        <section id="posts">
+            {% for post in posts %}
+                {% include "includes/_post.html.twig"  with { 'callback': app.request.uri|callback } %}
+            {% else %}
+                <p class="text-center"><strong>{{ 'callback': app.request.uri|callback }}</strong> n'a publié aucun
+                    message.</p>
+            {% endfor %}
+            <div class="text-center">
+                {{ pagination(posts) }}
+            </div>
+        </section>
+    </div>
 
 {% endblock %}

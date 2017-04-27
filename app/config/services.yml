@@ -8,8 +8,13 @@ services:
         class: AppBundle\Service\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
-    twig.extension.remove_url_query:
-        class: AppBundle\TwigExtension\RemoveUrlQuery
+    twig.extension.remove_query:
+        class: AppBundle\TwigExtension\RemoveQuery
+        tags:
+            - { name: twig.extension }
+
+    twig.extension.callback:
+        class: AppBundle\TwigExtension\Callback
         tags:
             - { name: twig.extension }
 

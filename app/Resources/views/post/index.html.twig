@@ -6,7 +6,7 @@
     {{ parent() }}
     {% if app.user %}
         <script src="http://cdn.tinymce.com/4/tinymce.min.js"></script>
-        <script>tinymce.init({ selector:'textarea' });</script>
+        <script>tinymce.init({selector: 'textarea'});</script>
     {% endif %}
 {% endblock %}
 
@@ -14,7 +14,7 @@
     <div class="container">
         <section id="posts">
             {% for post in posts %}
-                {% include "includes/_post.html.twig" with {'callback': app.request.uri} %}
+                {% include "includes/_post.html.twig" with { 'callback': app.request.uri|callback } %}
             {% else %}
                 {% include "includes/_nothing.html.twig" %}
             {% endfor %}
@@ -24,14 +24,15 @@
         </section>
 
         {% if app.user %}
-            {% include "includes/_post-form.html.twig" with {'callback': app.request.uri} %}
+            {% include "includes/_post-form.html.twig" with { 'callback': app.request.uri|callback } %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">
                     <h2>Vous devez être connecté pour pouvoir publier des messsages.</h2>
                     <p>
                         <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">Se connecter</a>
-                        <a href="{{ path('app_security_register', { 'callback': app.request.uri }) }}" class="btn btn-danger btn-lg">S'inscrire</a>
+                        <a href="{{ path('app_security_register', { 'callback': app.request.uri|callback }) }}"
+                           class="btn btn-danger btn-lg">S'inscrire</a>
                     </p>
                 </div>
             </div>

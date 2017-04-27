@@ -14,7 +14,7 @@
     <div class="container">
 
         <section id="posts">
-            {% include "includes/_post.html.twig" with { 'callback': app.request.uri } %}
+            {% include "includes/_post.html.twig" with { 'callback': app.request.uri|callback } %}
         </section>
 
         {% if app.user %}
@@ -28,7 +28,7 @@
                         <h2>Vous devez être connecté pour pouvoir commenter les publications.</h2>
                         <p>
                             <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">Se connecter</a>
-                            <a href="{{ path('app_security_register', { 'callback': app.request.uri }) }}"
+                            <a href="{{ path('app_security_register', { 'callback': app.request.uri|callback }) }}"
                                class="btn btn-danger btn-lg">S'inscrire
                             </a>
                         </p>
@@ -39,7 +39,7 @@
 
         <section id="comments">
             {% for comment in list_comment %}
-                {% include "includes/_comment.html.twig" with { 'callback': app.request.uri } %}
+                {% include "includes/_comment.html.twig" with { 'callback': app.request.uri|callback } %}
             {% else %}
                 <div class="jumbotron">
                     <div class="text-center">

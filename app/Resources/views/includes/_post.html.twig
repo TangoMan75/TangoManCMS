@@ -11,7 +11,7 @@
                                data-original-title="Éditer ce message">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            <a href="{{ path("app_post_delete", { 'id': post.id, 'callback': callback|remove_url_query }) }}"
+                            <a href="{{ path("app_post_delete", { 'id': post.id, 'callback': app.request.uri|remove_query }) }}"
                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                data-original-title="Supprimer ce message">
                                 <span class="glyphicon glyphicon-trash"></span>

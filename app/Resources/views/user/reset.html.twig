@@ -3,16 +3,17 @@
 {% block title %}{{ parent() }} | Réinitialisation de mot de passe{% endblock %}
 
 {% block body %}
-<div class="container">
-    <div id="reset-form" class="jumbotron">
-        <div class="row">
-            <h2 class="text-center">Réinitialisation de mot de passe</h2>
-            <p>Renseignez votre email, vous reçevrez un lien sécurisé pour créer un nouveau mot de passe dans votre boîte.</p>
-            {{ form_start(formReset) }}
-            {{ form_row(formReset.email) }}
-            <input type="submit" class="btn btn-primary center-block" value="Envoyer"/>
-            {{ form_end(formReset) }}
+    <div class="container">
+        <div id="reset-form" class="jumbotron">
+            <div class="row">
+                <h2 class="text-center">Réinitialisation de mot de passe</h2>
+                <p>Renseignez votre email, vous reçevrez un lien sécurisé pour créer un nouveau mot de passe dans votre
+                    boîte.</p>
+                {{ form_start(formReset) }}
+                {{ form_row(formReset.email) }}
+                <input type="submit" class="btn btn-primary center-block" value="Envoyer"/>
+                {{ form_end(formReset) }}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}

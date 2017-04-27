@@ -14,7 +14,8 @@
     <header>
         <h1>Commentaires</h1>
         <h2>Modifier le commentaire &quot;{{ comment.text|striptags|truncate(20) }}&quot;</h2>
-        <p>Ici vous pouvez modifier le commentaire &quot;{{ comment.text|striptags|truncate(20) }}&quot; de l'article <strong>&quot;{{ comment.post.title }}&quot;</strong></p>
+        <p>Ici vous pouvez modifier le commentaire &quot;{{ comment.text|striptags|truncate(20) }}&quot; de l'article
+            <strong>&quot;{{ comment.post.title }}&quot;</strong></p>
     </header>
     {% include "admin/includes/_comment_tabs.html.twig" %}
     <section id="edit">

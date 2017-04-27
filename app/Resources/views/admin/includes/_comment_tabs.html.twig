@@ -7,14 +7,14 @@
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_comment_new', { 'callback': app.request.uri }) }}">
+            <a href="{{ path('app_admin_comment_new', { 'callback': app.request.uri|callback }) }}">
                 <span class="glyphicon glyphicon-plus"></span>
                 Ajouter
             </a>
         </li>
         {% if comment is defined %}
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri }) }}">
+                <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri|callback }) }}">
                     <span class="glyphicon glyphicon-edit"></span>
                     {{ comment.text|striptags|truncate(20) }}
                 </a>

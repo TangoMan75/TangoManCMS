@@ -185,13 +185,13 @@
                         <td>{{ comment.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             {% if comment.published %}
-                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 0, 'callback': app.request.uri }) }}"
+                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Retirer la publication">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 1, 'callback': app.request.uri }) }}"
+                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Publier ce commentaire">
                                     <span class="glyphicon glyphicon-remove"></span>
@@ -199,7 +199,7 @@
                             {% endif %}
                         </td>
                         <td>
-                            <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri }) }}"
+                            <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Modifier
@@ -208,7 +208,7 @@
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ comment }}"
-                                    data-path="{{ path('app_admin_comment_delete', { 'id': comment.id, 'callback': app.request.uri }) }}">
+                                    data-path="{{ path('app_admin_comment_delete', { 'id': comment.id, 'callback': app.request.uri|callback }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer
                             </button>
