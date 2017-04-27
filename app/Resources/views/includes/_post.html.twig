@@ -11,7 +11,7 @@
                         <div class="pull-right btn-group" role="group">
                             <a href="{{ path("app_post_edit",   { 'id': post.id, 'callback': callback }) }}"
                                class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
-                               data-original-title="Éditer ce message">
+                               data-original-title="Modifier ce message">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
                             <a href="{{ path("app_post_delete", { 'id': post.id, 'callback': app.request.uri|remove_query }) }}"

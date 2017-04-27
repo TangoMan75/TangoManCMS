@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | Publier un Commentaire{% endblock %}
+{% block title %}{{ parent() }} | Modifier un Commentaire{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -14,7 +14,7 @@
     <div class="container">
 
         {% if app.user %}
-            {% include "includes/_comment-form.html.twig" with { 'callback': app.request.uri|callback } %}
+            {% include "includes/_comment-edit-form.html.twig" with { 'callback': app.request.uri|callback } %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">

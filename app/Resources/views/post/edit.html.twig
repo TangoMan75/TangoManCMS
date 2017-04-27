@@ -14,7 +14,7 @@
     <div class="container">
 
         {% if app.user %}
-            {% include "includes/_post-form.html.twig" with { 'callback': app.request.uri|callback } %}
+            {% include "includes/_post-edit-form.html.twig" with { 'callback': app.request.uri|callback } %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">
