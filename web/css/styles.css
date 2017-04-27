@@ -248,6 +248,12 @@ article.post {
 	margin-bottom: 3em;
 }
 
+.comment header a,
+.post header a  {
+	color: #fff;
+	text-decoration: none;
+}
+
 .comment header .glyphicon,
 .post header .glyphicon {
 	margin-left: .5em;

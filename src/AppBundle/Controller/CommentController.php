@@ -26,11 +26,8 @@ class CommentController extends Controller
             return $this->redirectToRoute('app_login');
         }
 
-        // Only author or admin can edit post
-        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted(
-                'ROLE_ADMIN'
-            )
-        ) {
+        // Only author or admin can edit comment
+        if ($this->getUser() !== $comment->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
 
             return $this->redirectToRoute('homepage');
@@ -54,7 +51,7 @@ class CommentController extends Controller
         }
 
         return $this->render(
-            'post/edit.html.twig',
+            'comment/edit.html.twig',
             [
                 "formPost" => $form->createView(),
             ]
