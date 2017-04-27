@@ -1,6 +1,6 @@
 {% extends "::base.html.twig" %}
 
-{% block title %}{{ parent() }} | {{ 'callback': app.request.uri|callback }}{% endblock %}
+{% block title %}{{ parent() }} | {{ user.username }}{% endblock %}
 
 {% block body %}
     <div class="container">
@@ -11,7 +11,7 @@
             {% for post in posts %}
                 {% include "includes/_post.html.twig"  with { 'callback': app.request.uri|callback } %}
             {% else %}
-                <p class="text-center"><strong>{{ 'callback': app.request.uri|callback }}</strong> n'a publié aucun
+                <p class="text-center"><strong>{{ user.username }}</strong> n'a publié aucun
                     message.</p>
             {% endfor %}
             <div class="text-center">
