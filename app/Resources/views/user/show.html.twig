@@ -12,7 +12,7 @@
                 {% include "includes/_post.html.twig"  with { 'callback': app.request.uri|callback } %}
             {% else %}
                 <p class="text-center"><strong>{{ user.username }}</strong> n'a publié aucun
-                    message.</p>
+                    article.</p>
             {% endfor %}
             <div class="text-center">
                 {{ pagination(posts) }}
