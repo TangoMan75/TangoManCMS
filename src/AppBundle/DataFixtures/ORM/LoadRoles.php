@@ -2,14 +2,14 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Tag;
+use AppBundle\Entity\Role;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -29,7 +29,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
      */
     public function getOrder()
     {
-        return 4;
+        return 1;
     }
 
     /**
@@ -37,28 +37,31 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
      */
     public function load(ObjectManager $em)
     {
-        // Load Tags
-        $tags = [
-            'Défaut'    => 'default',
-            'Principal' => 'primary',
-            'Info'      => 'info',
-            'Succès'    => 'success',
-            'Alerte'    => 'warning',
-            'Danger'    => 'danger',
-            'Document'  => 'default',
-            'Image'     => 'default',
-            'Lien'      => 'default',
-            'Vidéo'     => 'default',
+        $roles = [
+            'Utilisateur',
+            'ROLE_USER',
+            0,
+            'Super Utilisateur',
+            'ROLE_SUPER_USER',
+            1,
+            'Administrateur',
+            'ROLE_ADMIN',
+            2,
+            'Super Administrateur',
+            'ROLE_SUPER_ADMIN',
+            3,
         ];
 
-        foreach ($tags as $name => $type) {
+        for ($i = 0; $i < 12; $i = $i + 3) {
             // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $name])) {
-                $tag = new Tag();
-                $tag->setName($name);
-                $tag->setType($type);
-                $tag->setReadOnly();
-                $em->persist($tag);
+            if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $roles[$i + 1]])) {
+                $role = new Role();
+                $role->setName($roles[$i])
+                    ->setRole($roles[$i + 1])
+                    ->setHierarchy($roles[$i + 2])
+                    ->setReadOnly();
+
+                $em->persist($role);
             }
         }
 

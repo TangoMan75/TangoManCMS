@@ -27,7 +27,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 2;
+        return 3;
     }
 
     /**

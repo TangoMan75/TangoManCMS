@@ -35,7 +35,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 8;
+        return 9;
     }
 
     /**

@@ -34,6 +34,10 @@ class TagsCommand extends ContainerAwareCommand
             'Succès'    => 'success',
             'Alerte'    => 'warning',
             'Danger'    => 'danger',
+            'Document'  => 'default',
+            'Image'     => 'default',
+            'Lien'      => 'default',
+            'Vidéo'     => 'default',
         ];
 
         foreach ($tags as $name => $type) {
