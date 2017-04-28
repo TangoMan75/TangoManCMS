@@ -26,7 +26,7 @@ class TagsCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        // Load Tags
+        // Default Tags
         $tags = [
             'Défaut'    => 'default',
             'Principal' => 'primary',
