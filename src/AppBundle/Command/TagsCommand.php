@@ -46,6 +46,8 @@ class TagsCommand extends ContainerAwareCommand
 
                 $em->persist($tag);
                 $output->writeln('<question>Tag "'.$tag.'" created with type :"'.$type.'"</question>');
+            } else {
+                $output->writeln('<question>Tag "'.$name.'" exists already.</question>');
             }
         }
 
