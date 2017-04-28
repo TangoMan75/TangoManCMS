@@ -3,13 +3,13 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Class Linkable
+ * Class Embeddable
  * 1. Requires entities to own "Categorized" trait.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Linkable
+Trait Embeddable
 {
     /**
      * @var String
