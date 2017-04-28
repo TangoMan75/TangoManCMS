@@ -27,6 +27,12 @@ class Role
     private $name;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $role;
+
+    /**
      * @var User[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
      */
@@ -78,6 +84,26 @@ class Role
     public function getName()
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param string $role
+     *
+     * @return $this
+     */
+    public function setRole($role)
+    {
+        $this->role = $role;
+
+        return $this;
     }
 
     /**
