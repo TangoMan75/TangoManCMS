@@ -113,9 +113,9 @@ class MediaRepository extends EntityRepository
                 ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
-        if ($query->get('description')) {
-            $dql->andWhere('media.description LIKE :description')
-                ->setParameter(':description', '%'.$query->get('description').'%');
+        if ($query->get('text')) {
+            $dql->andWhere('media.text LIKE :text')
+                ->setParameter(':text', '%'.$query->get('text').'%');
         }
 
         if ($query->get('user')) {
