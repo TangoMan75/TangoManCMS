@@ -51,25 +51,25 @@ Trait Embeddable
                 case 'www.youtube.com':
                 case 'youtu.be':
                     $this->addCategory('youtube');
-                    $this->thumbnail = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
+                    $this->image = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
                     break;
                 case 'dai.ly':
                 case 'www.dailymotion.com':
                     $this->addCategory('dailymotion');
-                    $this->thumbnail = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
+                    $this->image = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
                     break;
                 case 'vimeo.com':
                     $this->addCategory('vimeo');
                     $xml = unserialize(
                         file_get_contents('http://vimeo.com/api/v2/video/'.$this->getHash($link).'.php')
                     );
-                    $this->thumbnail = $xml[0]['thumbnail_medium'];
+                    $this->image = $xml[0]['thumbnail_medium'];
                     break;
                 case 'www.car360app.com':
                 case 'www.argus360.fr':
                     $this->addCategory('argus360');
                     // https://car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
-                    $this->thumbnail = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
+                    $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
             }
         }

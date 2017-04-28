@@ -17,7 +17,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Post
 {
     use Traits\Categorized;
-    use Traits\Illustrable;
+    use Traits\Embeddable;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;

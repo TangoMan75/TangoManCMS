@@ -38,6 +38,7 @@ class Callback extends \Twig_Extension
     {
         $result = parse_url($url);
 
+        // When url contains query string
         if (isset($result['query'])) {
             parse_str($result['query'], $query);
             foreach ($query as $key => $item) {

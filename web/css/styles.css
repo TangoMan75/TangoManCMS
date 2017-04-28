@@ -217,7 +217,7 @@ th.ASC a:after {
 	margin-bottom: 2em;
 }
 
-article.post div.panel-body{
+article.post div.panel-body {
 	padding: 0;
 	position: relative;
 }
@@ -249,8 +249,8 @@ article.post {
 }
 
 .comment header a,
-.post header a  {
-	color: #fff;
+.post header a {
+	color: #FFF;
 	text-decoration: none;
 }
 
@@ -288,7 +288,7 @@ article.post {
 
 .comment .panel-body h4,
 .post .panel-body h4,
-.comment .panel-body  p,
+.comment .panel-body p,
 .post .panel-body p {
 	margin: 1em auto;
 	padding: 0 1em;
@@ -396,10 +396,18 @@ table th {
  * Flash messages *
  ******************/
 div.alert {
+	margin: auto;
 	position: fixed;
 	z-index: 9999;
 	top: 12.5em;
-	right: 15%;
+}
+
+@media (min-width: 576px) {
+	div.alert {
+		margin: 0;
+		width: auto;
+		right: 15%;
+	}
 }
 
 .anim-alert {

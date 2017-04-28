@@ -17,6 +17,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 Trait UploadableDocument
 {
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $document;
+
+    /**
      * @Vich\UploadableField(mapping="documents", fileNameProperty="documentFileName", size="documentSize")
      * @Assert\File(maxSize="100M", mimeTypes={
      *     "application/msword",
@@ -42,6 +48,26 @@ Trait UploadableDocument
      * @var integer
      */
     private $documentSize;
+
+    /**
+     * @return string
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * @param string $document
+     *
+     * @return $this
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
+
+        return $this;
+    }
 
     /**
      * @return String
@@ -102,7 +128,7 @@ Trait UploadableDocument
         if ($documentFileName) {
             $this->setDocument('/uploads/documents/'.$documentFileName);
         } else {
-            $this->setDocument(NULL);
+            $this->setDocument(null);
         }
 
         return $this;
@@ -136,7 +162,7 @@ Trait UploadableDocument
     {
         if ($this->hasCategory('document')) {
             // Get file path
-            $path = __DIR__."/../../../web".$this->getLink();
+            $path = __DIR__."/../../../web".$this->getDocument();
             // Delete file if exists
             if (is_file($path)) {
                 unlink($path);

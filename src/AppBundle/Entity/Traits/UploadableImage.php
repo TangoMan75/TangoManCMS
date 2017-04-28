@@ -17,6 +17,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 Trait UploadableImage
 {
     /**
+     * @var string
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $image;
+
+    /**
      * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageFileName")
      * @Assert\File(maxSize="2M", mimeTypes={
      *     "image/gif",
@@ -33,6 +39,26 @@ Trait UploadableImage
      * @ORM\Column(type="string", nullable=true)
      */
     private $imageFileName;
+
+    /**
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     *
+     * @return $this
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
 
     /**
      * @return String
@@ -93,7 +119,7 @@ Trait UploadableImage
         if ($imageFileName) {
             $this->setImage('/uploads/images/'.$imageFileName);
         } else {
-            $this->setImage(NULL);
+            $this->setImage(null);
         }
 
         return $this;
@@ -107,7 +133,8 @@ Trait UploadableImage
     {
         if ($this->hasCategory('photo') || $this->hasCategory('thetas')) {
             // Get thumbnail path
-            $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getLink();
+            $path = __DIR__."/../../../web/media/cache/thumbnail".$this->getImage();
+
             // Delete file if exists
             if (is_file($path)) {
                 unlink($path);

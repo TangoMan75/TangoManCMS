@@ -39,7 +39,7 @@ class MediaRepository extends EntityRepository
 
         $dql = $this->createQueryBuilder('media');
 
-        // Search inside id, title, subtitle and content columns
+        // Search inside id, title and content columns
         $dql = $this->search($dql, $query);
 
         // Order according to ownership count
@@ -98,19 +98,14 @@ class MediaRepository extends EntityRepository
                 ->setParameter(':slug', '%'.$query->get('slug').'%');
         }
 
-        if ($query->get('type')) {
-            $dql->andWhere('media.type LIKE :type')
-                ->setParameter(':type', '%'.$query->get('type').'%');
+        if ($query->get('title')) {
+            $dql->andWhere('media.title LIKE :title')
+                ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
         if ($query->get('link')) {
             $dql->andWhere('media.link LIKE :link')
                 ->setParameter(':link', '%'.$query->get('link').'%');
-        }
-
-        if ($query->get('title')) {
-            $dql->andWhere('media.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
         if ($query->get('text')) {
@@ -143,6 +138,15 @@ class MediaRepository extends EntityRepository
             $dql->andWhere('tag.name LIKE :tag')
                 ->leftJoin('media.tags', 'tag')
                 ->setParameter(':tag', '%'.$query->get('tag').'%');
+        }
+
+        if ($query->get('category')) {
+            $dql->andWhere('media.categories LIKE :category')
+                ->setParameter(':category', $query->get('category'))
+                ->orWhere('media.categories LIKE :start')
+                ->setParameter(':start', $query->get('category').',%')
+                ->orWhere('media.categories LIKE :end')
+                ->setParameter(':end', '%,'.$query->get('category'));
         }
 
         return $dql;
