@@ -167,7 +167,7 @@ class Tag
     }
 
     /**
-     * @return Tag
+     * @return $this
      */
     public function setReadOnly()
     {

@@ -45,11 +45,19 @@ class Role
     private $hierarchy;
 
     /**
+     * @var bool
+     * @ORM\Column(type="boolean")
+     */
+    private $readOnly;
+
+    /**
      * Role constructor.
      */
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->hierarchy = 0;
+        $this->readOnly = false;
     }
 
     /**
@@ -71,7 +79,9 @@ class Role
      */
     public function setName($name)
     {
-        $this->name = $name;
+        if (!$this->readOnly) {
+            $this->name = $name;
+        }
 
         return $this;
     }
@@ -101,7 +111,9 @@ class Role
      */
     public function setRole($role)
     {
-        $this->role = $role;
+        if (!$this->readOnly) {
+            $this->role = $role;
+        }
 
         return $this;
     }
@@ -157,7 +169,27 @@ class Role
      */
     public function setHierarchy($hierarchy)
     {
-        $this->hierarchy = $hierarchy;
+        if (!$this->readOnly) {
+            $this->hierarchy = $hierarchy;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isReadOnly()
+    {
+        return $this->readOnly;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setReadOnly()
+    {
+        $this->readOnly = true;
 
         return $this;
     }
