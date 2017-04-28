@@ -18,6 +18,7 @@ class Media
     use Traits\Sluggable;
     use Traits\Taggable;
     use Traits\Timestampable;
+    use Traits\Titleable;
 
     /**
      * @var Integer Media id
@@ -32,12 +33,6 @@ class Media
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="listMedia")
      */
     private $user;
-
-    /**
-     * @var String Media title
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $title;
 
     /**
      * @var string
@@ -103,44 +98,6 @@ class Media
     public function setUser($user)
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * Slug is generated from title
-     *
-     * @param string $title
-     *
-     * @return $this
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-        $this->setUniqueSlug($title);
-
-        return $this;
-    }
-
-    /**
-     * Set current date as default title
-     * @ORM\PrePersist()
-     *
-     * @return $this
-     */
-    public function setDefaultTitle()
-    {
-        if (!$this->title) {
-            $this->setTitle($this->created->format('d/m/Y H:i:s'));
-        }
 
         return $this;
     }
@@ -412,6 +369,25 @@ class Media
             default:
                 return null;
         }
+    }
+
+    /**
+     * Set default values
+     * @ORM\PrePersist()
+     *
+     * @return $this
+     */
+    public function setDefaults()
+    {
+        if (!$this->title) {
+            $this->setTitle($this->created->format('d/m/Y H:i:s'));
+        }
+
+        if (!$this->slug) {
+            $this->setUniqueSlug($this->title);
+        }
+
+        return $this;
     }
 
     /**

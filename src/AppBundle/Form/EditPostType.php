@@ -42,7 +42,8 @@ class EditPostType extends AbstractType
                 'slug',
                 TextType::Class,
                 [
-                    'label' => 'Slug',
+                    'label'    => 'Slug',
+                    'required' => false,
                 ]
             )
             ->add(

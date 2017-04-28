@@ -47,6 +47,10 @@ trait Sluggable
      */
     public function setUniqueSlug($string)
     {
+        if (!$string) {
+            $string = $this->title;
+        }
+
         $this->slug = $this->slugify($string.'-'.uniqid());
 
         return $this;

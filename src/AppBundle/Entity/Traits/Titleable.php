@@ -36,26 +36,6 @@ Trait Titleable
     {
         $this->title = $title;
 
-        // Generates slug from title when empty
-        if (!$this->slug) {
-            $this->setUniqueSlug($title);
-        }
-
-        return $this;
-    }
-
-    /**
-     * Set current date as default title
-     * @ORM\PrePersist()
-     *
-     * @return $this
-     */
-    public function setDefaultTitle()
-    {
-        if (!$this->title) {
-            $this->setTitle($this->created->format('d/m/Y H:i:s'));
-        }
-
         return $this;
     }
 }

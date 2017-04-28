@@ -132,6 +132,25 @@ class Post
     }
 
     /**
+     * Set default values
+     * @ORM\PrePersist()
+     *
+     * @return $this
+     */
+    public function setDefaults()
+    {
+        if (!$this->title) {
+            $this->setTitle($this->created->format('d/m/Y H:i:s'));
+        }
+
+        if (!$this->slug) {
+            $this->setUniqueSlug($this->title);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
