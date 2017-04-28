@@ -4,7 +4,7 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Class Linkable
- * 1. Requires entities to own "Timestampable" and "Sluggable" traits.
+ * 1. Requires entities to own "Categorized" trait.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -27,24 +27,27 @@ Trait Linkable
 
     /**
      * @param String $link
+     *
+     * @return $this
      */
     public function setLink($link)
     {
-        // Remove scheme from url (doesn't change relative URLs)
-        if (stripos($link, '//')) {
-            $link = ltrim($link, 'http://');
-            $link = ltrim($link, 'https://');
-            $link = '//'.$link;
-        }
-
-        $this->link = $link;
-
         // (parse_url function returns false on malformed URLs)
-        $parsed = parse_url($link);
+        $result = parse_url($link);
+
+        // Remove scheme from url (doesn't change relative URLs)
+        $this->link = '//'.$result['host'].
+            (isset($result['path']) ? $result['path'] : '').
+            (isset($result['query']) ? '?'.$result['query'] : '').
+            (isset($result['fragment']) ? '#'.$result['fragment'] : '');
+
         // Sets category according to url
-        if (isset($parsed['host'])) {
+        if (isset($result['host'])) {
             // Automatically set media category according to given url
-            switch ($parsed['host']) {
+            switch ($result['host']) {
+                case 'gist.github.com':
+                    $this->addCategory('gist');
+                    break;
                 case 'www.youtube.com':
                 case 'youtu.be':
                     $this->addCategory('youtube');
@@ -70,6 +73,8 @@ Trait Linkable
                     break;
             }
         }
+
+        return $this;
     }
 
     /**
@@ -84,6 +89,10 @@ Trait Linkable
                 return '<iframe src="//car360app.com/viewer/portable.php?spin='.
                     $this->getHash($this->link).
                     '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
+            } elseif ($this->hasCategory('gist')) {
+                return '<script src="//gist.github.com/'.
+                    $this->getHash($this->link).
+                    '.js"></script>';
             } elseif ($this->hasCategory('youtube')) {
                 return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
                     $this->getHash($this->link).

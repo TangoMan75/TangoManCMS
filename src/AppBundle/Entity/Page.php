@@ -2,10 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\Sluggable;
-use AppBundle\Entity\Traits\Timestampable;
-use AppBundle\Entity\Traits\Taggable;
-use AppBundle\Entity\Traits\Publishable;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -17,11 +13,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
-    use Sluggable;
-
-    use Timestampable;
-
-    use Taggable;
+    use Traits\Sluggable;
+    use Traits\Timestampable;
+    use Traits\Taggable;
 
     /**
      * @var int Page id

@@ -36,7 +36,7 @@ class DefaultController extends Controller
             if ($form->isValid()) {
                 $em->persist($post);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre message a bien été enregistré.');
+                $this->get('session')->getFlashBag()->add('success', 'Votre article a bien été enregistré.');
 
                 return $this->redirectToRoute('homepage');
             }

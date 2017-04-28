@@ -48,7 +48,7 @@ class PostController extends Controller
                 $em->flush();
                 $this->get('session')->getFlashBag()->add(
                     'success',
-                    'Votre message &quot;'.$post.'&quot; a bien été enregistré.'
+                    'Votre article &quot;'.$post.'&quot; a bien été enregistré.'
                 );
 
                 return $this->redirectToRoute('homepage');
@@ -95,7 +95,7 @@ class PostController extends Controller
                 $em->flush();
                 $this->get('session')->getFlashBag()->add(
                     'success',
-                    'Votre message &quot;'.$post.'&quot; a bien été enregistré.'
+                    'Votre article &quot;'.$post.'&quot; a bien été enregistré.'
                 );
 
                 return $this->redirectToRoute('homepage');
@@ -184,7 +184,7 @@ class PostController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le message intitulé <strong>'.$post.'</strong> a bien été enregistré.'
+                'L\'article intitulé <strong>'.$post.'</strong> a bien été enregistré.'
             );
 
             // User is redirected to referrer page
@@ -231,7 +231,7 @@ class PostController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre message <strong>&quot;'.$post.'&quot</strong> à bien été modifié.'
+                'Votre article <strong>&quot;'.$post.'&quot</strong> à bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -274,7 +274,7 @@ class PostController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le message <strong>&quot;'.$post.'&quot;</strong> à été supprimé.'
+            'L\'article <strong>&quot;'.$post.'&quot;</strong> à été supprimé.'
         );
 
         // User is redirected to referrer page
