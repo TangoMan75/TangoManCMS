@@ -1,0 +1,11 @@
+{% extends "::email-base.html.twig" %}
+{% block body %}
+    <h1>Bonjour {{ user.username|capitalize }}</h1>
+    <p>
+        Des commentaires sont <strong>en attente de validation</strong> sur
+        <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>
+        a été formulée.
+    </p>
+    <p>Vous reçevez ce message parceque vous êtes inscrit en tant administrateur du site <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a> avec cette adresse email.</p>
+    <p>Cordialement</p>
+{% endblock %}
