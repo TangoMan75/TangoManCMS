@@ -41,7 +41,7 @@ class MediaController extends Controller
             if ($form->isValid()) {
                 $em->persist($media);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre article a bien été enregistré.');
+                $this->get('session')->getFlashBag()->add('success', 'Votre publication a bien été enregistré.');
 
                 return $this->redirectToRoute('homepage');
             }
@@ -98,7 +98,7 @@ class MediaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'article intitulé <strong>'.$media->getTitle().'</strong> a bien été enregistré.'
+                'La publication intitulé <strong>'.$media->getTitle().'</strong> a bien été enregistré.'
             );
 
             // User is redirected to referrer page
@@ -145,7 +145,7 @@ class MediaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre article <strong>&quot;'.$media->getTitle().'&quot</strong> à bien été modifié.'
+                'Votre publication <strong>&quot;'.$media->getTitle().'&quot</strong> à bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -188,7 +188,7 @@ class MediaController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'article <strong>&quot;'.$media->getTitle().'&quot;</strong> à été supprimé.'
+            'La publication <strong>&quot;'.$media->getTitle().'&quot;</strong> à été supprimé.'
         );
 
         // User is redirected to referrer page
