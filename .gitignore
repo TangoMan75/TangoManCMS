@@ -21,6 +21,9 @@
 !/var/sessions
 !/var/sessions/.gitkeep
 
+/web/node_modules
+/web/src/components
+
 /web/uploads/*
 !/web/uploads
 !/web/uploads/.gitkeep
