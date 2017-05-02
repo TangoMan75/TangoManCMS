@@ -28,32 +28,42 @@ class TagsCommand extends ContainerAwareCommand
 
         // Default Tags
         $tags = [
-            'Défaut'    => 'default',
-            'Principal' => 'primary',
-            'Info'      => 'info',
-            'Succès'    => 'success',
-            'Alerte'    => 'warning',
-            'Danger'    => 'danger',
-            'Article'   => 'default',
-            'Document'  => 'default',
-            'Image'     => 'default',
-            'Lien'      => 'default',
-            'Vidéo'     => 'default',
+            'Alerte'       ,'warning'     ,'warning',
+            'Argus 360'    ,'argus360'    ,'success',
+            'Article'      ,'post'        ,'primary',
+            'Daily Motion' ,'dailymotion' ,'danger',
+            'Danger'       ,'danger'      ,'danger',
+            'Document'     ,'document'    ,'default',
+            'Défaut'       ,'default'     ,'default',
+            'Embeddable'   ,'embeddable'  ,'default',
+            'Fichier'      ,'file'        ,'default',
+            'Gist'         ,'gist'        ,'primary',
+            'Image'        ,'image'       ,'success',
+            'Info'         ,'info'        ,'info',
+            'Lien'         ,'link'        ,'warning',
+            'Photo'        ,'picture'     ,'success',
+            'Principal'    ,'primary'     ,'primary',
+            'Succès'       ,'success'     ,'success',
+            'Theta S'      ,'thetas'      ,'success',
+            'Vidéo'        ,'video'       ,'danger',
+            'Vimeo'        ,'vimeo'       ,'danger',
+            'Youtube'      ,'youtube'     ,'danger',
         ];
 
-        foreach ($tags as $name => $type) {
+        for ($i = 0; $i < count($tags); $i = $i + 4) {
             // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $name])) {
+            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $tags[$i]])) {
                 $tag = new Tag();
-                $tag->setName($name)
-                    ->setType($type)
+                $tag->setName($tags[$i])
+                    ->setType($tags[$i + 1])
+                    ->setLabel($tags[$i + 2])
                     ->setReadOnly();
 
                 $em->persist($tag);
 
-                $output->writeln('<question>Tag "'.$tag.'" created with type :"'.$type.'"</question>');
+                $output->writeln('<question>Tag "'.$tag.'" created with type :"'.$tags[$i + 1].'"</question>');
             } else {
-                $output->writeln('<question>Tag "'.$name.'" exists already.</question>');
+                $output->writeln('<question>Tag "'.$tags[$i].'" exists already.</question>');
             }
         }
 

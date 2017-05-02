@@ -39,26 +39,26 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
     {
         // Load Tags
         $tags = [
-            'Défaut'       ,'default'     ,'default',
-            'Principal'    ,'primary'     ,'primary',
-            'Info'         ,'info'        ,'info',
-            'Succès'       ,'success'     ,'success',
             'Alerte'       ,'warning'     ,'warning',
-            'Danger'       ,'danger'      ,'danger',
+            'Argus 360'    ,'argus360'    ,'success',
             'Article'      ,'post'        ,'primary',
-            'Gist'         ,'gist'        ,'primary',
+            'Daily Motion' ,'dailymotion' ,'danger',
+            'Danger'       ,'danger'      ,'danger',
             'Document'     ,'document'    ,'default',
+            'Défaut'       ,'default'     ,'default',
             'Embeddable'   ,'embeddable'  ,'default',
             'Fichier'      ,'file'        ,'default',
+            'Gist'         ,'gist'        ,'primary',
             'Image'        ,'image'       ,'success',
-            'Photo'        ,'picture'     ,'success',
-            'Theta S'      ,'thetas'      ,'success',
-            'Argus 360'    ,'argus360'    ,'success',
+            'Info'         ,'info'        ,'info',
             'Lien'         ,'link'        ,'warning',
+            'Photo'        ,'picture'     ,'success',
+            'Principal'    ,'primary'     ,'primary',
+            'Succès'       ,'success'     ,'success',
+            'Theta S'      ,'thetas'      ,'success',
             'Vidéo'        ,'video'       ,'danger',
-            'Youtube'      ,'youtube'     ,'danger',
             'Vimeo'        ,'vimeo'       ,'danger',
-            'Daily Motion' ,'dailymotion' ,'danger',
+            'Youtube'      ,'youtube'     ,'danger',
         ];
 
         for ($i = 0; $i < count($tags); $i = $i + 4) {
@@ -67,7 +67,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
                 $tag = new Tag();
                 $tag->setName($tags[$i])
                     ->setType($tags[$i+1])
-                    ->setLabel($tags[$i+3])
+                    ->setLabel($tags[$i+2])
                     ->setReadOnly();
 
                 $em->persist($tag);
