@@ -44,14 +44,6 @@ Trait Categorized
     }
 
     /**
-     * @param array $categories
-     */
-    public function setCategories($categories)
-    {
-        $this->categories = $categories;
-    }
-
-    /**
      * @return bool
      */
     public function hasCategory($category)
@@ -87,7 +79,7 @@ Trait Categorized
     public function checkCategory($category)
     {
         if (!in_array($category, $this->categories)) {
-            array_push($this->categories, $category);
+            $this->categories[] = $category;
         }
     }
 
@@ -98,9 +90,7 @@ Trait Categorized
      */
     public function removeCategory($category)
     {
-        if (in_array($category, $this->categories)) {
-            $this->categories = array_diff($this->categories, [$category]);
-        }
+        $this->categories->removeElement($category);
 
         return $this;
     }
