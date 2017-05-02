@@ -31,7 +31,7 @@ class Tag
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="L'étiquette doit appartnir à un type.")
+     * @Assert\NotBlank(message="L'étiquette doit appartenir à un type.")
      */
     private $type;
 

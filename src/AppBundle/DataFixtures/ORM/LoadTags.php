@@ -61,7 +61,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
             'Youtube'      ,'youtube'     ,'danger',
         ];
 
-        for ($i = 0; $i < count($tags); $i = $i + 4) {
+        for ($i = 0; $i < count($tags); $i = $i + 3) {
             // findBy is the only working method in fixtures
             if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $tags[$i]])) {
                 $tag = new Tag();
