@@ -3,6 +3,7 @@
 namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Tag;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Taggable
@@ -13,7 +14,7 @@ use AppBundle\Entity\Tag;
 Trait Taggable
 {
     /**
-     * @var Tag[]
+     * @var Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
     private $tags = [];

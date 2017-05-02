@@ -38,13 +38,6 @@ class Tag
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="L'étiquette doit appartenir à une categorie.")
-     */
-    private $category;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
      */
     private $label;
 
@@ -121,28 +114,6 @@ class Tag
     public function getType()
     {
         return $this->type;
-    }
-
-    /**
-     * @param string $category
-     *
-     * @return $this
-     */
-    public function setCategory($category)
-    {
-        if (!$this->readOnly) {
-            $this->category = mb_strtolower($category, 'UTF-8');
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCategory()
-    {
-        return $this->category;
     }
 
     /**
