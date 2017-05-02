@@ -215,16 +215,6 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'published',
-                            'way'   : app.request.query.get('order') == 'published'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Publication
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -242,6 +232,16 @@
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Modification
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'published',
+                            'way'   : app.request.query.get('order') == 'published'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Publication
                         </a>
                     </th>
 
@@ -305,21 +305,23 @@
                                 </a><br/>
                             {% endfor %}
                         </td>
-                        <td>
-                            {% if media.published %}
-                                <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'published' : 1})) }}"
-                                   class="btn btn-success btn-xs">
-                                    <span class="glyphicon glyphicon-ok"></span>
-                                </a>
-                            {% else %}
-                                <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'published' : 0})) }}"
-                                   class="btn btn-warning btn-xs">
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </a>
-                            {% endif %}
-                        </td>
                         <td>{{ media.created|date('d/m/Y H:i:s') }}</td>
                         <td>{{ media.modified|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                        {% if media.published %}
+                        <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
+                    data-original-title="Retirer la publication">
+                        <span class="glyphicon glyphicon-ok"></span>
+                        </a>
+                    {% else %}
+                        <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
+                    data-original-title="Publier ce média">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        </a>
+                        {% endif %}
+                        </td>
                         <td>
                             <a href="{{ path('app_admin_media_edit', { 'id': media.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">

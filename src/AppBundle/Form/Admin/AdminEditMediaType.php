@@ -29,7 +29,7 @@ class AdminEditMediaType extends AbstractType
                 ]
             )
             ->add(
-                'description',
+                'text',
                 TextareaType::Class,
                 [
                     'label'    => 'Description',
@@ -41,22 +41,6 @@ class AdminEditMediaType extends AbstractType
                 TextType::Class,
                 [
                     'label' => 'Lien',
-                ]
-            )
-            ->add(
-                'type',
-                ChoiceType::Class,
-                [
-                    'label'   => 'Type',
-                    'choices' => [
-                        'argus360'    => 'argus360',
-                        'dailymotion' => 'dailymotion',
-                        'deezer'      => 'deezer',
-                        'soundcloud'  => 'soundcloud',
-                        'spotify'     => 'spotify',
-                        'vimeo'       => 'vimeo',
-                        'youtube'     => 'youtube',
-                    ],
                 ]
             )
             ->add(

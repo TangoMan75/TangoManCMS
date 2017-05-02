@@ -106,6 +106,32 @@ class MediaController extends Controller
     }
 
     /**
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     */
+    public function publishAction(Request $request, Media $media, $publish)
+    {
+        $media->setPublished($publish);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($media);
+        $em->flush();
+
+        if ($publish) {
+            $message = 'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été publié.';
+        } else {
+            $message = 'La publication du média <strong>&quot;'.$media.'&quot;</strong> a bien été annulée.';
+        }
+
+        // Send flash notification
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $message
+        );
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
+    }
+
+    /**
      * Finds and deletes a Media.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
@@ -154,7 +180,7 @@ class MediaController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type' => 'application/force-download',
+                'Content-Type'        => 'application/force-download',
                 'Content-Disposition' => 'attachment; filename="listMedia.json"',
             ]
         );
@@ -247,7 +273,7 @@ class MediaController extends Controller
                         ->setTitle($import->media_title)
                         ->setSlug($import->media_slug)
                         ->addTag($tag)
-                        ->setDescription($import->media_content);
+                        ->setText($import->media_text);
 
                     // $media->setCreated($import->media_created);
                     // $media->setModified($import->media_modified);
@@ -258,9 +284,9 @@ class MediaController extends Controller
             }
 
             if ($counter > 1) {
-                $success = "$counter medias ont été importés.";
+                $success = $counter.'medias ont été importés.';
             } else {
-                $success = "Aucun media n'a été importé.";
+                $success = 'Aucun media n\'a été importé.';
             }
 
             $this->get('session')->getFlashBag()->add('success', $success);

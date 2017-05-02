@@ -27,9 +27,16 @@ class AdminTagType extends AbstractType
             )
             ->add(
                 'type',
+                TextType::Class,
+                [
+                    'label' => 'Type',
+                ]
+            )
+            ->add(
+                'label',
                 ChoiceType::Class,
                 [
-                    'label'   => 'Type',
+                    'label'   => 'Label',
                     'choices' => [
                         'default' => 'default',
                         'primary' => 'primary',
