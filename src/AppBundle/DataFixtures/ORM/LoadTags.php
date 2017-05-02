@@ -39,27 +39,34 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
     {
         // Load Tags
         $tags = [
-            'Défaut'    ,'default'  ,'label'    ,'default',
-            'Principal' ,'primary'  ,'label'    ,'primary',
-            'Info'      ,'info'     ,'label'    ,'info',
-            'Succès'    ,'success'  ,'label'    ,'success',
-            'Alerte'    ,'warning'  ,'label'    ,'warning',
-            'Danger'    ,'danger'   ,'label'    ,'danger',
-            'Article'   ,'post'     ,'post'     ,'default',
-            'Document'  ,'document' ,'document' ,'default',
-            'Pdf'       ,'pdf'      ,'document' ,'default',
-            'Image'     ,'picture'  ,'picture'  ,'default',
-            'Lien'      ,'link'     ,'link'     ,'default',
-            'Vidéo'     ,'video'    ,'video'    ,'default',
+            'Défaut'       ,'default'     ,'default',
+            'Principal'    ,'primary'     ,'primary',
+            'Info'         ,'info'        ,'info',
+            'Succès'       ,'success'     ,'success',
+            'Alerte'       ,'warning'     ,'warning',
+            'Danger'       ,'danger'      ,'danger',
+            'Article'      ,'post'        ,'primary',
+            'Gist'         ,'gist'        ,'primary',
+            'Document'     ,'document'    ,'default',
+            'Embeddable'   ,'embeddable'  ,'default',
+            'Fichier'      ,'file'        ,'default',
+            'Image'        ,'image'       ,'success',
+            'Photo'        ,'picture'     ,'success',
+            'Theta S'      ,'thetas'      ,'success',
+            'Argus 360'    ,'argus360'    ,'success',
+            'Lien'         ,'link'        ,'warning',
+            'Vidéo'        ,'video'       ,'danger',
+            'Youtube'      ,'youtube'     ,'danger',
+            'Vimeo'        ,'vimeo'       ,'danger',
+            'Daily Motion' ,'dailymotion' ,'danger',
         ];
 
         for ($i = 0; $i < count($tags); $i = $i + 4) {
             // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $i])) {
+            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $tags[$i]])) {
                 $tag = new Tag();
                 $tag->setName($tags[$i])
                     ->setType($tags[$i+1])
-                    ->setCategory($tags[$i+2])
                     ->setLabel($tags[$i+3])
                     ->setReadOnly();
 
