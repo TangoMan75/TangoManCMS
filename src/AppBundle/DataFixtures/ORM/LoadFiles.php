@@ -68,10 +68,10 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
                 for ($j = 0; $j < count($fileNames); $j++) {
                     $doc = new Media();
-                    $doc->setType('pptx')
+                    $doc->addCategory('pptx')
                         ->setTitle($faker->sentence(4, true))
                         ->setText($faker->text(mt_rand(100, 255)))
-                        ->setFileName($fileNames[$j])
+                        ->setDocumentFileName($fileNames[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setUser($user)
                         ->setPage($pages[mt_rand(0, count($pages) - 1)])
@@ -88,10 +88,10 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
                 for ($j = 0; $j < count($fileNames); $j++) {
                     $doc = new Media();
-                    $doc->setType('pdf')
+                    $doc->addCategory('pdf')
                         ->setTitle($faker->sentence(4, true))
                         ->setText($faker->text(mt_rand(100, 255)))
-                        ->setFileName($fileNames[$j])
+                        ->setDocumentFileName($fileNames[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setPage($pages[mt_rand(0, count($pages) - 1)])
                         ->setUser($user)

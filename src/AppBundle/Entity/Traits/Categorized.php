@@ -18,6 +18,24 @@ Trait Categorized
     private $categories = [];
 
     /**
+     * @var array
+     */
+    private $assoc = [
+        'csv'  => 'document',
+        'doc'  => 'document',
+        'ods'  => 'document',
+        'odt'  => 'document',
+        'pdf'  => 'document',
+        'pptx' => 'document',
+        'txt'  => 'document',
+        'xls'  => 'document',
+        'gif'  => 'image',
+        'jpeg' => 'image',
+        'jpg'  => 'image',
+        'png'  => 'image',
+    ];
+
+    /**
      * @return array
      */
     public function getCategories()
@@ -52,11 +70,25 @@ Trait Categorized
      */
     public function addCategory($category)
     {
-        if (!in_array($category, $this->categories)) {
-            array_push($this->categories, $category);
+        $this->checkCategory($category);
+
+        foreach ($this->assoc as $type => $assoc) {
+            if ($category == $type) {
+                $this->checkCategory($assoc);
+            }
         }
 
         return $this;
+    }
+
+    /**
+     * @param $category
+     */
+    public function checkCategory($category)
+    {
+        if (!in_array($category, $this->categories)) {
+            array_push($this->categories, $category);
+        }
     }
 
     /**
