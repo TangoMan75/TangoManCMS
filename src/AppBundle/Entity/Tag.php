@@ -31,15 +31,29 @@ class Tag
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="L'étiquette doit appartnir à un type.")
      */
     private $type;
 
     /**
-     * @var ArrayCollection
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank(message="L'étiquette doit appartenir à une categorie.")
+     */
+    private $category;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $label;
+
+    /**
+     * @var array|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      */
-    private $items;
+    private $items = [];
 
     /**
      * @var bool
@@ -53,12 +67,11 @@ class Tag
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->label = 'default';
         $this->readOnly = false;
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -67,8 +80,6 @@ class Tag
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      *
      * @return Tag
@@ -83,8 +94,6 @@ class Tag
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -93,8 +102,6 @@ class Tag
     }
 
     /**
-     * Set type
-     *
      * @param string $type
      *
      * @return Tag
@@ -102,15 +109,13 @@ class Tag
     public function setType($type)
     {
         if (!$this->readOnly) {
-            $this->type = $type;
+            $this->type = mb_strtolower($type, 'UTF-8');
         }
 
         return $this;
     }
 
     /**
-     * Get type
-     *
      * @return string
      */
     public function getType()
@@ -119,8 +124,50 @@ class Tag
     }
 
     /**
-     * Add item
+     * @param string $category
      *
+     * @return $this
+     */
+    public function setCategory($category)
+    {
+        if (!$this->readOnly) {
+            $this->category = mb_strtolower($category, 'UTF-8');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * @param string $label
+     *
+     * @return $this
+     */
+    public function setLabel($label)
+    {
+        if (!$this->readOnly) {
+            $this->label = mb_strtolower($label, 'UTF-8');
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
      * @return Tag
      */
     public function addItem($item)
@@ -133,8 +180,6 @@ class Tag
     }
 
     /**
-     * Get items
-     *
      * @return ArrayCollection
      */
     public function getItems()
@@ -143,8 +188,6 @@ class Tag
     }
 
     /**
-     * Remove item
-     *
      * @param $item
      *
      * @return Tag

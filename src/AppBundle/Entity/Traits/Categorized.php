@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity\Traits;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class Categorized
  * This class is designed to provide a simple and straitforward way to categorize entities.
@@ -12,7 +14,7 @@ namespace AppBundle\Entity\Traits;
 Trait Categorized
 {
     /**
-     * @var array
+     * @var array|ArrayCollection
      * @ORM\Column(type="simple_array", nullable=true)
      */
     private $categories = [];

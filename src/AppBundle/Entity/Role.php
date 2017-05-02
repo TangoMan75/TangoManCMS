@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Role
@@ -23,6 +24,7 @@ class Role
     /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank(message="L'étiquette doit avoir un nom.")
      */
     private $name;
 
@@ -31,6 +33,12 @@ class Role
      * @ORM\Column(type="string", length=255, unique=true)
      */
     private $role;
+
+    /**
+     * @var array|ArrayCollection
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $privileges = [];
 
     /**
      * @var User[]
@@ -56,6 +64,7 @@ class Role
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->privileges = new ArrayCollection();
         $this->hierarchy = 0;
         $this->readOnly = false;
     }
@@ -114,6 +123,48 @@ class Role
         if (!$this->readOnly) {
             $this->role = $role;
         }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrivileges()
+    {
+        return $this->privileges;
+    }
+
+    /**
+     * @return bool
+     */
+    public function hasPrivilege($privilege)
+    {
+        if (in_array($privilege, $this->privileges)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param $privilege
+     */
+    public function addPrivilege($privilege)
+    {
+        if (in_array($privilege, $this->privileges)) {
+            $this->privileges[] = $privilege;
+        }
+    }
+
+    /**
+     * @param String $privilege
+     *
+     * @return $this
+     */
+    public function removePrivilege($privilege)
+    {
+        $this->privileges->removeElement($privilege);
 
         return $this;
     }

@@ -34,6 +34,7 @@ class TagsCommand extends ContainerAwareCommand
             'Succès'    => 'success',
             'Alerte'    => 'warning',
             'Danger'    => 'danger',
+            'Article'   => 'default',
             'Document'  => 'default',
             'Image'     => 'default',
             'Lien'      => 'default',
@@ -49,6 +50,7 @@ class TagsCommand extends ContainerAwareCommand
                     ->setReadOnly();
 
                 $em->persist($tag);
+
                 $output->writeln('<question>Tag "'.$tag.'" created with type :"'.$type.'"</question>');
             } else {
                 $output->writeln('<question>Tag "'.$name.'" exists already.</question>');

@@ -39,25 +39,30 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
     {
         // Load Tags
         $tags = [
-            'Défaut'    => 'default',
-            'Principal' => 'primary',
-            'Info'      => 'info',
-            'Succès'    => 'success',
-            'Alerte'    => 'warning',
-            'Danger'    => 'danger',
-            'Document'  => 'default',
-            'Image'     => 'default',
-            'Lien'      => 'default',
-            'Vidéo'     => 'default',
+            'Défaut'    ,'default'  ,'label'    ,'default',
+            'Principal' ,'primary'  ,'label'    ,'primary',
+            'Info'      ,'info'     ,'label'    ,'info',
+            'Succès'    ,'success'  ,'label'    ,'success',
+            'Alerte'    ,'warning'  ,'label'    ,'warning',
+            'Danger'    ,'danger'   ,'label'    ,'danger',
+            'Article'   ,'post'     ,'post'     ,'default',
+            'Document'  ,'document' ,'document' ,'default',
+            'Pdf'       ,'pdf'      ,'document' ,'default',
+            'Image'     ,'picture'  ,'picture'  ,'default',
+            'Lien'      ,'link'     ,'link'     ,'default',
+            'Vidéo'     ,'video'    ,'video'    ,'default',
         ];
 
-        foreach ($tags as $name => $type) {
+        for ($i = 0; $i < count($tags); $i = $i + 4) {
             // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $name])) {
+            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $i])) {
                 $tag = new Tag();
-                $tag->setName($name);
-                $tag->setType($type);
-                $tag->setReadOnly();
+                $tag->setName($tags[$i])
+                    ->setType($tags[$i+1])
+                    ->setCategory($tags[$i+2])
+                    ->setLabel($tags[$i+3])
+                    ->setReadOnly();
+
                 $em->persist($tag);
             }
         }
