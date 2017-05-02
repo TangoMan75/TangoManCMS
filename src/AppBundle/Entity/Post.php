@@ -133,6 +133,7 @@ class Post
 
     /**
      * Set default values
+     * @ORM\PrePersist()
      * @ORM\PreUpdate()
      *
      * @return $this

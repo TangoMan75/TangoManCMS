@@ -103,6 +103,7 @@ class Media
 
     /**
      * Set default values
+     * @ORM\PrePersist()
      * @ORM\PreUpdate()
      *
      * @return $this
