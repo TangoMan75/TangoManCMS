@@ -70,7 +70,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     $doc = new Media();
                     $doc->setType('pptx')
                         ->setTitle($faker->sentence(4, true))
-                        ->setDescription($faker->text(mt_rand(100, 255)))
+                        ->setText($faker->text(mt_rand(100, 255)))
                         ->setFileName($fileNames[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setUser($user)
@@ -90,7 +90,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     $doc = new Media();
                     $doc->setType('pdf')
                         ->setTitle($faker->sentence(4, true))
-                        ->setDescription($faker->text(mt_rand(100, 255)))
+                        ->setText($faker->text(mt_rand(100, 255)))
                         ->setFileName($fileNames[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setPage($pages[mt_rand(0, count($pages) - 1)])
