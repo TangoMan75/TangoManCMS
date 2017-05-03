@@ -31,11 +31,11 @@
                     </div>
 
                     {#<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">#}
-                        {#<label class="control-label col-sm-4" for="inputCategory">Category</label>#}
-                        {#<div class="col-sm-8">#}
-                            {#<input type="text" name="type" id="inputCategory" class="form-control"#}
-                                   {#value="{{ app.request.get('category') }}"/>#}
-                        {#</div>#}
+                    {#<label class="control-label col-sm-4" for="inputCategory">Category</label>#}
+                    {#<div class="col-sm-8">#}
+                    {#<input type="text" name="type" id="inputCategory" class="form-control"#}
+                    {#value="{{ app.request.get('category') }}"/>#}
+                    {#</div>#}
                     {#</div>#}
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -47,7 +47,7 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
+                        <label class="control-label col-sm-4" for="inputTitle">Nom</label>
                         <div class="col-sm-8">
                             <input type="text" name="title" id="inputTitle" class="form-control"
                                    value="{{ app.request.get('title') }}"/>
@@ -145,16 +145,24 @@
                         </a>
                     </th>
 
-                    <th>Image</th>
+                    <th class="{{ app.request.query.get('order') == 'image' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'image',
+                            'way'   : app.request.query.get('order') == 'image'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Image
+                        </a>
+                    </th>
 
                     {#<th class="{{ app.request.query.get('order') == 'categories' ? app.request.query.get('way', 'ASC') }}">#}
-                        {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({#}
-                            {#'page'  : 1,#}
-                            {#'order' : 'categories',#}
-                            {#'way'   : app.request.query.get('order') == 'categories'#}
-                            {#and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">#}
-                            {#Type#}
-                        {#</a>#}
+                    {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({#}
+                    {#'page'  : 1,#}
+                    {#'order' : 'categories',#}
+                    {#'way'   : app.request.query.get('order') == 'categories'#}
+                    {#and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">#}
+                    {#Type#}
+                    {#</a>#}
                     {#</th>#}
 
                     <th class="{{ app.request.query.get('order') == 'link' ? app.request.query.get('way', 'ASC') }}">
@@ -173,7 +181,7 @@
                             'order' : 'title',
                             'way'   : app.request.query.get('order') == 'title'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Titre
+                            Nom
                         </a>
                     </th>
 
@@ -261,14 +269,21 @@
                         </td>
                         <td>{{ media.slug }}</td>
                         <td>
-                            <div class="cover"
-                                 style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Media' }}');"></div>
+                            {% if media.category('youtube') or media.category('dailymotion') or media.category('vimeo') or media.category('argus360') %}
+                                <div class="cover"
+                                     style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Media' }}');">
+                                </div>
+                            {% else %}
+                                <div class="cover"
+                                     style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Media' }}');">
+                                </div>
+                            {% endif %}
                         </td>
                         {#<td>#}
-                            {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({'category' : media.categories})) }}"#}
-                               {#class="label label-primary">#}
-                                {#{{ media.categories }}#}
-                            {#</a>#}
+                        {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({'category' : media.categories})) }}"#}
+                        {#class="label label-primary">#}
+                        {#{{ media.categories }}#}
+                        {#</a>#}
                         {#</td>#}
                         <td>
                             {% if media.category('pdf') or media.category('pptx') %}
@@ -314,19 +329,19 @@
                         <td>{{ media.created|date('d/m/Y H:i:s') }}</td>
                         <td>{{ media.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
-                        {% if media.published %}
-                        <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
-                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
-                    data-original-title="Retirer la publication">
-                        <span class="glyphicon glyphicon-ok"></span>
-                        </a>
-                    {% else %}
-                        <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
-                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
-                    data-original-title="Publier ce média">
-                        <span class="glyphicon glyphicon-remove"></span>
-                        </a>
-                        {% endif %}
+                            {% if media.published %}
+                                <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                   class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Retirer la publication">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                   class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Publier ce média">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            {% endif %}
                         </td>
                         <td>
                             <a href="{{ path('app_admin_media_edit', { 'id': media.id, 'callback': app.request.uri|callback }) }}"

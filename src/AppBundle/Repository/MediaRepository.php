@@ -50,6 +50,15 @@ class MediaRepository extends EntityRepository
                 $dql->addSelect('user.username as orderParam');
                 break;
 
+            case 'comments':
+                $dql->addSelect('COUNT(comments) as orderParam');
+                $dql->leftJoin('media.comments', 'comments');
+                break;
+
+            case 'image':
+                $dql->addSelect('COUNT(media.image) as orderParam');
+                break;
+
             case 'page':
                 $dql->addSelect('page.title as orderParam');
                 $dql->leftJoin('media.page', 'page');

@@ -68,7 +68,7 @@ Trait Embeddable
                 case 'www.car360app.com':
                 case 'www.argus360.fr':
                     $this->addCategory('argus360');
-                    // https://car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
+                    // //car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
                     $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
             }
