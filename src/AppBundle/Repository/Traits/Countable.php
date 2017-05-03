@@ -9,12 +9,16 @@ Trait Countable
     /**
      * Get count
      *
+     * @param $table
+     *
      * @return int $count
      */
-    public function count($column)
+    public function count($table)
     {
-        return $this->createQueryBuilder($column)
-            ->select('COUNT('.$column.')')
+        $name = \ReflectionClass::getName;
+
+        return $this->createQueryBuilder($table)
+            ->select('COUNT('.$table.')')
             ->getQuery()
             ->getSingleScalarResult();
     }

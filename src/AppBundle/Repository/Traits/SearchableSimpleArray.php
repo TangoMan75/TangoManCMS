@@ -8,6 +8,7 @@ Trait SearchableSimpleArray
 {
     /**
      * @param QueryBuilder $dql
+     * @param              $table
      * @param              $column
      * @param              $search
      *
