@@ -10,9 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Tag
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Tag
 {
+    use Traits\Slugify;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -30,8 +33,7 @@ class Tag
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="L'étiquette doit appartenir à un type.")
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $type;
 
@@ -43,8 +45,9 @@ class Tag
 
     /**
      * @var array|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      */
     private $items = [];
 
@@ -102,17 +105,7 @@ class Tag
     public function setType($type)
     {
         if (!$this->readOnly) {
-            $slug = trim($type);
-            // Remove accents
-            $slug = htmlentities($slug, ENT_NOQUOTES, 'UTF-8');
-            $slug = preg_replace('/&#?([a-zA-Z])[a-zA-Z0-9]*;/i', '${1}', $slug);
-            // Convert string
-            $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
-            // Remove illegal characters
-            $slug = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $slug);
-            $slug = mb_strtolower(trim($slug, '-'), 'UTF-8');
-            $slug = preg_replace("/[\/_|+ -]+/", '-', $slug);
-            $this->type = $slug;
+            $this->type = $this->slugify($type);
         }
 
         return $this;
@@ -134,7 +127,7 @@ class Tag
     public function setLabel($label)
     {
         if (!$this->readOnly) {
-            $this->label = mb_strtolower($label, 'UTF-8');
+            $this->lable = $this->slugify($lable);
         }
 
         return $this;
@@ -196,6 +189,22 @@ class Tag
     public function setReadOnly()
     {
         $this->readOnly = true;
+
+        return $this;
+    }
+
+    /**
+     * Set default values
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     *
+     * @return $this
+     */
+    public function setDefaults()
+    {
+        if (!$this->type) {
+            $this->setType($this->name);
+        }
 
         return $this;
     }

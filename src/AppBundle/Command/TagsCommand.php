@@ -74,7 +74,7 @@ class TagsCommand extends ContainerAwareCommand
 
         for ($i = 0; $i < count($tags); $i = $i + 3) {
             // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $tags[$i]])) {
+            if (!$em->getRepository('AppBundle:Tag')->findBy(['type' => $tags[$i+1]])) {
                 $tag = new Tag();
                 $tag->setName($tags[$i])
                     ->setType($tags[$i + 1])

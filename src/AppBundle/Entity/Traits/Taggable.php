@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Taggable
+ * 1. Requires Tag "item" method to be marked with "OneToMany" annotation.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits

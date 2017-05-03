@@ -29,7 +29,8 @@ class AdminTagType extends AbstractType
                 'type',
                 TextType::Class,
                 [
-                    'label' => 'Type',
+                    'label'    => 'Type',
+                    'required' => false,
                 ]
             )
             ->add(
