@@ -13,8 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Tag
 {
-    use Traits\Sluggable;
-
     /**
      * @var int
      * @ORM\Column(type="integer")
