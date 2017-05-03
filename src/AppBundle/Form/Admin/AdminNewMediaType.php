@@ -30,7 +30,7 @@ class AdminNewMediaType extends AbstractType
                 ]
             )
             ->add(
-                'description',
+                'text',
                 TextareaType::Class,
                 [
                     'label'    => 'Description',

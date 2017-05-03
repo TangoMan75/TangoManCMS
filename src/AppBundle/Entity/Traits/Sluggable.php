@@ -73,9 +73,12 @@ trait Sluggable
             $slug = htmlentities($slug, ENT_NOQUOTES, 'UTF-8');
             $slug = preg_replace('/&#?([a-zA-Z])[a-zA-Z0-9]*;/i', '${1}', $slug);
         }
+        // Convert string
         $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+        // Remove illegal characters
         $slug = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $slug);
-        $slug = strtolower(trim($slug, $separator));
+        $slug = mb_strtolower(trim($slug, $separator), 'UTF-8');
+        // Replace illegal characters
         $slug = preg_replace("/[\/_|+ -]+/", $separator, $slug);
 
         return $slug;

@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Tag
 {
+    use Traits\Sluggable;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -102,7 +104,17 @@ class Tag
     public function setType($type)
     {
         if (!$this->readOnly) {
-            $this->type = mb_strtolower($type, 'UTF-8');
+            $slug = trim($type);
+            // Remove accents
+            $slug = htmlentities($slug, ENT_NOQUOTES, 'UTF-8');
+            $slug = preg_replace('/&#?([a-zA-Z])[a-zA-Z0-9]*;/i', '${1}', $slug);
+            // Convert string
+            $slug = iconv('UTF-8', 'ASCII//TRANSLIT', $slug);
+            // Remove illegal characters
+            $slug = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $slug);
+            $slug = mb_strtolower(trim($slug, '-'), 'UTF-8');
+            $slug = preg_replace("/[\/_|+ -]+/", '-', $slug);
+            $this->type = $slug;
         }
 
         return $this;
