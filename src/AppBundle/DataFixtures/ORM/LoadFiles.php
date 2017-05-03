@@ -35,7 +35,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 10;
+        return 11;
     }
 
     /**
@@ -54,26 +54,35 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Gets pages
         $pages = $em->getRepository('AppBundle:Page')->findAll();
 
+        // Get pptx
+        $pptx = array_map(
+            function ($filename) {
+                return basename($filename);
+            },
+            glob($this->rootdir."/uploads/documents/*.{pptx,PPTX}", GLOB_BRACE)
+        );
+
+        // Get pdf
+        $pdf = array_map(
+            function ($filename) {
+                return basename($filename);
+            },
+            glob($this->rootdir."/uploads/documents/*.{pdf,PDF}", GLOB_BRACE)
+        );
+
         foreach ($users as $user) {
 
             // Creates between 1 & 10 medias for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
-                $fileNames = array_map(
-                    function ($filename) {
-                        return basename($filename);
-                    },
-                    glob($this->rootdir."/uploads/documents/*.{pptx,PPTX}", GLOB_BRACE)
-                );
-
-                for ($j = 0; $j < count($fileNames); $j++) {
+                for ($j = 0; $j < count($pptx); $j++) {
                     $doc = new Media();
                     $doc->addCategory('pptx')
                         ->addCategory('file')
                         ->addCategory('document')
                         ->setTitle($faker->sentence(4, true))
                         ->setText($faker->text(mt_rand(100, 255)))
-                        ->setDocumentFileName($fileNames[$j])
+                        ->setDocumentFileName($pptx[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setUser($user)
                         ->setPage($pages[mt_rand(0, count($pages) - 1)])
@@ -81,21 +90,14 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     $em->persist($doc);
                 }
 
-                $fileNames = array_map(
-                    function ($filename) {
-                        return basename($filename);
-                    },
-                    glob($this->rootdir."/uploads/documents/*.{pdf,PDF}", GLOB_BRACE)
-                );
-
-                for ($j = 0; $j < count($fileNames); $j++) {
+                for ($j = 0; $j < count($pdf); $j++) {
                     $doc = new Media();
                     $doc->addCategory('pdf')
                         ->addCategory('file')
                         ->addCategory('document')
                         ->setTitle($faker->sentence(4, true))
                         ->setText($faker->text(mt_rand(100, 255)))
-                        ->setDocumentFileName($fileNames[$j])
+                        ->setDocumentFileName($pdf[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setPage($pages[mt_rand(0, count($pages) - 1)])
                         ->setUser($user)

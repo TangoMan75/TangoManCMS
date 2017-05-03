@@ -37,7 +37,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
      */
     public function load(ObjectManager $em)
     {
-        // Load Tags
+        // Default Tags
         $tags = [
             'Défaut',                   'default',     'default',
             'Principal',                'primary',     'primary',
@@ -82,8 +82,8 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
             if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $tags[$i]])) {
                 $tag = new Tag();
                 $tag->setName($tags[$i])
-                    ->setType($tags[$i+1])
-                    ->setLabel($tags[$i+2])
+                    ->setType($tags[$i + 1])
+                    ->setLabel($tags[$i + 2])
                     ->setReadOnly();
 
                 $em->persist($tag);

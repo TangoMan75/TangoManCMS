@@ -30,7 +30,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 6;
+        return 7;
     }
 
     /**
@@ -40,12 +40,15 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         $faker = Factory::create('fr_FR');
 
-        // Gets users
-        // findBy is the only working method in fixtures
+        // Get 100 users
+        // findBy seems to be the only working method in fixtures
         $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
-        // Gets pages
+        // Get pages
         $pages = $em->getRepository('AppBundle:Page')->findAll();
+
+        // Get tags
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
         foreach ($users as $user) {
 
@@ -53,17 +56,17 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
                 $post = new Post();
-                $post->setUser($user)
+                $post->setUser($users[mt_rand(1, count($users) - 1)])
                     ->setTitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
                     ->setPage($pages[mt_rand(0, count($pages) - 1)])
                     ->setPublished($i % 2);
 
-                $tags = $em->getRepository('AppBundle:Tag')->findAll();
-
-                for ($j = 0; $j < mt_rand(0, 5); $j++) {
-                    $post->addTag($tags[mt_rand(0, 5)]);
+                // Adds between 1 & 5 random tags to post
+                shuffle($tags);
+                for ($j = 0; $j < mt_rand(1, 5); $j++) {
+                    $post->addTag($tags[$j]);
                 }
 
                 $em->persist($post);

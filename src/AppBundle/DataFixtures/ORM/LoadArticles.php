@@ -35,7 +35,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 11;
+        return 6;
     }
 
     /**
@@ -47,47 +47,45 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
 
         $faker = Factory::create('fr_FR');
 
-        // Gets users
-        // findBy is the only working method in fixtures
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
+        // Get users
+        $users = $em->getRepository('AppBundle:User')->findAll();
 
-        // Gets pages
+        // Get pages
         $pages = $em->getRepository('AppBundle:Page')->findAll();
 
-        foreach ($users as $user) {
+        // Get tags
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
-            // Creates between 1 & 10 posts for each user
-            for ($i = 0; $i < mt_rand(1, 10); $i++) {
+        // Get images
+        $fileNames = array_map(
+            function ($filename) {
+                return basename($filename);
+            },
+            glob($this->rootdir."/uploads/images/*.{jpg,JPG,jpeg,JPEG}", GLOB_BRACE)
+        );
 
-                $fileNames = array_map(
-                    function ($filename) {
-                        return basename($filename);
-                    },
-                    glob($this->rootdir."/uploads/images/*.{jpg,JPG,jpeg,JPEG}", GLOB_BRACE)
-                );
+        // Creates between 1 & 10 posts for each user
+        for ($i = 0; $i < count($fileNames); $i++) {
 
-                for ($j = 0; $j < count($fileNames); $j++) {
-                    $post = new Post();
-                    $post->addCategory('post')
-                        ->setTitle($faker->sentence(4, true))
-                        ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
-                        ->setImageFileName($fileNames[$j])
-                        ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                        ->setUser($user)
-                        ->setPage($pages[mt_rand(0, count($pages) - 1)])
-                        ->setPublished($i % 2);
+            $post = new Post();
+            $post->addCategory('post')
+                ->setTitle($faker->sentence(4, true))
+                ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
+                ->setImageFileName($fileNames[$i])
+                ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                ->setUser($users[mt_rand(1, count($users) - 1)])
+                ->setPage($pages[mt_rand(1, count($pages) - 1)])
+                ->setPublished($i % 2);
 
-                    // Adds between 1 & 5 tags to post
-	                $tags = $em->getRepository('AppBundle:Tag')->findAll();
-	                for ($j = 0; $j < mt_rand(0, 5); $j++) {
-	                    $post->addTag($tags[mt_rand(0, 5)]);
-	                }
-
-                    $em->persist($post);
-                }
+            // Adds between 1 & 5 random tags to post
+            shuffle($tags);
+            for ($j = 0; $j < mt_rand(1, 5); $j++) {
+                $post->addTag($tags[$j]);
             }
 
-            $em->flush();
+            $em->persist($post);
         }
+
+        $em->flush();
     }
 }

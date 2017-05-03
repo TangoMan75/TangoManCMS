@@ -30,7 +30,7 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
      */
     public function getOrder()
     {
-        return 8;
+        return 9;
     }
 
     /**
