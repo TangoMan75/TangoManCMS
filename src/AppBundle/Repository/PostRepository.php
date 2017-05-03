@@ -12,6 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostRepository extends EntityRepository
 {
+    use Traits\SearchableSimpleArray;
+
     /**
      * @param ParameterBag $query
      *
@@ -44,23 +46,27 @@ class PostRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
+            case 'author':
+                $dql->addSelect('user.username as orderParam');
+                break;
+
             case 'comments':
                 $dql->addSelect('COUNT(comments) as orderParam');
                 $dql->leftJoin('post.comments', 'comments');
                 break;
 
-            case 'tags':
-                $dql->addSelect('COUNT(tags) as orderParam');
-                $dql->leftJoin('post.tags', 'tags');
-                break;
-
-            case 'author':
-                $dql->addSelect('user.username as orderParam');
+            case 'image':
+                $dql->addSelect('COUNT(post.image) as orderParam');
                 break;
 
             case 'page':
                 $dql->addSelect('page.title as orderParam');
                 $dql->leftJoin('post.page', 'page');
+                break;
+
+            case 'tags':
+                $dql->addSelect('COUNT(tags) as orderParam');
+                $dql->leftJoin('post.tags', 'tags');
                 break;
 
             default:
@@ -93,29 +99,18 @@ class PostRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
+        if ($query->get('category')) {
+            $dql = $this->searchSimpleArray($dql, 'post', 'category', $query->get('category'));
+        }
+
         if ($query->get('id')) {
             $dql->andWhere('post.id = :id')
                 ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('slug')) {
-            $dql->andWhere('post.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('slug').'%');
-        }
-
-        if ($query->get('title')) {
-            $dql->andWhere('post.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('title').'%');
-        }
-
-        if ($query->get('text')) {
-            $dql->andWhere('post.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('text').'%');
-        }
-
-        if ($query->get('user')) {
-            $dql->andWhere('user.username LIKE :user')
-                ->setParameter(':user', '%'.$query->get('user').'%');
+        if ($query->get('link')) {
+            $dql->andWhere('post.link LIKE :link')
+                ->setParameter(':link', '%'.$query->get('link').'%');
         }
 
         switch ($query->get('published')) {
@@ -128,6 +123,11 @@ class PostRepository extends EntityRepository
                     ->setParameter(':published', 0);
         }
 
+        if ($query->get('slug')) {
+            $dql->andWhere('post.slug LIKE :slug')
+                ->setParameter(':slug', '%'.$query->get('slug').'%');
+        }
+
         if ($query->get('s_page')) {
             $dql->andWhere('page.title LIKE :page')
                 ->leftJoin('post.page', 'page')
@@ -138,6 +138,21 @@ class PostRepository extends EntityRepository
             $dql->andWhere('tag.name LIKE :tag')
                 ->leftJoin('post.tags', 'tag')
                 ->setParameter(':tag', '%'.$query->get('tag').'%');
+        }
+
+        if ($query->get('text')) {
+            $dql->andWhere('post.content LIKE :content')
+                ->setParameter(':content', '%'.$query->get('text').'%');
+        }
+
+        if ($query->get('title')) {
+            $dql->andWhere('post.title LIKE :title')
+                ->setParameter(':title', '%'.$query->get('title').'%');
+        }
+
+        if ($query->get('user')) {
+            $dql->andWhere('user.username LIKE :user')
+                ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
         return $dql;

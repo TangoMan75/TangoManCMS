@@ -91,16 +91,6 @@ class PageRepository extends EntityRepository
                 ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('slug')) {
-            $dql->andWhere('page.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('slug').'%');
-        }
-
-        if ($query->get('title')) {
-            $dql->andWhere('page.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('title').'%');
-        }
-
         switch ($query->get('published')) {
             case 'true':
                 $dql->andWhere('page.published = :published')
@@ -111,10 +101,20 @@ class PageRepository extends EntityRepository
                     ->setParameter(':published', 0);
         }
 
+        if ($query->get('slug')) {
+            $dql->andWhere('page.slug LIKE :slug')
+                ->setParameter(':slug', '%'.$query->get('slug').'%');
+        }
+
         if ($query->get('tag')) {
             $dql->andWhere('tag.name LIKE :tag')
                 ->leftJoin('page.tags', 'tag')
                 ->setParameter(':tag', '%'.$query->get('tag').'%');
+        }
+
+        if ($query->get('title')) {
+            $dql->andWhere('page.title LIKE :title')
+                ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
         return $dql;

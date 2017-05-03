@@ -12,6 +12,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MediaRepository extends EntityRepository
 {
+    use Traits\SearchableSimpleArray;
+
     /**
      * @param ParameterBag $query
      *
@@ -44,11 +46,6 @@ class MediaRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'tags':
-                $dql->addSelect('COUNT(tags) as orderParam');
-                $dql->leftJoin('media.tags', 'tags');
-                break;
-
             case 'author':
                 $dql->addSelect('user.username as orderParam');
                 break;
@@ -56,6 +53,11 @@ class MediaRepository extends EntityRepository
             case 'page':
                 $dql->addSelect('page.title as orderParam');
                 $dql->leftJoin('media.page', 'page');
+                break;
+
+            case 'tags':
+                $dql->addSelect('COUNT(tags) as orderParam');
+                $dql->leftJoin('media.tags', 'tags');
                 break;
 
             default:
@@ -88,34 +90,18 @@ class MediaRepository extends EntityRepository
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
+        if ($query->get('category')) {
+            $dql = $this->searchSimpleArray($dql, 'media', 'category', $query->get('category'));
+        }
+
         if ($query->get('id')) {
             $dql->andWhere('media.id = :id')
                 ->setParameter(':id', $query->get('id'));
         }
 
-        if ($query->get('slug')) {
-            $dql->andWhere('media.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('slug').'%');
-        }
-
-        if ($query->get('title')) {
-            $dql->andWhere('media.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('title').'%');
-        }
-
         if ($query->get('link')) {
             $dql->andWhere('media.link LIKE :link')
                 ->setParameter(':link', '%'.$query->get('link').'%');
-        }
-
-        if ($query->get('text')) {
-            $dql->andWhere('media.text LIKE :text')
-                ->setParameter(':text', '%'.$query->get('text').'%');
-        }
-
-        if ($query->get('user')) {
-            $dql->andWhere('user.username LIKE :user')
-                ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
         switch ($query->get('published')) {
@@ -126,6 +112,11 @@ class MediaRepository extends EntityRepository
             case 'false':
                 $dql->andWhere('media.published = :published')
                     ->setParameter(':published', 0);
+        }
+
+        if ($query->get('slug')) {
+            $dql->andWhere('media.slug LIKE :slug')
+                ->setParameter(':slug', '%'.$query->get('slug').'%');
         }
 
         if ($query->get('s_page')) {
@@ -140,15 +131,20 @@ class MediaRepository extends EntityRepository
                 ->setParameter(':tag', '%'.$query->get('tag').'%');
         }
 
-        if ($query->get('category')) {
-            $dql->andWhere('media.categories LIKE :category')
-                ->setParameter(':category', $query->get('category'))
-                ->orWhere('media.categories LIKE :start')
-                ->setParameter(':start', $query->get('category').',%')
-                ->orWhere('media.categories LIKE :end')
-                ->setParameter(':end', '%,'.$query->get('category'));
+        if ($query->get('text')) {
+            $dql->andWhere('media.text LIKE :text')
+                ->setParameter(':text', '%'.$query->get('text').'%');
         }
 
+        if ($query->get('title')) {
+            $dql->andWhere('media.title LIKE :title')
+                ->setParameter(':title', '%'.$query->get('title').'%');
+        }
+
+        if ($query->get('user')) {
+            $dql->andWhere('user.username LIKE :user')
+                ->setParameter(':user', '%'.$query->get('user').'%');
+        }
         return $dql;
     }
 

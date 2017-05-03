@@ -11,6 +11,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+    use Traits\SearchableSimpleArray;
+
     /**
      * @param ParameterBag $query
      *
@@ -40,7 +42,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         // Search inside simple arrays
         if ($query->get('role')) {
-            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
+            $dql = $this->searchSimpleArray($dql, 'user', 'roles', $query->get('role'));
         }
 
         // Search inside id, username and email columns
@@ -48,8 +50,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         // Order according to ownership count
         switch ($order) {
-            case 'status':
-                $dql->addSelect('COUNT(user.password) as orderParam');
+            case 'comments':
+                $dql->addSelect('COUNT(comment.id) as orderParam');
+                $dql->leftJoin('user.comments', 'comment');
                 break;
 
             case 'posts':
@@ -57,9 +60,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 $dql->leftJoin('user.posts', 'post');
                 break;
 
-            case 'comments':
-                $dql->addSelect('COUNT(comment.id) as orderParam');
-                $dql->leftJoin('user.comments', 'comment');
+            case 'status':
+                $dql->addSelect('COUNT(user.password) as orderParam');
                 break;
 
             default:
@@ -91,14 +93,14 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
+        if ($query->get('email')) {
+            $dql->andWhere('user.email LIKE :email')
+                ->setParameter(':email', '%'.$query->get('email').'%');
+        }
+
         if ($query->get('id')) {
             $dql->andWhere('user.id = :id')
                 ->setParameter(':id', $query->get('id'));
-        }
-
-        if ($query->get('username')) {
-            $dql->andWhere('user.username LIKE :username')
-                ->setParameter(':username', '%'.$query->get('username').'%');
         }
 
         switch ($query->get('status')) {
@@ -109,9 +111,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 $dql->andWhere('user.password IS NULL');
         }
 
-        if ($query->get('email')) {
-            $dql->andWhere('user.email LIKE :email')
-                ->setParameter(':email', '%'.$query->get('email').'%');
+        if ($query->get('username')) {
+            $dql->andWhere('user.username LIKE :username')
+                ->setParameter(':username', '%'.$query->get('username').'%');
         }
 
         return $dql;
@@ -125,30 +127,9 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     public function findByRole($role)
     {
         $dql = $this->createQueryBuilder('user');
-        $dql = $this->searchSimpleArray($dql, 'roles', $role);
+        $dql = $this->searchSimpleArray($dql, 'user', 'roles', $role);
 
         return $dql->getQuery()->getResult();
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param              $columnName
-     * @param              $search
-     *
-     * @return QueryBuilder
-     */
-    public function searchSimpleArray(QueryBuilder $dql, $columnName, $search)
-    {
-        $dql->andWhere('user.'.$columnName.' LIKE :search')
-            ->setParameter(':search', $search)
-            ->orWhere('user.'.$columnName.' LIKE :start')
-            ->setParameter(':start', "$search,%")
-            ->orWhere('user.'.$columnName.' LIKE :end')
-            ->setParameter(':end', "%,$search")
-            ->orWhere('user.'.$columnName.' LIKE :middle')
-            ->setParameter(':middle', "%,$search,%");
-
-        return $dql;
     }
 
     /**

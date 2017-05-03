@@ -43,14 +43,14 @@ class CommentRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'user':
-                $dql->addSelect('user.username as orderParam');
-                $dql->leftJoin('comment.user', 'user');
-                break;
-
             case 'post':
                 $dql->addSelect('post.title as orderParam');
                 $dql->leftJoin('comment.post', 'post');
+                break;
+
+            case 'user':
+                $dql->addSelect('user.username as orderParam');
+                $dql->leftJoin('comment.user', 'user');
                 break;
 
             default:
@@ -93,17 +93,6 @@ class CommentRepository extends EntityRepository
                 ->setParameter(':post', '%'.$query->get('post').'%');
         }
 
-        if ($query->get('user')) {
-            $dql->andWhere('user.username LIKE :user')
-                ->leftJoin('comment.user', 'user')
-                ->setParameter(':user', '%'.$query->get('user').'%');
-        }
-
-        if ($query->get('text')) {
-            $dql->andWhere('comment.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('text').'%');
-        }
-
         switch ($query->get('published')) {
             case 'true':
                 $dql->andWhere('comment.published = :published')
@@ -112,6 +101,17 @@ class CommentRepository extends EntityRepository
             case 'false':
                 $dql->andWhere('comment.published = :published')
                     ->setParameter(':published', 0);
+        }
+
+        if ($query->get('text')) {
+            $dql->andWhere('comment.content LIKE :content')
+                ->setParameter(':content', '%'.$query->get('text').'%');
+        }
+
+        if ($query->get('user')) {
+            $dql->andWhere('user.username LIKE :user')
+                ->leftJoin('comment.user', 'user')
+                ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
         return $dql;
