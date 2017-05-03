@@ -2,7 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -10,7 +10,7 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadArticles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -35,7 +35,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 10;
+        return 11;
     }
 
     /**
@@ -56,51 +56,34 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
         foreach ($users as $user) {
 
-            // Creates between 1 & 10 medias for each user
+            // Creates between 1 & 10 posts for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
                 $fileNames = array_map(
                     function ($filename) {
                         return basename($filename);
                     },
-                    glob($this->rootdir."/uploads/documents/*.{pptx,PPTX}", GLOB_BRACE)
+                    glob($this->rootdir."/uploads/images/*.{jpg,JPG,jpeg,JPEG}", GLOB_BRACE)
                 );
 
                 for ($j = 0; $j < count($fileNames); $j++) {
-                    $doc = new Media();
-                    $doc->addCategory('pptx')
-                        ->addCategory('file')
-                        ->addCategory('document')
+                    $post = new Post();
+                    $post->addCategory('post')
                         ->setTitle($faker->sentence(4, true))
-                        ->setText($faker->text(mt_rand(100, 255)))
-                        ->setDocumentFileName($fileNames[$j])
+                        ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
+                        ->setImageFileName($fileNames[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setUser($user)
                         ->setPage($pages[mt_rand(0, count($pages) - 1)])
                         ->setPublished($i % 2);
-                    $em->persist($doc);
-                }
 
-                $fileNames = array_map(
-                    function ($filename) {
-                        return basename($filename);
-                    },
-                    glob($this->rootdir."/uploads/documents/*.{pdf,PDF}", GLOB_BRACE)
-                );
+                    // Adds between 1 & 5 tags to post
+	                $tags = $em->getRepository('AppBundle:Tag')->findAll();
+	                for ($j = 0; $j < mt_rand(0, 5); $j++) {
+	                    $post->addTag($tags[mt_rand(0, 5)]);
+	                }
 
-                for ($j = 0; $j < count($fileNames); $j++) {
-                    $doc = new Media();
-                    $doc->addCategory('pdf')
-                        ->addCategory('file')
-                        ->addCategory('document')
-                        ->setTitle($faker->sentence(4, true))
-                        ->setText($faker->text(mt_rand(100, 255)))
-                        ->setDocumentFileName($fileNames[$j])
-                        ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                        ->setPage($pages[mt_rand(0, count($pages) - 1)])
-                        ->setUser($user)
-                        ->setPublished($i % 2);
-                    $em->persist($doc);
+                    $em->persist($post);
                 }
             }
 

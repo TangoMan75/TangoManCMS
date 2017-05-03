@@ -10,7 +10,7 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class LoadMedias implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -62,20 +62,19 @@ class LoadMedias implements FixtureInterface, ContainerAwareInterface, OrderedFi
             'https://www.youtube.com//watch?v=WwvwvjNjQaQ',
             'http://www.dailymotion.com/video/x5ghopx_le-nouveau-projet-fou-d-elon-musk-relier-le-cerveau-humain-a-un-ordinateur_tech',
             'http://www.dailymotion.com/video/x5ge5ut_ce-mec-est-le-roi-des-petits-effets-speciaux-du-quotidien_fun',
-            'https://gist.github.com/vovadocent/7b4a58d7d9e8abb3c68dd82607c2bbf0',
         ];
 
         foreach ($users as $user) {
 
             shuffle($links);
 
-            // Creates between 1 & 10 medias for each user
+            // Creates between 1 & 10 videos for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
                 $media = new Media();
                 $media->setUser($user)
                     ->setTitle($faker->sentence(4, true))
-                    ->setText($faker->text(mt_rand(100, 255)))
+                    ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                     ->setLink($links[$i])
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
                     ->setPage($pages[mt_rand(0, count($pages) - 1)])

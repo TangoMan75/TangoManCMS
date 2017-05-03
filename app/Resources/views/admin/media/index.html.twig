@@ -145,6 +145,8 @@
                         </a>
                     </th>
 
+                    <th>Image</th>
+
                     {#<th class="{{ app.request.query.get('order') == 'categories' ? app.request.query.get('way', 'ASC') }}">#}
                         {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({#}
                             {#'page'  : 1,#}
@@ -258,6 +260,10 @@
                             </a>
                         </td>
                         <td>{{ media.slug }}</td>
+                        <td>
+                            <div class="cover"
+                                 style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Media' }}');"></div>
+                        </td>
                         {#<td>#}
                             {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({'category' : media.categories})) }}"#}
                                {#class="label label-primary">#}
