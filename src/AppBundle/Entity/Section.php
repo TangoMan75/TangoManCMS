@@ -134,7 +134,7 @@ class Section
      */
     public function addPost($post)
     {
-        if (!in_array($post, $this->posts)) {
+        if (!in_array($post, (array)$this->posts)) {
             $this->posts[] = $post;
         }
 
