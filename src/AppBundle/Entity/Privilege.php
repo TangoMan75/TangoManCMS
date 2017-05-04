@@ -10,6 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Privilege
  * @ORM\Table(name="privilege")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
+ *
  * @ORM\HasLifecycleCallbacks
  */
 class Privilege
@@ -33,23 +34,33 @@ class Privilege
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="boolean")
      */
-    private $type;
+    private $create;
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="boolean")
      */
-    private $label;
+    private $read;
+
+    /**
+     * @var string
+     * @ORM\Column(type="boolean")
+     */
+    private $update;
+
+    /**
+     * @var string
+     * @ORM\Column(type="boolean")
+     */
+    private $delete;
 
     /**
      * @var array|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="privileges")
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="privileges")
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="privileges")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges")
      */
-    private $items = [];
+    private $role = [];
 
     /**
      * @var bool
@@ -62,8 +73,11 @@ class Privilege
      */
     public function __construct()
     {
-        $this->items = new ArrayCollection();
-        $this->label = 'default';
+        $this->role = new ArrayCollection();
+        $this->create = false;
+        $this->read = false;
+        $this->update = false;
+        $this->delete = false;
         $this->readOnly = false;
     }
 
@@ -98,15 +112,21 @@ class Privilege
     }
 
     /**
-     * @param string $type
+     * @return string
+     */
+    public function getCreate()
+    {
+        return $this->create;
+    }
+
+    /**
+     * @param string $create
      *
      * @return Privilege
      */
-    public function setType($type)
+    public function setCreate($create)
     {
-        if (!$this->readOnly) {
-            $this->type = $this->slugify($type);
-        }
+        $this->create = $create;
 
         return $this;
     }
@@ -114,21 +134,19 @@ class Privilege
     /**
      * @return string
      */
-    public function getType()
+    public function getRead()
     {
-        return $this->type;
+        return $this->read;
     }
 
     /**
-     * @param string $label
+     * @param string $read
      *
-     * @return $this
+     * @return Privilege
      */
-    public function setLabel($label)
+    public function setRead($read)
     {
-        if (!$this->readOnly) {
-            $this->label = $this->slugify($label);
-        }
+        $this->read = $read;
 
         return $this;
     }
@@ -136,9 +154,41 @@ class Privilege
     /**
      * @return string
      */
-    public function getLabel()
+    public function getUpdate()
     {
-        return $this->label;
+        return $this->update;
+    }
+
+    /**
+     * @param string $update
+     *
+     * @return Privilege
+     */
+    public function setUpdate($update)
+    {
+        $this->update = $update;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDelete()
+    {
+        return $this->delete;
+    }
+
+    /**
+     * @param string $delete
+     *
+     * @return Privilege
+     */
+    public function setDelete($delete)
+    {
+        $this->delete = $delete;
+
+        return $this;
     }
 
     /**
@@ -146,8 +196,8 @@ class Privilege
      */
     public function addItem($item)
     {
-        if (!in_array($item, $this->items)) {
-            $this->items[] = $item;
+        if (!in_array($item, $this->role)) {
+            $this->role[] = $item;
         }
 
         return $this;
@@ -158,7 +208,7 @@ class Privilege
      */
     public function getItems()
     {
-        return $this->items;
+        return $this->role;
     }
 
     /**
@@ -169,7 +219,7 @@ class Privilege
     public function removeItem($item)
     {
         if (!$this->readOnly) {
-            $this->items->removeElement($item);
+            $this->role->removeElement($item);
         }
 
         return $this;
@@ -189,22 +239,6 @@ class Privilege
     public function setReadOnly()
     {
         $this->readOnly = true;
-
-        return $this;
-    }
-
-    /**
-     * Set default values
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     *
-     * @return $this
-     */
-    public function setDefaults()
-    {
-        if (!$this->type) {
-            $this->setType($this->name);
-        }
 
         return $this;
     }
