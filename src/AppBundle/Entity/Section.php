@@ -7,18 +7,18 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="page")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
+ * @ORM\Table(name="section")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SectionRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class Page
+class Section
 {
     use Traits\Sluggable;
     use Traits\Timestampable;
     use Traits\Taggable;
 
     /**
-     * @var int Page id
+     * @var int Section id
      * @ORM\Id
      * @ORM\Column(type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -39,19 +39,26 @@ class Page
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="section")
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $sections;
+    private $posts;
 
     /**
-     * Section constructor.
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="section")
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $listMedia;
+
+    /**
+     * Post constructor.
      */
     public function __construct()
     {
         $this->created = new \DateTime();
         $this->modified = new \DateTime();
-        $this->sections = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->listMedia = new ArrayCollection();
     }
 
     /**
@@ -109,41 +116,81 @@ class Page
     }
 
     /**
-     * Get sections
+     * Get posts
      *
      * @return ArrayCollection
      */
-    public function getSections()
+    public function getPosts()
     {
-        return $this->sections;
+        return $this->posts;
     }
 
     /**
-     * Add section
+     * Add post
      *
-     * @param $section
+     * @param $post
      *
      * @return $this
      */
-    public function addSection($section)
+    public function addPost($post)
     {
-        if (!in_array($section, (array)$this->sections)) {
-            $this->sections[] = $section;
+        if (!in_array($post, $this->posts)) {
+            $this->posts[] = $post;
         }
 
         return $this;
     }
 
     /**
-     * Remove section
+     * Remove post
      *
-     * @param $section
+     * @param $post
      *
      * @return $this
      */
-    public function removeSection($section)
+    public function removePost($post)
     {
-        $this->sections->removeElement($section);
+        $this->posts->removeElement($post);
+
+        return $this;
+    }
+
+    /**
+     * Get listMedia
+     *
+     * @return ArrayCollection
+     */
+    public function getListMedia()
+    {
+        return $this->listMedia;
+    }
+
+    /**
+     * Add media
+     *
+     * @param $media
+     *
+     * @return $this
+     */
+    public function addMedia($media)
+    {
+        if (!in_array($media, $this->listMedia)) {
+            $this->listMedia[] = $media;
+        }
+
+        return $this;
+    }
+
+    /**
+     * Remove media
+     *
+     * @param $media
+     *
+     * @return $this
+     */
+    public function removeMedia($media)
+    {
+        $this->listMedia->removeElement($media);
 
         return $this;
     }

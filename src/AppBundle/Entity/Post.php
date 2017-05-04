@@ -45,7 +45,14 @@ class Post
     private $text;
 
     /**
-     * @var Comment[] Post comments
+     * @var Section[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="post")
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $section;
+
+    /**
+     * @var Comment[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
@@ -105,6 +112,26 @@ class Post
     public function setText($text)
     {
         $this->text = $text;
+
+        return $this;
+    }
+
+    /**
+     * @return Section[]
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * @param Section[] $section
+     *
+     * @return Post
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
 
         return $this;
     }

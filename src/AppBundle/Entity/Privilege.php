@@ -8,11 +8,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Privilege
- * @ORM\Table(name="role")
+ * @ORM\Table(name="privilege")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
+ * @ORM\HasLifecycleCallbacks
  */
 class Privilege
 {
+    use Traits\Slugify;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -32,25 +35,21 @@ class Privilege
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $role;
+    private $type;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $label;
 
     /**
      * @var array|ArrayCollection
-     * @ORM\Column(type="array", nullable=true)
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="privileges")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="privileges")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="privileges")
      */
-    private $privileges = [];
-
-    /**
-     * @var User[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
-     */
-    private $users;
-
-    /**
-     * @var int
-     * @ORM\Column(type="integer")
-     */
-    private $hierarchy;
+    private $items = [];
 
     /**
      * @var bool
@@ -59,19 +58,16 @@ class Privilege
     private $readOnly;
 
     /**
-     * Role constructor.
+     * Privilege constructor.
      */
     public function __construct()
     {
-        $this->users = new ArrayCollection();
-        $this->privileges = new ArrayCollection();
-        $this->hierarchy = 0;
+        $this->items = new ArrayCollection();
+        $this->label = 'default';
         $this->readOnly = false;
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -80,11 +76,9 @@ class Privilege
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      *
-     * @return Role
+     * @return Privilege
      */
     public function setName($name)
     {
@@ -96,8 +90,6 @@ class Privilege
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -106,122 +98,78 @@ class Privilege
     }
 
     /**
+     * @param string $type
+     *
+     * @return Privilege
+     */
+    public function setType($type)
+    {
+        if (!$this->readOnly) {
+            $this->type = $this->slugify($type);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
-    public function getRole()
+    public function getType()
     {
-        return $this->role;
+        return $this->type;
     }
 
     /**
-     * @param string $role
+     * @param string $label
      *
      * @return $this
      */
-    public function setRole($role)
+    public function setLabel($label)
     {
         if (!$this->readOnly) {
-            $this->role = $role;
+            $this->label = $this->slugify($label);
         }
 
         return $this;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getPrivileges()
+    public function getLabel()
     {
-        return $this->privileges;
+        return $this->label;
     }
 
     /**
-     * @return bool
+     * @return Privilege
      */
-    public function hasPrivilege($privilege)
+    public function addItem($item)
     {
-        if (in_array($privilege, $this->privileges)) {
-            return true;
+        if (!in_array($item, $this->items)) {
+            $this->items[] = $item;
         }
 
-        return false;
-    }
-
-    /**
-     * @param $privilege
-     */
-    public function addPrivilege($privilege)
-    {
-        if (in_array($privilege, $this->privileges)) {
-            $this->privileges[] = $privilege;
-        }
-    }
-
-    /**
-     * @param String $privilege
-     *
-     * @return $this
-     */
-    public function removePrivilege($privilege)
-    {
-        $this->privileges->removeElement($privilege);
-
         return $this;
     }
 
     /**
-     * Get users
-     *
-     * @return Post[]|array
+     * @return ArrayCollection
      */
-    public function getUsers()
+    public function getItems()
     {
-        return $this->users;
+        return $this->items;
     }
 
     /**
-     * Set users
+     * @param $item
      *
-     * @return Role
+     * @return Privilege
      */
-    public function addUser($user)
-    {
-        $this->users[] = $user;
-
-        return $this;
-    }
-
-    /**
-     * Remove user
-     *
-     * @param $user
-     *
-     * @return Role
-     */
-    public function removeUser($user)
-    {
-        $this->users->removeElement($user);
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getHierarchy()
-    {
-        return $this->hierarchy;
-    }
-
-    /**
-     * @param $hierarchy
-     *
-     * @return $this
-     */
-    public function setHierarchy($hierarchy)
+    public function removeItem($item)
     {
         if (!$this->readOnly) {
-            $this->hierarchy = $hierarchy;
+            $this->items->removeElement($item);
         }
 
         return $this;
@@ -246,11 +194,26 @@ class Privilege
     }
 
     /**
+     * Set default values
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     *
+     * @return $this
+     */
+    public function setDefaults()
+    {
+        if (!$this->type) {
+            $this->setType($this->name);
+        }
+
+        return $this;
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
         return $this->name;
     }
-
 }
