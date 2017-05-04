@@ -15,13 +15,13 @@ Trait SearchableSimpleArray
      */
     public function searchSimpleArray(QueryBuilder $dql, $column, $search)
     {
-        $dql->andWhere($this->getName().'.'.$column.' LIKE :search')
+        $dql->andWhere($this->getTableName().'.'.$column.' LIKE :search')
             ->setParameter(':search', $search)
-            ->orWhere($this->getName().'.'.$column.' LIKE :start')
+            ->orWhere($this->getTableName().'.'.$column.' LIKE :start')
             ->setParameter(':start', "$search,%")
-            ->orWhere($this->getName().'.'.$column.' LIKE :end')
+            ->orWhere($this->getTableName().'.'.$column.' LIKE :end')
             ->setParameter(':end', "%,$search")
-            ->orWhere($this->getName().'.'.$column.' LIKE :middle')
+            ->orWhere($this->getTableName().'.'.$column.' LIKE :middle')
             ->setParameter(':middle', "%,$search,%");
 
         return $dql;

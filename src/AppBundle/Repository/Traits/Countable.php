@@ -13,8 +13,8 @@ Trait Countable
      */
     public function count()
     {
-        return $this->createQueryBuilder($this->getName())
-            ->select('COUNT('.$this->getName().')')
+        return $this->createQueryBuilder($this->getTableName())
+            ->select('COUNT('.$this->getTableName().')')
             ->getQuery()
             ->getSingleScalarResult();
     }

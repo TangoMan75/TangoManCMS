@@ -241,17 +241,17 @@
                             <td>
                                 {% if user.password %}
                                     <a href="{{ path('app_admin_user_index', {'status' : 1}) }}">
-                                        <span class="btn btn-success btn-sm"
+                                        <span class="btn btn-success btn-xs"
                                               data-toggle="tooltip" data-placement="top"
-                                              data-original-title="Utilisateur inactif">
+                                              data-original-title="Utilisateur valide">
                                             <span class="glyphicon glyphicon-ok"></span>
                                         </span>
                                     </a>
                                 {% else %}
                                     <a href="{{ path('app_admin_user_index', {'status' : 0}) }}">
-                                        <span class="btn btn-danger btn-sm"
+                                        <span class="btn btn-danger btn-xs"
                                               data-toggle="tooltip" data-placement="top"
-                                              data-original-title="Utilisateur valide">
+                                              data-original-title="Utilisateur inactif">
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </span>
                                     </a>

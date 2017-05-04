@@ -2,12 +2,12 @@
 
 namespace AppBundle\Repository\Traits;
 
-Trait Name
+Trait TableName
 {
     /**
      * @return bool|string
      */
-    public function getName()
+    public function getTableName()
     {
         $entity = strrchr($this->getEntityName(), '\\');
         $entity = substr($entity, 1, strlen($entity)-1);

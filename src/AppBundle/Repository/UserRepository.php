@@ -13,7 +13,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\Name;
+    use Traits\TableName;
 
     /**
      * @param ParameterBag $query
