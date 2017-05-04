@@ -35,7 +35,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 6;
+        return 7;
     }
 
     /**
@@ -64,7 +64,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
             glob($this->rootdir."/uploads/images/*.{jpg,JPG,jpeg,JPEG}", GLOB_BRACE)
         );
 
-        // Creates between 1 & 10 posts for each user
+        // Create post for each image
         for ($i = 0; $i < count($fileNames); $i++) {
 
             $post = new Post();

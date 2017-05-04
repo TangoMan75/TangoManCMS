@@ -30,7 +30,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 7;
+        return 6;
     }
 
     /**
@@ -40,9 +40,9 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         $faker = Factory::create('fr_FR');
 
-        // Get 100 users
+        // Get 10 users
         // findBy seems to be the only working method in fixtures
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
+        $users = $em->getRepository('AppBundle:User')->findBy([], null, 10);
 
         // Get pages
         $pages = $em->getRepository('AppBundle:Page')->findAll();
