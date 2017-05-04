@@ -286,14 +286,16 @@
                         {#</a>#}
                         {#</td>#}
                         <td>
-                            {% if media.category('pdf') or media.category('pptx') %}
-                                <a href="{{ media.link }}" target="_blank">
-                                    {{ domain_name }}{{ media.link }}
-                                </a>
-                            {% else %}
-                                <a href="{{ media.link }}" target="_blank">
-                                    http:{{ media.link }}
-                                </a>
+                            {% if media.link %}
+                                {% if media.category('pdf') or media.category('pptx') %}
+                                    <a href="{{ media.link }}" target="_blank">
+                                        {{ domain_name }}{{ media.link }}
+                                    </a>
+                                {% else %}
+                                    <a href="{{ media.link }}" target="_blank">
+                                        http:{{ media.link }}
+                                    </a>
+                                {% endif %}
                             {% endif %}
                         </td>
                         <td>

@@ -61,6 +61,8 @@ Trait UploadableImage
     }
 
     /**
+     * imageFile property is not persisted!
+     *
      * @return String
      */
     public function getImageFile()
@@ -69,6 +71,8 @@ Trait UploadableImage
     }
 
     /**
+     * imageFile property is not persisted!
+     *
      * @param File|null $imageFile
      *
      * @return $this
@@ -118,7 +122,14 @@ Trait UploadableImage
 
         if ($imageFileName) {
             $this->setImage('/uploads/images/'.$imageFileName);
+            if (!$this->link) {
+                $this->link = '/uploads/images/'.$imageFileName;
+            }
         } else {
+            // Remove deleted file from database
+            if ($this->link == $this->image) {
+                $this->link = null;
+            }
             $this->setImage(null);
         }
 

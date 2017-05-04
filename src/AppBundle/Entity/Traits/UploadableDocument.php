@@ -23,7 +23,7 @@ Trait UploadableDocument
     private $document;
 
     /**
-     * @Vich\UploadableField(mapping="documents", fileNameProperty="documentFileName", size="documentSize")
+     * @Vich\UploadableField(mapping="document_upload", fileNameProperty="documentFileName", size="documentSize")
      * @Assert\File(maxSize="100M", mimeTypes={
      *     "application/msword",
      *     "application/pdf",
@@ -70,6 +70,8 @@ Trait UploadableDocument
     }
 
     /**
+     * documentFile property is not persisted!
+     *
      * @return String
      */
     public function getDocumentFile()
@@ -78,6 +80,8 @@ Trait UploadableDocument
     }
 
     /**
+     * documentFile property is not persisted!
+     *
      * @param File|null $documentFile
      *
      * @return $this
@@ -127,7 +131,14 @@ Trait UploadableDocument
 
         if ($documentFileName) {
             $this->setDocument('/uploads/documents/'.$documentFileName);
+            if (!$this->link) {
+                $this->link = '/uploads/documents/'.$documentFileName;
+            }
         } else {
+            // Remove deleted file from database
+            if ($this->link == $this->document) {
+                $this->link = null;
+            }
             $this->setDocument(null);
         }
 

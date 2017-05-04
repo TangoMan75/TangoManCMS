@@ -244,7 +244,7 @@ class UserController extends Controller
         $em = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->findBy([], ['username' => 'ASC']);
 
-        $delimiter = ";";
+        $delimiter = ';';
         $handle = fopen('php://memory', 'r+');
 
         fputcsv(
@@ -275,7 +275,7 @@ class UserController extends Controller
                     $user->getAvatar(),
                     $user->getBio(),
                     $user->getPassword(),
-                    implode(",", $user->getRoles()),
+                    implode(',', $user->getRoles()),
                     $user->getCreated()->format('Y/m/d H:i:s'),
                     $user->getModified()->format('Y/m/d H:i:s'),
                 ],
@@ -289,7 +289,7 @@ class UserController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type' => 'application/force-download',
+                'Content-Type'        => 'application/force-download',
                 'Content-Disposition' => 'attachment; filename="users.csv"',
             ]
         );
@@ -356,7 +356,7 @@ class UserController extends Controller
         // File check
         if (is_file($file)) {
             // Init reader service
-            $reader->init($file, 0, ";");
+            $reader->init($file, 0, ';');
             // Load user entity
             $em = $this->get('doctrine')->getManager();
             $users = $em->getRepository('AppBundle:User');

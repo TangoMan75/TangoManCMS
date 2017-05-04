@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
+use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AdminNewMediaType extends AbstractType
 {
@@ -30,11 +32,23 @@ class AdminNewMediaType extends AbstractType
                 ]
             )
             ->add(
-                'text',
-                TextareaType::Class,
+                'imageFile',
+                VichImageType::class,
                 [
-                    'label'    => 'Description',
-                    'required' => false,
+                    'label'         => 'Image',
+                    'required'      => false,
+                    'allow_delete'  => false,
+                    'download_link' => false,
+                ]
+            )
+            ->add(
+                'documentFile',
+                VichFileType::class,
+                [
+                    'label'         => 'Document',
+                    'required'      => false,
+                    'allow_delete'  => false,
+                    'download_link' => false,
                 ]
             )
             ->add(
@@ -42,6 +56,14 @@ class AdminNewMediaType extends AbstractType
                 TextType::Class,
                 [
                     'label'    => 'Lien',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'text',
+                TextareaType::Class,
+                [
+                    'label'    => 'Description',
                     'required' => false,
                 ]
             )
