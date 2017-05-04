@@ -2,7 +2,7 @@
 
 namespace AppBundle\Repository;
 
-class RoleRepository extends \Doctrine\ORM\EntityRepository
+class PrivilegeRepository extends \Doctrine\ORM\EntityRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;

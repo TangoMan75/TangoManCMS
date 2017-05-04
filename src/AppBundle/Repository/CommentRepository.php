@@ -11,6 +11,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class CommentRepository extends EntityRepository
 {
+    use Traits\Countable;
+    use Traits\SearchableSimpleArray;
+    use Traits\Name;
+
     /**
      * @param ParameterBag $query
      *
@@ -157,18 +161,5 @@ class CommentRepository extends EntityRepository
         }
 
         return $paginator;
-    }
-
-    /**
-     * Get comment count
-     *
-     * @return int $count comment count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('comment')
-            ->select('COUNT(comment)')
-            ->getQuery()
-            ->getSingleScalarResult();
     }
 }

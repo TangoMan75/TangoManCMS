@@ -12,7 +12,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PostRepository extends EntityRepository
 {
+    use Traits\Countable;
     use Traits\SearchableSimpleArray;
+    use Traits\Name;
 
     /**
      * @param ParameterBag $query
@@ -353,18 +355,5 @@ class PostRepository extends EntityRepository
         }
 
         return $paginator;
-    }
-
-    /**
-     * Get post count
-     *
-     * @return int $count post count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('post')
-            ->select('COUNT(post)')
-            ->getQuery()
-            ->getSingleScalarResult();
     }
 }

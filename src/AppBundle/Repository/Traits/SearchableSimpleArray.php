@@ -8,21 +8,20 @@ Trait SearchableSimpleArray
 {
     /**
      * @param QueryBuilder $dql
-     * @param              $table
      * @param              $column
      * @param              $search
      *
      * @return QueryBuilder
      */
-    public function searchSimpleArray(QueryBuilder $dql, $table, $column, $search)
+    public function searchSimpleArray(QueryBuilder $dql, $column, $search)
     {
-        $dql->andWhere($table.'.'.$column.' LIKE :search')
+        $dql->andWhere($this->getName().'.'.$column.' LIKE :search')
             ->setParameter(':search', $search)
-            ->orWhere($table.'.'.$column.' LIKE :start')
+            ->orWhere($this->getName().'.'.$column.' LIKE :start')
             ->setParameter(':start', "$search,%")
-            ->orWhere($table.'.'.$column.' LIKE :end')
+            ->orWhere($this->getName().'.'.$column.' LIKE :end')
             ->setParameter(':end', "%,$search")
-            ->orWhere($table.'.'.$column.' LIKE :middle')
+            ->orWhere($this->getName().'.'.$column.' LIKE :middle')
             ->setParameter(':middle', "%,$search,%");
 
         return $dql;

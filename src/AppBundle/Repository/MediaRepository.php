@@ -12,7 +12,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class MediaRepository extends EntityRepository
 {
+    use Traits\Countable;
     use Traits\SearchableSimpleArray;
+    use Traits\Name;
 
     /**
      * @param ParameterBag $query
@@ -154,6 +156,7 @@ class MediaRepository extends EntityRepository
             $dql->andWhere('user.username LIKE :user')
                 ->setParameter(':user', '%'.$query->get('user').'%');
         }
+
         return $dql;
     }
 
@@ -349,18 +352,5 @@ class MediaRepository extends EntityRepository
         }
 
         return $paginator;
-    }
-
-    /**
-     * Get media count
-     *
-     * @return int $count media count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('media')
-            ->select('COUNT(media)')
-            ->getQuery()
-            ->getSingleScalarResult();
     }
 }

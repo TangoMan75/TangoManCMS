@@ -10,6 +10,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PageRepository extends EntityRepository
 {
+    use Traits\Countable;
+    use Traits\SearchableSimpleArray;
+    use Traits\Name;
+
     /**
      * @param ParameterBag $query
      *
@@ -118,18 +122,5 @@ class PageRepository extends EntityRepository
         }
 
         return $dql;
-    }
-
-    /**
-     * Get page count
-     *
-     * @return int $count page count
-     */
-    public function count()
-    {
-        return $this->createQueryBuilder('page')
-            ->select('COUNT(page)')
-            ->getQuery()
-            ->getSingleScalarResult();
     }
 }
