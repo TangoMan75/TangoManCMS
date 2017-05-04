@@ -25,7 +25,7 @@ class Post
     use Traits\UploadableImage;
 
     /**
-     * @var int Post id
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -33,13 +33,13 @@ class Post
     private $id;
 
     /**
-     * @var User Post author
+     * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
      */
     private $user;
 
     /**
-     * @var String Post Text
+     * @var string
      * @ORM\Column(type="text", nullable=true)
      */
     private $text;
@@ -157,10 +157,8 @@ class Post
     }
 
     /**
-     * Set default values
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
-     *
      * @return $this
      */
     public function setDefaults()

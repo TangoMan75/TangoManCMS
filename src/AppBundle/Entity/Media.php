@@ -26,7 +26,7 @@ class Media
     use Traits\UploadableDocument;
 
     /**
-     * @var Integer Media id
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue()
@@ -34,7 +34,7 @@ class Media
     private $id;
 
     /**
-     * @var User Media author
+     * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="listMedia")
      */
     private $user;
@@ -130,10 +130,8 @@ class Media
     }
 
     /**
-     * Set default values
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
-     *
      * @return $this
      */
     public function setDefaults()

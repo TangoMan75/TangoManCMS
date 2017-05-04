@@ -49,8 +49,8 @@ class Page
      */
     public function __construct()
     {
-        $this->created = new \DateTime();
-        $this->modified = new \DateTime();
+        $this->created = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
         $this->sections = new ArrayCollection();
     }
 

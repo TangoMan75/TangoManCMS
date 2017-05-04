@@ -19,7 +19,7 @@ class Comment
     use Publishable;
 
     /**
-     * @var integer Comment id
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer")
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -27,19 +27,19 @@ class Comment
     private $id;
 
     /**
-     * @var User Comment author
+     * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments")
      */
     private $user;
 
     /**
-     * @var Post Post id
+     * @var Post
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments")
      */
     private $post;
 
     /**
-     * @var string Message text
+     * @var string
      * @ORM\Column(type="text")
      * @Assert\NotBlank(message="Votre message ne peut pas être vide")
      */
@@ -55,7 +55,7 @@ class Comment
     }
 
     /**
-     * @return int Comment id
+     * @return int
      */
     public function getId()
     {
@@ -63,7 +63,7 @@ class Comment
     }
 
     /**
-     * @return User Comment author
+     * @return User
      */
     public function getUser()
     {
@@ -71,7 +71,7 @@ class Comment
     }
 
     /**
-     * @param User $user Comment author
+     * @param User $user
      *
      * @return $this
      */
@@ -83,7 +83,7 @@ class Comment
     }
 
     /**
-     * @return Post Comment's post
+     * @return Post
      */
     public function getPost()
     {
@@ -91,7 +91,7 @@ class Comment
     }
 
     /**
-     * @param Post $post Comment's post
+     * @param Post $post
      *
      * @return $this
      */
@@ -103,7 +103,7 @@ class Comment
     }
 
     /**
-     * @return string Comment text
+     * @return string
      */
     public function getText()
     {
@@ -111,7 +111,7 @@ class Comment
     }
 
     /**
-     * @param string $text Comment text
+     * @param string $text
      *
      * @return $this
      */

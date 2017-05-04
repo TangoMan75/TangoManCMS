@@ -49,7 +49,7 @@ class Tag
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      */
-    private $items = [];
+    private $items;
 
     /**
      * @var bool

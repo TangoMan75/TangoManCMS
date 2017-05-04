@@ -80,8 +80,6 @@ class Role
     }
 
     /**
-     * Set name
-     *
      * @param string $name
      *
      * @return Role
@@ -96,8 +94,6 @@ class Role
     }
 
     /**
-     * Get name
-     *
      * @return string
      */
     public function getName()
@@ -148,7 +144,7 @@ class Role
     }
 
     /**
-     * @param $privilege
+     * @param string $privilege
      */
     public function addPrivilege($privilege)
     {
@@ -158,7 +154,7 @@ class Role
     }
 
     /**
-     * @param String $privilege
+     * @param string $privilege
      *
      * @return $this
      */
@@ -170,8 +166,6 @@ class Role
     }
 
     /**
-     * Get users
-     *
      * @return Post[]|array
      */
     public function getUsers()
@@ -180,8 +174,6 @@ class Role
     }
 
     /**
-     * Set users
-     *
      * @return Role
      */
     public function addUser($user)
@@ -192,8 +184,6 @@ class Role
     }
 
     /**
-     * Remove user
-     *
      * @param $user
      *
      * @return Role

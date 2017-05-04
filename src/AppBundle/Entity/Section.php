@@ -18,7 +18,7 @@ class Section
     use Traits\Taggable;
 
     /**
-     * @var int Section id
+     * @var int
      * @ORM\Id
      * @ORM\Column(type="integer", unique=true)
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -32,11 +32,17 @@ class Section
     private $published = false;
 
     /**
-     * @var string Title
+     * @var string
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
      */
     private $title;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string", length=255)
+     */
+    private $type;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="section")
@@ -55,15 +61,14 @@ class Section
      */
     public function __construct()
     {
-        $this->created = new \DateTime();
-        $this->modified = new \DateTime();
+        $this->type = 'default';
+        $this->created = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
         $this->posts = new ArrayCollection();
         $this->listMedia = new ArrayCollection();
     }
 
     /**
-     * Get id
-     *
      * @return int
      */
     public function getId()
@@ -116,6 +121,26 @@ class Section
     }
 
     /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string $type
+     *
+     * @return Section
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
      * Get posts
      *
      * @return ArrayCollection
@@ -126,8 +151,6 @@ class Section
     }
 
     /**
-     * Add post
-     *
      * @param $post
      *
      * @return $this
@@ -142,8 +165,6 @@ class Section
     }
 
     /**
-     * Remove post
-     *
      * @param $post
      *
      * @return $this
@@ -156,8 +177,6 @@ class Section
     }
 
     /**
-     * Get listMedia
-     *
      * @return ArrayCollection
      */
     public function getListMedia()
@@ -166,15 +185,13 @@ class Section
     }
 
     /**
-     * Add media
-     *
      * @param $media
      *
      * @return $this
      */
     public function addMedia($media)
     {
-        if (!in_array($media, $this->listMedia)) {
+        if (!in_array($media, (array)$this->listMedia)) {
             $this->listMedia[] = $media;
         }
 
@@ -182,8 +199,6 @@ class Section
     }
 
     /**
-     * Remove media
-     *
      * @param $media
      *
      * @return $this
