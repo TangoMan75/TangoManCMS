@@ -127,7 +127,7 @@ class Tag
     public function setLabel($label)
     {
         if (!$this->readOnly) {
-            $this->lable = $this->slugify($lable);
+            $this->label = $this->slugify($label);
         }
 
         return $this;
