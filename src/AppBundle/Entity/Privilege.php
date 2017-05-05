@@ -17,8 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Privilege
 {
-    use Traits\Slugify;
-
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -30,31 +28,30 @@ class Privilege
     /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="L'étiquette doit avoir un nom.")
      */
     private $name;
 
     /**
-     * @var string
-     * @ORM\Column(type="boolean")
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $create;
 
     /**
-     * @var string
-     * @ORM\Column(type="boolean")
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $read;
 
     /**
-     * @var string
-     * @ORM\Column(type="boolean")
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $update;
 
     /**
-     * @var string
-     * @ORM\Column(type="boolean")
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
      */
     private $delete;
 
@@ -62,14 +59,14 @@ class Privilege
      * @var array|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges")
      */
-    private $role = [];
+    private $roles = [];
 
     /**
      * Privilege constructor.
      */
     public function __construct()
     {
-        $this->role = new ArrayCollection();
+        $this->roless = new ArrayCollection();
         $this->create = false;
         $this->read = false;
         $this->update = false;
@@ -88,7 +85,7 @@ class Privilege
     /**
      * @param string $name
      *
-     * @return Privilege
+     * @return $this
      */
     public function setName($name)
     {
@@ -106,7 +103,7 @@ class Privilege
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function getCreate()
     {
@@ -114,9 +111,9 @@ class Privilege
     }
 
     /**
-     * @param string $create
+     * @param bool $create
      *
-     * @return Privilege
+     * @return $this
      */
     public function setCreate($create)
     {
@@ -126,7 +123,7 @@ class Privilege
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function getRead()
     {
@@ -134,9 +131,9 @@ class Privilege
     }
 
     /**
-     * @param string $read
+     * @param bool $read
      *
-     * @return Privilege
+     * @return $this
      */
     public function setRead($read)
     {
@@ -146,7 +143,7 @@ class Privilege
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function getUpdate()
     {
@@ -154,9 +151,9 @@ class Privilege
     }
 
     /**
-     * @param string $update
+     * @param bool $update
      *
-     * @return Privilege
+     * @return $this
      */
     public function setUpdate($update)
     {
@@ -166,7 +163,7 @@ class Privilege
     }
 
     /**
-     * @return string
+     * @return bool
      */
     public function getDelete()
     {
@@ -174,9 +171,9 @@ class Privilege
     }
 
     /**
-     * @param string $delete
+     * @param bool $delete
      *
-     * @return Privilege
+     * @return $this
      */
     public function setDelete($delete)
     {
@@ -186,12 +183,14 @@ class Privilege
     }
 
     /**
-     * @return Privilege
+     * @param $role
+     *
+     * @return $this
      */
-    public function addItem($item)
+    public function addRole($role)
     {
-        if (!in_array($item, $this->role)) {
-            $this->role[] = $item;
+        if (!in_array($role, $this->roles)) {
+            $this->roles[] = $role;
         }
 
         return $this;
@@ -200,19 +199,19 @@ class Privilege
     /**
      * @return ArrayCollection
      */
-    public function getItems()
+    public function getRoles()
     {
-        return $this->role;
+        return $this->roles;
     }
 
     /**
-     * @param $item
+     * @param $role
      *
-     * @return Privilege
+     * @return $this
      */
-    public function removeItem($item)
+    public function removeRole($role)
     {
-        $this->role->removeElement($item);
+        $this->roles->removeElement($role);
 
         return $this;
     }

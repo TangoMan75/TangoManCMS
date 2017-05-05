@@ -96,7 +96,7 @@ class User implements UserInterface
      * @var array User roles
      * @ORM\Column(type="simple_array")
      */
-    private $roles;
+    private $roles = [];
 
     /**
      * User constructor.
@@ -107,7 +107,7 @@ class User implements UserInterface
         $this->modified = new \DateTime();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->roles = ['ROLE_USER'];
+        $this->roles = new ArrayCollection();
     }
 
     /**
@@ -269,9 +269,7 @@ class User implements UserInterface
     }
 
     /**
-     * Get roles.
-     *
-     * @return array
+     * @return Role[]|array
      */
     public function getRoles()
     {
@@ -279,69 +277,37 @@ class User implements UserInterface
     }
 
     /**
-     * Set roles.
+     * @param Role $role
      *
-     * @param array $roles
-     *
-     * @return User
+     * @return bool
      */
-    public function setRoles($roles)
+    public function hasRole($role)
     {
-        foreach ($roles as $role) {
-            if (!in_array($role, $this->roles)) {
-                array_push($this->roles, $role);
-            }
+        if (in_array($role, $this->roles)) {
+            return true;
         }
 
-        $this->roles = $roles;
-
-        return $this;
+        return false;
     }
 
     /**
-     * Add role.
-     *
-     * @param string $role
-     *
-     * @return User
+     * @param Role $role
      */
     public function addRole($role)
     {
-        $hierarchy = ['ROLE_SUPER_ADMIN', 'ROLE_ADMIN', 'ROLE_SUPER_USER', 'ROLE_USER'];
-
-        foreach ($hierarchy as $key => $value) {
-            if ($role == $value) {
-                for ($i = $key; $i < count($hierarchy); $i++) {
-                    if (!in_array($hierarchy[$i], $this->roles)) {
-                        array_push($this->roles, $hierarchy[$i]);
-                    }
-                }
-
-                return $this;
-            }
+        if (in_array($role, $this->roles)) {
+            $this->roles[] = $role;
         }
-
-        if (!in_array($role, $this->roles)) {
-            array_push($this->roles, $role);
-        }
-
-        return $this;
     }
 
     /**
-     * Remove role.
+     * @param Role $role
      *
-     * @param string $role
-     *
-     * @return User
+     * @return $this
      */
     public function removeRole($role)
     {
-        $roles = $this->roles;
-        if (in_array($role, $roles)) {
-            $remove[] = $role;
-            $this->roles = array_diff($roles, $remove);
-        }
+        $this->roles->removeElement($role);
 
         return $this;
     }

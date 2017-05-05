@@ -38,7 +38,8 @@ class Role
     private $role;
 
     /**
-     * @var array|ArrayCollection
+     * @var Privilege[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="roles")
      * @ORM\Column(type="array", nullable=true)
      */
     private $privileges = [];
@@ -48,12 +49,6 @@ class Role
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
      */
     private $users;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $readOnly;
 
     /**
      * Role constructor.
@@ -116,7 +111,7 @@ class Role
     }
 
     /**
-     * @return mixed
+     * @return Privilege[]|array
      */
     public function getPrivileges()
     {
@@ -124,6 +119,8 @@ class Role
     }
 
     /**
+     * @param Privilege $privilege
+     *
      * @return bool
      */
     public function hasPrivilege($privilege)
@@ -136,7 +133,7 @@ class Role
     }
 
     /**
-     * @param string $privilege
+     * @param Privilege $privilege
      */
     public function addPrivilege($privilege)
     {
@@ -146,7 +143,7 @@ class Role
     }
 
     /**
-     * @param string $privilege
+     * @param Privilege $privilege
      *
      * @return $this
      */
@@ -158,7 +155,7 @@ class Role
     }
 
     /**
-     * @return Post[]|array
+     * @return User[]|array
      */
     public function getUsers()
     {
@@ -166,19 +163,23 @@ class Role
     }
 
     /**
-     * @return Role
+     * @param User $user
+     *
+     * @return $this
      */
     public function addUser($user)
     {
-        $this->users[] = $user;
+        if (!in_array($user, $this->users)) {
+            $this->users[] = $user;
+        }
 
         return $this;
     }
 
     /**
-     * @param $user
+     * @param User $user
      *
-     * @return Role
+     * @return $this
      */
     public function removeUser($user)
     {
@@ -192,7 +193,7 @@ class Role
      */
     public function __toString()
     {
-        return $this->name;
+        return $this->role;
     }
 
 }
