@@ -53,7 +53,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Load Users
         for ($i = 1; $i <= 100; $i++) {
             // Makes sure user doesn't exist
-            // findBy is the only working method in fixtures
+            // findBy seems to be the only working method in fixtures
             do {
                 $username = $faker->userName;
             } while ($em->getRepository('AppBundle:User')->findBy(['username' => $username]));

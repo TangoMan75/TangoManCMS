@@ -48,7 +48,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $faker = Factory::create('fr_FR');
 
         // Gets users
-        // findBy is the only working method in fixtures
+        // findBy seems to be the only working method in fixtures
         $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
         // Gets section

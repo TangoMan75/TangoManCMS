@@ -2,6 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Privilege;
 use AppBundle\Entity\Role;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -35,7 +36,7 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 1;
+        return 2;
     }
 
     /**
@@ -45,22 +46,24 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         // Default roles
         $roles = [
-            'Utilisateur',          'ROLE_USER',        0,
-            'Super Utilisateur',    'ROLE_SUPER_USER',  1,
-            'Administrateur',       'ROLE_ADMIN',       2,
-            'Super Administrateur', 'ROLE_SUPER_ADMIN', 3,
+            'Utilisateur'          => 'ROLE_USER',
+            'Super Utilisateur'    => 'ROLE_SUPER_USER',
+            'Administrateur'       => 'ROLE_ADMIN',
+            'Super Administrateur' => 'ROLE_SUPER_ADMIN',
         ];
 
-        for ($i = 0; $i < 12; $i = $i + 3) {
-            // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $roles[$i + 1]])) {
-                $role = new Role();
-                $role->setName($roles[$i])
-                    ->setRole($roles[$i + 1])
-                    ->setHierarchy($roles[$i + 2]);
+        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
 
-                $em->persist($role);
+        foreach ($roles as $key => $item) {
+            $role = new Role();
+            $role->setName($key)
+                ->setRole($item);
+
+            foreach ($privileges as $privilege) {
+                $role->addPrivilege($privilege);
             }
+
+            $em->persist($role);
         }
 
         $em->flush();

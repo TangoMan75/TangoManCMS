@@ -35,7 +35,7 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
      */
     public function getOrder()
     {
-        return 2;
+        return 1;
     }
 
     /**
@@ -45,29 +45,24 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
     {
         // Default Privileges
         $privileges = [
-            'comment',   true, true, true, true,
-            'page',      true, true, true, true,
-            'post',      true, true, true, true,
-            'privilege', true, true, true, true,
-            'role',      true, true, true, true,
-            'tag',       true, true, true, true,
-            'user',      true, true, true, true,
+            'comment',
+            'page',
+            'post',
+            'privilege',
+            'role',
+            'tag',
+            'user',
         ];
 
-        $roles = $em->getRepository('AppBundle:Role')->findAll();
+        foreach ($privileges as $name) {
+            $privilege = new Privilege();
+            $privilege->setName($name)
+                ->setCreate(true)
+                ->setRead(true)
+                ->setUpdate(true)
+                ->setDelete(true);
 
-        foreach ($roles as $role) {
-            for ($i = 0; $i < count($privileges); $i = $i + 5) {
-                $privilege = new Privilege();
-                $privilege->setName($privileges[$i])
-                    ->setCreate($privileges[$i + 1])
-                    ->setRead($privileges[$i + 2])
-                    ->setUpdate($privileges[$i + 3])
-                    ->setDelete($privileges[$i + 4])
-                    ->setRole($role);
-
-                $em->persist($privilege);
-            }
+            $em->persist($privilege);
         }
 
         $em->flush();
