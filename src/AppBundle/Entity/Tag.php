@@ -55,19 +55,12 @@ class Tag
     private $items;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $readOnly;
-
-    /**
      * Tag constructor.
      */
     public function __construct()
     {
         $this->items = new ArrayCollection();
         $this->label = 'default';
-        $this->readOnly = false;
     }
 
     /**
@@ -85,9 +78,7 @@ class Tag
      */
     public function setName($name)
     {
-        if (!$this->readOnly) {
-            $this->name = $name;
-        }
+        $this->name = $name;
 
         return $this;
     }
@@ -107,9 +98,7 @@ class Tag
      */
     public function setType($type)
     {
-        if (!$this->readOnly) {
-            $this->type = $this->slugify($type);
-        }
+        $this->type = $this->slugify($type);
 
         return $this;
     }
@@ -129,9 +118,7 @@ class Tag
      */
     public function setLabel($label)
     {
-        if (!$this->readOnly) {
-            $this->label = $this->slugify($label);
-        }
+        $this->label = $this->slugify($label);
 
         return $this;
     }
@@ -171,27 +158,7 @@ class Tag
      */
     public function removeItem($item)
     {
-        if (!$this->readOnly) {
-            $this->items->removeElement($item);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isReadOnly()
-    {
-        return $this->readOnly;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setReadOnly()
-    {
-        $this->readOnly = true;
+        $this->items->removeElement($item);
 
         return $this;
     }

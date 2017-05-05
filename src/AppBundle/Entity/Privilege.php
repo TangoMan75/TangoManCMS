@@ -65,12 +65,6 @@ class Privilege
     private $role = [];
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean")
-     */
-    private $readOnly;
-
-    /**
      * Privilege constructor.
      */
     public function __construct()
@@ -98,9 +92,7 @@ class Privilege
      */
     public function setName($name)
     {
-        if (!$this->readOnly) {
-            $this->name = $name;
-        }
+        $this->name = $name;
 
         return $this;
     }
@@ -220,27 +212,7 @@ class Privilege
      */
     public function removeItem($item)
     {
-        if (!$this->readOnly) {
-            $this->role->removeElement($item);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isReadOnly()
-    {
-        return $this->readOnly;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setReadOnly()
-    {
-        $this->readOnly = true;
+        $this->role->removeElement($item);
 
         return $this;
     }
