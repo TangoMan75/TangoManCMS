@@ -1,41 +1,70 @@
-/build/
-/phpunit.xml
-/vendor/
-/web/bundles/
+# Cache and logs (Symfony2)
+/app/cache/*
+/app/logs/*
+!app/cache/.gitkeep
+!app/logs/.gitkeep
 
-/.idea/
+# Email spool folder
+/app/spool/*
+
+# Cache, session files and logs (Symfony3)
+/var/cache/*
+/var/logs/*
+/var/sessions/*
+!var/cache/.gitkeep
+!var/logs/.gitkeep
+!var/sessions/.gitkeep
+
+# Parameters
 /app/config/parameters.yml
+/app/config/parameters.ini
 
+# Managed by Composer
+/app/bootstrap.php.cache
+/var/bootstrap.php.cache
+/bin/*
+!bin/console
+!bin/symfony_requirements
+/vendor/
+
+# Assets and user uploads
+/web/bundles/
+/web/uploads/*
+!/web/uploads/.gitkeep
+/web/uploads/documents/*
+!/web/uploads/documents/.gitkeep
+/web/uploads/images/*
+!/web/uploads/images/.gitkeep
+
+# liip cache
+/web/media/cache/thumbnail/uploads/images/*
+!/web/media/cache/thumbnail/uploads/images/.gitkeep
+
+# Assets managed by Bower
+/web/assets/vendor/
+
+# PHPUnit
+/app/phpunit.xml
+/phpunit.xml
+
+# Build data
+/build/
+
+# Composer PHAR
+/composer.phar
+
+# Backup entities generated with doctrine:generate:entities command
+*/Entity/*~
+
+# PHPStorm
+/.idea/
+
+# SymfonyRequirements
 /var/*
 !var/SymfonyRequirements.php
 
-/var/cache/*
-!/var/cache
-!/var/cache/.gitkeep
-
-/var/logs/*
-!/var/logs
-!/var/logs/.gitkeep
-
-/var/sessions/*
-!/var/sessions
-!/var/sessions/.gitkeep
-
+# NodeJS
 /web/node_modules
+
+#Bower
 /web/src/components
-
-/web/uploads/*
-!/web/uploads
-!/web/uploads/.gitkeep
-
-/web/uploads/documents/*
-!/web/uploads/documents
-!/web/uploads/documents/.gitkeep
-
-/web/uploads/images/*
-!/web/uploads/images
-!/web/uploads/images/.gitkeep
-
-/web/media/cache/thumbnail/uploads/images/*
-!/web/media/cache/thumbnail/uploads/images
-!/web/media/cache/thumbnail/uploads/images/.gitkeep
