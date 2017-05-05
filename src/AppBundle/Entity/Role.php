@@ -57,7 +57,6 @@ class Role
     {
         $this->users = new ArrayCollection();
         $this->privileges = new ArrayCollection();
-        $this->readOnly = false;
     }
 
     /**
@@ -125,7 +124,7 @@ class Role
      */
     public function hasPrivilege($privilege)
     {
-        if (in_array($privilege, $this->privileges)) {
+        if (in_array($privilege, (array)$this->privileges)) {
             return true;
         }
 
@@ -137,7 +136,7 @@ class Role
      */
     public function addPrivilege($privilege)
     {
-        if (!in_array($privilege, $this->privileges)) {
+        if (!in_array($privilege, (array)$this->privileges)) {
             $this->privileges[] = $privilege;
         }
     }
@@ -169,7 +168,7 @@ class Role
      */
     public function addUser($user)
     {
-        if (!in_array($user, $this->users)) {
+        if (!in_array($user, (array)$this->users)) {
             $this->users[] = $user;
         }
 

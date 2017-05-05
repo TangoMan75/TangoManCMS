@@ -159,7 +159,7 @@ class Section
      */
     public function addPost($post)
     {
-        if (!in_array($post, $this->posts)) {
+        if (!in_array($post, (array)$this->posts)) {
             $this->posts[] = $post;
         }
 
@@ -193,7 +193,7 @@ class Section
      */
     public function addPage($page)
     {
-        if (!in_array($page, $this->pages)) {
+        if (!in_array($page, (array)$this->pages)) {
             $this->pages[] = $page;
         }
 

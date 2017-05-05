@@ -136,7 +136,7 @@ class Tag
      */
     public function addItem($item)
     {
-        if (!in_array($item, $this->items)) {
+        if (!in_array($item, (array)$this->items)) {
             $this->items[] = $item;
         }
 

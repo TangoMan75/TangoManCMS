@@ -127,7 +127,7 @@ class Page
      */
     public function addSection($section)
     {
-        if (!in_array($section, $this->sections)) {
+        if (!in_array($section, (array)$this->sections)) {
             $this->sections[] = $section;
         }
 

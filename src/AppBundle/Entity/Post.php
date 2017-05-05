@@ -137,7 +137,7 @@ class Post
      */
     public function addPage($page)
     {
-        if (!in_array($page, $this->sections)) {
+        if (!in_array($page, (array)$this->sections)) {
             $this->sections[] = $page;
         }
 

@@ -50,7 +50,7 @@ Trait Categorized
      */
     public function hasCategory($category)
     {
-        if (in_array($category, $this->categories)) {
+        if (in_array($category, (array)$this->categories)) {
             return true;
         }
 
@@ -80,7 +80,7 @@ Trait Categorized
      */
     public function checkCategory($category)
     {
-        if (!in_array($category, $this->categories)) {
+        if (!in_array($category, (array)$this->categories)) {
             $this->categories[] = $category;
         }
     }

@@ -57,10 +57,10 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
         foreach ($privileges as $name) {
             $privilege = new Privilege();
             $privilege->setName($name)
-                ->setCreate(true)
-                ->setRead(true)
-                ->setUpdate(true)
-                ->setDelete(true);
+                ->setCanCreate(true)
+                ->setCanRead(true)
+                ->setCanUpdate(true)
+                ->setCanDelete(true);
 
             $em->persist($privilege);
         }

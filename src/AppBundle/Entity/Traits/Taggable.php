@@ -35,7 +35,7 @@ Trait Taggable
      */
     public function hasTag(Tag $tag)
     {
-        if (in_array($tag, $this->tags)) {
+        if (in_array($tag, (array)$this->tags)) {
             return true;
         }
 
@@ -49,7 +49,7 @@ Trait Taggable
      */
     public function addTag(Tag $tag)
     {
-        if (!in_array($tag, $this->tags)) {
+        if (!in_array($tag, (array)$this->tags)) {
             $this->tags[] = $tag;
         }
 
