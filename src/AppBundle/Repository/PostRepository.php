@@ -10,6 +10,11 @@ use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class PostRepository
+ *
+ * @package AppBundle\Repository
+ */
 class PostRepository extends EntityRepository
 {
     use Traits\Countable;

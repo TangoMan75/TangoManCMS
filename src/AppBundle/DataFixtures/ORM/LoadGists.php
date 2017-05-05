@@ -2,7 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -10,6 +10,12 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadGists
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadGists implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
@@ -30,7 +36,7 @@ class LoadGists implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 10;
+        return 12;
     }
 
     /**
@@ -45,7 +51,7 @@ class LoadGists implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
         // Gets pages
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        $sections = $em->getRepository('AppBundle:Section')->findAll();
 
         $links = [
             'https://gist.github.com/axooh/ec2348455e1414727676',
@@ -67,22 +73,22 @@ class LoadGists implements FixtureInterface, ContainerAwareInterface, OrderedFix
             // Creates between 1 & 10 gists for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
-                $media = new Media();
-                $media->setUser($user)
+                $post = new Post();
+                $post->setUser($user)
                     ->setTitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                     ->setLink($links[$i])
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setPage($pages[mt_rand(0, count($pages) - 1)])
+                    ->setSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
                 for ($j = 0; $j < mt_rand(0, 5); $j++) {
-                    $media->addTag($tags[mt_rand(0, 5)]);
+                    $post->addTag($tags[mt_rand(0, 5)]);
                 }
 
-                $em->persist($media);
+                $em->persist($post);
             }
 
             $em->flush();

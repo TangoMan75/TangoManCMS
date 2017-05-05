@@ -10,6 +10,12 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadAdmin
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
@@ -27,7 +33,7 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 2;
+        return 3;
     }
 
     /**

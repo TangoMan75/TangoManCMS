@@ -8,10 +8,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="post")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
- * @Vich\Uploadable
+ * Class Post
+ *
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="post")
+ * @Vich\Uploadable
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Post
 {
@@ -22,6 +26,7 @@ class Post
     use Traits\Taggable;
     use Traits\Timestampable;
     use Traits\Titleable;
+    use Traits\UploadableDocument;
     use Traits\UploadableImage;
 
     /**
@@ -46,7 +51,7 @@ class Post
 
     /**
      * @var Section[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="post")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Section", mappedBy="post")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $section;

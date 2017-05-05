@@ -10,6 +10,12 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadComments
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadComments implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
@@ -27,7 +33,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 8;
+        return 10;
     }
 
     /**

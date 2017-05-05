@@ -9,6 +9,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadRoles
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
@@ -38,18 +44,10 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
     public function load(ObjectManager $em)
     {
         $roles = [
-            'Utilisateur',
-            'ROLE_USER',
-            0,
-            'Super Utilisateur',
-            'ROLE_SUPER_USER',
-            1,
-            'Administrateur',
-            'ROLE_ADMIN',
-            2,
-            'Super Administrateur',
-            'ROLE_SUPER_ADMIN',
-            3,
+            'Utilisateur',          'ROLE_USER',        0,
+            'Super Utilisateur',    'ROLE_SUPER_USER',  1,
+            'Administrateur',       'ROLE_ADMIN',       2,
+            'Super Administrateur', 'ROLE_SUPER_ADMIN', 3,
         ];
 
         for ($i = 0; $i < 12; $i = $i + 3) {

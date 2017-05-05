@@ -7,10 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Tag
+ * Class Tag
+ *
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
- * @ORM\HasLifecycleCallbacks
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Tag
 {

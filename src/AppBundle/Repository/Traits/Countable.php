@@ -4,6 +4,11 @@ namespace AppBundle\Repository\Traits;
 
 use Doctrine\ORM\QueryBuilder;
 
+/**
+ * Trait Countable
+ *
+ * @package AppBundle\Repository\Traits
+ */
 Trait Countable
 {
     /**

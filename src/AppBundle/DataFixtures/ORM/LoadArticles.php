@@ -10,17 +10,18 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadArticles
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadArticles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
      */
     private $container;
-
-    /**
-     * @var string
-     */
-    private $rootdir;
 
     /**
      * @param ContainerInterface $container
@@ -35,7 +36,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 7;
+        return 9;
     }
 
     /**
@@ -43,25 +44,24 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function load(ObjectManager $em)
     {
-        $this->rootdir = $this->container->getParameter('kernel.root_dir')."/../web";
-
         $faker = Factory::create('fr_FR');
 
         // Get users
         $users = $em->getRepository('AppBundle:User')->findAll();
 
-        // Get pages
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        // Get section
+        $sections = $em->getRepository('AppBundle:Section')->findAll();
 
         // Get tags
         $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
         // Get images
+        $rootdir = $this->container->getParameter('kernel.root_dir').'/../web';
         $fileNames = array_map(
             function ($filename) {
                 return basename($filename);
             },
-            glob($this->rootdir."/uploads/images/*.{jpg,JPG,jpeg,JPEG}", GLOB_BRACE)
+            glob($rootdir.'/uploads/images/*.{jpg,JPG,jpeg,JPEG}', GLOB_BRACE)
         );
 
         // Create post for each image
@@ -74,7 +74,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
                 ->setImageFileName($fileNames[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
                 ->setUser($users[mt_rand(1, count($users) - 1)])
-                ->setPage($pages[mt_rand(1, count($pages) - 1)])
+                ->setSection($sections[mt_rand(1, count($sections) - 1)])
                 ->setPublished($i % 2);
 
             // Adds between 1 & 5 random tags to post

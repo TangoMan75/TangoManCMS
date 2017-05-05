@@ -7,9 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class Page
+ *
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="page")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
- * @ORM\HasLifecycleCallbacks
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Page
 {

@@ -9,6 +9,12 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadTags
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
@@ -29,7 +35,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
      */
     public function getOrder()
     {
-        return 4;
+        return 5;
     }
 
     /**

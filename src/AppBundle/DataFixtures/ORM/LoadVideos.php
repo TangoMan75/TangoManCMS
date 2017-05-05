@@ -2,7 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Post;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -10,6 +10,12 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadVideos
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
@@ -30,7 +36,7 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
      */
     public function getOrder()
     {
-        return 9;
+        return 11;
     }
 
     /**
@@ -44,8 +50,8 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
         // findBy is the only working method in fixtures
         $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
-        // Gets pages
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        // Gets section
+        $sections = $em->getRepository('AppBundle:Section')->findAll();
 
         $links = [
             'https://www.youtube.com//watch?v=4TlqSWm9wQ8',
@@ -71,22 +77,22 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
             // Creates between 1 & 10 videos for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
-                $media = new Media();
-                $media->setUser($user)
+                $post = new Post();
+                $post->setUser($user)
                     ->setTitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                     ->setLink($links[$i])
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setPage($pages[mt_rand(0, count($pages) - 1)])
+                    ->setPage($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
                 for ($j = 0; $j < mt_rand(0, 5); $j++) {
-                    $media->addTag($tags[mt_rand(0, 5)]);
+                    $post->addTag($tags[mt_rand(0, 5)]);
                 }
 
-                $em->persist($media);
+                $em->persist($post);
             }
 
             $em->flush();

@@ -9,6 +9,11 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
+/**
+ * Class UserRepository
+ *
+ * @package AppBundle\Repository
+ */
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     use Traits\Countable;

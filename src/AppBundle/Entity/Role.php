@@ -7,9 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Role
+ * Class Role
+ *
  * @ORM\Table(name="role")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Role
 {

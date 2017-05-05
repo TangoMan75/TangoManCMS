@@ -10,6 +10,12 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadPosts
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
@@ -30,7 +36,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 6;
+        return 8;
     }
 
     /**
@@ -44,8 +50,8 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // findBy seems to be the only working method in fixtures
         $users = $em->getRepository('AppBundle:User')->findBy([], null, 10);
 
-        // Get pages
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        // Get section
+        $section = $em->getRepository('AppBundle:Section')->findAll();
 
         // Get tags
         $tags = $em->getRepository('AppBundle:Tag')->findAll();
@@ -60,7 +66,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     ->setTitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setPage($pages[mt_rand(0, count($pages) - 1)])
+                    ->setSection($section[mt_rand(0, count($section) - 1)])
                     ->setPublished($i % 2);
 
                 // Adds between 1 & 5 random tags to post

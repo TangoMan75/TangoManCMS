@@ -8,10 +8,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Table(name="media")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
- * @Vich\Uploadable
+ * Class Media
+ *
  * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="media")
+ * @Vich\Uploadable
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Media
 {

@@ -9,11 +9,15 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Table(name="user")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur est déjà utilisé.")
- * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
+ * Class User
+ *
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="user")
+ * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
+ * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur est déjà utilisé.")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class User implements UserInterface
 {

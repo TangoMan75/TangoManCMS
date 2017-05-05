@@ -7,9 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
+ * Class Section
+ *
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="section")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SectionRepository")
- * @ORM\HasLifecycleCallbacks
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Section
 {
@@ -49,12 +53,6 @@ class Section
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="section")
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $listMedia;
 
     /**
      * Post constructor.
@@ -172,40 +170,6 @@ class Section
     public function removePost($post)
     {
         $this->posts->removeElement($post);
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getListMedia()
-    {
-        return $this->listMedia;
-    }
-
-    /**
-     * @param $media
-     *
-     * @return $this
-     */
-    public function addMedia($media)
-    {
-        if (!in_array($media, (array)$this->listMedia)) {
-            $this->listMedia[] = $media;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $media
-     *
-     * @return $this
-     */
-    public function removeMedia($media)
-    {
-        $this->listMedia->removeElement($media);
 
         return $this;
     }

@@ -7,11 +7,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Privilege
- * @ORM\Table(name="privilege")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
+ * Class Privilege
  *
  * @ORM\HasLifecycleCallbacks
+ * @ORM\Table(name="privilege")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\Entity
  */
 class Privilege
 {

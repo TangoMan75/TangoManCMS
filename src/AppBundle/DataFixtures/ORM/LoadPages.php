@@ -10,6 +10,12 @@ use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class LoadPages
+ *
+ * @author  Matthias Morin <tangoman@free.fr>
+ * @package AppBundle\DataFixtures\ORM
+ */
 class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
@@ -27,7 +33,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 5;
+        return 6;
     }
 
     /**

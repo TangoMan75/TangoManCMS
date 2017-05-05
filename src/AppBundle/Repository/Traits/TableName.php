@@ -2,6 +2,11 @@
 
 namespace AppBundle\Repository\Traits;
 
+/**
+ * Trait TableName
+ *
+ * @package AppBundle\Repository\Traits
+ */
 Trait TableName
 {
     /**
