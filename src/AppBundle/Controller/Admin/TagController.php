@@ -3,7 +3,8 @@
 namespace AppBundle\Controller\Admin;
 
 use AppBundle\Entity\Tag;
-use AppBundle\Form\Admin\AdminTagType;
+use AppBundle\Form\Admin\AdminEditTagType;
+use AppBundle\Form\Admin\AdminNewTagType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,7 +41,7 @@ class TagController extends Controller
     public function newAction(Request $request)
     {
         $tag = new Tag();
-        $form = $this->createForm(AdminTagType::class, $tag);
+        $form = $this->createForm(AdminNewTagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -72,7 +73,7 @@ class TagController extends Controller
      */
     public function editAction(Request $request, Tag $tag)
     {
-        $form = $this->createForm(AdminTagType::class, $tag);
+        $form = $this->createForm(AdminEditTagType::class, $tag);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
