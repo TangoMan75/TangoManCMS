@@ -26,37 +26,30 @@ class RolesCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        // Default Roles
+        // Default roles
         $roles = [
-            'Utilisateur',
-            'ROLE_USER',
-            0,
-            'Super Utilisateur',
-            'ROLE_SUPER_USER',
-            1,
-            'Administrateur',
-            'ROLE_ADMIN',
-            2,
-            'Super Administrateur',
-            'ROLE_SUPER_ADMIN',
-            3,
+            'Utilisateur'          => 'ROLE_USER',
+            'Super Utilisateur'    => 'ROLE_SUPER_USER',
+            'Administrateur'       => 'ROLE_ADMIN',
+            'Super Administrateur' => 'ROLE_SUPER_ADMIN',
         ];
 
-        for ($i = 0; $i < 12; $i = $i + 3) {
+        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
+
+        foreach ($roles as $key => $item) {
+
             // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $roles[$i + 1]])) {
+            if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $item])) {
                 $role = new Role();
-                $role->setName($roles[$i])
-                    ->setRole($roles[$i + 1])
-                    ->setHierarchy($roles[$i + 2])
-                    ->setReadOnly();
+                $role->setName($key)
+                    ->setRole($item);
 
                 $em->persist($role);
                 $output->writeln(
-                    '<question>Role "'.$role.'" created with hierarchy level "'.$roles[$i + 2].'".</question>'
+                    '<question>Role "'.$role.'" created.</question>'
                 );
             } else {
-                $output->writeln('<question>Role "'.$roles[$i].'" exists already.</question>');
+                $output->writeln('<question>Role "'.$key.'" exists already.</question>');
             }
         }
 

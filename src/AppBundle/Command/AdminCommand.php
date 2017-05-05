@@ -26,8 +26,12 @@ class AdminCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
+        $superAdmin = $em->getRepository('AppBundle:Role')->findBy(['role'=>'ROLE_SUPER_ADMIN']);
+
+        die(dump($superAdmin));
+
         // Creates super admin account
-        if (!$em->getRepository('AppBundle:User')->findByRole('ROLE_SUPER_ADMIN')) {
+        if (!$em->getRepository('AppBundle:User')->findBy(['roles'=>$superAdmin])) {
 
             $email = $this->getContainer()->getParameter('mailer_from');
             $username = $this->getContainer()->getParameter('super_admin_username');
@@ -38,7 +42,7 @@ class AdminCommand extends ContainerAwareCommand
             $user->setUsername($username)
                 ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, $pwd))
-                ->addRole('ROLE_SUPER_ADMIN')
+                ->addRole($superAdmin)
                 ->setBio('Ceci est le compte super administrateur.');
 
             $em->persist($user);

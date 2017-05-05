@@ -137,7 +137,7 @@ class Role
      */
     public function addPrivilege($privilege)
     {
-        if (in_array($privilege, $this->privileges)) {
+        if (!in_array($privilege, $this->privileges)) {
             $this->privileges[] = $privilege;
         }
     }

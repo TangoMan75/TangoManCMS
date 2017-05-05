@@ -16,7 +16,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TagRepository extends EntityRepository
 {
     use Traits\Countable;
-    use Traits\SearchableSimpleArray;
     use Traits\TableName;
 
     /**

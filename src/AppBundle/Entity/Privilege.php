@@ -35,25 +35,25 @@ class Privilege
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $create;
+    private $canCreate;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $read;
+    private $canRead;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $update;
+    private $canUpdate;
 
     /**
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $delete;
+    private $canDelete;
 
     /**
      * @var array|ArrayCollection
@@ -67,11 +67,10 @@ class Privilege
     public function __construct()
     {
         $this->roless = new ArrayCollection();
-        $this->create = false;
-        $this->read = false;
-        $this->update = false;
-        $this->delete = false;
-        $this->readOnly = false;
+        $this->canCreate = false;
+        $this->canRead = false;
+        $this->canUpdate = false;
+        $this->canDelete = false;
     }
 
     /**
@@ -105,19 +104,19 @@ class Privilege
     /**
      * @return bool
      */
-    public function getCreate()
+    public function getCanCreate()
     {
-        return $this->create;
+        return $this->canCreate;
     }
 
     /**
-     * @param bool $create
+     * @param bool $canCreate
      *
      * @return $this
      */
-    public function setCreate($create)
+    public function setCanCreate($canCreate)
     {
-        $this->create = $create;
+        $this->canCreate = $canCreate;
 
         return $this;
     }
@@ -125,19 +124,19 @@ class Privilege
     /**
      * @return bool
      */
-    public function getRead()
+    public function getCanRead()
     {
-        return $this->read;
+        return $this->canRead;
     }
 
     /**
-     * @param bool $read
+     * @param bool $canRead
      *
      * @return $this
      */
-    public function setRead($read)
+    public function setCanRead($canRead)
     {
-        $this->read = $read;
+        $this->canRead = $canRead;
 
         return $this;
     }
@@ -145,19 +144,19 @@ class Privilege
     /**
      * @return bool
      */
-    public function getUpdate()
+    public function getCanUpdate()
     {
-        return $this->update;
+        return $this->canUpdate;
     }
 
     /**
-     * @param bool $update
+     * @param bool $canUpdate
      *
      * @return $this
      */
-    public function setUpdate($update)
+    public function setCanUpdate($canUpdate)
     {
-        $this->update = $update;
+        $this->canUpdate = $canUpdate;
 
         return $this;
     }
@@ -165,19 +164,19 @@ class Privilege
     /**
      * @return bool
      */
-    public function getDelete()
+    public function getCanDelete()
     {
-        return $this->delete;
+        return $this->canDelete;
     }
 
     /**
-     * @param bool $delete
+     * @param bool $canDelete
      *
      * @return $this
      */
-    public function setDelete($delete)
+    public function setCanDelete($canDelete)
     {
-        $this->delete = $delete;
+        $this->canDelete = $canDelete;
 
         return $this;
     }
