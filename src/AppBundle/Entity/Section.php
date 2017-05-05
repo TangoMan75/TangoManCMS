@@ -49,10 +49,16 @@ class Section
     private $type;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="section")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections")
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $posts;
+    private $posts = [];
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections")
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $pages = [];
 
     /**
      * Post constructor.
@@ -63,7 +69,7 @@ class Section
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->posts = new ArrayCollection();
-        $this->listMedia = new ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
 
     /**
@@ -139,8 +145,6 @@ class Section
     }
 
     /**
-     * Get posts
-     *
      * @return ArrayCollection
      */
     public function getPosts()
@@ -155,7 +159,7 @@ class Section
      */
     public function addPost($post)
     {
-        if (!in_array($post, (array)$this->posts)) {
+        if (!in_array($post, $this->posts)) {
             $this->posts[] = $post;
         }
 
@@ -170,6 +174,40 @@ class Section
     public function removePost($post)
     {
         $this->posts->removeElement($post);
+
+        return $this;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getPages()
+    {
+        return $this->pages;
+    }
+
+    /**
+     * @param $page
+     *
+     * @return $this
+     */
+    public function addPage($page)
+    {
+        if (!in_array($page, $this->pages)) {
+            $this->pages[] = $page;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $page
+     *
+     * @return $this
+     */
+    public function removePage($page)
+    {
+        $this->pages->removeElement($page);
 
         return $this;
     }

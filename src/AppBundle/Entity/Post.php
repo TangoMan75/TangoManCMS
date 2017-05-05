@@ -51,17 +51,17 @@ class Post
 
     /**
      * @var Section[]
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Section", mappedBy="post")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts")
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $section;
+    private $sections = [];
 
     /**
      * @var Comment[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $comments;
+    private $comments = [];
 
     /**
      * Post constructor.
@@ -71,6 +71,7 @@ class Post
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     /**
@@ -122,21 +123,35 @@ class Post
     }
 
     /**
-     * @return Section[]
+     * @return ArrayCollection
      */
-    public function getSection()
+    public function getSections()
     {
-        return $this->section;
+        return $this->sections;
     }
 
     /**
-     * @param Section[] $section
+     * @param $page
      *
-     * @return Post
+     * @return $this
      */
-    public function setSection($section)
+    public function addPage($page)
     {
-        $this->section = $section;
+        if (!in_array($page, $this->sections)) {
+            $this->sections[] = $page;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param $page
+     *
+     * @return $this
+     */
+    public function removePage($page)
+    {
+        $this->sections->removeElement($page);
 
         return $this;
     }

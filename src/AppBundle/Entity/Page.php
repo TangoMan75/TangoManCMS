@@ -43,10 +43,10 @@ class Page
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="page")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="pages")
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $sections;
+    private $sections = [];
 
     /**
      * Section constructor.
@@ -113,8 +113,6 @@ class Page
     }
 
     /**
-     * Get sections
-     *
      * @return ArrayCollection
      */
     public function getSections()
@@ -123,15 +121,13 @@ class Page
     }
 
     /**
-     * Add section
-     *
      * @param $section
      *
      * @return $this
      */
     public function addSection($section)
     {
-        if (!in_array($section, (array)$this->sections)) {
+        if (!in_array($section, $this->sections)) {
             $this->sections[] = $section;
         }
 
@@ -139,8 +135,6 @@ class Page
     }
 
     /**
-     * Remove section
-     *
      * @param $section
      *
      * @return $this
