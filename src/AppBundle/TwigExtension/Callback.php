@@ -52,7 +52,10 @@ class Callback extends \Twig_Extension
         }
 
         $url = $result['scheme'].'://'.
+            (isset($result['user']) ? $result['user'] : '').
+            (isset($result['pass']) ? ':'.$result['pass'].'@' : '').
             $result['host'].
+            (isset($result['port']) ? ':'.$result['port'] : '').
             (isset($result['path']) ? $result['path'] : '').
             (isset($strNewQuery) ? '?'.$strNewQuery : '').
             (isset($result['fragment']) ? '#'.$result['fragment'] : '');
