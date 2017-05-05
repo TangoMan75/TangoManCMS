@@ -139,6 +139,8 @@ class Role
         if (!in_array($privilege, (array)$this->privileges)) {
             $this->privileges[] = $privilege;
         }
+
+        return $this;
     }
 
     /**

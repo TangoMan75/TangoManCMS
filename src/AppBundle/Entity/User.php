@@ -169,30 +169,6 @@ class User implements UserInterface
     }
 
     /**
-     * Get user's listMedia.
-     *
-     * @return Media[]
-     */
-    public function getListMedia()
-    {
-        return $this->listMedia;
-    }
-
-    /**
-     * Sets user listMedia.
-     *
-     * @param Media[] $listMedia
-     *
-     * @return $this
-     */
-    public function setListMedia($listMedia)
-    {
-        $this->listMedia = $listMedia;
-
-        return $this;
-    }
-
-    /**
      * Get user's posts.
      *
      * @return Post[]
@@ -298,6 +274,8 @@ class User implements UserInterface
         if (!in_array($role, (array)$this->roles)) {
             $this->roles[] = $role;
         }
+
+        return $this;
     }
 
     /**

@@ -26,29 +26,29 @@ class AdminCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        $superAdmin = $em->getRepository('AppBundle:Role')->findBy(['role'=>'ROLE_SUPER_ADMIN']);
-
-        die(dump($superAdmin));
+        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
+//        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+//        die(dump($superAdmin));
 
         // Creates super admin account
-        if (!$em->getRepository('AppBundle:User')->findBy(['roles'=>$superAdmin])) {
+        if (!$em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin])) {
 
             $email = $this->getContainer()->getParameter('mailer_from');
             $username = $this->getContainer()->getParameter('super_admin_username');
             $pwd = $this->getContainer()->getParameter('super_admin_pwd');
-
             $encoder = $this->getContainer()->get('security.password_encoder');
+
             $user = new User();
             $user->setUsername($username)
                 ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, $pwd))
-                ->addRole($superAdmin)
+                ->addRole($roleSuperAdmin)
                 ->setBio('Ceci est le compte super administrateur.');
 
             $em->persist($user);
             $em->flush();
 
-            $output->writeln('<question>'.$user->getUsername().' account created with password: "'.$pwd.'"</question>');
+            $output->writeln('<question>'.$user.' account created with password: "'.$pwd.'"</question>');
         } else {
             $output->writeln('<question>Sorry, at least one account with ROLE_SUPER_ADMIN exists already.</question>');
         }
