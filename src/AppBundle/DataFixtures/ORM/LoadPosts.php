@@ -3,6 +3,9 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Section;
+use AppBundle\Entity\Tag;
+use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -46,18 +49,12 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         $faker = Factory::create('fr_FR');
 
-        // Get 10 users
         // findBy seems to be the only working method in fixtures
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 10);
-
-        // Get section
-        $section = $em->getRepository('AppBundle:Section')->findAll();
-
-        // Get tags
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $users    = $em->getRepository('AppBundle:User')->findBy([], null, 10);
+        $sections = $em->getRepository('AppBundle:Section')->findAll();
+        $tags     = $em->getRepository('AppBundle:Tag')->findAll();
 
         foreach ($users as $user) {
-
             // Creates between 1 & 10 posts for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
@@ -66,7 +63,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     ->setTitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setSection($section[mt_rand(0, count($section) - 1)])
+                    ->setSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
                 // Adds between 1 & 5 random tags to post

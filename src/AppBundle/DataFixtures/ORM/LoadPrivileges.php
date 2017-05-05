@@ -54,17 +54,17 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
             'user',      true, true, true, true,
         ];
 
-        // Load Privileges
         $roles = $em->getRepository('AppBundle:Role')->findAll();
 
-        for ($i = 0; $i < count($roles); $i = $i + 3) {
-            // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Privilege')->findBy(['name' => $roles[$i]])) {
+        foreach ($roles as $role) {
+            for ($i = 0; $i < count($privileges); $i = $i + 5) {
                 $privilege = new Privilege();
-                $privilege->setName($roles[$i])
-                    ->setType($roles[$i + 1])
-                    ->setLabel($roles[$i + 2])
-                    ->setReadOnly();
+                $privilege->setName($privileges[$i])
+                    ->setCreate($privileges[$i + 1])
+                    ->setRead($privileges[$i + 2])
+                    ->setUpdate($privileges[$i + 3])
+                    ->setDelete($privileges[$i + 4])
+                    ->setRole($role);
 
                 $em->persist($privilege);
             }

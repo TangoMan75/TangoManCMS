@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Role;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -46,15 +47,17 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Pasword encoder
         $encoder = $this->container->get('security.password_encoder');
 
+        $superAdmin = $em->getRepository('AppBundle:Role')->findBy('role'=>'ROLE_SUPER_ADMIN');
+
         // Load Super Admin
-        if (!$em->getRepository('AppBundle:User')->findByRole('ROLE_SUPER_ADMIN')) {
+        if (!$em->getRepository('AppBundle:User')->findByRole($superAdmin)) {
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
-            $user->setUsername("admin")
-                ->setEmail("admin@localhost.dev")
+            $user->setUsername('admin')
+                ->setEmail('admin@localhost.dev')
                 ->setPassword($encoder->encodePassword($user, '321'))
-                ->addRole('ROLE_SUPER_ADMIN')
+                ->addRole($superAdmin)
                 ->setBio('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
             $em->persist($user);

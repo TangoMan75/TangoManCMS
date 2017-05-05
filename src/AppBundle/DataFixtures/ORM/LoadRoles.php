@@ -43,6 +43,7 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
+        // Default roles
         $roles = [
             'Utilisateur',          'ROLE_USER',        0,
             'Super Utilisateur',    'ROLE_SUPER_USER',  1,
@@ -56,8 +57,7 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 $role = new Role();
                 $role->setName($roles[$i])
                     ->setRole($roles[$i + 1])
-                    ->setHierarchy($roles[$i + 2])
-                    ->setReadOnly();
+                    ->setHierarchy($roles[$i + 2]);
 
                 $em->persist($role);
             }
