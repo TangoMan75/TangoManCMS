@@ -27,10 +27,10 @@ class PageRepository extends EntityRepository
     public function orderedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page = $query->get('page', 1);
+        $page  = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'modified');
-        $way = $query->get('way', 'DESC');
+        $way   = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -51,14 +51,9 @@ class PageRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'posts':
-                $dql->addSelect('COUNT(posts) as orderParam');
-                $dql->leftJoin('page.posts', 'posts');
-                break;
-
-            case 'listMedia':
-                $dql->addSelect('COUNT(listMedia) as orderParam');
-                $dql->leftJoin('page.listMedia', 'listMedia');
+            case 'sections':
+                $dql->addSelect('COUNT(sections) as orderParam');
+                $dql->leftJoin('page.sections', 'sections');
                 break;
 
             case 'tags':

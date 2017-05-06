@@ -43,7 +43,7 @@ class Page
     private $title;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="pages")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="pages")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
