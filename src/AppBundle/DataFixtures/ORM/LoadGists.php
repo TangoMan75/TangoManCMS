@@ -79,7 +79,7 @@ class LoadGists implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                     ->setLink($links[$i])
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setSection($sections[mt_rand(0, count($sections) - 1)])
+                    ->addSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();

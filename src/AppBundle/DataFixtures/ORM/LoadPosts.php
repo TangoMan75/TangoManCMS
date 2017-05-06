@@ -63,7 +63,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                     ->setTitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setSection($sections[mt_rand(0, count($sections) - 1)])
+                    ->addSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
                 // Adds between 1 & 5 random tags to post

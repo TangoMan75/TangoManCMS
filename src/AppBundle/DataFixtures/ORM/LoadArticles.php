@@ -74,7 +74,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
                 ->setImageFileName($fileNames[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
                 ->setUser($users[mt_rand(1, count($users) - 1)])
-                ->setSection($sections[mt_rand(1, count($sections) - 1)])
+                ->addSection($sections[mt_rand(1, count($sections) - 1)])
                 ->setPublished($i % 2);
 
             // Adds between 1 & 5 random tags to post

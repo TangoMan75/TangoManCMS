@@ -86,7 +86,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                         ->setDocumentFileName($pptx[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
                         ->setUser($user)
-                        ->setSection($sections[mt_rand(0, count($sections) - 1)])
+                        ->addSection($sections[mt_rand(0, count($sections) - 1)])
                         ->setPublished($i % 2);
                     $em->persist($doc);
                 }
@@ -100,7 +100,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                         ->setText($faker->text(mt_rand(100, 255)))
                         ->setDocumentFileName($pdf[$j])
                         ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                        ->setSection($sections[mt_rand(0, count($sections) - 1)])
+                        ->addSection($sections[mt_rand(0, count($sections) - 1)])
                         ->setUser($user)
                         ->setPublished($i % 2);
                     $em->persist($doc);

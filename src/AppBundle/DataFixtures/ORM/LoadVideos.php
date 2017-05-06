@@ -83,7 +83,7 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
                     ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                     ->setLink($links[$i])
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setPage($sections[mt_rand(0, count($sections) - 1)])
+                    ->addSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
                 $tags = $em->getRepository('AppBundle:Tag')->findAll();

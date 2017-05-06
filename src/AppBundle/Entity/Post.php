@@ -131,27 +131,27 @@ class Post
     }
 
     /**
-     * @param $page
+     * @param $section
      *
      * @return $this
      */
-    public function addPage($page)
+    public function addSection($section)
     {
-        if (!in_array($page, (array)$this->sections)) {
-            $this->sections[] = $page;
+        if (!in_array($section, (array)$this->sections)) {
+            $this->sections[] = $section;
         }
 
         return $this;
     }
 
     /**
-     * @param $page
+     * @param $section
      *
      * @return $this
      */
-    public function removePage($page)
+    public function removeSection($section)
     {
-        $this->sections->removeElement($page);
+        $this->sections->removeElement($section);
 
         return $this;
     }

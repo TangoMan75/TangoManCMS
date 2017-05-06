@@ -20,6 +20,7 @@ class Section
     use Traits\Sluggable;
     use Traits\Timestampable;
     use Traits\Taggable;
+    use Traits\Publishable;
 
     /**
      * @var int
@@ -28,12 +29,6 @@ class Section
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var boolean
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $published = false;
 
     /**
      * @var string
@@ -78,26 +73,6 @@ class Section
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublished()
-    {
-        return $this->published;
-    }
-
-    /**
-     * @param boolean $published
-     *
-     * @return $this
-     */
-    public function setPublished($published)
-    {
-        $this->published = $published;
-
-        return $this;
     }
 
     /**

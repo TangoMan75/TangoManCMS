@@ -50,13 +50,6 @@ class Media
     private $text;
 
     /**
-     * @var Section[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Section", mappedBy="post")
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $section;
-
-    /**
      * Media constructor.
      */
     public function __construct()
@@ -109,26 +102,6 @@ class Media
     public function setText($text)
     {
         $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * @return Section[]
-     */
-    public function getSection()
-    {
-        return $this->section;
-    }
-
-    /**
-     * @param Section[] $section
-     *
-     * @return Media
-     */
-    public function setSection($section)
-    {
-        $this->section = $section;
 
         return $this;
     }

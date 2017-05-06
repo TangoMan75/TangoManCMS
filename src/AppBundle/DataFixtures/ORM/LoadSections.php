@@ -49,7 +49,7 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
             for ($i = 0; $i < mt_rand(1, 5); $i++) {
                 $section = new Section();
                 $section->setTitle($faker->sentence(4, true))
-                    ->setPage($page)
+                    ->setPages($page)
                     ->setPublished($i % 2);
 
                 $em->persist($section);
