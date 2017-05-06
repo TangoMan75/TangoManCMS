@@ -27,23 +27,25 @@ class AdminCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
+        // $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+
         $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
-        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+        $superAdmin = $em->getRepository('AppBundle:User')->findByRole($roleSuperAdmin);
 
         // Creates super admin account
         if (!$superAdmin) {
 
-            $email = $this->getContainer()->getParameter('mailer_from');
+            $email    = $this->getContainer()->getParameter('mailer_from');
             $username = $this->getContainer()->getParameter('super_admin_username');
-            $pwd = $this->getContainer()->getParameter('super_admin_pwd');
-            $encoder = $this->getContainer()->get('security.password_encoder');
+            $pwd      = $this->getContainer()->getParameter('super_admin_pwd');
+            $encoder  = $this->getContainer()->get('security.password_encoder');
 
             $user = new User();
             $user->setUsername($username)
                 ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, $pwd))
                 ->addRole($roleSuperAdmin)
-                ->setBio('Ceci est le compte super administrateur.');
+                ->setBio('<p>Ceci est le compte super administrateur.</p>');
 
             $em->persist($user);
             $em->flush();

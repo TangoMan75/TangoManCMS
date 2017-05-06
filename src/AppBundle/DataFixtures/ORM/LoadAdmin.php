@@ -42,25 +42,26 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
-        $faker = Factory::create('fr_FR');
-
-        // Pasword encoder
-        $encoder = $this->container->get('security.password_encoder');
+        $email    = $this->container->getParameter('mailer_from');
+        $username = $this->container->getParameter('super_admin_username');
+        $pwd      = $this->container->getParameter('super_admin_pwd');
+        $encoder  = $this->container->get('security.password_encoder');
 
         // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
-        $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
-        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+        // $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
 
         // Load Super Admin
-        if (!$superAdmin) {
+        $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
+        $superAdmin = $em->getRepository('AppBundle:User')->findByRole($roleSuperAdmin);
 
-            // Generating admin account with pwd: "321" if not exits
+        if (!$superAdmin) {
+            // Generating super admin account with default password
             $user = new User();
-            $user->setUsername('admin')
-                ->setEmail('admin@localhost.dev')
-                ->setPassword($encoder->encodePassword($user, '321'))
-                ->addRole($superAdmin)
-                ->setBio('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
+            $user->setUsername($username)
+                ->setEmail($email)
+                ->setPassword($encoder->encodePassword($user, $pwd))
+                ->addRole($roleSuperAdmin)
+                ->setBio('<p>Ceci est le compte super administrateur.</p>');
 
             $em->persist($user);
             $em->flush();
