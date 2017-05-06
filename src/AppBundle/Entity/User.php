@@ -61,13 +61,6 @@ class User implements UserInterface
     private $bio;
 
     /**
-     * @var Media[] User's media
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Media", mappedBy="user", cascade={"remove"})
-     * @ORM\OrderBy({"created"="DESC"})
-     */
-    private $listMedia;
-
-    /**
      * @var Post[] User's posts
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"created"="DESC"})
@@ -103,11 +96,11 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->created = new \DateTime();
-        $this->modified = new \DateTime();
-        $this->posts = new ArrayCollection();
+        $this->created  = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
+        $this->posts    = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->roles = new ArrayCollection();
+        $this->roles    = new ArrayCollection();
     }
 
     /**
