@@ -26,12 +26,12 @@ class AdminCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
-//        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
-//        die(dump($superAdmin));
+        // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
+        $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
+        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
 
         // Creates super admin account
-        if (!$em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin])) {
+        if (!$superAdmin) {
 
             $email = $this->getContainer()->getParameter('mailer_from');
             $username = $this->getContainer()->getParameter('super_admin_username');

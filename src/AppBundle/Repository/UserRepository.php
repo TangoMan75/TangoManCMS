@@ -126,18 +126,18 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         return $dql;
     }
 
-//    /**
-//     * @param  string $role
-//     *
-//     * @return array
-//     */
-//    public function findByRole($role)
-//    {
-//        $dql = $this->createQueryBuilder('user');
-//        $dql = $this->searchSimpleArray($dql, 'user', 'roles', $role);
-//
-//        return $dql->getQuery()->getResult();
-//    }
+    /**
+     * @param  string $role
+     *
+     * @return array
+     */
+    public function findByRole($role)
+    {
+        $dql = $this->createQueryBuilder('user');
+        $dql = $this->searchSimpleArray($dql, 'roles', $role);
+
+        return $dql->getQuery()->getResult();
+    }
 
     /**
      * Required for user login

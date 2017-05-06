@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    use Traits\HasSimpleRoles;
     use Traits\Sluggable;
     use Traits\Timestampable;
 
@@ -86,12 +87,6 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @var array User roles
-     * @ORM\Column(type="simple_array")
-     */
-    private $roles = [];
-
-    /**
      * User constructor.
      */
     public function __construct()
@@ -100,7 +95,8 @@ class User implements UserInterface
         $this->modified = new \DateTimeImmutable();
         $this->posts    = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        $this->roles    = new ArrayCollection();
+        // $this->roles    = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     /**
@@ -233,52 +229,6 @@ class User implements UserInterface
     public function setEmail($email)
     {
         $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * @return Role[]|array
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
-     * @param Role $role
-     *
-     * @return bool
-     */
-    public function hasRole($role)
-    {
-        if (in_array($role, $this->roles)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Role $role
-     */
-    public function addRole($role)
-    {
-        if (!in_array($role, (array)$this->roles)) {
-            $this->roles[] = $role;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Role $role
-     *
-     * @return $this
-     */
-    public function removeRole($role)
-    {
-        $this->roles->removeElement($role);
 
         return $this;
     }

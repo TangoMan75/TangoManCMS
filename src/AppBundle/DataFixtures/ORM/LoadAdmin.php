@@ -47,10 +47,12 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // Pasword encoder
         $encoder = $this->container->get('security.password_encoder');
 
-        $superAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
+        // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
+        $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
+        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
 
         // Load Super Admin
-        if (!$em->getRepository('AppBundle:User')->findBy(['role' => $superAdmin])) {
+        if (!$superAdmin) {
 
             // Generating admin account with pwd: "321" if not exits
             $user = new User();
