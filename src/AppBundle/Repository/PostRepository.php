@@ -107,7 +107,7 @@ class PostRepository extends EntityRepository
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
         if ($query->get('category')) {
-            $dql = $this->searchSimpleArray($dql, 'post', 'category', $query->get('category'));
+            $dql = $this->searchSimpleArray($dql, 'category', $query->get('category'));
         }
 
         if ($query->get('id')) {
@@ -148,8 +148,8 @@ class PostRepository extends EntityRepository
         }
 
         if ($query->get('text')) {
-            $dql->andWhere('post.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('text').'%');
+            $dql->andWhere('post.text LIKE :text')
+                ->setParameter(':text', '%'.$query->get('text').'%');
         }
 
         if ($query->get('title')) {

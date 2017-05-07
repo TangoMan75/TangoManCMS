@@ -107,7 +107,7 @@ class MediaRepository extends EntityRepository
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
         if ($query->get('category')) {
-            $dql = $this->searchSimpleArray($dql, 'media', 'category', $query->get('category'));
+            $dql = $this->searchSimpleArray($dql, 'category', $query->get('category'));
         }
 
         if ($query->get('id')) {

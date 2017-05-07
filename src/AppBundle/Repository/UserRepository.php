@@ -49,7 +49,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         // Search inside simple arrays
         if ($query->get('role')) {
-            $dql = $this->searchSimpleArray($dql, 'user', 'roles', $query->get('role'));
+            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
         }
 
         // Search inside id, username and email columns
