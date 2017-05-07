@@ -115,6 +115,16 @@
                         </a>
                     </th>
 
+                    <th class="{{ app.request.query.get('order') == 'pages' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
+                            'order' : 'pages',
+                            'way'   : app.request.query.get('order') == 'pages'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Pages
+                        </a>
+                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
                             'section'  : 1,
@@ -178,6 +188,11 @@
                         <td>{{ section.slug }}</td>
                         <td>
                             {{ section.title }}
+                        </td>
+                        <td>
+                            <span class="label label-success">
+                                {{ section.pages|length }}
+                            </span>
                         </td>
                         <td>
                             <span class="label label-success">

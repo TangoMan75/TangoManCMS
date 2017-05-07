@@ -52,6 +52,7 @@ class Post
     /**
      * @var Section[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts")
+     * @ORM\JoinTable(name="section_post")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];

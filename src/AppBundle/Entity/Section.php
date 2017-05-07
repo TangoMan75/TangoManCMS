@@ -45,12 +45,14 @@ class Section
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections")
+     * @ORM\JoinTable(name="section_post")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections")
+     * @ORM\JoinTable(name="page_section")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages = [];

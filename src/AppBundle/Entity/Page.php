@@ -44,6 +44,7 @@ class Page
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages")
+     * @ORM\JoinTable(name="page_section")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
