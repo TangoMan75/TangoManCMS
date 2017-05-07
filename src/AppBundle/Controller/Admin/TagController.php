@@ -22,7 +22,7 @@ class TagController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // Show searchable, sortable, paginated page list
+        // Show searchable, sortable, paginated tag list
         $em = $this->get('doctrine')->getManager();
         $tags = $em->getRepository('AppBundle:Tag')->orderedSearchPaged($request->query);
 
@@ -45,7 +45,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persists new page
+            // Persists new tag
             $em = $this->get('doctrine')->getManager();
             $em->persist($tag);
             $em->flush();
@@ -77,7 +77,7 @@ class TagController extends Controller
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persists edited page
+            // Persists edited tag
             $em = $this->get('doctrine')->getManager();
             $em->persist($tag);
             $em->flush();
