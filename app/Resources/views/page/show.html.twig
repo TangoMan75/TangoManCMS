@@ -7,10 +7,15 @@
         <header class="page-header">
             <h1 class="page-title">{{ page.title }}</h1>
         </header>
-        <section>
-            {% for item in page.posts %}
-                {% include "includes/_post.html.twig" with { 'post': item, 'callback': app.request.uri|callback } %}
-            {% endfor %}
-        </section>
+        {% for section in page.sections %}
+            <section>
+                <header class="section-header">
+                    <h1 class="section-title">{{ section.title }}</h1>
+                </header>
+                {% for post in section.posts %}
+                    {% include "includes/_post.html.twig" with { 'post': post, 'section': app.request.uri|callback } %}
+                {% endfor %}
+            </section>
+        {% endfor %}
     </div>
 {% endblock %}

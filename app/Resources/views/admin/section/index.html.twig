@@ -1,14 +1,14 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Pages{% endblock %}
+{% block title %}{{ parent() }} | Sections{% endblock %}
 
 {% block admin %}
     <header>
-        <h1>Pages</h1>
-        <h2>Liste des pages</h2>
-        <p>Ici vous pouvez accèder à la liste des pages de <strong>{{ site_name }}</strong>.</p>
+        <h1>Sections</h1>
+        <h2>Liste des sections</h2>
+        <p>Ici vous pouvez accèder à la liste des sections de <strong>{{ site_name }}</strong>.</p>
     </header>
-    {% include "admin/includes/_page_tabs.html.twig" %}
+    {% include "admin/includes/_section_tabs.html.twig" %}
     <section id="search">
         <div class="jumbotron">
             <form method="GET" class="form-horizontal">
@@ -64,14 +64,14 @@
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 text-right pull-right">
                         <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-search"></span> Filtrer ({{ pages.count }})
+                            <span class="glyphicon glyphicon-search"></span> Filtrer ({{ sections.count }})
                         </button>
                         <button id="reset" class="btn btn-warning">
                             <span class="glyphicon glyphicon-remove"></span> Effacer
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
+                    <input type="hidden" name="section" value="1"/>
                     <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
                     <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
@@ -80,14 +80,14 @@
         </div>
     </section>
 
-    <section id="page-list">
+    <section id="section-list">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
                 <tr>
                     <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'id',
                             'way'   : app.request.query.get('order') == 'id'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -96,8 +96,8 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'slug',
                             'way'   : app.request.query.get('order') == 'slug'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
@@ -106,8 +106,8 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'title',
                             'way'   : app.request.query.get('order') == 'title'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -115,19 +115,19 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'sections' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'sections',
-                            'way'   : app.request.query.get('order') == 'sections'
+                    <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
+                            'order' : 'posts',
+                            'way'   : app.request.query.get('order') == 'posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Sections
+                            Posts
                         </a>
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'tags' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'tags',
                             'way'   : app.request.query.get('order') == 'tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -136,8 +136,8 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'published',
                             'way'   : app.request.query.get('order') == 'published'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -146,8 +146,8 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'created',
                             'way'   : app.request.query.get('order') == 'created'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -156,8 +156,8 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
-                            'page'  : 1,
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
                             'order' : 'modified',
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -169,50 +169,46 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for page in pages %}
-                    {% set page = page[0] %}
+                {% for section in sections %}
+                    {% set section = section[0] %}
                     <tr>
                         <td>
-                            <a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
-                                {{ page.id }}
-                            </a>
+                            {{ section.id }}
                         </td>
-                        <td>{{ page.slug }}</td>
+                        <td>{{ section.slug }}</td>
                         <td>
-                            <a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
-                                {{ page.title }}
-                            </a>
+                            {{ section.title }}
                         </td>
                         <td>
                             <span class="label label-success">
-                                {{ page.sections|length }}
+                                {{ section.posts|length }}
                             </span>
                         </td>
                         <td>
-                            {% for tag in page.tags %}
-                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'tag' : tag.name})) }}"
+                            {% for tag in section.tags %}
+                                <a href="{{ path('app_admin_section_index', app.request.query.all|merge({'tag' : tag.name})) }}"
                                    class="label label-{{ tag.type }}">
                                     {{ tag.name }}
                                 </a><br/>
                             {% endfor %}
                         </td>
                         <td>
-                            {% if page.published %}
-                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'published' : 'true'})) }}"
+                            {% if section.published %}
+                                <a href="{{ path('app_admin_section_index', app.request.query.all|merge({'published' : 'true'})) }}"
                                    class="btn btn-success btn-xs">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'published' : 'false'})) }}"
+                                <a href="{{ path('app_admin_section_index', app.request.query.all|merge({'published' : 'false'})) }}"
                                    class="btn btn-warning btn-xs">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}
                         </td>
-                        <td>{{ page.created|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ page.modified|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ section.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ section.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
-                            <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_section_edit', { 'id': section.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Modifier
@@ -220,8 +216,8 @@
                         </td>
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target=".my-modal" data-item="{{ page.title }}"
-                                    data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri|remove_query }) }}">
+                                    data-target=".my-modal" data-item="{{ section.title }}"
+                                    data-path="{{ path('app_admin_section_delete', { 'id': section.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer
                             </button>
@@ -232,10 +228,10 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(pages) }}
+            {{ pagination(sections) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-page-modal.html.twig" %}
+    {% include "admin/includes/_delete-section-modal.html.twig" %}
 {% endblock %}
 
 {% block javascript %}

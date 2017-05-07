@@ -144,34 +144,34 @@
                         <td>{{ tag.type }}</td>
                         <td><span class="label label-{{ tag.label }}">{{ tag.label }}</span></td>
                         <td>
-                            {% if tag.readOnly %}
-                                <span class="btn btn-warning btn-sm disabled" data-toggle="tooltip" data-placement="top"
-                                      data-original-title="Lecture seule uniquement">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    Modifier
-                                </span>
-                            {% else %}
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-sm">
                                     <span class="glyphicon glyphicon-edit"></span>
                                     Modifier
                                 </a>
+                            {% else %}
+                                <span class="btn btn-warning btn-sm disabled" data-toggle="tooltip" data-placement="top"
+                                      data-original-title="Lecture seule uniquement">
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                    Modifier
+                                </span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if tag.readOnly %}
-                                <span class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-placement="top"
-                                      data-original-title="Lecture seule uniquement">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Supprimer
-                                </span>
-                            {% else %}
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                         data-target=".my-modal" data-item="{{ tag.name }}"
                                         data-path="{{ path('app_admin_tag_delete', { 'id': tag.id, 'callback': app.request.uri|remove_query }) }}">
                                     <span class="glyphicon glyphicon-trash"></span>
                                     Supprimer
                                 </button>
+                            {% else %}
+                                <span class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-placement="top"
+                                      data-original-title="Lecture seule uniquement">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                    Supprimer
+                                </span>
                             {% endif %}
                         </td>
                     </tr>

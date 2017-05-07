@@ -44,7 +44,7 @@ class Section
     private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];

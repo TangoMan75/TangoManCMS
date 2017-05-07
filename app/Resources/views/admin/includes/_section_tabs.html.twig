@@ -1,0 +1,24 @@
+<div id="tabs">
+    <ul class="nav nav-tabs">
+        <li{% if app.request.attributes.get('_route') ends with 'index' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_section_index') }}">
+                <span class="glyphicon glyphicon-list"></span>
+                Liste
+            </a>
+        </li>
+        <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
+            <a href="{{ path('app_admin_section_new', { 'callback': app.request.uri|callback }) }}">
+                <span class="glyphicon glyphicon-plus"></span>
+                Ajouter
+            </a>
+        </li>
+        {% if section is defined %}
+            <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
+                <a href="{{ path('app_admin_section_edit', { 'id': section.id, 'callback': app.request.uri|callback }) }}">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    {{ section.title|truncate(20) }}
+                </a>
+            </li>
+        {% endif %}
+    </ul>
+</div>

@@ -2,17 +2,15 @@
 
 namespace AppBundle\Form\Admin;
 
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Doctrine\ORM\EntityRepository;
 
-class AdminEditPostType extends AbstractType
+class AdminNewSectionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -29,61 +27,51 @@ class AdminEditPostType extends AbstractType
                 ]
             )
             ->add(
-                'slug',
-                TextType::Class,
-                [
-                    'label'    => 'Slug',
-                    'required' => false,
-                ]
-            )
-            ->add(
-                'imageFile',
-                VichImageType::class,
-                [
-                    'label'         => 'Image de couverture',
-                    'allow_delete'  => true,
-                    'download_link' => true,
-                    'required'      => false,
-                ]
-            )
-            ->add(
-                'sections',
-                EntityType::class,
-                [
-                    'label'         => 'Section',
-                    'class'         => 'AppBundle:Section',
-                    'placeholder'   => 'Selectionner une section',
-                   // 'empty_data'    => null,
-                    'multiple'      => false,
-                    'expanded'      => false,
-                    'required'      => false,
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('section')
-                            ->orderBy('section.title');
-                    },
-                ]
-            )
-            ->add(
                 'tags',
                 EntityType::class,
                 [
                     'label'         => 'Étiquette',
                     'class'         => 'AppBundle:Tag',
-                   // 'empty_data'    => null,
+                    // 'empty_data' => null,
                     'multiple'      => true,
                     'expanded'      => true,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('t');
+                        return $em->createQueryBuilder('tag')
+                            ->join('tag.items', 'items');
                     },
                 ]
             )
             ->add(
-                'text',
-                TextareaType::Class,
+                'pages',
+                EntityType::class,
                 [
-                    'label'    => 'Contenu',
-                    'required' => false,
+                    'label'         => 'Pages',
+                    'class'         => 'AppBundle:Page',
+                    // 'empty_data' => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('page')
+                            ->orderBy('page.title');
+                    },
+                ]
+            )
+            ->add(
+                'posts',
+                EntityType::class,
+                [
+                    'label'         => 'Articles',
+                    'class'         => 'AppBundle:Post',
+                    // 'empty_data' => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('post')
+                            ->orderBy('post.title');
+                    },
                 ]
             )
             ->add(
@@ -103,13 +91,13 @@ class AdminEditPostType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\Post',
+                'data_class' => 'AppBundle\Entity\Section',
             ]
         );
     }
 
     public function getName()
     {
-        return 'post';
+        return 'section';
     }
 }

@@ -30,42 +30,31 @@ class AdminNewPageType extends AbstractType
                 'tags',
                 EntityType::class,
                 [
-                    'label'         => 'Étiquette',
-                    'class'         => 'AppBundle:Tag',
-                    'multiple'      => true,
-                    'expanded'      => true,
-                    'required'      => false,
+                    'label' => 'Étiquette',
+                    'class' => 'AppBundle:Tag',
+//                    'empty_data' => null,
+                    'multiple' => true,
+                    'expanded' => true,
+                    'required' => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('t');
+                        return $em->createQueryBuilder('tag')
+                            ->join('tag.items', 'items');
                     },
                 ]
             )
             ->add(
-                'posts',
+                'sections',
                 EntityType::class,
                 [
-                    'label'         => 'Articles',
-                    'class'         => 'AppBundle:Post',
-                    'multiple'      => true,
-                    'expanded'      => false,
-                    'required'      => false,
+                    'label' => 'Sections',
+                    'class' => 'AppBundle:Section',
+//                    'empty_data' => null,
+                    'multiple' => true,
+                    'expanded' => false,
+                    'required' => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('p');
-                    },
-                ]
-            )
-            ->add(
-                'listMedia',
-                EntityType::class,
-                [
-                    'label'         => 'Médias',
-                    'class'         => 'AppBundle:Media',
-                    'multiple'      => true,
-                    'expanded'      => false,
-                    'required'      => false,
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('m')
-                            ->orderBy('m.title');
+                        return $em->createQueryBuilder('section')
+                            ->orderBy('section.title');
                     },
                 ]
             )

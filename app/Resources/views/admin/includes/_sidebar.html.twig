@@ -49,6 +49,12 @@
                     <span class="sidebar-label">Pages</span>
                 </a>
             </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_section' %} class="active"{% endif %}>
+                <a href="{{ path('app_admin_section_index') }}">
+                    <span class="glyphicon glyphicon-list-alt"></span>
+                    <span class="sidebar-label">Sections</span>
+                </a>
+            </li>
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_post' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_post_index') }}">
                     <span class="glyphicon glyphicon-text-color"></span>
@@ -83,6 +89,18 @@
                 <a href="{{ path('app_admin_user_index') }}">
                     <span class="glyphicon glyphicon-user"></span>
                     <span class="sidebar-label">Utilisateurs</span>
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_role' %} class="active"{% endif %}>
+                <a href="#">
+                    <span class="glyphicon glyphicon-king"></span>
+                    <span class="sidebar-label">Roles</span>
+                </a>
+            </li>
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
+                <a href="#">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    <span class="sidebar-label">Privileges</span>
                 </a>
             </li>
         </ul>

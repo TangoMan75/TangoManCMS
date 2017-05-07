@@ -34,25 +34,25 @@ class AdminNewPostType extends AbstractType
                 VichImageType::class,
                 [
                     'label'         => 'Image de couverture',
-                    'required'      => false,
                     'allow_delete'  => false,
                     'download_link' => false,
+                    'required'      => false,
                 ]
             )
             ->add(
-                'page',
+                'sections',
                 EntityType::class,
                 [
-                    'label'         => 'Page',
-                    'class'         => 'AppBundle:Page',
-                    'placeholder'   => 'Selectionner une page',
-                    'empty_data'    => null,
+                    'label'         => 'Section',
+                    'class'         => 'AppBundle:Section',
+                    'placeholder'   => 'Selectionner une section',
+                    // 'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('p')
-                            ->orderBy('p.title');
+                        return $em->createQueryBuilder('section')
+                            ->orderBy('section.title');
                     },
                 ]
             )
@@ -62,6 +62,7 @@ class AdminNewPostType extends AbstractType
                 [
                     'label'         => 'Étiquette',
                     'class'         => 'AppBundle:Tag',
+                    // 'empty_data'    => null,
                     'multiple'      => true,
                     'expanded'      => true,
                     'required'      => false,

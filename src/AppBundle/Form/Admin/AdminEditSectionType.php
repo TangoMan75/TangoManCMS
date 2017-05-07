@@ -10,11 +10,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Doctrine\ORM\EntityRepository;
 
-class AdminEditPageType extends AbstractType
+class AdminEditSectionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -37,12 +37,12 @@ class AdminEditPageType extends AbstractType
                 'tags',
                 EntityType::class,
                 [
-                    'label' => 'Étiquette',
-                    'class' => 'AppBundle:Tag',
-                    'empty_data' => null,
-                    'multiple' => true,
-                    'expanded' => true,
-                    'required' => false,
+                    'label'         => 'Étiquette',
+                    'class'         => 'AppBundle:Tag',
+                    // 'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => true,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('tag')
                             ->join('tag.items', 'items');
@@ -50,18 +50,34 @@ class AdminEditPageType extends AbstractType
                 ]
             )
             ->add(
-                'sections',
+                'pages',
                 EntityType::class,
                 [
-                    'label' => 'Sections',
-                    'class' => 'AppBundle:Section',
-                    'empty_data' => null,
-                    'multiple' => true,
-                    'expanded' => false,
-                    'required' => false,
+                    'label'         => 'Pages',
+                    'class'         => 'AppBundle:Page',
+                    // 'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('section')
-                            ->orderBy('section.title');
+                        return $em->createQueryBuilder('page')
+                            ->orderBy('page.title');
+                    },
+                ]
+            )
+            ->add(
+                'posts',
+                EntityType::class,
+                [
+                    'label'         => 'Articles',
+                    'class'         => 'AppBundle:Post',
+                    // 'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('post')
+                            ->orderBy('post.title');
                     },
                 ]
             )
@@ -69,7 +85,7 @@ class AdminEditPageType extends AbstractType
                 'published',
                 CheckboxType::class,
                 [
-                    'label' => 'Publier',
+                    'label'    => 'Publier',
                     'required' => false,
                 ]
             );
@@ -82,13 +98,13 @@ class AdminEditPageType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\Page',
+                'data_class' => 'AppBundle\Entity\Section',
             ]
         );
     }
 
     public function getName()
     {
-        return 'page';
+        return 'section';
     }
 }

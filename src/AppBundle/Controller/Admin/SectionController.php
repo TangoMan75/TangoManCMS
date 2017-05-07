@@ -2,35 +2,35 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Entity\Page;
-use AppBundle\Form\Admin\AdminNewPageType;
-use AppBundle\Form\Admin\AdminEditPageType;
+use AppBundle\Entity\Section;
+use AppBundle\Form\Admin\AdminNewSectionType;
+use AppBundle\Form\Admin\AdminEditSectionType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PageController
- * @Route("/admin/pages")
+ * Class SectionController
+ * @Route("/admin/sections")
  *
  * @package AppBundle\Controller
  */
-class PageController extends Controller
+class SectionController extends Controller
 {
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
-        // Show searchable, sortable, paginated page list
+        // Show searchable, sortable, paginated section list
         $em = $this->get('doctrine')->getManager();
-        $pages = $em->getRepository('AppBundle:Page')->orderedSearchPaged($request->query);
+        $sections = $em->getRepository('AppBundle:Section')->orderedSearchPaged($request->query);
 
         return $this->render(
-            'admin/page/index.html.twig',
+            'admin/section/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'pages'       => $pages,
+				'currentUser' => $this->getUser(),
+				'sections'    => $sections,
             ]
         );
     }
@@ -40,24 +40,24 @@ class PageController extends Controller
      */
     public function newAction(Request $request)
     {
-        $page = new Page();
-        $form = $this->createForm(AdminNewPageType::class, $page);
+        $section = new Section();
+        $form = $this->createForm(AdminNewSectionType::class, $section);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persists new page
+            // Persists new section
             $em = $this->get('doctrine')->getManager();
-            $em->persist($page);
+            $em->persist($section);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La page <strong>&quot;'.$page.'&quot;</strong> a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add('success', 'La section <strong>&quot;'.$section.'&quot;</strong> a bien été ajoutée.');
 
-            // User is redirected to referrer page
+            // User is redirected to referrer section
             return $this->redirect($request->get('callback'));
         }
 
         return $this->render(
-            'admin/page/new.html.twig',
+            'admin/section/new.html.twig',
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
@@ -68,20 +68,20 @@ class PageController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Page $page)
+    public function editAction(Request $request, Section $section)
     {
-        $form = $this->createForm(AdminEditPageType::class, $page);
+        $form = $this->createForm(AdminEditSectionType::class, $section);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persists edited page
+            // Persists edited section
             $em = $this->get('doctrine')->getManager();
-            $em->persist($page);
+            $em->persist($section);
             $em->flush();
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La page <strong>&quot;'.$page.'&quot;</strong> a bien été modifiée.'
+                'La section <strong>&quot;'.$section.'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -89,11 +89,11 @@ class PageController extends Controller
         }
 
         return $this->render(
-            'admin/page/edit.html.twig',
+            'admin/section/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'page'        => $page,
+				'currentUser' => $this->getUser(),
+				'form'        => $form->createView(),
+				'section'     => $section,
             ]
         );
     }
@@ -101,7 +101,7 @@ class PageController extends Controller
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Page $page)
+    public function deleteAction(Request $request, Section $section)
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
             $this->get('session')->getFlashBag()->add(
@@ -110,19 +110,19 @@ class PageController extends Controller
                 'Vous n\'êtes pas autorisé à effectuer cette action.'
             );
 
-            // User is redirected to referrer page
+            // User is redirected to referrer section
             return $this->redirect($request->get('callback'));
         }
 
         // Deletes specified section
         $em = $this->get('doctrine')->getManager();
-        $em->remove($page);
+        $em->remove($section);
         $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La page <strong>&quot;'.$page.'&quot;</strong> a bien été supprimée.'
+            'La section <strong>&quot;'.$section.'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page
