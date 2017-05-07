@@ -26,10 +26,10 @@ class TagRepository extends EntityRepository
     public function orderedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page = $query->get('page', 1);
+        $page  = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'name');
-        $way = $query->get('way', 'ASC');
+        $way   = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -50,9 +50,9 @@ class TagRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
-            case 'articles':
-                $dql->addSelect('COUNT(articles) as orderParam');
-                $dql->leftJoin('tag.articles', 'articles');
+            case 'items':
+                $dql->addSelect('COUNT(citems) as orderParam');
+                $dql->leftJoin('tag.items', 'citems');
                 break;
 
             default:
