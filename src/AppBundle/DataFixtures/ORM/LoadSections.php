@@ -33,7 +33,7 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 7;
+        return 6;
     }
 
     /**
@@ -42,18 +42,13 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
     public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
 
-        foreach ($pages as $page) {
-            // Creates between 1 & 5 sections for each page
-            for ($i = 0; $i < mt_rand(1, 5); $i++) {
-                $section = new Section();
-                $section->setTitle($faker->sentence(4, true))
-                    ->addPage($page)
-                    ->setPublished($i % 2);
+        for ($i = 0; $i < 10; $i++) {
+            $section = new Section();
+            $section->setTitle($faker->sentence(4, true))
+                ->setPublished($i % 2);
 
-                $em->persist($section);
-            }
+            $em->persist($section);
         }
 
         $em->flush();

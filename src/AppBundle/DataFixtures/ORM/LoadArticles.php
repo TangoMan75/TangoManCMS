@@ -46,13 +46,8 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
     {
         $faker = Factory::create('fr_FR');
 
-        // Get users
         $users = $em->getRepository('AppBundle:User')->findAll();
-
-        // Get section
         $sections = $em->getRepository('AppBundle:Section')->findAll();
-
-        // Get tags
         $tags = $em->getRepository('AppBundle:Tag')->findAll();
 
         // Get images
@@ -74,8 +69,14 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
                 ->setImageFileName($fileNames[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
                 ->setUser($users[mt_rand(1, count($users) - 1)])
-                ->addSection($sections[mt_rand(1, count($sections) - 1)])
+//                ->addSection($sections[mt_rand(1, count($sections) - 1)])
                 ->setPublished($i % 2);
+
+            // Adds between 1 & 5 random sections to post
+            shuffle($sections);
+            for ($j = 0; $j < mt_rand(1, 5); $j++) {
+                $post->addSection($sections[$j]);
+            }
 
             // Adds between 1 & 5 random tags to post
             shuffle($tags);
