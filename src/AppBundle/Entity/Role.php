@@ -35,7 +35,7 @@ class Role
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $role;
+    private $type;
 
     /**
      * @var Privilege[]
@@ -92,19 +92,19 @@ class Role
     /**
      * @return string
      */
-    public function getRole()
+    public function getType()
     {
-        return $this->role;
+        return $this->type;
     }
 
     /**
-     * @param string $role
+     * @param string $type
      *
      * @return $this
      */
-    public function setRole($role)
+    public function setType($type)
     {
-        $this->role = $role;
+        $this->type = $type;
 
         return $this;
     }
