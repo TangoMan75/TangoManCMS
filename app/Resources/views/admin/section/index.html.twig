@@ -190,9 +190,14 @@
                             {{ section.title }}
                         </td>
                         <td>
-                            <span class="label label-success">
-                                {{ section.pages|length }}
-                            </span>
+                            {#<span class="label label-success">#}
+                                {#{{ section.pages|length }}#}
+                            {#</span>#}
+                            {% for page in section.pages %}
+                                <span class="label label-default">
+                                    {{ page.title }}<br />
+                                </span>
+                            {% endfor %}
                         </td>
                         <td>
                             <span class="label label-success">
