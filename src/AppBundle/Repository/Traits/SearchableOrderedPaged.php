@@ -22,8 +22,6 @@ Trait SearchableOrderedPaged
         // Sets default values
         $page  = $query->get('page', 1);
         $limit = $query->get('limit', 10);
-        $order = $query->get('order', 'modified');
-        $way   = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -37,19 +35,14 @@ Trait SearchableOrderedPaged
             );
         }
 
+        // QueryBuilder
         $dql = $this->createQueryBuilder($this->getTableName);
 
         // Search
         $dql = $this->search($dql, $query);
 
         // Order
-        $dql = $this->order($dql, $order);
-
-
-
-        $dql->leftJoin($this->getTableName.'.user', 'user');
-        $dql->groupBy($this->getTableName.'.id');
-        $dql->orderBy('orderParam', $way);
+        $dql = $this->order($dql, $query);
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
@@ -76,14 +69,49 @@ Trait SearchableOrderedPaged
             $dql = $this->searchSimpleArray($dql, 'category', $query->get('category'));
         }
 
+        if ($query->get('email')) {
+            $dql->andWhere($this->getTableName.'.email LIKE :email')
+                ->setParameter(':email', '%'.$query->get('email').'%');
+        }
+
+        if ($query->get('comment')) {
+            $dql->andWhere('comment.title LIKE :comment')
+                ->leftJoin($this->getTableName.'.comment', 'comment')
+                ->setParameter(':comment', '%'.$query->get('comment').'%');
+        }
+
         if ($query->get('id')) {
             $dql->andWhere($this->getTableName.'.id = :id')
                 ->setParameter(':id', $query->get('id'));
         }
 
+        if ($query->get('label')) {
+            $dql->andWhere($this->getTableName.'.label LIKE :label')
+                ->setParameter(':label', '%'.$query->get('label').'%');
+        }
+
         if ($query->get('link')) {
             $dql->andWhere($this->getTableName.'.link LIKE :link')
                 ->setParameter(':link', '%'.$query->get('link').'%');
+        }
+
+        if ($query->get('name')) {
+            $dql->andWhere($this->getTableName.'.name LIKE :name')
+                ->setParameter(':name', '%'.$query->get('name').'%');
+        }
+
+        switch ($query->get('password')) {
+            case 'true':
+                $dql->andWhere($this->getTableName.'.password IS NOT NULL');
+                break;
+            case 'false':
+                $dql->andWhere($this->getTableName.'.password IS NULL');
+        }
+
+        if ($query->get('post')) {
+            $dql->andWhere('post.title LIKE :post')
+                ->leftJoin($this->getTableName.'.post', 'post')
+                ->setParameter(':post', '%'.$query->get('post').'%');
         }
 
         switch ($query->get('published')) {
@@ -99,6 +127,16 @@ Trait SearchableOrderedPaged
         if ($query->get('slug')) {
             $dql->andWhere($this->getTableName.'.slug LIKE :slug')
                 ->setParameter(':slug', '%'.$query->get('slug').'%');
+        }
+
+        if ($query->get('subtitle')) {
+            $dql->andWhere($this->getTableName.'.subtitle LIKE :subtitle')
+                ->setParameter(':subtitle', '%'.$query->get('subtitle').'%');
+        }
+
+        if ($query->get('summary')) {
+            $dql->andWhere($this->getTableName.'.summary LIKE :summary')
+                ->setParameter(':summary', '%'.$query->get('summary').'%');
         }
 
         if ($query->get('s_page')) {
@@ -123,9 +161,20 @@ Trait SearchableOrderedPaged
                 ->setParameter(':title', '%'.$query->get('title').'%');
         }
 
+        if ($query->get('type')) {
+            $dql->andWhere($this->getTableName.'.type LIKE :type')
+                ->setParameter(':type', '%'.$query->get('type').'%');
+        }
+
         if ($query->get('user')) {
             $dql->andWhere('user.username LIKE :user')
+                ->leftJoin($this->getTableName.'.user', 'user')
                 ->setParameter(':user', '%'.$query->get('user').'%');
+        }
+
+        if ($query->get('username')) {
+            $dql->andWhere('user.username LIKE :username')
+                ->setParameter(':username', '%'.$query->get('username').'%');
         }
 
         return $dql;
@@ -137,11 +186,15 @@ Trait SearchableOrderedPaged
      *
      * @return QueryBuilder
      */
-    public function order(QueryBuilder $dql, $order)
+    public function order(QueryBuilder $dql, ParameterBag $query)
     {
+        $order = $query->get('order', 'modified');
+        $way   = $query->get('way', 'DESC');
+
         switch ($order) {
             case 'author':
                 $dql->addSelect('user.username as orderParam');
+                $dql->leftJoin($this->getTableName.'.user', 'user');
                 break;
 
             case 'comments':
@@ -153,9 +206,23 @@ Trait SearchableOrderedPaged
                 $dql->addSelect('COUNT('.$this->getTableName.'.image) as orderParam');
                 break;
 
+            case 'items':
+                $dql->addSelect('COUNT(citems) as orderParam');
+                $dql->leftJoin($this->getTableName.'.items', 'citems');
+                break;
+
             case 'page':
                 $dql->addSelect('page.title as orderParam');
                 $dql->leftJoin($this->getTableName.'.page', 'page');
+                break;
+
+            case 'password':
+                $dql->addSelect('COUNT('.$this->getTableName.'.password) as orderParam');
+                break;
+
+            case 'posts':
+                $dql->addSelect('COUNT(post.id) as orderParam');
+                $dql->leftJoin($this->getTableName.'.posts', 'post');
                 break;
 
             case 'tags':
@@ -163,18 +230,31 @@ Trait SearchableOrderedPaged
                 $dql->leftJoin($this->getTableName.'.tags', 'tags');
                 break;
 
+            case 'user':
+                $dql->addSelect('user.username as orderParam');
+                $dql->leftJoin($this->getTableName.'.user', 'user');
+                break;
+
+            case 'users':
+                $dql->addSelect('COUNT(users) as orderParam');
+                $dql->leftJoin($this->getTableName.'.users', 'users');
+                break;
+
             default:
                 $dql->addSelect($this->getTableName.'.'.$order.' as orderParam');
                 break;
         }
 
+        $dql->groupBy($this->getTableName.'.id');
+        $dql->orderBy('orderParam', $way);
+
         return $dql;
     }
 
     /**
-     * All Posts with joined author email (for export)
+     * All with joined author email (for export)
      */
-    public function findAllPosts()
+    public function findAllWithUser()
     {
         return $this->createQueryBuilder($this->getTableName)
             ->leftJoin($this->getTableName.'.user', 'user')
@@ -184,9 +264,7 @@ Trait SearchableOrderedPaged
     }
 
     /**
-     * Posts pagination
-     *
-     * @param int $page
+     * @param int $pages
      * @param int $limit
      *
      * @return Paginator

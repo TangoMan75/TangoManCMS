@@ -44,16 +44,16 @@
                         </div>
 
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                            <label class="control-label col-sm-4" for="selectStatus">Status</label>
+                            <label class="control-label col-sm-4" for="selectPassword">Status</label>
                             <div class="col-sm-8">
-                                <select name="status" id="selectStatus" class="form-control">
+                                <select name="password" id="selectPassword" class="form-control">
                                     <option value="">Tous</option>
                                     <option value="true"
-                                            {% if app.request.get('status') == "true" %}selected{% endif %}>
+                                            {% if app.request.get('password') == "true" %}selected{% endif %}>
                                         Actif
                                     </option>
                                     <option value="false"
-                                            {% if app.request.get('status') == "false" %}selected{% endif %}>
+                                            {% if app.request.get('password') == "false" %}selected{% endif %}>
                                         Inactif
                                     </option>
                                 </select>
@@ -177,11 +177,11 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'status' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'password' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'status',
-                                'way'   : app.request.query.get('order') == 'status'
+                                'order' : 'password',
+                                'way'   : app.request.query.get('order') == 'password'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Actif
                             </a>

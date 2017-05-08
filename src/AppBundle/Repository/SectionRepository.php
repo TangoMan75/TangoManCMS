@@ -58,7 +58,7 @@ class SectionRepository extends EntityRepository
 
             case 'tags':
                 $dql->addSelect('COUNT(ctags) as orderParam');
-                $dql->leftJoin('page.tags', 'ctags');
+                $dql->leftJoin('section.tags', 'ctags');
                 break;
 
             default:

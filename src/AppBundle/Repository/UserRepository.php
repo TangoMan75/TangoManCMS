@@ -28,10 +28,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     public function orderedSearchPaged(ParameterBag $query)
     {
         // Sets default values
-        $page = $query->get('page', 1);
+        $page  = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'username');
-        $way = $query->get('way', 'ASC');
+        $way   = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -67,7 +67,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 $dql->leftJoin('user.posts', 'post');
                 break;
 
-            case 'status':
+            case 'password':
                 $dql->addSelect('COUNT(user.password) as orderParam');
                 break;
 
@@ -110,7 +110,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
                 ->setParameter(':id', $query->get('id'));
         }
 
-        switch ($query->get('status')) {
+        switch ($query->get('password')) {
             case 'true':
                 $dql->andWhere('user.password IS NOT NULL');
                 break;
