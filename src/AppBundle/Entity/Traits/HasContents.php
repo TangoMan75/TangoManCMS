@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity\Traits;
 
-use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
