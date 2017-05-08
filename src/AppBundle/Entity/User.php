@@ -34,15 +34,15 @@ class User implements UserInterface
     private $id;
 
     /**
-     * @var string User's name
+     * @var string
      * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\Expression("value not in ['delete','edit','register','unsubscribe']", message="Désolé, ce nom d'utilisateur est réservé.")
+     * @Assert\Expression("value not in ['delete','edit','new','register','unsubscribe']", message="Désolé, ce nom d'utilisateur est réservé.")
      * @Assert\NotBlank(message="Merci de renseigner un nom d'utilisateur.")
      */
     private $username;
 
     /**
-     * @var string User's email address
+     * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Email(message="Votre email doit être valide.")
      * @Assert\NotBlank(message="Merci de renseigner votre adresse email.")
@@ -50,26 +50,26 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @var string Base64 user avatar image
+     * @var string Base64 avatar image
      * @ORM\Column(type="text", nullable=true)
      */
     private $avatar;
 
     /**
-     * @var String User biography
+     * @var string Biography
      * @ORM\Column(type="text", nullable=true)
      */
     private $bio;
 
     /**
-     * @var Post[] User's posts
+     * @var Post[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"created"="DESC"})
      */
     private $posts;
 
     /**
-     * @var Comment[] User's comments
+     * @var Comment[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove"})
      * @ORM\OrderBy({"created"="DESC"})
      */
