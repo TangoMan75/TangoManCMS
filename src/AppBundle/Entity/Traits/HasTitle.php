@@ -3,19 +3,24 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Class Titleable
- * Requires entities to own "Sluggable" and "Timestampable" traits.
+ * Class HasTitle
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Titleable
+Trait HasTitle
 {
     /**
      * @var String
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $title;
+
+    /**
+     * @var String
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $subtitle;
 
     /**
      * @return string
@@ -26,8 +31,6 @@ Trait Titleable
     }
 
     /**
-     * Slug is generated from title
-     *
      * @param string $title
      *
      * @return $this
@@ -35,6 +38,26 @@ Trait Titleable
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSubtitle()
+    {
+        return $this->subtitle;
+    }
+
+    /**
+     * @param string $subtitle
+     *
+     * @return $this
+     */
+    public function setSubtitle($subtitle)
+    {
+        $this->subtitle = $subtitle;
 
         return $this;
     }

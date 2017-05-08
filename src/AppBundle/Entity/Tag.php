@@ -18,6 +18,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Tag
 {
     use Traits\Slugify;
+    use Traits\HasItems;
+    use Traits\HasType;
 
     /**
      * @var int
@@ -36,23 +38,17 @@ class Tag
 
     /**
      * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $type;
-
-    /**
-     * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $label;
 
     /**
-     * @var array|ArrayCollection
+     * @var Item[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      */
-    private $items;
+    private $items = [];
 
     /**
      * Tag constructor.
@@ -92,26 +88,6 @@ class Tag
     }
 
     /**
-     * @param string $type
-     *
-     * @return Tag
-     */
-    public function setType($type)
-    {
-        $this->type = $this->slugify($type);
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
      * @param string $label
      *
      * @return $this
@@ -129,38 +105,6 @@ class Tag
     public function getLabel()
     {
         return $this->label;
-    }
-
-    /**
-     * @return Tag
-     */
-    public function addItem($item)
-    {
-        if (!in_array($item, (array)$this->items)) {
-            $this->items[] = $item;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getItems()
-    {
-        return $this->items;
-    }
-
-    /**
-     * @param $item
-     *
-     * @return Tag
-     */
-    public function removeItem($item)
-    {
-        $this->items->removeElement($item);
-
-        return $this;
     }
 
     /**

@@ -7,7 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Class Taggable
- * 1. Requires Tag "item" method to be marked with "OneToMany" annotation.
+ * 
+ * This trait defines the OWNING side of the relationship.
+ * 
+ * 1. Tag entity must implement inversed property and methods.
+ * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -19,6 +24,18 @@ Trait Taggable
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
     private $tags = [];
+
+    /**
+     * @param Tag[]|ArrayCollection $tags
+     *
+     * @return $this
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
 
     /**
      * @return Tag[]

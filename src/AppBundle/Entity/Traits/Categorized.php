@@ -38,6 +38,18 @@ Trait Categorized
     ];
 
     /**
+     * @param array $category
+     *
+     * @return $this
+     */
+    public function setCategories($categories)
+    {
+        $this->categories = $categories;
+
+        return $this;
+    }
+
+    /**
      * @return array
      */
     public function getCategories()
@@ -58,7 +70,7 @@ Trait Categorized
     }
 
     /**
-     * @param String $category
+     * @param string $category
      *
      * @return $this
      */
@@ -76,7 +88,7 @@ Trait Categorized
     }
 
     /**
-     * @param $category
+     * @param string $category
      */
     public function checkCategory($category)
     {
@@ -86,7 +98,7 @@ Trait Categorized
     }
 
     /**
-     * @param String $category
+     * @param string $category
      *
      * @return $this
      */

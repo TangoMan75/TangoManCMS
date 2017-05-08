@@ -66,7 +66,7 @@ class Privilege
      */
     public function __construct()
     {
-        $this->roless = new ArrayCollection();
+        $this->roles = new ArrayCollection();
         $this->canCreate = false;
         $this->canRead = false;
         $this->canUpdate = false;

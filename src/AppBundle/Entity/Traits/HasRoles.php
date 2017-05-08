@@ -2,22 +2,43 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Role;
+use Doctrine\Common\Collections\ArrayCollection;
+
 /**
  * Class HasRoles
+ * 
+ * This trait defines the OWNING side of the relationship.
+ * 
+ * 1. Role entity must implement inversed property and methods.
+ * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ *     $this->roles = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-trait HasRoles
+Trait HasRoles
 {
     /**
-     * @var array User roles
-     * @ORM\Column(type="simple_array")
+     * @var Role[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users")
      */
     private $roles = [];
 
     /**
-     * @return Role[]|array
+     * @param Role[]|ArrayCollection $roles
+     *
+     * @return $this
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    /**
+     * @return Role[]
      */
     public function getRoles()
     {
@@ -29,9 +50,9 @@ trait HasRoles
      *
      * @return bool
      */
-    public function hasRole($role)
+    public function hasRole(Role $role)
     {
-        if (in_array($role, $this->roles)) {
+        if (in_array($role, (array)$this->roles)) {
             return true;
         }
 
@@ -40,8 +61,10 @@ trait HasRoles
 
     /**
      * @param Role $role
+     *
+     * @return $this
      */
-    public function addRole($role)
+    public function addRole(Role $role)
     {
         if (!in_array($role, (array)$this->roles)) {
             $this->roles[] = $role;
@@ -51,11 +74,11 @@ trait HasRoles
     }
 
     /**
-     * @param Role $role
+     * @param role $role
      *
      * @return $this
      */
-    public function removeRole($role)
+    public function removeRole(role $role)
     {
         $this->roles->removeElement($role);
 

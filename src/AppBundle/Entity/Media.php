@@ -21,13 +21,14 @@ class Media
 {
     use Traits\Categorized;
     use Traits\Embeddable;
+    use Traits\HasText;
+    use Traits\HasTitle;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;
     use Traits\Timestampable;
-    use Traits\Titleable;
-    use Traits\UploadableImage;
     use Traits\UploadableDocument;
+    use Traits\UploadableImage;
 
     /**
      * @var int
@@ -42,12 +43,6 @@ class Media
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="listMedia")
      */
     private $user;
-
-    /**
-     * @var string
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $text;
 
     /**
      * Media constructor.
@@ -82,26 +77,6 @@ class Media
     public function setUser($user)
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
-     * @param string $text
-     *
-     * @return $this
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
 
         return $this;
     }

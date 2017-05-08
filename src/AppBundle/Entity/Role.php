@@ -16,6 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Role
 {
+    use Traits\HasType;
+    use Traits\HasPrivileges;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -32,12 +35,6 @@ class Role
     private $name;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $type;
-
-    /**
      * @var Privilege[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="roles")
      * @ORM\Column(type="array", nullable=true)
@@ -48,15 +45,15 @@ class Role
      * @var User[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
      */
-    private $users;
+    private $users = [];
 
     /**
      * Role constructor.
      */
     public function __construct()
     {
-        $this->users = new ArrayCollection();
         $this->privileges = new ArrayCollection();
+        $this->users      = new ArrayCollection();
     }
 
     /**
@@ -87,26 +84,6 @@ class Role
     public function getName()
     {
         return $this->name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
     }
 
     /**

@@ -21,11 +21,12 @@ class Post
 {
     use Traits\Categorized;
     use Traits\Embeddable;
+    use Traits\HasText;
+    use Traits\HasTitle;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;
     use Traits\Timestampable;
-    use Traits\Titleable;
     use Traits\UploadableDocument;
     use Traits\UploadableImage;
 
@@ -42,12 +43,6 @@ class Post
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
      */
     private $user;
-
-    /**
-     * @var string
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $text;
 
     /**
      * @var Section[]
@@ -73,6 +68,7 @@ class Post
         $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -99,26 +95,6 @@ class Post
     public function setUser($user)
     {
         $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
-     * @param string $text
-     *
-     * @return $this
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
 
         return $this;
     }

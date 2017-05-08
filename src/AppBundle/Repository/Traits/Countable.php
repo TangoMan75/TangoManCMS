@@ -6,6 +6,7 @@ use Doctrine\ORM\QueryBuilder;
 
 /**
  * Trait Countable
+ * Requires repository to own "TableName" trait.
  *
  * @package AppBundle\Repository\Traits
  */

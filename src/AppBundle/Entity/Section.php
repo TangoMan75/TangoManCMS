@@ -122,6 +122,18 @@ class Section
     }
 
     /**
+     * @param array $posts
+     *
+     * @return Section
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+
+        return $this;
+    }
+
+    /**
      * @return ArrayCollection
      */
     public function getPosts()
@@ -151,6 +163,18 @@ class Section
     public function removePost($post)
     {
         $this->posts->removeElement($post);
+
+        return $this;
+    }
+
+    /**
+     * @param array $pages
+     *
+     * @return Section
+     */
+    public function setPages($pages)
+    {
+        $this->pages = $pages;
 
         return $this;
     }

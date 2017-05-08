@@ -30,12 +30,6 @@ class Page
     private $id;
 
     /**
-     * @var boolean
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $published = false;
-
-    /**
      * @var string Title
      * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank(message="Le titre doit être renseigné")
@@ -47,16 +41,16 @@ class Page
      * @ORM\JoinTable(name="page_section")
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $sections = [];
+    private $content = [];
 
     /**
      * Section constructor.
      */
     public function __construct()
     {
-        $this->created = new \DateTimeImmutable();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
-        $this->sections = new ArrayCollection();
+        $this->content  = new ArrayCollection();
     }
 
     /**
@@ -67,26 +61,6 @@ class Page
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return boolean
-     */
-    public function isPublished()
-    {
-        return $this->published;
-    }
-
-    /**
-     * @param boolean $published
-     *
-     * @return $this
-     */
-    public function setPublished($published)
-    {
-        $this->published = $published;
-
-        return $this;
     }
 
     /**
@@ -109,40 +83,6 @@ class Page
         if (!$this->slug) {
             $this->setUniqueSlug($title);
         }
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    /**
-     * @param $section
-     *
-     * @return $this
-     */
-    public function addSection($section)
-    {
-        if (!in_array($section, (array)$this->sections)) {
-            $this->sections[] = $section;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $section
-     *
-     * @return $this
-     */
-    public function removeSection($section)
-    {
-        $this->sections->removeElement($section);
 
         return $this;
     }
