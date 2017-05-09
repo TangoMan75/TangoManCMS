@@ -43,29 +43,17 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
     {
         $faker = Factory::create('fr_FR');
 
-        // Get 100 Posts
-        // findBy seems to be the only working method in fixtures
-        $posts = $em->getRepository('AppBundle:Post')->findBy([], null, 100);
+        // Creates random comment amount for each post
+        for ($i = 0; $i < 10; $i++) {
+            $comment = new Comment();
+            $comment
+                ->setText('<p>'.$faker->text(mt_rand(300, 1200)).'</p>')
+                ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                ->setPublished($i % 2);
 
-        // Get Users
-        $users = $em->getRepository('AppBundle:User')->findAll();
-
-        foreach ($posts as $post) {
-
-            // Creates random comment amount for each post
-            for ($i = 0; $i < mt_rand(1, 10); $i++) {
-
-                $comment = new Comment();
-                $comment->setUser($users[mt_rand(1, count($users) - 1)])
-                    ->setPost($post)
-                    ->setText('<p>'.$faker->text(mt_rand(300, 1200)).'</p>')
-                    ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->setPublished($i % 2);
-
-                $em->persist($comment);
-            }
-
-            $em->flush();
+            $em->persist($comment);
         }
+
+        $em->flush();
     }
 }

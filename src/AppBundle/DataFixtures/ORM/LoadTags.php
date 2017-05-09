@@ -90,15 +90,12 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
         ];
 
         for ($i = 0; $i < count($tags); $i = $i + 3) {
-            // findBy seems to be the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Tag')->findBy(['name' => $tags[$i]])) {
-                $tag = new Tag();
-                $tag->setName($tags[$i])
-                    ->setType($tags[$i + 1])
-                    ->setLabel($tags[$i + 2]);
+            $tag = new Tag();
+            $tag->setName($tags[$i])
+                ->setType($tags[$i + 1])
+                ->setLabel($tags[$i + 2]);
 
-                $em->persist($tag);
-            }
+            $em->persist($tag);
         }
 
         $em->flush();

@@ -43,29 +43,14 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         $faker = Factory::create('fr_FR');
 
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-
         // Load 10 Pages
-        for ($i = 1; $i <= 10; $i++) {
-
+        for ($i = 0; $i < 10; $i++) {
             $page = new Page();
-            $page->setTitle($faker->sentence(4, true))
+            $page
+                ->setTitle($faker->sentence(4, true))
                 ->setSubtitle($faker->sentence(6, true))
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setPublished($i % 2);
-
-            // Adds between 1 & 5 random sections to post
-            shuffle($sections);
-            for ($j = 0; $j < mt_rand(1, 5); $j++) {
-                $page->addSection($sections[$j]);
-            }
-
-            // Adds between 0 & 5 random tags to post
-            shuffle($tags);
-            for ($j = 0; $j < mt_rand(0, 5); $j++) {
-                $page->addTag($tags[$j]);
-            }
 
             $em->persist($page);
         }

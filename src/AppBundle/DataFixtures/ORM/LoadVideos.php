@@ -46,11 +46,6 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
     {
         $faker = Factory::create('fr_FR');
 
-        // findBy seems to be the only working method in fixtures
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
-
         $links = [
             'https://www.youtube.com//watch?v=4TlqSWm9wQ8',
             'https://www.youtube.com//watch?v=96veA49pHSY',
@@ -68,32 +63,19 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
             'http://www.dailymotion.com/video/x5ge5ut_ce-mec-est-le-roi-des-petits-effets-speciaux-du-quotidien_fun',
         ];
 
-        foreach ($users as $user) {
+        shuffle($links);
+        for ($i = 0; $i < count($links); $i++) {
+            $post = new Post();
+            $post
+                ->setTitle($faker->sentence(4, true))
+                ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
+                ->setLink($links[$i])
+                ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                ->setPublished($i % 2);
 
-            shuffle($links);
-
-            // Creates between 1 & 10 videos for each user
-            for ($i = 0; $i < mt_rand(1, 10); $i++) {
-
-                $post = new Post();
-                $post->setUser($user)
-                    ->setTitle($faker->sentence(4, true))
-                    ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                    ->setLink($links[$i])
-                    ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                    ->addSection($sections[mt_rand(0, count($sections) - 1)])
-                    ->setPublished($i % 2);
-
-                // Adds between 1 & 5 random tags to post
-                shuffle($tags);
-                for ($j = 0; $j < mt_rand(1, 5); $j++) {
-                    $post->addTag($tags[$j]);
-                }
-
-                $em->persist($post);
-            }
-
-            $em->flush();
+            $em->persist($post);
         }
+
+        $em->flush();
     }
 }

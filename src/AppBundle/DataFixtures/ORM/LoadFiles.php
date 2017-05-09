@@ -47,10 +47,6 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
         $faker = Factory::create('fr_FR');
 
-        // findBy seems to be the only working method in fixtures
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
-
         $rootdir = $this->container->getParameter('kernel.root_dir')."/../web";
         // Get pptx
         $pptx = array_map(
@@ -68,43 +64,34 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
             glob($rootdir."/uploads/documents/*.{pdf,PDF}", GLOB_BRACE)
         );
 
-        foreach ($users as $user) {
-
-            // Creates between 1 & 10 medias for each user
-            for ($i = 0; $i < mt_rand(1, 10); $i++) {
-
-                for ($j = 0; $j < count($pptx); $j++) {
-                    $doc = new Post();
-                    $doc->addCategory('pptx')
-                        ->addCategory('file')
-                        ->addCategory('document')
-                        ->setTitle($faker->sentence(4, true))
-                        ->setText($faker->text(mt_rand(100, 255)))
-                        ->setDocumentFileName($pptx[$j])
-                        ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                        ->setUser($user)
-                        ->addSection($sections[mt_rand(0, count($sections) - 1)])
-                        ->setPublished($i % 2);
-                    $em->persist($doc);
-                }
-
-                for ($j = 0; $j < count($pdf); $j++) {
-                    $doc = new Post();
-                    $doc->addCategory('pdf')
-                        ->addCategory('file')
-                        ->addCategory('document')
-                        ->setTitle($faker->sentence(4, true))
-                        ->setText($faker->text(mt_rand(100, 255)))
-                        ->setDocumentFileName($pdf[$j])
-                        ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                        ->addSection($sections[mt_rand(0, count($sections) - 1)])
-                        ->setUser($user)
-                        ->setPublished($i % 2);
-                    $em->persist($doc);
-                }
-            }
-
-            $em->flush();
+        for ($i = 0; $i < count($pptx); $i++) {
+            $doc = new Post();
+            $doc
+                ->addCategory('pptx')
+                ->addCategory('file')
+                ->addCategory('document')
+                ->setTitle($faker->sentence(4, true))
+                ->setText($faker->text(mt_rand(100, 255)))
+                ->setDocumentFileName($pptx[$i])
+                ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                ->setPublished($i % 2);
+            $em->persist($doc);
         }
+
+        for ($i = 0; $i < count($pdf); $i++) {
+            $doc = new Post();
+            $doc
+                ->addCategory('pdf')
+                ->addCategory('file')
+                ->addCategory('document')
+                ->setTitle($faker->sentence(4, true))
+                ->setText($faker->text(mt_rand(100, 255)))
+                ->setDocumentFileName($pdf[$i])
+                ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                ->setPublished($i % 2);
+            $em->persist($doc);
+        }
+
+        $em->flush();
     }
 }
