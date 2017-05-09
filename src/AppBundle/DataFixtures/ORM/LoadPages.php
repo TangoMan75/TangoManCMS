@@ -42,6 +42,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
     public function load(ObjectManager $em)
     {
         $faker = Factory::create('fr_FR');
+
         $tags = $em->getRepository('AppBundle:Tag')->findAll();
         $sections = $em->getRepository('AppBundle:Section')->findAll();
 

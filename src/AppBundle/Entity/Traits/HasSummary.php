@@ -3,35 +3,35 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Trait HasText
+ * Trait HasSummary
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasText
+Trait HasSummary
 {
     /**
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    private $summary;
 
     /**
      * @return string
      */
-    public function getText()
+    public function getSummary()
     {
-        return $this->text;
+        return $this->summary;
     }
 
     /**
-     * @param string $text
+     * @param string $summary
      *
      * @return $this
      */
-    public function setText($text)
+    public function setSummary($summary)
     {
-        $this->text = $text;
+        $this->summary = $summary;
 
         return $this;
     }

@@ -23,6 +23,7 @@ class Media
     use Traits\Commentable;
     use Traits\Embeddable;
     use Traits\HasSections;
+    use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasUser;

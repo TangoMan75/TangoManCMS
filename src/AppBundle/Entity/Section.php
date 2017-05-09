@@ -19,6 +19,7 @@ class Section
 {
     use Traits\HasPages;
     use Traits\HasPosts;
+    use Traits\HasSummary;
     use Traits\HasTitle;
     use Traits\HasType;
     use Traits\Publishable;

@@ -6,14 +6,46 @@
     <div class="container">
         <header class="page-header">
             <h1 class="page-title">{{ page.title }}</h1>
+            <h2 class="page-subtitle">{{ page.subtitle }}</h2>
+            <p class="page-summary">{{ page.summary }}</p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="pull-right btn-group" role="group">
+                    <a href="{{ path("app_admin_page_edit",   { 'id': page.id, 'callback': callback }) }}"
+                       class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
+                       data-original-title="Modifier cette page">
+                        <span class="glyphicon glyphicon-edit"></span>
+                    </a>
+                    <a href="{{ path("app_admin_page_delete", { 'id': page.id, 'callback': app.request.uri|remove_query }) }}"
+                       class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
+                       data-original-title="Supprimer cette page">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+            {% endif %}
         </header>
         {% for section in page.sections %}
             <section>
                 <header class="section-header">
                     <h1 class="section-title">{{ section.title }}</h1>
+                    <h2 class="section-subtitle">{{ section.subtitle }}</h2>
+                    <p class="section-summary">{{ section.summary }}</p>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="pull-right btn-group" role="group">
+                            <a href="{{ path("app_admin_section_edit",   { 'id': section.id, 'callback': callback }) }}"
+                               class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
+                               data-original-title="Modifier cette section">
+                                <span class="glyphicon glyphicon-edit"></span>
+                            </a>
+                            <a href="{{ path("app_admin_section_delete", { 'id': section.id, 'callback': app.request.uri|remove_query }) }}"
+                               class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
+                               data-original-title="Supprimer cette section">
+                                <span class="glyphicon glyphicon-trash"></span>
+                            </a>
+                        </div>
+                    {% endif %}
                 </header>
                 {% for post in section.posts %}
-                    {% include "includes/_post.html.twig" with { 'post': post, 'section': app.request.uri|callback } %}
+                    {% include "includes/_post.html.twig" with { 'post': post, 'callback': app.request.uri|callback } %}
                 {% endfor %}
             </section>
         {% endfor %}

@@ -24,6 +24,7 @@ class Post
     use Traits\Embeddable;
     use Traits\HasSections;
     use Traits\HasText;
+    use Traits\HasSummary;
     use Traits\HasTitle;
     use Traits\HasUser;
     use Traits\Publishable;
