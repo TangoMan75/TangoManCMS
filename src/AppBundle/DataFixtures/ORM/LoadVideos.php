@@ -46,12 +46,10 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
     {
         $faker = Factory::create('fr_FR');
 
-        // Gets users
         // findBy seems to be the only working method in fixtures
-        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
-
-        // Gets section
         $sections = $em->getRepository('AppBundle:Section')->findAll();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $users = $em->getRepository('AppBundle:User')->findBy([], null, 100);
 
         $links = [
             'https://www.youtube.com//watch?v=4TlqSWm9wQ8',
@@ -86,10 +84,10 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
                     ->addSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
-                $tags = $em->getRepository('AppBundle:Tag')->findAll();
-
-                for ($j = 0; $j < mt_rand(0, 5); $j++) {
-                    $post->addTag($tags[mt_rand(0, 5)]);
+                // Adds between 1 & 5 random tags to post
+                shuffle($tags);
+                for ($j = 0; $j < mt_rand(1, 5); $j++) {
+                    $post->addTag($tags[$j]);
                 }
 
                 $em->persist($post);

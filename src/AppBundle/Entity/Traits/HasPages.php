@@ -6,11 +6,11 @@ use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class HasPages
- * 
- * This trait defines the OWNING side of the relationship.
- * 
- * 1. Page entity must implement inversed property and methods.
+ * Trait HasPages
+ *
+ * This trait defines the INVERSE side of the relationship.
+ *
+ * 1. Requires `Page` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->pages = new ArrayCollection();
  *
@@ -20,13 +20,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 Trait HasPages
 {
     /**
-     * @var Page[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="contents")
+     * @var array|Page[]|ArrayCollection
      */
     private $pages = [];
 
     /**
-     * @param Page[]|ArrayCollection $pages
+     * @param array|Page[]|ArrayCollection $pages
      *
      * @return $this
      */
@@ -38,7 +37,7 @@ Trait HasPages
     }
 
     /**
-     * @return Page[]
+     * @return array|Page[]|ArrayCollection
      */
     public function getPages()
     {
@@ -74,11 +73,11 @@ Trait HasPages
     }
 
     /**
-     * @param page $page
+     * @param Page $page
      *
      * @return $this
      */
-    public function removePage(page $page)
+    public function removePage(Page $page)
     {
         $this->pages->removeElement($page);
 

@@ -1,0 +1,20 @@
+09:52 09/05/2017
+================
+
+ManyToMany Relationships
+------------------------
+
+Users    => Roles
+Roles    => Privileges
+Tags     => Items
+Pages    => Sections
+Sections => Posts
+
+
+
+ManyToOne Relationships
+-----------------------
+
+Comments => Post
+
+

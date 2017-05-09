@@ -17,7 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Role
 {
     use Traits\HasType;
+    use Traits\HasName;
     use Traits\HasPrivileges;
+    use Traits\HasUsers;
 
     /**
      * @var int
@@ -28,22 +30,16 @@ class Role
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="L'étiquette doit avoir un nom.")
-     */
-    private $name;
-
-    /**
-     * @var Privilege[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="roles")
-     * @ORM\Column(type="array", nullable=true)
+     * @var Privilege[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles", cascade={"persist"})
+     * @ORM\OrderBy({"name"="DESC"})
      */
     private $privileges = [];
 
     /**
      * @var User[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles", cascade={"persist"})
+     * @ORM\OrderBy({"username"="DESC"})
      */
     private $users = [];
 
@@ -53,7 +49,7 @@ class Role
     public function __construct()
     {
         $this->privileges = new ArrayCollection();
-        $this->users      = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -67,111 +63,11 @@ class Role
     }
 
     /**
-     * @param string $name
-     *
-     * @return Role
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @return Privilege[]|array
-     */
-    public function getPrivileges()
-    {
-        return $this->privileges;
-    }
-
-    /**
-     * @param Privilege $privilege
-     *
-     * @return bool
-     */
-    public function hasPrivilege($privilege)
-    {
-        if (in_array($privilege, (array)$this->privileges)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Privilege $privilege
-     */
-    public function addPrivilege($privilege)
-    {
-        if (!in_array($privilege, (array)$this->privileges)) {
-            $this->privileges[] = $privilege;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Privilege $privilege
-     *
-     * @return $this
-     */
-    public function removePrivilege($privilege)
-    {
-        $this->privileges->removeElement($privilege);
-
-        return $this;
-    }
-
-    /**
-     * @return User[]|array
-     */
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function addUser($user)
-    {
-        if (!in_array($user, (array)$this->users)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function removeUser($user)
-    {
-        $this->users->removeElement($user);
-
-        return $this;
-    }
-
-    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->role;
+        return $this->type;
     }
 
 }

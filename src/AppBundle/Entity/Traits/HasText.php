@@ -3,7 +3,7 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Class HasText
+ * Trait HasText
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -11,13 +11,13 @@ namespace AppBundle\Entity\Traits;
 Trait HasText
 {
     /**
-     * @var String
+     * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $title;
+    private $text;
 
     /**
-     * @var String
+     * @var string
      * @ORM\Column(type="text", nullable=true)
      */
     private $summary;
@@ -27,17 +27,17 @@ Trait HasText
      */
     public function getText()
     {
-        return $this->title;
+        return $this->text;
     }
 
     /**
-     * @param string $title
+     * @param string $text
      *
      * @return $this
      */
-    public function setText($title)
+    public function setText($text)
     {
-        $this->title = $title;
+        $this->text = $text;
 
         return $this;
     }

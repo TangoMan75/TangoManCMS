@@ -2,15 +2,15 @@
 
 namespace AppBundle\Entity\Traits;
 
-use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Post;
 
 /**
- * Class HasPosts
- * 
+ * Trait HasPosts
+ *
  * This trait defines the OWNING side of the relationship.
  * 
- * 1. Post entity must implement inversed property and methods.
+ * 1. Requires owned `Post` entity to implement `$owners` property with `ManyToMany` and `inversedBy="posts"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
@@ -20,13 +20,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 Trait HasPosts
 {
     /**
-     * @var Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="contents")
+     * @var array|Post[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections")
      */
     private $posts = [];
 
     /**
-     * @param Post[]|ArrayCollection $posts
+     * @param array|Post[]|ArrayCollection $posts
      *
      * @return $this
      */
@@ -38,7 +38,7 @@ Trait HasPosts
     }
 
     /**
-     * @return Post[]
+     * @return array|Post[]|ArrayCollection $posts
      */
     public function getPosts()
     {
@@ -74,11 +74,11 @@ Trait HasPosts
     }
 
     /**
-     * @param post $post
+     * @param Post $post
      *
      * @return $this
      */
-    public function removePost(post $post)
+    public function removePost(Post $post)
     {
         $this->posts->removeElement($post);
 

@@ -63,14 +63,14 @@ class User implements UserInterface
 
     /**
      * @var Post[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"created"="DESC"})
      */
     private $posts;
 
     /**
      * @var Comment[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"created"="DESC"})
      */
     private $comments;

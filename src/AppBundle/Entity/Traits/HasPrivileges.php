@@ -6,11 +6,11 @@ use AppBundle\Entity\Privilege;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class HasPrivileges
- * 
- * This trait defines the OWNING side of the relationship.
- * 
- * 1. Privilege entity must implement inversed property and methods.
+ * Trait HasPrivileges
+ *
+ * This trait defines the OWNING side of a ManyToMany relationship.
+ *
+ * 1. Requires owned `Privilege` entity to implement `$owners` property with `ManyToMany` and `inversedBy="privileges"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->privileges = new ArrayCollection();
  *
@@ -20,13 +20,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 Trait HasPrivileges
 {
     /**
-     * @var Privilege[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="privileged")
+     * @var array|Privilege[]|ArrayCollection
      */
     private $privileges = [];
 
     /**
-     * @param Privilege[]|ArrayCollection $privileges
+     * @param array|Privilege[]|ArrayCollection $privileges
      *
      * @return $this
      */
@@ -38,7 +37,7 @@ Trait HasPrivileges
     }
 
     /**
-     * @return Privilege[]
+     * @return array|Privilege[]|ArrayCollection $privileges
      */
     public function getPrivileges()
     {
@@ -74,11 +73,11 @@ Trait HasPrivileges
     }
 
     /**
-     * @param privilege $privilege
+     * @param Privilege $privilege
      *
      * @return $this
      */
-    public function removePrivilege(privilege $privilege)
+    public function removePrivilege(Privilege $privilege)
     {
         $this->privileges->removeElement($privilege);
 

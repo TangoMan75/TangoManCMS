@@ -3,35 +3,35 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Trait Illustrable
+ * Trait HasName
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Illustrable
+Trait HasName
 {
     /**
-     * @var string
-     * @ORM\Column(type="text", nullable=true)
+     * @var String
+     * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $image;
+    private $name;
 
     /**
      * @return string
      */
-    public function getImage()
+    public function getName()
     {
-        return $this->image;
+        return $this->name;
     }
 
     /**
-     * @param string $image
+     * @param string $name
      *
      * @return $this
      */
-    public function setImage($image)
+    public function setName($name)
     {
-        $this->image = $image;
+        $this->name = $name;
 
         return $this;
     }

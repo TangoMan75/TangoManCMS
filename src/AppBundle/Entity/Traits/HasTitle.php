@@ -3,7 +3,7 @@
 namespace AppBundle\Entity\Traits;
 
 /**
- * Class HasTitle
+ * Trait HasTitle
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits

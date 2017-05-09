@@ -6,22 +6,14 @@ use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class HasSections
- * 
- * This trait defines the OWNING side of the relationship.
- * 
- * 1. Section entity must implement inversed property and methods.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
- *     $this->sections = new ArrayCollection();
+ * Trait HasSections
  *
- * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
 Trait HasSections
 {
     /**
-     * @var Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="contents")
+     * @var Section[]
      */
     private $sections = [];
 
@@ -74,11 +66,11 @@ Trait HasSections
     }
 
     /**
-     * @param section $section
+     * @param Section $section
      *
      * @return $this
      */
-    public function removeSection(section $section)
+    public function removeSection(Section $section)
     {
         $this->sections->removeElement($section);
 

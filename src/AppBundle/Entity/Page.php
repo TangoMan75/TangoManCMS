@@ -17,9 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
+    use Traits\HasSections;
+    use Traits\HasTitle;
+    use Traits\Publishable;
     use Traits\Sluggable;
-    use Traits\Timestampable;
     use Traits\Taggable;
+    use Traits\Timestampable;
 
     /**
      * @var int Page id
@@ -30,18 +33,11 @@ class Page
     private $id;
 
     /**
-     * @var string Title
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le titre doit être renseigné")
-     */
-    private $title;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages")
-     * @ORM\JoinTable(name="page_section")
+     * @var Section[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $content = [];
+    private $sections = [];
 
     /**
      * Section constructor.
@@ -50,7 +46,7 @@ class Page
     {
         $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
-        $this->content  = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     /**
@@ -64,24 +60,18 @@ class Page
     }
 
     /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     *
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
      * @return $this
      */
-    public function setTitle($title)
+    public function setDefaults()
     {
-        // Sets slug when empty
-        $this->title = $title;
+        if (!$this->title) {
+            $this->setTitle($this->created->format('d/m/Y H:i:s'));
+        }
+
         if (!$this->slug) {
-            $this->setUniqueSlug($title);
+            $this->setUniqueSlug($this->title);
         }
 
         return $this;

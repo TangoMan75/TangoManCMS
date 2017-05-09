@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Media;
+use AppBundle\Entity\Post;
+use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,6 +22,7 @@ class Tag
 {
     use Traits\Slugify;
     use Traits\HasItems;
+    use Traits\HasName;
     use Traits\HasType;
 
     /**
@@ -30,25 +34,18 @@ class Tag
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     * @Assert\NotBlank(message="L'étiquette doit avoir un nom.")
+     * @var array|Media[]|Post[]|Page[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags", cascade={"persist"})
      */
-    private $name;
+    private $items = [];
 
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
      */
     private $label;
-
-    /**
-     * @var Item[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags")
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
-     */
-    private $items = [];
 
     /**
      * Tag constructor.
@@ -65,26 +62,6 @@ class Tag
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return Tag
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

@@ -7,7 +7,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * Class UploadableDocument
+ * Trait UploadableDocument
  * 1. Requires entities to own "Categorized", "Timestampable" and "Sluggable" traits.
  * 2. Requires entities to be marked with "Uploadable" annotation.
  *

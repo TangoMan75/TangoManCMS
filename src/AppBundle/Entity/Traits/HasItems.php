@@ -5,12 +5,11 @@ namespace AppBundle\Entity\Traits;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class HasItems
+ * Trait HasItems
  *
  * This trait defines the INVERSE side of the relationship.
- * 
- * 1. Requires entity with "HasItems" trait to own "items" property marked with "ManyToMany", 
- *     "mappedBy=`tags`" annotation defining desired relationships with target entity.
+ *
+ * 1. Requires owned `Item` entity to implement `$owners` property with `ManyToMany` and `inversedBy="items"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->items = new ArrayCollection();
  *
@@ -45,7 +44,7 @@ Trait HasItems
     }
 
     /**
-     * @param $item
+     * @param array $item
      *
      * @return bool
      */
@@ -59,7 +58,7 @@ Trait HasItems
     }
 
     /**
-     * @param $item
+     * @param array $item
      *
      * @return $this
      */
@@ -73,7 +72,7 @@ Trait HasItems
     }
 
     /**
-     * @param $item
+     * @param array $item
      *
      * @return $this
      */

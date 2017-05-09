@@ -20,9 +20,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Post
 {
     use Traits\Categorized;
+    use Traits\Commentable;
     use Traits\Embeddable;
+    use Traits\HasSections;
     use Traits\HasText;
     use Traits\HasTitle;
+    use Traits\HasUser;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;
@@ -40,21 +43,20 @@ class Post
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"})
      */
     private $user;
 
     /**
-     * @var Section[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts")
-     * @ORM\JoinTable(name="section_post")
+     * @var array|Section[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="posts", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
 
     /**
-     * @var Comment[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove"})
+     * @var array|Comment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments = [];
@@ -77,80 +79,6 @@ class Post
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getSections()
-    {
-        return $this->sections;
-    }
-
-    /**
-     * @param $section
-     *
-     * @return $this
-     */
-    public function addSection($section)
-    {
-        if (!in_array($section, (array)$this->sections)) {
-            $this->sections[] = $section;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param $section
-     *
-     * @return $this
-     */
-    public function removeSection($section)
-    {
-        $this->sections->removeElement($section);
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getComments()
-    {
-        return $this->comments;
-    }
-
-    /**
-     * @param Comment[] $comments Comment list
-     *
-     * @return Post
-     */
-    public function setComments($comments)
-    {
-        $this->comments = $comments;
-
-        return $this;
     }
 
     /**

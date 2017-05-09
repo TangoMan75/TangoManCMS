@@ -5,7 +5,7 @@ namespace AppBundle\Entity\Traits;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class HasTypes
+ * Trait HasTypes
  * This class is designed to provide a simple and straitforward way to categorize entities.
  *
  * @author  Matthias Morin <tangoman@free.fr>

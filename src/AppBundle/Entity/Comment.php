@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Traits\Publishable;
-use AppBundle\Entity\Traits\Timestampable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -18,9 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    use Timestampable;
-
-    use Publishable;
+    use Traits\HasUser;
+    use Traits\HasPost;
+    use Traits\Publishable;
+    use Traits\Timestampable;
 
     /**
      * @var int
@@ -32,13 +31,13 @@ class Comment
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
      */
     private $user;
 
     /**
      * @var Post
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
      */
     private $post;
 
@@ -64,46 +63,6 @@ class Comment
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    /**
-     * @return Post
-     */
-    public function getPost()
-    {
-        return $this->post;
-    }
-
-    /**
-     * @param Post $post
-     *
-     * @return $this
-     */
-    public function setPost($post)
-    {
-        $this->post = $post;
-
-        return $this;
     }
 
     /**

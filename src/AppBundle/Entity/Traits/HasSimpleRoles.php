@@ -2,8 +2,10 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\User;
+
 /**
- * Class HasSimpleRoles
+ * Trait HasSimpleRoles
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits

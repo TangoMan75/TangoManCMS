@@ -10,7 +10,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Class Media
  *
- * @ORM\HasLifecycleCallbacks()
+ * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="media")
  * @Vich\Uploadable
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
@@ -20,9 +20,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Media
 {
     use Traits\Categorized;
+    use Traits\Commentable;
     use Traits\Embeddable;
+    use Traits\HasSections;
     use Traits\HasText;
     use Traits\HasTitle;
+    use Traits\HasUser;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;
@@ -33,16 +36,30 @@ class Media
     /**
      * @var int
      * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue()
+     * @ORM\Column(type="integer", unique=true)
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="listMedia")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="medias", cascade={"persist"})
      */
     private $user;
+
+    /**
+     * @var array|Section[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="medias", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $sections = [];
+
+    /**
+     * @var array|Comment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="media", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $comments = [];
 
     /**
      * Media constructor.
@@ -51,6 +68,9 @@ class Media
     {
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
+        $this->comments = new ArrayCollection();
+        $this->sections = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**
@@ -59,26 +79,6 @@ class Media
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function setUser($user)
-    {
-        $this->user = $user;
-
-        return $this;
     }
 
     /**

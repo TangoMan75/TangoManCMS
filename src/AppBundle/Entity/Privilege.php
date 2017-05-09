@@ -17,6 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Privilege
 {
+    use Traits\HasName;
+    use Traits\HasRoles;
+
     /**
      * @var int
      * @ORM\Column(type="integer")
@@ -24,12 +27,6 @@ class Privilege
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, unique=true)
-     */
-    private $name;
 
     /**
      * @var bool
@@ -56,8 +53,9 @@ class Privilege
     private $canDelete;
 
     /**
-     * @var array|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges")
+     * @var array|Role[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges", cascade={"persist"})
+     * @ORM\OrderBy({"name"="DESC"})
      */
     private $roles = [];
 
@@ -79,26 +77,6 @@ class Privilege
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param string $name
-     *
-     * @return $this
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**
@@ -177,40 +155,6 @@ class Privilege
     public function setCanDelete($canDelete)
     {
         $this->canDelete = $canDelete;
-
-        return $this;
-    }
-
-    /**
-     * @param $role
-     *
-     * @return $this
-     */
-    public function addRole($role)
-    {
-        if (!in_array($role, (array)$this->roles)) {
-            $this->roles[] = $role;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return ArrayCollection
-     */
-    public function getRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
-     * @param $role
-     *
-     * @return $this
-     */
-    public function removeRole($role)
-    {
-        $this->roles->removeElement($role);
 
         return $this;
     }

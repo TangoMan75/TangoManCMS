@@ -50,9 +50,9 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $faker = Factory::create('fr_FR');
 
         // findBy seems to be the only working method in fixtures
-        $users    = $em->getRepository('AppBundle:User')->findBy([], null, 10);
         $sections = $em->getRepository('AppBundle:Section')->findAll();
         $tags     = $em->getRepository('AppBundle:Tag')->findAll();
+        $users    = $em->getRepository('AppBundle:User')->findBy([], null, 10);
 
         foreach ($users as $user) {
             // Creates between 1 & 10 posts for each user

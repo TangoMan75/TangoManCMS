@@ -6,13 +6,13 @@ use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class Taggable
+ * Trait Taggable
  * 
- * This trait defines the OWNING side of the relationship.
+ * This trait defines the INVERSE side of the relationship.
  * 
- * 1. Tag entity must implement inversed property and methods.
+ * 1. Requires `Owner` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
- *     $this->tags = new ArrayCollection();
+ *     $this->owners = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -20,13 +20,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 Trait Taggable
 {
     /**
-     * @var Tag[]|ArrayCollection
+     * @var array|Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
      */
     private $tags = [];
 
     /**
-     * @param Tag[]|ArrayCollection $tags
+     * @param array|Tag[]|ArrayCollection $tags
      *
      * @return $this
      */
@@ -38,7 +38,7 @@ Trait Taggable
     }
 
     /**
-     * @return Tag[]
+     * @return array|Tag[]|ArrayCollection
      */
     public function getTags()
     {
@@ -74,11 +74,11 @@ Trait Taggable
     }
 
     /**
-     * @param tag $tag
+     * @param Tag $tag
      *
      * @return $this
      */
-    public function removeTag(tag $tag)
+    public function removeTag(Tag $tag)
     {
         $this->tags->removeElement($tag);
 

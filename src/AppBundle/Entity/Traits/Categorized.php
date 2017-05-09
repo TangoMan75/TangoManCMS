@@ -5,7 +5,7 @@ namespace AppBundle\Entity\Traits;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class Categorized
+ * Trait Categorized
  * This class is designed to provide a simple and straitforward way to categorize entities.
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -38,7 +38,7 @@ Trait Categorized
     ];
 
     /**
-     * @param array $category
+     * @param array $categories
      *
      * @return $this
      */

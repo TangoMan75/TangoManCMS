@@ -6,11 +6,11 @@ use AppBundle\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Class HasRoles
- * 
- * This trait defines the OWNING side of the relationship.
- * 
- * 1. Role entity must implement inversed property and methods.
+ * Trait HasRoles
+ *
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ *
+ * 1. Requires `Role` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->roles = new ArrayCollection();
  *
@@ -20,13 +20,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 Trait HasRoles
 {
     /**
-     * @var Role[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users")
+     * @var array|Role[]|ArrayCollection
      */
     private $roles = [];
 
     /**
-     * @param Role[]|ArrayCollection $roles
+     * @param array|Role[]|ArrayCollection $roles
      *
      * @return $this
      */
@@ -38,7 +37,7 @@ Trait HasRoles
     }
 
     /**
-     * @return Role[]
+     * @return array|Role[]|ArrayCollection
      */
     public function getRoles()
     {
@@ -74,11 +73,11 @@ Trait HasRoles
     }
 
     /**
-     * @param role $role
+     * @param Role $role
      *
      * @return $this
      */
-    public function removeRole(role $role)
+    public function removeRole(Role $role)
     {
         $this->roles->removeElement($role);
 

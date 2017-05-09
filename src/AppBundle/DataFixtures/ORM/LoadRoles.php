@@ -57,7 +57,7 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         foreach ($roles as $key => $item) {
             $role = new Role();
             $role->setName($key)
-                ->setRole($item);
+                ->setType($item);
 
             foreach ($privileges as $privilege) {
                 $role->addPrivilege($privilege);
