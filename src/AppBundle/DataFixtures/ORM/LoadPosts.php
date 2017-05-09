@@ -55,22 +55,28 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $users    = $em->getRepository('AppBundle:User')->findBy([], null, 10);
 
         foreach ($users as $user) {
-            // Creates between 1 & 10 posts for each user
             for ($i = 0; $i < mt_rand(1, 10); $i++) {
 
                 $post = new Post();
-                $post->setUser($users[mt_rand(1, count($users) - 1)])
+                $post
                     ->setTitle($faker->sentence(4, true))
+                    ->setSubtitle($faker->sentence(4, true))
                     ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
+                    ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                     ->setCreated($faker->dateTimeThisYear($max = 'now'))
-//                    ->addSection($sections[mt_rand(0, count($sections) - 1)])
                     ->setPublished($i % 2);
 
-                // Adds between 1 & 5 random sections to post
+                // Set random user
+                $post->setUser($users[mt_rand(1, count($users) - 1)]);
+
+                // Adds between 0 & 3 random sections to post
                 shuffle($sections);
-                for ($j = 0; $j < mt_rand(1, 5); $j++) {
+                for ($j = 0; $j < mt_rand(0, 3); $j++) {
                     $post->addSection($sections[$j]);
                 }
+
+                // Set random section
+//                $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
 
                 // Adds between 1 & 5 random tags to post
                 shuffle($tags);
@@ -80,6 +86,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
                 $em->persist($post);
             }
+            // Creates between 1 & 10 posts for each user
 
             $em->flush();
         }

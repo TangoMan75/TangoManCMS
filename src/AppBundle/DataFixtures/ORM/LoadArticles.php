@@ -66,6 +66,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
             $post->addCategory('post')
                 ->setTitle($faker->sentence(4, true))
                 ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
+                ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setImageFileName($fileNames[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
                 ->setUser($users[mt_rand(1, count($users) - 1)])

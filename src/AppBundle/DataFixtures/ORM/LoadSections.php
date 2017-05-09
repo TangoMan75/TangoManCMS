@@ -46,6 +46,8 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
         for ($i = 0; $i < 10; $i++) {
             $section = new Section();
             $section->setTitle($faker->sentence(4, true))
+                ->setSubtitle($faker->sentence(6, true))
+                ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setPublished($i % 2);
 
             $em->persist($section);

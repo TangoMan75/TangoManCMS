@@ -51,6 +51,8 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
             $page = new Page();
             $page->setTitle($faker->sentence(4, true))
+                ->setSubtitle($faker->sentence(6, true))
+                ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setPublished($i % 2);
 
             // Adds between 1 & 5 random sections to post
