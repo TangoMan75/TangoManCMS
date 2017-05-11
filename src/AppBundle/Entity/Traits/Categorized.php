@@ -7,6 +7,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Trait Categorized
  * This class is designed to provide a simple and straitforward way to categorize entities.
+ * 1. Requires entity to be marked with "HasLifecycleCallbacks" annotation.
+ * 2. Note: Entities can own one type only, but can have several categories.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -20,22 +22,54 @@ Trait Categorized
     private $categories = [];
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $type;
+
+    /**
+     * Thesse are the associated categories of each type
      * @var array
      */
     private $assoc = [
-        'csv'  => 'document',
-        'doc'  => 'document',
-        'ods'  => 'document',
-        'odt'  => 'document',
-        'pdf'  => 'document',
-        'pptx' => 'document',
-        'txt'  => 'document',
-        'xls'  => 'document',
-        'gif'  => 'image',
-        'jpeg' => 'image',
-        'jpg'  => 'image',
-        'png'  => 'image',
+        'csv'         => 'document',
+        'doc'         => 'document',
+        'ods'         => 'document',
+        'odt'         => 'document',
+        'pdf'         => 'document',
+        'pptx'        => 'document',
+        'txt'         => 'document',
+        'xls'         => 'document',
+        'gif'         => 'image',
+        'jpeg'        => 'image',
+        'jpg'         => 'image',
+        'png'         => 'image',
+        'argus360'    => 'thetas',
+        'dailymotion' => 'video',
+        'gist'        => 'video',
+        'vimeo'       => 'video',
+        'youtube'     => 'video',
     ];
+
+    /**
+     * @param string $type
+     *
+     * @return $this
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
 
     /**
      * @param array $categories
@@ -76,25 +110,11 @@ Trait Categorized
      */
     public function addCategory($category)
     {
-        $this->checkCategory($category);
-
-        foreach ($this->assoc as $type => $assoc) {
-            if ($category == $type) {
-                $this->checkCategory($assoc);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param string $category
-     */
-    public function checkCategory($category)
-    {
         if (!in_array($category, (array)$this->categories)) {
             $this->categories[] = $category;
         }
+
+        return $this;
     }
 
     /**
@@ -107,5 +127,20 @@ Trait Categorized
         $this->categories->removeElement($category);
 
         return $this;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    private function setDefaultCategories()
+    {
+        if ($this->type) {
+            foreach ($this->assoc as $type => $category) {
+                if ($this->type == $type) {
+                    $this->addCategory($category);
+                }
+            }
+        }
     }
 }

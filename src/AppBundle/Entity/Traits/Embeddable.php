@@ -41,25 +41,25 @@ Trait Embeddable
             (isset($result['query']) ? '?'.$result['query'] : '').
             (isset($result['fragment']) ? '#'.$result['fragment'] : '');
 
-        // Sets category according to url
+        // Sets type according to url
         if (isset($result['host'])) {
-            // Automatically set media category according to given url
+            // Automatically set post type according to given url
             switch ($result['host']) {
                 case 'gist.github.com':
-                    $this->addCategory('gist');
+                    $this->setType('gist');
                     break;
                 case 'www.youtube.com':
                 case 'youtu.be':
-                    $this->addCategory('youtube');
+                    $this->setType('youtube');
                     $this->image = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
                     break;
                 case 'dai.ly':
                 case 'www.dailymotion.com':
-                    $this->addCategory('dailymotion');
+                    $this->setType('dailymotion');
                     $this->image = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
                     break;
                 case 'vimeo.com':
-                    $this->addCategory('vimeo');
+                    $this->setType('vimeo');
                     $xml = unserialize(
                         file_get_contents('http://vimeo.com/api/v2/video/'.$this->getHash($link).'.php')
                     );
@@ -67,7 +67,7 @@ Trait Embeddable
                     break;
                 case 'www.car360app.com':
                 case 'www.argus360.fr':
-                    $this->addCategory('argus360');
+                    $this->setType('argus360');
                     // //car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
                     $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
@@ -85,27 +85,34 @@ Trait Embeddable
     public function getEmbed()
     {
         if ($this->link) {
-            if ($this->hasCategory('argus360')) {
-                return '<iframe src="//car360app.com/viewer/portable.php?spin='.
-                    $this->getHash($this->link).
-                    '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
-            } elseif ($this->hasCategory('gist')) {
-                return '<script src="//gist.github.com/'.
-                    $this->getHash($this->link).
-                    '.js"></script>';
-            } elseif ($this->hasCategory('youtube')) {
-                return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
-                    $this->getHash($this->link).
-                    '"></iframe>';
-            } elseif ($this->hasCategory('dailymotion')) {
-                return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
-                    $this->getHash($this->link).
-                    '?autoplay=0&mute=1" allowfullscreen></iframe>';
-            } elseif ($this->hasCategory('vimeo')) {
-                return '<iframe src="//player.vimeo.com/video/'.
-                    $this->getHash($this->link).
-                    '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
-            }
+            switch ($this->type) {
+                case 'argus360':
+                    return '<iframe src="//car360app.com/viewer/portable.php?spin='.
+                        $this->getHash($this->link).
+                        '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
+                    break;
+                case 'gist':
+                    return '<script src="//gist.github.com/'.
+                        $this->getHash($this->link).
+                        '.js"></script>';
+                    break;
+                case 'youtube':
+                    return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
+                        $this->getHash($this->link).
+                        '"></iframe>';
+                    break;
+                case 'dailymotion':
+                    return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
+                        $this->getHash($this->link).
+                        '?autoplay=0&mute=1" allowfullscreen></iframe>';
+                    break;
+                case 'vimeo':
+                    return '<iframe src="//player.vimeo.com/video/'.
+                        $this->getHash($this->link).
+                        '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+                    break;
+                default:
+                    return null;            }
         }
 
         return null;
