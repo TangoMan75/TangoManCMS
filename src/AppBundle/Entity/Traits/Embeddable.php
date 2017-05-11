@@ -36,7 +36,11 @@ Trait Embeddable
         $result = parse_url($link);
 
         // Remove scheme from url (doesn't change relative URLs)
-        $this->link = '//'.$result['host'].
+        $this->link = '//'.
+            (isset($result['user']) ? $result['user'] : '').
+            (isset($result['pass']) ? ':'.$result['pass'].'@' : '').
+            $result['host'].
+            (isset($result['port']) ? ':'.$result['port'] : '').
             (isset($result['path']) ? $result['path'] : '').
             (isset($result['query']) ? '?'.$result['query'] : '').
             (isset($result['fragment']) ? '#'.$result['fragment'] : '');
@@ -112,7 +116,8 @@ Trait Embeddable
                         '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
                     break;
                 default:
-                    return null;            }
+                    return null;
+            }
         }
 
         return null;
@@ -143,7 +148,7 @@ Trait Embeddable
                 return ltrim(parse_url($url)['path'], '/');
                 break;
             case 'www.dailymotion.com':
-                // https://www.dailymotion.com/playlist/xy8pc_dankojones77_ultravomit/1#video=x97qvv
+                // https://www.dailymotion.com/playlist/xpsn5_giorgiopao_tango-argentino/1#video=x5uvup
                 if (strpos(parse_url($url)['path'], 'playlist') !== false) {
                     parse_str(parse_url($url)['fragment'], $result);
 
