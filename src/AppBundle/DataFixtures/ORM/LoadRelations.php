@@ -47,22 +47,22 @@ class LoadRelations implements FixtureInterface, ContainerAwareInterface, Ordere
         // $posts = $em->getRepository('AppBundle:Post')->findBy([], null, 100);
 
         // findBy seems to be the only working method in fixtures
-        $comments = $em->getRepository('AppBundle:Comment')->findAll();
-        $comment = $em->getRepository('AppBundle:Comment')->find(1);
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
-        $page = $em->getRepository('AppBundle:Page')->find(1);
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
-        $post = $em->getRepository('AppBundle:Post')->find(1);
+        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
+        $comment    = $em->getRepository('AppBundle:Comment')->find(1);
+        $pages      = $em->getRepository('AppBundle:Page')->findAll();
+        $page       = $em->getRepository('AppBundle:Page')->find(1);
+        $posts      = $em->getRepository('AppBundle:Post')->findAll();
+        $post       = $em->getRepository('AppBundle:Post')->find(1);
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $privilege = $em->getRepository('AppBundle:Privilege')->find(1);
-        $roles = $em->getRepository('AppBundle:Role')->findAll();
-        $role = $em->getRepository('AppBundle:Role')->find(1);
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-        $section = $em->getRepository('AppBundle:Section')->find(1);
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
-        $tag = $em->getRepository('AppBundle:Tag')->find(1);
-        $users = $em->getRepository('AppBundle:User')->findAll();
-        $user = $em->getRepository('AppBundle:User')->find(1);
+        $privilege  = $em->getRepository('AppBundle:Privilege')->find(1);
+        $roles      = $em->getRepository('AppBundle:Role')->findAll();
+        $role       = $em->getRepository('AppBundle:Role')->find(1);
+        $sections   = $em->getRepository('AppBundle:Section')->findAll();
+        $section    = $em->getRepository('AppBundle:Section')->find(1);
+        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
+        $tag        = $em->getRepository('AppBundle:Tag')->find(1);
+        $users      = $em->getRepository('AppBundle:User')->findAll();
+        $user       = $em->getRepository('AppBundle:User')->find(1);
 
         $comment->setPost($posts[mt_rand(1, count($posts) - 1)]);
         $comment->setUser($users[mt_rand(1, count($users) - 1)]);
