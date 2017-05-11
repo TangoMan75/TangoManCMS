@@ -8,7 +8,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Trait Categorized
  * This class is designed to provide a simple and straitforward way to categorize entities.
  * 1. Requires entity to be marked with "HasLifecycleCallbacks" annotation.
- * 2. Note: Entities can own one type only, but can have several categories.
+ * 2. Requires entity to own "HasType" trait.
+ * 3. Note: Entities can own one type only, but can have several categories.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -20,12 +21,6 @@ Trait Categorized
      * @ORM\Column(type="simple_array", nullable=true)
      */
     private $categories = [];
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $type;
 
     /**
      * Thesse are the associated categories of each type
@@ -50,26 +45,6 @@ Trait Categorized
         'vimeo'       => 'video',
         'youtube'     => 'video',
     ];
-
-    /**
-     * @param string $type
-     *
-     * @return $this
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
 
     /**
      * @param array $categories
