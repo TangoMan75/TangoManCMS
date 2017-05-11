@@ -8,8 +8,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Trait UploadableImage
- * 1. Requires entities to own "Categorized", "Timestampable", "Illustrable" and "Sluggable" traits.
- * 2. Requires entities to be marked with "Uploadable" annotation.
+ * 1. Requires entity to own "Categorized", "Timestampable", "Illustrable" and "Sluggable" traits.
+ * 2. Requires entity to be marked with "Uploadable" annotation.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits

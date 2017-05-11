@@ -4,7 +4,7 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Trait Embeddable
- * 1. Requires entities to own "Categorized" trait.
+ * 1. Requires entity to own "Categorized" and "HasType" traits.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
