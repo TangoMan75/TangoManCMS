@@ -248,11 +248,6 @@ class User implements UserInterface
     {
         $this->username = $username;
 
-        // Sets Slug when empty
-        if (!$this->slug) {
-            $this->setUniqueSlug($username);
-        }
-
         return $this;
     }
 
@@ -307,6 +302,24 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
+    }
+
+    /**
+     * Default settings
+     */
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     * @return $this
+     */
+    public function setDefaults()
+    {
+        if (!$this->slug) {
+            $this->setUniqueSlug($this->username);
+        }
+
+        return $this;
     }
 
     /**
