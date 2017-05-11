@@ -311,15 +311,12 @@ class User implements UserInterface
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
-     * @return $this
      */
-    public function setDefaults()
+    private function setDefaults()
     {
         if (!$this->slug) {
             $this->setUniqueSlug($this->username);
         }
-
-        return $this;
     }
 
     /**

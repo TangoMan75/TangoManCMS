@@ -85,19 +85,14 @@ class Tag
     }
 
     /**
-     * Set default values
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
-     *
-     * @return $this
      */
-    public function setDefaults()
+    private function setDefaults()
     {
         if (!$this->type) {
             $this->setType($this->name);
         }
-
-        return $this;
     }
 
     /**

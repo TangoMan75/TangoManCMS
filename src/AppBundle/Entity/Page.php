@@ -63,9 +63,8 @@ class Page
     /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
-     * @return $this
      */
-    public function setDefaults()
+    private function setDefaults()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
@@ -74,8 +73,6 @@ class Page
         if (!$this->slug) {
             $this->setUniqueSlug($this->title);
         }
-
-        return $this;
     }
 
     /**
