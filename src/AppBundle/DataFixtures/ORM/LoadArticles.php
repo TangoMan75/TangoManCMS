@@ -36,7 +36,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 9;
+        return 10;
     }
 
     /**
@@ -60,7 +60,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
 
             $post = new Post();
             $post
-                ->addCategory('post')
+                ->setType('post')
                 ->setTitle($faker->sentence(4, true))
                 ->setSubtitle($faker->sentence(6, true))
                 ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')

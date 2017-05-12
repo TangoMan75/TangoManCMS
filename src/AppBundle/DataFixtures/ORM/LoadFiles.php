@@ -36,7 +36,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 12;
+        return 11;
     }
 
     /**
@@ -67,9 +67,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         for ($i = 0; $i < count($pptx); $i++) {
             $doc = new Post();
             $doc
-                ->addCategory('pptx')
-                ->addCategory('file')
-                ->addCategory('document')
+                ->setType('pptx')
                 ->setTitle($faker->sentence(4, true))
                 ->setText($faker->text(mt_rand(100, 255)))
                 ->setDocumentFileName($pptx[$i])
@@ -81,9 +79,7 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         for ($i = 0; $i < count($pdf); $i++) {
             $doc = new Post();
             $doc
-                ->addCategory('pdf')
-                ->addCategory('file')
-                ->addCategory('document')
+                ->setType('pdf')
                 ->setTitle($faker->sentence(4, true))
                 ->setText($faker->text(mt_rand(100, 255)))
                 ->setDocumentFileName($pdf[$i])

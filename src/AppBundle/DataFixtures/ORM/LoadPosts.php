@@ -53,7 +53,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
             $post = new Post();
             $post
-                ->addCategory('post')
+                ->setType('post')
                 ->setTitle($faker->sentence(4, true))
                 ->setSubtitle($faker->sentence(6, true))
                 ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')

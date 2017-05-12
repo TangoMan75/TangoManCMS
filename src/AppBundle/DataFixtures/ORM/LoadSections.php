@@ -33,7 +33,7 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 6;
+        return 7;
     }
 
     /**

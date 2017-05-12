@@ -57,7 +57,9 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         if (!$superAdmin) {
             // Generating super admin account with default password
             $user = new User();
-            $user->setUsername($username)
+            $user
+                ->setUsername($username)
+                // ->setSlug('super-admin')
                 ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, $pwd))
                 ->addRole($roleSuperAdmin)
