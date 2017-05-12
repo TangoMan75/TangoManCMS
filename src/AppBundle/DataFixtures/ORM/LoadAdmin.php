@@ -50,7 +50,7 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
         // $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
 
-        // Load Super Admin
+        // Checks if Super Admin exists already
         $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
         $superAdmin = $em->getRepository('AppBundle:User')->findByRole($roleSuperAdmin);
 

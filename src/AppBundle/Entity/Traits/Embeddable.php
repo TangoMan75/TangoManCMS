@@ -49,18 +49,30 @@ Trait Embeddable
         if (isset($result['host'])) {
             // Automatically set post type according to given url
             switch ($result['host']) {
-                case 'gist.github.com':
-                    $this->setType('gist');
-                    break;
-                case 'www.youtube.com':
-                case 'youtu.be':
-                    $this->setType('youtube');
-                    $this->image = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
+                case 'www.car360app.com':
+                case 'www.argus360.fr':
+                    $this->setType('argus360');
+                    // //car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
+                    $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
                 case 'dai.ly':
                 case 'www.dailymotion.com':
                     $this->setType('dailymotion');
                     $this->image = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
+                    break;
+                case 'giphy.com':
+                    $this->setType('giphy');
+                    break;
+                case 'gist.github.com':
+                    $this->setType('gist');
+                    break;
+                case 'twitter.com':
+                    $this->setType('tweet');
+                    break;
+                case 'www.youtube.com':
+                case 'youtu.be':
+                    $this->setType('youtube');
+                    $this->image = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
                     break;
                 case 'vimeo.com':
                     $this->setType('vimeo');
@@ -68,12 +80,6 @@ Trait Embeddable
                         file_get_contents('http://vimeo.com/api/v2/video/'.$this->getHash($link).'.php')
                     );
                     $this->image = $xml[0]['thumbnail_medium'];
-                    break;
-                case 'www.car360app.com':
-                case 'www.argus360.fr':
-                    $this->setType('argus360');
-                    // //car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
-                    $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
             }
         }
@@ -95,25 +101,38 @@ Trait Embeddable
                         $this->getHash($this->link).
                         '&res=1920x1080&maximages=-1&frameSize=1920x1080"></iframe>';
                     break;
-                case 'gist':
-                    return '<script src="//gist.github.com/'.
-                        $this->getHash($this->link).
-                        '.js"></script>';
-                    break;
-                case 'youtube':
-                    return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
-                        $this->getHash($this->link).
-                        '"></iframe>';
-                    break;
                 case 'dailymotion':
                     return '<iframe frameborder="0" width="480" height="270" src="//www.dailymotion.com/embed/video/'.
                         $this->getHash($this->link).
                         '?autoplay=0&mute=1" allowfullscreen></iframe>';
                     break;
+                case 'giphy':
+                    return '<div style="width:100%;height:0;padding-bottom:56%;position:relative;">'.
+                        '<iframe src="https://giphy.com/embed/'.
+                        $this->getHash($this->link).
+                        '" width="100%" height="100%" style="position:absolute" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>'.
+                        '</div><p><a href="https://giphy.com/gifs/'.
+                        $this->getHash($this->link).
+                        '">via GIPHY</a></p>';
+                    break;
+                case 'gist':
+                    return '<script src="//gist.github.com/'.
+                        $this->getHash($this->link).
+                        '.js"></script>';
+                    break;
+                case 'tweet':
+                    $json = file_get_contents('https://publish.twitter.com/oembed?url='.urlencode($this->link));
+                    return json_decode($json, true)['html'];
+                    break;
                 case 'vimeo':
                     return '<iframe src="//player.vimeo.com/video/'.
                         $this->getHash($this->link).
                         '?color=ffffff" width="640" height="267" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>';
+                    break;
+                case 'youtube':
+                    return '<iframe allowfullscreen width="420" height="315" src="//www.youtube.com/embed/'.
+                        $this->getHash($this->link).
+                        '"></iframe>';
                     break;
                 default:
                     return null;
@@ -139,12 +158,12 @@ Trait Embeddable
 
                 return $result['v'];
                 break;
-            case 'youtu.be':
-            case 'vimeo.com':
             case 'dai.ly':
+            case 'vimeo.com':
+            case 'youtu.be':
                 // https://dai.ly/x97qvv
-                // https://youtu.be/Vhx_wC1pve8
                 // https://vimeo.com/8914294
+                // https://youtu.be/Vhx_wC1pve8
                 return ltrim(parse_url($url)['path'], '/');
                 break;
             case 'www.dailymotion.com':
@@ -155,10 +174,20 @@ Trait Embeddable
                     return $result['video'];
                 }
 
+                // https://www.dailymotion.com/video/x5232zo_jaguar-i-pace-concept-2016_auto
                 return strstr(ltrim(strrchr(parse_url($url)['path'], '/'), '/'), '_', true);
                 break;
+            case 'giphy.com':
+                // https://giphy.com/gifs/030tango-tango-argentine-uGrH3htu5xFW8
+                $result = ltrim(strrchr(parse_url($url)['path'], '/'), '/');
+                if (strpos($result, '-') !== false) {
+                    return ltrim(strrchr($result, '-'), '-');
+                }
+                return $result;
+                break;
+            case 'twitter.com':
             case 'www.argus360.fr':
-                // https://www.dailymotion.com/video/x5232zo_jaguar-i-pace-concept-2016_auto
+                // https://twitter.com/TangoZoneOrg/status/858612556533051392
                 // https://www.argus360.fr/viewer/share/3e7802c1cd69f08f2a3bae389816ece6?res=1920x1080&vdp=off
                 return ltrim(strrchr(parse_url($url)['path'], '/'), '/');
                 break;

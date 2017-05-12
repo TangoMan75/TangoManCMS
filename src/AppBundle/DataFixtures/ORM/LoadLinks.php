@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -61,6 +61,20 @@ class LoadVideos implements FixtureInterface, ContainerAwareInterface, OrderedFi
             'https://www.youtube.com//watch?v=WwvwvjNjQaQ',
             'http://www.dailymotion.com/video/x5ghopx_le-nouveau-projet-fou-d-elon-musk-relier-le-cerveau-humain-a-un-ordinateur_tech',
             'http://www.dailymotion.com/video/x5ge5ut_ce-mec-est-le-roi-des-petits-effets-speciaux-du-quotidien_fun',
+            'https://gist.github.com/axooh/ec2348455e1414727676',
+            'https://gist.github.com/damlys/9282d9081d6607244b5abfc1f5b6cdeb',
+            'https://gist.github.com/FabianSchmick/40a9a406df6214e68853e8886587ffb7',
+            'https://gist.github.com/Infernosquad/6106749',
+            'https://gist.github.com/sergiors/75bbadcece53ed89f632',
+            'https://gist.github.com/vovadocent/7b4a58d7d9e8abb3c68dd82607c2bbf0',
+            'https://gist.github.com/jeremiahmarks/cdd92b98c355ff820e6a',
+            'https://gist.github.com/eduardoslompo/1285847',
+            'https://gist.github.com/tomekwojcik/2349469',
+            'https://gist.github.com/pkpp1233/6a389aeb16c7d31aa769',
+            'https://giphy.com/gifs/030tango-tango-argentine-uGrH3htu5xFW8',
+            'https://giphy.com/gifs/030tango-dancing-fun-cIQC2PZaMFuX6',
+            'https://giphy.com/gifs/030tango-l3q2ZQcQ2eHfiRdqE',
+            'https://giphy.com/gifs/oXrpvIX7qgDi8',
         ];
 
         shuffle($links);
