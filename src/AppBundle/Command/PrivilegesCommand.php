@@ -51,10 +51,10 @@ class PrivilegesCommand extends ContainerAwareCommand
                 $em->flush();
 
                 $output->writeln(
-                    '<question>Privilege "'.$name.'" created.</question>'
+                    'Privilege "'.$name.'" created.</question>'
                 );
             } else {
-                $output->writeln('<question>Privilege "'.$name.'" exists already.</question>');
+                $output->writeln('Privilege "'.$name.'" exists already.</question>');
             }
         }
 

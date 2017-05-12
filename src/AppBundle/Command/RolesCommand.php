@@ -46,10 +46,10 @@ class RolesCommand extends ContainerAwareCommand
 
                 $em->persist($role);
                 $output->writeln(
-                    '<question>Role "'.$role.'" created.</question>'
+                    'Role "'.$role.'" created.</question>'
                 );
             } else {
-                $output->writeln('<question>Role "'.$key.'" exists already.</question>');
+                $output->writeln('Role "'.$key.'" exists already.</question>');
             }
         }
 

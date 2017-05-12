@@ -50,9 +50,9 @@ class AdminCommand extends ContainerAwareCommand
             $em->persist($user);
             $em->flush();
 
-            $output->writeln('<question>'.$user.' account created with password: "'.$pwd.'"</question>');
+            $output->writeln(''.$user.' account created with password: "'.$pwd.'"</question>');
         } else {
-            $output->writeln('<question>Sorry, at least one account with ROLE_SUPER_ADMIN exists already.</question>');
+            $output->writeln('Sorry, at least one account with ROLE_SUPER_ADMIN exists already.</question>');
         }
     }
 
