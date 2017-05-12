@@ -2,25 +2,29 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Item;
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait HasUsers
- *
- * This trait defines the INVERSE side of a ManyToMany relationship.
- *
- * 1. Requires `User` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * Trait RoleHasUsers
+ * 
+ * This trait defines the OWNING side of a ManyToMany relationship.
+ * 
+ * 1. Requires `User` entity to implement `$roles` property with `ManyToMany` and `mappedBy="roles"` annotation.
+ * 2. Requires `User` entity to implement `linkItem` and `unlinkItem` methods.
+ * 3. (Optional) entity constructor must initialize ArrayCollection object
  *     $this->users = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasUsers
+Trait RoleHasUsers
 {
     /**
      * @var array|User[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="roles", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $users = [];
 
@@ -65,11 +69,20 @@ Trait HasUsers
      */
     public function addUser(User $user)
     {
+        $this->linkUser($user);
+        $user->linkItem($this);
+
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function linkUser(User $user)
+    {
         if (!in_array($user, (array)$this->users)) {
             $this->users[] = $user;
         }
-
-        return $this;
     }
 
     /**
@@ -79,8 +92,17 @@ Trait HasUsers
      */
     public function removeUser(User $user)
     {
-        $this->users->removeElement($user);
+        $this->unlinkUser($user);
+        $user->unlinkItem($this);
 
         return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function unlinkUser(User $user)
+    {
+        $this->users->removeElement($user);
     }
 }

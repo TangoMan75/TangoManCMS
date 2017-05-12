@@ -2,16 +2,18 @@
 
 namespace AppBundle\Entity\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Section;
+use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SectionHasPosts
  *
- * This trait defines the OWNING side of the relationship.
+ * This trait defines the INVERSE side of a ManyToMany relationship.
  * 
- * 1. Requires owned `Post` entity to implement `$owners` property with `ManyToMany` and `inversedBy="posts"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * 1. Requires `Post` entity to implement `$sections` property with `ManyToMany` and `inversedBy="posts"` annotation.
+ * 2. Requires `Post` entity to implement `linkSection` and `unlinkSection` methods.
+ * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -21,7 +23,8 @@ Trait SectionHasPosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
 
@@ -66,11 +69,20 @@ Trait SectionHasPosts
      */
     public function addPost(Post $post)
     {
+        $post->linkPost($this);
+        $this->linkSection($post);
+
+        return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function linkPost(Post $post)
+    {
         if (!in_array($post, (array)$this->posts)) {
             $this->posts[] = $post;
         }
-
-        return $this;
     }
 
     /**
@@ -80,8 +92,17 @@ Trait SectionHasPosts
      */
     public function removePost(Post $post)
     {
-        $this->posts->removeElement($post);
+        $post->unlinkPost($this);
+        $this->unlinkSection($post);
 
         return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function unlinkPost(Post $post)
+    {
+        $this->posts->removeElement($post);
     }
 }

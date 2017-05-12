@@ -16,10 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Role
 {
-    use Traits\HasType;
     use Traits\HasName;
-    use Traits\HasPrivileges;
+    use Traits\HasType;
     use Traits\HasUsers;
+    use Traits\RoleHasPrivileges;
 
     /**
      * @var int

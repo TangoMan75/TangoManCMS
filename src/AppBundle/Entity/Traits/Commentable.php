@@ -3,15 +3,17 @@
 namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Comment;
+use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait Commentable
  *
- * This trait defines the OWNING side of a OneToMany relationship.
- *
- * 1. Requires owned `Comment` entity to implement `$owner` property with `ManyToOne` and `inversedBy="comments"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * This trait defines the INVERSE side of a OneToMany relationship.
+ * 
+ * 1. Requires `Comment` entity to implement `$post` property with `ManyToOne` and `inversed="comments"` annotation.
+ * 2. Requires `Comment` entity to implement `linkPost` and `unlinkPost` methods.
+ * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->comments = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -21,6 +23,8 @@ Trait Commentable
 {
     /**
      * @var array|Comment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments = [];
 
@@ -65,8 +69,8 @@ Trait Commentable
      */
     public function addComment(Comment $comment)
     {
-        $comment->link($this);
-        $this->link($comment);
+        $this->linkComment($comment);
+        $comment->linkPost($this);
 
         return $this;
     }
@@ -74,7 +78,7 @@ Trait Commentable
     /**
      * @param Comment $comment
      */
-    public function link(Comment $comment)
+    public function linkComment(Comment $comment)
     {
         if (!in_array($comment, (array)$this->comments)) {
             $this->comments[] = $comment;
@@ -88,8 +92,8 @@ Trait Commentable
      */
     public function removeComment(Comment $comment)
     {
-        $comment->unlink($this);
-        $this->unlink($comment);
+        $this->unlinkComment($comment);
+        $comment->unlinkPost($this);
 
         return $this;
     }
@@ -97,7 +101,7 @@ Trait Commentable
     /**
      * @param Comment $comment
      */
-    public function unlink(Comment $comment)
+    public function unlinkComment(Comment $comment)
     {
         $this->comments->removeElement($comment);
     }

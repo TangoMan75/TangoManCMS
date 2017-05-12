@@ -24,6 +24,7 @@ class User implements UserInterface
     use Traits\HasSimpleRoles;
     use Traits\Sluggable;
     use Traits\Timestampable;
+    use Traits\UserHasPrivileges;
 
     /**
      * @var int User id

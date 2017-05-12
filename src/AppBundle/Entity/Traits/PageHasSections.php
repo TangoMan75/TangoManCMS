@@ -69,8 +69,8 @@ Trait PageHasSections
      */
     public function addSection(Section $section)
     {
-        $section->linkSection($this);
-        $this->linkPage($section);
+        $this->linkSection($section);
+        $section->linkPage($this);
 
         return $this;
     }
@@ -92,8 +92,8 @@ Trait PageHasSections
      */
     public function removeSection(Section $section)
     {
-        $section->unlinkSection($this);
-        $this->unlinkPage($section);
+        $this->unlinkSection($section);
+        $section->unlinkPage($this);
 
         return $this;
     }

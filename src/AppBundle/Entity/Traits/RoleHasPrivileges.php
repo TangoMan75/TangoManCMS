@@ -3,24 +3,28 @@
 namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Privilege;
+use AppBundle\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait HasPrivileges
+ * Trait RoleHasPrivileges
  *
- * This trait defines the OWNING side of a ManyToMany relationship.
- *
- * 1. Requires owned `Privilege` entity to implement `$owners` property with `ManyToMany` and `inversedBy="privileges"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ * 
+ * 1. Requires `Privilege` entity to implement `$roles` property with `ManyToMany` and `inversedBy="privileges"` annotation.
+ * 2. Requires `Privilege` entity to implement `linkRole` and `unlinkRole` methods.
+ * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->privileges = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasPrivileges
+Trait RoleHasPrivileges
 {
     /**
      * @var array|Privilege[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="roles", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $privileges = [];
 
@@ -65,11 +69,20 @@ Trait HasPrivileges
      */
     public function addPrivilege(Privilege $privilege)
     {
+        $this->linkPrivilege($privilege);
+        $privilege->linkRole($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Privilege $privilege
+     */
+    public function linkPrivilege(Privilege $privilege)
+    {
         if (!in_array($privilege, (array)$this->privileges)) {
             $this->privileges[] = $privilege;
         }
-
-        return $this;
     }
 
     /**
@@ -79,8 +92,17 @@ Trait HasPrivileges
      */
     public function removePrivilege(Privilege $privilege)
     {
-        $this->privileges->removeElement($privilege);
+        $this->unlinkPrivilege($privilege);
+        $privilege->unlinkRole($this);
 
         return $this;
+    }
+
+    /**
+     * @param Privilege $privilege
+     */
+    public function unlinkPrivilege(Privilege $privilege)
+    {
+        $this->privileges->removeElement($privilege);
     }
 }
