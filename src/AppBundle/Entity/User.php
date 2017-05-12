@@ -248,6 +248,10 @@ class User implements UserInterface
     {
         $this->username = $username;
 
+        if (!$this->slug) {
+            $this->setUniqueSlug($this->username);
+        }
+
         return $this;
     }
 
@@ -312,7 +316,7 @@ class User implements UserInterface
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
-    private function setDefaults()
+    private function setDefaultSlug()
     {
         if (!$this->slug) {
             $this->setUniqueSlug($this->username);

@@ -2,25 +2,29 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Section;
 use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait HasPages
- *
- * This trait defines the INVERSE side of the relationship.
- *
- * 1. Requires `Page` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * Trait SectionHasPages
+ * 
+ * This trait defines the OWNING side of a ManyToMany relationship.
+ * 
+ * 1. Requires `Page` entity to implement `$sections` property with `ManyToMany` and `mappedBy="sections"` annotation.
+ * 2. Requires `Page` entity to implement `linkSection` and `unlinkSection` methods.
+ * 3. (Optional) entity constructor must initialize ArrayCollection object
  *     $this->pages = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasPages
+Trait SectionHasPages
 {
     /**
      * @var array|Page[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sections", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages = [];
 
@@ -65,11 +69,20 @@ Trait HasPages
      */
     public function addPage(Page $page)
     {
+        $this->linkPage($page);
+        $page->linkSection($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Page $page
+     */
+    public function linkPage(Page $page)
+    {
         if (!in_array($page, (array)$this->pages)) {
             $this->pages[] = $page;
         }
-
-        return $this;
     }
 
     /**
@@ -79,8 +92,17 @@ Trait HasPages
      */
     public function removePage(Page $page)
     {
-        $this->pages->removeElement($page);
+        $this->unlinkPage($page);
+        $page->unlinkSection($this);
 
         return $this;
+    }
+
+    /**
+     * @param Page $page
+     */
+    public function unlinkPage(Page $page)
+    {
+        $this->pages->removeElement($page);
     }
 }

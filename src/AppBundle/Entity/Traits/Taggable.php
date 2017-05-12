@@ -2,17 +2,18 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Item;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait Taggable
  * 
- * This trait defines the INVERSE side of the relationship.
+ * This trait defines the INVERSE side of a ManyToMany relationship.
  * 
- * 1. Requires `Owner` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
+ * 1. Requires `Tag` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
- *     $this->owners = new ArrayCollection();
+ *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -21,7 +22,8 @@ Trait Taggable
 {
     /**
      * @var array|Tag[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="items", cascade={"persist"})
+     * @ORM\OrderBy({"name"="DESC"})
      */
     private $tags = [];
 
@@ -66,11 +68,20 @@ Trait Taggable
      */
     public function addTag(Tag $tag)
     {
+        $this->linkTag($tag);
+        $tag->linkItem($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function linkTag(Tag $tag)
+    {
         if (!in_array($tag, (array)$this->tags)) {
             $this->tags[] = $tag;
         }
-
-        return $this;
     }
 
     /**
@@ -80,8 +91,17 @@ Trait Taggable
      */
     public function removeTag(Tag $tag)
     {
-        $this->tags->removeElement($tag);
+        $this->unlinkTag($tag);
+        $tag->unlinkItem($this);
 
         return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function unlinkTag(Tag $tag)
+    {
+        $this->tags->removeElement($tag);
     }
 }

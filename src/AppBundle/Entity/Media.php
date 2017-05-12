@@ -22,10 +22,11 @@ class Media
     use Traits\Categorized;
     use Traits\Commentable;
     use Traits\Embeddable;
-    use Traits\HasSections;
+    use Traits\PostHasSections;
     use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;
+    use Traits\HasType;
     use Traits\HasUser;
     use Traits\Publishable;
     use Traits\Sluggable;

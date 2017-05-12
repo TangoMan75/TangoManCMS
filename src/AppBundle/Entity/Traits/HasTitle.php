@@ -4,6 +4,8 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Trait HasTitle
+ * 
+ * Requires entity to own "Sluggable" and "Timestampable" traits.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
@@ -38,6 +40,14 @@ Trait HasTitle
     public function setTitle($title)
     {
         $this->title = $title;
+
+        if (!$this->title) {
+            $this->setTitle($this->created->format('d/m/Y H:i:s'));
+        }
+
+        if (!$this->slug) {
+            $this->setUniqueSlug($this->title);
+        }
 
         return $this;
     }

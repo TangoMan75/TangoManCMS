@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use AppBundle\Entity\Post;
 
 /**
- * Trait HasPosts
+ * Trait SectionHasPosts
  *
  * This trait defines the OWNING side of the relationship.
  * 
@@ -17,7 +17,7 @@ use AppBundle\Entity\Post;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasPosts
+Trait SectionHasPosts
 {
     /**
      * @var array|Post[]|ArrayCollection

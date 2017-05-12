@@ -17,12 +17,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Section
 {
-    use Traits\HasPages;
-    use Traits\HasPosts;
     use Traits\HasSummary;
     use Traits\HasTitle;
     use Traits\HasType;
     use Traits\Publishable;
+    use Traits\SectionHasPages;
+    use Traits\SectionHasPosts;
     use Traits\Sluggable;
     use Traits\Taggable;
     use Traits\Timestampable;
