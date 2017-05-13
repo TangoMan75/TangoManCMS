@@ -82,8 +82,7 @@ Trait UserHasPosts
      */
     public function removePost(Post $post)
     {
-        $this->unlinkPost($post);
-        $post->unlinkUser($this);
+        $this->posts->removeElement($post);
 
         return $this;
     }
@@ -96,13 +95,5 @@ Trait UserHasPosts
         if (!in_array($post, (array)$this->posts)) {
             $this->posts[] = $post;
         }
-    }
-
-    /**
-     * @param Post $post
-     */
-    public function unlinkPost(Post $post)
-    {
-        $this->posts->removeElement($post);
     }
 }

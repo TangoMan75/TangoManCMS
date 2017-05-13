@@ -2,7 +2,6 @@
 
 namespace AppBundle\Command;
 
-use AppBundle\Entity\Tag;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -55,14 +54,14 @@ class RelationsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Linking Comments done.');
 
-        // Pages
-        $output->writeln('Linking Pages...');
-        foreach ($pages as $page) {
-            $page->addSection($sections[mt_rand(1, count($sections) - 1)]);
-            $em->persist($page);
-        }
-        $em->flush();
-        $output->writeln('Linking Pages done.');
+        // // Pages
+        // $output->writeln('Linking Pages...');
+        // foreach ($pages as $page) {
+        //     $page->addSection($sections[mt_rand(1, count($sections) - 1)]);
+        //     $em->persist($page);
+        // }
+        // $em->flush();
+        // $output->writeln('Linking Pages done.');
 
         // Posts
         $output->writeln('Linking Posts...');
@@ -95,16 +94,16 @@ class RelationsCommand extends ContainerAwareCommand
         // $em->flush();
         // $output->writeln('Linking Roles done.');
 
-        // Sections
-        $output->writeln('Linking Sections...');
-        foreach ($sections as $section) {
-            $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
-            $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
-            // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
-            $em->persist($section);
-        }
-        $em->flush();
-        $output->writeln('Linking Sections done.');
+        // // Sections
+        // $output->writeln('Linking Sections...');
+        // foreach ($sections as $section) {
+        //     $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
+        //     $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
+        //     // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
+        //     $em->persist($section);
+        // }
+        // $em->flush();
+        // $output->writeln('Linking Sections done.');
 
         // // Tags
         // $output->writeln('Linking Tags...');

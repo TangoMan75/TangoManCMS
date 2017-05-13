@@ -80,9 +80,9 @@ class User implements UserInterface
      */
     public function __construct()
     {
-        $this->created  = new \DateTimeImmutable();
+        $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
-        $this->posts    = new ArrayCollection();
+        $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         // $this->roles    = new ArrayCollection();
         $this->roles = ['ROLE_USER'];

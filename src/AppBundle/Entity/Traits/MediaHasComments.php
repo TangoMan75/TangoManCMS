@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * This trait defines the INVERSE side of a OneToMany relationship.
  * 
- * 1. Requires `Comment` entity to implement `$media` property with `ManyToOne` and `inversed="comments"` annotation.
+ * 1. Requires `Comment` entity to implement `$media` property with `ManyToOne` and `inversedBy="comments"` annotation.
  * 2. Requires `Comment` entity to implement `linkMedia` and `unlinkMedia` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->comments = new ArrayCollection();

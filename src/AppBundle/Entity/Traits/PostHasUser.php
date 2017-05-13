@@ -9,7 +9,7 @@ use AppBundle\Entity\User;
  * Trait PostHasUser
  *
  * This trait defines the INVERSE side of a ManyToOne relationship.
- * 
+ *
  * 1. Requires `User` entity to implement `$posts` property with `OneToMany` and `mappedBy="posts"` and cascade={"remove", "persist"} annotation.
  * 2. Requires `User` entity to implement `linkPost` method.
  *
