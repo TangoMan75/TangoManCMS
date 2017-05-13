@@ -2,28 +2,28 @@
 
 namespace AppBundle\Entity\Traits;
 
-use AppBundle\Entity\Post;
+use AppBundle\Entity\Media;
 use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait PostHasSections
+ * Trait MediaHasSections
  * 
  * This trait defines the OWNING side of a ManyToMany relationship.
  * 
- * 1. Requires `Section` entity to implement `$posts` property with `ManyToMany` and `mappedBy="posts"` annotation.
- * 2. Requires `Section` entity to implement `linkPost` and `unlinkPost` methods.
+ * 1. Requires `Section` entity to implement `$medias` property with `ManyToMany` and `mappedBy="medias"` annotation.
+ * 2. Requires `Section` entity to implement `linkMedia` and `unlinkMedia` methods.
  * 3. (Optional) entity constructor must initialize ArrayCollection object
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait PostHasSections
+Trait MediaHasSections
 {
     /**
      * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="posts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="medias", cascade={"persist"})
      */
     private $sections = [];
 
@@ -69,7 +69,7 @@ Trait PostHasSections
     public function addSection(Section $section)
     {
         $this->linkSection($section);
-        $section->linkPost($this);
+        $section->linkMedia($this);
 
         return $this;
     }
@@ -82,7 +82,7 @@ Trait PostHasSections
     public function removeSection(Section $section)
     {
         $this->unlinkSection($section);
-        $section->unlinkPost($this);
+        $section->unlinkMedia($this);
 
         return $this;
     }

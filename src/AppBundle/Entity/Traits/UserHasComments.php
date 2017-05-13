@@ -3,28 +3,28 @@
 namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Comment;
-use AppBundle\Entity\Post;
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait Commentable
+ * Trait UserHasComments
  *
  * This trait defines the INVERSE side of a OneToMany relationship.
  * 
- * 1. Requires `Comment` entity to implement `$post` property with `ManyToOne` and `inversed="comments"` annotation.
- * 2. Requires `Comment` entity to implement `linkPost` and `unlinkPost` methods.
+ * 1. Requires `Comment` entity to implement `$user` property with `ManyToOne` and `inversed="comments"` annotation.
+ * 2. Requires `Comment` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->comments = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Commentable
+Trait UserHasComments
 {
     /**
      * @var array|Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove", "persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"created"="DESC"})
      */
     private $comments = [];
 
@@ -70,7 +70,20 @@ Trait Commentable
     public function addComment(Comment $comment)
     {
         $this->linkComment($comment);
-        $comment->linkPost($this);
+        $comment->linkUser($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Comment $comment
+     *
+     * @return $this
+     */
+    public function removeComment(Comment $comment)
+    {
+        $this->unlinkComment($comment);
+        $comment->unlinkUser($this);
 
         return $this;
     }
@@ -83,19 +96,6 @@ Trait Commentable
         if (!in_array($comment, (array)$this->comments)) {
             $this->comments[] = $comment;
         }
-    }
-
-    /**
-     * @param Comment $comment
-     *
-     * @return $this
-     */
-    public function removeComment(Comment $comment)
-    {
-        $this->unlinkComment($comment);
-        $comment->unlinkPost($this);
-
-        return $this;
     }
 
     /**

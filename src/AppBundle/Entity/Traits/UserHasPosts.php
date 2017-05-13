@@ -3,28 +3,28 @@
 namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Post;
-use AppBundle\Entity\Section;
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait SectionHasPosts
+ * Trait UserHasPosts
  *
- * This trait defines the INVERSE side of a ManyToMany relationship.
+ * This trait defines the INVERSE side of a OneToMany relationship.
  * 
- * 1. Requires `Post` entity to implement `$sections` property with `ManyToMany` and `inversedBy="posts"` annotation.
- * 2. Requires `Post` entity to implement `linkSection` and `unlinkSection` methods.
+ * 1. Requires `Post` entity to implement `$user` property with `ManyToOne` and `inversed="posts"` annotation.
+ * 2. Requires `Post` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait SectionHasPosts
+Trait UserHasPosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"created"="DESC"})
      */
     private $posts = [];
 
@@ -70,7 +70,7 @@ Trait SectionHasPosts
     public function addPost(Post $post)
     {
         $this->linkPost($post);
-        $post->linkSection($this);
+        $post->linkUser($this);
 
         return $this;
     }
@@ -83,7 +83,7 @@ Trait SectionHasPosts
     public function removePost(Post $post)
     {
         $this->unlinkPost($post);
-        $post->unlinkSection($this);
+        $post->unlinkUser($this);
 
         return $this;
     }

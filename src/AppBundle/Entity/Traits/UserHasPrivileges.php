@@ -77,16 +77,6 @@ Trait UserHasPrivileges
 
     /**
      * @param Privilege $privilege
-     */
-    public function linkPrivilege(Privilege $privilege)
-    {
-        if (!in_array($privilege, (array)$this->privileges)) {
-            $this->privileges[] = $privilege;
-        }
-    }
-
-    /**
-     * @param Privilege $privilege
      *
      * @return $this
      */
@@ -96,6 +86,16 @@ Trait UserHasPrivileges
         $privilege->unlinkUser($this);
 
         return $this;
+    }
+
+    /**
+     * @param Privilege $privilege
+     */
+    public function linkPrivilege(Privilege $privilege)
+    {
+        if (!in_array($privilege, (array)$this->privileges)) {
+            $this->privileges[] = $privilege;
+        }
     }
 
     /**

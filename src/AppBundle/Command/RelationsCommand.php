@@ -28,21 +28,21 @@ class RelationsCommand extends ContainerAwareCommand
 
         // findBy seems to be the only working method in fixtures
         $comments   = $em->getRepository('AppBundle:Comment')->findAll();
-        $comment    = $em->getRepository('AppBundle:Comment')->find(1);
+        $comment    = $em->getRepository('AppBundle:Comment')->find($comments[mt_rand(1, count($comments)-1)]);
         $pages      = $em->getRepository('AppBundle:Page')->findAll();
-        $page       = $em->getRepository('AppBundle:Page')->find(1);
+        $page       = $em->getRepository('AppBundle:Page')->find($pages[mt_rand(1, count($pages)-1)]);
         $posts      = $em->getRepository('AppBundle:Post')->findAll();
-        $post       = $em->getRepository('AppBundle:Post')->find(1);
+        $post       = $em->getRepository('AppBundle:Post')->find($posts[mt_rand(1, count($posts)-1)]);
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $privilege  = $em->getRepository('AppBundle:Privilege')->find(1);
+        $privilege  = $em->getRepository('AppBundle:Privilege')->find($privileges[mt_rand(1, count($privileges)-1)]);
         $roles      = $em->getRepository('AppBundle:Role')->findAll();
-        $role       = $em->getRepository('AppBundle:Role')->find(1);
+        $role       = $em->getRepository('AppBundle:Role')->find($roles[mt_rand(1, count($roles)-1)]);
         $sections   = $em->getRepository('AppBundle:Section')->findAll();
-        $section    = $em->getRepository('AppBundle:Section')->find(1);
+        $section    = $em->getRepository('AppBundle:Section')->find($sections[mt_rand(1, count($sections)-1)]);
         $tags       = $em->getRepository('AppBundle:Tag')->findAll();
-        $tag        = $em->getRepository('AppBundle:Tag')->find(1);
+        $tag        = $em->getRepository('AppBundle:Tag')->find($tags[mt_rand(1, count($tags)-1)]);
         $users      = $em->getRepository('AppBundle:User')->findAll();
-        $user       = $em->getRepository('AppBundle:User')->find(1);
+        $user       = $em->getRepository('AppBundle:User')->find($users[mt_rand(1, count($users)-1)]);
 
         $output->writeln(count($comments).' Comments found');
         $output->writeln(count($pages).' Pages found');
@@ -53,48 +53,76 @@ class RelationsCommand extends ContainerAwareCommand
         $output->writeln(count($tags).' Tags found');
         $output->writeln(count($users).' Users found');
 
+        $output->writeln('Linking Comments...');
         $comment->setPost($posts[mt_rand(1, count($posts) - 1)]);
         $comment->setUser($users[mt_rand(1, count($users) - 1)]);
         $em->persist($comment);
-        $output->writeln('Comment');
+        $em->flush();
+        $output->writeln('Linking Comments done.');
 
+        $output->writeln('Linking Pages...');
         $page->addSection($sections[mt_rand(1, count($sections) - 1)]);
         $em->persist($page);
-        $output->writeln('Page');
+        $em->flush();
+        $output->writeln('Linking Pages done.');
 
+        $output->writeln('Linking Posts...');
+        $output->writeln('Test linking Post with Comment.');
         $post->addComment($comments[mt_rand(1, count($comments) - 1)]);
+        $em->persist($post);
+        $em->flush();
+
+        $output->writeln('Test linking Post with Section.');
         $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
+        $em->persist($post);
+        $em->flush();
+
+        $output->writeln('Test linking Post with Tag.');
         $post->addTag($tags[mt_rand(1, count($tags) - 1)]);
+        $em->persist($post);
+        $em->flush();
+
+        $output->writeln('Test linking Post with User.');
         $post->setUser($users[mt_rand(1, count($users) - 1)]);
         $em->persist($post);
-        $output->writeln('Post');
+        $em->flush();
 
+        $output->writeln('Linking Posts done.');
+
+        $output->writeln('Linking Privileges...');
         $privilege->addRole($roles[mt_rand(1, count($roles) - 1)]);
         $em->persist($privilege);
-        $output->writeln('Privilege');
+        $em->flush();
+        $output->writeln('Linking Privileges done.');
 
+        $output->writeln('Linking Roles...');
         $role->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
         // $role->addUser($users[mt_rand(1, count($users) - 1)]);
         $em->persist($role);
-        $output->writeln('Role');
+        $em->flush();
+        $output->writeln('Linking Roles done.');
 
+        $output->writeln('Linking Sections...');
         $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
         $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
         $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
         $em->persist($section);
-        $output->writeln('Section');
+        $em->flush();
+        $output->writeln('Linking Sections done.');
 
-        $tag->addPage($pages[mt_rand(1, count($pages) - 1)]);
-        $tag->addPost($posts[mt_rand(1, count($posts) - 1)]);
-        $tag->addSection($sections[mt_rand(1, count($sections) - 1)]);
+        $output->writeln('Linking Tags...');
+        $tag->addItem($pages[mt_rand(1, count($pages) - 1)]);
+        $tag->addItem($posts[mt_rand(1, count($posts) - 1)]);
+        $tag->addItem($sections[mt_rand(1, count($sections) - 1)]);
         $em->persist($tag);
-        $output->writeln('Tag');
+        $em->flush();
+        $output->writeln('Linking Tags done.');
 
+        $output->writeln('Linking Users...');
         $user->addPost($posts[mt_rand(1, count($posts) - 1)]);
         // $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
         $em->persist($user);
-        $output->writeln('User');
-
         $em->flush();
+        $output->writeln('Linking Users done.');
     }
 }

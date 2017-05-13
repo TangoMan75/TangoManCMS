@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Privilege
 {
     use Traits\HasName;
-    use Traits\HasRoles;
+    use Traits\PrivilegeHasRoles;
 
     /**
      * @var int

@@ -24,6 +24,8 @@ class User implements UserInterface
     use Traits\HasSimpleRoles;
     use Traits\Sluggable;
     use Traits\Timestampable;
+    use Traits\UserHasComments;
+    use Traits\UserHasPosts;
     use Traits\UserHasPrivileges;
 
     /**
@@ -61,20 +63,6 @@ class User implements UserInterface
      * @ORM\Column(type="text", nullable=true)
      */
     private $bio;
-
-    /**
-     * @var Post[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"created"="DESC"})
-     */
-    private $posts;
-
-    /**
-     * @var Comment[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"created"="DESC"})
-     */
-    private $comments;
 
     /**
      * @var string User's password hash

@@ -77,16 +77,6 @@ Trait SectionHasPages
 
     /**
      * @param Page $page
-     */
-    public function linkPage(Page $page)
-    {
-        if (!in_array($page, (array)$this->pages)) {
-            $this->pages[] = $page;
-        }
-    }
-
-    /**
-     * @param Page $page
      *
      * @return $this
      */
@@ -96,6 +86,16 @@ Trait SectionHasPages
         $page->unlinkSection($this);
 
         return $this;
+    }
+
+    /**
+     * @param Page $page
+     */
+    public function linkPage(Page $page)
+    {
+        if (!in_array($page, (array)$this->pages)) {
+            $this->pages[] = $page;
+        }
     }
 
     /**

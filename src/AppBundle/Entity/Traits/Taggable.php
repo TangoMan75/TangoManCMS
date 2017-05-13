@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity\Traits;
 
-use AppBundle\Entity\Item;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -76,16 +75,6 @@ Trait Taggable
 
     /**
      * @param Tag $tag
-     */
-    public function linkTag(Tag $tag)
-    {
-        if (!in_array($tag, (array)$this->tags)) {
-            $this->tags[] = $tag;
-        }
-    }
-
-    /**
-     * @param Tag $tag
      *
      * @return $this
      */
@@ -95,6 +84,16 @@ Trait Taggable
         $tag->unlinkItem($this);
 
         return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function linkTag(Tag $tag)
+    {
+        if (!in_array($tag, (array)$this->tags)) {
+            $this->tags[] = $tag;
+        }
     }
 
     /**

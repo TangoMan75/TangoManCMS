@@ -63,7 +63,18 @@ Trait HasItems
     public function addItem($item)
     {
         $this->linkItem($item);
-        $item->linkOwner($this);
+        $item->linkTag($this);
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function removeItem($item)
+    {
+        $this->unlinkItem($item);
+        $item->unlinkTag($this);
 
         return $this;
     }
@@ -73,17 +84,6 @@ Trait HasItems
         if (!in_array($item, (array)$this->items)) {
             $this->items[] = $item;
         }
-    }
-
-    /**
-     * @return $this
-     */
-    public function removeItem($item)
-    {
-        $this->unlinkItem($item);
-        $item->unlinkOwner($this);
-
-        return $this;
     }
 
     public function unlinkItem($item)

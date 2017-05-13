@@ -18,7 +18,7 @@ class Role
 {
     use Traits\HasName;
     use Traits\HasType;
-    use Traits\HasUsers;
+    use Traits\RoleHasUsers;
     use Traits\RoleHasPrivileges;
 
     /**

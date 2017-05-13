@@ -77,16 +77,6 @@ Trait RoleHasUsers
 
     /**
      * @param User $user
-     */
-    public function linkUser(User $user)
-    {
-        if (!in_array($user, (array)$this->users)) {
-            $this->users[] = $user;
-        }
-    }
-
-    /**
-     * @param User $user
      *
      * @return $this
      */
@@ -96,6 +86,16 @@ Trait RoleHasUsers
         $user->unlinkItem($this);
 
         return $this;
+    }
+
+    /**
+     * @param User $user
+     */
+    public function linkUser(User $user)
+    {
+        if (!in_array($user, (array)$this->users)) {
+            $this->users[] = $user;
+        }
     }
 
     /**

@@ -20,14 +20,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Post
 {
     use Traits\Categorized;
-    use Traits\Commentable;
     use Traits\Embeddable;
-    use Traits\PostHasSections;
     use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
-    use Traits\HasUser;
+    use Traits\PostHasComments;
+    use Traits\PostHasSections;
+    use Traits\PostHasUser;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Taggable;
@@ -42,26 +42,6 @@ class Post
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"})
-     */
-    private $user;
-
-    /**
-     * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="posts", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $sections = [];
-
-    /**
-     * @var array|Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $comments = [];
 
     /**
      * Post constructor.

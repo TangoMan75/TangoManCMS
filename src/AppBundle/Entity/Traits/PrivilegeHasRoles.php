@@ -2,25 +2,29 @@
 
 namespace AppBundle\Entity\Traits;
 
+use AppBundle\Entity\Privilege;
 use AppBundle\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait HasRoles
- *
- * This trait defines the INVERSE side of a ManyToMany relationship.
- *
- * 1. Requires `Role` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * Trait PrivilegeHasRoles
+ * 
+ * This trait defines the OWNING side of a ManyToMany relationship.
+ * 
+ * 1. Requires `Role` entity to implement `$privileges` property with `ManyToMany` and `mappedBy="privileges"` annotation.
+ * 2. Requires `Role` entity to implement `linkPrivilege` and `unlinkPrivilege` methods.
+ * 3. (Optional) entity constructor must initialize ArrayCollection object
  *     $this->roles = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasRoles
+Trait PrivilegeHasRoles
 {
     /**
      * @var array|Role[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="privileges", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $roles = [];
 
@@ -65,9 +69,8 @@ Trait HasRoles
      */
     public function addRole(Role $role)
     {
-        if (!in_array($role, (array)$this->roles)) {
-            $this->roles[] = $role;
-        }
+        $this->linkRole($role);
+        $role->linkPrivilege($this);
 
         return $this;
     }
@@ -79,8 +82,27 @@ Trait HasRoles
      */
     public function removeRole(Role $role)
     {
-        $this->roles->removeElement($role);
+        $this->unlinkRole($role);
+        $role->unlinkPrivilege($this);
 
         return $this;
+    }
+
+    /**
+     * @param Role $role
+     */
+    public function linkRole(Role $role)
+    {
+        if (!in_array($role, (array)$this->roles)) {
+            $this->roles[] = $role;
+        }
+    }
+
+    /**
+     * @param Role $role
+     */
+    public function unlinkRole(Role $role)
+    {
+        $this->roles->removeElement($role);
     }
 }
