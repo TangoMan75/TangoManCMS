@@ -42,7 +42,7 @@ Trait HasTitle
         $this->title = $title;
 
         if (!$this->title) {
-            $this->title($this->created->format('d/m/Y H:i:s'));
+            $this->title = $this->created->format('d/m/Y H:i:s');
         }
 
         if (!$this->slug) {
