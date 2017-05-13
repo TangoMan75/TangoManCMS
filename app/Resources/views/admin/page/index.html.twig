@@ -184,9 +184,17 @@
                             </a>
                         </td>
                         <td>
-                            <span class="label label-success">
-                                {{ page.sections|length }}
-                            </span>
+                            {% if page.sections|length > 1 %}
+                                <span class="label label-success">{{ page.sections|length }} sections</span><br/>
+                            {% elseif page.sections|length < 1 %}
+                                <span class="label label-danger">Aucune section</span>
+                            {% endif %}
+                            {% for section in page.sections %}
+                                <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
+                                   class="label label-default">
+                                    {{ section.title|truncate(20) }}
+                                </a><br/>
+                            {% endfor %}
                         </td>
                         <td>
                             {% for tag in page.tags %}

@@ -131,7 +131,7 @@
                             'order' : 'posts',
                             'way'   : app.request.query.get('order') == 'posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Posts
+                            Articles
                         </a>
                     </th>
 
@@ -190,19 +190,30 @@
                             {{ section.title }}
                         </td>
                         <td>
-                            {#<span class="label label-success">#}
-                                {#{{ section.pages|length }}#}
-                            {#</span>#}
+                            {% if section.pages|length > 1 %}
+                                <span class="label label-success">{{ section.pages|length }} pages</span><br/>
+                            {% elseif section.pages|length < 1 %}
+                                <span class="label label-danger">Aucune page</span>
+                            {% endif %}
                             {% for page in section.pages %}
-                                <span class="label label-default">
-                                    {{ page.title }}<br />
-                                </span>
+                                <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
+                                   class="label label-default">
+                                    {{ page.title|truncate(20) }}
+                                </a><br/>
                             {% endfor %}
                         </td>
                         <td>
-                            <span class="label label-success">
-                                {{ section.posts|length }}
-                            </span>
+                            {% if section.posts|length > 1 %}
+                                <span class="label label-success">{{ section.posts|length }} articles</span><br/>
+                            {% elseif section.posts|length < 1 %}
+                                <span class="label label-danger">Aucun article</span>
+                            {% endif %}
+                            {% for post in section.posts %}
+                                <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
+                                   class="label label-default">
+                                    {{ post.title|truncate(20) }}
+                                </a><br/>
+                            {% endfor %}
                         </td>
                         <td>
                             {% for tag in section.tags %}
