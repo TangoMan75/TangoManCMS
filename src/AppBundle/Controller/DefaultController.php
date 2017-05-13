@@ -26,14 +26,13 @@ class DefaultController extends Controller
         $formPost = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $user = $this->getUser();
             $post = new Post();
-            $post->setUser($user);
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
             $formPost = $form->createView();
 
             if ($form->isValid()) {
+                $post->setUser($this->getUser());
                 $em->persist($post);
                 $em->flush();
                 $this->get('session')->getFlashBag()->add('success', 'Votre article a bien été enregistré.');
