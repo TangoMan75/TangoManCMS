@@ -23,6 +23,13 @@ body {
 }
 
 /**
+ * Labels inside a
+ */
+a.label:hover {
+	text-decoration: none;
+}
+
+/**
  * Background images
  */
 .cover {
