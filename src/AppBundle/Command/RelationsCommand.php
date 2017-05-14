@@ -94,16 +94,16 @@ class RelationsCommand extends ContainerAwareCommand
         // $em->flush();
         // $output->writeln('Linking Roles done.');
 
-        // // Sections
-        // $output->writeln('Linking Sections...');
-        // foreach ($sections as $section) {
-        //     $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
-        //     $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
-        //     // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
-        //     $em->persist($section);
-        // }
-        // $em->flush();
-        // $output->writeln('Linking Sections done.');
+        // Sections
+        $output->writeln('Linking Sections...');
+        foreach ($sections as $section) {
+            $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
+            $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
+            // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
+            $em->persist($section);
+        }
+        $em->flush();
+        $output->writeln('Linking Sections done.');
 
         // // Tags
         // $output->writeln('Linking Tags...');
