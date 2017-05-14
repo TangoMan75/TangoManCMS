@@ -254,7 +254,12 @@
                         <td>{{ post.slug }}</td>
                         <td>
                             <div class="cover"
-                                 style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');"></div>
+                                 {% if post.imageFileName %}
+                                 style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                                {%  else %}
+                                 style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image : '//placehold.it/80?text=Image' }}');">
+                                {% endif %}
+                            </div>
                         </td>
                         <td>
                             <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
