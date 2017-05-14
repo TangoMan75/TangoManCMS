@@ -240,7 +240,7 @@
                             </td>
                             <td>
                                 {% if user.password %}
-                                    <a href="{{ path('app_admin_user_index', {'status' : 1}) }}">
+                                    <a href="{{ path('app_admin_user_index', app.request.query.all|merge({'password' : 'true'})) }}">
                                         <span class="btn btn-success btn-xs"
                                               data-toggle="tooltip" data-placement="top"
                                               data-original-title="Utilisateur valide">
@@ -248,7 +248,7 @@
                                         </span>
                                     </a>
                                 {% else %}
-                                    <a href="{{ path('app_admin_user_index', {'status' : 0}) }}">
+                                    <a href="{{ path('app_admin_user_index', app.request.query.all|merge({'password' : 'false'})) }}">
                                         <span class="btn btn-danger btn-xs"
                                               data-toggle="tooltip" data-placement="top"
                                               data-original-title="Utilisateur inactif">
