@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
+    use Traits\HasHits;
     use Traits\HasSummary;
     use Traits\HasTitle;
     use Traits\PageHasSections;

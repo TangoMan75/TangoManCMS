@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @Route("/page")
@@ -18,6 +19,15 @@ class PageController extends Controller
     {
         $em = $this->get('doctrine')->getManager();
         $page = $em->getRepository('AppBundle:Page')->findOneBy(['slug' => $slug]);
+
+        if (!$page) {
+            throw $this->createNotFoundException('Cette page n\'existe pas.');
+        }
+
+        // Adds one view
+        $page->addHit();
+        $em->persist($page);
+        $em->flush();
 
         return $this->render(
             'page/show.html.twig',

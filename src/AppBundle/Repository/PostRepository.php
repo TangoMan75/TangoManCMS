@@ -62,8 +62,16 @@ class PostRepository extends EntityRepository
                 $dql->leftJoin('post.comments', 'comments');
                 break;
 
+            case 'hits':
+                $dql->addSelect('post.hits as orderParam');
+                break;
+
             case 'image':
                 $dql->addSelect('COUNT(post.image) as orderParam');
+                break;
+
+            case 'likes':
+                $dql->addSelect('post.likes as orderParam');
                 break;
 
             case 'page':

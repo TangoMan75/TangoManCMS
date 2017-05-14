@@ -135,13 +135,13 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'hits' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'published',
-                            'way'   : app.request.query.get('order') == 'published'
+                            'order' : 'hits',
+                            'way'   : app.request.query.get('order') == 'hits'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Publication
+                            Vues
                         </a>
                     </th>
 
@@ -162,6 +162,16 @@
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Modification
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'published',
+                            'way'   : app.request.query.get('order') == 'published'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Publication
                         </a>
                     </th>
 
@@ -205,6 +215,13 @@
                             {% endfor %}
                         </td>
                         <td>
+                            <span class="label label-success">
+                            {% if page.hits %}{{ page.hits }}{% else %}0{% endif %}
+                            </span>
+                        </td>
+                        <td>{{ page.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ page.modified|date('d/m/Y H:i:s') }}</td>
+                        <td>
                             {% if page.published %}
                                 <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
@@ -219,8 +236,6 @@
                                 </a>
                             {% endif %}
                         </td>
-                        <td>{{ page.created|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ page.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">

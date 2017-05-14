@@ -199,6 +199,16 @@
                         </a>
                     </th>
 
+                    <th class="{{ app.request.query.get('order') == 'hits' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'hits',
+                            'way'   : app.request.query.get('order') == 'hits'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Vues
+                        </a>
+                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -286,6 +296,11 @@
                                     {{ tag.name }}
                                 </a><br/>
                             {% endfor %}
+                        </td>
+                        <td>
+                            <span class="label label-success">
+                            {% if post.hits %}{{ post.hits }}{% else %}0{% endif %}
+                            </span>
                         </td>
                         <td>{{ post.created|date('d/m/Y H:i:s') }}</td>
                         <td>{{ post.modified|date('d/m/Y H:i:s') }}</td>

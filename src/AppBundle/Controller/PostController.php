@@ -12,6 +12,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+
 
 /**
  * @Route("/post")
@@ -28,10 +30,10 @@ class PostController extends Controller
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')
-                ->findAllPaged($request->query->getInt('page', 1), 5, false);
+                        ->findAllPaged($request->query->getInt('page', 1), 5, false);
         } else {
             $posts = $em->getRepository('AppBundle:Post')
-                ->findAllPaged($request->query->getInt('page', 1), 5);
+                        ->findAllPaged($request->query->getInt('page', 1), 5);
         }
 
         $formPost = null;
@@ -75,10 +77,10 @@ class PostController extends Controller
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')
-                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5, false);
+                        ->findByTagPaged($tag, $request->query->getInt('page', 1), 5, false);
         } else {
             $posts = $em->getRepository('AppBundle:Post')
-                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+                        ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
         }
 
         $formPost = null;
@@ -121,6 +123,15 @@ class PostController extends Controller
         $em = $this->get('doctrine')->getManager();
         $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
 
+        if (!$post) {
+            throw $this->createNotFoundException('Cet article n\'existe pas.');
+        }
+
+        // Adds one view
+        $post->addHit();
+        $em->persist($post);
+        $em->flush();
+
         $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
             $post,
             $request->query->getInt('page', 1),
@@ -153,9 +164,9 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'formPost' => $formComment,
+                'formPost'     => $formComment,
                 'list_comment' => $listComment,
-                'post' => $post,
+                'post'         => $post,
             ]
         );
     }

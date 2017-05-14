@@ -51,6 +51,10 @@ class PageRepository extends EntityRepository
 
         // Order according to ownership count
         switch ($order) {
+            case 'hits':
+                $dql->addSelect('page.hits as orderParam');
+                break;
+
             case 'sections':
                 $dql->addSelect('COUNT(csections) as orderParam');
                 $dql->leftJoin('page.sections', 'csections');
