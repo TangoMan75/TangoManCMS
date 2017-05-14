@@ -206,13 +206,15 @@
                         </td>
                         <td>
                             {% if page.published %}
-                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'published' : 'true'})) }}"
-                                   class="btn btn-success btn-xs">
+                                <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                   class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Retirer la publication">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_page_index', app.request.query.all|merge({'published' : 'false'})) }}"
-                                   class="btn btn-warning btn-xs">
+                                <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                   class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Publier cet article">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}

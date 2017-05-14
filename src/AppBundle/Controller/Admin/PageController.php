@@ -66,6 +66,32 @@ class PageController extends Controller
     }
 
     /**
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     */
+    public function publishAction(Request $request, Page $page, $publish)
+    {
+        $page->setPublished($publish);
+        $em = $this->get('doctrine')->getManager();
+        $em->persist($page);
+        $em->flush();
+
+        if ($publish) {
+            $message = 'La page <strong>&quot;'.$page.'&quot;</strong> a bien été publiée.';
+        } else {
+            $message = 'La publication de la page <strong>&quot;'.$page.'&quot;</strong> a bien été annulée.';
+        }
+
+        // Send flash notification
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            $message
+        );
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
+    }
+
+    /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Page $page)
