@@ -84,6 +84,10 @@ class PostRepository extends EntityRepository
                 $dql->leftJoin('post.tags', 'tags');
                 break;
 
+            case 'type':
+                $dql->addSelect('post.type as orderParam');
+                break;
+
             default:
                 $dql->addSelect('post.'.$order.' as orderParam');
                 break;
@@ -163,6 +167,11 @@ class PostRepository extends EntityRepository
         if ($query->get('title')) {
             $dql->andWhere('post.title LIKE :title')
                 ->setParameter(':title', '%'.$query->get('title').'%');
+        }
+
+        if ($query->get('type')) {
+            $dql->andWhere('post.type LIKE :type')
+                ->setParameter(':type', '%'.$query->get('type').'%');
         }
 
         if ($query->get('user')) {
