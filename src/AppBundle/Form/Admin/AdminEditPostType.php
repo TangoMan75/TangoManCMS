@@ -54,7 +54,7 @@ class AdminEditPostType extends AbstractType
                     'class'         => 'AppBundle:Section',
                     'placeholder'   => 'Selectionner une section',
                    // 'empty_data'    => null,
-                    'multiple'      => false,
+                    'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
