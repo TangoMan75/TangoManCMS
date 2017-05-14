@@ -16,5 +16,4 @@ ManyToOne Relationships
 -----------------------
 
 Comments => Post
-
-
+Posts    => User
