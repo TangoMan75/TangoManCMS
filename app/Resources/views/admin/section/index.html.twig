@@ -145,16 +145,6 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
-                            'section'  : 1,
-                            'order' : 'published',
-                            'way'   : app.request.query.get('order') == 'published'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Publication
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
                             'section'  : 1,
@@ -172,6 +162,16 @@
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Modification
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
+                            'section'  : 1,
+                            'order' : 'published',
+                            'way'   : app.request.query.get('order') == 'published'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Publication
                         </a>
                     </th>
 
@@ -223,6 +223,8 @@
                                 </a><br/>
                             {% endfor %}
                         </td>
+                        <td>{{ section.created|date('d/m/Y H:i:s') }}</td>
+                        <td>{{ section.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             {% if section.published %}
                                 <a href="{{ path('app_admin_section_publish', { 'id': section.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
@@ -238,8 +240,6 @@
                                 </a>
                             {% endif %}
                         </td>
-                        <td>{{ section.created|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ section.modified|date('d/m/Y H:i:s') }}</td>
                         <td>
                             <a href="{{ path('app_admin_section_edit', { 'id': section.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
