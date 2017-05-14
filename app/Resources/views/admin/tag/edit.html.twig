@@ -21,10 +21,16 @@
         <div class="jumbotron">
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button type="submit" class="btn btn-primary center-block">
-                <span class="glyphicon glyphicon-send"></span>
-                Valider
-            </button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    Valider
+                </button>
+                <a href="{{ path('app_admin_tag_index') }}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                    Annuler
+                </a>
+            </div>
             {{ form_end(form) }}
         </div>
     </section>

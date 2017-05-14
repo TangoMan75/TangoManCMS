@@ -21,10 +21,16 @@
         <div class="jumbotron">
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <button type="submit" class="btn btn-primary center-block">
-                <span class="glyphicon glyphicon-send"></span>
-                Valider
-            </button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-disk"></span>
+                    Enregister
+                </button>
+                <a href="{{ path('app_admin_section_index') }}" class="btn btn-danger">
+                    <span class="glyphicon glyphicon-trash"></span>
+                    Annuler
+                </a>
+            </div>
             {{ form_end(form) }}
         </div>
     </section>
