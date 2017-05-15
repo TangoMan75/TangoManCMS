@@ -67,24 +67,26 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
         for ($i = 0; $i < count($pptx); $i++) {
             $doc = new Post();
             $doc
-                ->setType('pptx')
-                ->setTitle($faker->sentence(4, true))
-                ->setText($faker->text(mt_rand(100, 255)))
-                ->setDocumentFileName($pptx[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setPublished($i % 2);
+                ->setDocumentFileName($pptx[$i])
+                ->setHits(mt_rand(0, 50))
+                ->setPublished($i % 2)
+                ->setText($faker->text(mt_rand(100, 255)))
+                ->setTitle($faker->sentence(4, true))
+                ->setType('pptx');
             $em->persist($doc);
         }
 
         for ($i = 0; $i < count($pdf); $i++) {
             $doc = new Post();
             $doc
-                ->setType('pdf')
-                ->setTitle($faker->sentence(4, true))
-                ->setText($faker->text(mt_rand(100, 255)))
-                ->setDocumentFileName($pdf[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setPublished($i % 2);
+                ->setDocumentFileName($pdf[$i])
+                ->setHits(mt_rand(0, 50))
+                ->setPublished($i % 2)
+                ->setText($faker->text(mt_rand(100, 255)))
+                ->setTitle($faker->sentence(4, true))
+                ->setType('pdf');
             $em->persist($doc);
         }
 

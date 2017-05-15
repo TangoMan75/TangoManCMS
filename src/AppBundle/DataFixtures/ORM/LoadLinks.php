@@ -75,17 +75,28 @@ class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFix
             'https://giphy.com/gifs/030tango-dancing-fun-cIQC2PZaMFuX6',
             'https://giphy.com/gifs/030tango-l3q2ZQcQ2eHfiRdqE',
             'https://giphy.com/gifs/oXrpvIX7qgDi8',
+            'https://twitter.com/la2x4/status/864105838851440641',
+            'https://twitter.com/la2x4/status/864089987406581760',
+            'https://twitter.com/la2x4/status/864064313648074753',
+            'https://twitter.com/la2x4/status/863978499606024192',
+            'https://twitter.com/la2x4/status/863857591402852358',
+            'https://twitter.com/la2x4/status/863823485969346561',
+            'https://twitter.com/la2x4/status/863812488722345985',
+            'https://twitter.com/la2x4/status/863807377304424448',
+            'https://twitter.com/la2x4/status/863737665707003904',
+            'https://twitter.com/la2x4/status/863237363912261632',
         ];
 
         shuffle($links);
         for ($i = 0; $i < count($links); $i++) {
             $post = new Post();
             $post
-                ->setTitle($faker->sentence(4, true))
-                ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                ->setLink($links[$i])
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setPublished($i % 2);
+                ->setHits(mt_rand(0, 50))
+                ->setLink($links[$i])
+                ->setPublished($i % 2)
+                ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
+                ->setTitle($faker->sentence(4, true));
 
             $em->persist($post);
         }
