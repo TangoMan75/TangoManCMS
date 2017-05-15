@@ -107,7 +107,7 @@ Trait Embeddable
                         '?autoplay=0&mute=1" allowfullscreen></iframe>';
                     break;
                 case 'giphy':
-                    return '<iframe src="https://giphy.com/embed/'.
+                    return '<iframe src="//giphy.com/embed/'.
                         $this->getHash($this->link).
                         '" width="480" height="270" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>';
                     break;
@@ -117,7 +117,7 @@ Trait Embeddable
                         '.js"></script>';
                     break;
                 case 'tweet':
-                    $json = file_get_contents('https://publish.twitter.com/oembed?url='.urlencode($this->link));
+                    $json = file_get_contents('https://publish.twitter.com/oembed?url=https:'.urlencode($this->link));
                     return json_decode($json, true)['html'];
                     break;
                 case 'vimeo':
@@ -181,8 +181,10 @@ Trait Embeddable
                 }
                 return $result;
                 break;
+            case 'gist.github.com':
             case 'twitter.com':
             case 'www.argus360.fr':
+                // https://gist.github.com/vovadocent/7b4a58d7d9e8abb3c68dd82607c2bbf0
                 // https://twitter.com/TangoZoneOrg/status/858612556533051392
                 // https://www.argus360.fr/viewer/share/3e7802c1cd69f08f2a3bae389816ece6?res=1920x1080&vdp=off
                 return ltrim(strrchr(parse_url($url)['path'], '/'), '/');
