@@ -26,6 +26,7 @@ class Post
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
+    use Traits\Likable;
     use Traits\PostHasComments;
     use Traits\PostHasSections;
     use Traits\PostHasUser;
@@ -49,11 +50,11 @@ class Post
      */
     public function __construct()
     {
-        $this->created = new \DateTimeImmutable();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->tags     = new ArrayCollection();
     }
 
     /**

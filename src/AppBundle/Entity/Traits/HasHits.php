@@ -44,16 +44,4 @@ Trait HasHits
 
         return $this;
     }
-
-    /**
-     * @return bool
-     */
-    public function hasHit()
-    {
-        if ($this->hits) {
-            return true;
-        }
-
-        return false;
-    }
 }

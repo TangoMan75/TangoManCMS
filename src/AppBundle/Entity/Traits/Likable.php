@@ -34,4 +34,14 @@ Trait Likable
 
         return $this;
     }
+
+    /**
+     * @return $this
+     */
+    public function addLike()
+    {
+        $this->likes = ++$this->likes;
+
+        return $this;
+    }
 }

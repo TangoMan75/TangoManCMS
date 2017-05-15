@@ -258,6 +258,24 @@ class PostController extends Controller
     }
 
     /**
+     * Adds one upvote.
+     * @Route("/like/{slug}", requirements={"slug": "[\w-]+"})
+     */
+    public function likeAction(Request $request, $slug)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
+
+        // Adds one upvote
+        $post->addLike();
+        $em->persist($post);
+        $em->flush();
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
+    }
+
+    /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Post $post)
