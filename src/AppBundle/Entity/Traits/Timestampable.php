@@ -72,6 +72,6 @@ trait Timestampable
      */
     public function updateModified()
     {
-        $this->modified = new \DateTime();
+        $this->modified = new \DateTimeImmutable();
     }
 }

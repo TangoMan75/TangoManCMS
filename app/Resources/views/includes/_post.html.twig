@@ -93,10 +93,10 @@
                         {% else %}
                             <span class="glyphicon glyphicon-send text-primary"></span>
                         {% endif %}
-                        Publié le: {{ post.modified|date('d/m/Y H:i:s') }}
+                        Publié, créé le: {{ post.created|date('d/m/Y H:i:s') }}, modifié le: {{ post.modified|date('d/m/Y H:i:s') }}
                     {% else %}
                         <span class="glyphicon glyphicon-remove-circle text-danger"></span>
-                        Non-publié, création le: {{ post.created|date('d/m/Y H:i:s') }}
+                        Non-publié, créé le: {{ post.created|date('d/m/Y H:i:s') }}, modifié le: {{ post.modified|date('d/m/Y H:i:s') }}
                     {% endif %}
                 </div>
                 <div class="pull-right">

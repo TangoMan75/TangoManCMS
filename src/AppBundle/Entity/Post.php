@@ -10,10 +10,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Class Post
  *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="post")
  * @Vich\Uploadable
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -45,6 +45,9 @@ class Post
      */
     private $id;
 
+    private $tempHits;
+    private $tempLikes;
+
     /**
      * Post constructor.
      */
@@ -55,6 +58,8 @@ class Post
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags     = new ArrayCollection();
+        $tempHits       = $this->hits;
+        $tempLikes      = $this->likes;
     }
 
     /**

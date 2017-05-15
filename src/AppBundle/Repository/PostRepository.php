@@ -217,7 +217,7 @@ class PostRepository extends EntityRepository
         }
 
         $dql = $this->createQueryBuilder('post');
-        $dql->orderBy('post.modified', 'DESC');
+        $dql->orderBy('post.created', 'DESC');
 
         if ($published) {
             $dql->andWhere('post.published = 1');
