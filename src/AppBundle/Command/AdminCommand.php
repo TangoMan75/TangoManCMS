@@ -41,11 +41,12 @@ class AdminCommand extends ContainerAwareCommand
             $encoder  = $this->getContainer()->get('security.password_encoder');
 
             $user = new User();
-            $user->setUsername($username)
+            $user
+                ->addRole($roleSuperAdmin)
+                ->setBio('<p>Ceci est le compte super administrateur.</p>')
                 ->setEmail($email)
                 ->setPassword($encoder->encodePassword($user, $pwd))
-                ->addRole($roleSuperAdmin)
-                ->setBio('<p>Ceci est le compte super administrateur.</p>');
+                ->setUsername($username);
 
             $em->persist($user);
             $em->flush();

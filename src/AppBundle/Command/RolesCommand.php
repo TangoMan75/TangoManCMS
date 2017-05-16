@@ -41,7 +41,8 @@ class RolesCommand extends ContainerAwareCommand
             // findBy is the only working method in fixtures
             if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $item])) {
                 $role = new Role();
-                $role->setName($key)
+                $roles
+                    ->setName($key)
                     ->setRole($item);
 
                 $em->persist($role);

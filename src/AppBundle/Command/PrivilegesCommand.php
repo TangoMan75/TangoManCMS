@@ -41,7 +41,8 @@ class PrivilegesCommand extends ContainerAwareCommand
             if (!$em->getRepository('AppBundle:Privilege')->findBy(['name' => $name])) {
 
                 $privilege = new Privilege();
-                $privilege->setName($name)
+                $privilege
+                    ->setName($name)
                     ->setCanCreate(true)
                     ->setCanRead(true)
                     ->setCanUpdate(true)
