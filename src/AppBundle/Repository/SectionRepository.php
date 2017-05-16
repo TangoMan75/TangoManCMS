@@ -24,7 +24,7 @@ class SectionRepository extends EntityRepository
      *
      * @return Paginator
      */
-    public function orderedSearchPaged(ParameterBag $query)
+    public function searchableOrderedPage(ParameterBag $query)
     {
         // Sets default values
         $page  = $query->get('page', 1);

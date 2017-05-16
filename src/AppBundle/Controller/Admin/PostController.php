@@ -27,7 +27,7 @@ class PostController extends Controller
     {
         // Show searchable, sortable, paginated post list
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->orderedSearchPaged($request->query);
+        $posts = $em->getRepository('AppBundle:Post')->searchableOrderedPage($request->query);
 
         return $this->render(
             'admin/post/index.html.twig',
