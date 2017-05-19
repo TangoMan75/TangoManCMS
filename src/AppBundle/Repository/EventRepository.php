@@ -9,9 +9,7 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @package AppBundle\Repository
  */
-class EventRepository extends \Doctrine\ORM\EntityRepository
-{
+class EventRepository extends AbstractRepository {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\TableName;
 }

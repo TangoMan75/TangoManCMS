@@ -9,9 +9,8 @@ use Doctrine\ORM\QueryBuilder;
  *
  * @package AppBundle\Repository
  */
-class PrivilegeRepository extends \Doctrine\ORM\EntityRepository
+class PrivilegeRepository extends AbstractRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\TableName;
 }

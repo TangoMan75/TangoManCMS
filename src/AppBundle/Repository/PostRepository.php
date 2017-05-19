@@ -15,11 +15,12 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class PostRepository extends EntityRepository
+class PostRepository extends AbstractRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\TableName;
+    use Traits\Ordered;
+
 
     /**
      * @param ParameterBag $query
@@ -48,50 +49,10 @@ class PostRepository extends EntityRepository
 
         $dql = $this->createQueryBuilder('post');
 
+        $dql = $this->order($dql, $query);
+
         // Search inside id, title, subtitle and content columns
         $dql = $this->search($dql, $query);
-
-        // Order according to ownership count
-        switch ($order) {
-            case 'author':
-                $dql->addSelect('user.username as orderParam');
-                break;
-
-            case 'comments':
-                $dql->addSelect('COUNT(comments) as orderParam');
-                $dql->leftJoin('post.comments', 'comments');
-                break;
-
-            case 'hits':
-                $dql->addSelect('post.hits as orderParam');
-                break;
-
-            case 'image':
-                $dql->addSelect('COUNT(post.image) as orderParam');
-                break;
-
-            case 'likes':
-                $dql->addSelect('post.likes as orderParam');
-                break;
-
-            case 'page':
-                $dql->addSelect('page.title as orderParam');
-                $dql->leftJoin('post.page', 'page');
-                break;
-
-            case 'tags':
-                $dql->addSelect('COUNT(tags) as orderParam');
-                $dql->leftJoin('post.tags', 'tags');
-                break;
-
-            case 'type':
-                $dql->addSelect('post.type as orderParam');
-                break;
-
-            default:
-                $dql->addSelect('post.'.$order.' as orderParam');
-                break;
-        }
 
         $dql->leftJoin('post.user', 'user');
         $dql->groupBy('post.id');

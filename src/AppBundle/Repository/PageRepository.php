@@ -13,11 +13,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class PageRepository extends EntityRepository
-{
+class PageRepository extends AbstractRepository {
+
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\TableName;
 
     /**
      * @param ParameterBag $query

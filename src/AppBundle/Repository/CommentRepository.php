@@ -3,7 +3,6 @@
 namespace AppBundle\Repository;
 
 use AppBundle\Entity\Post;
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\ParameterBag;
@@ -14,11 +13,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class CommentRepository extends EntityRepository
+class CommentRepository extends AbstractRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\TableName;
 
     /**
      * @param ParameterBag $query

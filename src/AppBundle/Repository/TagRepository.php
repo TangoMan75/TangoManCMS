@@ -13,10 +13,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class TagRepository extends EntityRepository
+class TagRepository extends AbstractRepository
 {
     use Traits\Countable;
-    use Traits\TableName;
 
     /**
      * @param ParameterBag $query

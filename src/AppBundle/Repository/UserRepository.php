@@ -14,11 +14,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class UserRepository extends EntityRepository implements UserLoaderInterface
+class UserRepository extends AbstractRepository implements UserLoaderInterface
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
-    use Traits\TableName;
 
     /**
      * @param ParameterBag $query
@@ -148,6 +147,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
      */
     public function loadUserByUsername($username)
     {
+
         return $this->createQueryBuilder('user')
             ->where('user.username = :username OR user.email = :email')
             ->setParameter('username', $username)
