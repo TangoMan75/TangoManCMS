@@ -21,7 +21,7 @@ class Post
 {
     use Traits\Categorized;
     use Traits\Embeddable;
-    use Traits\HasHits;
+    use Traits\HasStats;
     use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;

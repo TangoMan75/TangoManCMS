@@ -5,7 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Hit
+ * Stats
  * @ORM\Table(name="stats")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\StatsRepository")
  */
@@ -21,9 +21,15 @@ class Stats
 
     /**
      * @var int
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="integer", nullable=true, unique=true)
      */
     private $sessionId;
+
+    /**
+     * @var User
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
+     */
+    private $user;
 
     /**
      * @var int
@@ -66,7 +72,7 @@ class Stats
     /**
      * @param integer $sessionId
      *
-     * @return Hit
+     * @return $this
      */
     public function setSessionId($sessionId)
     {
@@ -84,9 +90,29 @@ class Stats
     }
 
     /**
+     * @param User $user
+     *
+     * @return $this
+     */
+    public function setUser(User $user)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
      * @param integer $views
      *
-     * @return Hit
+     * @return $this
      */
     public function setViews($views)
     {
@@ -116,7 +142,7 @@ class Stats
     /**
      * @param integer $likes
      *
-     * @return Hit
+     * @return $this
      */
     public function setLikes($likes)
     {
@@ -146,7 +172,7 @@ class Stats
     /**
      * @param integer $stars
      *
-     * @return Hit
+     * @return $this
      */
     public function setStars($stars)
     {
@@ -168,7 +194,7 @@ class Stats
     /**
      * @param integer $upVotes
      *
-     * @return Hit
+     * @return $this
      */
     public function setUpVotes($upVotes)
     {
@@ -198,7 +224,7 @@ class Stats
     /**
      * @param integer $downVotes
      *
-     * @return Hit
+     * @return $this
      */
     public function setDownVotes($downVotes)
     {
