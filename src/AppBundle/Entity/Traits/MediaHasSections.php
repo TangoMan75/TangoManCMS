@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait MediaHasSections
- * 
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 
  * 1. Requires `Section` entity to implement `$medias` property with `ManyToMany` and `mappedBy="medias"` annotation.
  * 2. Requires `Section` entity to implement `linkMedia` and `unlinkMedia` methods.
  * 3. (Optional) entity constructor must initialize ArrayCollection object

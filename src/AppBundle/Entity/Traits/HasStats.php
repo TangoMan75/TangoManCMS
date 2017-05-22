@@ -6,9 +6,7 @@ use AppBundle\Entity\Stats;
 
 /**
  * Trait HasStats
- *
  * This trait defines the OWNING side of a OneToOne relationship.
- *
  * OneToOne does not require any implementation on the owned side of the relationship.
  *
  * @author  Matthias Morin <tangoman@free.fr>

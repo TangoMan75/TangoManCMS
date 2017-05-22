@@ -7,9 +7,7 @@ use AppBundle\Entity\User;
 
 /**
  * Trait CommentHasUser
- *
  * This trait defines the INVERSE side of a ManyToOne relationship.
- * 
  * 1. Requires `User` entity to implement `$comments` property with `OneToMany` and `mappedBy="comments"` and cascade={"remove", "persist"} annotation.
  * 2. Requires `User` entity to implement `linkComment` method.
  *

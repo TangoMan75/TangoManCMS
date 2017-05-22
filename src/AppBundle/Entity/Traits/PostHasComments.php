@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PostHasComments
- *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 
  * 1. Requires `Comment` entity to implement `$post` property with `ManyToOne` and `inversed="comments"` annotation.
  * 2. Requires `Comment` entity to implement `linkPost` and `unlinkPost` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object

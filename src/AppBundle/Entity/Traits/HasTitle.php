@@ -4,7 +4,6 @@ namespace AppBundle\Entity\Traits;
 
 /**
  * Trait HasTitle
- * 
  * Requires entity to own "Sluggable" and "Timestampable" traits.
  *
  * @author  Matthias Morin <tangoman@free.fr>

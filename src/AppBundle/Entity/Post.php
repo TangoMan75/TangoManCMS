@@ -9,8 +9,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Post
- *
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
+ *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="post")
  * @Vich\Uploadable
@@ -50,11 +50,11 @@ class Post
      */
     public function __construct()
     {
-        $this->created  = new \DateTimeImmutable();
+        $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
-        $this->tags     = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**

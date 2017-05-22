@@ -118,6 +118,7 @@ Trait Embeddable
                     break;
                 case 'tweet':
                     $json = file_get_contents('https://publish.twitter.com/oembed?url=https:'.urlencode($this->link));
+
                     return json_decode($json, true)['html'];
                     break;
                 case 'vimeo':
@@ -179,6 +180,7 @@ Trait Embeddable
                 if (strpos($result, '-') !== false) {
                     return ltrim(strrchr($result, '-'), '-');
                 }
+
                 return $result;
                 break;
             case 'gist.github.com':

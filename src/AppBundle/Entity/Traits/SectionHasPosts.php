@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SectionHasPosts
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 
  * 1. Requires `Post` entity to implement `$sections` property with `ManyToMany` and `inversedBy="posts"` annotation.
  * 2. Requires `Post` entity to implement `linkSection` and `unlinkSection` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object

@@ -26,6 +26,7 @@ Trait Likable
 
     /**
      * @param integer $likes
+     *
      * @return $this
      */
     public function setLikes($likes)

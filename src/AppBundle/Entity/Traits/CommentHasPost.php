@@ -7,9 +7,7 @@ use AppBundle\Entity\Post;
 
 /**
  * Trait CommentHasPost
- *
  * This trait defines the INVERSE side of a ManyToOne relationship.
- * 
  * 1. Requires `Post` entity to implement `$comments` property with `OneToMany` and `mappedBy="comments"` and cascade={"persist", "remove"} annotation.
  * 2. Requires `Post` entity to implement `linkComment` method.
  *

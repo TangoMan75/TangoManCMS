@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UserHasPosts
- *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 
  * 1. Requires `Post` entity to implement `$user` property with `ManyToOne` and `inversed="posts"` annotation.
  * 2. Requires `Post` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object

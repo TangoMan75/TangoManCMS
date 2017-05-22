@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UserHasPrivileges
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 
  * 1. Requires `Privilege` entity to implement `$users` property with `ManyToMany` and `inversedBy="privileges"` annotation.
  * 2. Requires `Privilege` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object

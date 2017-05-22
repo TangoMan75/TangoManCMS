@@ -7,9 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait Taggable
- * 
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 
  * 1. Requires `Tag` entity to implement `$items` property with `ManyToMany` and `mappedBy="items"` annotation.
  * 2. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->tags = new ArrayCollection();

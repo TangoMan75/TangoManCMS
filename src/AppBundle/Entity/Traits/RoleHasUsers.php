@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait RoleHasUsers
- * 
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 
  * 1. Requires `User` entity to implement `$roles` property with `ManyToMany` and `mappedBy="roles"` annotation.
  * 2. Requires `User` entity to implement `linkItem` and `unlinkItem` methods.
  * 3. (Optional) entity constructor must initialize ArrayCollection object

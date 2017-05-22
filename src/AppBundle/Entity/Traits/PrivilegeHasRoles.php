@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PrivilegeHasRoles
- * 
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 
  * 1. Requires `Role` entity to implement `$privileges` property with `ManyToMany` and `mappedBy="privileges"` annotation.
  * 2. Requires `Role` entity to implement `linkPrivilege` and `unlinkPrivilege` methods.
  * 3. (Optional) entity constructor must initialize ArrayCollection object

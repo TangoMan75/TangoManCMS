@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SectionHasPages
- * 
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 
  * 1. Requires `Page` entity to implement `$sections` property with `ManyToMany` and `mappedBy="sections"` annotation.
  * 2. Requires `Page` entity to implement `linkSection` and `unlinkSection` methods.
  * 3. (Optional) entity constructor must initialize ArrayCollection object

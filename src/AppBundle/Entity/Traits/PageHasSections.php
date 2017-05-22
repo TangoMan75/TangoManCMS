@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PageHasSections
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 
  * 1. Requires `Section` entity to implement `$pages` property with `ManyToMany` and `inversedBy="sections"` annotation.
  * 2. Requires `Section` entity to implement `linkPage` and `unlinkPage` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object

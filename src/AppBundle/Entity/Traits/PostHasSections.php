@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PostHasSections
- * 
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 
  * 1. Requires `Section` entity to implement `$posts` property with `ManyToMany` and `mappedBy="posts"` annotation.
  * 2. Requires `Section` entity to implement `linkPost` and `unlinkPost` methods.
  * 3. (Optional) entity constructor must initialize ArrayCollection object

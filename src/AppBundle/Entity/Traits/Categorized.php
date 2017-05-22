@@ -24,6 +24,7 @@ Trait Categorized
 
     /**
      * Thesse are the associated categories of each type
+     *
      * @var array
      */
     private $assoc = [

@@ -18,6 +18,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PostRepository extends EntityRepository
 {
     use Traits\Countable;
+    use Traits\Exportable;
     use Traits\Ordered;
     use Traits\Searchable;
     use Traits\SearchableSimpleArray;

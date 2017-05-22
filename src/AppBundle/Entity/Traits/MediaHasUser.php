@@ -7,9 +7,7 @@ use AppBundle\Entity\User;
 
 /**
  * Trait MediaHasUser
- *
  * This trait defines the INVERSE side of a ManyToOne relationship.
- * 
  * 1. Requires `User` entity to implement `$medias` property with `OneToMany` and `mappedBy="medias"` and cascade={"remove", "persist"} annotation.
  * 2. Requires `User` entity to implement `linkMedia` method.
  *

@@ -8,9 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait RoleHasPrivileges
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 
  * 1. Requires `Privilege` entity to implement `$roles` property with `ManyToMany` and `inversedBy="privileges"` annotation.
  * 2. Requires `Privilege` entity to implement `linkRole` and `unlinkRole` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
