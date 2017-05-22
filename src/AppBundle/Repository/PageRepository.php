@@ -13,10 +13,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class PageRepository extends AbstractRepository {
-
+class PageRepository extends EntityRepository
+{
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
+    use Traits\TableName;
 
     /**
      * @param ParameterBag $query
@@ -26,10 +27,10 @@ class PageRepository extends AbstractRepository {
     public function searchableOrderedPage(ParameterBag $query)
     {
         // Sets default values
-        $page  = $query->get('page', 1);
+        $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'modified');
-        $way   = $query->get('way', 'DESC');
+        $way = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(

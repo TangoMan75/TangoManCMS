@@ -7,16 +7,18 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Class CommentRepository
  *
  * @package AppBundle\Repository
  */
-class CommentRepository extends AbstractRepository
+class CommentRepository extends EntityRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
+    use Traits\TableName;
 
     /**
      * @param ParameterBag $query

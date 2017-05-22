@@ -14,44 +14,45 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository\Traits
  */
-Trait SearchableOrderedPaged
+Trait ByUsernamePaged
 {
     /**
-     * @param ParameterBag $query
+     * Post pagination by username
+     *
+     * @param string $username
+     * @param int    $page
+     * @param int    $limit
      *
      * @return Paginator
      */
-    public function searchableOrderedPage(ParameterBag $query)
+    public function findByUsernamePaged($username, $page = 1, $limit = 10)
     {
-        // Sets default values
-        $page = $query->get('page', 1);
-        $limit = $query->get('limit', 10);
-
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
             );
         }
-
         if (!is_numeric($limit)) {
+
             throw new \InvalidArgumentException(
                 '$limit must be an integer ('.gettype($limit).' : '.$limit.')'
             );
         }
 
-        // QueryBuilder
+        // Queries user '.$this->getTableName().''s
         $dql = $this->createQueryBuilder($this->getTableName());
-
-        // Search
-        $dql = $this->search($dql, $query);
-
-        // Order
-        $dql = $this->order($dql, $query);
+        $dql->join($this->getTableName().'.user', 'user')
+            ->andWhere('user.username = :username')
+            ->setParameter(':username', $username)
+            ->andWhere($this->getTableName().'.published = 1')
+            ->orderBy($this->getTableName().'.modified', 'DESC');
 
         $firstResult = ($page - 1) * $limit;
+
         $query = $dql->getQuery();
         $query->setFirstResult($firstResult);
         $query->setMaxResults($limit);
+
         $paginator = new Paginator($query);
 
         if (($paginator->count() <= $firstResult) && $page != 1) {

@@ -15,12 +15,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class PostRepository extends AbstractRepository
+class PostRepository extends EntityRepository
 {
     use Traits\Countable;
-    use Traits\SearchableSimpleArray;
     use Traits\Ordered;
-
+    use Traits\Searchable;
+    use Traits\SearchableSimpleArray;
+    use Traits\TableName;
 
     /**
      * @param ParameterBag $query
@@ -32,8 +33,6 @@ class PostRepository extends AbstractRepository
         // Sets default values
         $page = $query->get('page', 1);
         $limit = $query->get('limit', 10);
-        $order = $query->get('order', 'modified');
-        $way = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -47,16 +46,16 @@ class PostRepository extends AbstractRepository
             );
         }
 
+        // QueryBuilder
         $dql = $this->createQueryBuilder('post');
-
+        // Search
+        $dql = $this->search($dql, $query);
+        // Order
         $dql = $this->order($dql, $query);
 
-        // Search inside id, title, subtitle and content columns
-        $dql = $this->search($dql, $query);
-
+        // Joins User
         $dql->leftJoin('post.user', 'user');
         $dql->groupBy('post.id');
-        $dql->orderBy('orderParam', $way);
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
@@ -69,78 +68,6 @@ class PostRepository extends AbstractRepository
         }
 
         return $paginator;
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function search(QueryBuilder $dql, ParameterBag $query)
-    {
-        if ($query->get('category')) {
-            $dql = $this->searchSimpleArray($dql, 'category', $query->get('category'));
-        }
-
-        if ($query->get('id')) {
-            $dql->andWhere('post.id = :id')
-                ->setParameter(':id', $query->get('id'));
-        }
-
-        if ($query->get('link')) {
-            $dql->andWhere('post.link LIKE :link')
-                ->setParameter(':link', '%'.$query->get('link').'%');
-        }
-
-        switch ($query->get('published')) {
-            case 'true':
-                $dql->andWhere('post.published = :published')
-                    ->setParameter(':published', 1);
-                break;
-            case 'false':
-                $dql->andWhere('post.published = :published')
-                    ->setParameter(':published', 0);
-        }
-
-        if ($query->get('slug')) {
-            $dql->andWhere('post.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('slug').'%');
-        }
-
-        if ($query->get('s_page')) {
-            $dql->andWhere('page.title LIKE :page')
-                ->leftJoin('post.page', 'page')
-                ->setParameter(':page', '%'.$query->get('s_page').'%');
-        }
-
-        if ($query->get('tag')) {
-            $dql->andWhere('tag.name LIKE :tag')
-                ->leftJoin('post.tags', 'tag')
-                ->setParameter(':tag', '%'.$query->get('tag').'%');
-        }
-
-        if ($query->get('text')) {
-            $dql->andWhere('post.text LIKE :text')
-                ->setParameter(':text', '%'.$query->get('text').'%');
-        }
-
-        if ($query->get('title')) {
-            $dql->andWhere('post.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('title').'%');
-        }
-
-        if ($query->get('type')) {
-            $dql->andWhere('post.type LIKE :type')
-                ->setParameter(':type', '%'.$query->get('type').'%');
-        }
-
-        if ($query->get('user')) {
-            $dql->andWhere('user.username LIKE :user')
-                ->setParameter(':user', '%'.$query->get('user').'%');
-        }
-
-        return $dql;
     }
 
     /**

@@ -8,10 +8,11 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 /**
  * Trait Ordered
  * Requires repository to own "TableName" trait.
+ * @author  Matthias Morin <tangoman@free.fr>
  *
  * @package AppBundle\Repository\Traits
  */
-Trait Ordered 
+Trait Ordered
 {
 
     /**
@@ -23,7 +24,7 @@ Trait Ordered
     public function order(QueryBuilder $dql, ParameterBag $query)
     {
         $order = $query->get('order', 'created');
-        $way   = $query->get('way', 'DESC');
+        $way = $query->get('way', 'DESC');
 
         switch ($order) {
             // Author by username

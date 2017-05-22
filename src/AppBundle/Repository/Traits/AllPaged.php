@@ -14,19 +14,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository\Traits
  */
-Trait SearchableOrderedPaged
+Trait AllPaged
 {
     /**
-     * @param ParameterBag $query
+     * @param int $pages
+     * @param int $limit
      *
      * @return Paginator
      */
-    public function searchableOrderedPage(ParameterBag $query)
+    public function findAllPaged($page = 1, $limit = 10, $published = true)
     {
-        // Sets default values
-        $page = $query->get('page', 1);
-        $limit = $query->get('limit', 10);
-
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
                 '$page must be an integer ('.gettype($page).' : '.$page.')'
@@ -39,14 +36,12 @@ Trait SearchableOrderedPaged
             );
         }
 
-        // QueryBuilder
         $dql = $this->createQueryBuilder($this->getTableName());
+        $dql->orderBy($this->getTableName().'.modified', 'DESC');
 
-        // Search
-        $dql = $this->search($dql, $query);
-
-        // Order
-        $dql = $this->order($dql, $query);
+        if ($published) {
+            $dql->andWhere($this->getTableName().'.published = 1');
+        }
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();

@@ -14,10 +14,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class UserRepository extends AbstractRepository implements UserLoaderInterface
+class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
+    use Traits\TableName;
 
     /**
      * @param ParameterBag $query
@@ -27,10 +28,10 @@ class UserRepository extends AbstractRepository implements UserLoaderInterface
     public function searchableOrderedPage(ParameterBag $query)
     {
         // Sets default values
-        $page  = $query->get('page', 1);
+        $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
         $order = $query->get('order', 'username');
-        $way   = $query->get('way', 'ASC');
+        $way = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(

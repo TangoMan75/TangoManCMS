@@ -2,11 +2,12 @@
 
 namespace AppBundle\Repository\Traits;
 
-use Doctrine\ORM\QueryBuilder;
+use Symfony\Component\HttpFoundation\ParameterBag;
 
 /**
  * Trait OrderedSearch
  * Requires repository to own "TableName" trait.
+ * @author  Matthias Morin <tangoman@free.fr>
  *
  * @package AppBundle\Repository\Traits
  */
@@ -18,7 +19,7 @@ Trait OrderedSearch
     public function orderedSearch(ParameterBag $query)
     {
         // QueryBuilder
-        $dql = $this->createQueryBuilder($this->getTableName);
+        $dql = $this->createQueryBuilder($this->getTableName());
 
         // Search
         $dql = $this->search($dql, $query);

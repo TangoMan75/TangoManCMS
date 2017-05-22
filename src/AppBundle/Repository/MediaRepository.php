@@ -15,10 +15,11 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository
  */
-class MediaRepository extends AbstractRepository
+class MediaRepository extends EntityRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
+    use Traits\TableName;
 
     /**
      * @param ParameterBag $query
