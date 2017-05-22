@@ -92,7 +92,6 @@ class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $post = new Post();
             $post
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setHits(mt_rand(0, 50))
                 ->setLink($links[$i])
                 ->setPublished($i % 2)
                 ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')

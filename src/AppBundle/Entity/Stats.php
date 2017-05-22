@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use AppBundle\Entity\Post;
+use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -12,24 +14,24 @@ use Doctrine\ORM\Mapping as ORM;
 class Stats
 {
     /**
-     * @var int
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true, unique=true)
-     */
-    private $sessionId;
-
-    /**
      * @var User
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
      */
     private $user;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", unique=true)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="NONE")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Page")
+     */
+    private $item;
 
     /**
      * @var int
@@ -62,21 +64,13 @@ class Stats
     private $downVotes;
 
     /**
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param integer $sessionId
+     * @param integer $id
      *
      * @return $this
      */
-    public function setSessionId($sessionId)
+    public function setId($id)
     {
-        $this->sessionId = $sessionId;
+        $this->id = $id;
 
         return $this;
     }
@@ -84,9 +78,9 @@ class Stats
     /**
      * @return int
      */
-    public function getSessionId()
+    public function getId()
     {
-        return $this->sessionId;
+        return $this->id;
     }
 
     /**
@@ -107,6 +101,24 @@ class Stats
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setItem($item)
+    {
+        $this->item = $item;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getItem()
+    {
+        return $this->item;
     }
 
     /**

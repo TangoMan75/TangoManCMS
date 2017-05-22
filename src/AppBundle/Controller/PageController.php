@@ -24,10 +24,23 @@ class PageController extends Controller
             throw $this->createNotFoundException('Cette page n\'existe pas.');
         }
 
-        // Adds one view
-        $page->addHit();
-        $em->persist($page);
-        $em->flush();
+        $session = $this->get('session');
+        // $session->start();
+        $sessionId = $session->getId();
+
+        // Finds session in stats
+        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['id' => $sessionId]);
+
+        // Adds one view to page statistics
+        if (!$stats) {
+            $stats
+                ->addView()
+                ->setId($sessionId)
+                ->setItem($page);
+
+            $em->persist($stats);
+            $em->flush();
+        }
 
         return $this->render(
             'page/show.html.twig',

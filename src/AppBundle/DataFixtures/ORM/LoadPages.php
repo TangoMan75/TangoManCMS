@@ -47,7 +47,6 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
         for ($i = 0; $i < 10; $i++) {
             $page = new Page();
             $page
-                ->setHits(mt_rand(0, 50))
                 ->setPublished($i % 2)
                 ->setSubtitle($faker->sentence(6, true))
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')

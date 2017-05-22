@@ -69,7 +69,6 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $doc
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
                 ->setDocumentFileName($pptx[$i])
-                ->setHits(mt_rand(0, 50))
                 ->setPublished($i % 2)
                 ->setText($faker->text(mt_rand(100, 255)))
                 ->setTitle($faker->sentence(4, true))
@@ -82,7 +81,6 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $doc
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
                 ->setDocumentFileName($pdf[$i])
-                ->setHits(mt_rand(0, 50))
                 ->setPublished($i % 2)
                 ->setText($faker->text(mt_rand(100, 255)))
                 ->setTitle($faker->sentence(4, true))

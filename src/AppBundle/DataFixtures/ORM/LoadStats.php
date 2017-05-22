@@ -47,6 +47,7 @@ class LoadStats implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $stats = new Stats();
             $stats
                 ->setDownVotes(mt_rand(0, 100))
+                ->setId($i)
                 ->setLikes(mt_rand(0, 100))
                 ->setUpVotes(mt_rand(0, 100))
                 ->setViews(mt_rand(0, 100));

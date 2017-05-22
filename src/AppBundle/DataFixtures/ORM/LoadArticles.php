@@ -61,7 +61,6 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
             $post = new Post();
             $post
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setHits(mt_rand(0, 50))
                 ->setImageFileName($fileNames[$i])
                 ->setPublished($i % 2)
                 ->setSubtitle($faker->sentence(6, true))

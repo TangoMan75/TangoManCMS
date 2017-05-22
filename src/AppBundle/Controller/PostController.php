@@ -127,10 +127,23 @@ class PostController extends Controller
             throw $this->createNotFoundException('Cet article n\'existe pas.');
         }
 
-        // Adds one view
-        $post->addHit();
-        $em->persist($post);
-        $em->flush();
+        $session = $this->get('session');
+        // $session->start();
+        $sessionId = $session->getId();
+
+        // Finds session in stats
+        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['id' => $sessionId]);
+
+        // Adds one view to post statistics
+        if (!$stats) {
+            $stats
+                ->addView()
+                ->setId($sessionId)
+                ->setItem($post);
+
+            $em->persist($stats);
+            $em->flush();
+        }
 
         $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
             $post,
@@ -266,10 +279,24 @@ class PostController extends Controller
         $em = $this->get('doctrine')->getManager();
         $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
 
-        // Adds one upvote
-        $post->addLike();
-        $em->persist($post);
-        $em->flush();
+        $session = $this->get('session');
+        // $session->start();
+        $sessionId = $session->getId();
+
+        // Finds session in stats
+        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['id' => $sessionId]);
+
+        // Adds one like to post statistics
+        if (!$stats) {
+            $stats
+                ->addLike()
+                ->setId($sessionId)
+                ->setItem($post)
+                ->setUser($this->getUser());
+
+            $em->persist($stats);
+            $em->flush();
+        }
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));

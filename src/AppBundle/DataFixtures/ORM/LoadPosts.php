@@ -54,7 +54,6 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $post = new Post();
             $post
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setHits(mt_rand(0, 50))
                 ->setPublished($i % 2)
                 ->setSubtitle($faker->sentence(6, true))
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')

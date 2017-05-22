@@ -26,7 +26,6 @@ class Post
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
-    use Traits\Likable;
     use Traits\PostHasComments;
     use Traits\PostHasSections;
     use Traits\PostHasUser;

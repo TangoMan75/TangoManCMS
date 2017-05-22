@@ -16,7 +16,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadRelations implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadRelationships implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -50,6 +50,7 @@ class LoadRelations implements FixtureInterface, ContainerAwareInterface, Ordere
         $posts      = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
         $roles      = $em->getRepository('AppBundle:Role')->findAll();
+        $stats      = $em->getRepository('AppBundle:Stats')->findAll();
         $sections   = $em->getRepository('AppBundle:Section')->findAll();
         $tags       = $em->getRepository('AppBundle:Tag')->findAll();
         $users      = $em->getRepository('AppBundle:User')->findAll();
@@ -70,6 +71,7 @@ class LoadRelations implements FixtureInterface, ContainerAwareInterface, Ordere
         $em->flush();
 
         // Posts
+        $j = 0;
         foreach ($posts as $post) {
             $post->addComment($comments[mt_rand(1, count($comments) - 1)]);
             $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
@@ -77,6 +79,9 @@ class LoadRelations implements FixtureInterface, ContainerAwareInterface, Ordere
             // for ($i = 0; $i < mt_rand(0, 4); $i++){
             //     $post->addTag($tags[$i]);
             // }
+            if ($j < count($stats)) {
+                $post->setStats($stats[$j++]);
+            }
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
             $em->persist($post);
         }
@@ -94,6 +99,15 @@ class LoadRelations implements FixtureInterface, ContainerAwareInterface, Ordere
         //     $role->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
         //     // $role->addUser($users[mt_rand(1, count($users) - 1)]);
         //     $em->persist($role);
+        // }
+        // $em->flush();
+
+        // // Stats
+        // foreach ($stats as $stat) {
+        //     // $stat->setItem($pages[mt_rand(1, count($pages) - 1)]);
+        //     $stat->setItem($posts[mt_rand(1, count($posts) - 1)]);
+        //     $stat->setUser($users[mt_rand(1, count($users) - 1)]);
+        //     $em->persist($stat);
         // }
         // $em->flush();
 
@@ -119,6 +133,7 @@ class LoadRelations implements FixtureInterface, ContainerAwareInterface, Ordere
         foreach ($users as $user) {
             $user->addPost($posts[mt_rand(1, count($posts) - 1)]);
             // $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
+            // $user->addStats($stats[mt_rand(1, count($stats) - 1)]);
             $em->persist($user);
         }
         $em->flush();

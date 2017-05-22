@@ -16,7 +16,7 @@ Trait HasStats
 {
     /**
      * @var Stats
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Stats")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Stats", fetch="EAGER")
      */
     private $stats;
 
