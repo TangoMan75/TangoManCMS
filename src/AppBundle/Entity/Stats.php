@@ -23,15 +23,25 @@ class Stats
      * @var int
      * @ORM\Column(type="integer", unique=true)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="NONE")
+     * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $sessionId;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Post")
+     */
+    private $post;
+
+    /**
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Page")
      */
-    private $item;
+    private $page;
 
     /**
      * @var int
@@ -64,13 +74,21 @@ class Stats
     private $downVotes;
 
     /**
-     * @param integer $id
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param integer $sessionId
      *
      * @return $this
      */
-    public function setId($id)
+    public function setSessionId($sessionId)
     {
-        $this->id = $id;
+        $this->sessionId = $sessionId;
 
         return $this;
     }
@@ -78,9 +96,9 @@ class Stats
     /**
      * @return int
      */
-    public function getId()
+    public function getSessionId()
     {
-        return $this->id;
+        return $this->sessionId;
     }
 
     /**
@@ -106,9 +124,9 @@ class Stats
     /**
      * @return $this
      */
-    public function setItem($item)
+    public function setPost($post)
     {
-        $this->item = $item;
+        $this->post = $post;
 
         return $this;
     }
@@ -116,9 +134,27 @@ class Stats
     /**
      * @return mixed
      */
-    public function getItem()
+    public function getPost()
     {
-        return $this->item;
+        return $this->post;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPage($page)
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPage()
+    {
+        return $this->page;
     }
 
     /**

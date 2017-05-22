@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Stats;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,19 +25,17 @@ class PageController extends Controller
             throw $this->createNotFoundException('Cette page n\'existe pas.');
         }
 
-        $session = $this->get('session');
-        // $session->start();
-        $sessionId = $session->getId();
-
+        $sessionId = $this->get('session')->getId();
         // Finds session in stats
-        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['id' => $sessionId]);
+        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['sessionId' => $sessionId]);
 
         // Adds one view to page statistics
         if (!$stats) {
+            $stats = new Stats();
             $stats
                 ->addView()
-                ->setId($sessionId)
-                ->setItem($page);
+                ->setSessionId($sessionId)
+                ->setPage($page);
 
             $em->persist($stats);
             $em->flush();

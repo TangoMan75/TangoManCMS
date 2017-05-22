@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Stats;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\EditPostType;
@@ -13,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
 
 /**
  * @Route("/post")
@@ -30,10 +30,10 @@ class PostController extends Controller
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')
-                        ->findAllPaged($request->query->getInt('page', 1), 5, false);
+                ->findAllPaged($request->query->getInt('page', 1), 5, false);
         } else {
             $posts = $em->getRepository('AppBundle:Post')
-                        ->findAllPaged($request->query->getInt('page', 1), 5);
+                ->findAllPaged($request->query->getInt('page', 1), 5);
         }
 
         $formPost = null;
@@ -77,10 +77,10 @@ class PostController extends Controller
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')
-                        ->findByTagPaged($tag, $request->query->getInt('page', 1), 5, false);
+                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5, false);
         } else {
             $posts = $em->getRepository('AppBundle:Post')
-                        ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
         }
 
         $formPost = null;
@@ -127,19 +127,17 @@ class PostController extends Controller
             throw $this->createNotFoundException('Cet article n\'existe pas.');
         }
 
-        $session = $this->get('session');
-        // $session->start();
-        $sessionId = $session->getId();
-
+        $sessionId = $this->get('session')->getId();
         // Finds session in stats
-        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['id' => $sessionId]);
+        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['sessionId' => $sessionId]);
 
-        // Adds one view to post statistics
+        // Adds one view to page statistics
         if (!$stats) {
+            $stats = new Stats();
             $stats
                 ->addView()
-                ->setId($sessionId)
-                ->setItem($post);
+                ->setSessionId($sessionId)
+                ->setPost($post);
 
             $em->persist($stats);
             $em->flush();
@@ -279,24 +277,22 @@ class PostController extends Controller
         $em = $this->get('doctrine')->getManager();
         $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
 
-        $session = $this->get('session');
-        // $session->start();
-        $sessionId = $session->getId();
-
-        // Finds session in stats
-        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['id' => $sessionId]);
+        $sessionId = $this->get('session')->getId();
+        // Finds post stats by user
+        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['user' => $this->getUser()]);
 
         // Adds one like to post statistics
         if (!$stats) {
+            $stats = new Stats();
             $stats
-                ->addLike()
-                ->setId($sessionId)
-                ->setItem($post)
+                ->setSessionId($sessionId)
+                ->setPost($post)
                 ->setUser($this->getUser());
-
-            $em->persist($stats);
-            $em->flush();
         }
+
+        $stats->addLike();
+        $em->persist($stats);
+        $em->flush();
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
