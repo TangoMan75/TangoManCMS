@@ -2,24 +2,20 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Post;
-use AppBundle\Entity\Section;
-use AppBundle\Entity\Tag;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Stats;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Faker\Factory;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LoadPosts
+ * Class LoadStats
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadStats implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -39,7 +35,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 9;
+        return 6;
     }
 
     /**
@@ -47,22 +43,15 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
-        $faker = Factory::create('fr_FR');
-
         for ($i = 0; $i < 10; $i++) {
+            $stats = new Stats();
+            $stats
+                ->setDownVotes(mt_rand(0, 100))
+                ->setLikes(mt_rand(0, 100))
+                ->setUpVotes(mt_rand(0, 100))
+                ->setViews(mt_rand(0, 100));
 
-            $post = new Post();
-            $post
-                ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setHits(mt_rand(0, 50))
-                ->setPublished($i % 2)
-                ->setSubtitle($faker->sentence(6, true))
-                ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
-                ->setTitle($faker->sentence(4, true))
-                ->setType('post');
-
-            $em->persist($post);
+            $em->persist($stats);
         }
 
         $em->flush();

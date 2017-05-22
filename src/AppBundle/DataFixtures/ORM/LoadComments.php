@@ -33,7 +33,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 12;
+        return 13;
     }
 
     /**

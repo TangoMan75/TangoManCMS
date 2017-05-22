@@ -33,7 +33,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 6;
+        return 7;
     }
 
     /**
