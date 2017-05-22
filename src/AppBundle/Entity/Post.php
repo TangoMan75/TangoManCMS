@@ -45,9 +45,6 @@ class Post
      */
     private $id;
 
-    private $tempHits;
-    private $tempLikes;
-
     /**
      * Post constructor.
      */
@@ -58,8 +55,6 @@ class Post
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags     = new ArrayCollection();
-        $tempHits       = $this->hits;
-        $tempLikes      = $this->likes;
     }
 
     /**
