@@ -2,11 +2,14 @@
 
 namespace AppBundle\Entity\Relationships;
 
+use AppBundle\Entity\Media;
+use AppBundle\Entity\Page;
+use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait HasItems
+ * Trait TagHasItems
  * This trait defines the OWNING side of a ManyToMany relationship.
  * 1. Requires owned `Item` entity to implement `$tags` property with `ManyToMany` and `inversedBy="items"` annotation.
  * 2. Requires owned `Item` entity to implement `linkTag` and `unlinkTag` methods.
@@ -16,17 +19,20 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait HasItems
+Trait TagHasItems
 {
     /**
-     * @var array|ArrayCollection
+     * @var Media[]|Post[]|Page[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags", cascade={"persist"})
      */
     private $items = [];
 
     /**
      * @param array|ArrayCollection $items
      *
-     * @return $this
+     * @return $this|Tag
      */
     public function setItems($items)
     {
@@ -56,7 +62,7 @@ Trait HasItems
     }
 
     /**
-     * @return $this
+     * @return $this|Tag
      */
     public function addItem($item)
     {
@@ -67,7 +73,7 @@ Trait HasItems
     }
 
     /**
-     * @return $this
+     * @return $this|Tag
      */
     public function removeItem($item)
     {

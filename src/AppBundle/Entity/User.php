@@ -91,7 +91,7 @@ class User implements UserInterface
         $this->modified = new \DateTimeImmutable();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
-        // $this->roles    = new ArrayCollection();
+        // $this->roles = new ArrayCollection();
         $this->roles = ['ROLE_USER'];
     }
 

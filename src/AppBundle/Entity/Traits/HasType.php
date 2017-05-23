@@ -10,7 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasType
+trait HasType
 {
     /**
      * @var string

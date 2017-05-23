@@ -14,7 +14,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait UploadableImage
+trait UploadableImage
 {
     /**
      * @var string

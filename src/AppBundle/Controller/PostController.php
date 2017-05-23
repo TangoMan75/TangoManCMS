@@ -127,7 +127,7 @@ class PostController extends Controller
             throw $this->createNotFoundException('Cet article n\'existe pas.');
         }
 
-        $this->addView($post);
+        // $this->addView($post);
 
         $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
             $post,
@@ -311,15 +311,15 @@ class PostController extends Controller
             // Links stats, user & posts
             $stats->addPost($post);
             $stats->addUser($user);
-            $post->setStats($stats);
-            $user->setStats($stats);
+//            $post->setStats($stats);
+//            $user->setStats($stats);
         }
 
         $stats->addLike();
 
         $em->persist($stats);
-        $em->persist($post);
-        $em->persist($user);
+//        $em->persist($post);
+//        $em->persist($user);
         $em->flush();
 
 //        dump($user);
@@ -330,8 +330,7 @@ class PostController extends Controller
 //        dump($post->getStats());
 //        dump($stats->getPosts());
 //        dump($stats->getUsers());
-
-        die();
+//        die();
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));

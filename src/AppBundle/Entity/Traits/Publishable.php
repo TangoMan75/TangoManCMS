@@ -10,7 +10,7 @@ use AppBundle\Entity\Page;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Publishable
+trait Publishable
 {
     /**
      * @var boolean

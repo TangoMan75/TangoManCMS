@@ -9,7 +9,7 @@ namespace AppBundle\Entity\Traits;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait Embeddable
+trait Embeddable
 {
     /**
      * @var String

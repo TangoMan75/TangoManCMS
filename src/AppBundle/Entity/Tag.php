@@ -20,7 +20,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Tag
 {
-    use Relationships\HasItems;
+    use Relationships\TagHasItems;
 
     use Traits\HasName;
     use Traits\HasType;
@@ -33,14 +33,6 @@ class Tag
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var Media[]|Post[]|Page[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags", cascade={"persist"})
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags", cascade={"persist"})
-     */
-    private $items = [];
 
     /**
      * @var string

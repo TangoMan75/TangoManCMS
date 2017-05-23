@@ -71,6 +71,7 @@ class Stats
         $this->pages = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->viewDate = new \DateTimeImmutable();
     }
 
     /**
@@ -82,7 +83,7 @@ class Stats
     }
 
     /**
-     * @param array|Page[]|ArrayCollection $pages
+     * @param Page[]|ArrayCollection $pages
      *
      * @return $this
      */
@@ -130,7 +131,7 @@ class Stats
     }
 
     /**
-     * @param array|Post[]|ArrayCollection $posts
+     * @param Post[]|ArrayCollection $posts
      *
      * @return $this
      */
@@ -178,7 +179,7 @@ class Stats
     }
 
     /**
-     * @param array|User[]|ArrayCollection $users
+     * @param User[]|ArrayCollection $users
      *
      * @return $this
      */

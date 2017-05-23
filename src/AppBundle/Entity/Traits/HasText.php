@@ -8,7 +8,7 @@ namespace AppBundle\Entity\Traits;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Traits
  */
-Trait HasText
+trait HasText
 {
     /**
      * @var string
