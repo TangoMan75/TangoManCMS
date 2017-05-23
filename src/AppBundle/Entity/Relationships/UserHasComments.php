@@ -1,28 +1,28 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Comment;
-use AppBundle\Entity\Post;
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait PostHasComments
+ * Trait UserHasComments
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 1. Requires `Comment` entity to implement `$post` property with `ManyToOne` and `inversed="comments"` annotation.
- * 2. Requires `Comment` entity to implement `linkPost` and `unlinkPost` methods.
+ * 1. Requires `Comment` entity to implement `$user` property with `ManyToOne` and `inversedBy="comments"` annotation.
+ * 2. Requires `Comment` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->comments = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
-Trait PostHasComments
+Trait UserHasComments
 {
     /**
      * @var array|Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove", "persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"created"="DESC"})
      */
     private $comments = [];
 
@@ -68,7 +68,7 @@ Trait PostHasComments
     public function addComment(Comment $comment)
     {
         $this->linkComment($comment);
-        $comment->linkPost($this);
+        $comment->linkUser($this);
 
         return $this;
     }
@@ -81,7 +81,7 @@ Trait PostHasComments
     public function removeComment(Comment $comment)
     {
         $this->unlinkComment($comment);
-        $comment->unlinkPost($this);
+        $comment->unlinkUser($this);
 
         return $this;
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
@@ -12,7 +12,7 @@ use AppBundle\Entity\Post;
  * 2. Requires `Post` entity to implement `linkComment` method.
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 Trait CommentHasPost
 {

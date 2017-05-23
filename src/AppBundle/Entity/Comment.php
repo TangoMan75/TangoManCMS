@@ -16,8 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    use Traits\CommentHasPost;
-    use Traits\CommentHasUser;
+    use Relationships\CommentHasPost;
+    use Relationships\CommentHasUser;
+
     use Traits\Publishable;
     use Traits\Timestampable;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Tag;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 Trait Taggable
 {

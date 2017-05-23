@@ -1,28 +1,28 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Post;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait UserHasPosts
- * This trait defines the INVERSE side of a OneToMany relationship.
- * 1. Requires `Post` entity to implement `$user` property with `ManyToOne` and `inversed="posts"` annotation.
- * 2. Requires `Post` entity to implement `linkUser` and `unlinkUser` methods.
+ * Trait SectionHasPosts
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ * 1. Requires `Post` entity to implement `$sections` property with `ManyToMany` and `inversedBy="posts"` annotation.
+ * 2. Requires `Post` entity to implement `linkSection` and `unlinkSection` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
-Trait UserHasPosts
+Trait SectionHasPosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove", "persist"})
-     * @ORM\OrderBy({"created"="DESC"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
 
@@ -53,8 +53,6 @@ Trait UserHasPosts
      */
     public function hasPost(Post $post)
     {
-
-        die(dummp([$post, (array)$this->posts]));
         if (in_array($post, (array)$this->posts)) {
             return true;
         }
@@ -70,7 +68,7 @@ Trait UserHasPosts
     public function addPost(Post $post)
     {
         $this->linkPost($post);
-        $post->linkUser($this);
+        $post->linkSection($this);
 
         return $this;
     }
@@ -82,7 +80,8 @@ Trait UserHasPosts
      */
     public function removePost(Post $post)
     {
-        $this->posts->removeElement($post);
+        $this->unlinkPost($post);
+        $post->unlinkSection($this);
 
         return $this;
     }
@@ -95,5 +94,13 @@ Trait UserHasPosts
         if (!in_array($post, (array)$this->posts)) {
             $this->posts[] = $post;
         }
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function unlinkPost(Post $post)
+    {
+        $this->posts->removeElement($post);
     }
 }

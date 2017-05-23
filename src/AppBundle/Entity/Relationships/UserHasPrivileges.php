@@ -1,27 +1,27 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Privilege;
-use AppBundle\Entity\Role;
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait RoleHasPrivileges
+ * Trait UserHasPrivileges
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 1. Requires `Privilege` entity to implement `$roles` property with `ManyToMany` and `inversedBy="privileges"` annotation.
- * 2. Requires `Privilege` entity to implement `linkRole` and `unlinkRole` methods.
+ * 1. Requires `Privilege` entity to implement `$users` property with `ManyToMany` and `inversedBy="privileges"` annotation.
+ * 2. Requires `Privilege` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->privileges = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
-Trait RoleHasPrivileges
+Trait UserHasPrivileges
 {
     /**
      * @var array|Privilege[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="roles", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="users", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $privileges = [];
@@ -68,7 +68,7 @@ Trait RoleHasPrivileges
     public function addPrivilege(Privilege $privilege)
     {
         $this->linkPrivilege($privilege);
-        $privilege->linkRole($this);
+        $privilege->linkUser($this);
 
         return $this;
     }
@@ -81,7 +81,7 @@ Trait RoleHasPrivileges
     public function removePrivilege(Privilege $privilege)
     {
         $this->unlinkPrivilege($privilege);
-        $privilege->unlinkRole($this);
+        $privilege->unlinkUser($this);
 
         return $this;
     }

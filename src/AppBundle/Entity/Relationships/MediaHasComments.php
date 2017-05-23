@@ -1,28 +1,28 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Comment;
-use AppBundle\Entity\User;
+use AppBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait UserHasComments
+ * Trait MediaHasComments
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 1. Requires `Comment` entity to implement `$user` property with `ManyToOne` and `inversedBy="comments"` annotation.
- * 2. Requires `Comment` entity to implement `linkUser` and `unlinkUser` methods.
+ * 1. Requires `Comment` entity to implement `$media` property with `ManyToOne` and `inversedBy="comments"` annotation.
+ * 2. Requires `Comment` entity to implement `linkMedia` and `unlinkMedia` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->comments = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
-Trait UserHasComments
+Trait MediaHasComments
 {
     /**
      * @var array|Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"remove", "persist"})
-     * @ORM\OrderBy({"created"="DESC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="media", cascade={"remove", "persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments = [];
 
@@ -68,7 +68,7 @@ Trait UserHasComments
     public function addComment(Comment $comment)
     {
         $this->linkComment($comment);
-        $comment->linkUser($this);
+        $comment->linkMedia($this);
 
         return $this;
     }
@@ -81,7 +81,7 @@ Trait UserHasComments
     public function removeComment(Comment $comment)
     {
         $this->unlinkComment($comment);
-        $comment->unlinkUser($this);
+        $comment->unlinkMedia($this);
 
         return $this;
     }

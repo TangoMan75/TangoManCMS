@@ -21,12 +21,13 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    use Relationships\UserHasComments;
+    use Relationships\UserHasPosts;
+    use Relationships\UserHasPrivileges;
+
     use Traits\HasSimpleRoles;
     use Traits\Sluggable;
     use Traits\Timestampable;
-    use Traits\UserHasComments;
-    use Traits\UserHasPosts;
-    use Traits\UserHasPrivileges;
 
     /**
      * @var int User id
@@ -155,7 +156,7 @@ class User implements UserInterface
     /**
      * Get user's posts.
      *
-     * @return Post[]
+     * @return Post[]|ArrayCollection
      */
     public function getPosts()
     {
@@ -179,7 +180,7 @@ class User implements UserInterface
     /**
      * Get user's comments.
      *
-     * @return Comment[] User comment
+     * @return Comment[]|ArrayCollection
      */
     public function getComments()
     {

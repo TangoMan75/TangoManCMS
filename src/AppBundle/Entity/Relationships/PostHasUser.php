@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
@@ -12,7 +12,7 @@ use AppBundle\Entity\User;
  * 2. Requires `User` entity to implement `linkPost` method.
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 Trait PostHasUser
 {

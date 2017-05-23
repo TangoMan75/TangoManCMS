@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Privilege;
 use AppBundle\Entity\Role;
@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     $this->roles = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 Trait PrivilegeHasRoles
 {

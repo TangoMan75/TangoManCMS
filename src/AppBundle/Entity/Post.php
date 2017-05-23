@@ -19,18 +19,19 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Post
 {
+    use Relationships\PostHasComments;
+    use Relationships\PostHasSections;
+    use Relationships\PostHasUser;
+    use Relationships\Taggable;
+
     use Traits\Categorized;
     use Traits\Embeddable;
     use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
-    use Traits\PostHasComments;
-    use Traits\PostHasSections;
-    use Traits\PostHasUser;
     use Traits\Publishable;
     use Traits\Sluggable;
-    use Traits\Taggable;
     use Traits\Timestampable;
     use Traits\UploadableDocument;
     use Traits\UploadableImage;

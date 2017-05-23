@@ -19,18 +19,19 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Media
 {
+    use Relationships\MediaHasComments;
+    use Relationships\MediaHasSections;
+    use Relationships\MediaHasUser;
+    use Relationships\Taggable;
+
     use Traits\Categorized;
     use Traits\Embeddable;
     use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
-    use Traits\MediaHasComments;
-    use Traits\MediaHasSections;
-    use Traits\MediaHasUser;
     use Traits\Publishable;
     use Traits\Sluggable;
-    use Traits\Taggable;
     use Traits\Timestampable;
     use Traits\UploadableDocument;
     use Traits\UploadableImage;

@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Media;
 use AppBundle\Entity\Section;
@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 Trait MediaHasSections
 {

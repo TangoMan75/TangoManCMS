@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace AppBundle\Entity\Relationships;
 
 use AppBundle\Entity\Section;
 use AppBundle\Entity\Page;
@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  *     $this->pages = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 Trait SectionHasPages
 {
