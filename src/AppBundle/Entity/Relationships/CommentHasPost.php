@@ -14,7 +14,7 @@ use AppBundle\Entity\Post;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait CommentHasPost
+trait CommentHasPost
 {
     /**
      * @var Post

@@ -9,11 +9,11 @@ use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Stats
- * @ORM\Table(name="stats")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\StatsRepository")
+ * Stat
+ * @ORM\Table(name="stat")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\StatRepository")
  */
-class Stats
+class Stat
 {
     /**
      * @var int
@@ -24,18 +24,18 @@ class Stats
     private $id;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Page", mappedBy="stats")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Page", mappedBy="stat")
      */
     private $pages = [];
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="stats")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="stat")
      */
     private $posts = [];
 
     /**
      * @var User
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="stats")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="stat")
      */
     private $users = [];
 
@@ -64,7 +64,7 @@ class Stats
     private $stars;
 
     /**
-     * Stats constructor.
+     * Stat constructor.
      */
     public function __construct()
     {

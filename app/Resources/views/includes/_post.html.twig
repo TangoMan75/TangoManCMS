@@ -61,8 +61,8 @@
                     <span class="btn btn-success btn-sm">
                         Vues
                         <span class="badge">
-                            {% if post.stats %}
-                                {% if post.stats.views %}{{ post.stats.views }}{% else %}0{% endif %}
+                            {% if post.stat %}
+                                {% if post.stat.views %}{{ post.stat.views }}{% else %}0{% endif %}
                             {% else %}
                                 0
                             {% endif %}
@@ -75,8 +75,8 @@
                        class="btn btn-danger btn-sm">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         <span class="badge">
-                            {% if post.stats %}
-                                {% if post.stats.likes %}{{ post.stats.likes }}{% else %}0{% endif %}
+                            {% if post.stat %}
+                                {% if post.stat.likes %}{{ post.stat.likes }}{% else %}0{% endif %}
                             {% else %}
                                 0
                             {% endif %}

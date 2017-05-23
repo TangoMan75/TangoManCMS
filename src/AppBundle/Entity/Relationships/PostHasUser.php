@@ -14,7 +14,7 @@ use AppBundle\Entity\User;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait PostHasUser
+trait PostHasUser
 {
     /**
      * @var User

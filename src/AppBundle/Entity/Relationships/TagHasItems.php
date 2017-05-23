@@ -19,7 +19,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait TagHasItems
+trait TagHasItems
 {
     /**
      * @var Media[]|Post[]|Page[]|ArrayCollection

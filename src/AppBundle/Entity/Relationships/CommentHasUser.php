@@ -14,7 +14,7 @@ use AppBundle\Entity\User;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait CommentHasUser
+trait CommentHasUser
 {
     /**
      * @var User

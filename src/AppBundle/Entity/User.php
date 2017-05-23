@@ -77,10 +77,10 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @var Stats
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stats", inversedBy="users", fetch="EAGER")
+     * @var Stat
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stat", inversedBy="users", fetch="EAGER")
      */
-    private $stats;
+    private $stat;
 
     /**
      * User constructor.
@@ -305,25 +305,25 @@ class User implements UserInterface
     }
 
     /**
-     * Stats
+     * Stat
      */
 
     /**
-     * @return Stats
+     * @return Stat
      */
-    public function getStats()
+    public function getStat()
     {
-        return $this->stats;
+        return $this->stat;
     }
 
     /**
-     * @param Stats $stats
+     * @param Stat $stat
      *
      * @return User
      */
-    public function setStats($stats)
+    public function setStat($stat)
     {
-        $this->stats = $stats;
+        $this->stat = $stat;
 
         return $this;
     }

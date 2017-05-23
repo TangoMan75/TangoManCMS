@@ -45,10 +45,10 @@ class Post
     private $id;
 
     /**
-     * @var Stats
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stats", inversedBy="posts", fetch="EAGER", cascade={"remove"})
+     * @var Stat
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stat", inversedBy="posts", fetch="EAGER", cascade={"remove"})
      */
-    private $stats;
+    private $stat;
 
     /**
      * Post constructor.
@@ -71,21 +71,21 @@ class Post
     }
 
     /**
-     * @return Stats
+     * @return Stat
      */
-    public function getStats()
+    public function getStat()
     {
-        return $this->stats;
+        return $this->stat;
     }
 
     /**
-     * @param Stats $stats
+     * @param Stat $stat
      *
      * @return $this
      */
-    public function setStats($stats)
+    public function setStat($stat)
     {
-        $this->stats = $stats;
+        $this->stat = $stat;
 
         return $this;
     }

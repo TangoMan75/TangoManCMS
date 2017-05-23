@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Page;
-use AppBundle\Entity\Stats;
+use AppBundle\Entity\Stat;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,19 +43,19 @@ class PageController extends Controller
     {
         $em = $this->get('doctrine')->getManager();
 
-        // Get page stats
-        $stats = $page->getStats();
+        // Get page stat
+        $stat = $page->getStat();
 
-        // When not found creates new stats object
-        if (!$stats) {
-            $stats = new Stats();
-            // Links stats & pages
-            // $stats->addPage($page);
-            $page->setStats($stats);
+        // When not found creates new stat object
+        if (!$stat) {
+            $stat = new Stat();
+            // Links stat & pages
+            // $stat->addPage($page);
+            $page->setStat($stat);
         }
 
-        $stats->addView();
-        $em->persist($stats);
+        $stat->addView();
+        $em->persist($stat);
         $em->persist($page);
         $em->flush();
     }

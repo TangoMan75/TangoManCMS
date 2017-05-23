@@ -50,7 +50,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $posts      = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
         $roles      = $em->getRepository('AppBundle:Role')->findAll();
-        $stats      = $em->getRepository('AppBundle:Stats')->findAll();
+        $stats      = $em->getRepository('AppBundle:Stat')->findAll();
         $sections   = $em->getRepository('AppBundle:Section')->findAll();
         $tags       = $em->getRepository('AppBundle:Tag')->findAll();
         $users      = $em->getRepository('AppBundle:User')->findAll();
@@ -82,7 +82,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
             // }
 
             // if ($j < count($stats)) {
-            //     $post->setStats($stats[$j++]);
+            //     $post->setStat($stats[$j++]);
             // }
 
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
@@ -105,7 +105,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         // }
         // $em->flush();
 
-        // // Stats
+        // // Stat
         // foreach ($stats as $stat) {
         //     // $stat->setItem($pages[mt_rand(1, count($pages) - 1)]);
         //     $stat->setItem($posts[mt_rand(1, count($posts) - 1)]);
@@ -136,7 +136,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         foreach ($users as $user) {
             $user->addPost($posts[mt_rand(1, count($posts) - 1)]);
             // $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
-            // $user->addStats($stats[mt_rand(1, count($stats) - 1)]);
+            // $user->addStat($stats[mt_rand(1, count($stat) - 1)]);
             $em->persist($user);
         }
         $em->flush();

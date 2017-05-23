@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait MediaHasSections
+trait MediaHasSections
 {
     /**
      * @var array|Section[]|ArrayCollection

@@ -17,7 +17,7 @@ use Doctrine\Common\Collections\ArrayCollection;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-Trait PageHasSections
+trait PageHasSections
 {
     /**
      * @var array|Section[]|ArrayCollection

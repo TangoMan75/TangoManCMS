@@ -6,11 +6,11 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 
 /**
- * Class PrivilegeRepository
+ * Class StatRepository
  *
  * @package AppBundle\Repository
  */
-class StatsRepository extends EntityRepository
+class StatRepository extends EntityRepository
 {
     use Traits\Countable;
     use Traits\SearchableSimpleArray;
