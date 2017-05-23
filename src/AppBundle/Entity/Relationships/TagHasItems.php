@@ -10,10 +10,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait TagHasItems
- * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires owned `Item` entity to implement `$tags` property with `ManyToMany` and `inversedBy="items"` annotation.
- * 2. Requires owned `Item` entity to implement `linkTag` and `unlinkTag` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ * 1. Requires `Item` entity to implement `$tags` property with `ManyToMany` and `inversedBy="items"` annotation.
+ * 2. Requires `Item` entity to implement `linkTag` and `unlinkTag` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->items = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
