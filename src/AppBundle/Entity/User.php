@@ -76,6 +76,12 @@ class User implements UserInterface
     private $password;
 
     /**
+     * @var Stats
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stats", inversedBy="users", fetch="EAGER")
+     */
+    private $stats;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -295,6 +301,30 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
+    }
+
+    /**
+     * Stats
+     */
+
+    /**
+     * @return Stats
+     */
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    /**
+     * @param Stats $stats
+     *
+     * @return User
+     */
+    public function setStats($stats)
+    {
+        $this->stats = $stats;
+
+        return $this;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Page;
 use AppBundle\Entity\Stats;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,21 +26,7 @@ class PageController extends Controller
             throw $this->createNotFoundException('Cette page n\'existe pas.');
         }
 
-        $sessionId = $this->get('session')->getId();
-        // Finds session in stats
-        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['sessionId' => $sessionId]);
-
-        // Adds one view to page statistics
-        if (!$stats) {
-            $stats = new Stats();
-            $stats
-                ->addView()
-                ->setSessionId($sessionId)
-                ->setPage($page);
-
-            $em->persist($stats);
-            $em->flush();
-        }
+        $this->addView($page);
 
         return $this->render(
             'page/show.html.twig',
@@ -47,5 +34,29 @@ class PageController extends Controller
                 'page' => $page,
             ]
         );
+    }
+
+    /**
+     * @param Page $page
+     */
+    public function addView(Page $page)
+    {
+        $em = $this->get('doctrine')->getManager();
+
+        // Get page stats
+        $stats = $page->getStats();
+
+        // When not found creates new stats object
+        if (!$stats) {
+            $stats = new Stats();
+            // Links stats & pages
+            // $stats->addPage($page);
+            $page->setStats($stats);
+        }
+
+        $stats->addView();
+        $em->persist($stats);
+        $em->persist($page);
+        $em->flush();
     }
 }

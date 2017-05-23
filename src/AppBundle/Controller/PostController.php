@@ -127,21 +127,7 @@ class PostController extends Controller
             throw $this->createNotFoundException('Cet article n\'existe pas.');
         }
 
-        $sessionId = $this->get('session')->getId();
-        // Finds session in stats
-        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['sessionId' => $sessionId]);
-
-        // Adds one view to page statistics
-        if (!$stats) {
-            $stats = new Stats();
-            $stats
-                ->addView()
-                ->setSessionId($sessionId)
-                ->setPost($post);
-
-            $em->persist($stats);
-            $em->flush();
-        }
+        $this->addView($post);
 
         $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
             $post,
@@ -269,36 +255,6 @@ class PostController extends Controller
     }
 
     /**
-     * Adds one upvote.
-     * @Route("/like/{slug}", requirements={"slug": "[\w-]+"})
-     */
-    public function likeAction(Request $request, $slug)
-    {
-        $em = $this->get('doctrine')->getManager();
-        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
-
-        $sessionId = $this->get('session')->getId();
-        // Finds post stats by user
-        $stats = $em->getRepository('AppBundle:Stats')->findOneBy(['user' => $this->getUser()]);
-
-        // Adds one like to post statistics
-        if (!$stats) {
-            $stats = new Stats();
-            $stats
-                ->setSessionId($sessionId)
-                ->setPost($post)
-                ->setUser($this->getUser());
-        }
-
-        $stats->addLike();
-        $em->persist($stats);
-        $em->flush();
-
-        // User is redirected to referrer page
-        return $this->redirect($request->get('callback'));
-    }
-
-    /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Post $post)
@@ -331,5 +287,78 @@ class PostController extends Controller
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
+    }
+
+    /**
+     * Adds one upvote.
+     * @Route("/like/{slug}", requirements={"slug": "[\w-]+"})
+     */
+    public function likeAction(Request $request, $slug)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
+        $user = $this->getUser();
+        $stats = $post->getStats();
+
+        // When not found checks if user has stats
+        if (!$stats) {
+            $stats = $user->getStats();
+        }
+
+        // When not found creates new stats
+        if (!$stats) {
+            $stats = new Stats();
+            // Links stats, user & posts
+            $stats->addPost($post);
+            $stats->addUser($user);
+            $post->setStats($stats);
+            $user->setStats($stats);
+        }
+
+        $stats->addLike();
+
+        $em->persist($stats);
+        $em->persist($post);
+        $em->persist($user);
+        $em->flush();
+
+//        dump($user);
+//        dump($post);
+//        dump($stats);
+//
+//        dump($user->getStats());
+//        dump($post->getStats());
+//        dump($stats->getPosts());
+//        dump($stats->getUsers());
+
+        die();
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function addView(Post $post)
+    {
+        $em = $this->get('doctrine')->getManager();
+
+        // Get post stats
+        $stats = $post->getStats();
+
+        // When not found creates new stats object
+        if (!$stats) {
+            $stats = new Stats();
+
+            // Links stats & posts
+            // $stats->addPost($post);
+            $post->setStats($stats);
+        }
+
+        $stats->addView();
+        $em->persist($stats);
+        $em->persist($post);
+        $em->flush();
     }
 }

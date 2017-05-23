@@ -328,7 +328,11 @@
                         </td>
                         <td>
                             <span class="label label-success">
-                            {% if post.hits %}{{ post.hits }}{% else %}0{% endif %}
+                                {% if post.stats %}
+                                    {% if post.stats.views %}{{ post.stats.views }}{% else %}0{% endif %}
+                                {% else %}
+                                    0
+                                {% endif %}
                             </span>
                         </td>
                         <td>{{ post.created|date('d/m/Y H:i:s') }}</td>

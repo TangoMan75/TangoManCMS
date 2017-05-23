@@ -75,13 +75,16 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         foreach ($posts as $post) {
             $post->addComment($comments[mt_rand(1, count($comments) - 1)]);
             $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
+
             // shuffle($tags);
             // for ($i = 0; $i < mt_rand(0, 4); $i++){
             //     $post->addTag($tags[$i]);
             // }
-            if ($j < count($stats)) {
-                $post->setStats($stats[$j++]);
-            }
+
+            // if ($j < count($stats)) {
+            //     $post->setStats($stats[$j++]);
+            // }
+
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
             $em->persist($post);
         }

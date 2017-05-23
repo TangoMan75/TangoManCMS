@@ -2,6 +2,8 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use AppBundle\Entity\Page;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,12 +16,6 @@ use Doctrine\ORM\Mapping as ORM;
 class Stats
 {
     /**
-     * @var User
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User")
-     */
-    private $user;
-
-    /**
      * @var int
      * @ORM\Column(type="integer", unique=true)
      * @ORM\Id
@@ -28,20 +24,20 @@ class Stats
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Page", mappedBy="stats")
      */
-    private $sessionId;
+    private $pages = [];
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Post")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="stats")
      */
-    private $post;
+    private $posts = [];
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Page")
+     * @var User
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="stats")
      */
-    private $page;
+    private $users = [];
 
     /**
      * @var int
@@ -59,19 +55,23 @@ class Stats
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
+    private $dislikes;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=true)
+     */
     private $stars;
 
     /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
+     * Stats constructor.
      */
-    private $upVotes;
-
-    /**
-     * @var int
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $downVotes;
+    public function __construct()
+    {
+        $this->pages = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->users = new ArrayCollection();
+    }
 
     /**
      * @return int
@@ -82,23 +82,133 @@ class Stats
     }
 
     /**
-     * @param integer $sessionId
+     * @param array|Page[]|ArrayCollection $pages
      *
      * @return $this
      */
-    public function setSessionId($sessionId)
+    public function setPages($pages)
     {
-        $this->sessionId = $sessionId;
+        $this->pages = $pages;
 
         return $this;
     }
 
     /**
-     * @return int
+     * @return array|Page[]|ArrayCollection $pages
      */
-    public function getSessionId()
+    public function getPages()
     {
-        return $this->sessionId;
+        return $this->pages;
+    }
+
+    /**
+     * @param Page $page
+     *
+     * @return bool
+     */
+    public function hasPage(Page $page)
+    {
+        if (in_array($page, (array)$this->pages)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Page $page
+     *
+     * @return $this
+     */
+    public function addPage(Page $page)
+    {
+        if (!in_array($page, (array)$this->pages)) {
+            $this->pages[] = $page;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array|Post[]|ArrayCollection $posts
+     *
+     * @return $this
+     */
+    public function setPosts($posts)
+    {
+        $this->posts = $posts;
+
+        return $this;
+    }
+
+    /**
+     * @return array|Post[]|ArrayCollection $posts
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }
+
+    /**
+     * @param Post $post
+     *
+     * @return bool
+     */
+    public function hasPost(Post $post)
+    {
+        if (in_array($post, (array)$this->posts)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Post $post
+     *
+     * @return $this
+     */
+    public function addPost(Post $post)
+    {
+        if (!in_array($post, (array)$this->posts)) {
+            $this->posts[] = $post;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param array|User[]|ArrayCollection $users
+     *
+     * @return $this
+     */
+    public function setUsers($users)
+    {
+        $this->users = $users;
+
+        return $this;
+    }
+
+    /**
+     * @return array|User[]|ArrayCollection $users
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * @param User $user
+     *
+     * @return bool
+     */
+    public function hasUser(User $user)
+    {
+        if (in_array($user, (array)$this->users)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -106,55 +216,13 @@ class Stats
      *
      * @return $this
      */
-    public function setUser(User $user)
+    public function addUser(User $user)
     {
-        $this->user = $user;
+        if (!in_array($user, (array)$this->users)) {
+            $this->users[] = $user;
+        }
 
         return $this;
-    }
-
-    /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setPost($post)
-    {
-        $this->post = $post;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPost()
-    {
-        return $this->post;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setPage($page)
-    {
-        $this->page = $page;
-
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPage()
-    {
-        return $this->page;
     }
 
     /**
@@ -218,6 +286,36 @@ class Stats
     }
 
     /**
+     * @param integer $dislikes
+     *
+     * @return $this
+     */
+    public function setDislikes($dislikes)
+    {
+        $this->dislikes = $dislikes;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getDislikes()
+    {
+        return $this->dislikes;
+    }
+
+    /**
+     * @return $this
+     */
+    public function addDislike()
+    {
+        $this->dislikes = ++$this->dislikes;
+
+        return $this;
+    }
+
+    /**
      * @param integer $stars
      *
      * @return $this
@@ -237,65 +335,5 @@ class Stats
     public function getStars()
     {
         return $this->stars;
-    }
-
-    /**
-     * @param integer $upVotes
-     *
-     * @return $this
-     */
-    public function setUpVotes($upVotes)
-    {
-        $this->upVotes = $upVotes;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUpVotes()
-    {
-        return $this->upVotes;
-    }
-
-    /**
-     * @return $this
-     */
-    public function addUpVote()
-    {
-        $this->upVotes = ++$this->upVotes;
-
-        return $this;
-    }
-
-    /**
-     * @param integer $downVotes
-     *
-     * @return $this
-     */
-    public function setDownVotes($downVotes)
-    {
-        $this->downVotes = $downVotes;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getDownVotes()
-    {
-        return $this->downVotes;
-    }
-
-    /**
-     * @return $this
-     */
-    public function addDownVote()
-    {
-        $this->downVotes = ++$this->downVotes;
-
-        return $this;
     }
 }

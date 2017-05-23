@@ -23,7 +23,7 @@ Trait Categorized
     private $categories = [];
 
     /**
-     * Thesse are the associated categories of each type
+     * These are the associated categories of each type
      *
      * @var array
      */

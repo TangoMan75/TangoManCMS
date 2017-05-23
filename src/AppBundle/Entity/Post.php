@@ -21,7 +21,6 @@ class Post
 {
     use Traits\Categorized;
     use Traits\Embeddable;
-    use Traits\HasStats;
     use Traits\HasSummary;
     use Traits\HasText;
     use Traits\HasTitle;
@@ -45,6 +44,12 @@ class Post
     private $id;
 
     /**
+     * @var Stats
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stats", inversedBy="posts", fetch="EAGER", cascade={"remove"})
+     */
+    private $stats;
+
+    /**
      * Post constructor.
      */
     public function __construct()
@@ -62,6 +67,26 @@ class Post
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Stats
+     */
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    /**
+     * @param Stats $stats
+     *
+     * @return $this
+     */
+    public function setStats($stats)
+    {
+        $this->stats = $stats;
+
+        return $this;
     }
 
     /**

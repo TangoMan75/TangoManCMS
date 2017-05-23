@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
-    use Traits\HasStats;
     use Traits\HasSummary;
     use Traits\HasTitle;
     use Traits\PageHasSections;
@@ -42,6 +41,12 @@ class Page
     private $sections = [];
 
     /**
+     * @var Stats
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stats", inversedBy="pages", cascade={"remove"})
+     */
+    private $stats;
+
+    /**
      * Section constructor.
      */
     public function __construct()
@@ -59,6 +64,26 @@ class Page
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Stats
+     */
+    public function getStats()
+    {
+        return $this->stats;
+    }
+
+    /**
+     * @param Stats $stats
+     *
+     * @return $this
+     */
+    public function setStats($stats)
+    {
+        $this->stats = $stats;
+
+        return $this;
     }
 
     /**
