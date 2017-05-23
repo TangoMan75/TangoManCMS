@@ -19,6 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Post
 {
+    use Relationships\HasStat;
     use Relationships\PostHasComments;
     use Relationships\PostHasSections;
     use Relationships\PostHasUser;
@@ -45,12 +46,6 @@ class Post
     private $id;
 
     /**
-     * @var Stat
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stat", inversedBy="posts", fetch="EAGER", cascade={"remove"})
-     */
-    private $stat;
-
-    /**
      * Post constructor.
      */
     public function __construct()
@@ -68,26 +63,6 @@ class Post
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return Stat
-     */
-    public function getStat()
-    {
-        return $this->stat;
-    }
-
-    /**
-     * @param Stat $stat
-     *
-     * @return $this
-     */
-    public function setStat($stat)
-    {
-        $this->stat = $stat;
-
-        return $this;
     }
 
     /**

@@ -17,6 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
+    use Relationships\HasStat;
     use Relationships\PageHasSections;
     use Relationships\Taggable;
 
@@ -42,12 +43,6 @@ class Page
     private $sections = [];
 
     /**
-     * @var Stat
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stat", inversedBy="pages", cascade={"remove"})
-     */
-    private $stat;
-
-    /**
      * Section constructor.
      */
     public function __construct()
@@ -65,26 +60,6 @@ class Page
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return Stat
-     */
-    public function getStat()
-    {
-        return $this->stat;
-    }
-
-    /**
-     * @param Stat $stat
-     *
-     * @return $this
-     */
-    public function setStat($stat)
-    {
-        $this->stat = $stat;
-
-        return $this;
     }
 
     /**

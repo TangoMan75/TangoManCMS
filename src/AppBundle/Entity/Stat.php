@@ -15,6 +15,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stat
 {
+    use Relationships\StatHasLeads;
+
     /**
      * @var int
      * @ORM\Column(type="integer", unique=true)
@@ -22,22 +24,6 @@ class Stat
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Page", mappedBy="stat")
-     */
-    private $pages = [];
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="stat")
-     */
-    private $posts = [];
-
-    /**
-     * @var User
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="stat")
-     */
-    private $users = [];
 
     /**
      * @var int

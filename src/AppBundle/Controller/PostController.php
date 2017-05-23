@@ -309,8 +309,8 @@ class PostController extends Controller
         if (!$stat) {
             $stat = new Stat();
             // Links stat, user & posts
-            $stat->addPost($post);
-            $stat->addUser($user);
+            $stat->addLead($post);
+            $stat->addLead($user);
 //            $post->setStat($stat);
 //            $user->setStat($stat);
         }

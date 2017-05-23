@@ -21,6 +21,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface
 {
+    use Relationships\HasStat;
     use Relationships\UserHasComments;
     use Relationships\UserHasPosts;
     use Relationships\UserHasPrivileges;
@@ -75,12 +76,6 @@ class User implements UserInterface
      * )
      */
     private $password;
-
-    /**
-     * @var Stat
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stat", inversedBy="users", fetch="EAGER")
-     */
-    private $stat;
 
     /**
      * User constructor.
@@ -302,30 +297,6 @@ class User implements UserInterface
     public function getSalt()
     {
         return null;
-    }
-
-    /**
-     * Stat
-     */
-
-    /**
-     * @return Stat
-     */
-    public function getStat()
-    {
-        return $this->stat;
-    }
-
-    /**
-     * @param Stat $stat
-     *
-     * @return User
-     */
-    public function setStat($stat)
-    {
-        $this->stat = $stat;
-
-        return $this;
     }
 
     /**
