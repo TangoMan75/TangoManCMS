@@ -1,61 +1,34 @@
 <?php
 
-namespace AppBundle\Entity\Relationships;
+namespace AppBundle\Entity\Traits;
 
 use AppBundle\Entity\Stat;
-use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait HasStat
- * This trait defines the INVERSE side of a ManyToMany relationship.
- * 1. Requires `Stat` entity to implement `$leads` property with `ManyToMany` and `mappedBy="leads"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
- *     $this->stats = new ArrayCollection();
+ *
+ * This trait defines the OWNING side of a ManyToOne relationship.
+ *
+ * 1. Requires `Stat` entity to implement `$leads` property with `OneToMany` and `mappedBy="leads"` annotation.
+ * 2. Requires `Stat` entity to implement linkLead(Lead $lead) public method.
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Relationships
+ * @package AppBundle\Entity\Traits
  */
 trait HasStat
 {
     /**
-     * @var Stat[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Stat", inversedBy="leads", cascade={"persist"})
-     * @ORM\OrderBy({"name"="DESC"})
+     * @var Stat
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Stat", inversedBy="leads", cascade={"persist"})
      */
-    private $stats = [];
+    private $stat;
 
     /**
-     * @param Stat[]|ArrayCollection $stats
-     *
-     * @return $this
-     */
-    public function setStat($stats)
-    {
-        $this->stats = $stats;
-
-        return $this;
-    }
-
-    /**
-     * @return array|Stat[]|ArrayCollection
+     * @return Stat
      */
     public function getStat()
     {
-        return $this->stats;
-    }
-
-    /**
-     * @param Stat $stat
-     *
-     * @return bool
-     */
-    public function hasStat(Stat $stat)
-    {
-        if (in_array($stat, (array)$this->stats)) {
-            return true;
-        }
-
-        return false;
+        return $this->stat;
     }
 
     /**
@@ -63,23 +36,10 @@ trait HasStat
      *
      * @return $this
      */
-    public function addStat(Stat $stat)
+    public function setStat(Stat $stat)
     {
         $this->linkStat($stat);
-        $stat->linkItem($this);
-
-        return $this;
-    }
-
-    /**
-     * @param Stat $stat
-     *
-     * @return $this
-     */
-    public function removeStat(Stat $stat)
-    {
-        $this->unlinkStat($stat);
-        $stat->unlinkItem($this);
+        $stat->linkLead($this);
 
         return $this;
     }
@@ -89,16 +49,6 @@ trait HasStat
      */
     public function linkStat(Stat $stat)
     {
-        if (!in_array($stat, (array)$this->stats)) {
-            $this->stats[] = $stat;
-        }
-    }
-
-    /**
-     * @param Stat $stat
-     */
-    public function unlinkStat(Stat $stat)
-    {
-        $this->stats->removeElement($stat);
+        $this->stat = $stat;
     }
 }

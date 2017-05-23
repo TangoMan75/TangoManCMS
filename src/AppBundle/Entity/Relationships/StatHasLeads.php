@@ -11,8 +11,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 /**
  * Trait StatHasLeads
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 1. Requires inverse `Lead` entity to implement `$leads` property with `ManyToOne` and `inversedBy="leads"` annotation.
- * 2. Requires inverse `Lead` entity to implement `linkStat` and `unlinkStat` methods.
+ * 1. Requires owned `Lead` entity to implement `$leads` property with `ManyToMany` and `inversedBy="leads"` annotation.
+ * 2. Requires owned `Lead` entity to implement `linkStat` and `unlinkStat` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
  *     $this->leads = new ArrayCollection();
  *
@@ -23,9 +23,9 @@ trait StatHasLeads
 {
     /**
      * @var User[]|Post[]|Page[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="stats", cascade={"persist"})
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="stats", cascade={"persist"})
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Page", mappedBy="stats", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="leads", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="leads", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Page", mappedBy="leads", cascade={"persist"})
      */
     private $leads = [];
 
