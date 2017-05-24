@@ -61,7 +61,7 @@ trait Taggable
     /**
      * @param Tag $tag
      *
-     * @return $this
+     * @return $this|Tag
      */
     public function addTag(Tag $tag)
     {
@@ -74,7 +74,7 @@ trait Taggable
     /**
      * @param Tag $tag
      *
-     * @return $this
+     * @return $this|Tag
      */
     public function removeTag(Tag $tag)
     {

@@ -43,17 +43,17 @@ class LoadStats implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
-//        for ($i = 0; $i < 25; $i++) {
-//            $stat = new Stat();
-//            $stat
-//                ->setDislikes(mt_rand(0, 100))
-//                ->setLikes(mt_rand(0, 100))
-//                ->setStars(mt_rand(0, 5))
-//                ->setViews(mt_rand(0, 100));
-//
-//            $em->persist($stat);
-//        }
-//
-//        $em->flush();
+        for ($i = 0; $i < 25; $i++) {
+            $stat = new Stat();
+            $stat
+                ->setDislikes(mt_rand(0, 100))
+                ->setLikes(mt_rand(0, 100))
+                ->setStars(mt_rand(0, 5))
+                ->setViews(mt_rand(0, 100));
+
+            $em->persist($stat);
+        }
+
+        $em->flush();
     }
 }

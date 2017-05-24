@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stat
 {
-    use Relationships\StatHasLeads;
+    use Relationships\StatHasItems;
 
     /**
      * @var int
@@ -54,9 +54,7 @@ class Stat
      */
     public function __construct()
     {
-        $this->pages = new ArrayCollection();
-        $this->posts = new ArrayCollection();
-        $this->users = new ArrayCollection();
+        $this->items = new ArrayCollection();
         $this->viewDate = new \DateTimeImmutable();
     }
 
@@ -66,150 +64,6 @@ class Stat
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @param Page[]|ArrayCollection $pages
-     *
-     * @return $this
-     */
-    public function setPages($pages)
-    {
-        $this->pages = $pages;
-
-        return $this;
-    }
-
-    /**
-     * @return array|Page[]|ArrayCollection $pages
-     */
-    public function getPages()
-    {
-        return $this->pages;
-    }
-
-    /**
-     * @param Page $page
-     *
-     * @return bool
-     */
-    public function hasPage(Page $page)
-    {
-        if (in_array($page, (array)$this->pages)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Page $page
-     *
-     * @return $this
-     */
-    public function addPage(Page $page)
-    {
-        if (!in_array($page, (array)$this->pages)) {
-            $this->pages[] = $page;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param Post[]|ArrayCollection $posts
-     *
-     * @return $this
-     */
-    public function setPosts($posts)
-    {
-        $this->posts = $posts;
-
-        return $this;
-    }
-
-    /**
-     * @return array|Post[]|ArrayCollection $posts
-     */
-    public function getPosts()
-    {
-        return $this->posts;
-    }
-
-    /**
-     * @param Post $post
-     *
-     * @return bool
-     */
-    public function hasPost(Post $post)
-    {
-        if (in_array($post, (array)$this->posts)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Post $post
-     *
-     * @return $this
-     */
-    public function addPost(Post $post)
-    {
-        if (!in_array($post, (array)$this->posts)) {
-            $this->posts[] = $post;
-        }
-
-        return $this;
-    }
-
-    /**
-     * @param User[]|ArrayCollection $users
-     *
-     * @return $this
-     */
-    public function setUsers($users)
-    {
-        $this->users = $users;
-
-        return $this;
-    }
-
-    /**
-     * @return array|User[]|ArrayCollection $users
-     */
-    public function getUsers()
-    {
-        return $this->users;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return bool
-     */
-    public function hasUser(User $user)
-    {
-        if (in_array($user, (array)$this->users)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param User $user
-     *
-     * @return $this
-     */
-    public function addUser(User $user)
-    {
-        if (!in_array($user, (array)$this->users)) {
-            $this->users[] = $user;
-        }
-
-        return $this;
     }
 
     /**
