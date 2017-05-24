@@ -10,12 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Class Event
  *
  * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="event")
+ * @ORM\Table(name="log")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\EventRepository")
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
-class Event
+class Log
 {
     use Traits\HasSummary;
 
