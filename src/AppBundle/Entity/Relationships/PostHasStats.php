@@ -26,7 +26,6 @@ trait PostHasStats
     /**
      * @var array|Stat[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stat", mappedBy="post", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $stats = [];
 
@@ -48,20 +47,6 @@ trait PostHasStats
     public function getStats()
     {
         return $this->stats;
-    }
-
-    /**
-     * @param Stat $stat
-     *
-     * @return bool
-     */
-    public function hasStat(Stat $stat)
-    {
-        if ($this->stats->contains($stat)) {
-            return true;
-        }
-
-        return false;
     }
 
     /**

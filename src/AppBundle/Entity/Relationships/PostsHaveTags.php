@@ -26,7 +26,6 @@ trait PostsHaveTags
     /**
      * @var array|Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts")
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 

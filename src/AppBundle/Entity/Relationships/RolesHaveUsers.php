@@ -26,7 +26,6 @@ trait RolesHaveUsers
     /**
      * @var array|User[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $users = [];
 

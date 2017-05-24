@@ -26,7 +26,6 @@ trait MediasHaveTags
     /**
      * @var array|Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="medias")
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 

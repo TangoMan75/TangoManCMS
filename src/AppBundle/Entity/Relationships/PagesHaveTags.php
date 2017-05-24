@@ -26,7 +26,6 @@ trait PagesHaveTags
     /**
      * @var array|Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages")
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 
