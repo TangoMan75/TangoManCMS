@@ -85,7 +85,7 @@ trait PageHasStats
     public function removeStat(Stat $stat)
     {
         $this->unlinkStat($stat);
-        $stat->unlinkPage();
+        $stat->unlinkPage($this);
 
         return $this;
     }

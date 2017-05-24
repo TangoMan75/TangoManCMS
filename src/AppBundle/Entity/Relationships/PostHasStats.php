@@ -57,7 +57,7 @@ trait PostHasStats
      */
     public function hasStat(Stat $stat)
     {
-        if ($this->stats->contains($stats)) {
+        if ($this->stats->contains($stat)) {
             return true;
         }
 
