@@ -48,7 +48,11 @@ class Tag
      */
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        $this->medias = new ArrayCollection();
+        $this->pages = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->sections = new ArrayCollection();
+
         $this->label = 'default';
     }
 

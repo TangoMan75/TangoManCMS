@@ -53,7 +53,7 @@ trait TagsHavePosts
      */
     public function hasPost(Post $post)
     {
-        if (in_array($post, (array)$this->posts)) {
+        if ($this->posts->contains($post)) {
             return true;
         }
 
@@ -78,7 +78,7 @@ trait TagsHavePosts
      */
     public function linkPost(Post $post)
     {
-        if (!in_array($post, (array)$this->posts)) {
+        if (!$this->posts->contains($post)) {
             $this->posts[] = $post;
         }
     }

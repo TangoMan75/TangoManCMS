@@ -54,7 +54,7 @@ trait StatHasPages
      */
     public function hasPage(Page $page)
     {
-        if (in_array($page, (array)$this->pages)) {
+        if ($this->pages->contains($page)) {
             return true;
         }
 
@@ -79,7 +79,7 @@ trait StatHasPages
      */
     public function linkPage(Page $page)
     {
-        if (!in_array($page, (array)$this->pages)) {
+        if (!$this->pages->contains($page)) {
             $this->pages[] = $page;
         }
     }

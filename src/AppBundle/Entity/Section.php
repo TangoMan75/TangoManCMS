@@ -44,29 +44,18 @@ class Section
     private $title;
 
     /**
-     * @var array|Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="sections", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $posts = [];
-
-    /**
-     * @var array|Page[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sections", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $pages = [];
-
-    /**
      * Section constructor.
      */
     public function __construct()
     {
-        $this->type = 'default';
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->posts = new ArrayCollection();
         $this->pages = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->stats = new ArrayCollection();
+
+        $this->type = 'default';
     }
 
     /**

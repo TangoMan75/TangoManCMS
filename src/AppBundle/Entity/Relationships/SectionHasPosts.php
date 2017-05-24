@@ -53,7 +53,7 @@ trait SectionHasPosts
      */
     public function hasPost(Post $post)
     {
-        if (in_array($post, (array)$this->posts)) {
+        if ($this->posts->contains($post)) {
             return true;
         }
 
@@ -91,7 +91,7 @@ trait SectionHasPosts
      */
     public function linkPost(Post $post)
     {
-        if (!in_array($post, (array)$this->posts)) {
+        if (!$this->posts->contains($post)) {
             $this->posts[] = $post;
         }
     }

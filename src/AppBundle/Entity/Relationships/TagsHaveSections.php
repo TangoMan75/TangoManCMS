@@ -53,7 +53,7 @@ trait TagsHaveSections
      */
     public function hasSection(Section $section)
     {
-        if (in_array($section, (array)$this->sections)) {
+        if ($this->sections->contains($section)) {
             return true;
         }
 
@@ -78,7 +78,7 @@ trait TagsHaveSections
      */
     public function linkSection(Section $section)
     {
-        if (!in_array($section, (array)$this->sections)) {
+        if (!$this->sections->contains($section)) {
             $this->sections[] = $section;
         }
     }

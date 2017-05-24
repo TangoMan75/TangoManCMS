@@ -53,7 +53,7 @@ trait UserHasComments
      */
     public function hasComment(Comment $comment)
     {
-        if (in_array($comment, (array)$this->comments)) {
+        if ($this->comments->contains($comment)) {
             return true;
         }
 
@@ -91,7 +91,7 @@ trait UserHasComments
      */
     public function linkComment(Comment $comment)
     {
-        if (!in_array($comment, (array)$this->comments)) {
+        if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
         }
     }

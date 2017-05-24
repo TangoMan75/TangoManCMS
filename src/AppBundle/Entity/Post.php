@@ -55,9 +55,7 @@ class Post
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
-//        if (!$this->title) {
-//            $this->setTitle($this->created->format('d/m/Y H:i:s'));
-//        }
+        $this->stats = new ArrayCollection();
     }
 
     /**

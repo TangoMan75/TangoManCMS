@@ -54,7 +54,7 @@ trait StatHasUsers
      */
     public function hasUser(User $user)
     {
-        if (in_array($user, (array)$this->users)) {
+        if ($this->users->contains($user)) {
             return true;
         }
 
@@ -79,7 +79,7 @@ trait StatHasUsers
      */
     public function linkUser(User $user)
     {
-        if (!in_array($user, (array)$this->users)) {
+        if (!$this->users->contains($user)) {
             $this->users[] = $user;
         }
     }

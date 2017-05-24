@@ -53,7 +53,7 @@ trait PrivilegeHasRoles
      */
     public function hasRole(Role $role)
     {
-        if (in_array($role, (array)$this->roles)) {
+        if ($this->roles->contains($role)) {
             return true;
         }
 
@@ -91,7 +91,7 @@ trait PrivilegeHasRoles
      */
     public function linkRole(Role $role)
     {
-        if (!in_array($role, (array)$this->roles)) {
+        if (!$this->roles->contains($role)) {
             $this->roles[] = $role;
         }
     }

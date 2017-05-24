@@ -55,6 +55,7 @@ class Media
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->stats = new ArrayCollection();
     }
 
     /**

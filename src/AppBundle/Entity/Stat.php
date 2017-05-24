@@ -57,8 +57,10 @@ class Stat
      */
     public function __construct()
     {
-        $this->items = new ArrayCollection();
-        $this->viewDate = new \DateTimeImmutable();
+        $this->medias = new ArrayCollection();
+        $this->pages = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**

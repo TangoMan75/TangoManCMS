@@ -53,7 +53,7 @@ trait TagsHaveMedias
      */
     public function hasMedia(Media $media)
     {
-        if (in_array($media, (array)$this->medias)) {
+        if ($this->medias->contains($media)) {
             return true;
         }
 
@@ -78,7 +78,7 @@ trait TagsHaveMedias
      */
     public function linkMedia(Media $media)
     {
-        if (!in_array($media, (array)$this->medias)) {
+        if (!$this->medias->contains($media)) {
             $this->medias[] = $media;
         }
     }

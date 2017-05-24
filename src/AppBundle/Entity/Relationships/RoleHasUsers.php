@@ -53,7 +53,7 @@ trait RoleHasUsers
      */
     public function hasUser(User $user)
     {
-        if (in_array($user, (array)$this->users)) {
+        if ($this->users->contains($user)) {
             return true;
         }
 
@@ -91,7 +91,7 @@ trait RoleHasUsers
      */
     public function linkUser(User $user)
     {
-        if (!in_array($user, (array)$this->users)) {
+        if (!$this->users->contains($user)) {
             $this->users[] = $user;
         }
     }

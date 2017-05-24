@@ -50,6 +50,8 @@ class Page
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->sections = new ArrayCollection();
+        $this->tags = new ArrayCollection();
+        $this->stats = new ArrayCollection();
     }
 
     /**
