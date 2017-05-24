@@ -22,7 +22,6 @@ trait UserHasPrivileges
     /**
      * @var array|Privilege[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="users", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $privileges = [];
 
@@ -53,7 +52,7 @@ trait UserHasPrivileges
      */
     public function hasPrivilege(Privilege $privilege)
     {
-        if (in_array($privilege, (array)$this->privileges)) {
+        if ($this->privileges->contains($privilege)) {
             return true;
         }
 
@@ -91,7 +90,7 @@ trait UserHasPrivileges
      */
     public function linkPrivilege(Privilege $privilege)
     {
-        if (!in_array($privilege, (array)$this->privileges)) {
+        if (!$this->privileges->contains($privilege)) {
             $this->privileges[] = $privilege;
         }
     }

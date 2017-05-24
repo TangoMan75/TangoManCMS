@@ -55,6 +55,9 @@ class Post
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
+//        if (!$this->title) {
+//            $this->setTitle($this->created->format('d/m/Y H:i:s'));
+//        }
     }
 
     /**
@@ -77,6 +80,10 @@ class Post
 
         if (!$this->slug) {
             $this->setUniqueSlug($this->title);
+        }
+
+        if (!$this->type) {
+            $this->setType('post');
         }
     }
 

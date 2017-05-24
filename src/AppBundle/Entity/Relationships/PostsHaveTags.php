@@ -23,7 +23,6 @@ trait PostsHaveTags
     /**
      * @var array|Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 
@@ -54,7 +53,7 @@ trait PostsHaveTags
      */
     public function hasTag(Tag $tag)
     {
-        if (in_array($tag, (array)$this->tags)) {
+        if ($this->tags->contains($tag)) {
             return true;
         }
 
@@ -79,7 +78,7 @@ trait PostsHaveTags
      */
     public function linkTag(Tag $tag)
     {
-        if (!in_array($tag, (array)$this->tags)) {
+        if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
         }
     }

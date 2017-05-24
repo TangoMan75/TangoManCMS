@@ -192,27 +192,27 @@
                         <td>
                             {% if section.pages|length > 1 %}
                                 <span class="label label-success">{{ section.pages|length }} pages</span><br/>
-                            {% elseif section.pages|length < 1 %}
-                                <span class="label label-danger">Aucune page</span>
                             {% endif %}
                             {% for page in section.pages %}
                                 <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
-                                   class="label label-default">
+                                   class="label label-primary">
                                     {{ page.title|truncate(20) }}
                                 </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune page</span>
                             {% endfor %}
                         </td>
                         <td>
                             {% if section.posts|length > 1 %}
                                 <span class="label label-success">{{ section.posts|length }} articles</span><br/>
-                            {% elseif section.posts|length < 1 %}
-                                <span class="label label-danger">Aucun article</span>
                             {% endif %}
                             {% for post in section.posts %}
                                 <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
-                                   class="label label-default">
+                                   class="label label-primary">
                                     {{ post.title|truncate(20) }}
                                 </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucun article</span>
                             {% endfor %}
                         </td>
                         <td>

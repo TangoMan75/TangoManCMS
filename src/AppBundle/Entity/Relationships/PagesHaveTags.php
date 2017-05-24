@@ -7,9 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PagesHaveTags
- *
  * This trait defines the OWNING side of a ManyToMany relationship.
- *
  * 1. Requires owned `Tag` entity to implement `$pages` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkPage` and `unlinkPage` methods.
  * 3. (Optional) Entities constructors must initialize ArrayCollection object
@@ -23,7 +21,6 @@ trait PagesHaveTags
     /**
      * @var array|Tag[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 
@@ -54,7 +51,7 @@ trait PagesHaveTags
      */
     public function hasTag(Tag $tag)
     {
-        if (in_array($tag, (array)$this->tags)) {
+        if ($this->tags->contains($tag)) {
             return true;
         }
 
@@ -79,7 +76,7 @@ trait PagesHaveTags
      */
     public function linkTag(Tag $tag)
     {
-        if (!in_array($tag, (array)$this->tags)) {
+        if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
         }
     }

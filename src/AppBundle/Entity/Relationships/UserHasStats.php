@@ -7,9 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UserHasStats
- *
  * This trait defines the INVERSE side of a OneToMany relationship.
- *
  * 1. Requires `Stat` entity to implement `$user` property with `ManyToOne` and `inversedBy="stats"` annotation.
  * 2. Requires `Stat` entity to implement linkUser(User $user) public method.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
@@ -23,7 +21,6 @@ trait UserHasStats
     /**
      * @var array|Stat[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stat", mappedBy="user", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $stats = [];
 
@@ -54,7 +51,7 @@ trait UserHasStats
      */
     public function hasStat(Stat $stat)
     {
-        if (in_array($stat, (array)$this->stats)) {
+        if ($this->stats->contains($stat)) {
             return true;
         }
 
@@ -79,7 +76,7 @@ trait UserHasStats
      */
     public function linkStat(Stat $stat)
     {
-        if (!in_array($stat, (array)$this->stats)) {
+        if (!$this->stats->contains($stat)) {
             $this->stats[] = $stat;
         }
     }

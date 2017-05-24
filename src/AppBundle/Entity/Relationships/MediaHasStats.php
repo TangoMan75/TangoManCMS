@@ -50,20 +50,6 @@ trait MediaHasStats
     /**
      * @param Stat $stat
      *
-     * @return bool
-     */
-    public function hasStat(Stat $stat)
-    {
-        if (in_array($stat, (array)$this->stats)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Stat $stat
-     *
      * @return $this
      */
     public function addStat(Stat $stat)
@@ -79,7 +65,7 @@ trait MediaHasStats
      */
     public function linkStat(Stat $stat)
     {
-        if (!in_array($stat, (array)$this->stats)) {
+        if (!$this->stats->contains($stat)) {
             $this->stats[] = $stat;
         }
     }

@@ -51,7 +51,8 @@
             <div class="row">
                 <div class="tags col-xs-12 col-sm-3">
                     {% for tag in post.tags %}
-                        <a href="{{ path('app_post_index', { 'tag': tag.name }) }}" class="label label-{{ tag.type }}">
+                        <a href="{{ path('app_post_index', { 'tag': tag.name }) }}"
+                           class="label label-{{ tag.type }}">
                             {{ tag.name }}
                         </a>&nbsp;
                     {% endfor %}
@@ -61,7 +62,7 @@
                     <span class="btn btn-success btn-sm">
                         Vues
                         <span class="badge">
-                            {% if post.stat %}
+                            {% if post.stat is defined %}
                                 {% if post.stat.views %}{{ post.stat.views }}{% else %}0{% endif %}
                             {% else %}
                                 0
@@ -75,7 +76,7 @@
                        class="btn btn-danger btn-sm">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         <span class="badge">
-                            {% if post.stat %}
+                            {% if post.stat is defined %}
                                 {% if post.stat.likes %}{{ post.stat.likes }}{% else %}0{% endif %}
                             {% else %}
                                 0

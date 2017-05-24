@@ -53,9 +53,7 @@ trait UserHasPosts
      */
     public function hasPost(Post $post)
     {
-
-        die(dummp([$post, (array)$this->posts]));
-        if (in_array($post, (array)$this->posts)) {
+        if ($this->posts->contains($post)) {
             return true;
         }
 
@@ -92,8 +90,8 @@ trait UserHasPosts
      */
     public function linkPost(Post $post)
     {
-        if (!in_array($post, (array)$this->posts)) {
-            $this->posts[] = $post;
+        if (!$this->posts->contains($post)) {
+            $this->posts->add($post);
         }
     }
 }

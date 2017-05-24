@@ -301,16 +301,16 @@
                             </a>
                         </td>
                         <td>
-                            {% if post.sections|length > 1 %}
+                            {% if post.sections|length >1 %}
                                 <span class="label label-success">{{ post.sections|length }} sections</span><br/>
-                            {% elseif post.sections|length < 1 %}
-                                <span class="label label-danger">Aucune section</span>
                             {% endif %}
                             {% for section in post.sections %}
                                 <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                   class="label label-default">
+                                class="label label-primary">
                                     {{ section.title|truncate(20) }}
                                 </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune section</span>
                             {% endfor %}
                         </td>
                         <td>
@@ -324,11 +324,13 @@
                                    class="label label-{{ tag.type }}">
                                     {{ tag.name }}
                                 </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune étiquette</span>
                             {% endfor %}
                         </td>
                         <td>
                             <span class="label label-success">
-                                {% if post.stat %}
+                                {% if post.stat is defined %}
                                     {% if post.stat.views %}{{ post.stat.views }}{% else %}0{% endif %}
                                 {% else %}
                                     0

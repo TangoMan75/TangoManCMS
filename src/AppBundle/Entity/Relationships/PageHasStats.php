@@ -23,7 +23,6 @@ trait PageHasStats
     /**
      * @var array|Stat[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stat", mappedBy="page", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $stats = [];
 
@@ -50,20 +49,6 @@ trait PageHasStats
     /**
      * @param Stat $stat
      *
-     * @return bool
-     */
-    public function hasStat(Stat $stat)
-    {
-        if (in_array($stat, (array)$this->stats)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Stat $stat
-     *
      * @return $this
      */
     public function addStat(Stat $stat)
@@ -79,7 +64,7 @@ trait PageHasStats
      */
     public function linkStat(Stat $stat)
     {
-        if (!in_array($stat, (array)$this->stats)) {
+        if (!$this->stats->contains($stat)) {
             $this->stats[] = $stat;
         }
     }

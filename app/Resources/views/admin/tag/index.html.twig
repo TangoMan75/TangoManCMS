@@ -161,13 +161,13 @@
                         <td>
                             {% if tag.items|length > 1 %}
                                 <span class="label label-success">{{ tag.items|length }} objets</span><br/>
-                            {% elseif tag.items|length < 1 %}
-                                <span class="label label-danger">Aucun objet</span>
                             {% endif %}
                             {% for item in tag.items %}
                                 <span class="label label-primary">
                                     {{ item.title|truncate(20) }}
                                 </span><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucun objet</span>
                             {% endfor %}
                         </td>
                         <td>
