@@ -16,8 +16,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    use Relationships\CommentHasPost;
-    use Relationships\CommentHasUser;
+    use Relationships\CommentsHaveMedia;
+    use Relationships\CommentsHavePost;
+    use Relationships\CommentsHaveUser;
 
     use Traits\Publishable;
     use Traits\Timestampable;
@@ -29,18 +30,6 @@ class Comment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
-     */
-    private $user;
-
-    /**
-     * @var Post
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
-     */
-    private $post;
 
     /**
      * @var string

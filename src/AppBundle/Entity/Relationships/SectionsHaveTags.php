@@ -2,25 +2,31 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// tag
 use AppBundle\Entity\Tag;
+// section
+use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SectionsHaveTags
+ *
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires owned `Tag` entity to implement `$sections` property with `ManyToMany` and `inversedBy="tags"` annotation.
+ *
+ * 1. Requires owned `Tag` entity to implement `$sections` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkSection` and `unlinkSection` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait SectionsHaveTags
 {
     /**
      * @var array|Tag[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", mappedBy="sections", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sections")
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 
@@ -65,8 +71,21 @@ trait SectionsHaveTags
      */
     public function addTag(Tag $tag)
     {
-        $tag->linkTag($this);
-        $this->linkSection($tag);
+        $this->linkTag($tag);
+        $tag->linkSection($this);
+
+        return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     *
+     * @return $this
+     */
+    public function removeTag(Tag $tag)
+    {
+        $this->unlinkTag($tag);
+        $tag->unlinkSection($this);
 
         return $this;
     }
@@ -79,19 +98,6 @@ trait SectionsHaveTags
         if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
         }
-    }
-
-    /**
-     * @param Tag $tag
-     *
-     * @return $this
-     */
-    public function removeTag(Tag $tag)
-    {
-        $tag->unlinkTag($this);
-        $this->unlinkSection($tag);
-
-        return $this;
     }
 
     /**

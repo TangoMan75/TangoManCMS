@@ -20,10 +20,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Media
 {
     use Relationships\MediaHasComments;
-    use Relationships\MediaHasSections;
     use Relationships\MediaHasStats;
-    use Relationships\MediaHasUser;
+    use Relationships\MediasHaveSections;
     use Relationships\MediasHaveTags;
+    use Relationships\MediasHaveUser;
 
     use Traits\Categorized;
     use Traits\Embeddable;

@@ -2,7 +2,10 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// tag
 use AppBundle\Entity\Tag;
+// post
+use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -12,17 +15,18 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires owned `Tag` entity to implement `$posts` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkPost` and `unlinkPost` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait PostsHaveTags
 {
     /**
      * @var array|Tag[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts")
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 
@@ -53,7 +57,7 @@ trait PostsHaveTags
      */
     public function hasTag(Tag $tag)
     {
-        if ($this->tags->contains($tag)) {
+        if ($this->tags->contains($tags)) {
             return true;
         }
 
@@ -67,20 +71,10 @@ trait PostsHaveTags
      */
     public function addTag(Tag $tag)
     {
-        $tag->linkTag($this);
-        $this->linkPost($tag);
+        $this->linkTag($tag);
+        $tag->linkPost($this);
 
         return $this;
-    }
-
-    /**
-     * @param Tag $tag
-     */
-    public function linkTag(Tag $tag)
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-        }
     }
 
     /**
@@ -90,10 +84,20 @@ trait PostsHaveTags
      */
     public function removeTag(Tag $tag)
     {
-        $tag->unlinkTag($this);
-        $this->unlinkPost($tag);
+        $this->unlinkTag($tag);
+        $tag->unlinkPost($this);
 
         return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function linkTag(Tag $tag)
+    {
+        if (!$this->tags->contains($tags)) {
+            $this->tags[] = $tag;
+        }
     }
 
     /**

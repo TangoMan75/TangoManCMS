@@ -2,16 +2,20 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// comment
 use AppBundle\Entity\Comment;
+// post
 use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PostHasComments
+ *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 1. Requires `Comment` entity to implement `$post` property with `ManyToOne` and `inversed="comments"` annotation.
- * 2. Requires `Comment` entity to implement `linkPost` and `unlinkPost` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ *
+ * 1. Requires `Comment` entity to implement `$post` property with `ManyToOne` and `inversedBy="comments"` annotation.
+ * 2. Requires `Comment` entity to implement linkPost(Post $post) public method.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->comments = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -21,7 +25,7 @@ trait PostHasComments
 {
     /**
      * @var array|Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"remove", "persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments = [];
@@ -53,7 +57,7 @@ trait PostHasComments
      */
     public function hasComment(Comment $comment)
     {
-        if ($this->comments->contains($comment)) {
+        if ($this->comments->contains($comments)) {
             return true;
         }
 
@@ -81,7 +85,7 @@ trait PostHasComments
     public function removeComment(Comment $comment)
     {
         $this->unlinkComment($comment);
-        $comment->unlinkPost($this);
+        $comment->unlinkPost();
 
         return $this;
     }
@@ -91,7 +95,7 @@ trait PostHasComments
      */
     public function linkComment(Comment $comment)
     {
-        if (!$this->comments->contains($comment)) {
+        if (!$this->comments->contains($comments)) {
             $this->comments[] = $comment;
         }
     }

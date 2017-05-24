@@ -2,25 +2,31 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// tag
 use AppBundle\Entity\Tag;
+// media
+use AppBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait MediasHaveTags
+ *
  * This trait defines the OWNING side of a ManyToMany relationship.
+ *
  * 1. Requires owned `Tag` entity to implement `$medias` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkMedia` and `unlinkMedia` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait MediasHaveTags
 {
     /**
      * @var array|Tag[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="medias", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="medias")
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $tags = [];
 
@@ -51,7 +57,7 @@ trait MediasHaveTags
      */
     public function hasTag(Tag $tag)
     {
-        if ($this->tags->contains($tag)) {
+        if ($this->tags->contains($tags)) {
             return true;
         }
 
@@ -65,20 +71,10 @@ trait MediasHaveTags
      */
     public function addTag(Tag $tag)
     {
-        $tag->linkTag($this);
-        $this->linkMedia($tag);
+        $this->linkTag($tag);
+        $tag->linkMedia($this);
 
         return $this;
-    }
-
-    /**
-     * @param Tag $tag
-     */
-    public function linkTag(Tag $tag)
-    {
-        if (!$this->tags->contains($tag)) {
-            $this->tags[] = $tag;
-        }
     }
 
     /**
@@ -88,10 +84,20 @@ trait MediasHaveTags
      */
     public function removeTag(Tag $tag)
     {
-        $tag->unlinkTag($this);
-        $this->unlinkMedia($tag);
+        $this->unlinkTag($tag);
+        $tag->unlinkMedia($this);
 
         return $this;
+    }
+
+    /**
+     * @param Tag $tag
+     */
+    public function linkTag(Tag $tag)
+    {
+        if (!$this->tags->contains($tags)) {
+            $this->tags[] = $tag;
+        }
     }
 
     /**

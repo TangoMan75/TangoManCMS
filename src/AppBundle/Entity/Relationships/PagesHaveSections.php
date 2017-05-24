@@ -2,26 +2,31 @@
 
 namespace AppBundle\Entity\Relationships;
 
-use AppBundle\Entity\Media;
+// section
 use AppBundle\Entity\Section;
+// page
+use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait MediaHasSections
+ * Trait PagesHaveSections
+ *
  * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires `Section` entity to implement `$medias` property with `ManyToMany` and `mappedBy="medias"` annotation.
- * 2. Requires `Section` entity to implement `linkMedia` and `unlinkMedia` methods.
- * 3. (Optional) entity constructor must initialize ArrayCollection object
+ *
+ * 1. Requires owned `Section` entity to implement `$pages` property with `ManyToMany` and `mappedBy="sections"` annotation.
+ * 2. Requires owned `Section` entity to implement `linkPage` and `unlinkPage` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait MediaHasSections
+trait PagesHaveSections
 {
     /**
      * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="medias", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages")
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
 
@@ -38,7 +43,7 @@ trait MediaHasSections
     }
 
     /**
-     * @return array|Section[]|ArrayCollection
+     * @return array|Section[]|ArrayCollection $sections
      */
     public function getSections()
     {
@@ -67,7 +72,7 @@ trait MediaHasSections
     public function addSection(Section $section)
     {
         $this->linkSection($section);
-        $section->linkMedia($this);
+        $section->linkPage($this);
 
         return $this;
     }
@@ -80,7 +85,7 @@ trait MediaHasSections
     public function removeSection(Section $section)
     {
         $this->unlinkSection($section);
-        $section->unlinkMedia($this);
+        $section->unlinkPage($this);
 
         return $this;
     }

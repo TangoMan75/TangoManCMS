@@ -2,16 +2,20 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// post
 use AppBundle\Entity\Post;
+// user
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UserHasPosts
+ *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 1. Requires `Post` entity to implement `$user` property with `ManyToOne` and `inversed="posts"` annotation.
- * 2. Requires `Post` entity to implement `linkUser` and `unlinkUser` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ *
+ * 1. Requires `Post` entity to implement `$user` property with `ManyToOne` and `inversedBy="posts"` annotation.
+ * 2. Requires `Post` entity to implement linkUser(User $user) public method.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -21,8 +25,8 @@ trait UserHasPosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"remove", "persist"})
-     * @ORM\OrderBy({"created"="DESC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
 
@@ -80,7 +84,8 @@ trait UserHasPosts
      */
     public function removePost(Post $post)
     {
-        $this->posts->removeElement($post);
+        $this->unlinkPost($post);
+        $post->unlinkUser();
 
         return $this;
     }
@@ -91,7 +96,15 @@ trait UserHasPosts
     public function linkPost(Post $post)
     {
         if (!$this->posts->contains($post)) {
-            $this->posts->add($post);
+            $this->posts[] = $post;
         }
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function unlinkPost(Post $post)
+    {
+        $this->posts->removeElement($post);
     }
 }

@@ -2,26 +2,30 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// media
+use AppBundle\Entity\Media;
+// section
 use AppBundle\Entity\Section;
-use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait PageHasSections
+ * Trait MediasHaveSections
+ *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- * 1. Requires `Section` entity to implement `$pages` property with `ManyToMany` and `inversedBy="sections"` annotation.
- * 2. Requires `Section` entity to implement `linkPage` and `unlinkPage` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ *
+ * 1. Requires `Section` entity to implement `$medias` property with `ManyToMany` and `inversedBy="sections"` annotation.
+ * 2. Requires `Section` entity to implement `linkMedia` and `unlinkMedia` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait PageHasSections
+trait MediasHaveSections
 {
     /**
      * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="pages", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="medias")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
@@ -68,7 +72,7 @@ trait PageHasSections
     public function addSection(Section $section)
     {
         $this->linkSection($section);
-        $section->linkPage($this);
+        $section->linkMedia($this);
 
         return $this;
     }
@@ -81,7 +85,7 @@ trait PageHasSections
     public function removeSection(Section $section)
     {
         $this->unlinkSection($section);
-        $section->unlinkPage($this);
+        $section->unlinkMedia($this);
 
         return $this;
     }

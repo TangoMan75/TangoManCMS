@@ -2,30 +2,30 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// stat
-use AppBundle\Entity\Stat;
+// role
+use AppBundle\Entity\Role;
 // user
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait StatHasUsers
+ * Trait RolesHaveUsers
  *
- * This trait defines the INVERSE side of a OneToMany relationship.
+ * This trait defines the INVERSE side of a ManyToMany relationship.
  *
- * 1. Requires `User` entity to implement `$stat` property with `ManyToOne` and `inversedBy="users"` annotation.
- * 2. Requires `User` entity to implement linkStat(Stat $stat) public method.
+ * 1. Requires `User` entity to implement `$roles` property with `ManyToMany` and `inversedBy="users"` annotation.
+ * 2. Requires `User` entity to implement `linkRole` and `unlinkRole` methods.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->users = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait StatHasUsers
+trait RolesHaveUsers
 {
     /**
      * @var array|User[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\User", mappedBy="stat", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $users = [];
@@ -72,7 +72,7 @@ trait StatHasUsers
     public function addUser(User $user)
     {
         $this->linkUser($user);
-        $user->linkStat($this);
+        $user->linkRole($this);
 
         return $this;
     }
@@ -85,7 +85,7 @@ trait StatHasUsers
     public function removeUser(User $user)
     {
         $this->unlinkUser($user);
-        $user->unlinkStat($this);
+        $user->unlinkRole($this);
 
         return $this;
     }
@@ -95,7 +95,7 @@ trait StatHasUsers
      */
     public function linkUser(User $user)
     {
-        if ($this->users->contains($user)) {
+        if (!$this->users->contains($user)) {
             $this->users[] = $user;
         }
     }

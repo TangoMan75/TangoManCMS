@@ -2,25 +2,31 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// stat
 use AppBundle\Entity\Stat;
+// user
+use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UserHasStats
+ *
  * This trait defines the INVERSE side of a OneToMany relationship.
+ *
  * 1. Requires `Stat` entity to implement `$user` property with `ManyToOne` and `inversedBy="stats"` annotation.
  * 2. Requires `Stat` entity to implement linkUser(User $user) public method.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->stats = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait UserHasStats
 {
     /**
      * @var array|Stat[]|ArrayCollection
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Stat", mappedBy="user", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $stats = [];
 
@@ -73,25 +79,25 @@ trait UserHasStats
 
     /**
      * @param Stat $stat
-     */
-    public function linkStat(Stat $stat)
-    {
-        if (!$this->stats->contains($stat)) {
-            $this->stats[] = $stat;
-        }
-    }
-
-    /**
-     * @param Stat $stat
      *
      * @return $this
      */
     public function removeStat(Stat $stat)
     {
         $this->unlinkStat($stat);
-        $stat->unlinkUser($this);
+        $stat->unlinkUser();
 
         return $this;
+    }
+
+    /**
+     * @param Stat $stat
+     */
+    public function linkStat(Stat $stat)
+    {
+        if (!$this->stats->contains($stat)) {
+            $this->stats[] = $stat;
+        }
     }
 
     /**

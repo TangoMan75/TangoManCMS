@@ -2,26 +2,30 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// section
 use AppBundle\Entity\Section;
+// page
 use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait SectionHasPages
- * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires `Page` entity to implement `$sections` property with `ManyToMany` and `mappedBy="sections"` annotation.
+ * Trait SectionsHavePages
+ *
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ *
+ * 1. Requires `Page` entity to implement `$sections` property with `ManyToMany` and `inversedBy="pages"` annotation.
  * 2. Requires `Page` entity to implement `linkSection` and `unlinkSection` methods.
- * 3. (Optional) entity constructor must initialize ArrayCollection object
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->pages = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait SectionHasPages
+trait SectionsHavePages
 {
     /**
      * @var array|Page[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sections", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages = [];
@@ -39,7 +43,7 @@ trait SectionHasPages
     }
 
     /**
-     * @return array|Page[]|ArrayCollection
+     * @return array|Page[]|ArrayCollection $pages
      */
     public function getPages()
     {

@@ -2,26 +2,30 @@
 
 namespace AppBundle\Entity\Relationships;
 
-use AppBundle\Entity\Item;
+// privilege
+use AppBundle\Entity\Privilege;
+// user
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait RoleHasUsers
- * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires `User` entity to implement `$roles` property with `ManyToMany` and `mappedBy="roles"` annotation.
- * 2. Requires `User` entity to implement `linkItem` and `unlinkItem` methods.
- * 3. (Optional) entity constructor must initialize ArrayCollection object
+ * Trait PrivilegesHaveUsers
+ *
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ *
+ * 1. Requires `User` entity to implement `$privileges` property with `ManyToMany` and `inversedBy="users"` annotation.
+ * 2. Requires `User` entity to implement `linkPrivilege` and `unlinkPrivilege` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->users = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait RoleHasUsers
+trait PrivilegesHaveUsers
 {
     /**
      * @var array|User[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", inversedBy="roles", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="privileges")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $users = [];
@@ -39,7 +43,7 @@ trait RoleHasUsers
     }
 
     /**
-     * @return array|User[]|ArrayCollection
+     * @return array|User[]|ArrayCollection $users
      */
     public function getUsers()
     {
@@ -68,7 +72,7 @@ trait RoleHasUsers
     public function addUser(User $user)
     {
         $this->linkUser($user);
-        $user->linkItem($this);
+        $user->linkPrivilege($this);
 
         return $this;
     }
@@ -81,7 +85,7 @@ trait RoleHasUsers
     public function removeUser(User $user)
     {
         $this->unlinkUser($user);
-        $user->unlinkItem($this);
+        $user->unlinkPrivilege($this);
 
         return $this;
     }

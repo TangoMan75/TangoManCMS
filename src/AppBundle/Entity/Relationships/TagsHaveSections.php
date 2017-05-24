@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// tag
+use AppBundle\Entity\Tag;
+// section
 use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -10,18 +13,19 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * This trait defines the INVERSE side of a ManyToMany relationship.
  *
- * 1. Requires `Section` entity to implement `$tags` property with `ManyToMany` and `mappedBy="tags"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * 1. Requires `Section` entity to implement `$tags` property with `ManyToMany` and `inversedBy="sections"` annotation.
+ * 2. Requires `Section` entity to implement `linkTag` and `unlinkTag` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait TagsHaveSections
 {
     /**
      * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="tags")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
@@ -39,7 +43,7 @@ trait TagsHaveSections
     }
 
     /**
-     * @return array|Section[]|ArrayCollection
+     * @return array|Section[]|ArrayCollection $sections
      */
     public function getSections()
     {
@@ -75,16 +79,6 @@ trait TagsHaveSections
 
     /**
      * @param Section $section
-     */
-    public function linkSection(Section $section)
-    {
-        if (!$this->sections->contains($section)) {
-            $this->sections[] = $section;
-        }
-    }
-
-    /**
-     * @param Section $section
      *
      * @return $this
      */
@@ -94,6 +88,16 @@ trait TagsHaveSections
         $section->unlinkTag($this);
 
         return $this;
+    }
+
+    /**
+     * @param Section $section
+     */
+    public function linkSection(Section $section)
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+        }
     }
 
     /**

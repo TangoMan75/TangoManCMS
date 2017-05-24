@@ -2,26 +2,31 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// privilege
 use AppBundle\Entity\Privilege;
+// role
 use AppBundle\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait RoleHasPrivileges
- * This trait defines the INVERSE side of a ManyToMany relationship.
- * 1. Requires `Privilege` entity to implement `$roles` property with `ManyToMany` and `inversedBy="privileges"` annotation.
- * 2. Requires `Privilege` entity to implement `linkRole` and `unlinkRole` methods.
- * 3. (Optional) Entities constructors must initialize ArrayCollection object
+ * Trait RolesHavePrivileges
+ *
+ * This trait defines the OWNING side of a ManyToMany relationship.
+ *
+ * 1. Requires owned `Privilege` entity to implement `$roles` property with `ManyToMany` and `mappedBy="privileges"` annotation.
+ * 2. Requires owned `Privilege` entity to implement `linkRole` and `unlinkRole` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->privileges = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait RoleHasPrivileges
+trait RolesHavePrivileges
 {
     /**
      * @var array|Privilege[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", mappedBy="roles", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles")
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $privileges = [];
 

@@ -20,10 +20,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Post
 {
     use Relationships\PostHasComments;
-    use Relationships\PostHasSections;
     use Relationships\PostHasStats;
-    use Relationships\PostHasUser;
+    use Relationships\PostsHaveSections;
     use Relationships\PostsHaveTags;
+    use Relationships\PostsHaveUser;
 
     use Traits\Categorized;
     use Traits\Embeddable;

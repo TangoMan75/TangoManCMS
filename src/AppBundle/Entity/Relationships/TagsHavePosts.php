@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// tag
+use AppBundle\Entity\Tag;
+// post
 use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -10,18 +13,19 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * This trait defines the INVERSE side of a ManyToMany relationship.
  *
- * 1. Requires `Post` entity to implement `$tags` property with `ManyToMany` and `inversedBy="tags"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * 1. Requires `Post` entity to implement `$tags` property with `ManyToMany` and `inversedBy="posts"` annotation.
+ * 2. Requires `Post` entity to implement `linkTag` and `unlinkTag` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait TagsHavePosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
@@ -39,7 +43,7 @@ trait TagsHavePosts
     }
 
     /**
-     * @return array|Post[]|ArrayCollection
+     * @return array|Post[]|ArrayCollection $posts
      */
     public function getPosts()
     {
@@ -75,16 +79,6 @@ trait TagsHavePosts
 
     /**
      * @param Post $post
-     */
-    public function linkPost(Post $post)
-    {
-        if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
-        }
-    }
-
-    /**
-     * @param Post $post
      *
      * @return $this
      */
@@ -94,6 +88,16 @@ trait TagsHavePosts
         $post->unlinkTag($this);
 
         return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function linkPost(Post $post)
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+        }
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// stat
+use AppBundle\Entity\Stat;
+// post
 use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -9,14 +12,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Trait StatHasPosts
  *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 
+ *
  * 1. Requires `Post` entity to implement `$stat` property with `ManyToOne` and `inversedBy="posts"` annotation.
  * 2. Requires `Post` entity to implement linkStat(Stat $stat) public method.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait StatHasPosts
 {
@@ -76,16 +79,6 @@ trait StatHasPosts
 
     /**
      * @param Post $post
-     */
-    public function linkPost(Post $post)
-    {
-        if (!$this->posts->contains($post)) {
-            $this->posts[] = $post;
-        }
-    }
-
-    /**
-     * @param Post $post
      *
      * @return $this
      */
@@ -95,6 +88,16 @@ trait StatHasPosts
         $post->unlinkStat($this);
 
         return $this;
+    }
+
+    /**
+     * @param Post $post
+     */
+    public function linkPost(Post $post)
+    {
+        if ($this->posts->contains($post)) {
+            $this->posts[] = $post;
+        }
     }
 
     /**

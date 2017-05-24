@@ -16,8 +16,8 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Role
 {
-    use Relationships\RoleHasPrivileges;
-    use Relationships\RoleHasUsers;
+    use Relationships\RolesHavePrivileges;
+    use Relationships\RolesHaveUsers;
 
     use Traits\HasName;
     use Traits\HasType;

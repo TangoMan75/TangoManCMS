@@ -2,30 +2,30 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// tag
-use AppBundle\Entity\Tag;
 // media
 use AppBundle\Entity\Media;
+// section
+use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait TagsHaveMedias
+ * Trait SectionsHaveMedias
  *
- * This trait defines the INVERSE side of a ManyToMany relationship.
+ * This trait defines the OWNING side of a ManyToMany relationship.
  *
- * 1. Requires `Media` entity to implement `$tags` property with `ManyToMany` and `inversedBy="medias"` annotation.
- * 2. Requires `Media` entity to implement `linkTag` and `unlinkTag` methods.
+ * 1. Requires owned `Media` entity to implement `$sections` property with `ManyToMany` and `mappedBy="medias"` annotation.
+ * 2. Requires owned `Media` entity to implement `linkSection` and `unlinkSection` methods.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->medias = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait TagsHaveMedias
+trait SectionsHaveMedias
 {
     /**
      * @var array|Media[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", inversedBy="sections")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $medias = [];
@@ -72,7 +72,7 @@ trait TagsHaveMedias
     public function addMedia(Media $media)
     {
         $this->linkMedia($media);
-        $media->linkTag($this);
+        $media->linkSection($this);
 
         return $this;
     }
@@ -85,7 +85,7 @@ trait TagsHaveMedias
     public function removeMedia(Media $media)
     {
         $this->unlinkMedia($media);
-        $media->unlinkTag($this);
+        $media->unlinkSection($this);
 
         return $this;
     }

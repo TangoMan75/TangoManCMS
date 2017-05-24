@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// tag
+use AppBundle\Entity\Tag;
+// page
 use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -10,18 +13,19 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * This trait defines the INVERSE side of a ManyToMany relationship.
  *
- * 1. Requires `Page` entity to implement `$tags` property with `ManyToMany` and `inversedBy="tags"` annotation.
- * 2. (Optional) Entities constructors must initialize ArrayCollection object
+ * 1. Requires `Page` entity to implement `$tags` property with `ManyToMany` and `inversedBy="pages"` annotation.
+ * 2. Requires `Page` entity to implement `linkTag` and `unlinkTag` methods.
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->pages = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait TagsHavePages
 {
     /**
      * @var array|Page[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags")
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages = [];
@@ -39,7 +43,7 @@ trait TagsHavePages
     }
 
     /**
-     * @return array|Page[]|ArrayCollection
+     * @return array|Page[]|ArrayCollection $pages
      */
     public function getPages()
     {
@@ -75,16 +79,6 @@ trait TagsHavePages
 
     /**
      * @param Page $page
-     */
-    public function linkPage(Page $page)
-    {
-        if (!$this->pages->contains($page)) {
-            $this->pages[] = $page;
-        }
-    }
-
-    /**
-     * @param Page $page
      *
      * @return $this
      */
@@ -94,6 +88,16 @@ trait TagsHavePages
         $page->unlinkTag($this);
 
         return $this;
+    }
+
+    /**
+     * @param Page $page
+     */
+    public function linkPage(Page $page)
+    {
+        if (!$this->pages->contains($page)) {
+            $this->pages[] = $page;
+        }
     }
 
     /**

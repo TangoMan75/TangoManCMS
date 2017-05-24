@@ -2,26 +2,31 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// post
 use AppBundle\Entity\Post;
+// section
 use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Trait PostHasSections
- * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires `Section` entity to implement `$posts` property with `ManyToMany` and `mappedBy="posts"` annotation.
+ * Trait PostsHaveSections
+ *
+ * This trait defines the INVERSE side of a ManyToMany relationship.
+ *
+ * 1. Requires `Section` entity to implement `$posts` property with `ManyToMany` and `inversedBy="sections"` annotation.
  * 2. Requires `Section` entity to implement `linkPost` and `unlinkPost` methods.
- * 3. (Optional) entity constructor must initialize ArrayCollection object
+ * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity\Relationships
  */
-trait PostHasSections
+trait PostsHaveSections
 {
     /**
      * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="posts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts")
+     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];
 
@@ -38,7 +43,7 @@ trait PostHasSections
     }
 
     /**
-     * @return array|Section[]|ArrayCollection
+     * @return array|Section[]|ArrayCollection $sections
      */
     public function getSections()
     {

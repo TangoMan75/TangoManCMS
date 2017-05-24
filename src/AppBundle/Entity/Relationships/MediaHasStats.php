@@ -2,21 +2,24 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// stat
 use AppBundle\Entity\Stat;
+// media
+use AppBundle\Entity\Media;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait MediaHasStats
  *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 
+ *
  * 1. Requires `Stat` entity to implement `$media` property with `ManyToOne` and `inversedBy="stats"` annotation.
  * 2. Requires `Stat` entity to implement linkMedia(Media $media) public method.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->stats = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait MediaHasStats
 {
@@ -50,6 +53,20 @@ trait MediaHasStats
     /**
      * @param Stat $stat
      *
+     * @return bool
+     */
+    public function hasStat(Stat $stat)
+    {
+        if ($this->stats->contains($stat)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * @param Stat $stat
+     *
      * @return $this
      */
     public function addStat(Stat $stat)
@@ -58,16 +75,6 @@ trait MediaHasStats
         $stat->linkMedia($this);
 
         return $this;
-    }
-
-    /**
-     * @param Stat $stat
-     */
-    public function linkStat(Stat $stat)
-    {
-        if (!$this->stats->contains($stat)) {
-            $this->stats[] = $stat;
-        }
     }
 
     /**
@@ -81,6 +88,16 @@ trait MediaHasStats
         $stat->unlinkMedia($this);
 
         return $this;
+    }
+
+    /**
+     * @param Stat $stat
+     */
+    public function linkStat(Stat $stat)
+    {
+        if (!$this->stats->contains($stat)) {
+            $this->stats[] = $stat;
+        }
     }
 
     /**

@@ -2,6 +2,9 @@
 
 namespace AppBundle\Entity\Relationships;
 
+// stat
+use AppBundle\Entity\Stat;
+// page
 use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -9,14 +12,14 @@ use Doctrine\Common\Collections\ArrayCollection;
  * Trait StatHasPages
  *
  * This trait defines the INVERSE side of a OneToMany relationship.
- * 
+ *
  * 1. Requires `Page` entity to implement `$stat` property with `ManyToOne` and `inversedBy="pages"` annotation.
  * 2. Requires `Page` entity to implement linkStat(Stat $stat) public method.
  * 3. (Optional) Entity constructor must initialize ArrayCollection object
  *     $this->pages = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Entity\Traits
+ * @package AppBundle\Entity\Relationships
  */
 trait StatHasPages
 {
@@ -76,16 +79,6 @@ trait StatHasPages
 
     /**
      * @param Page $page
-     */
-    public function linkPage(Page $page)
-    {
-        if (!$this->pages->contains($page)) {
-            $this->pages[] = $page;
-        }
-    }
-
-    /**
-     * @param Page $page
      *
      * @return $this
      */
@@ -95,6 +88,16 @@ trait StatHasPages
         $page->unlinkStat($this);
 
         return $this;
+    }
+
+    /**
+     * @param Page $page
+     */
+    public function linkPage(Page $page)
+    {
+        if ($this->pages->contains($page)) {
+            $this->pages[] = $page;
+        }
     }
 
     /**
