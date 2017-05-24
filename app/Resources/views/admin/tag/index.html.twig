@@ -138,7 +138,7 @@
                             'order' : 'items',
                             'way'   : app.request.query.get('order') == 'items'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Items
+                            Objets
                         </a>
                     </th>
 
@@ -153,19 +153,23 @@
                         <td>{{ tag.name }}</td>
                         <td>{{ tag.type }}</td>
                         <td><span class="label label-{{ tag.label }}">{{ tag.label }}</span></td>
-                        <td>
-                            <span class="label label-success">
-                                {{ tag.items|length }}
-                            </span>
-                        </td>
                         {#<td>#}
-                            {#{% for item in tag.items %}#}
-                                {#<span class="label label-default">#}
-                                    {#{{ item.name }}#}
-                                {#</span>#}
-                                {#<br/>#}
-                            {#{% endfor %}#}
+                        {#<span class="label label-success">#}
+                        {#{{ tag.items|length }}#}
+                        {#</span>#}
                         {#</td>#}
+                        <td>
+                            {% if tag.items|length > 1 %}
+                                <span class="label label-success">{{ tag.items|length }} objets</span><br/>
+                            {% elseif tag.items|length < 1 %}
+                                <span class="label label-danger">Aucun objet</span>
+                            {% endif %}
+                            {% for item in tag.items %}
+                                <span class="label label-primary">
+                                    {{ item.title|truncate(20) }}
+                                </span><br/>
+                            {% endfor %}
+                        </td>
                         <td>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri|callback }) }}"

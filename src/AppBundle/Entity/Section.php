@@ -19,7 +19,7 @@ class Section
 {
     use Relationships\SectionHasPages;
     use Relationships\SectionHasPosts;
-    use Relationships\Taggable;
+    use Relationships\SectionsHaveTags;
 
     use Traits\HasSummary;
     use Traits\HasTitle;

@@ -17,9 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Page
 {
-    use Relationships\HasStat;
     use Relationships\PageHasSections;
-    use Relationships\Taggable;
+    use Relationships\PageHasStats;
+    use Relationships\PagesHaveTags;
 
     use Traits\HasSummary;
     use Traits\HasTitle;

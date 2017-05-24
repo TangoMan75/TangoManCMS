@@ -19,11 +19,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Post
 {
-    use Relationships\HasStat;
     use Relationships\PostHasComments;
     use Relationships\PostHasSections;
+    use Relationships\PostHasStats;
     use Relationships\PostHasUser;
-    use Relationships\Taggable;
+    use Relationships\PostsHaveTags;
 
     use Traits\Categorized;
     use Traits\Embeddable;

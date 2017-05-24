@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form\Admin;
 
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -47,7 +49,23 @@ class AdminEditTagType extends AbstractType
                         'danger'  => 'danger',
                     ],
                 ]
-            );
+            )
+            ->add(
+                'posts',
+                EntityType::class,
+                [
+                    'label'         => 'Articles',
+                    'class'         => 'AppBundle:Post',
+                    // 'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('p');
+                    },
+                ]
+            )
+        ;
     }
 
     /**

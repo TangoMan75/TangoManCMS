@@ -9,11 +9,11 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Media
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
  *
  * @ORM\HasLifecycleCallbacks
  * @ORM\Table(name="media")
  * @Vich\Uploadable
- * @ORM\Entity(repositoryClass="AppBundle\Repository\MediaRepository")
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -21,8 +21,9 @@ class Media
 {
     use Relationships\MediaHasComments;
     use Relationships\MediaHasSections;
+    use Relationships\MediaHasStats;
     use Relationships\MediaHasUser;
-    use Relationships\Taggable;
+    use Relationships\MediasHaveTags;
 
     use Traits\Categorized;
     use Traits\Embeddable;

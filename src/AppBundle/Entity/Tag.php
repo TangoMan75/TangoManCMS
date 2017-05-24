@@ -20,7 +20,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Tag
 {
-    use Relationships\TagHasItems;
+    use Relationships\TagsHaveMedias;
+    use Relationships\TagsHavePages;
+    use Relationships\TagsHavePosts;
+    use Relationships\TagsHaveSections;
 
     use Traits\HasName;
     use Traits\HasType;

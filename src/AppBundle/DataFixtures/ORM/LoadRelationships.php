@@ -76,61 +76,76 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
             $post->addComment($comments[mt_rand(1, count($comments) - 1)]);
             $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
 
-            // shuffle($tags);
-            // for ($i = 0; $i < mt_rand(0, 4); $i++){
-            //     $post->addTag($tags[$i]);
-            // }
+//             shuffle($tags);
+//             for ($i = 0; $i < mt_rand(0, 4); $i++){
+//                 $post->addTag($tags[$i]);
+//             }
 
-            // if ($j < count($stats)) {
-            //     $post->setStat($stats[$j++]);
-            // }
+             if ($j < count($stats)) {
+                 $post->addStat($stats[$j++]);
+             }
 
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
             $em->persist($post);
         }
         $em->flush();
 
-        // // Privileges
-        // foreach ($privileges as $privilege) {
-        //     $privilege->addRole($roles[mt_rand(1, count($roles) - 1)]);
-        //     $em->persist($privilege);
-        // }
-        // $em->flush();
+//         // Privileges
+//         foreach ($privileges as $privilege) {
+//             $privilege->addRole($roles[mt_rand(1, count($roles) - 1)]);
+//             $em->persist($privilege);
+//         }
+//         $em->flush();
+//
+//         // Roles
+//         foreach ($roles as $role) {
+//             $role->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
+//             // $role->addUser($users[mt_rand(1, count($users) - 1)]);
+//             $em->persist($role);
+//         }
+//         $em->flush();
 
-        // // Roles
-        // foreach ($roles as $role) {
-        //     $role->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
-        //     // $role->addUser($users[mt_rand(1, count($users) - 1)]);
-        //     $em->persist($role);
-        // }
-        // $em->flush();
+//         // Stat->Post
+//         foreach ($stats as $stat) {
+//             $stat->addPost($posts[mt_rand(1, count($posts) - 1)]);
+//             $stat->addUser($users[mt_rand(1, count($users) - 1)]);
+//             $em->persist($stat);
+//         }
+//         $em->flush();
+//
+//         // Stat->Media
+//         foreach ($stats as $stat) {
+//             $stat->addMedia($medias[mt_rand(1, count($medias) - 1)]);
+//             $stat->addUser($users[mt_rand(1, count($users) - 1)]);
+//             $em->persist($stat);
+//         }
+//         $em->flush();
+//
+//         // Stat->Page
+//         foreach ($stats as $stat) {
+//             $stat->addPage($pages[mt_rand(1, count($pages) - 1)]);
+//             $stat->addUser($users[mt_rand(1, count($users) - 1)]);
+//             $em->persist($stat);
+//         }
+//         $em->flush();
 
-         // Stat
-         foreach ($stats as $stat) {
-             $stat->addLead($pages[mt_rand(1, count($pages) - 1)]);
-             $stat->addLead($posts[mt_rand(1, count($posts) - 1)]);
-             $stat->addLead($users[mt_rand(1, count($users) - 1)]);
-             $em->persist($stat);
-         }
-         $em->flush();
-
-        // // Sections
-        // foreach ($sections as $section) {
-        //     $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
-        //     $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
-        //     // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
-        //     $em->persist($section);
-        // }
-        // $em->flush();
-
-        // // Tags
-        // foreach ($tags as $tag) {
-        //     $tag->addItem($pages[mt_rand(1, count($pages) - 1)]);
-        //     $tag->addItem($posts[mt_rand(1, count($posts) - 1)]);
-        //     $tag->addItem($sections[mt_rand(1, count($sections) - 1)]);
-        //     $em->persist($tag);
-        // }
-        // $em->flush();
+//         // Sections
+//         foreach ($sections as $section) {
+//             $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
+//             $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
+//             // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
+//             $em->persist($section);
+//         }
+//         $em->flush();
+//
+//         // Tags
+//         foreach ($tags as $tag) {
+//             $tag->addItem($pages[mt_rand(1, count($pages) - 1)]);
+//             $tag->addItem($posts[mt_rand(1, count($posts) - 1)]);
+//             $tag->addItem($sections[mt_rand(1, count($sections) - 1)]);
+//             $em->persist($tag);
+//         }
+//         $em->flush();
 
         // Users
         foreach ($users as $user) {

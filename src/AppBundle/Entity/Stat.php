@@ -15,7 +15,10 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Stat
 {
-    use Relationships\StatHasItems;
+    use Relationships\StatHasMedias;
+    use Relationships\StatHasPages;
+    use Relationships\StatHasPosts;
+    use Relationships\StatHasUsers;
 
     /**
      * @var int
