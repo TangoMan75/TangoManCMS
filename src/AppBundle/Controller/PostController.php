@@ -316,13 +316,43 @@ class PostController extends Controller
             // Links vote, user & posts
             $vote->setUser($user);
             $vote->setPost($post);
-//            $post->setVote($vote);
-//            $user->setVote($vote);
             $vote->setThumbUp();
 
             $em->persist($vote);
-//        $em->persist($post);
-//        $em->persist($user);
+            $em->flush();
+        }
+
+        // User is redirected to referrer page
+        return $this->redirect($request->get('callback'));
+    }
+
+    /**
+     * Adds one upvote.
+     * @Route("/thumbdown/{slug}", requirements={"slug": "[\w-]+"})
+     */
+    public function thumbDownAction(Request $request, $slug)
+    {
+        // User must log in
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
+        $em = $this->get('doctrine')->getManager();
+        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
+        $user = $this->getUser();
+        $vote = $em->getRepository('AppBundle:Vote')->findOneBy(['user' => $user, 'post' => $post]);
+
+        // When not found creates new vote
+        if (!$vote) {
+            $vote = new Vote();
+            // Links vote, user & posts
+            $vote->setUser($user);
+            $vote->setPost($post);
+            $vote->setThumbDown();
+
+            $em->persist($vote);
             $em->flush();
         }
 
