@@ -20,7 +20,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Media
 {
     use Relationships\MediaHasComments;
-    use Relationships\MediaHasStats;
     use Relationships\MediasHaveSections;
     use Relationships\MediasHaveTags;
     use Relationships\MediasHaveUser;
@@ -31,6 +30,7 @@ class Media
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
+    use Traits\HasViews;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Timestampable;
@@ -55,7 +55,7 @@ class Media
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->stats = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     /**

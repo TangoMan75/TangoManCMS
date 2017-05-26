@@ -23,7 +23,7 @@ class User implements UserInterface
 {
     use Relationships\UserHasComments;
     use Relationships\UserHasPosts;
-    use Relationships\UserHasStats;
+    use Relationships\UserHasVotes;
 
     use Traits\HasSimpleRoles;
     use Traits\Sluggable;

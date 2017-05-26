@@ -216,11 +216,7 @@
                         </td>
                         <td>
                             <span class="label label-success">
-                                {% if page.stat is defined %}
-                                    {% if page.stat.views %}{{ page.stat.views }}{% else %}0{% endif %}
-                                {% else %}
-                                    0
-                                {% endif %}
+                                {% if page.views %}{{ page.views }}{% else %}0{% endif %}
                             </span>
                         </td>
                         <td>{{ page.created|date('d/m/Y H:i:s') }}</td>

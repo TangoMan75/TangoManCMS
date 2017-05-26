@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LoadVideos
+ * Class LoadLinks
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\DataFixtures\ORM

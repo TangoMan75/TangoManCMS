@@ -62,25 +62,17 @@
                     <span class="btn btn-success btn-sm">
                         Vues
                         <span class="badge">
-                            {% if post.stat is defined %}
-                                {% if post.stat.views %}{{ post.stat.views }}{% else %}0{% endif %}
-                            {% else %}
-                                0
-                            {% endif %}
+                            {% if post.views %}{{ post.views }}{% else %}0{% endif %}
                         </span>
                     </span>
                 </div>
 
                 <div class="comments col-xs-12 col-sm-3">
-                    <a href="{{ path('app_post_like', {'slug': post.slug, 'callback': callback}) }}"
+                    <a href="{{ path('app_post_thumbup', {'slug': post.slug, 'callback': callback}) }}"
                        class="btn btn-danger btn-sm">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         <span class="badge">
-                            {% if post.stat is defined %}
-                                {% if post.stat.likes %}{{ post.stat.likes }}{% else %}0{% endif %}
-                            {% else %}
-                                0
-                            {% endif %}
+                            {% if post.votes is defined %}{{ post.votes|length }}{% else %}0{% endif %}
                         </span>
                     </a>
                 </div>

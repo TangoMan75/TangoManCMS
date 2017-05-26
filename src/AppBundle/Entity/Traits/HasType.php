@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity\Traits;
 
-use Doctrine\Common\Collections\ArrayCollection;
-
 /**
  * Trait HasType
  *

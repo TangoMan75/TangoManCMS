@@ -18,11 +18,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Page
 {
     use Relationships\PagesHaveSections;
-    use Relationships\PageHasStats;
     use Relationships\PagesHaveTags;
 
     use Traits\HasSummary;
     use Traits\HasTitle;
+    use Traits\HasViews;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Timestampable;

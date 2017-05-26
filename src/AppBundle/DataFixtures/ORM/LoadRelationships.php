@@ -44,5 +44,24 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
      */
     public function load(ObjectManager $em)
     {
+        // findBy seems to be the only working method in fixtures
+        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        $votes = $em->getRepository('AppBundle:Vote')->findAll();
+
+        // Posts->Users
+        foreach ($posts as $post) {
+            $post->setUser($users[mt_rand(1, count($users) - 1)]);
+            $em->persist($post);
+        }
+        $em->flush();
+
+         // Votes->Posts
+         foreach ($votes as $vote) {
+             $vote->setUser($users[mt_rand(1, count($users) - 1)]);
+             $vote->setItem($posts[mt_rand(1, count($posts) - 1)]);
+             $em->persist($vote);
+         }
+         $em->flush();
     }
 }

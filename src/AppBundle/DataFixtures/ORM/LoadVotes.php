@@ -2,7 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Stat;
+use AppBundle\Entity\Vote;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -10,12 +10,12 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LoadStat
+ * Class LoadVotes
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadStats implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadVotes implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -43,17 +43,15 @@ class LoadStats implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
-        for ($i = 0; $i < 25; $i++) {
-            $stat = new Stat();
-            $stat
-                ->setDislikes(mt_rand(0, 100))
-                ->setLikes(mt_rand(0, 100))
-                ->setStars(mt_rand(0, 5))
-                ->setViews(mt_rand(0, 100));
+        // for ($i = 0; $i < 25; $i++) {
+        //     $vote = new Vote();
+        //     $vote
+        //         ->setThumbUp()
+        //         ->setStars(mt_rand(0, 5));
 
-            $em->persist($stat);
-        }
+        //     $em->persist($vote);
+        // }
 
-        $em->flush();
+        // $em->flush();
     }
 }

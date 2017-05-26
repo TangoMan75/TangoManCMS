@@ -4,8 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
-use AppBundle\Entity\Stat;
+use AppBundle\Entity\Vote;
 use AppBundle\Entity\Tag;
+use AppBundle\Entity\User;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\EditPostType;
 use AppBundle\Form\NewPostType;
@@ -127,7 +128,9 @@ class PostController extends Controller
             throw $this->createNotFoundException('Cet article n\'existe pas.');
         }
 
-        // $this->addView($post);
+        $post->addView();
+        $em->persist($post);
+        $em->flush();
 
         $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
             $post,
@@ -291,73 +294,39 @@ class PostController extends Controller
 
     /**
      * Adds one upvote.
-     * @Route("/like/{slug}", requirements={"slug": "[\w-]+"})
+     * @Route("/thumbup/{slug}", requirements={"slug": "[\w-]+"})
      */
-    public function likeAction(Request $request, $slug)
+    public function thumbUpAction(Request $request, $slug)
     {
+        // User must log in
+        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
+
+            return $this->redirectToRoute('app_login');
+        }
+
         $em = $this->get('doctrine')->getManager();
         $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
         $user = $this->getUser();
-        $stat = $post->getStat();
+        $vote = $em->getRepository('AppBundle:Vote')->findOneBy(['user' => $user, 'post' => $post]);
 
-        // When not found checks if user has stat
-        if (!$stat) {
-            $stat = $user->getStat();
-        }
+        // When not found creates new vote
+        if (!$vote) {
+            $vote = new Vote();
+            // Links vote, user & posts
+            $vote->setUser($user);
+            $vote->setPost($post);
+//            $post->setVote($vote);
+//            $user->setVote($vote);
+            $vote->setThumbUp();
 
-        // When not found creates new stat
-        if (!$stat) {
-            $stat = new Stat();
-            // Links stat, user & posts
-            $stat->addLead($post);
-            $stat->addLead($user);
-//            $post->setStat($stat);
-//            $user->setStat($stat);
-        }
-
-        $stat->addLike();
-
-        $em->persist($stat);
+            $em->persist($vote);
 //        $em->persist($post);
 //        $em->persist($user);
-        $em->flush();
-
-//        dump($user);
-//        dump($post);
-//        dump($stat);
-//
-//        dump($user->getStat());
-//        dump($post->getStat());
-//        dump($stat->getPosts());
-//        dump($stat->getUsers());
-//        die();
+            $em->flush();
+        }
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));
-    }
-
-    /**
-     * @param Post $post
-     */
-    public function addView(Post $post)
-    {
-        $em = $this->get('doctrine')->getManager();
-
-        // Get post stat
-        $stat = $post->getStat();
-
-        // When not found creates new stat object
-        if (!$stat) {
-            $stat = new Stat();
-
-            // Links stat & posts
-            // $stat->addPost($post);
-            $post->setStat($stat);
-        }
-
-        $stat->addView();
-        $em->persist($stat);
-        $em->persist($post);
-        $em->flush();
     }
 }

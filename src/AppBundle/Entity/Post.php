@@ -20,10 +20,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 class Post
 {
     use Relationships\PostHasComments;
-    use Relationships\PostHasStats;
     use Relationships\PostsHaveSections;
     use Relationships\PostsHaveTags;
     use Relationships\PostsHaveUser;
+    use Relationships\PostHasVotes;
 
     use Traits\Categorized;
     use Traits\Embeddable;
@@ -31,6 +31,7 @@ class Post
     use Traits\HasText;
     use Traits\HasTitle;
     use Traits\HasType;
+    use Traits\HasViews;
     use Traits\Publishable;
     use Traits\Sluggable;
     use Traits\Timestampable;
@@ -55,7 +56,7 @@ class Post
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->stats = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     /**
