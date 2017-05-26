@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Medias{% endblock %}
+{% block title %}{{ parent() }} | Articles{% endblock %}
 
 {% block admin %}
     <header>
@@ -15,28 +15,12 @@
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputId">Id</label>
+                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
                         <div class="col-sm-8">
-                            <input type="number" name="id" id="inputId" class="form-control"
-                                   value="{{ app.request.get('id') }}"/>
+                            <input type="text" name="title" id="inputTitle" class="form-control"
+                                   value="{{ app.request.get('title') }}"/>
                         </div>
                     </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputSlug">Slug</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="slug" id="inputSlug" class="form-control"
-                                   value="{{ app.request.get('slug') }}"/>
-                        </div>
-                    </div>
-
-                    {#<div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">#}
-                    {#<label class="control-label col-sm-4" for="inputCategory">Category</label>#}
-                    {#<div class="col-sm-8">#}
-                    {#<input type="text" name="type" id="inputCategory" class="form-control"#}
-                    {#value="{{ app.request.get('category') }}"/>#}
-                    {#</div>#}
-                    {#</div>#}
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="inputLink">Lien</label>
@@ -47,10 +31,10 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputTitle">Nom</label>
+                        <label class="control-label col-sm-4" for="inputCategory">Type</label>
                         <div class="col-sm-8">
-                            <input type="text" name="title" id="inputTitle" class="form-control"
-                                   value="{{ app.request.get('title') }}"/>
+                            <input type="text" name="type" id="inputCategory" class="form-control"
+                                   value="{{ app.request.get('category') }}"/>
                         </div>
                     </div>
 
@@ -62,6 +46,7 @@
                         </div>
                     </div>
 
+
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="inputUser">Auteur</label>
                         <div class="col-sm-8">
@@ -71,7 +56,7 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputPage">Page</label>
+                        <label class="control-label col-sm-4" for="inputPage">Section</label>
                         <div class="col-sm-8">
                             <input type="text" name="s_page" id="inputPage" class="form-control"
                                    value="{{ app.request.get('s_page') }}"/>
@@ -87,9 +72,9 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="selectStatus">Publication</label>
+                        <label class="control-label col-sm-4" for="selectPublished">Publication</label>
                         <div class="col-sm-8">
-                            <select name="published" id="selectStatus" class="form-control">
+                            <select name="published" id="selectPublished" class="form-control">
                                 <option value="">Tous</option>
                                 <option value="true"
                                         {% if app.request.get('published') == "true" %}selected{% endif %}>
@@ -125,26 +110,6 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'id',
-                            'way'   : app.request.query.get('order') == 'id'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Id
-                        </a>
-                    </th>
-
-                    <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'slug',
-                            'way'   : app.request.query.get('order') == 'slug'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Slug
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'image' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -155,43 +120,23 @@
                         </a>
                     </th>
 
-                    {#<th class="{{ app.request.query.get('order') == 'categories' ? app.request.query.get('way', 'ASC') }}">#}
-                    {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({#}
-                    {#'page'  : 1,#}
-                    {#'order' : 'categories',#}
-                    {#'way'   : app.request.query.get('order') == 'categories'#}
-                    {#and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">#}
-                    {#Type#}
-                    {#</a>#}
-                    {#</th>#}
-
-                    <th class="{{ app.request.query.get('order') == 'link' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'link',
-                            'way'   : app.request.query.get('order') == 'link'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Lien
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'title',
                             'way'   : app.request.query.get('order') == 'title'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Nom
+                            Titre
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'link' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'text',
-                            'way'   : app.request.query.get('order') == 'text'
+                            'order' : 'link',
+                            'way'   : app.request.query.get('order') == 'link'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Description
+                            Lien
                         </a>
                     </th>
 
@@ -205,13 +150,43 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'page' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'page',
-                            'way'   : app.request.query.get('order') == 'page'
+                            'order' : 'text',
+                            'way'   : app.request.query.get('order') == 'text'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Page
+                            Description
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'comments',
+                            'way'   : app.request.query.get('order') == 'comments'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Commentaires
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'views' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'views',
+                            'way'   : app.request.query.get('order') == 'views'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Vues
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'section' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'section',
+                            'way'   : app.request.query.get('order') == 'section'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Section
                         </a>
                     </th>
 
@@ -263,73 +238,76 @@
                     {% set media = media[0] %}
                     <tr>
                         <td>
-                            <a href="{{ path('app_media_show', { 'slug': media.slug }) }}">
-                                {{ media.id }}
-                            </a>
-                        </td>
-                        <td>{{ media.slug }}</td>
-                        <td>
-                            {% if media.category('youtube') or media.category('dailymotion') or media.category('vimeo') or media.category('argus360') %}
-                                <div class="cover"
-                                     style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Media' }}');">
-                                </div>
-                            {% else %}
-                                <div class="cover"
-                                     style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Media' }}');">
-                                </div>
-                            {% endif %}
-                        </td>
-                        {#<td>#}
-                        {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({'category' : media.categories})) }}"#}
-                        {#class="label label-primary">#}
-                        {#{{ media.categories }}#}
-                        {#</a>#}
-                        {#</td>#}
-                        <td>
-                            {% if media.link %}
-                                {% if media.category('pdf') or media.category('pptx') %}
-                                    <a href="{{ media.link }}" target="_blank">
-                                        {{ domain_name }}{{ media.link }}
-                                    </a>
-                                {% else %}
-                                    <a href="{{ media.link }}" target="_blank">
-                                        http:{{ media.link }}
-                                    </a>
+                            <div class="cover"
+                                    {% if media.imageFileName %}
+                                 style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                                {%  else %}
+                                    style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Image' }}');">
                                 {% endif %}
-                            {% endif %}
+                            </div>
                         </td>
+
                         <td>
                             <a href="{{ path('app_media_show', { 'slug': media.slug }) }}">
                                 {{ media.title }}
                             </a>
                         </td>
-                        <td>
-                            <div class="table-text">
-                                {{ media.text|striptags|truncate(255) }}
-                            </div>
-                        </td>
+
+                        <td>{{ media.link }}</td>
+
                         <td>
                             <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}">
                                 {{ media.user.username }}
                             </a>
                         </td>
+
                         <td>
-                            {% if media.page %}
-                                <a href="{{ path('app_page_show', { 'slug': media.page.slug }) }}">
-                                    {{ media.page.title|truncate(20) }}
-                                </a>
-                            {% endif %}
+                            <div class="table-text">
+                                {{ media.text|striptags|truncate(255) }}
+                            </div>
                         </td>
+
+                        <td>
+                            <span class="label label-success">
+                                {{ media.comments|length }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="label label-success">
+                                {% if media.views %}{{ media.views }}{% else %}0{% endif %}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if media.sections|length >1 %}
+                                <span class="label label-success">{{ media.sections|length }} sections</span><br/>
+                            {% endif %}
+                            {% for section in media.sections %}
+                                <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
+                                class="label label-primary">
+                                    {{ section.title|truncate(20) }}
+                                </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune section</span>
+                            {% endfor %}
+                        </td>
+
                         <td>
                             {% for tag in media.tags %}
                                 <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'tag' : tag.name})) }}"
                                    class="label label-{{ tag.type }}">
                                     {{ tag.name }}
                                 </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune étiquette</span>
                             {% endfor %}
                         </td>
+
                         <td>{{ media.created|date('d/m/Y H:i:s') }}</td>
+
                         <td>{{ media.modified|date('d/m/Y H:i:s') }}</td>
+
                         <td>
                             {% if media.published %}
                                 <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
@@ -340,11 +318,12 @@
                             {% else %}
                                 <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Publier ce média">
+                                   data-original-title="Publier cet article">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}
                         </td>
+
                         <td>
                             <a href="{{ path('app_admin_media_edit', { 'id': media.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
@@ -352,6 +331,7 @@
                                 Modifier
                             </a>
                         </td>
+
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ media.title }}"

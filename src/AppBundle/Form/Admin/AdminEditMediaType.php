@@ -108,7 +108,7 @@ class AdminEditMediaType extends AbstractType
     {
         $resolver->setDefaults(
             [
-                'data_class' => 'AppBundle\Entity\Media',
+                'data_class' => 'AppBundle\Entity\Post',
             ]
         );
     }

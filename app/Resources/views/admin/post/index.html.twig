@@ -15,10 +15,10 @@
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputId">Id</label>
+                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
                         <div class="col-sm-8">
-                            <input type="number" name="id" id="inputId" class="form-control"
-                                   value="{{ app.request.get('id') }}"/>
+                            <input type="text" name="title" id="inputTitle" class="form-control"
+                                   value="{{ app.request.get('title') }}"/>
                         </div>
                     </div>
 
@@ -31,10 +31,10 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
+                        <label class="control-label col-sm-4" for="inputUser">Auteur</label>
                         <div class="col-sm-8">
-                            <input type="text" name="title" id="inputTitle" class="form-control"
-                                   value="{{ app.request.get('title') }}"/>
+                            <input type="text" name="user" id="inputUser" class="form-control"
+                                   value="{{ app.request.get('user') }}"/>
                         </div>
                     </div>
 
@@ -43,22 +43,6 @@
                         <div class="col-sm-8">
                             <input type="text" name="text" id="inputText" class="form-control"
                                    value="{{ app.request.get('text') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputType">Type</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="type" id="inputType" class="form-control"
-                                   value="{{ app.request.get('type') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputUser">Auteur</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="user" id="inputUser" class="form-control"
-                                   value="{{ app.request.get('user') }}"/>
                         </div>
                     </div>
 
@@ -117,26 +101,6 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'id',
-                            'way'   : app.request.query.get('order') == 'id'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Id
-                        </a>
-                    </th>
-
-                    <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'slug',
-                            'way'   : app.request.query.get('order') == 'slug'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Slug
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'image' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -157,23 +121,13 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'text',
-                            'way'   : app.request.query.get('order') == 'text'
+                            'order' : 'slug',
+                            'way'   : app.request.query.get('order') == 'slug'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Contenu
-                        </a>
-                    </th>
-
-                    <th class="{{ app.request.query.get('order') == 'type' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'type',
-                            'way'   : app.request.query.get('order') == 'type'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Type
+                            Slug
                         </a>
                     </th>
 
@@ -187,13 +141,13 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'section' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'section',
-                            'way'   : app.request.query.get('order') == 'section'
+                            'order' : 'text',
+                            'way'   : app.request.query.get('order') == 'text'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Section
+                            Contenu
                         </a>
                     </th>
 
@@ -207,6 +161,26 @@
                         </a>
                     </th>
 
+                    <th class="{{ app.request.query.get('order') == 'views' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'views',
+                            'way'   : app.request.query.get('order') == 'views'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Vues
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'section' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'section',
+                            'way'   : app.request.query.get('order') == 'section'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Section
+                        </a>
+                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'tags' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -214,16 +188,6 @@
                             'way'   : app.request.query.get('order') == 'tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Étiquettes
-                        </a>
-                    </th>
-
-                    <th class="{{ app.request.query.get('order') == 'hits' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'hits',
-                            'way'   : app.request.query.get('order') == 'hits'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Vues
                         </a>
                     </th>
 
@@ -265,41 +229,47 @@
                     {% set post = post[0] %}
                     <tr>
                         <td>
-                            <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
-                                {{ post.id }}
-                            </a>
-                        </td>
-                        <td>{{ post.slug }}</td>
-                        <td>
                             <div class="cover"
-                                 {% if post.imageFileName %}
+                                    {% if post.imageFileName %}
                                  style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
                                 {%  else %}
-                                 style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image : '//placehold.it/80?text=Image' }}');">
+                                    style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image : '//placehold.it/80?text=Image' }}');">
                                 {% endif %}
                             </div>
                         </td>
+
                         <td>
                             <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
                                 {{ post.title }}
                             </a>
                         </td>
-                        <td>
-                            <div class="table-text">
-                                {{ post.text|striptags|truncate(255) }}
-                            </div>
-                        </td>
-                        <td>
-                            <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'type' : post.type})) }}"
-                               class="label label-warning">
-                                {{ post.type }}
-                            </a>
-                        </td>
+
+                        <td>{{ post.slug }}</td>
+
                         <td>
                             <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
                                 {{ post.user.username }}
                             </a>
                         </td>
+
+                        <td>
+                            <div class="table-text">
+                                {{ post.text|striptags|truncate(255) }}
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="label label-success">
+                                {{ post.comments|length }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="label label-success">
+                                {% if post.views %}{{ post.views }}{% else %}0{% endif %}
+                            </span>
+                        </td>
+
                         <td>
                             {% if post.sections|length >1 %}
                                 <span class="label label-success">{{ post.sections|length }} sections</span><br/>
@@ -313,11 +283,7 @@
                                 <span class="label label-danger">Aucune section</span>
                             {% endfor %}
                         </td>
-                        <td>
-                            <span class="label label-success">
-                                {{ post.comments|length }}
-                            </span>
-                        </td>
+
                         <td>
                             {% for tag in post.tags %}
                                 <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'tag' : tag.name})) }}"
@@ -328,13 +294,11 @@
                                 <span class="label label-danger">Aucune étiquette</span>
                             {% endfor %}
                         </td>
-                        <td>
-                            <span class="label label-success">
-                                {% if post.views %}{{ post.views }}{% else %}0{% endif %}
-                            </span>
-                        </td>
+
                         <td>{{ post.created|date('d/m/Y H:i:s') }}</td>
+
                         <td>{{ post.modified|date('d/m/Y H:i:s') }}</td>
+
                         <td>
                             {% if post.published %}
                                 <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
@@ -350,6 +314,7 @@
                                 </a>
                             {% endif %}
                         </td>
+
                         <td>
                             <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
@@ -357,6 +322,7 @@
                                 Modifier
                             </a>
                         </td>
+
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ post.title }}"

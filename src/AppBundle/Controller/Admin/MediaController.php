@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller\Admin;
 
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\Admin\AdminEditMediaType;
 use AppBundle\Form\Admin\AdminNewMediaType;
@@ -27,7 +27,7 @@ class MediaController extends Controller
     {
         // Show searchable, sortable, paginated media list
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Media')->searchableOrderedPage($request->query);
+        $listMedia = $em->getRepository('AppBundle:Post')->searchableOrderedPage($request->query);
 
         return $this->render(
             'admin/media/index.html.twig',
@@ -43,20 +43,20 @@ class MediaController extends Controller
      */
     public function newAction(Request $request)
     {
-        $media = new Media();
-        $media->setUser($this->getUser());
-        $form = $this->createForm(AdminNewMediaType::class, $media);
+        $post = new Post();
+        $post->setUser($this->getUser());
+        $form = $this->createForm(AdminNewMediaType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists new media
             $em = $this->get('doctrine')->getManager();
-            $em->persist($media);
+            $em->persist($post);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été ajouté.'
+                'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été ajouté.'
             );
 
             // User is redirected to referrer page
@@ -75,20 +75,20 @@ class MediaController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Media $media)
+    public function editAction(Request $request, Post $post)
     {
-        $form = $this->createForm(AdminEditMediaType::class, $media);
+        $form = $this->createForm(AdminEditMediaType::class, $post);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Persists edited media
             $em = $this->get('doctrine')->getManager();
-            $em->persist($media);
+            $em->persist($post);
             $em->flush();
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été modifié.'
+                'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -100,7 +100,7 @@ class MediaController extends Controller
             [
                 'currentUser' => $this->getUser(),
                 'form'        => $form->createView(),
-                'media'       => $media,
+                'media'       => $post,
             ]
         );
     }
@@ -108,17 +108,17 @@ class MediaController extends Controller
     /**
      * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
      */
-    public function publishAction(Request $request, Media $media, $publish)
+    public function publishAction(Request $request, Post $post, $publish)
     {
-        $media->setPublished($publish);
+        $post->setPublished($publish);
         $em = $this->get('doctrine')->getManager();
-        $em->persist($media);
+        $em->persist($post);
         $em->flush();
 
         if ($publish) {
-            $message = 'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été publié.';
+            $message = 'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été publié.';
         } else {
-            $message = 'La publication du média <strong>&quot;'.$media.'&quot;</strong> a bien été annulée.';
+            $message = 'La publication du média <strong>&quot;'.$post.'&quot;</strong> a bien été annulée.';
         }
 
         // Send flash notification
@@ -135,17 +135,17 @@ class MediaController extends Controller
      * Finds and deletes a Media.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Media $media)
+    public function deleteAction(Request $request, Post $post)
     {
         // Deletes specified media
         $em = $this->get('doctrine')->getManager();
-        $em->remove($media);
+        $em->remove($post);
         $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le média <strong>&quot;'.$media.'&quot;</strong> a bien été supprimé.'
+            'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page
@@ -158,7 +158,7 @@ class MediaController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Media')->findAll();
+        $listMedia = $em->getRepository('AppBundle:Post')->findAll();
 
         return $this->render(
             'admin/media/export.html.twig',
@@ -175,7 +175,7 @@ class MediaController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Media')->findAllMedias();
+        $listMedia = $em->getRepository('AppBundle:Post')->findAllPosts();
         $response = json_encode($listMedia);
 
         return new Response(
@@ -241,7 +241,7 @@ class MediaController extends Controller
         if (is_file($file)) {
             // Load entities
             $em = $this->get('doctrine')->getManager();
-            $listMedia = $em->getRepository('AppBundle:Media');
+            $listMedia = $em->getRepository('AppBundle:Post');
             $tags = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
 
@@ -268,17 +268,17 @@ class MediaController extends Controller
                         $user = $this->getUser();
                     }
 
-                    $media = new Media();
-                    $media->setUser($user)
+                    $post = new Post();
+                    $post->setUser($user)
                         ->setTitle($import->media_title)
                         ->setSlug($import->media_slug)
                         ->addTag($tag)
                         ->setText($import->media_text);
 
-                    // $media->setCreated($import->media_created);
-                    // $media->setModified($import->media_modified);
+                    // $post->setCreated($import->media_created);
+                    // $post->setModified($import->media_modified);
 
-                    $em->persist($media);
+                    $em->persist($post);
                     $em->flush();
                 }
             }
