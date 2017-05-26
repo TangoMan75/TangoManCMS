@@ -57,7 +57,7 @@ trait PostHasComments
      */
     public function hasComment(Comment $comment)
     {
-        if ($this->comments->contains($comments)) {
+        if ($this->comments->contains($comment)) {
             return true;
         }
 
@@ -95,7 +95,7 @@ trait PostHasComments
      */
     public function linkComment(Comment $comment)
     {
-        if (!$this->comments->contains($comments)) {
+        if (!$this->comments->contains($comment)) {
             $this->comments[] = $comment;
         }
     }

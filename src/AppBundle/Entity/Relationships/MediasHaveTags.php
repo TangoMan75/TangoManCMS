@@ -56,7 +56,7 @@ trait MediasHaveTags
      */
     public function hasTag(Tag $tag)
     {
-        if ($this->tags->contains($tags)) {
+        if ($this->tags->contains($tag)) {
             return true;
         }
 
@@ -94,7 +94,7 @@ trait MediasHaveTags
      */
     public function linkTag(Tag $tag)
     {
-        if (!$this->tags->contains($tags)) {
+        if (!$this->tags->contains($tag)) {
             $this->tags[] = $tag;
         }
     }
