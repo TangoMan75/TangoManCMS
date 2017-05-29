@@ -14,10 +14,10 @@
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputId">Id</label>
+                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
                         <div class="col-sm-8">
-                            <input type="number" name="id" id="inputId" class="form-control"
-                                   value="{{ app.request.get('id') }}"/>
+                            <input type="text" name="title" id="inputTitle" class="form-control"
+                            value="{{ app.request.get('title') }}"/>
                         </div>
                     </div>
 
@@ -26,14 +26,6 @@
                         <div class="col-sm-8">
                             <input type="text" name="slug" id="inputSlug" class="form-control"
                                    value="{{ app.request.get('slug') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="title" id="inputTitle" class="form-control"
-                                   value="{{ app.request.get('title') }}"/>
                         </div>
                     </div>
 
@@ -85,13 +77,14 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
+
+                    <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
                             'section'  : 1,
-                            'order' : 'id',
-                            'way'   : app.request.query.get('order') == 'id'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Id
+                            'order' : 'title',
+                            'way'   : app.request.query.get('order') == 'title'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Titre
                         </a>
                     </th>
 
@@ -102,16 +95,6 @@
                             'way'   : app.request.query.get('order') == 'slug'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Slug
-                        </a>
-                    </th>
-
-                    <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
-                            'section'  : 1,
-                            'order' : 'title',
-                            'way'   : app.request.query.get('order') == 'title'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Titre
                         </a>
                     </th>
 
@@ -183,12 +166,13 @@
                     {% set section = section[0] %}
                     <tr>
                         <td>
-                            {{ section.id }}
-                        </td>
-                        <td>{{ section.slug }}</td>
-                        <td>
                             {{ section.title }}
                         </td>
+
+                        <td>
+                            {{ section.slug }}
+                        </td>
+
                         <td>
                             {% if section.pages|length > 1 %}
                                 <span class="label label-success">{{ section.pages|length }} pages</span><br/>
@@ -202,6 +186,7 @@
                                 <span class="label label-danger">Aucune page</span>
                             {% endfor %}
                         </td>
+
                         <td>
                             {% if section.posts|length > 1 %}
                                 <span class="label label-success">{{ section.posts|length }} articles</span><br/>
@@ -215,6 +200,7 @@
                                 <span class="label label-danger">Aucun article</span>
                             {% endfor %}
                         </td>
+
                         <td>
                             {% for tag in section.tags %}
                                 <a href="{{ path('app_admin_section_index', app.request.query.all|merge({'tag' : tag.name})) }}"
@@ -223,8 +209,15 @@
                                 </a><br/>
                             {% endfor %}
                         </td>
-                        <td>{{ section.created|date('d/m/Y H:i:s') }}</td>
-                        <td>{{ section.modified|date('d/m/Y H:i:s') }}</td>
+
+                        <td>
+                            {{ section.created|date('d/m/Y H:i:s') }}
+                        </td>
+
+                        <td>
+                            {{ section.modified|date('d/m/Y H:i:s') }}
+                        </td>
+
                         <td>
                             {% if section.published %}
                                 <a href="{{ path('app_admin_section_publish', { 'id': section.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
@@ -240,6 +233,7 @@
                                 </a>
                             {% endif %}
                         </td>
+
                         <td>
                             <a href="{{ path('app_admin_section_edit', { 'id': section.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
@@ -247,6 +241,7 @@
                                 Modifier
                             </a>
                         </td>
+
                         <td>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ section.title }}"
