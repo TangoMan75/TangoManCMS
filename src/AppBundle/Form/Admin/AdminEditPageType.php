@@ -14,7 +14,7 @@ class AdminEditPageType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
-     * @param array $options
+     * @param array                $options
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -37,15 +37,14 @@ class AdminEditPageType extends AbstractType
                 'tags',
                 EntityType::class,
                 [
-                    'label' => 'Étiquette',
-                    'class' => 'AppBundle:Tag',
-                    'empty_data' => null,
-                    'multiple' => true,
-                    'expanded' => true,
-                    'required' => false,
+                    'label'         => 'Étiquette',
+                    'class'         => 'AppBundle:Tag',
+                    'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => true,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('tag')
-                            ->join('tag.items', 'items');
+                        return $em->createQueryBuilder('t');
                     },
                 ]
             )
@@ -53,15 +52,16 @@ class AdminEditPageType extends AbstractType
                 'sections',
                 EntityType::class,
                 [
-                    'label' => 'Sections',
-                    'class' => 'AppBundle:Section',
-                    'empty_data' => null,
-                    'multiple' => true,
-                    'expanded' => false,
-                    'required' => false,
+                    'label'         => 'Sections',
+                    'class'         => 'AppBundle:Section',
+                    'by_reference'  => false,
+                    'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('section')
-                            ->orderBy('section.title');
+                        return $em->createQueryBuilder('s')
+                            ->orderBy('s.title');
                     },
                 ]
             )
@@ -69,7 +69,7 @@ class AdminEditPageType extends AbstractType
                 'published',
                 CheckboxType::class,
                 [
-                    'label' => 'Publier',
+                    'label'    => 'Publier',
                     'required' => false,
                 ]
             );

@@ -65,8 +65,9 @@ class EditMediaType extends AbstractType
                 EntityType::class,
                 [
                     'label'         => 'Page',
-                    'class'         => 'AppBundle:Page',
                     'placeholder'   => 'Selectionner une page',
+                    'class'         => 'AppBundle:Page',
+                    'by_reference'  => false,
                     'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
@@ -81,7 +82,7 @@ class EditMediaType extends AbstractType
                 'published',
                 CheckboxType::class,
                 [
-                    'label' => 'Publier',
+                    'label'    => 'Publier',
                     'required' => false,
                 ]
             )

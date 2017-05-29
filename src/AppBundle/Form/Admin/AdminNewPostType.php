@@ -44,15 +44,16 @@ class AdminNewPostType extends AbstractType
                 EntityType::class,
                 [
                     'label'         => 'Section',
-                    'class'         => 'AppBundle:Section',
                     'placeholder'   => 'Selectionner une section',
+                    'class'         => 'AppBundle:Section',
+                    'by_reference'  => false,
                     // 'empty_data'    => null,
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('section')
-                            ->orderBy('section.title');
+                        return $em->createQueryBuilder('s')
+                            ->orderBy('s.title');
                     },
                 ]
             )

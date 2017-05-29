@@ -56,8 +56,7 @@ class AdminNewUserType extends AbstractType
                 [
                     'label' => 'Mot de passe',
                 ]
-            )
-        ;
+            );
     }
 
     /**

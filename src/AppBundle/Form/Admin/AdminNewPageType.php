@@ -30,15 +30,15 @@ class AdminNewPageType extends AbstractType
                 'tags',
                 EntityType::class,
                 [
-                    'label' => 'Étiquette',
-                    'class' => 'AppBundle:Tag',
+                    'label'         => 'Étiquette',
+                    'class'         => 'AppBundle:Tag',
 //                    'empty_data' => null,
-                    'multiple' => true,
-                    'expanded' => true,
-                    'required' => false,
+                    'multiple'      => true,
+                    'expanded'      => true,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('tag')
-                            ->join('tag.items', 'items');
+                        return $em->createQueryBuilder('t')
+                            ->join('t.items', 'items');
                     },
                 ]
             )
@@ -46,15 +46,16 @@ class AdminNewPageType extends AbstractType
                 'sections',
                 EntityType::class,
                 [
-                    'label' => 'Sections',
-                    'class' => 'AppBundle:Section',
+                    'label'         => 'Sections',
+                    'class'         => 'AppBundle:Section',
+                    'by_reference'  => false,
 //                    'empty_data' => null,
-                    'multiple' => true,
-                    'expanded' => false,
-                    'required' => false,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('section')
-                            ->orderBy('section.title');
+                        return $em->createQueryBuilder('s')
+                            ->orderBy('s.title');
                     },
                 ]
             )

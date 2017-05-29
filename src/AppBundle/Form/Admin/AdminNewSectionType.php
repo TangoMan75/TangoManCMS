@@ -48,6 +48,7 @@ class AdminNewSectionType extends AbstractType
                 [
                     'label'         => 'Pages',
                     'class'         => 'AppBundle:Page',
+                    'by_reference'  => false,
                     // 'empty_data' => null,
                     'multiple'      => true,
                     'expanded'      => false,
@@ -64,6 +65,7 @@ class AdminNewSectionType extends AbstractType
                 [
                     'label'         => 'Articles',
                     'class'         => 'AppBundle:Post',
+                    'by_reference'  => false,
                     // 'empty_data' => null,
                     'multiple'      => true,
                     'expanded'      => false,

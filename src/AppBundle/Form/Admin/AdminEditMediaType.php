@@ -67,6 +67,7 @@ class AdminEditMediaType extends AbstractType
                     'label'         => 'Page',
                     'class'         => 'AppBundle:Page',
                     'placeholder'   => 'Selectionner une page',
+                    'by_reference'  => false,
                     'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
@@ -81,7 +82,7 @@ class AdminEditMediaType extends AbstractType
                 'published',
                 CheckboxType::class,
                 [
-                    'label' => 'Publier',
+                    'label'    => 'Publier',
                     'required' => false,
                 ]
             )

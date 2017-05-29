@@ -37,7 +37,7 @@ class ProfileType extends AbstractType
                 'bio',
                 TextareaType::Class,
                 [
-                    'label' => 'Votre biographie',
+                    'label'    => 'Votre biographie',
                     'required' => false,
                 ]
             );

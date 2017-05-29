@@ -44,8 +44,7 @@ class AdminEditSectionType extends AbstractType
                     'expanded'      => true,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('tag')
-                            ->join('tag.items', 'items');
+                        return $em->createQueryBuilder('t');
                     },
                 ]
             )
@@ -55,6 +54,7 @@ class AdminEditSectionType extends AbstractType
                 [
                     'label'         => 'Pages',
                     'class'         => 'AppBundle:Page',
+                    'by_reference'  => false,
                     // 'empty_data'    => null,
                     'multiple'      => true,
                     'expanded'      => false,
@@ -71,6 +71,7 @@ class AdminEditSectionType extends AbstractType
                 [
                     'label'         => 'Articles',
                     'class'         => 'AppBundle:Post',
+                    'by_reference'  => false,
                     // 'empty_data'    => null,
                     'multiple'      => true,
                     'expanded'      => false,

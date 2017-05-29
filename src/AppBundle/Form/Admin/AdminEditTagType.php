@@ -61,11 +61,27 @@ class AdminEditTagType extends AbstractType
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('p');
+                        return $em->createQueryBuilder('post')
+                            ->orderBy('page.title');
                     },
                 ]
             )
-        ;
+            ->add(
+                'pages',
+                EntityType::class,
+                [
+                    'label'         => 'Pages',
+                    'class'         => 'AppBundle:Page',
+                    // 'empty_data'    => null,
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('page')
+                            ->orderBy('page.title');
+                    },
+                ]
+            );
     }
 
     /**

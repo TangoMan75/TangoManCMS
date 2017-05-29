@@ -53,13 +53,14 @@ class AdminEditPostType extends AbstractType
                     'label'         => 'Section',
                     'class'         => 'AppBundle:Section',
                     'placeholder'   => 'Selectionner une section',
-                   // 'empty_data'    => null,
+                    'by_reference'  => false,
+                    // 'empty_data'    => null,
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('section')
-                            ->orderBy('section.title');
+                        return $em->createQueryBuilder('s')
+                            ->orderBy('s.title');
                     },
                 ]
             )
@@ -69,7 +70,7 @@ class AdminEditPostType extends AbstractType
                 [
                     'label'         => 'Étiquette',
                     'class'         => 'AppBundle:Tag',
-                   // 'empty_data'    => null,
+                    // 'empty_data'    => null,
                     'multiple'      => true,
                     'expanded'      => true,
                     'required'      => false,

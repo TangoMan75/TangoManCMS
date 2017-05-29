@@ -56,8 +56,7 @@ class AdminEditUserType extends AbstractType
                     'label'    => 'Biographie',
                     'required' => false,
                 ]
-            )
-        ;
+            );
     }
 
     /**
