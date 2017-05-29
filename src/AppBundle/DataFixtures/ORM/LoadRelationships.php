@@ -53,8 +53,35 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $users      = $em->getRepository('AppBundle:User')->findAll();
         $votes      = $em->getRepository('AppBundle:Vote')->findAll();
 
+        foreach ($pages as $page) {
+            shuffle($sections);
+            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+                $page->addSection($sections[$i]);
+            }
+
+            shuffle($tags);
+            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+                $page->addTag($tags[$i]);
+            }
+
+            $em->persist($page);
+        }
+        $em->flush();
+
+        foreach ($sections as $section) {
+
+            shuffle($tags);
+            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+                $section->addTag($tags[$i]);
+            }
+
+            $em->persist($section);
+        }
+        $em->flush();
+
         $j = 0;
         foreach ($posts as $post) {
+
             $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
 
             if ($j < count($comments)) {
@@ -76,17 +103,13 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         }
         $em->flush();
 
-        foreach ($pages as $page) {
-            $page->addSection($sections[mt_rand(1, count($sections) - 1)]);
-            $em->persist($page);
-        }
-        $em->flush();
-
         $j = 0;
         foreach ($votes as $vote) {
+
             if ($j < count($users)) {
                 $vote->setUser($users[$j++]);
             }
+
             $em->persist($vote);
         }
         $em->flush();
