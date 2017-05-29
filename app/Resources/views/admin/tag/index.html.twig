@@ -13,13 +13,6 @@
         <div class="jumbotron">
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <label class="control-label col-sm-4" for="inputId">Id</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="id" id="inputId" class="form-control"
-                                   value="{{ app.request.get('id') }}"/>
-                        </div>
-                    </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-3">
                         <label class="control-label col-sm-4" for="inputName">Nom</label>
@@ -92,16 +85,6 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'id',
-                            'way'   : app.request.query.get('order') == 'id'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Id
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'name' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -132,13 +115,34 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'items' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'items',
-                            'way'   : app.request.query.get('order') == 'items'
+                            'order' : 'posts',
+                            'way'   : app.request.query.get('order') == 'posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Objets
+                            Posts
+                        </a>
+                    </th>
+
+
+                    <th class="{{ app.request.query.get('order') == 'sections' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'sections',
+                            'way'   : app.request.query.get('order') == 'sections'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Sections
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'pages' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'pages',
+                            'way'   : app.request.query.get('order') == 'pages'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Pages
                         </a>
                     </th>
 
@@ -149,27 +153,61 @@
                 {% for tag in tags %}
                     {% set tag = tag[0] %}
                     <tr>
-                        <td>{{ tag.id }}</td>
-                        <td>{{ tag.name }}</td>
-                        <td>{{ tag.type }}</td>
-                        <td><span class="label label-{{ tag.label }}">{{ tag.label }}</span></td>
-                        {#<td>#}
-                        {#<span class="label label-success">#}
-                        {#{{ tag.items|length }}#}
-                        {#</span>#}
-                        {#</td>#}
                         <td>
-                            {% if tag.items|length > 1 %}
-                                <span class="label label-success">{{ tag.items|length }} objets</span><br/>
+                            {{ tag.name }}
+                        </td>
+
+                        <td>
+                            {{ tag.type }}
+                        </td>
+
+                        <td>
+                            <span class="label label-{{ tag.label }}">{{ tag.label }}</span>
+                        </td>
+
+                        <td>
+                            {% if tag.posts|length > 1 %}
+                                <span class="label label-success">{{ tag.posts|length }} posts</span><br/>
                             {% endif %}
-                            {% for item in tag.items %}
-                                <span class="label label-primary">
-                                    {{ item.title|truncate(20) }}
-                                </span><br/>
+                            {% for post in tag.posts %}
+                                <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
+                                   class="label label-primary">
+                                    {{ post.title|truncate(20) }}
+                                </a><br/>
                             {% else %}
-                                <span class="label label-danger">Aucun objet</span>
+                                <span class="label label-danger">Aucun post</span>
                             {% endfor %}
                         </td>
+
+
+                        <td>
+                            {% if tag.sections|length > 1 %}
+                                <span class="label label-success">{{ tag.sections|length }} sections</span><br/>
+                            {% endif %}
+                            {% for section in tag.sections %}
+                                <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
+                                   class="label label-primary">
+                                    {{ section.title|truncate(20) }}
+                                </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune section</span>
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% if tag.pages|length > 1 %}
+                                <span class="label label-success">{{ tag.pages|length }} pages</span><br/>
+                            {% endif %}
+                            {% for page in tag.pages %}
+                                <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
+                                   class="label label-primary">
+                                    {{ page.title|truncate(20) }}
+                                </a><br/>
+                            {% else %}
+                                <span class="label label-danger">Aucune page</span>
+                            {% endfor %}
+                        </td>
+
                         <td>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <a href="{{ path('app_admin_tag_edit', { 'id': tag.id, 'callback': app.request.uri|callback }) }}"
@@ -185,6 +223,7 @@
                                 </span>
                             {% endif %}
                         </td>
+
                         <td>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
@@ -201,6 +240,7 @@
                                 </span>
                             {% endif %}
                         </td>
+
                     </tr>
                 {% endfor %}
                 </tbody>
