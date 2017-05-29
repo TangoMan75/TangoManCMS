@@ -95,7 +95,8 @@ class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setLink($links[$i])
                 ->setPublished($i % 2)
                 ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                ->setTitle($faker->sentence(4, true));
+                ->setTitle($faker->sentence(4, true))
+                ->setViews(mt_rand(0, 100));
 
             $em->persist($post);
         }
