@@ -37,8 +37,7 @@ class AdminNewPageType extends AbstractType
                     'expanded'      => true,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('t')
-                            ->join('t.items', 'items');
+                        return $em->createQueryBuilder('t');
                     },
                 ]
             )

@@ -37,8 +37,7 @@ class AdminNewSectionType extends AbstractType
                     'expanded'      => true,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('tag')
-                            ->join('tag.items', 'items');
+                        return $em->createQueryBuilder('tag');
                     },
                 ]
             )

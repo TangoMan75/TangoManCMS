@@ -62,7 +62,7 @@ class AdminEditTagType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('post')
-                            ->orderBy('page.title');
+                            ->orderBy('post.title');
                     },
                 ]
             )
