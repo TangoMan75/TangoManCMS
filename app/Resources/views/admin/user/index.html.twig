@@ -137,26 +137,6 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'created',
-                                'way'   : app.request.query.get('order') == 'created'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Création
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'modified',
-                                'way'   : app.request.query.get('order') == 'modified'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Modification
-                            </a>
-                        </th>
-
                         <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
@@ -174,6 +154,26 @@
                                 'way'   : app.request.query.get('order') == 'comments'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Commentaires
+                            </a>
+                        </th>
+
+                        <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
+                                'order' : 'created',
+                                'way'   : app.request.query.get('order') == 'created'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                                Création
+                            </a>
+                        </th>
+
+                        <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
+                                'order' : 'modified',
+                                'way'   : app.request.query.get('order') == 'modified'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                                Modification
                             </a>
                         </th>
 
@@ -210,20 +210,17 @@
                                     {{ user.id }}
                                 </a>
                             </td>
+
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
                                     {{ user.username }}
                                 </a>
                             </td>
+
                             <td>
                                 {{ user.email }}
                             </td>
-                            <td>
-                                {{ user.created|date('d/m/Y H:i:s') }}
-                            </td>
-                            <td>
-                                {{ user.modified|date('d/m/Y H:i:s') }}
-                            </td>
+
                             <td>
                                 <a href="{{ path('app_admin_post_index', {'user' : user.username}) }}">
                                     <span class="label label-primary">
@@ -231,6 +228,7 @@
                                     </span>
                                 </a>
                             </td>
+
                             <td>
                                 <a href="{{ path('app_admin_comment_index', {'user' : user.username}) }}">
                                     <span class="label label-success">
@@ -238,6 +236,15 @@
                                     </span>
                                 </a>
                             </td>
+
+                            <td>
+                                {{ user.created|date('d/m/Y H:i:s') }}
+                            </td>
+
+                            <td>
+                                {{ user.modified|date('d/m/Y H:i:s') }}
+                            </td>
+
                             <td>
                                 {% if user.password %}
                                     <a href="{{ path('app_admin_user_index', app.request.query.all|merge({'password' : 'true'})) }}">
@@ -257,6 +264,7 @@
                                     </a>
                                 {% endif %}
                             </td>
+
                             <td>
                                 {% if 'ROLE_SUPER_ADMIN' in user.roles %}
                                     <span class="btn btn-danger btn-sm">
@@ -297,7 +305,9 @@
                                                 'remove'   : 'ROLE_SUPER_ADMIN',
                                                 'callback' : app.request.uri|callback
                                             })) }}"
-                                               class="btn btn-warning btn-xs">
+                                               class="btn btn-warning btn-xs"
+                                               data-toggle="tooltip" data-placement="top"
+                                               data-original-title="Réduire les droits utilisateur">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </a>
                                         {% endif %}
@@ -310,7 +320,9 @@
                                             'remove'   : 'ROLE_ADMIN',
                                             'callback' : app.request.uri|callback
                                         })) }}"
-                                           class="btn btn-warning btn-xs">
+                                           class="btn btn-warning btn-xs"
+                                           data-toggle="tooltip" data-placement="top"
+                                           data-original-title="Réduire les droits utilisateur">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
@@ -318,7 +330,9 @@
                                             'add'      : 'ROLE_SUPER_ADMIN',
                                             'callback' : app.request.uri|callback
                                         })) }}"
-                                           class="btn btn-success btn-xs">
+                                           class="btn btn-success btn-xs"
+                                           data-toggle="tooltip" data-placement="top"
+                                           data-original-title="Promouvoir l'utilisateur">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                     {% elseif 'ROLE_SUPER_USER' in user.roles %}
@@ -327,7 +341,9 @@
                                             'remove'   : 'ROLE_SUPER_USER',
                                             'callback' : app.request.uri|callback
                                         })) }}"
-                                           class="btn btn-warning btn-xs">
+                                           class="btn btn-warning btn-xs"
+                                           data-toggle="tooltip" data-placement="top"
+                                           data-original-title="Réduire les droits utilisateur">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
@@ -335,7 +351,9 @@
                                             'add'      : 'ROLE_ADMIN',
                                             'callback' : app.request.uri|callback
                                         })) }}"
-                                           class="btn btn-success btn-xs">
+                                           class="btn btn-success btn-xs"
+                                           data-toggle="tooltip" data-placement="top"
+                                           data-original-title="Promouvoir l'utilisateur">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                     {% else %}
@@ -347,13 +365,15 @@
                                             'add'      : 'ROLE_SUPER_USER',
                                             'callback' : app.request.uri|callback
                                         })) }}"
-                                           class="btn btn-success btn-xs">
+                                           class="btn btn-success btn-xs"
+                                           data-toggle="tooltip" data-placement="top"
+                                           data-original-title="Promouvoir l'utilisateur">
                                             <span class="glyphicon glyphicon-plus"></span>
                                         </a>
                                     {% endif %}
                                 {% endif %}
-
                             </td>
+
                             {#<td>#}
                             {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>#}
                             {#</td>#}
@@ -366,6 +386,7 @@
                             {#<span class="glyphicon glyphicon-ok text-success"></span>#}
                             {#</td>#}
                             {#{% endif %}#}
+
                             <td>
                                 <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-sm"
