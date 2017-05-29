@@ -103,6 +103,13 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         }
         $em->flush();
 
+        foreach ($comments as $comment) {
+            $comment->setPost($posts[mt_rand(1, count($posts) - 1)]);
+
+            $em->persist($comment);
+        }
+        $em->flush();
+
         $j = 0;
         foreach ($votes as $vote) {
 
