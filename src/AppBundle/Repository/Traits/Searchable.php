@@ -125,7 +125,7 @@ Trait Searchable
 
         if ($query->get('user')) {
             $dql->andWhere('user.username LIKE :user')
-                ->leftJoin($this->getTableName().'.user', 'user')
+//                ->leftJoin($this->getTableName().'.user', 'user')
                 ->setParameter(':user', '%'.$query->get('user').'%');
         }
 
