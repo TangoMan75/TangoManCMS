@@ -67,6 +67,12 @@ Trait Ordered
                 $dql->leftJoin($this->getTableName().'.posts', 'post');
                 break;
 
+            // Section count
+            case 'sections':
+                $dql->addSelect('COUNT(section.id) as orderParam');
+                $dql->leftJoin($this->getTableName().'.sections', 'section');
+                break;
+
             // Tag count
             case 'tags':
                 $dql->addSelect('COUNT(tags) as orderParam');

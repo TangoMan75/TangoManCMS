@@ -53,9 +53,9 @@ class PostRepository extends EntityRepository
         $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
-
         // Joins User
         $dql->leftJoin('post.user', 'user');
+        // Group
         $dql->groupBy('post.id');
 
         $firstResult = ($page - 1) * $limit;

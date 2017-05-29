@@ -17,6 +17,8 @@ use Doctrine\ORM\EntityRepository;
 class CommentRepository extends EntityRepository
 {
     use Traits\Countable;
+    use Traits\Ordered;
+    use Traits\Searchable;
     use Traits\SearchableSimpleArray;
     use Traits\TableName;
 
@@ -30,8 +32,6 @@ class CommentRepository extends EntityRepository
         // Sets default values
         $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'modified');
-        $way = $query->get('way', 'DESC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -45,30 +45,16 @@ class CommentRepository extends EntityRepository
             );
         }
 
+        // QueryBuilder
         $dql = $this->createQueryBuilder('comment');
-
         // Search
         $dql = $this->search($dql, $query);
-
-        // Order according to ownership count
-        switch ($order) {
-            case 'post':
-                $dql->addSelect('post.title as orderParam');
-                $dql->leftJoin('comment.post', 'post');
-                break;
-
-            case 'user':
-                $dql->addSelect('user.username as orderParam');
-                $dql->leftJoin('comment.user', 'user');
-                break;
-
-            default:
-                $dql->addSelect('comment.'.$order.' as orderParam');
-                break;
-        }
-
+        // Order
+        $dql = $this->order($dql, $query);
+        // Joins User
+        $dql->leftJoin('comment.user', 'user');
+        // Group
         $dql->groupBy('comment.id');
-        $dql->orderBy('orderParam', $way);
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();

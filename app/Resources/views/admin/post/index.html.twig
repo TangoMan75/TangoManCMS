@@ -171,13 +171,13 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'section' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'sections' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'section',
-                            'way'   : app.request.query.get('order') == 'section'
+                            'order' : 'sections',
+                            'way'   : app.request.query.get('order') == 'sections'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Section
+                            Sections
                         </a>
                     </th>
 

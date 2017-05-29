@@ -17,6 +17,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     use Traits\Countable;
+    use Traits\Ordered;
+    use Traits\Searchable;
     use Traits\SearchableSimpleArray;
     use Traits\TableName;
 
@@ -30,8 +32,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
         // Sets default values
         $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'username');
-        $way = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -45,39 +45,18 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
             );
         }
 
+        // QueryBuilder
         $dql = $this->createQueryBuilder('user');
-
         // Search inside simple arrays
         if ($query->get('role')) {
             $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
         }
-
-        // Search inside id, username and email columns
+        // Search
         $dql = $this->search($dql, $query);
-
-        // Order according to ownership count
-        switch ($order) {
-            case 'comments':
-                $dql->addSelect('COUNT(comment.id) as orderParam');
-                $dql->leftJoin('user.comments', 'comment');
-                break;
-
-            case 'posts':
-                $dql->addSelect('COUNT(post.id) as orderParam');
-                $dql->leftJoin('user.posts', 'post');
-                break;
-
-            case 'password':
-                $dql->addSelect('COUNT(user.password) as orderParam');
-                break;
-
-            default:
-                $dql->addSelect('user.'.$order.' as orderParam');
-                break;
-        }
-
+        // Order
+        $dql = $this->order($dql, $query);
+        // Group
         $dql->groupBy('user.id');
-        $dql->orderBy('orderParam', $way);
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();

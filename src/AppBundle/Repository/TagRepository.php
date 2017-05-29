@@ -16,6 +16,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class TagRepository extends EntityRepository
 {
     use Traits\Countable;
+    use Traits\Ordered;
+    use Traits\Searchable;
     use Traits\TableName;
 
     /**
@@ -28,8 +30,6 @@ class TagRepository extends EntityRepository
         // Sets default values
         $page = $query->get('page', 1);
         $limit = $query->get('limit', 20);
-        $order = $query->get('order', 'name');
-        $way = $query->get('way', 'ASC');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -43,25 +43,14 @@ class TagRepository extends EntityRepository
             );
         }
 
+        // QueryBuilder
         $dql = $this->createQueryBuilder('tag');
-
         // Search
         $dql = $this->search($dql, $query);
-
-        // Order according to ownership count
-        switch ($order) {
-            case 'items':
-                $dql->addSelect('COUNT(citems) as orderParam');
-                $dql->leftJoin('tag.items', 'citems');
-                break;
-
-            default:
-                $dql->addSelect('tag.'.$order.' as orderParam');
-                break;
-        }
-
+        // Order
+        $dql = $this->order($dql, $query);
+        // Group
         $dql->groupBy('tag.id');
-        $dql->orderBy('orderParam', $way);
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
