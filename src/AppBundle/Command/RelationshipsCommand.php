@@ -26,15 +26,15 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         // findBy seems to be the only working method in fixtures
-        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
-        $pages      = $em->getRepository('AppBundle:Page')->findAll();
-        $posts      = $em->getRepository('AppBundle:Post')->findAll();
+        $comments = $em->getRepository('AppBundle:Comment')->findAll();
+        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        $posts = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $roles      = $em->getRepository('AppBundle:Role')->findAll();
-        $sections   = $em->getRepository('AppBundle:Section')->findAll();
-        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
-        $users      = $em->getRepository('AppBundle:User')->findAll();
-        $votes      = $em->getRepository('AppBundle:Vote')->findAll();
+        $roles = $em->getRepository('AppBundle:Role')->findAll();
+        $sections = $em->getRepository('AppBundle:Section')->findAll();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        $votes = $em->getRepository('AppBundle:Vote')->findAll();
 
         $output->writeln(count($comments).' Comments found');
         $output->writeln(count($pages).' Pages found');
@@ -45,6 +45,10 @@ class RelationshipsCommand extends ContainerAwareCommand
         $output->writeln(count($tags).' Tags found');
         $output->writeln(count($users).' Users found');
         $output->writeln(count($votes).' Votes found');
+
+        /**
+         * COMMENTS
+         */
 
         // Comments->Posts
         $output->writeln('Linking Comments->Posts...');
@@ -64,6 +68,10 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Done.');
 
+        /**
+         * PAGES
+         */
+
         // Pages->Sections
         $output->writeln('Linking Pages->Sections...');
         foreach ($pages as $page) {
@@ -73,39 +81,70 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Done.');
 
-        // Pages->Votes
-        $output->writeln('Linking Pages->Votes...');
+        // Pages->Tags
+        $output->writeln('Linking Pages->Tags...');
         foreach ($pages as $page) {
-            $page->addVote($sections[mt_rand(1, count($sections) - 1)]);
+            $page->addTag($tags[mt_rand(1, count($tags) - 1)]);
             $em->persist($page);
         }
         $em->flush();
         $output->writeln('Done.');
 
+        /**
+         * POSTS
+         */
+
         // Posts->Comments
         $output->writeln('Linking Posts->Comments...');
-        $j = 0;
         foreach ($posts as $post) {
             $post->addComment($comments[mt_rand(1, count($comments) - 1)]);
+            $em->persist($post);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Posts->Sections
+        $output->writeln('Linking Posts->Sections...');
+        foreach ($posts as $post) {
             $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
+            $em->persist($post);
+        }
+        $em->flush();
+        $output->writeln('Done.');
 
-            shuffle($tags);
-            for ($i = 0; $i < mt_rand(0, 4); $i++) {
-                $post->addTag($tags[$i]);
-            }
+        // Posts->Tags
+        $output->writeln('Linking Posts->Tags...');
+        foreach ($posts as $post) {
+            $post->addTag($tags[mt_rand(1, count($tags) - 1)]);
+            $em->persist($post);
+        }
+        $em->flush();
+        $output->writeln('Done.');
 
-            if ($j < count($votes)) {
-                $post->addVote($votes[$j++]);
-            }
-
+        // Posts->User
+        $output->writeln('Linking Posts->User...');
+        foreach ($posts as $post) {
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
             $em->persist($post);
         }
         $em->flush();
         $output->writeln('Done.');
 
-        // Privileges
-        $output->writeln('Linking Privileges...');
+        // Posts->Votes
+        $output->writeln('Linking Posts->Votes...');
+        foreach ($posts as $post) {
+            $post->addVote($votes[mt_rand(1, count($votes) - 1)]);
+            $em->persist($post);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        /**
+         * PRIVILEGES
+         */
+
+        // Privileges->Roles
+        $output->writeln('Linking Privileges->Roles...');
         foreach ($privileges as $privilege) {
             $privilege->addRole($roles[mt_rand(1, count($roles) - 1)]);
             $em->persist($privilege);
@@ -113,18 +152,145 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Done.');
 
-        // Roles
-        $output->writeln('Linking Roles...');
+        /**
+         * ROLES
+         */
+
+        // Roles->Privileges
+        $output->writeln('Linking Roles->Privileges...');
         foreach ($roles as $role) {
             $role->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
-            // $role->addUser($users[mt_rand(1, count($users) - 1)]);
             $em->persist($role);
         }
         $em->flush();
         $output->writeln('Done.');
 
-        // Vote->Post
-        $output->writeln('Linking Vote->Post...');
+        // Roles->Users
+        $output->writeln('Linking Roles->Users...');
+        foreach ($roles as $role) {
+            $role->addUser($users[mt_rand(1, count($users) - 1)]);
+            $em->persist($role);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        /**
+         * SECTIONS
+         */
+
+        // Sections->Pages
+        $output->writeln('Linking Sections->Pages...');
+        foreach ($sections as $section) {
+            $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
+            $em->persist($section);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Sections->Posts
+        $output->writeln('Linking Sections->Posts...');
+        foreach ($sections as $section) {
+            $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
+            $em->persist($section);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Sections->Tags
+        $output->writeln('Linking Sections->Tags...');
+        foreach ($sections as $section) {
+            $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
+            $em->persist($section);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        /**
+         * TAGS
+         */
+
+        // Tags->Pages
+        $output->writeln('Linking Tags->Pages...');
+        foreach ($tags as $tag) {
+            $tag->addPage($pages[mt_rand(1, count($pages) - 1)]);
+            $em->persist($tag);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Tags->Posts
+        $output->writeln('Linking Tags->Posts...');
+        foreach ($tags as $tag) {
+            $tag->addPost($posts[mt_rand(1, count($posts) - 1)]);
+            $em->persist($tag);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Tags->Sections
+        $output->writeln('Linking Tags->Sections...');
+        foreach ($tags as $tag) {
+            $tag->addSection($sections[mt_rand(1, count($sections) - 1)]);
+            $em->persist($tag);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        /**
+         * USERS
+         */
+
+        // Users->Comments
+        $output->writeln('Linking Users->Comments...');
+        foreach ($users as $user) {
+            $user->addComment($comments[mt_rand(1, count($comments) - 1)]);
+            $em->persist($user);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Users->Posts
+        $output->writeln('Linking Users->Posts...');
+        foreach ($users as $user) {
+            $user->addPost($posts[mt_rand(1, count($posts) - 1)]);
+            $em->persist($user);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Users->Privileges
+        $output->writeln('Linking Users->Privileges...');
+        foreach ($users as $user) {
+            $user->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
+            $em->persist($user);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Users->Roles
+        $output->writeln('Linking Users->Roles...');
+        foreach ($users as $user) {
+            $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
+            $em->persist($user);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        // Users->Votes
+        $output->writeln('Linking Users->Votes...');
+        foreach ($users as $user) {
+            $user->addVote($votes[mt_rand(1, count($votes) - 1)]);
+            $em->persist($user);
+        }
+        $em->flush();
+        $output->writeln('Done.');
+
+        /**
+         * VOTES
+         */
+
+        // Votes->Posts
+        $output->writeln('Linking Votes->Posts...');
         foreach ($votes as $vote) {
             $vote->addPost($posts[mt_rand(1, count($posts) - 1)]);
             $em->persist($vote);
@@ -132,54 +298,11 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Done.');
 
-        // Vote->User
-        $output->writeln('Linking Vote->User...');
+        // Votes->Users
+        $output->writeln('Linking Votes->Users...');
         foreach ($votes as $vote) {
             $vote->addUser($users[mt_rand(1, count($users) - 1)]);
             $em->persist($vote);
-        }
-        $em->flush();
-        $output->writeln('Done.');
-
-        // Vote->Page
-        $output->writeln('Linking Vote->Page...');
-        foreach ($votes as $vote) {
-            $vote->addPage($pages[mt_rand(1, count($pages) - 1)]);
-            $vote->addUser($users[mt_rand(1, count($users) - 1)]);
-            $em->persist($vote);
-        }
-        $em->flush();
-        $output->writeln('Done.');
-
-        // Sections
-        $output->writeln('Linking Sections...');
-        foreach ($sections as $section) {
-            $section->addPage($pages[mt_rand(1, count($pages) - 1)]);
-            $section->addPost($posts[mt_rand(1, count($posts) - 1)]);
-            // $section->addTag($tags[mt_rand(1, count($tags) - 1)]);
-            $em->persist($section);
-        }
-        $em->flush();
-        $output->writeln('Done.');
-
-        // Tags
-        $output->writeln('Linking Tags...');
-        foreach ($tags as $tag) {
-            $tag->addItem($pages[mt_rand(1, count($pages) - 1)]);
-            $tag->addItem($posts[mt_rand(1, count($posts) - 1)]);
-            $tag->addItem($sections[mt_rand(1, count($sections) - 1)]);
-            $em->persist($tag);
-        }
-        $em->flush();
-        $output->writeln('Done.');
-
-        // Users
-        $output->writeln('Linking Users...');
-        foreach ($users as $user) {
-            $user->addPost($posts[mt_rand(1, count($posts) - 1)]);
-            $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
-            $user->addVote($votes[mt_rand(1, count($vote) - 1)]);
-            $em->persist($user);
         }
         $em->flush();
         $output->writeln('Done.');

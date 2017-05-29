@@ -3,9 +3,6 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Post;
-use AppBundle\Entity\Section;
-use AppBundle\Entity\Tag;
-use AppBundle\Entity\User;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -59,7 +56,8 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                 ->setTitle($faker->sentence(4, true))
-                ->setType('post');
+                ->setType('post')
+                ->setViews(mt_rand(0, 100));
 
             $em->persist($post);
         }

@@ -44,7 +44,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $faker = Factory::create('fr_FR');
 
         // Load 10 Pages
-        for ($i = 0; $i < 2; $i++) {
+        for ($i = 0; $i < 10; $i++) {
             $page = new Page();
             $page
                 ->setPublished($i % 2)
