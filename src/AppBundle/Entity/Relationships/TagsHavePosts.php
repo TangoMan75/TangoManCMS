@@ -54,20 +54,6 @@ trait TagsHavePosts
     /**
      * @param Post $post
      *
-     * @return bool
-     */
-    public function hasPost(Post $post)
-    {
-        if ($this->posts->contains($post)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Post $post
-     *
      * @return $this
      */
     public function addPost(Post $post)

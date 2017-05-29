@@ -54,20 +54,6 @@ trait TagsHaveSections
     /**
      * @param Section $section
      *
-     * @return bool
-     */
-    public function hasSection(Section $section)
-    {
-        if ($this->sections->contains($section)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Section $section
-     *
      * @return $this
      */
     public function addSection(Section $section)

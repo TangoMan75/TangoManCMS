@@ -54,20 +54,6 @@ trait TagsHavePages
     /**
      * @param Page $page
      *
-     * @return bool
-     */
-    public function hasPage(Page $page)
-    {
-        if ($this->pages->contains($page)) {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
-     * @param Page $page
-     *
      * @return $this
      */
     public function addPage(Page $page)
