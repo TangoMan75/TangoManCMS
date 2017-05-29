@@ -26,7 +26,7 @@ class PageController extends Controller
             throw $this->createNotFoundException('Cette page n\'existe pas.');
         }
 
-        $this->addView($page);
+        $page->addView();
 
         return $this->render(
             'page/show.html.twig',
@@ -34,29 +34,5 @@ class PageController extends Controller
                 'page' => $page,
             ]
         );
-    }
-
-    /**
-     * @param Page $page
-     */
-    public function addView(Page $page)
-    {
-        $em = $this->get('doctrine')->getManager();
-
-        // Get page stat
-        $stat = $page->getStat();
-
-        // When not found creates new stat object
-        if (!$stat) {
-            $stat = new Stat();
-            // Links stat & pages
-            // $stat->addPage($page);
-            $page->setStat($stat);
-        }
-
-        $stat->addView();
-        $em->persist($stat);
-        $em->persist($page);
-        $em->flush();
     }
 }
