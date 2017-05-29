@@ -25,7 +25,7 @@ trait SectionsHavePages
 {
     /**
      * @var array|Page[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages = [];

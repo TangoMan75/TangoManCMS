@@ -25,7 +25,7 @@ trait SectionsHavePosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
