@@ -70,49 +70,6 @@ class CommentRepository extends EntityRepository
     }
 
     /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function search(QueryBuilder $dql, ParameterBag $query)
-    {
-        if ($query->get('id')) {
-            $dql->andWhere('comment.id = :id')
-                ->setParameter(':id', $query->get('id'));
-        }
-
-        if ($query->get('post')) {
-            $dql->andWhere('post.title LIKE :post')
-                ->leftJoin('comment.post', 'post')
-                ->setParameter(':post', '%'.$query->get('post').'%');
-        }
-
-        switch ($query->get('published')) {
-            case 'true':
-                $dql->andWhere('comment.published = :published')
-                    ->setParameter(':published', 1);
-                break;
-            case 'false':
-                $dql->andWhere('comment.published = :published')
-                    ->setParameter(':published', 0);
-        }
-
-        if ($query->get('text')) {
-            $dql->andWhere('comment.content LIKE :content')
-                ->setParameter(':content', '%'.$query->get('text').'%');
-        }
-
-        if ($query->get('user')) {
-            $dql->andWhere('user.username LIKE :user')
-                ->leftJoin('comment.user', 'user')
-                ->setParameter(':user', '%'.$query->get('user').'%');
-        }
-
-        return $dql;
-    }
-
-    /**
      * Comments pagination.
      *
      * @param Post $post

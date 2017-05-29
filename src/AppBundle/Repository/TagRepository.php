@@ -64,35 +64,4 @@ class TagRepository extends EntityRepository
 
         return $paginator;
     }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function search(QueryBuilder $dql, ParameterBag $query)
-    {
-        if ($query->get('id')) {
-            $dql->andWhere('tag.id = :id')
-                ->setParameter(':id', $query->get('id'));
-        }
-
-        if ($query->get('name')) {
-            $dql->andWhere('tag.name LIKE :name')
-                ->setParameter(':name', '%'.$query->get('name').'%');
-        }
-
-        if ($query->get('type')) {
-            $dql->andWhere('tag.type LIKE :type')
-                ->setParameter(':type', '%'.$query->get('type').'%');
-        }
-
-        if ($query->get('label')) {
-            $dql->andWhere('tag.label LIKE :label')
-                ->setParameter(':label', '%'.$query->get('label').'%');
-        }
-
-        return $dql;
-    }
 }

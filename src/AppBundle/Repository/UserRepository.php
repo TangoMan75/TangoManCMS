@@ -72,40 +72,6 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     }
 
     /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function search(QueryBuilder $dql, ParameterBag $query)
-    {
-        if ($query->get('email')) {
-            $dql->andWhere('user.email LIKE :email')
-                ->setParameter(':email', '%'.$query->get('email').'%');
-        }
-
-        if ($query->get('id')) {
-            $dql->andWhere('user.id = :id')
-                ->setParameter(':id', $query->get('id'));
-        }
-
-        switch ($query->get('password')) {
-            case 'true':
-                $dql->andWhere('user.password IS NOT NULL');
-                break;
-            case 'false':
-                $dql->andWhere('user.password IS NULL');
-        }
-
-        if ($query->get('username')) {
-            $dql->andWhere('user.username LIKE :username')
-                ->setParameter(':username', '%'.$query->get('username').'%');
-        }
-
-        return $dql;
-    }
-
-    /**
      * @param  string $role
      *
      * @return array

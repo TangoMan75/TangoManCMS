@@ -23,7 +23,7 @@ Trait Ordered
      */
     public function order(QueryBuilder $dql, ParameterBag $query)
     {
-        $order = $query->get('order', 'created');
+        $order = $query->get('order', 'id');
         $way = $query->get('way', 'DESC');
 
         switch ($order) {

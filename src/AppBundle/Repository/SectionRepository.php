@@ -65,46 +65,4 @@ class SectionRepository extends EntityRepository
 
         return $paginator;
     }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function search(QueryBuilder $dql, ParameterBag $query)
-    {
-        if ($query->get('id')) {
-            $dql->andWhere('section.id = :id')
-                ->setParameter(':id', $query->get('id'));
-        }
-
-        switch ($query->get('published')) {
-            case 'true':
-                $dql->andWhere('section.published = :published')
-                    ->setParameter(':published', 1);
-                break;
-            case 'false':
-                $dql->andWhere('section.published = :published')
-                    ->setParameter(':published', 0);
-        }
-
-        if ($query->get('slug')) {
-            $dql->andWhere('section.slug LIKE :slug')
-                ->setParameter(':slug', '%'.$query->get('slug').'%');
-        }
-
-        if ($query->get('tag')) {
-            $dql->andWhere('tag.name LIKE :tag')
-                ->leftJoin('section.tags', 'tag')
-                ->setParameter(':tag', '%'.$query->get('tag').'%');
-        }
-
-        if ($query->get('title')) {
-            $dql->andWhere('section.title LIKE :title')
-                ->setParameter(':title', '%'.$query->get('title').'%');
-        }
-
-        return $dql;
-    }
 }

@@ -9,11 +9,11 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Class PageRepository
+ * Class GalleryRepository
  *
  * @package AppBundle\Repository
  */
-class PageRepository extends EntityRepository
+class GalleryRepository extends EntityRepository
 {
     use Traits\Countable;
     use Traits\Ordered;
@@ -45,13 +45,13 @@ class PageRepository extends EntityRepository
         }
 
         // QueryBuilder
-        $dql = $this->createQueryBuilder('page');
+        $dql = $this->createQueryBuilder('gallery');
         // Search
         $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
         // Group
-        $dql->groupBy('page.id');
+        $dql->groupBy('gallery.id');
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();
@@ -65,4 +65,5 @@ class PageRepository extends EntityRepository
 
         return $paginator;
     }
+
 }
