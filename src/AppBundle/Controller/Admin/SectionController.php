@@ -29,8 +29,8 @@ class SectionController extends Controller
         return $this->render(
             'admin/section/index.html.twig',
             [
-				'currentUser' => $this->getUser(),
-				'sections'    => $sections,
+                'currentUser' => $this->getUser(),
+                'sections'    => $sections,
             ]
         );
     }
@@ -117,9 +117,9 @@ class SectionController extends Controller
         return $this->render(
             'admin/section/edit.html.twig',
             [
-				'currentUser' => $this->getUser(),
-				'form'        => $form->createView(),
-				'section'     => $section,
+                'currentUser' => $this->getUser(),
+                'form'        => $form->createView(),
+                'section'     => $section,
             ]
         );
     }
