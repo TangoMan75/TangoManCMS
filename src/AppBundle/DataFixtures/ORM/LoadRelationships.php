@@ -69,7 +69,6 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $em->flush();
 
         foreach ($sections as $section) {
-
             shuffle($tags);
             for ($i = 0; $i < mt_rand(0, 4); $i++) {
                 $section->addTag($tags[$i]);
@@ -81,12 +80,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
 
         $j = 0;
         foreach ($posts as $post) {
-
             $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
-
-            if ($j < count($comments)) {
-                $post->addComment($comments[$j++]);
-            }
 
             shuffle($tags);
             for ($i = 0; $i < mt_rand(0, 4); $i++) {
@@ -104,6 +98,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $em->flush();
 
         foreach ($comments as $comment) {
+            $comment->setUser($users[mt_rand(1, count($users) - 1)]);
             $comment->setPost($posts[mt_rand(1, count($posts) - 1)]);
 
             $em->persist($comment);
@@ -112,7 +107,6 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
 
         $j = 0;
         foreach ($votes as $vote) {
-
             if ($j < count($users)) {
                 $vote->setUser($users[$j++]);
             }
