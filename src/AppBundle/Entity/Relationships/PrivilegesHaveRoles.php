@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `Role` entity to implement `$privileges` property with `ManyToMany` and `inversedBy="roles"` annotation.
  * 2. Requires `Role` entity to implement `linkPrivilege` and `unlinkPrivilege` methods.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->roles = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -25,7 +26,7 @@ trait PrivilegesHaveRoles
 {
     /**
      * @var array|Role[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $roles = [];

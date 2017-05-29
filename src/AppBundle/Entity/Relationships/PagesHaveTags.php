@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires owned `Tag` entity to implement `$pages` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkPage` and `unlinkPage` methods.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->tags = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -25,7 +26,7 @@ trait PagesHaveTags
 {
     /**
      * @var array|Tag[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages", cascade={"persist"})
      */
     private $tags = [];
 

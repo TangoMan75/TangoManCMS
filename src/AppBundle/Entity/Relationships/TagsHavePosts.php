@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `Post` entity to implement `$tags` property with `ManyToMany` and `inversedBy="posts"` annotation.
  * 2. Requires `Post` entity to implement `linkTag` and `unlinkTag` methods.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -25,7 +26,7 @@ trait TagsHavePosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];

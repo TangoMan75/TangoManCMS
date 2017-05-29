@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `Section` entity to implement `$medias` property with `ManyToMany` and `inversedBy="sections"` annotation.
  * 2. Requires `Section` entity to implement `linkMedia` and `unlinkMedia` methods.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->sections = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -25,7 +26,7 @@ trait MediasHaveSections
 {
     /**
      * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="medias")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="medias", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections = [];

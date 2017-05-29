@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `Post` entity to implement `$user` property with `ManyToOne` and `inversedBy="posts"` annotation.
  * 2. Requires `Post` entity to implement linkUser(User $user) public method.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->posts = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>

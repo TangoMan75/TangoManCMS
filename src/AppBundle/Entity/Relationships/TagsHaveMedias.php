@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `Media` entity to implement `$tags` property with `ManyToMany` and `inversedBy="medias"` annotation.
  * 2. Requires `Media` entity to implement `linkTag` and `unlinkTag` methods.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->medias = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -25,7 +26,7 @@ trait TagsHaveMedias
 {
     /**
      * @var array|Media[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Media", mappedBy="tags", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $medias = [];

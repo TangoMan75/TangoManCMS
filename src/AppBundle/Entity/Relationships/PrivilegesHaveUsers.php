@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `User` entity to implement `$privileges` property with `ManyToMany` and `inversedBy="users"` annotation.
  * 2. Requires `User` entity to implement `linkPrivilege` and `unlinkPrivilege` methods.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->users = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
@@ -25,7 +26,7 @@ trait PrivilegesHaveUsers
 {
     /**
      * @var array|User[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="privileges")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="privileges", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $users = [];

@@ -15,7 +15,8 @@ use Doctrine\Common\Collections\ArrayCollection;
  *
  * 1. Requires `Vote` entity to implement `$post` property with `ManyToOne` and `inversedBy="votes"` annotation.
  * 2. Requires `Vote` entity to implement linkPost(Post $post) public method.
- * 3. (Optional) Entity constructor must initialize ArrayCollection object
+ * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
+ * 4. Entity constructor must initialize ArrayCollection object
  *     $this->votes = new ArrayCollection();
  *
  * @author  Matthias Morin <tangoman@free.fr>
