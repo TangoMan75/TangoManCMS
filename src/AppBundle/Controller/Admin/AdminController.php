@@ -21,7 +21,7 @@ class AdminController extends Controller
             [
                 'currentUser'  => $this->getUser(),
                 'commentCount' => $this->get('doctrine')->getRepository('AppBundle:Comment')->count(),
-                'mediaCount'   => $this->get('doctrine')->getRepository('AppBundle:Media')->count(),
+                'mediaCount'   => null,
                 'pageCount'    => $this->get('doctrine')->getRepository('AppBundle:Page')->count(),
                 'postCount'    => $this->get('doctrine')->getRepository('AppBundle:Post')->count(),
                 'sectionCount' => $this->get('doctrine')->getRepository('AppBundle:Section')->count(),

@@ -26,25 +26,25 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         // findBy seems to be the only working method in fixtures
-        $comments = $em->getRepository('AppBundle:Comment')->findAll();
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
+        $pages      = $em->getRepository('AppBundle:Page')->findAll();
+        $posts      = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $roles = $em->getRepository('AppBundle:Role')->findAll();
-        $stats = $em->getRepository('AppBundle:Stat')->findAll();
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $roles      = $em->getRepository('AppBundle:Role')->findAll();
+        $sections   = $em->getRepository('AppBundle:Section')->findAll();
+        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
+        $users      = $em->getRepository('AppBundle:User')->findAll();
+        $votes      = $em->getRepository('AppBundle:Vote')->findAll();
 
         $output->writeln(count($comments).' Comments found');
         $output->writeln(count($pages).' Pages found');
         $output->writeln(count($posts).' Posts found');
         $output->writeln(count($privileges).' Privileges found');
         $output->writeln(count($roles).' Roles found');
-        $output->writeln(count($stats).' Stats found');
         $output->writeln(count($sections).' Sections found');
         $output->writeln(count($tags).' Tags found');
         $output->writeln(count($users).' Users found');
+        $output->writeln(count($votes).' Votes found');
 
         // Comments->Posts
         $output->writeln('Linking Comments->Posts...');
@@ -73,10 +73,10 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Done.');
 
-        // Pages->Stats
-        $output->writeln('Linking Pages->Stats...');
+        // Pages->Votes
+        $output->writeln('Linking Pages->Votes...');
         foreach ($pages as $page) {
-            $page->addStat($sections[mt_rand(1, count($sections) - 1)]);
+            $page->addVote($sections[mt_rand(1, count($sections) - 1)]);
             $em->persist($page);
         }
         $em->flush();
@@ -94,8 +94,8 @@ class RelationshipsCommand extends ContainerAwareCommand
                 $post->addTag($tags[$i]);
             }
 
-            if ($j < count($stats)) {
-                $post->addStat($stats[$j++]);
+            if ($j < count($votes)) {
+                $post->addVote($votes[$j++]);
             }
 
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
@@ -123,32 +123,30 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em->flush();
         $output->writeln('Done.');
 
-        // Stat->Post
-        $output->writeln('Linking Stat->Post...');
-        foreach ($stats as $stat) {
-            $stat->addPost($posts[mt_rand(1, count($posts) - 1)]);
-            $stat->addUser($users[mt_rand(1, count($users) - 1)]);
-            $em->persist($stat);
+        // Vote->Post
+        $output->writeln('Linking Vote->Post...');
+        foreach ($votes as $vote) {
+            $vote->addPost($posts[mt_rand(1, count($posts) - 1)]);
+            $em->persist($vote);
         }
         $em->flush();
         $output->writeln('Done.');
 
-        // Stat->Media
-        $output->writeln('Linking Stat->Media...');
-        foreach ($stats as $stat) {
-            $stat->addMedia($medias[mt_rand(1, count($medias) - 1)]);
-            $stat->addUser($users[mt_rand(1, count($users) - 1)]);
-            $em->persist($stat);
+        // Vote->User
+        $output->writeln('Linking Vote->User...');
+        foreach ($votes as $vote) {
+            $vote->addUser($users[mt_rand(1, count($users) - 1)]);
+            $em->persist($vote);
         }
         $em->flush();
         $output->writeln('Done.');
 
-        // Stat->Page
-        $output->writeln('Linking Stat->Page...');
-        foreach ($stats as $stat) {
-            $stat->addPage($pages[mt_rand(1, count($pages) - 1)]);
-            $stat->addUser($users[mt_rand(1, count($users) - 1)]);
-            $em->persist($stat);
+        // Vote->Page
+        $output->writeln('Linking Vote->Page...');
+        foreach ($votes as $vote) {
+            $vote->addPage($pages[mt_rand(1, count($pages) - 1)]);
+            $vote->addUser($users[mt_rand(1, count($users) - 1)]);
+            $em->persist($vote);
         }
         $em->flush();
         $output->writeln('Done.');
@@ -180,7 +178,7 @@ class RelationshipsCommand extends ContainerAwareCommand
         foreach ($users as $user) {
             $user->addPost($posts[mt_rand(1, count($posts) - 1)]);
             $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
-            $user->addStat($stats[mt_rand(1, count($stat) - 1)]);
+            $user->addVote($votes[mt_rand(1, count($vote) - 1)]);
             $em->persist($user);
         }
         $em->flush();

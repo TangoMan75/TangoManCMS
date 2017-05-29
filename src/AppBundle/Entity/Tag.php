@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Media;
 use AppBundle\Entity\Post;
 use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -20,7 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Tag
 {
-    use Relationships\TagsHaveMedias;
     use Relationships\TagsHavePages;
     use Relationships\TagsHavePosts;
     use Relationships\TagsHaveSections;
@@ -48,7 +46,6 @@ class Tag
      */
     public function __construct()
     {
-        $this->medias = new ArrayCollection();
         $this->pages = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->sections = new ArrayCollection();

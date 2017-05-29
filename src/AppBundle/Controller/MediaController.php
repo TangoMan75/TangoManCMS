@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Comment;
-use AppBundle\Entity\Media;
+use AppBundle\Entity\Post;
 use AppBundle\Entity\Tag;
 use AppBundle\Form\CommentType;
 use AppBundle\Form\EditMediaType;
@@ -27,12 +27,12 @@ class MediaController extends Controller
         $em = $this->get('doctrine')->getManager();
         $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
-        $medias = $em->getRepository('AppBundle:Media')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+        $medias = $em->getRepository('AppBundle:Post')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
         $formMedia = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->getUser();
-            $media = new Media();
+            $media = new Post();
             $media->setUser($user);
             $form = $this->createForm(NewMediaType::class, $media);
             $form->handleRequest($request);
@@ -64,7 +64,7 @@ class MediaController extends Controller
     public function showAction(Request $request, $slug)
     {
         $em = $this->get('doctrine')->getManager();
-        $media = $em->getRepository('AppBundle:Media')->findOneBy(['slug' => $slug]);
+        $media = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
 
         return $this->render(
             'media/show.html.twig',
@@ -86,7 +86,7 @@ class MediaController extends Controller
             return $this->redirectToRoute('app_login');
         }
 
-        $media = new Media();
+        $media = new Post();
         $media->setUser($this->getUser());
         $form = $this->createForm(NewMediaType::class, $media);
         $form->handleRequest($request);
@@ -98,7 +98,7 @@ class MediaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La publication intitulé <strong>'.$media->getTitle().'</strong> a bien été enregistré.'
+                'La publication intitulé <strong>'.$media.'</strong> a bien été enregistré.'
             );
 
             // User is redirected to referrer page
@@ -116,7 +116,7 @@ class MediaController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Media $media)
+    public function editAction(Request $request, Post $media)
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -145,7 +145,7 @@ class MediaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre publication <strong>&quot;'.$media->getTitle().'&quot</strong> à bien été modifié.'
+                'Votre publication <strong>&quot;'.$media.'&quot</strong> à bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -163,7 +163,7 @@ class MediaController extends Controller
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Media $media)
+    public function deleteAction(Request $request, Post $media)
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -188,7 +188,7 @@ class MediaController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La publication <strong>&quot;'.$media->getTitle().'&quot;</strong> à été supprimé.'
+            'La publication <strong>&quot;'.$media.'&quot;</strong> à été supprimé.'
         );
 
         // User is redirected to referrer page

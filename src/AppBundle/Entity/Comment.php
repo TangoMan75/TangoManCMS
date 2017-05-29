@@ -16,7 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Comment
 {
-    use Relationships\CommentsHaveMedia;
     use Relationships\CommentsHavePost;
     use Relationships\CommentsHaveUser;
 

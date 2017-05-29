@@ -17,7 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Section
 {
-    use Relationships\SectionsHaveMedias;
     use Relationships\SectionsHavePages;
     use Relationships\SectionsHavePosts;
     use Relationships\SectionsHaveTags;
