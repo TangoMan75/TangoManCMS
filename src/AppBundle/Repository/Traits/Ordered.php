@@ -33,6 +33,11 @@ Trait Ordered
                 $dql->leftJoin($this->getTableName().'.user', 'user');
                 break;
 
+            // Simplest way to order entities owning base64 avatar or not
+            case 'avatar':
+                $dql->addSelect('COUNT('.$this->getTableName().'.avatar) as orderParam');
+                break;
+
             // Comment count
             case 'comments':
                 $dql->addSelect('COUNT(comments) as orderParam');
