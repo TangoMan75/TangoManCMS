@@ -176,13 +176,17 @@
 
                         <td>
                             {% if page.sections|length > 1 %}
-                                <span class="label label-success">{{ page.sections|length }} sections</span><br/>
+                                <a href="{{ path('app_admin_section_index', { 's_page': page.title }) }}"
+                                   class="label label-success">
+                                    Sections
+                                    <span class="badge-sm text-success">{{ page.sections|length }}</span>
+                                </a><br />
                             {% endif %}
                             {% for section in page.sections %}
                                 <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
                                    class="label label-primary">
                                     {{ section.title|truncate(20) }}
-                                    <span class="badge-sm">{{ section.posts|length }}</span>
+                                    <span class="badge-sm text-primary">{{ section.posts|length }}</span>
                                 </a><br/>
                             {% else %}
                                 <span class="label label-danger">Aucune section</span>
