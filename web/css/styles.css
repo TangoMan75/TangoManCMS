@@ -30,13 +30,24 @@ a.label:hover {
 }
 
 /**
+ * Small badges inside primary labels
+ */
+.badge-sm {
+	color: #337AB7;
+	background-color: #fff;
+	border-radius: 6px;
+	padding-left: 3px;
+	padding-right: 3px;
+}
+
+/**
  * Background images
  */
 .cover {
 	background-size: cover;
 	background-repeat: no-repeat;
 	background-position: center;
-	/*display: inline-block;*/
+	display: block;
 }
 
 /**
@@ -121,11 +132,31 @@ form div .form-group figure img {
 }
 
 /**
+ * Tables
+ */
+.table-nowrap {
+	white-space: nowrap;
+}
+
+.table-wrap {
+	word-wrap: break-word;
+	max-width: 15em;
+}
+
+.table-comment,
+.table-comment:hover,
+.table-comment:active {
+	text-decoration: none;
+	color: #333;
+}
+
+/**
  * Responsive table text overflow
  */
 .table-text {
 	overflow: hidden;
 	text-overflow: ellipsis;
+	min-width: 15em;
 }
 
 @media (min-width: 768px) and (max-width: 1400px) {
