@@ -34,7 +34,7 @@
                     <figure class="post-user{% if post.image %} post-user-cover{% endif %}">
                         <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
                             <img src="{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}"
-                                 alt="{{ post.user.username }}" class="img-rounded img-responsive"/>
+                                 alt="{{ post.user }}" class="img-rounded img-responsive"/>
                         </a>
                     </figure>
                 </div>
@@ -120,7 +120,7 @@
                         {% else %}
                             <span class="glyphicon glyphicon-pawn"></span>
                         {% endif %}
-                        {{ post.user.username }}
+                        {{ post.user }}
                     </a>
                 </div>
             </div>

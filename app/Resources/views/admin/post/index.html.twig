@@ -250,10 +250,10 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_post_index', { 'user': post.user.username }) }}"
+                            <a href="{{ path('app_admin_post_index', { 'user': post.user }) }}"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les articles publiés par {{ post.user.username }}">
-                                {{ post.user.username }}
+                               data-original-title="Lister tous les articles publiés par {{ post.user }}">
+                                {{ post.user }}
                             </a>
                         </td>
 
@@ -261,7 +261,7 @@
                             <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}"
                                class="btn btn-primary btn-xs"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher le profil de {{ post.user.username }}">
+                               data-original-title="Afficher le profil de {{ post.user }}">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>

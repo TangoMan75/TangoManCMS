@@ -2,7 +2,7 @@
     <div id="user-profile" class="row">
 
         <div class="user-avatar col-xs-12 col-sm-6">
-            <img src="{{ user.avatar ? user.avatar : asset('img/user.jpg') }}" alt="{{ user.username }}"/>
+            <img src="{{ user.avatar ? user.avatar : asset('img/user.jpg') }}" alt="{{ user }}"/>
         </div>
 
         <div id="user-detail" class="col-xs-12 col-sm-6">
@@ -10,14 +10,14 @@
                 <thead>
                 <tr>
                     <td colspan="2">
-                        <h1 class="text-center">{{ user.username }}</h1>
+                        <h1 class="text-center">{{ user }}</h1>
                     </td>
                 </tr>
                 </thead>
                 <tbody>
                 <tr>
                     <th>Utilisateur</th>
-                    <td>{{ user.username }}</td>
+                    <td>{{ user }}</td>
                 </tr>
                 <tr>
                     <th>Email</th>
@@ -55,7 +55,7 @@
                             Modifier
                         </th>
                         <td>
-                            <a href="{{ path('app_admin_admin_index') }}">{{ user.username }}</a>
+                            <a href="{{ path('app_admin_admin_index') }}">{{ user }}</a>
                         </td>
                     </tr>
                 {% endif %}

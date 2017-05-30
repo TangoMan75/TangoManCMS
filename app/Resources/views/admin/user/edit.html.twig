@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Utilisateurs - Modifier {{ user.username|capitalize }}{% endblock %}
+{% block title %}{{ parent() }} | Utilisateurs - Modifier {{ user|capitalize }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -13,8 +13,8 @@
 {% block admin %}
     <header>
         <h1>Utilisateurs</h1>
-        <h2>Modifier {{ user.username|capitalize }}</h2>
-        <p>Ici vous pouvez modifier le compte de {{ user.username|capitalize }} sur {{ site_name }}</p>
+        <h2>Modifier {{ user|capitalize }}</h2>
+        <p>Ici vous pouvez modifier le compte de {{ user|capitalize }} sur {{ site_name }}</p>
     </header>
     {% include "admin/includes/_user_tabs.html.twig" %}
     <section id="edit">

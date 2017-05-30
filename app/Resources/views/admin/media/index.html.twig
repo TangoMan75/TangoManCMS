@@ -262,10 +262,10 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_post_index', { 'user': media.user.username }) }}"
+                            <a href="{{ path('app_admin_post_index', { 'user': media.user }) }}"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les médias publiés par {{ media.user.username }}">
-                                {{ media.user.username }}
+                               data-original-title="Lister tous les médias publiés par {{ media.user }}">
+                                {{ media.user }}
                             </a>
                         </td>
 
@@ -273,7 +273,7 @@
                             <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}"
                                class="btn btn-primary btn-xs"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher le profil de {{ media.user.username }}">
+                               data-original-title="Afficher le profil de {{ media.user }}">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>

@@ -1,6 +1,6 @@
 {% extends "::email-base.html.twig" %}
 {% block body %}
-    <h1>Bonjour {{ user.username|capitalize }}</h1>
+    <h1>Bonjour {{ user|capitalize }}</h1>
     <p>
         Nous regrettons de vous voir résillier votre adhésion à
         <a href="{{ absolute_url(path('homepage')) }}">{{ domain_name }}</a>.

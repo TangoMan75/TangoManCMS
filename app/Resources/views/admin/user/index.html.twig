@@ -218,13 +218,15 @@
 
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}" class="cover"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Afficher le profil de {{ user }}"
                                    style="padding-bottom: 30px; width: 30px; background-image: url('{{ user.avatar ? user.avatar : asset('img/user.jpg') }}');">
                                 </a>
                             </td>
 
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
-                                    {{ user.username }}
+                                    {{ user }}
                                 </a>
                             </td>
 
@@ -233,7 +235,7 @@
                             </td>
 
                             <td>
-                                <a href="{{ path('app_admin_post_index', {'user' : user.username}) }}">
+                                <a href="{{ path('app_admin_post_index', {'user' : user}) }}">
                                     <span class="label label-primary">
                                         {{ user.posts|length }}
                                     </span>
@@ -241,7 +243,7 @@
                             </td>
 
                             <td>
-                                <a href="{{ path('app_admin_comment_index', {'user' : user.username}) }}">
+                                <a href="{{ path('app_admin_comment_index', {'user' : user}) }}">
                                     <span class="label label-success">
                                         {{ user.comments|length }}
                                     </span>
@@ -410,7 +412,7 @@
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                            data-target=".my-modal" data-item="{{ user.username }}"
+                                            data-target=".my-modal" data-item="{{ user }}"
                                             data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri|remove_query }) }}"
                                             data-toggle="tooltip" data-placement="top"
                                             data-original-title="Supprimer l'utilisateur"

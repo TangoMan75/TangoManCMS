@@ -28,7 +28,7 @@
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_user_edit', { 'id': user.id, 'callback': app.request.uri|callback }) }}">
                     <span class="glyphicon glyphicon-edit"></span>
-                    {{ user.username|truncate(20) }}
+                    {{ user|truncate(20) }}
                 </a>
             </li>
         {% endif %}
