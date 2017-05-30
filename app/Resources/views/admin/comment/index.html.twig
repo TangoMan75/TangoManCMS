@@ -175,19 +175,18 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_comment_index', { 'user': comment.user.username }) }}"
+                            <a href="{{ path('app_admin_user_index', { 'user': comment.user }) }}" class="cover"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les commentaires publiés par {{ comment.user.username }}">
-                                {{ comment.user.username }}
+                               data-original-title="Afficher le profil de {{ comment.user }}"
+                               style="padding-bottom: 30px; width: 30px; background-image: url('{{ comment.user.avatar ? comment.user.avatar : asset('img/user.jpg') }}');">
                             </a>
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_user_index', { 'user': comment.user.username }) }}"
-                               class="btn btn-primary btn-xs"
+                            <a href="{{ path('app_admin_comment_index', { 'user': comment.user }) }}"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Éditer le profil de {{ comment.user.username }}">
-                                <span class="glyphicon glyphicon-eye-open"></span>
+                               data-original-title="Lister tous les commentaires publiés par {{ comment.user }}">
+                                {{ comment.user }}
                             </a>
                         </td>
 
