@@ -183,10 +183,10 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': comment.user.slug }) }}"
+                            <a href="{{ path('app_admin_user_index', { 'user': comment.user.username }) }}"
                                class="btn btn-primary btn-xs"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher le profil de {{ comment.user.username }}">
+                               data-original-title="Éditer le profil de {{ comment.user.username }}">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>

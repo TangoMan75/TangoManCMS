@@ -117,6 +117,16 @@
                             </a>
                         </th>
 
+                        <th class="{{ app.request.query.get('order') == 'avatar' ? app.request.query.get('way', 'ASC') }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
+                                'order' : 'avatar',
+                                'way'   : app.request.query.get('order') == 'avatar'
+                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                                Avatar
+                            </a>
+                        </th>
+
                         <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
@@ -207,6 +217,12 @@
                             </td>
 
                             <td>
+                                <a href="{{ path('app_user_show', { 'slug': user.slug }) }}" class="cover"
+                                   style="padding-bottom: 30px; width: 30px; background-image: url('{{ user.avatar ? user.avatar : asset('img/user.jpg') }}');">
+                                </a>
+                            </td>
+
+                            <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
                                     {{ user.username }}
                                 </a>
@@ -262,28 +278,28 @@
 
                             <td>
                                 {% if 'ROLE_SUPER_ADMIN' in user.roles %}
-                                    <span class="btn btn-danger btn-sm">
-                                        <span class="glyphicon glyphicon-king"
-                                              data-toggle="tooltip" data-placement="top"
-                                              data-original-title="Super Administrateur"></span>
+                                    <span class="btn btn-danger btn-sm"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Super Administrateur">
+                                        <span class="glyphicon glyphicon-king"></span>
                                     </span>
                                 {% elseif 'ROLE_ADMIN' in user.roles %}
-                                    <span class="btn btn-warning btn-sm">
-                                        <span class="glyphicon glyphicon-tower"
-                                              data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Administrateur"></span>
+                                    <span class="btn btn-warning btn-sm"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Administrateur">
+                                        <span class="glyphicon glyphicon-tower"></span>
                                     </span>
                                 {% elseif 'ROLE_SUPER_USER' in user.roles %}
-                                    <span class="btn btn-success btn-sm">
-                                        <span class="glyphicon glyphicon-bishop"
-                                              data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Super Utilisateur"></span>
+                                    <span class="btn btn-success btn-sm"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Super Utilisateur">
+                                        <span class="glyphicon glyphicon-bishop"></span>
                                     </span>
                                 {% else %}
-                                    <span class="btn btn-primary btn-sm">
-                                        <span class="glyphicon glyphicon-pawn"
-                                              data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Utilisateur"></span>
+                                    <span class="btn btn-primary btn-sm"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="Utilisateur">
+                                        <span class="glyphicon glyphicon-pawn"></span>
                                     </span>
                                 {% endif %}
 

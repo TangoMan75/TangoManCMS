@@ -131,7 +131,8 @@
                         </a>
                     </th>
 
-                    <th colspan="2" class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2"
+                        class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'author',
@@ -230,9 +231,9 @@
                     <tr>
                         <td>
                             <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="cover"
-                                {% if post.imageFileName %}
-                                    style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
-                                {%  else %}
+                                    {% if post.imageFileName %}
+                               style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                                {% else %}
                                     style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image : '//placehold.it/80?text=Image' }}');">
                                 {% endif %}
                             </a>
@@ -289,7 +290,7 @@
                             {% endif %}
                             {% for section in post.sections %}
                                 <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                class="label label-primary">
+                                   class="label label-primary">
                                     {{ section.title|truncate(20) }}
                                 </a><br/>
                             {% else %}
