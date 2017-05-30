@@ -9,7 +9,7 @@
         <p>Ici vous pouvez accèder à la liste des galeries de <strong>{{ site_name }}</strong>.</p>
     </header>
     {% include "admin/includes/_gallery_tabs.html.twig" %}
-    <section id="search">
+    <gallery id="search">
         <div class="jumbotron">
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
@@ -70,9 +70,9 @@
 
             </form>
         </div>
-    </section>
+    </gallery>
 
-    <section id="gallery-list">
+    <gallery id="gallery-list">
         <div class="table-responsive">
             <table class="table table-striped">
                 <thead>
@@ -158,7 +158,7 @@
                         </a>
                     </th>
 
-                    <th colspan="2">Actions</th>
+                    <th colspan="3">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -235,6 +235,15 @@
                         </td>
 
                         <td>
+                            <a href="{{ path('app_section_show', { 'slug': gallery.slug }) }}"
+                               class="btn btn-primary btn-sm"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Voir cette galerie">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                        </td>
+
+                        <td>
                             <a href="{{ path('app_admin_gallery_edit', { 'id': gallery.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-edit"></span>
@@ -258,7 +267,7 @@
         <div class="text-center">
             {{ pagination(galleries) }}
         </div>
-    </section>
+    </gallery>
     {% include "admin/includes/_delete-gallery-modal.html.twig" %}
 {% endblock %}
 

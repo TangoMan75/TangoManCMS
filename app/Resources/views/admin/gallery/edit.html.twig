@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Gallerys - Modifier {{ gallery.title }}{% endblock %}
+{% block title %}{{ parent() }} | Galeries - Modifier {{ gallery.title }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -12,9 +12,9 @@
 
 {% block admin %}
     <header>
-        <h1>Gallerys</h1>
-        <h2>Modifier la gallery &quot;{{ gallery.title }}&quot;</h2>
-        <p>Ici vous pouvez modifier la gallery &quot;{{ gallery.title }}&quot; de {{ site_name }}</p>
+        <h1>Galeries</h1>
+        <h2>Modifier la galerie &quot;{{ gallery.title }}&quot;</h2>
+        <p>Ici vous pouvez modifier la galerie &quot;{{ gallery.title }}&quot; de {{ site_name }}</p>
     </header>
     {% include "admin/includes/_gallery_tabs.html.twig" %}
     <section id="edit">
