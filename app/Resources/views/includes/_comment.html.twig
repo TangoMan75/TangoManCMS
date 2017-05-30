@@ -1,5 +1,5 @@
 {% if comment.published or is_granted('ROLE_ADMIN') %}
-    <article class="panel panel-success comment">
+    <article id="comment-{{ comment.id }}" class="panel panel-success comment">
         <header class="panel-heading">
             <h1 class="text-center">
                 <span class="glyphicon glyphicon-comment pull-left"></span>&nbsp;

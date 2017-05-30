@@ -1,5 +1,5 @@
 {% if post.published or is_granted('ROLE_ADMIN') %}
-    <article class="panel panel-primary post">
+    <article id="post-{{ post.id }}" class="panel panel-primary post">
         <header class="panel-heading">
             <h1 class="text-center">
                 <a href="{{ path('app_post_show', {'slug': post.slug}) }}">

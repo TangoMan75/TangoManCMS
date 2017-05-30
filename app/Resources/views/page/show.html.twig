@@ -24,7 +24,7 @@
             {% endif %}
         </header>
         {% for section in page.sections %}
-            <section>
+            <section id="section-{{ section.id }}">
                 <header class="section-header">
                     <h1 class="section-title">{{ section.title }}</h1>
                     <h2 class="section-subtitle">{{ section.subtitle }}</h2>
