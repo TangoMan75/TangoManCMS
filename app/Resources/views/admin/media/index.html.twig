@@ -140,7 +140,7 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2" class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'author',
@@ -238,13 +238,15 @@
                     {% set media = media[0] %}
                     <tr>
                         <td>
-                            <div class="cover"
-                                    {% if media.imageFileName %}
-                                 style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
-                                {%  else %}
-                                    style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Image' }}');">
-                                {% endif %}
-                            </div>
+                            {% if media.imageFileName %}
+                                <a href="{{ media.image }}" target="_blank" class="cover"
+                                        style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_post_show', { 'slug': media.slug }) }}" class="cover"
+                                   style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Image' }}');">
+                                </a>
+                            {% endif %}
                         </td>
 
                         <td>
@@ -253,11 +255,26 @@
                             </a>
                         </td>
 
-                        <td>{{ media.link }}</td>
+                        <td class="table-wrap">
+                            <a href="{{ media.link }}" target="_blank">
+                                {{ absolute_url(media.link) }}
+                            </a>
+                        </td>
 
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}">
+                            <a href="{{ path('app_admin_post_index', { 'user': media.user.username }) }}"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Lister tous les médias publiés par {{ media.user.username }}">
                                 {{ media.user.username }}
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}"
+                               class="btn btn-primary btn-xs"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Afficher le profil de {{ media.user.username }}">
+                                <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>
 
@@ -285,7 +302,7 @@
                             {% endif %}
                             {% for section in media.sections %}
                                 <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                class="label label-primary">
+                                   class="label label-primary">
                                     {{ section.title|truncate(20) }}
                                 </a><br/>
                             {% else %}

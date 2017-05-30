@@ -76,7 +76,8 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'post' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2"
+                        class="{{ app.request.query.get('order') == 'post' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'post',
@@ -96,7 +97,8 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'user' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2"
+                        class="{{ app.request.query.get('order') == 'user' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'user',
@@ -143,21 +145,49 @@
                 {% for comment in comments %}
                     {% set comment = comment[0] %}
                     <tr>
+
                         <td>
-                            <a href="{{ path('app_post_show', { 'slug': comment.post.slug }) }}">
+                            <a href="{{ path('app_admin_comment_index', { 'post': comment.post.title }) }}"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Lister tous les commentaires de &quot;{{ comment.post.title }}&quot;">
                                 {{ comment.post.title }}
                             </a>
                         </td>
 
                         <td>
-                            <div class="table-text">
-                                {{ comment.text|striptags|truncate(255) }}
-                            </div>
+                            <a href="{{ path('app_post_show', { 'slug': comment.post.slug }) }}"
+                               class="btn btn-primary btn-xs"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Afficher l'article &quot;{{ comment.post.title }}&quot;">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
                         </td>
 
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': comment.user.slug }) }}">
+                            <a href="{{ path('app_post_show', { 'slug': comment.post.slug }) }}#comment-{{ comment.id }}"
+                               class="table-comment"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Afficher le commentaire complet">
+                                <div class="table-text">
+                                    {{ comment.text|striptags|truncate(255) }}
+                                </div>
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_admin_comment_index', { 'user': comment.user.username }) }}"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Lister tous les commentaires publiés par {{ comment.user.username }}">
                                 {{ comment.user.username }}
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_user_show', { 'slug': comment.user.slug }) }}"
+                               class="btn btn-primary btn-xs"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Afficher le profil de {{ comment.user.username }}">
+                                <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>
 

@@ -166,7 +166,9 @@
                     {% set gallery = gallery[0] %}
                     <tr>
                         <td>
-                            {{ gallery.title }}
+                            <a href="{{ path('app_section_show', { 'slug': gallery.slug }) }}">
+                                {{ gallery.title }}
+                            </a>
                         </td>
 
                         <td>

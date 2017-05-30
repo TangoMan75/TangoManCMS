@@ -131,7 +131,7 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2" class="{{ app.request.query.get('order') == 'author' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'author',
@@ -221,7 +221,7 @@
                         </a>
                     </th>
 
-                    <th colspan="3">Actions</th>
+                    <th colspan="2">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -229,13 +229,13 @@
                     {% set post = post[0] %}
                     <tr>
                         <td>
-                            <div class="cover"
-                                    {% if post.imageFileName %}
-                                 style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                            <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="cover"
+                                {% if post.imageFileName %}
+                                    style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
                                 {%  else %}
                                     style="padding-bottom: 80px; background-image: url('{{ post.image ? post.image : '//placehold.it/80?text=Image' }}');">
                                 {% endif %}
-                            </div>
+                            </a>
                         </td>
 
                         <td>
@@ -244,11 +244,24 @@
                             </a>
                         </td>
 
-                        <td>{{ post.slug }}</td>
+                        <td>
+                            {{ post.slug }}
+                        </td>
 
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}">
+                            <a href="{{ path('app_admin_post_index', { 'user': post.user.username }) }}"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Lister tous les articles publiés par {{ post.user.username }}">
                                 {{ post.user.username }}
+                            </a>
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}"
+                               class="btn btn-primary btn-xs"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Afficher le profil de {{ post.user.username }}">
+                                <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>
 
@@ -313,15 +326,6 @@
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}
-                        </td>
-
-                        <td>
-                            <a href="{{ path('app_post_show', { 'slug': post.slug }) }}"
-                               class="btn btn-primary btn-sm"
-                               data-toggle="tooltip" data-placement="top"
-                               data-original-title="Voir cette article">
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
                         </td>
 
                         <td>
