@@ -11,6 +11,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
+use Vich\UploaderBundle\Form\Type\VichFileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AdminEditMediaType extends AbstractType
 {
@@ -29,11 +31,31 @@ class AdminEditMediaType extends AbstractType
                 ]
             )
             ->add(
-                'text',
-                TextareaType::Class,
+                'subtitle',
+                TextType::Class,
                 [
-                    'label'    => 'Description',
+                    'label'    => 'Sous-titre',
                     'required' => false,
+                ]
+            )
+            ->add(
+                'imageFile',
+                VichImageType::class,
+                [
+                    'label'         => 'Image',
+                    'required'      => false,
+                    'allow_delete'  => false,
+                    'download_link' => false,
+                ]
+            )
+            ->add(
+                'documentFile',
+                VichFileType::class,
+                [
+                    'label'         => 'Document',
+                    'required'      => false,
+                    'allow_delete'  => false,
+                    'download_link' => false,
                 ]
             )
             ->add(
@@ -44,46 +66,29 @@ class AdminEditMediaType extends AbstractType
                 ]
             )
             ->add(
-                'user',
-                EntityType::class,
+                'text',
+                TextareaType::Class,
                 [
-                    'label'         => 'Auteur',
-                    'class'         => 'AppBundle:User',
-                    'placeholder'   => 'Selectionner un utilisateur',
-                    'empty_data'    => null,
-                    'multiple'      => false,
-                    'expanded'      => false,
-                    'required'      => false,
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                            ->orderBy('u.username');
-                    },
+                    'label'    => 'Description',
+                    'required' => false,
                 ]
             )
             ->add(
-                'page',
+                'section',
                 EntityType::class,
                 [
-                    'label'         => 'Page',
+                    'label'         => 'Section',
                     'class'         => 'AppBundle:Page',
-                    'placeholder'   => 'Selectionner une page',
+                    'placeholder'   => 'Selectionner une section',
                     'by_reference'  => false,
                     'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('p')
-                            ->orderBy('p.title');
+                        return $em->createQueryBuilder('section')
+                            ->orderBy('section.title');
                     },
-                ]
-            )
-            ->add(
-                'published',
-                CheckboxType::class,
-                [
-                    'label'    => 'Publier',
-                    'required' => false,
                 ]
             )
             ->add(
@@ -98,6 +103,14 @@ class AdminEditMediaType extends AbstractType
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('t');
                     },
+                ]
+            )
+            ->add(
+                'published',
+                CheckboxType::class,
+                [
+                    'label'    => 'Publier',
+                    'required' => false,
                 ]
             );
     }

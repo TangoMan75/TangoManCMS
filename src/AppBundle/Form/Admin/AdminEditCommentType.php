@@ -20,18 +20,6 @@ class AdminEditCommentType extends AbstractType
     {
         $builder
             ->add(
-                'user',
-                EntityType::class,
-                [
-                    'label'         => 'Auteur',
-                    'class'         => 'AppBundle:User',
-                    'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('u')
-                            ->orderBy('u.username');
-                    },
-                ]
-            )
-            ->add(
                 'post',
                 EntityType::class,
                 [

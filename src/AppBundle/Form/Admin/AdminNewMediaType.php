@@ -27,7 +27,14 @@ class AdminNewMediaType extends AbstractType
                 'title',
                 TextType::Class,
                 [
-                    'label'    => 'Titre',
+                    'label' => 'Titre',
+                ]
+            )
+            ->add(
+                'subtitle',
+                TextType::Class,
+                [
+                    'label'    => 'Sous-titre',
                     'required' => false,
                 ]
             )
@@ -68,20 +75,20 @@ class AdminNewMediaType extends AbstractType
                 ]
             )
             ->add(
-                'page',
+                'sections',
                 EntityType::class,
                 [
-                    'label'         => 'Page',
-                    'class'         => 'AppBundle:Page',
-                    'placeholder'   => 'Selectionner une page',
+                    'label'         => 'Sections',
+                    'class'         => 'AppBundle:Section',
+                    'placeholder'   => 'Selectionner une section',
                     'by_reference'  => false,
                     'empty_data'    => null,
                     'multiple'      => false,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
-                        return $em->createQueryBuilder('p')
-                            ->orderBy('p.title');
+                        return $em->createQueryBuilder('s')
+                            ->orderBy('s.title');
                     },
                 ]
             )

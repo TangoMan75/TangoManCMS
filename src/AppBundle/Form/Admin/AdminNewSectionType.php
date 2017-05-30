@@ -5,6 +5,7 @@ namespace AppBundle\Form\Admin;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,6 +25,22 @@ class AdminNewSectionType extends AbstractType
                 TextType::Class,
                 [
                     'label' => 'Titre',
+                ]
+            )
+            ->add(
+                'subtitle',
+                TextType::Class,
+                [
+                    'label'    => 'Sous-titre',
+                    'required' => false,
+                ]
+            )
+            ->add(
+                'summary',
+                TextareaType::Class,
+                [
+                    'label'    => 'Description',
+                    'required' => false,
                 ]
             )
             ->add(
