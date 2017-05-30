@@ -98,7 +98,7 @@ Trait Searchable
 
         if ($query->get('s_page')) {
             $dql->andWhere('page.title LIKE :page')
-                ->leftJoin($this->getTableName().'.page', 'page')
+                ->leftJoin($this->getTableName().'.pages', 'page')
                 ->setParameter(':page', '%'.$query->get('s_page').'%');
         }
 
