@@ -158,7 +158,7 @@
                         </a>
                     </th>
 
-                    <th colspan="2">Actions</th>
+                    <th colspan="3">Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -232,6 +232,15 @@
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_section_show', { 'slug': section.slug }) }}"
+                               class="btn btn-primary btn-sm"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Voir cette section">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
                         </td>
 
                         <td>
