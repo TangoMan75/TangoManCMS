@@ -190,15 +190,10 @@
                         <th>Role</th>
 
                         {#<th colspan="2">Token</th>#}
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <th colspan="2">
-                                Actions
-                            </th>
-                        {% else %}
-                            <th colspan="1">
-                                Actions
-                            </th>
-                        {% endif %}
+
+                        <th colspan="{% if is_granted('ROLE_SUPER_ADMIN') %}2{% else %}1{% endif %}">
+                            Actions
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -307,7 +302,7 @@
                                             })) }}"
                                                class="btn btn-warning btn-xs"
                                                data-toggle="tooltip" data-placement="top"
-                                               data-original-title="Réduire les droits utilisateur">
+                                               data-original-title="Retirer les droits super administrateur">
                                                 <span class="glyphicon glyphicon-minus"></span>
                                             </a>
                                         {% endif %}
@@ -322,7 +317,7 @@
                                         })) }}"
                                            class="btn btn-warning btn-xs"
                                            data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Réduire les droits utilisateur">
+                                           data-original-title="Retirer les droits administrateur">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
@@ -343,7 +338,7 @@
                                         })) }}"
                                            class="btn btn-warning btn-xs"
                                            data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Réduire les droits utilisateur">
+                                           data-original-title="Retirer les droits super utilisateur">
                                             <span class="glyphicon glyphicon-minus"></span>
                                         </a>
                                         <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
