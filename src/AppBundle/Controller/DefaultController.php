@@ -16,6 +16,18 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
+        $page = $em->getRepository('AppBundle:Page')->findOneBy(['slug' => 'homepage']);
+
+        if ($page) {
+            $page->addView();
+
+            return $this->render(
+                'page/show.html.twig',
+                [
+                    'page' => $page,
+                ]
+            );
+        }
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5, false);
