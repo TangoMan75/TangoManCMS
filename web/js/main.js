@@ -6,7 +6,7 @@ $(function() {
 /**
  * Floating back to top button.
  *
- * @version   0.1.0
+ * @version   0.2.0
  * @author    Matthias Morin <tangoman@free.fr>
  * @requires  jQuery & Bootstap
  * @requires  smooth scrolling
@@ -46,7 +46,7 @@ $(function() {
 
 // Smooth scrolling
 $(function() {
-    $("a[href*='#']").on("click", function(e) {
+    $("a[href^='#']").on("click", function(e) {
         e.preventDefault();
         var hash = this.hash;
         $("html, body").animate({
