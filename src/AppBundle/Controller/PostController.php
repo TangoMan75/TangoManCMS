@@ -293,10 +293,9 @@ class PostController extends Controller
     }
 
     /**
-     * Adds one upvote.
-     * @Route("/thumbup/{slug}", requirements={"slug": "[\w-]+"})
+     * @Route("/vote/{slug}/{thumb}", requirements={"slug": "[\w-]+", "thumb": "(up|down)"})
      */
-    public function thumbUpAction(Request $request, $slug)
+    public function voteAction(Request $request, $slug, $thumb)
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -316,45 +315,20 @@ class PostController extends Controller
             // Links vote, user & posts
             $vote->setUser($user);
             $vote->setPost($post);
-            $vote->setThumbUp();
-
-            $em->persist($vote);
-            $em->flush();
         }
 
-        // User is redirected to referrer page
-        return $this->redirect($request->get('callback'));
-    }
+        switch ($thumb) {
+            case 'up':
+                $vote->setValue(1);
+                break;
 
-    /**
-     * Adds one upvote.
-     * @Route("/thumbdown/{slug}", requirements={"slug": "[\w-]+"})
-     */
-    public function thumbDownAction(Request $request, $slug)
-    {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
+            case 'down':
+                $vote->setValue(0);
+                break;
         }
 
-        $em = $this->get('doctrine')->getManager();
-        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
-        $user = $this->getUser();
-        $vote = $em->getRepository('AppBundle:Vote')->findOneBy(['user' => $user, 'post' => $post]);
-
-        // When not found creates new vote
-        if (!$vote) {
-            $vote = new Vote();
-            // Links vote, user & posts
-            $vote->setUser($user);
-            $vote->setPost($post);
-            $vote->setThumbDown();
-
-            $em->persist($vote);
-            $em->flush();
-        }
+        $em->persist($vote);
+        $em->flush();
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));

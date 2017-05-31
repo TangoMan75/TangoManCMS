@@ -24,22 +24,10 @@ class Vote
     private $id;
 
     /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $thumbUp;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $thumbDown;
-
-    /**
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $stars;
+    private $value;
 
     /**
      * Stat constructor.
@@ -59,52 +47,14 @@ class Vote
     }
 
     /**
-     * @return $this
-     */
-    public function setThumbDown()
-    {
-        $this->thumbUp = false;
-        $this->thumbDown = true;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getThumbDown()
-    {
-        return $this->thumbDown;
-    }
-
-    /**
-     * @return $this
-     */
-    public function setThumbUp()
-    {
-        $this->thumbUp = true;
-        $this->thumbDown = false;
-
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getThumbUp()
-    {
-        return $this->thumbUp;
-    }
-
-    /**
-     * @param integer $stars
+     * @param integer $value
      *
      * @return $this
      */
-    public function setStars($stars)
+    public function setValue($value)
     {
-        if (!($stars < 0 || $stars > 5)) {
-            $this->stars = $stars;
+        if ($value >= 0 || $value < 6) {
+            $this->value = $value;
         }
 
         return $this;
@@ -113,8 +63,8 @@ class Vote
     /**
      * @return int
      */
-    public function getStars()
+    public function getValue()
     {
-        return $this->stars;
+        return $this->value;
     }
 }
