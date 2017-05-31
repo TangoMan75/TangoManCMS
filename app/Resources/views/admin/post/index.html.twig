@@ -250,19 +250,18 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_post_index', { 'user': post.user }) }}"
+                            <a href="{{ path('app_admin_user_index', { 'user': post.user.username }) }}" class="cover"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les articles publiés par {{ post.user }}">
-                                {{ post.user }}
+                               data-original-title="Afficher les détails de &quot;{{ post.user }}&quot;"
+                               style="padding-bottom: 30px; width: 30px; background-image: url('{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}');">
                             </a>
                         </td>
 
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': post.user.slug }) }}"
-                               class="btn btn-primary btn-xs"
+                            <a href="{{ path('app_admin_post_index', { 'user': post.user.username }) }}"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher le profil de {{ post.user }}">
-                                <span class="glyphicon glyphicon-eye-open"></span>
+                               data-original-title="Lister tous les articles publiés par &quot;{{ post.user }}&quot;">
+                                {{ post.user }}
                             </a>
                         </td>
 
@@ -273,9 +272,33 @@
                         </td>
 
                         <td>
-                            <span class="label label-success">
-                                {{ post.comments|length }}
-                            </span>
+                            {% if post.comments|length > 1 %}
+                                <a href="{{ path('app_admin_comment_index', { 'post' : post.title }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ post.comments|length }} commentaires reçu par l'article &quot;{{ post }}&quot;"
+                                >
+                                    Commentaires
+                                    <span class="badge-sm text-success">{{ post.comments|length }}</span>
+                                </a>
+                            {% elseif post.comments|length > 0 %}
+                                {% for comment in post.comments %}
+                                    <a href="{{ path('app_admin_comment_index', { 'post' : post.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail du commentaire &quot;{{ comment }}&quot; reçu par l'article &quot;{{ post }}&quot;"
+                                    >
+                                        {{ comment|truncate(15) }}
+                                    </a>
+                                {% endfor %}
+                            {% else %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="L'article &quot;{{ post }}&quot; n'a reçu aucun commentaire"
+                                >
+                                        Aucun commentaire
+                                    </span>
+                            {% endif %}
                         </td>
 
                         <td>
@@ -309,21 +332,29 @@
                             {% endfor %}
                         </td>
 
-                        <td>{{ post.created|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <span class="small">
+                                {{ post.created|date('d/m/Y H:i:s') }}
+                            </span>
+                        </td>
 
-                        <td>{{ post.modified|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <span class="small">
+                                {{ post.modified|date('d/m/Y H:i:s') }}
+                            </span>
+                        </td>
 
                         <td>
                             {% if post.published %}
                                 <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Retirer la publication">
+                                   data-original-title="Retirer la publication de &quot;{{ post }}&quot;">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
                                 <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Publier cet article">
+                                   data-original-title="Publier &quot;{{ post }}&quot;">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}

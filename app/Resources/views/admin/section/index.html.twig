@@ -17,7 +17,7 @@
                         <label class="control-label col-sm-4" for="inputTitle">Titre</label>
                         <div class="col-sm-8">
                             <input type="text" name="title" id="inputTitle" class="form-control"
-                            value="{{ app.request.get('title') }}"/>
+                                   value="{{ app.request.get('title') }}"/>
                         </div>
                     </div>
 
@@ -194,16 +194,27 @@
                         <td>
                             {% if section.pages|length > 1 %}
                                 <a href="{{ path('app_admin_page_index', { 'section': section.title }) }}"
-                                   class="label label-success">
-                                    Sections
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ section.pages|length }} pages contenant la section &quot;{{ section.title }}&quot;"
+                                >
+                                    Pages
                                     <span class="badge-sm text-success">{{ section.pages|length }}</span>
-                                </a><br />
-                            {% endif %}
-                            {% for page in section.pages %}
-                                <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
-                                   class="label label-primary">
-                                    {{ page.title|truncate(20) }}
                                 </a><br/>
+                            {% endif %}
+
+                            {% for page in section.pages %}
+                                {% if loop.index < 5 %}
+                                    <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de la page &quot;{{ page.title|truncate(20) }}&quot;"
+                                    >
+                                        {{ page.title|truncate(20) }}
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
                                 <span class="label label-danger">Aucune page</span>
                             {% endfor %}
@@ -212,16 +223,27 @@
                         <td>
                             {% if section.posts|length > 1 %}
                                 <a href="{{ path('app_admin_post_index', { 'section': section.title }) }}"
-                                   class="label label-success">
-                                    Sections
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ section.posts|length }} articles de la section &quot;{{ section.title }}&quot;"
+                                >
+                                    Articles
                                     <span class="badge-sm text-success">{{ section.posts|length }}</span>
-                                </a><br />
-                            {% endif %}
-                            {% for post in section.posts %}
-                                <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
-                                   class="label label-primary">
-                                    {{ post.title|truncate(20) }}
                                 </a><br/>
+                            {% endif %}
+
+                            {% for post in section.posts %}
+                                {% if loop.index < 5 %}
+                                    <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de l'article &quot;{{ post.title|truncate(20) }}&quot;"
+                                    >
+                                        {{ post.title|truncate(20) }}
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
                                 <span class="label label-danger">Aucun article</span>
                             {% endfor %}
@@ -237,11 +259,15 @@
                         </td>
 
                         <td>
-                            {{ section.created|date('d/m/Y H:i:s') }}
+                            <span class="small">
+                                {{ section.created|date('d/m/Y H:i:s') }}
+                            </span>
                         </td>
 
                         <td>
-                            {{ section.modified|date('d/m/Y H:i:s') }}
+                            <span class="small">
+                                {{ section.modified|date('d/m/Y H:i:s') }}
+                            </span>
                         </td>
 
                         <td>

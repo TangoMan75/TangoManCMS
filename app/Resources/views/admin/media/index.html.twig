@@ -262,19 +262,18 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_post_index', { 'user': media.user }) }}"
+                            <a href="{{ path('app_admin_user_index', { 'user': media.user.username }) }}" class="cover"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les médias publiés par {{ media.user }}">
-                                {{ media.user }}
+                               data-original-title="Afficher les détails de &quot;{{ media.user }}&quot;"
+                               style="padding-bottom: 30px; width: 30px; background-image: url('{{ media.user.avatar ? media.user.avatar : asset('img/user.jpg') }}');">
                             </a>
                         </td>
 
                         <td>
-                            <a href="{{ path('app_user_show', { 'slug': media.user.slug }) }}"
-                               class="btn btn-primary btn-xs"
+                            <a href="{{ path('app_admin_media_index', { 'user': media.user.username }) }}"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher le profil de {{ media.user }}">
-                                <span class="glyphicon glyphicon-eye-open"></span>
+                               data-original-title="Lister tous les médias publiés par &quot;{{ media.user }}&quot;">
+                                {{ media.user }}
                             </a>
                         </td>
 
@@ -285,9 +284,33 @@
                         </td>
 
                         <td>
-                            <span class="label label-success">
-                                {{ media.comments|length }}
-                            </span>
+                            {% if media.comments|length > 1 %}
+                                <a href="{{ path('app_admin_comment_index', { 'media' : media.title }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ media.comments|length }} commentaires reçu par le média &quot;{{ media }}&quot;"
+                                >
+                                    Commentaires
+                                    <span class="badge-sm text-success">{{ media.comments|length }}</span>
+                                </a>
+                            {% elseif media.comments|length > 0 %}
+                                {% for comment in media.comments %}
+                                    <a href="{{ path('app_admin_comment_index', { 'media' : media.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail du commentaire &quot;{{ comment }}&quot; reçu par le média &quot;{{ media }}&quot;"
+                                    >
+                                        {{ comment|truncate(15) }}
+                                    </a>
+                                {% endfor %}
+                            {% else %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="Le média &quot;{{ media }}&quot; n'a reçu aucun commentaire"
+                                >
+                                        Aucun commentaire
+                                    </span>
+                            {% endif %}
                         </td>
 
                         <td>
@@ -321,21 +344,29 @@
                             {% endfor %}
                         </td>
 
-                        <td>{{ media.created|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <span class="small">
+                                {{ media.created|date('d/m/Y H:i:s') }}
+                            </span>
+                        </td>
 
-                        <td>{{ media.modified|date('d/m/Y H:i:s') }}</td>
+                        <td>
+                            <span class="small">
+                                {{ media.modified|date('d/m/Y H:i:s') }}
+                            </span>
+                        </td>
 
                         <td>
                             {% if media.published %}
                                 <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Retirer la publication">
+                                   data-original-title="Retirer la publication de &quot;{{ media }}&quot;">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
                                 <a href="{{ path('app_admin_media_publish', { 'id': media.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Publier cet article">
+                                   data-original-title="Publier &quot;{{ media }}&quot;">
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>
                             {% endif %}

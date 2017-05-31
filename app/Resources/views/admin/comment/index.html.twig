@@ -175,27 +175,33 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_user_index', { 'user': comment.user }) }}" class="cover"
+                            <a href="{{ path('app_admin_user_index', { 'user': comment.user.username }) }}" class="cover"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher le profil de {{ comment.user }}"
+                               data-original-title="Afficher le profil de &quot;{{ comment.user }}&quot;"
                                style="padding-bottom: 30px; width: 30px; background-image: url('{{ comment.user.avatar ? comment.user.avatar : asset('img/user.jpg') }}');">
                             </a>
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_comment_index', { 'user': comment.user }) }}"
+                            <a href="{{ path('app_admin_comment_index', { 'user': comment.user.username }) }}"
+                               class="label label-primary"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les commentaires publiés par {{ comment.user }}">
+                               data-original-title="Lister les {{ comment.user.comments|length }} commentaires publiés par &quot;{{ comment.user }}&quot;">
                                 {{ comment.user }}
+                                <span class="badge-sm text-primary">{{ comment.user.comments|length }}</span>
                             </a>
                         </td>
 
                         <td>
-                            {{ comment.created|date('d/m/Y H:i:s') }}
+                            <span class="small">
+                                {{ comment.created|date('d/m/Y H:i:s') }}
+                            </span>
                         </td>
 
                         <td>
-                            {{ comment.modified|date('d/m/Y H:i:s') }}
+                            <span class="small">
+                                {{ comment.modified|date('d/m/Y H:i:s') }}
+                            </span>
                         </td>
 
                         <td>
