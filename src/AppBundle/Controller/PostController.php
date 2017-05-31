@@ -293,7 +293,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/vote/{slug}/{thumb}", requirements={"slug": "[\w-]+", "thumb": "(up|down)"})
+     * @Route("/vote/{slug}/{vote}", requirements={"slug": "[\w-]+", "vote": "(up|down)"})
      */
     public function voteAction(Request $request, $slug, $thumb)
     {

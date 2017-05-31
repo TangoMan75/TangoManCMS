@@ -45,13 +45,7 @@ class LoadVotes implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         for ($i = 0; $i < 200; $i++) {
             $vote = new Vote();
-            if ($i % 2) {
-                $vote->setThumbUp();
-            } else {
-                $vote->setThumbDown();
-            }
-
-            $vote->setStars(mt_rand(0, 5));
+            $vote->setValue($i % 2);
 
             $em->persist($vote);
         }
