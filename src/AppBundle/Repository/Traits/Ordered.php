@@ -102,6 +102,12 @@ Trait Ordered
                 $dql->leftJoin($this->getTableName().'.users', 'users');
                 break;
 
+            // Vote count
+            case 'votes':
+                $dql->addSelect('COUNT(votes) as orderParam');
+                $dql->leftJoin($this->getTableName().'.votes', 'votes');
+                break;
+
             default:
                 $dql->addSelect($this->getTableName().'.'.$order.' as orderParam');
                 break;

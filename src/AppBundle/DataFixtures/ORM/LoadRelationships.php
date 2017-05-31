@@ -43,15 +43,15 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
     public function load(ObjectManager $em)
     {
         // findBy seems to be the only working method in fixtures
-        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
-        $pages      = $em->getRepository('AppBundle:Page')->findAll();
-        $posts      = $em->getRepository('AppBundle:Post')->findAll();
+        $comments = $em->getRepository('AppBundle:Comment')->findAll();
+        $pages = $em->getRepository('AppBundle:Page')->findAll();
+        $posts = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $roles      = $em->getRepository('AppBundle:Role')->findAll();
-        $sections   = $em->getRepository('AppBundle:Section')->findAll();
-        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
-        $users      = $em->getRepository('AppBundle:User')->findAll();
-        $votes      = $em->getRepository('AppBundle:Vote')->findAll();
+        $roles = $em->getRepository('AppBundle:Role')->findAll();
+        $sections = $em->getRepository('AppBundle:Section')->findAll();
+        $tags = $em->getRepository('AppBundle:Tag')->findAll();
+        $users = $em->getRepository('AppBundle:User')->findAll();
+        $votes = $em->getRepository('AppBundle:Vote')->findAll();
 
         foreach ($pages as $page) {
             shuffle($sections);
@@ -89,10 +89,6 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
 
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
 
-            if ($j < count($votes)) {
-                $post->addVote($votes[$j++]);
-            }
-
             $em->persist($post);
         }
         $em->flush();
@@ -105,14 +101,11 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         }
         $em->flush();
 
-        $j = 0;
-        foreach ($votes as $vote) {
-            if ($j < count($users)) {
-                $vote->setUser($users[$j++]);
-            }
-
+        foreach ($votes as $i => $vote) {
+            $vote->setUser($users[mt_rand(1, count($users) - 1)]);
+            $vote->setPost($posts[mt_rand(1, count($posts) - 1)]);
             $em->persist($vote);
+            $em->flush();
         }
-        $em->flush();
     }
 }
