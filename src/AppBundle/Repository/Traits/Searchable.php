@@ -81,6 +81,12 @@ Trait Searchable
                     ->setParameter(':published', 0);
         }
 
+        if ($query->get('section')) {
+            $dql->andWhere('section.title LIKE :section')
+                ->leftJoin($this->getTableName().'.sections', 'section')
+                ->setParameter(':section', '%'.$query->get('section').'%');
+        }
+
         if ($query->get('slug')) {
             $dql->andWhere($this->getTableName().'.slug LIKE :slug')
                 ->setParameter(':slug', '%'.$query->get('slug').'%');
