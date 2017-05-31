@@ -72,6 +72,12 @@ Trait Ordered
                 $dql->leftJoin($this->getTableName().'.posts', 'post');
                 break;
 
+            // Page by title
+            case 'post':
+                $dql->addSelect('post.title as orderParam');
+                $dql->leftJoin($this->getTableName().'.post', 'post');
+                break;
+
             // Section count
             case 'sections':
                 $dql->addSelect('COUNT(section.id) as orderParam');
