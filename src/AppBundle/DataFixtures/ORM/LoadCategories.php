@@ -44,47 +44,44 @@ class LoadCategories implements FixtureInterface, ContainerAwareInterface, Order
     public function load(ObjectManager $em)
     {
         $categories = [
-            'Argus 360',   'argus360',
-            'Article',     'post',
-            'Dailymotion', 'dailymotion',
-            'Galerie',     'gallery',
-            'Document',    'document',
-            'Dossier',     'folder',
-            'Embed',       'embed',
-            'En Avant',    'featured',
-            'Fichier',     'file',
-            'Gist',        'gist',
-            'Image',       'image',
-            'Lien',        'link',
-            'Photo',       'picture',
-            'Publié',      'published',
-            'Theta S',     'thetas',
-            'Vidéo',       'video',
-            'Vimeo',       'vimeo',
-            'Youtube',     'youtube',
+            'Argus 360'                => 'argus360',
+            'Article'                  => 'post',
+            'Dailymotion'              => 'dailymotion',
+            'Galerie'                  => 'gallery',
+            'Document'                 => 'document',
+            'Dossier'                  => 'folder',
+            'Embed'                    => 'embed',
+            'En Avant'                 => 'featured',
+            'Fichier'                  => 'file',
+            'Gist'                     => 'gist',
+            'Image'                    => 'image',
+            'Lien'                     => 'link',
+            'Photo'                    => 'picture',
+            'Publié'                   => 'published',
+            'Theta S'                  => 'thetas',
+            'Vidéo'                    => 'video',
+            'Vimeo'                    => 'vimeo',
+            'Youtube'                  => 'youtube',
+            'Document Libre Office'    => 'ods',
+            'Document PDF'             => 'pdf',
+            'Document Word'            => 'doc',
+            'Fichier Texte'            => 'txt',
+            'Image GIF'                => 'gif',
+            'Image JPEG'               => 'jpeg',
+            'Image JPG'                => 'jpg',
+            'Image PNG'                => 'png',
+            'Présentation Power Point' => 'pptx',
+            'Tableau CSV'              => 'csv',
+            'Tableau Excel'            => 'xls',
+            'Tableau Libre Office'     => 'odt',
         ];
 
-        $documents = [
-            'Document Libre Office',    'ods',
-            'Document PDF',             'pdf',
-            'Document Word',            'doc',
-            'Fichier Texte',            'txt',
-            'Image GIF',                'gif',
-            'Image JPEG',               'jpeg',
-            'Image JPG',                'jpg',
-            'Image PNG',                'png',
-            'Présentation Power Point', 'pptx',
-            'Tableau CSV',              'csv',
-            'Tableau Excel',            'xls',
-            'Tableau Libre Office',     'odt',
-        ];
+        foreach ($categories as $name => $type) {
+            $category = new Category();
+            $category->setName($name)
+                ->setType($type);
 
-        for ($i = 0; $i < count($tags); $i = $i + 3) {
-            $tag = new Category();
-            $tag->setName($tags[$i])
-                ->setType($tags[$i + 1]);
-
-            $em->persist($tag);
+            $em->persist($category);
         }
 
         $em->flush();

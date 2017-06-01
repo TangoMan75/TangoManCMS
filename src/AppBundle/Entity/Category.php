@@ -33,12 +33,6 @@ class Category
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $label;
-
-    /**
      * Category constructor.
      */
     public function __construct()
