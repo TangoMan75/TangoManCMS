@@ -308,16 +308,37 @@
                         </td>
 
                         <td>
-                            {% if post.sections|length >1 %}
-                                <span class="label label-success">{{ post.sections|length }} sections</span><br/>
-                            {% endif %}
-                            {% for section in post.sections %}
-                                <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                   class="label label-primary">
-                                    {{ section.title|truncate(20) }}
+                            {% if post.sections|length > 1 %}
+                                <a href="{{ path('app_admin_section_index', { 'post': post.title }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ post.sections|length }} sections contenant l'article &quot;{{ post.title }}&quot;"
+                                >
+                                    Sections
+                                    <span class="badge-sm text-success">{{ post.sections|length }}</span>
                                 </a><br/>
+                            {% endif %}
+
+                            {% for section in post.sections %}
+                                {% if loop.index < 5 %}
+                                    <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de la section &quot;{{ section.title|truncate(20) }}&quot; contenant l'article &quot;{{ post.title }}&quot;"
+                                    >
+                                        {{ section.title|truncate(20) }}
+                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucune section</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="L'article &quot;{{ post }}&quot; n'appartient à aucune section"
+                                >
+                                    Aucune section
+                                </span>
                             {% endfor %}
                         </td>
 
@@ -362,13 +383,18 @@
 
                         <td>
                             <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri|callback }) }}"
-                               class="btn btn-warning btn-sm">
+                               class="btn btn-warning btn-sm"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Modifier l'article &quot;{{ post }}&quot;"
+                            >
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Modifier
                             </a>
                         </td>
 
-                        <td>
+                        <td data-toggle="tooltip" data-placement="top"
+                            data-original-title="Supprimer l'article &quot;{{ post }}&quot;"
+                        >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ post.title }}"
                                     data-path="{{ path('app_admin_post_delete', { 'id': post.id, 'callback': app.request.uri|remove_query }) }}">

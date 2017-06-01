@@ -320,27 +320,37 @@
                         </td>
 
                         <td>
-                            {% if media.sections|length >1 %}
-                                <span class="label label-success">{{ media.sections|length }} sections</span><br/>
+                            {% if media.sections|length > 1 %}
+                                <a href="{{ path('app_admin_gallery_index', { 'media': media.title }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ media.sections|length }} sections contenant le média &quot;{{ media.title }}&quot;"
+                                >
+                                    Sections
+                                    <span class="badge-sm text-success">{{ media.sections|length }}</span>
+                                </a><br/>
                             {% endif %}
-                            {% for section in media.sections %}
-                                <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                   class="label label-primary">
-                                    {{ section.title|truncate(20) }}
-                                </a><br/>
-                            {% else %}
-                                <span class="label label-danger">Aucune section</span>
-                            {% endfor %}
-                        </td>
 
-                        <td>
-                            {% for tag in media.tags %}
-                                <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'tag' : tag.name})) }}"
-                                   class="label label-{{ tag.type }}">
-                                    {{ tag.name }}
-                                </a><br/>
+                            {% for section in media.sections %}
+                                {% if loop.index < 5 %}
+                                    <a href="{{ path('app_admin_gallery_index', { 'title': section.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de la galerie &quot;{{ section.title|truncate(20) }}&quot; contenant le média &quot;{{ media.title }}&quot;"
+                                    >
+                                        {{ section.title|truncate(20) }}
+                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucune étiquette</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="Le média &quot;{{ media }}&quot; n'appartient à aucune galerie"
+                                >
+                                    Aucune galerie
+                                </span>
                             {% endfor %}
                         </td>
 
@@ -374,13 +384,18 @@
 
                         <td>
                             <a href="{{ path('app_admin_media_edit', { 'id': media.id, 'callback': app.request.uri|callback }) }}"
-                               class="btn btn-warning btn-sm">
+                               class="btn btn-warning btn-sm"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Modifier le média &quot;{{ media }}&quot;"
+                            >
                                 <span class="glyphicon glyphicon-edit"></span>
                                 Modifier
                             </a>
                         </td>
 
-                        <td>
+                        <td data-toggle="tooltip" data-placement="top"
+                            data-original-title="Supprimer le média &quot;{{ media }}&quot;"
+                        >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ media.title }}"
                                     data-path="{{ path('app_admin_media_delete', { 'id': media.id, 'callback': app.request.uri|remove_query }) }}">
