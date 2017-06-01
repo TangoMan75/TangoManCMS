@@ -53,6 +53,12 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $users = $em->getRepository('AppBundle:User')->findAll();
         $votes = $em->getRepository('AppBundle:Vote')->findAll();
 
+        foreach ($users as $user) {
+            $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
+            $em->persist($user);
+        }
+        $em->flush();
+
         foreach ($pages as $page) {
             shuffle($sections);
             for ($i = 0; $i < mt_rand(0, 4); $i++) {
