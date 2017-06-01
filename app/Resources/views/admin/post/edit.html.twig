@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Article - Modifier {{ post.title }}{% endblock %}
+{% block title %}{{ parent() }} | Article - Modifier {{ post }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -13,8 +13,8 @@
 {% block admin %}
     <header>
         <h1>Articles</h1>
-        <h2>Modifier l'article &quot;{{ post.title }}&quot;</h2>
-        <p>Ici vous pouvez modifier l'article &quot;{{ post.title }}&quot; de <strong>{{ site_name }}</strong></p>
+        <h2>Modifier l'article &quot;{{ post }}&quot;</h2>
+        <p>Ici vous pouvez modifier l'article &quot;{{ post }}&quot; de <strong>{{ site_name }}</strong></p>
     </header>
     {% include "admin/includes/_post_tabs.html.twig" %}
     <section id="edit">

@@ -183,7 +183,7 @@
                     <tr>
                         <td>
                             <a href="{{ path('app_section_show', { 'slug': section.slug }) }}">
-                                {{ section.title }}
+                                {{ section }}
                             </a>
                         </td>
 
@@ -196,7 +196,7 @@
                                 <a href="{{ path('app_admin_page_index', { 'section': section.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ section.pages|length }} pages contenant la section &quot;{{ section.title }}&quot;"
+                                   data-original-title="Lister les {{ section.pages|length }} pages contenant la section &quot;{{ section }}&quot;"
                                 >
                                     Pages
                                     <span class="badge-sm text-success">{{ section.pages|length }}</span>
@@ -204,19 +204,22 @@
                             {% endif %}
 
                             {% for page in section.pages %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de la page &quot;{{ page.title|truncate(20) }}&quot;"
+                                       data-original-title="Voir le détail de la page &quot;{{ page|truncate(20) }}&quot;"
                                     >
-                                        {{ page.title|truncate(20) }}
+                                        {{ page|truncate(20) }}
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
                                 {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucune page</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="La section &quot;{{ section }}&quot; n'appartient à aucune page"
+                                >Aucune page</span>
                             {% endfor %}
                         </td>
 
@@ -225,7 +228,7 @@
                                 <a href="{{ path('app_admin_post_index', { 'section': section.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ section.posts|length }} articles de la section &quot;{{ section.title }}&quot;"
+                                   data-original-title="Lister les {{ section.posts|length }} articles de la section &quot;{{ section }}&quot;"
                                 >
                                     Articles
                                     <span class="badge-sm text-success">{{ section.posts|length }}</span>
@@ -233,19 +236,22 @@
                             {% endif %}
 
                             {% for post in section.posts %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de l'article &quot;{{ post.title|truncate(20) }}&quot;"
+                                       data-original-title="Voir le détail de l'article &quot;{{ post|truncate(20) }}&quot;"
                                     >
-                                        {{ post.title|truncate(20) }}
+                                        {{ post|truncate(20) }}
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
                                 {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucun article</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="La section &quot;{{ section }}&quot; ne contient aucun article"
+                                >Aucun article</span>
                             {% endfor %}
                         </td>
 
@@ -301,7 +307,7 @@
                             data-original-title="Supprimer la section &quot;{{ section }}&quot;"
                         >
                             <button type="button" class="btn btn-danger btn-sm"
-                                    data-toggle="modal" data-target=".my-modal" data-item="{{ section.title }}"
+                                    data-toggle="modal" data-target=".my-modal" data-item="{{ section }}"
                                     data-path="{{ path('app_admin_section_delete', { 'id': section.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer

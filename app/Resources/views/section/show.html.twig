@@ -1,12 +1,12 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | {{ section.title }}{% endblock %}
+{% block title %}{{ parent() }} | {{ section }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <section id="section-{{ section.id }}">
             <header class="section-header">
-                <h1 class="section-title">{{ section.title }}</h1>
+                <h1 class="section-title">{{ section }}</h1>
                 <h2 class="section-subtitle">{{ section.subtitle }}</h2>
                 <p class="section-summary">{{ section.summary|raw }}</p>
                 {% if is_granted('ROLE_ADMIN') %}

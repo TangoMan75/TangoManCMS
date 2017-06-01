@@ -251,7 +251,7 @@
 
                         <td>
                             <a href="{{ path('app_media_show', { 'slug': media.slug }) }}">
-                                {{ media.title }}
+                                {{ media }}
                             </a>
                         </td>
 
@@ -324,7 +324,7 @@
                                 <a href="{{ path('app_admin_gallery_index', { 'media': media.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ media.sections|length }} sections contenant le média &quot;{{ media.title }}&quot;"
+                                   data-original-title="Lister les {{ media.sections|length }} sections contenant le média &quot;{{ media }}&quot;"
                                 >
                                     Sections
                                     <span class="badge-sm text-success">{{ media.sections|length }}</span>
@@ -332,13 +332,13 @@
                             {% endif %}
 
                             {% for section in media.sections %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_gallery_index', { 'title': section.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de la galerie &quot;{{ section.title|truncate(20) }}&quot; contenant le média &quot;{{ media.title }}&quot;"
+                                       data-original-title="Voir le détail de la galerie &quot;{{ section|truncate(20) }}&quot; contenant le média &quot;{{ media }}&quot;"
                                     >
-                                        {{ section.title|truncate(20) }}
+                                        {{ section|truncate(20) }}
                                         <span class="badge-sm text-primary">{{ section.posts|length }}</span>
                                     </a><br/>
                                 {% elseif loop.last %}
@@ -397,7 +397,7 @@
                             data-original-title="Supprimer le média &quot;{{ media }}&quot;"
                         >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target=".my-modal" data-item="{{ media.title }}"
+                                    data-target=".my-modal" data-item="{{ media }}"
                                     data-path="{{ path('app_admin_media_delete', { 'id': media.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer

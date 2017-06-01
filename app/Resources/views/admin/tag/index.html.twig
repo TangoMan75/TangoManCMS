@@ -121,7 +121,7 @@
                             'order' : 'posts',
                             'way'   : app.request.query.get('order') == 'posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Posts
+                            Publications
                         </a>
                     </th>
 
@@ -167,44 +167,100 @@
 
                         <td>
                             {% if tag.posts|length > 1 %}
-                                <span class="label label-success">{{ tag.posts|length }} posts</span><br/>
-                            {% endif %}
-                            {% for post in tag.posts %}
-                                <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
-                                   class="label label-primary">
-                                    {{ post.title|truncate(20) }}
+                                <a href="{{ path('app_admin_post_index', { 'tag': tag.name }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ tag.posts|length }} publications possédant l'étiquette &quot;{{ tag }}&quot;"
+                                >
+                                    Publications
+                                    <span class="badge-sm text-success">{{ tag.posts|length }}</span>
                                 </a><br/>
+                            {% endif %}
+
+                            {% for post in tag.posts %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de l'article &quot;{{ post|truncate(20) }}&quot;"
+                                    >
+                                        {{ post|truncate(20) }}
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucun post</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="L'étiquette &quot;{{ tag }}&quot; n'a été attribuée à aucune publication"
+                                >Aucune publication</span>
                             {% endfor %}
                         </td>
 
-
                         <td>
                             {% if tag.sections|length > 1 %}
-                                <span class="label label-success">{{ tag.sections|length }} sections</span><br/>
-                            {% endif %}
-                            {% for section in tag.sections %}
-                                <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                   class="label label-primary">
-                                    {{ section.title|truncate(20) }}
+                                <a href="{{ path('app_admin_section_index', { 'tag': tag.name }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ tag.sections|length }} sections possédant l'étiquette &quot;{{ tag }}&quot;"
+                                >
+                                    Sections
+                                    <span class="badge-sm text-success">{{ tag.sections|length }}</span>
                                 </a><br/>
+                            {% endif %}
+
+                            {% for section in tag.sections %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot;"
+                                    >
+                                        {{ section|truncate(20) }}
+                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucune section</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="L'étiquette &quot;{{ tag }}&quot; n'a été attribuée à aucune section"
+                                >
+                                    Aucune section
+                                </span>
                             {% endfor %}
                         </td>
 
                         <td>
                             {% if tag.pages|length > 1 %}
-                                <span class="label label-success">{{ tag.pages|length }} pages</span><br/>
-                            {% endif %}
-                            {% for page in tag.pages %}
-                                <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
-                                   class="label label-primary">
-                                    {{ page.title|truncate(20) }}
+                                <a href="{{ path('app_admin_page_index', { 'tag': tag.name }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ tag.pages|length }} pages possédant l'étiquette &quot;{{ tag }}&quot;"
+                                >
+                                    Pages
+                                    <span class="badge-sm text-success">{{ tag.pages|length }}</span>
                                 </a><br/>
+                            {% endif %}
+
+                            {% for page in tag.pages %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de la page &quot;{{ page|truncate(20) }}&quot;"
+                                    >
+                                        {{ page|truncate(20) }}
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucune page</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="L'étiquette &quot;{{ tag }}&quot; n'a été attribuée à aucune page"
+                                >Aucune page</span>
                             {% endfor %}
                         </td>
 

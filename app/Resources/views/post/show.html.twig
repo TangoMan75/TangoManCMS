@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | {{ post.title | capitalize }} {% endblock %}
+{% block title %}{{ parent() }} | {{ post|capitalize }}{% endblock %}
 
 {% block head %}
     {{ parent() }}

@@ -149,8 +149,8 @@
                         <td>
                             <a href="{{ path('app_admin_comment_index', { 'post': comment.post.title }) }}"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister tous les commentaires de &quot;{{ comment.post.title }}&quot;">
-                                {{ comment.post.title }}
+                               data-original-title="Lister tous les commentaires de &quot;{{ comment.post }}&quot;">
+                                {{ comment.post }}
                             </a>
                         </td>
 
@@ -158,7 +158,7 @@
                             <a href="{{ path('app_post_show', { 'slug': comment.post.slug }) }}"
                                class="btn btn-primary btn-xs"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher l'article &quot;{{ comment.post.title }}&quot;">
+                               data-original-title="Afficher l'article &quot;{{ comment.post }}&quot;">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>

@@ -1,6 +1,6 @@
 {% extends 'admin/admin-base.html.twig' %}
 
-{% block title %}{{ parent() }} | Sections - Modifier {{ section.title }}{% endblock %}
+{% block title %}{{ parent() }} | Sections - Modifier {{ section }}{% endblock %}
 
 {% block head %}
     {{ parent() }}
@@ -13,8 +13,8 @@
 {% block admin %}
     <header>
         <h1>Sections</h1>
-        <h2>Modifier la section &quot;{{ section.title }}&quot;</h2>
-        <p>Ici vous pouvez modifier la section &quot;{{ section.title }}&quot; de {{ site_name }}</p>
+        <h2>Modifier la section &quot;{{ section }}&quot;</h2>
+        <p>Ici vous pouvez modifier la section &quot;{{ section }}&quot; de {{ site_name }}</p>
     </header>
     {% include "admin/includes/_section_tabs.html.twig" %}
     <section id="edit">

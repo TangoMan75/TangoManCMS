@@ -183,7 +183,7 @@
                     <tr>
                         <td>
                             <a href="{{ path('app_section_show', { 'slug': gallery.slug }) }}">
-                                {{ gallery.title }}
+                                {{ gallery }}
                             </a>
                         </td>
 
@@ -196,7 +196,7 @@
                                 <a href="{{ path('app_admin_page_index', { 'gallery': gallery.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ gallery.pages|length }} pages contenant la galerie &quot;{{ gallery.title }}&quot;"
+                                   data-original-title="Lister les {{ gallery.pages|length }} pages contenant la galerie &quot;{{ gallery }}&quot;"
                                 >
                                     Pages
                                     <span class="badge-sm text-success">{{ gallery.pages|length }}</span>
@@ -204,13 +204,13 @@
                             {% endif %}
 
                             {% for page in gallery.pages %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de la page &quot;{{ page.title|truncate(20) }}&quot;"
+                                       data-original-title="Voir le détail de la page &quot;{{ page|truncate(20) }}&quot;"
                                     >
-                                        {{ page.title|truncate(20) }}
+                                        {{ page|truncate(20) }}
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
@@ -225,7 +225,7 @@
                                 <a href="{{ path('app_admin_post_index', { 'gallery': gallery.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ gallery.posts|length }} médias de la galerie &quot;{{ gallery.title }}&quot;"
+                                   data-original-title="Lister les {{ gallery.posts|length }} médias de la galerie &quot;{{ gallery }}&quot;"
                                 >
                                     Articles
                                     <span class="badge-sm text-success">{{ gallery.posts|length }}</span>
@@ -233,13 +233,13 @@
                             {% endif %}
 
                             {% for post in gallery.posts %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail du média &quot;{{ post.title|truncate(20) }}&quot;"
+                                       data-original-title="Voir le détail du média &quot;{{ post|truncate(20) }}&quot;"
                                     >
-                                        {{ post.title|truncate(20) }}
+                                        {{ post|truncate(20) }}
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
@@ -301,7 +301,7 @@
                             data-original-title="Supprimer la galerie &quot;{{ gallery }}&quot;"
                         >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target=".my-modal" data-item="{{ gallery.title }}"
+                                    data-target=".my-modal" data-item="{{ gallery }}"
                                     data-path="{{ path('app_admin_gallery_delete', { 'id': gallery.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer

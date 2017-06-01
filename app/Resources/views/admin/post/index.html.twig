@@ -241,7 +241,7 @@
 
                         <td>
                             <a href="{{ path('app_post_show', { 'slug': post.slug }) }}">
-                                {{ post.title }}
+                                {{ post }}
                             </a>
                         </td>
 
@@ -312,7 +312,7 @@
                                 <a href="{{ path('app_admin_section_index', { 'post': post.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ post.sections|length }} sections contenant l'article &quot;{{ post.title }}&quot;"
+                                   data-original-title="Lister les {{ post.sections|length }} sections contenant l'article &quot;{{ post }}&quot;"
                                 >
                                     Sections
                                     <span class="badge-sm text-success">{{ post.sections|length }}</span>
@@ -320,13 +320,13 @@
                             {% endif %}
 
                             {% for section in post.sections %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de la section &quot;{{ section.title|truncate(20) }}&quot; contenant l'article &quot;{{ post.title }}&quot;"
+                                       data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot; contenant l'article &quot;{{ post }}&quot;"
                                     >
-                                        {{ section.title|truncate(20) }}
+                                        {{ section|truncate(20) }}
                                         <span class="badge-sm text-primary">{{ section.posts|length }}</span>
                                     </a><br/>
                                 {% elseif loop.last %}
@@ -349,7 +349,10 @@
                                     {{ tag.name }}
                                 </a><br/>
                             {% else %}
-                                <span class="label label-danger">Aucune étiquette</span>
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="L'article &quot;{{ post }}&quot; ne possède aucune étiquette"
+                                >Aucune étiquette</span>
                             {% endfor %}
                         </td>
 
@@ -396,7 +399,7 @@
                             data-original-title="Supprimer l'article &quot;{{ post }}&quot;"
                         >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                    data-target=".my-modal" data-item="{{ post.title }}"
+                                    data-target=".my-modal" data-item="{{ post }}"
                                     data-path="{{ path('app_admin_post_delete', { 'id': post.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer

@@ -2,7 +2,7 @@
     <article class="panel panel-primary post">
         <header class="panel-heading">
             <h1 class="text-center">
-                <span class="glyphicon glyphicon-music pull-left"></span>{{ media.title }}
+                <span class="glyphicon glyphicon-music pull-left"></span>{{ media }}
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (media.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                         <div class="pull-right btn-group" role="group">

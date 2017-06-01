@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ parent() }} | {{ media.title }}{% endblock %}
+{% block title %}{{ parent() }} | {{ media }}{% endblock %}
 
 {% block body %}
     <div class="container">
         <header class="media-header">
-            <h1 class="media-title">{{ media.title }}</h1>
+            <h1 class="media-title">{{ media }}</h1>
         </header>
         <section>
             {% for media in listMedia %}

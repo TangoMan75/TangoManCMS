@@ -4,7 +4,7 @@
             <h1 class="text-center">
                 <a href="{{ path('app_post_show', {'slug': post.slug}) }}">
                     <span class="glyphicon glyphicon-envelope pull-left"></span>
-                    {{ post.title }}
+                    {{ post }}
                 </a>
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (post.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}

@@ -174,7 +174,7 @@
                     <tr>
                         <td>
                             <a href="{{ path('app_page_show', { 'slug': page.slug }) }}">
-                                {{ page.title }}
+                                {{ page }}
                             </a>
                         </td>
 
@@ -187,7 +187,7 @@
                                 <a href="{{ path('app_admin_section_index', { 's_page': page.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ page.sections|length }} sections appartenant à la page &quot;{{ page.title }}&quot;"
+                                   data-original-title="Lister les {{ page.sections|length }} sections appartenant à la page &quot;{{ page }}&quot;"
                                 >
                                     Sections
                                     <span class="badge-sm text-success">{{ page.sections|length }}</span>
@@ -195,13 +195,13 @@
                             {% endif %}
 
                             {% for section in page.sections %}
-                                {% if loop.index < 5 %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de la section &quot;{{ section.title|truncate(20) }}&quot; appartenant à la page &quot;{{ page.title }}&quot;"
+                                       data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot; appartenant à la page &quot;{{ page }}&quot;"
                                     >
-                                        {{ section.title|truncate(20) }}
+                                        {{ section|truncate(20) }}
                                         <span class="badge-sm text-primary">{{ section.posts|length }}</span>
                                     </a><br/>
                                 {% elseif loop.last %}
@@ -276,7 +276,7 @@
                         >
                             <button type="button"
                                     class="btn btn-danger btn-sm"
-                                    data-toggle="modal" data-target=".my-modal" data-item="{{ page.title }}"
+                                    data-toggle="modal" data-target=".my-modal" data-item="{{ page }}"
                                     data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 Supprimer
