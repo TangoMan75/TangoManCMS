@@ -293,9 +293,9 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/vote/{slug}/{vote}", requirements={"slug": "[\w-]+", "vote": "(up|down)"})
+     * @Route("/vote/{slug}/{value}", requirements={"slug": "[\w-]+", "value": "(up|down)"})
      */
-    public function voteAction(Request $request, $slug, $thumb)
+    public function voteAction(Request $request, $slug, $value)
     {
         // User must log in
         if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -317,7 +317,7 @@ class PostController extends Controller
             $vote->setPost($post);
         }
 
-        switch ($thumb) {
+        switch ($value) {
             case 'up':
                 $vote->setValue(1);
                 break;

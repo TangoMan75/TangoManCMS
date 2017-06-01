@@ -68,17 +68,9 @@
                 </div>
 
                 <div class="comments col-xs-12 col-sm-3">
-                    <a href="{{ path('app_post_vote', {'slug': post.slug, 'vote': 'up', 'callback': callback}) }}"
+                    <a href="{{ path('app_post_vote', { 'slug': post.slug, 'value': 'up', 'callback': callback }) }}"
                        class="btn btn-success btn-sm">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
-                        <span class="badge">
-                            {% if post.votes is defined %}{{ post.votes|length }}{% else %}0{% endif %}
-                        </span>
-                    </a>
-                    &nbsp;
-                    <a href="{{ path('app_post_vote', {'slug': post.slug, 'vote': 'down', 'callback': callback}) }}"
-                       class="btn btn-danger btn-sm">
-                        <span class="glyphicon glyphicon-thumbs-down"></span>
                         <span class="badge">
                             {% if post.votes is defined %}{{ post.votes|length }}{% else %}0{% endif %}
                         </span>
