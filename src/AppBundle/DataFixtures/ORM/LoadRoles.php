@@ -45,22 +45,19 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         // Default roles
         $roles = [
-            'Utilisateur'          => 'ROLE_USER',
-            'Super Utilisateur'    => 'ROLE_SUPER_USER',
-            'Administrateur'       => 'ROLE_ADMIN',
-            'Super Administrateur' => 'ROLE_SUPER_ADMIN',
+            'Utilisateur',          'ROLE_USER',        'glyphicon-pawn',
+            'Super Utilisateur',    'ROLE_SUPER_USER',  'glyphicon-bishop',
+            'Administrateur',       'ROLE_ADMIN',       'glyphicon-tower',
+            'Super Administrateur', 'ROLE_SUPER_ADMIN', 'glyphicon-king',
         ];
 
-        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
+//        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
 
-        foreach ($roles as $key => $item) {
+        for ($i = 0; $i < count($roles); $i = $i + 3) {
             $role = new Role();
-            $role->setName($key)
-                ->setType($item);
-
-            foreach ($privileges as $privilege) {
-                $role->addPrivilege($privilege);
-            }
+            $role->setIcon($roles[$i + 2])
+                ->setName($roles[$i])
+                ->setType($roles[$i + 1]);
 
             $em->persist($role);
         }

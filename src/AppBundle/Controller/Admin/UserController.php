@@ -161,8 +161,10 @@ class UserController extends Controller
 
             return $this->redirectToRoute('homepage');
         }
-        $user->addRole($add);
+
         $em = $this->get('doctrine')->getManager();
+        $role = $em->getRepository('AppBundle:Role')->findOneBy(['type' => $add]);
+        $user->addRole($role);
         $em->persist($user);
         $em->flush();
         $this->get('session')->getFlashBag()->add(
@@ -204,8 +206,9 @@ class UserController extends Controller
             return $this->redirect($request->get('callback'));
         }
 
-        $user->removeRole($remove);
         $em = $this->get('doctrine')->getManager();
+        $role = $em->getRepository('AppBundle:Role')->findOneBy(['type' => $remove]);
+        $user->removeRole($role);
         $em->persist($user);
         $em->flush();
         $this->get('session')->getFlashBag()->add(

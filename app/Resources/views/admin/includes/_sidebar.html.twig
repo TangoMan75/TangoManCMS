@@ -102,7 +102,7 @@
             </li>
 
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_role' %} class="active"{% endif %}>
-                <a href="#">
+                <a href="{{ path('app_admin_role_index') }}">
                     <span class="glyphicon glyphicon-king"></span>
                     <span class="sidebar-label">Roles</span>
                 </a>

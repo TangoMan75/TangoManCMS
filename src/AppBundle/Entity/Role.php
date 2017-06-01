@@ -4,7 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Role
@@ -31,6 +30,12 @@ class Role
     private $id;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $icon;
+
+    /**
      * @var Privilege[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles", cascade={"persist"})
      * @ORM\OrderBy({"name"="DESC"})
@@ -51,6 +56,7 @@ class Role
     {
         $this->privileges = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->icon = 'glyphicon-pawn';
     }
 
     /**
@@ -61,6 +67,26 @@ class Role
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     *
+     * @return Role
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
     }
 
     /**

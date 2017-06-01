@@ -45,26 +45,19 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $pwd      = $this->container->getParameter('super_admin_pwd');
         $encoder  = $this->container->get('security.password_encoder');
 
-        // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
-        // $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
 
-        // Checks if Super Admin exists already
-        $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
-        $superAdmin = $em->getRepository('AppBundle:User')->findByRole($roleSuperAdmin);
+        // Generating super admin account with default password
+        $user = new User();
+        $user
+            ->setUsername($username)
+            // ->setSlug('super-admin')
+            ->setEmail($email)
+            ->setPassword($encoder->encodePassword($user, $pwd))
+            ->addRole($roleSuperAdmin)
+            ->setBio('<p>Ceci est le compte super administrateur.</p>');
 
-        if (!$superAdmin) {
-            // Generating super admin account with default password
-            $user = new User();
-            $user
-                ->setUsername($username)
-                // ->setSlug('super-admin')
-                ->setEmail($email)
-                ->setPassword($encoder->encodePassword($user, $pwd))
-                ->addRole($roleSuperAdmin)
-                ->setBio('<p>Ceci est le compte super administrateur.</p>');
-
-            $em->persist($user);
-            $em->flush();
-        }
+        $em->persist($user);
+        $em->flush();
     }
 }

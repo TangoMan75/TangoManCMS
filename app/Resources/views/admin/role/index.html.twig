@@ -13,13 +13,6 @@
         <div class="jumbotron">
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <label class="control-label col-sm-4" for="inputId">Id</label>
-                        <div class="col-sm-8">
-                            <input type="number" name="id" id="inputId" class="form-control"
-                                   value="{{ app.request.get('id') }}"/>
-                        </div>
-                    </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-3">
                         <label class="control-label col-sm-4" for="inputName">Nom</label>
@@ -34,6 +27,14 @@
                         <div class="col-sm-8">
                             <input type="text" name="type" id="inputType" class="form-control"
                                    value="{{ app.request.get('type') }}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="inputUser">Utilisateur</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="user" id="inputUser" class="form-control"
+                                   value="{{ app.request.get('user') }}"/>
                         </div>
                     </div>
 
@@ -59,16 +60,6 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_role_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'id',
-                            'way'   : app.request.query.get('order') == 'id'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Id
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'name' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_role_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -89,6 +80,16 @@
                         </a>
                     </th>
 
+                    <th class="{{ app.request.query.get('order') == 'user' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_role_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'user',
+                            'way'   : app.request.query.get('order') == 'user'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Utilisateurs
+                        </a>
+                    </th>
+
                     <th colspan="2">Actions</th>
                 </tr>
                 </thead>
@@ -96,40 +97,68 @@
                 {% for role in roles %}
                     {% set role = role[0] %}
                     <tr>
-                        <td>{{ role.id }}</td>
-                        <td>{{ role.name }}</td>
-                        <td>{{ role.type }}</td>
                         <td>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <a href="{{ path('app_admin_role_edit', { 'id': role.id, 'callback': app.request.uri|callback }) }}"
-                                   class="btn btn-warning btn-sm">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    Modifier
-                                </a>
-                            {% else %}
-                                <span class="btn btn-warning btn-sm disabled" data-toggle="tooltip" data-placement="top"
-                                      data-original-title="Lecture seule uniquement">
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    Modifier
-                                </span>
-                            {% endif %}
+                            {{ role.name }}
                         </td>
+
                         <td>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
-                                        data-target=".my-modal" data-item="{{ role.name }}"
-                                        data-path="{{ path('app_admin_role_delete', { 'id': role.id, 'callback': app.request.uri|remove_query }) }}">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Supprimer
-                                </button>
-                            {% else %}
-                                <span class="btn btn-danger btn-sm disabled" data-toggle="tooltip" data-placement="top"
-                                      data-original-title="Lecture seule uniquement">
-                                    <span class="glyphicon glyphicon-trash"></span>
-                                    Supprimer
-                                </span>
-                            {% endif %}
+                            {{ role.type }}
                         </td>
+
+                        <td>
+                            {% if role.users|length > 1 %}
+                                <a href="{{ path('app_admin_user_index', { 'role': role.name }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ role.users|length }} utilisateurs possédant le role &quot;{{ role }}&quot;"
+                                >
+                                    Utilisateurs
+                                    <span class="badge-sm text-success">{{ role.users|length }}</span>
+                                </a><br/>
+                            {% endif %}
+
+                            {% for user in role.users %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_admin_user_index', { 'user': user.username }) }}"
+                                       class="label label-primary"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de l'utilisateur &quot;{{ user }}&quot;"
+                                    >
+                                        {{ user }}
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="Le role &quot;{{ role }}&quot; n'a été attribuée à aucun utilisateur"
+                                >Aucun utilisateur</span>
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_admin_role_edit', { 'id': role.id, 'callback': app.request.uri|callback }) }}"
+                               class="btn btn-warning btn-sm"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Modifier le role &quot;{{ role.name }}&quot;"
+                            >
+                                <span class="glyphicon glyphicon-edit"></span>
+                                Modifier
+                            </a>
+                        </td>
+
+                        <td data-toggle="tooltip" data-placement="top"
+                            data-original-title="Supprimer le role &quot;{{ role.name }}&quot;"
+                        >
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target=".my-modal" data-item="{{ role }}"
+                                    data-path="{{ path('app_admin_role_delete', { 'id': role.id, 'callback': app.request.uri|remove_query }) }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                Supprimer
+                            </button>
+                        </td>
+
                     </tr>
                 {% endfor %}
                 </tbody>

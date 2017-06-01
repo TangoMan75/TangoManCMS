@@ -47,10 +47,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 
         // QueryBuilder
         $dql = $this->createQueryBuilder('user');
-        // Search inside simple arrays
-        if ($query->get('role')) {
-            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
-        }
+//        // Search inside simple arrays
+//        if ($query->get('role')) {
+//            $dql = $this->searchSimpleArray($dql, 'roles', $query->get('role'));
+//        }
         // Search
         $dql = $this->search($dql, $query);
         // Order
