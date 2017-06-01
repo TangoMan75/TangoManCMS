@@ -32,7 +32,7 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 3;
+        return 30;
     }
 
     /**

@@ -35,7 +35,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
      */
     public function getOrder()
     {
-        return 5;
+        return 50;
     }
 
     /**

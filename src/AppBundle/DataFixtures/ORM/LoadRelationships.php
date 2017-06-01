@@ -34,7 +34,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
      */
     public function getOrder()
     {
-        return 14;
+        return 150;
     }
 
     /**

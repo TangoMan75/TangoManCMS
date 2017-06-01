@@ -36,7 +36,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 11;
+        return 120;
     }
 
     /**

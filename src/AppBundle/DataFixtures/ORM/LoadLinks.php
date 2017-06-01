@@ -36,7 +36,7 @@ class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 10;
+        return 110;
     }
 
     /**

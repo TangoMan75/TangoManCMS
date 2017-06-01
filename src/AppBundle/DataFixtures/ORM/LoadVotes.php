@@ -35,7 +35,7 @@ class LoadVotes implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 6;
+        return 70;
     }
 
     /**
@@ -45,8 +45,7 @@ class LoadVotes implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         for ($i = 0; $i < 200; $i++) {
             $vote = new Vote();
-            $vote->setValue($i % 2);
-
+            $vote->setValue(1);
             $em->persist($vote);
         }
 
