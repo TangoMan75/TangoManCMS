@@ -147,19 +147,26 @@
                     <tr>
 
                         <td>
+                            {% if comment.post.imageFileName %}
+                                <a href="{{ path('app_admin_post_index', { 'slug': comment.post.slug }) }}" class="cover"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Voir le détail de l'article &quot;{{ comment.post }}&quot;"
+                                   style="padding-bottom: 60px; width: 60px; background-image: url('{{ comment.post.image ? comment.post.image|imagine_filter('thumbnail') : '//placehold.it/60?text=Image' }}');">
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_admin_post_index', { 'slug': comment.post.slug }) }}" class="cover"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Voir le détail de l'article &quot;{{ comment.post }}&quot;"
+                                   style="padding-bottom: 60px; width: 60px; background-image: url('{{ comment.post.image ? comment.post.image : '//placehold.it/60?text=Image' }}');">
+                                </a>
+                            {% endif %}
+                        </td>
+
+                        <td>
                             <a href="{{ path('app_admin_comment_index', { 'post': comment.post.title }) }}"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Lister tous les commentaires de &quot;{{ comment.post }}&quot;">
                                 {{ comment.post }}
-                            </a>
-                        </td>
-
-                        <td>
-                            <a href="{{ path('app_post_show', { 'slug': comment.post.slug }) }}"
-                               class="btn btn-primary btn-xs"
-                               data-toggle="tooltip" data-placement="top"
-                               data-original-title="Afficher l'article &quot;{{ comment.post }}&quot;">
-                                <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>
 
