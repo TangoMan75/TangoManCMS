@@ -21,6 +21,7 @@ class Privilege
     use Relationships\PrivilegesHaveUsers;
 
     use Traits\HasName;
+    use Traits\HasType;
 
     /**
      * @var int
@@ -29,30 +30,6 @@ class Privilege
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $canCreate;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $canRead;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $canUpdate;
-
-    /**
-     * @var bool
-     * @ORM\Column(type="boolean", nullable=true)
-     */
-    private $canDelete;
 
     /**
      * @var array|Role[]|ArrayCollection
@@ -67,10 +44,6 @@ class Privilege
     public function __construct()
     {
         $this->roles = new ArrayCollection();
-        $this->canCreate = false;
-        $this->canRead = false;
-        $this->canUpdate = false;
-        $this->canDelete = false;
     }
 
     /**
@@ -79,86 +52,6 @@ class Privilege
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCanCreate()
-    {
-        return $this->canCreate;
-    }
-
-    /**
-     * @param bool $canCreate
-     *
-     * @return $this
-     */
-    public function setCanCreate($canCreate)
-    {
-        $this->canCreate = $canCreate;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCanRead()
-    {
-        return $this->canRead;
-    }
-
-    /**
-     * @param bool $canRead
-     *
-     * @return $this
-     */
-    public function setCanRead($canRead)
-    {
-        $this->canRead = $canRead;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCanUpdate()
-    {
-        return $this->canUpdate;
-    }
-
-    /**
-     * @param bool $canUpdate
-     *
-     * @return $this
-     */
-    public function setCanUpdate($canUpdate)
-    {
-        $this->canUpdate = $canUpdate;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function getCanDelete()
-    {
-        return $this->canDelete;
-    }
-
-    /**
-     * @param bool $canDelete
-     *
-     * @return $this
-     */
-    public function setCanDelete($canDelete)
-    {
-        $this->canDelete = $canDelete;
-
-        return $this;
     }
 
     /**
