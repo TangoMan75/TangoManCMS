@@ -240,11 +240,11 @@
                         <td>
                             {% if media.imageFileName %}
                                 <a href="{{ media.image }}" target="_blank" class="cover"
-                                        style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                                    style="padding-bottom: 80px; width: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
                                 </a>
                             {% else %}
                                 <a href="{{ path('app_post_show', { 'slug': media.slug }) }}" class="cover"
-                                   style="padding-bottom: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Image' }}');">
+                                   style="padding-bottom: 80px; width: 80px; background-image: url('{{ media.image ? media.image : '//placehold.it/80?text=Image' }}');">
                                 </a>
                             {% endif %}
                         </td>
