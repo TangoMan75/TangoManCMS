@@ -36,15 +36,46 @@ class AdminEditRoleType extends AbstractType
                 ]
             )
             ->add(
+                'label',
+                ChoiceType::Class,
+                [
+                    'label'   => 'Label',
+                    'choices' => [
+                        'Défaut'    => 'default',
+                        'Principal' => 'primary',
+                        'Info'      => 'info',
+                        'Succès'    => 'success',
+                        'Alerte'    => 'warning',
+                        'Danger'    => 'danger',
+                    ],
+                ]
+            )
+            ->add(
+                'icon',
+                ChoiceType::Class,
+                [
+                    'label'   => 'Icône',
+                    'choices' => [
+                        'Utilisateur' => 'glyphicon glyphicon-user',
+                        'Pion'        => 'glyphicon glyphicon-pawn',
+                        'Cavalier'    => 'glyphicon glyphicon-knight',
+                        'Fou'         => 'glyphicon glyphicon-bishop',
+                        'Tour'        => 'glyphicon glyphicon-tower',
+                        'Reine'       => 'glyphicon glyphicon-queen',
+                        'Roi'         => 'glyphicon glyphicon-king',
+                    ],
+                ]
+            )
+            ->add(
                 'users',
                 EntityType::class,
                 [
                     'label'         => 'Utilisateurs',
-                    'class'         => 'AppBundle:Post',
-                    // 'empty_data'    => null,
+                    'class'         => 'AppBundle:User',
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
+                    'by_reference'  => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('user')
                             ->orderBy('user.username');

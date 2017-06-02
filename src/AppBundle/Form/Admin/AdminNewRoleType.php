@@ -26,11 +26,34 @@ class AdminNewRoleType extends AbstractType
                 ]
             )
             ->add(
-                'type',
-                TextType::Class,
+                'label',
+                ChoiceType::Class,
                 [
-                    'label'    => 'Type',
-                    'required' => false,
+                    'label'   => 'Label',
+                    'choices' => [
+                        'Défaut'    => 'default',
+                        'Principal' => 'primary',
+                        'Info'      => 'info',
+                        'Succès'    => 'success',
+                        'Alerte'    => 'warning',
+                        'Danger'    => 'danger',
+                    ],
+                ]
+            )
+            ->add(
+                'icon',
+                ChoiceType::Class,
+                [
+                    'label'   => 'Icône',
+                    'choices' => [
+                        'Utilisateur' => 'glyphicon glyphicon-user',
+                        'Pion'        => 'glyphicon glyphicon-pawn',
+                        'Cavalier'    => 'glyphicon glyphicon-knight',
+                        'Fou'         => 'glyphicon glyphicon-bishop',
+                        'Tour'        => 'glyphicon glyphicon-tower',
+                        'Reine'       => 'glyphicon glyphicon-queen',
+                        'Roi'         => 'glyphicon glyphicon-king',
+                    ],
                 ]
             );
     }
