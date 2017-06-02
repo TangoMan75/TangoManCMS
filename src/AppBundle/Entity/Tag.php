@@ -10,10 +10,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Tag
- *
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="tag")
+ *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -23,6 +23,7 @@ class Tag
     use Relationships\TagsHavePosts;
     use Relationships\TagsHaveSections;
 
+    use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
     use Traits\Slugify;
@@ -36,12 +37,6 @@ class Tag
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     */
-    private $label;
-
-    /**
      * Tag constructor.
      */
     public function __construct()
@@ -49,7 +44,6 @@ class Tag
         $this->pages = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->sections = new ArrayCollection();
-
         $this->label = 'default';
     }
 
@@ -62,30 +56,9 @@ class Tag
     }
 
     /**
-     * @param string $label
-     *
-     * @return $this
+     * @ORM\PreFlush()
      */
-    public function setLabel($label)
-    {
-        $this->label = $this->slugify($label);
-
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getLabel()
-    {
-        return $this->label;
-    }
-
-    /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
-     */
-    private function setDefaults()
+    public function setDefaults()
     {
         if (!$this->type) {
             $this->setType($this->name);
