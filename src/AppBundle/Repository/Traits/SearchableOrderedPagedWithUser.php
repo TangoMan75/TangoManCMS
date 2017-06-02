@@ -14,14 +14,14 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  *
  * @package AppBundle\Repository\Traits
  */
-Trait SearchableOrderedPaged
+Trait SearchableOrderedPagedWithUser
 {
     /**
      * @param ParameterBag $query
      *
      * @return Paginator
      */
-    public function searchableOrderedPage(ParameterBag $query)
+    public function searchableOrderedPageWithUser(ParameterBag $query)
     {
         // Sets default values
         $page = $query->get('page', 1);
@@ -45,6 +45,8 @@ Trait SearchableOrderedPaged
         $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
+        // Joins User
+        $dql->leftJoin($this->getTableName().'.user', 'user');
         // Group
         $dql->groupBy($this->getTableName().'.id');
 
