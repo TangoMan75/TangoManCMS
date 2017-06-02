@@ -13,6 +13,11 @@ security:
             entity:
                 class: AppBundle:User
 
+    role_hierarchy:
+            ROLE_SUPER_USER:  [ROLE_USER]
+            ROLE_ADMIN:       [ROLE_USER, ROLE_SUPER_USER]
+            ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_SUPER_USER, ROLE_ADMIN]
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -37,3 +42,4 @@ security:
 
     access_control:
         - { path: '^/admin', roles: [ROLE_ADMIN] }
+        - { path: '^/super-admin', roles: [ROLE_SUPER_ADMIN] }
