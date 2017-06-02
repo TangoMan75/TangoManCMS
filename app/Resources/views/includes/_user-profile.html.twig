@@ -24,29 +24,14 @@
                     <td>{{ user.email }}</td>
                 </tr>
                 <tr>
-                    <th>Role</th>
+                    <th>Roles</th>
                     <td>
-                        {% if 'ROLE_SUPER_ADMIN' in user.roles %}
-                            <div class="btn btn-danger btn-sm">
-                                <span class="glyphicon glyphicon-king"></span>
-                                Super Administrateur
+                        {% for role in user.listroles %}
+                            <div class="btn btn-{{ role.label }} btn-sm">
+                                <span class="{{ role.icon }}"></span>
+                                <span class="hidden-xs">{{ role.name }}</span>
                             </div>
-                        {% elseif 'ROLE_ADMIN' in user.roles %}
-                            <div class="btn btn-warning btn-sm">
-                                <span class="glyphicon glyphicon-tower"></span>
-                                Administrateur
-                            </div>
-                        {% elseif 'ROLE_SUPER_USER' in user.roles %}
-                            <div class="btn btn-success btn-sm">
-                                <span class="glyphicon glyphicon-bishop"></span>
-                            </div>
-                            Super Utilisateur
-                        {% else %}
-                            <div class="btn btn-primary btn-sm">
-                                <span class="glyphicon glyphicon-pawn"></span>
-                                Utilisateur
-                            </div>
-                        {% endif %}
+                        {% endfor %}
                     </td>
                 </tr>
                 {% if is_granted('ROLE_ADMIN') %}

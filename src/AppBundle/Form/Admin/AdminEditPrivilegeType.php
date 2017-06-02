@@ -51,6 +51,21 @@ class AdminEditPrivilegeType extends AbstractType
                 ]
             )
             ->add(
+                'roles',
+                EntityType::class,
+                [
+                    'label'         => 'Roles',
+                    'class'         => 'AppBundle:Role',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'by_reference'  => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('role');
+                    },
+                ]
+            )
+            ->add(
                 'users',
                 EntityType::class,
                 [

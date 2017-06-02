@@ -95,7 +95,7 @@
             </li>
 
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_user' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_user_index') }}">
+                <a href="{{ path('app_admin_user_index', { 'limit': 25 }) }}">
                     <span class="glyphicon glyphicon-user"></span>
                     <span class="sidebar-label">Utilisateurs</span>
                 </a>
