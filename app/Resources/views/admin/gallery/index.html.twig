@@ -130,7 +130,7 @@
                             'order' : 'posts',
                             'way'   : app.request.query.get('order') == 'posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Articles
+                            Médias
                         </a>
                     </th>
 
@@ -227,7 +227,7 @@
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ gallery.posts|length }} médias de la galerie &quot;{{ gallery }}&quot;"
                                 >
-                                    Articles
+                                    Médias
                                     <span class="badge-sm text-success">{{ gallery.posts|length }}</span>
                                 </a><br/>
                             {% endif %}
