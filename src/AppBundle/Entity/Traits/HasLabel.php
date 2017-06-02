@@ -21,7 +21,11 @@ trait HasLabel
      */
     public function getLabel()
     {
-        return $this->label;
+        if (!$this->label) {
+            return 'default';
+        } else {
+            return $this->label;
+        }
     }
 
     /**
@@ -44,8 +48,6 @@ trait HasLabel
             ]
         )) {
             $this->label = $label;
-        } else {
-            $this->label = 'default';
         }
 
         return $this;

@@ -24,6 +24,7 @@ class User implements UserInterface
     use Relationships\UserHasComments;
     use Relationships\UserHasPosts;
     use Relationships\UserHasVotes;
+    use Relationships\UsersHavePrivileges;
     use Relationships\UsersHaveRoles;
 
     use Traits\Sluggable;
@@ -86,6 +87,7 @@ class User implements UserInterface
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
         $this->roles = new ArrayCollection();
+        $this->privileges = new ArrayCollection();
     }
 
     /**

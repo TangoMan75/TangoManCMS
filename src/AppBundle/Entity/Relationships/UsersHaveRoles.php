@@ -51,15 +51,11 @@ trait UsersHaveRoles
             $roles[] = $role->getType();
         }
 
-        return $roles;
-    }
+        foreach ($this->privileges as $privilege) {
+            $roles[] = $privilege->getType();
+        }
 
-    /**
-     * @return array|Role[]|ArrayCollection $roles
-     */
-    public function getUserRoles()
-    {
-        return $this->roles;
+        return $roles;
     }
 
     /**
