@@ -389,7 +389,7 @@
                                data-original-title="Modifier le média &quot;{{ media }}&quot;"
                             >
                                 <span class="glyphicon glyphicon-edit"></span>
-                                Modifier
+                                <span class="hidden-xs">Modifier</span>
                             </a>
                         </td>
 
@@ -400,7 +400,7 @@
                                     data-target=".my-modal" data-item="{{ media }}"
                                     data-path="{{ path('app_admin_media_delete', { 'id': media.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
-                                Supprimer
+                                <span class="hidden-xs">Supprimer</span>
                             </button>
                         </td>
                     </tr>

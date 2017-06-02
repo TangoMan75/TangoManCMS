@@ -271,7 +271,7 @@
                                data-original-title="Modifier l'étiquette &quot;{{ tag }}&quot;"
                             >
                                 <span class="glyphicon glyphicon-edit"></span>
-                                Modifier
+                                <span class="hidden-xs">Modifier</span>
                             </a>
                         </td>
 
@@ -282,7 +282,7 @@
                                     data-target=".my-modal" data-item="{{ tag }}"
                                     data-path="{{ path('app_admin_tag_delete', { 'id': tag.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
-                                Supprimer
+                                <span class="hidden-xs">Supprimer</span>
                             </button>
                         </td>
 

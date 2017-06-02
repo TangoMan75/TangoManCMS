@@ -454,7 +454,7 @@
                                    data-original-title="Modifier le profil de &quot;{{ user }}&quot;"
                                 >
                                     <span class="glyphicon glyphicon-edit"></span>
-                                    Modifier
+                                    <span class="hidden-xs">Modifier</span>
                                 </a>
                             </td>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -467,7 +467,7 @@
                                             data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': app.request.uri|remove_query }) }}"
                                             {% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
                                         <span class="glyphicon glyphicon-trash"></span>
-                                        Supprimer
+                                        <span class="hidden-xs">Supprimer</span>
                                     </button>
                                 </td>
                             {% endif %}
