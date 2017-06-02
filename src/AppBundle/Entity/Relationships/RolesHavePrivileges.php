@@ -25,7 +25,6 @@ trait RolesHavePrivileges
     /**
      * @var array|Privilege[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
      */
     private $privileges = [];
 
