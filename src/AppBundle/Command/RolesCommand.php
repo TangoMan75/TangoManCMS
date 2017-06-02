@@ -26,31 +26,29 @@ class RolesCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
+
         // Default roles
         $roles = [
-            'Utilisateur'          => 'ROLE_USER',
-            'Super Utilisateur'    => 'ROLE_SUPER_USER',
-            'Administrateur'       => 'ROLE_ADMIN',
-            'Super Administrateur' => 'ROLE_SUPER_ADMIN',
+            'glyphicon glyphicon-pawn',   'primary', 'Utilisateur',          'ROLE_USER',
+            'glyphicon glyphicon-bishop', 'success', 'Super Utilisateur',    'ROLE_SUPER_USER',
+            'glyphicon glyphicon-tower',  'warning', 'Administrateur',       'ROLE_ADMIN',
+            'glyphicon glyphicon-king',   'danger',  'Super Administrateur', 'ROLE_SUPER_ADMIN',
         ];
 
-        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-
-        foreach ($roles as $key => $item) {
-
-            // findBy is the only working method in fixtures
-            if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $item])) {
+        for ($i = 0; $i < count($roles); $i = $i + 4) {
+            if (!$em->getRepository('AppBundle:Role')->findBy(['role' => $roles[$i + 3]])) {
                 $role = new Role();
-                $roles
-                    ->setName($key)
-                    ->setRole($item);
+                $role->setIcon($roles[$i])
+                    ->setLabel($roles[$i + 1])
+                    ->setName($roles[$i + 2])
+                    ->setType($roles[$i + 3]);
 
                 $em->persist($role);
                 $output->writeln(
-                    'Role "'.$role.'" created.</question>'
+                    'Role "'.$role->getName().'" created.</question>'
                 );
             } else {
-                $output->writeln('Role "'.$key.'" exists already.</question>');
+                $output->writeln('Role "'.$roles[$i + 2].'" exists already.</question>');
             }
         }
 

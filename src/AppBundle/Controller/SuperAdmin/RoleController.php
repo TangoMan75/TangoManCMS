@@ -109,11 +109,11 @@ class RoleController extends Controller
         // Only author or admin can edit comment
         if (in_array(
             $role->getType(), [
-            'ROLE_USER',
-            'ROLE_SUPER_USER',
-            'ROLE_ADMIN',
-            'ROLE_SUPER_ADMIN',
-        ]
+                                'ROLE_USER',
+                                'ROLE_SUPER_USER',
+                                'ROLE_ADMIN',
+                                'ROLE_SUPER_ADMIN',
+                            ]
         )) {
             $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le role <strong>&quot;'.$role->getName().'&quot;</strong>.');
 
