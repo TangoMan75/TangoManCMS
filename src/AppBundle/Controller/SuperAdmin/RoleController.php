@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Controller\Admin;
+namespace AppBundle\Controller\SuperAdmin;
 
 use AppBundle\Entity\Role;
 use AppBundle\Form\Admin\AdminEditRoleType;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class RoleController
- * @Route("/admin/roles")
+ * @Route("/super-admin/roles")
  *
  * @package AppBundle\Controller
  */
@@ -106,6 +106,20 @@ class RoleController extends Controller
      */
     public function deleteAction(Request $request, Role $role)
     {
+        // Only author or admin can edit comment
+        if (in_array(
+            $role->getType(), [
+            'ROLE_USER',
+            'ROLE_SUPER_USER',
+            'ROLE_ADMIN',
+            'ROLE_SUPER_ADMIN',
+        ]
+        )) {
+            $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le role <strong>&quot;'.$role->getName().'&quot;</strong>.');
+
+            return $this->redirect($request->get('callback'));
+        }
+
         // Deletes specified role
         $em = $this->get('doctrine')->getManager();
         $em->remove($role);
@@ -114,7 +128,7 @@ class RoleController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le role <strong>&quot;'.$role.'&quot;</strong> a bien été supprimée.'
+            'Le role <strong>&quot;'.$role->getName().'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page
