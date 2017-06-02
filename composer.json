@@ -59,8 +59,8 @@
             "php bin/console doctrine:database:drop --force",
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:schema:create",
-            "php bin/console roles",
             "php bin/console privileges",
+            "php bin/console roles",
             "php bin/console admin",
             "php bin/console tags",
             "php bin/console cache:clear -e=prod"
