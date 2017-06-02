@@ -81,7 +81,7 @@
             </li>
 
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_comment' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_comment_index') }}">
+                <a href="{{ path('app_admin_comment_index', { 'limit': 25 }) }}">
                     <span class="glyphicon glyphicon-comment"></span>
                     <span class="sidebar-label">Commentaires</span>
                 </a>
@@ -101,19 +101,21 @@
                 </a>
             </li>
 
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_role' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_role_index') }}">
-                    <span class="glyphicon glyphicon-king"></span>
-                    <span class="sidebar-label">Roles</span>
-                </a>
-            </li>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li{% if app.request.attributes.get('_route') starts with 'app_superadmin_role' %} class="active"{% endif %}>
+                    <a href="{{ path('app_superadmin_role_index') }}">
+                        <span class="glyphicon glyphicon-king"></span>
+                        <span class="sidebar-label">Roles</span>
+                    </a>
+                </li>
 
-            <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
-                <a href="#">
-                    <span class="glyphicon glyphicon-thumbs-up"></span>
-                    <span class="sidebar-label">Privileges</span>
-                </a>
-            </li>
+                <li{% if app.request.attributes.get('_route') starts with 'app_superadmin_privilege' %} class="active"{% endif %}>
+                    <a href="{{ path('app_superadmin_privilege_index', { 'limit': 25 }) }}">
+                        <span class="glyphicon glyphicon-thumbs-up"></span>
+                        <span class="sidebar-label">Privileges</span>
+                    </a>
+                </li>
+            {% endif %}
         </ul>
     </nav>
 </div>

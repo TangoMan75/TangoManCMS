@@ -20,6 +20,7 @@ class Privilege
     use Relationships\PrivilegesHaveRoles;
     use Relationships\PrivilegesHaveUsers;
 
+    use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
 
@@ -32,18 +33,12 @@ class Privilege
     private $id;
 
     /**
-     * @var array|Role[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="privileges", cascade={"persist"})
-     * @ORM\OrderBy({"name"="DESC"})
-     */
-    private $roles = [];
-
-    /**
      * Privilege constructor.
      */
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     /**
@@ -55,10 +50,26 @@ class Privilege
     }
 
     /**
+     * @ORM\PreFlush()
+     */
+    public function setDefaults()
+    {
+        if (!$this->type) {
+            $this->type = $this->name;
+        }
+
+        $this->type = strtoupper(str_replace(' ', '_', $this->type));
+
+        if (stripos($this->type, 'ROLE_') !== 0) {
+            $this->type = 'ROLE_'.$this->type;
+        }
+    }
+
+    /**
      * @return string
      */
     public function __toString()
     {
-        return $this->name;
+        return $this->type;
     }
 }

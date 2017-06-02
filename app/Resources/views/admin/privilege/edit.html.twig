@@ -1,0 +1,37 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Privilèges - Modifier {{ privilege.name }}{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+    {% if app.user %}
+        <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+        <script>tinymce.init({selector: 'textarea', height: '250'});</script>
+    {% endif %}
+{% endblock %}
+
+{% block admin %}
+    <header>
+        <h1>Privilèges</h1>
+        <h2>Modifier le privilège &quot;{{ privilege.name }}&quot;</h2>
+        <p>Ici vous pouvez modifier le privilèges &quot;{{ privilege.name }}&quot; de {{ site_name }}</p>
+    </header>
+    {% include "admin/includes/_privilege_tabs.html.twig" %}
+    <section id="edit">
+        <div class="jumbotron">
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-success">
+                    <span class="glyphicon glyphicon-thumbs-up"></span>
+                    Valider
+                </button>
+                <a href="{{ path('app_superadmin_privilege_index') }}" class="btn btn-warning">
+                    <span class="glyphicon glyphicon-thumbs-down"></span>
+                    Annuler
+                </a>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </section>
+{% endblock %}
