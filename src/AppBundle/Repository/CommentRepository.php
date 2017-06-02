@@ -20,54 +20,8 @@ class CommentRepository extends EntityRepository
     use Traits\Ordered;
     use Traits\Searchable;
     use Traits\SearchableSimpleArray;
+    use Traits\SearchableOrderedPagedWithUser;
     use Traits\TableName;
-
-    /**
-     * @param ParameterBag $query
-     *
-     * @return Paginator
-     */
-    public function searchableOrderedPage(ParameterBag $query)
-    {
-        // Sets default values
-        $page = $query->get('page', 1);
-        $limit = $query->get('limit', 20);
-
-        if (!is_numeric($page)) {
-            throw new \InvalidArgumentException(
-                '$page must be an integer ('.gettype($page).' : '.$page.')'
-            );
-        }
-
-        if (!is_numeric($limit)) {
-            throw new \InvalidArgumentException(
-                '$limit must be an integer ('.gettype($limit).' : '.$limit.')'
-            );
-        }
-
-        // QueryBuilder
-        $dql = $this->createQueryBuilder('comment');
-        // Search
-        $dql = $this->search($dql, $query);
-        // Order
-        $dql = $this->order($dql, $query);
-        // Joins User
-        $dql->leftJoin('comment.user', 'user');
-        // Group
-        $dql->groupBy('comment.id');
-
-        $firstResult = ($page - 1) * $limit;
-        $query = $dql->getQuery();
-        $query->setFirstResult($firstResult);
-        $query->setMaxResults($limit);
-        $paginator = new Paginator($query);
-
-        if (($paginator->count() <= $firstResult) && $page != 1) {
-            throw new NotFoundHttpException('Page not found');
-        }
-
-        return $paginator;
-    }
 
     /**
      * Comments pagination.
