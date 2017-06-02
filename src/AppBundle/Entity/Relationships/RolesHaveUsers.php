@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait RolesHaveUsers
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- *
  * 1. Requires `User` entity to implement `$roles` property with `ManyToMany` and `inversedBy="users"` annotation.
  * 2. Requires `User` entity to implement `linkRole` and `unlinkRole` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

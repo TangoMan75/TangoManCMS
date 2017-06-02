@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait CategoriesHavePosts
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- *
  * 1. Requires `Post` entity to implement `$categories` property with `ManyToMany` and `inversedBy="posts"` annotation.
  * 2. Requires `Post` entity to implement `linkCategory` and `unlinkCategory` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

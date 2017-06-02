@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SectionsHaveTags
- *
  * This trait defines the OWNING side of a ManyToMany relationship.
- *
  * 1. Requires owned `Tag` entity to implement `$sections` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkSection` and `unlinkSection` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

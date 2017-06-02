@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PagesHaveSections
- *
  * This trait defines the OWNING side of a ManyToMany relationship.
- *
  * 1. Requires owned `Section` entity to implement `$pages` property with `ManyToMany` and `mappedBy="sections"` annotation.
  * 2. Requires owned `Section` entity to implement `linkPage` and `unlinkPage` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

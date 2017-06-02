@@ -9,9 +9,7 @@ use AppBundle\Entity\User;
 
 /**
  * Trait VotesHaveUser
- *
  * This trait defines the OWNING side of a ManyToOne relationship.
- *
  * 1. Requires `User` entity to implement `$votes` property with `OneToMany` and `mappedBy="votes"` annotation.
  * 2. Requires `User` entity to implement linkVote(Vote $vote) public method.
  * 3. Requires `User` entity to have `cascade={"remove"}` to avoid orphan objects on `User` deletion.

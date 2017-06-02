@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UserHasComments
- *
  * This trait defines the INVERSE side of a OneToMany relationship.
- *
  * 1. Requires `Comment` entity to implement `$user` property with `ManyToOne` and `inversedBy="comments"` annotation.
  * 2. Requires `Comment` entity to implement linkUser(User $user) public method.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

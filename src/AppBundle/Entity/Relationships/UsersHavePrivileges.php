@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait UsersHavePrivileges
- *
  * This trait defines the OWNING side of a ManyToMany relationship.
- *
  * 1. Requires owned `Privilege` entity to implement `$users` property with `ManyToMany` and `mappedBy="privileges"` annotation.
  * 2. Requires owned `Privilege` entity to implement `linkUser` and `unlinkUser` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

@@ -9,9 +9,7 @@ use AppBundle\Entity\User;
 
 /**
  * Trait CommentsHaveUser
- *
  * This trait defines the OWNING side of a ManyToOne relationship.
- *
  * 1. Requires `User` entity to implement `$comments` property with `OneToMany` and `mappedBy="comments"` annotation.
  * 2. Requires `User` entity to implement linkComment(Comment $comment) public method.
  * 3. Requires `User` entity to have `cascade={"remove"}` to avoid orphan objects on `User` deletion.

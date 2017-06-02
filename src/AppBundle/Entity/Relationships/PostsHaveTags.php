@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PostsHaveTags
- *
  * This trait defines the OWNING side of a ManyToMany relationship.
- *
  * 1. Requires owned `Tag` entity to implement `$posts` property with `ManyToMany` and `mappedBy="tags"` annotation.
  * 2. Requires owned `Tag` entity to implement `linkPost` and `unlinkPost` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

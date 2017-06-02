@@ -9,9 +9,7 @@ use AppBundle\Entity\Post;
 
 /**
  * Trait CommentsHavePost
- *
  * This trait defines the OWNING side of a ManyToOne relationship.
- *
  * 1. Requires `Post` entity to implement `$comments` property with `OneToMany` and `mappedBy="comments"` annotation.
  * 2. Requires `Post` entity to implement linkComment(Comment $comment) public method.
  * 3. Requires `Post` entity to have `cascade={"remove"}` to avoid orphan objects on `Post` deletion.

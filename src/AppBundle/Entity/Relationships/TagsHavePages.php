@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait TagsHavePages
- *
  * This trait defines the INVERSE side of a ManyToMany relationship.
- *
  * 1. Requires `Page` entity to implement `$tags` property with `ManyToMany` and `inversedBy="pages"` annotation.
  * 2. Requires `Page` entity to implement `linkTag` and `unlinkTag` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

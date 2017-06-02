@@ -10,9 +10,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SectionsHavePosts
- *
  * This trait defines the OWNING side of a ManyToMany relationship.
- *
  * 1. Requires owned `Post` entity to implement `$sections` property with `ManyToMany` and `mappedBy="posts"` annotation.
  * 2. Requires owned `Post` entity to implement `linkSection` and `unlinkSection` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

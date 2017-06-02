@@ -9,9 +9,7 @@ use AppBundle\Entity\User;
 
 /**
  * Trait PostsHaveUser
- *
  * This trait defines the OWNING side of a ManyToOne relationship.
- *
  * 1. Requires `User` entity to implement `$posts` property with `OneToMany` and `mappedBy="posts"` annotation.
  * 2. Requires `User` entity to implement linkPost(Post $post) public method.
  * 3. Requires `User` entity to have `cascade={"remove"}` to avoid orphan objects on `User` deletion.
