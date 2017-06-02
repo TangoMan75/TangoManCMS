@@ -10,9 +10,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 /**
  * Class Post
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
- *
- * @ORM\HasLifecycleCallbacks
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="post")
+ *
  * @Vich\Uploadable
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
@@ -68,10 +68,9 @@ class Post
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PreFlush()
      */
-    private function setDefaults()
+    public function setDefaults()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));

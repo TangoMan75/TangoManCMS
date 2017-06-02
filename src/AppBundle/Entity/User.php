@@ -10,12 +10,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class User
- *
- * @ORM\HasLifecycleCallbacks
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ORM\Table(name="user")
  * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
  * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur est déjà utilisé.")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -302,10 +302,9 @@ class User implements UserInterface
      */
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PreFlush()
      */
-    private function setDefaultSlug()
+    public function setDefaults()
     {
         if (!$this->slug) {
             $this->setUniqueSlug($this->username);

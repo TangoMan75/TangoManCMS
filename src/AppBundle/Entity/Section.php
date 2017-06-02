@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Section
- *
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="section")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SectionRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="section")
+ *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -67,10 +67,9 @@ class Section
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PreFlush()
      */
-    private function setDefaults()
+    public function setDefaults()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));

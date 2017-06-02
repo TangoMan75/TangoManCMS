@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Page
- *
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="page")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="page")
+ *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -65,10 +65,9 @@ class Page
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PreFlush()
      */
-    private function setDefaults()
+    public function setDefaults()
     {
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));

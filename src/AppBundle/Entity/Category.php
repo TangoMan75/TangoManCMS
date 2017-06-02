@@ -3,16 +3,16 @@
 namespace AppBundle\Entity;
 
 use AppBundle\Entity\Post;
+use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Category
- *
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="category")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CategoryRepository")
+ * @ORM\Table(name="category")
+ *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
@@ -37,8 +37,8 @@ class Category
      */
     public function __construct()
     {
-		$this->posts    = new ArrayCollection();
-		$this->sections = new ArrayCollection();
+        $this->posts = new ArrayCollection();
+        $this->sections = new ArrayCollection();
     }
 
     /**

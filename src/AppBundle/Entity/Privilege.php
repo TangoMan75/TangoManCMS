@@ -8,10 +8,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Privilege
- *
- * @ORM\HasLifecycleCallbacks
- * @ORM\Table(name="privilege")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
+ * @ORM\HasLifecycleCallbacks()
+ * @ORM\Table(name="privilege")
+ *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
