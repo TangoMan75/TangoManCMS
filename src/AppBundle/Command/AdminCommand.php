@@ -26,10 +26,7 @@ class AdminCommand extends ContainerAwareCommand
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
 
-        // $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findBy(['role' => 'ROLE_SUPER_ADMIN']);
-        // $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
-
-        $roleSuperAdmin = 'ROLE_SUPER_ADMIN';
+        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
         $superAdmin = $em->getRepository('AppBundle:User')->findByRole($roleSuperAdmin);
 
         // Creates super admin account
@@ -56,5 +53,4 @@ class AdminCommand extends ContainerAwareCommand
             $output->writeln('Sorry, at least one account with ROLE_SUPER_ADMIN exists already.</question>');
         }
     }
-
 }
