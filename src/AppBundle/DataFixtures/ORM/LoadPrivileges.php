@@ -35,7 +35,7 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
      */
     public function getOrder()
     {
-        return 10;
+        return 20;
     }
 
     /**
@@ -45,40 +45,45 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
     {
         // Default Privileges
         $privileges = [
-            'Commentaire - Créer'     => 'ROLE_COMMENT_CREATE',
-            'Commentaire - Lire'      => 'ROLE_COMMENT_READ',
-            'Commentaire - Modifier'  => 'ROLE_COMMENT_UPDATE',
-            'Commentaire - Supprimer' => 'ROLE_COMMENT_DELETE',
-            'Page - Créer'            => 'ROLE_PAGE_CREATE',
-            'Page - Lire'             => 'ROLE_PAGE_READ',
-            'Page - Modifier'         => 'ROLE_PAGE_UPDATE',
-            'Page - Supprimer'        => 'ROLE_PAGE_DELETE',
-            'Publication - Créer'     => 'ROLE_POST_CREATE',
-            'Publication - Lire'      => 'ROLE_POST_READ',
-            'Publication - Modifier'  => 'ROLE_POST_UPDATE',
-            'Publication - Supprimer' => 'ROLE_POST_DELETE',
-            'Privilège - Créer'       => 'ROLE_PRIVILEGE_CREATE',
-            'Privilège - Lire'        => 'ROLE_PRIVILEGE_READ',
-            'Privilège - Modifier'    => 'ROLE_PRIVILEGE_UPDATE',
-            'Privilège - Supprimer'   => 'ROLE_PRIVILEGE_DELETE',
-            'Role - Créer'            => 'ROLE_ROLE_CREATE',
-            'Role - Lire'             => 'ROLE_ROLE_READ',
-            'Role - Modifier'         => 'ROLE_ROLE_UPDATE',
-            'Role - Supprimer'        => 'ROLE_ROLE_DELETE',
-            'Étiquette - Créer'       => 'ROLE_TAG_CREATE',
-            'Étiquette - Lire'        => 'ROLE_TAG_READ',
-            'Étiquette - Modifier'    => 'ROLE_TAG_UPDATE',
-            'Étiquette - Supprimer'   => 'ROLE_TAG_DELETE',
-            'Utilisateur - Créer'     => 'ROLE_USER_CREATE',
-            'Utilisateur - Lire'      => 'ROLE_USER_READ',
-            'Utilisateur - Modifier'  => 'ROLE_USER_UPDATE',
-            'Utilisateur - Supprimer' => 'ROLE_USER_DELETE',
+            'Privilège - Supprimer',   'danger',  'ROLE_PRIVILEGE_DELETE', 'ROLE_SUPER_ADMIN',
+            'Privilège - Modifier',    'danger',  'ROLE_PRIVILEGE_UPDATE', 'ROLE_SUPER_ADMIN',
+            'Privilège - Créer',       'danger',  'ROLE_PRIVILEGE_CREATE', 'ROLE_SUPER_ADMIN',
+            'Privilège - Lire',        'danger',  'ROLE_PRIVILEGE_READ',   'ROLE_SUPER_ADMIN',
+            'Role - Supprimer',        'danger',  'ROLE_ROLE_DELETE',      'ROLE_SUPER_ADMIN',
+            'Role - Modifier',         'danger',  'ROLE_ROLE_UPDATE',      'ROLE_SUPER_ADMIN',
+            'Role - Créer',            'danger',  'ROLE_ROLE_CREATE',      'ROLE_SUPER_ADMIN',
+            'Role - Lire',             'danger',  'ROLE_ROLE_READ',        'ROLE_SUPER_ADMIN',
+            'Page - Supprimer',        'warning', 'ROLE_PAGE_DELETE',      'ROLE_ADMIN',
+            'Page - Modifier',         'warning', 'ROLE_PAGE_UPDATE',      'ROLE_ADMIN',
+            'Page - Créer',            'warning', 'ROLE_PAGE_CREATE',      'ROLE_ADMIN',
+            'Page - Lire',             'warning', 'ROLE_PAGE_READ',        'ROLE_ADMIN',
+            'Utilisateur - Supprimer', 'warning', 'ROLE_USER_DELETE',      'ROLE_ADMIN',
+            'Utilisateur - Modifier',  'warning', 'ROLE_USER_UPDATE',      'ROLE_ADMIN',
+            'Utilisateur - Créer',     'warning', 'ROLE_USER_CREATE',      'ROLE_ADMIN',
+            'Utilisateur - Lire',      'warning', 'ROLE_USER_READ',        'ROLE_ADMIN',
+            'Étiquette - Supprimer',   'success', 'ROLE_TAG_DELETE',       'ROLE_SUPER_USER',
+            'Étiquette - Modifier',    'success', 'ROLE_TAG_UPDATE',       'ROLE_SUPER_USER',
+            'Étiquette - Créer',       'success', 'ROLE_TAG_CREATE',       'ROLE_SUPER_USER',
+            'Étiquette - Lire',        'success', 'ROLE_TAG_READ',         'ROLE_SUPER_USER',
+            'Publication - Supprimer', 'success', 'ROLE_POST_DELETE',      'ROLE_SUPER_USER',
+            'Publication - Modifier',  'success', 'ROLE_POST_UPDATE',      'ROLE_SUPER_USER',
+            'Publication - Créer',     'success', 'ROLE_POST_CREATE',      'ROLE_SUPER_USER',
+            'Publication - Lire',      'success', 'ROLE_POST_READ',        'ROLE_SUPER_USER',
+            'Commentaire - Supprimer', 'primary', 'ROLE_COMMENT_DELETE',   'ROLE_USER',
+            'Commentaire - Modifier',  'primary', 'ROLE_COMMENT_UPDATE',   'ROLE_USER',
+            'Commentaire - Créer',     'primary', 'ROLE_COMMENT_CREATE',   'ROLE_USER',
+            'Commentaire - Lire',      'primary', 'ROLE_COMMENT_READ',     'ROLE_USER',
         ];
 
-        foreach ($privileges as $name => $type) {
+        for ($i = 0; $i < count($privileges); $i = $i + 4) {
+            $role = $em->getRepository('AppBundle:Role')->findOneBy(['type' => $privileges[$i + 3]]);
+
             $privilege = new Privilege();
-            $privilege->setName($name)
-                ->setType($type);
+            $privilege
+                ->setName($privileges[$i])
+                ->setLabel($privileges[$i + 1])
+                ->setType($privileges[$i + 2])
+                ->addRole($role);
 
             $em->persist($privilege);
         }

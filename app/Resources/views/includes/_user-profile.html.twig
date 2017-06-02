@@ -34,13 +34,30 @@
                         {% endfor %}
                     </td>
                 </tr>
+                <tr>
+                    <th>Privileges</th>
+                    <td>
+                        {% for privilege in user.privileges %}
+                            <div class="label label-{{ privilege.label }}">
+                                {{ privilege.name }}
+                            </div>
+                        {% else %}
+                            <div class="label label-danger">
+                                Aucun privilège
+                            </div>
+                        {% endfor %}
+                    </td>
+                </tr>
                 {% if is_granted('ROLE_ADMIN') %}
                     <tr>
                         <th>
                             Modifier
                         </th>
                         <td>
-                            <a href="{{ path('app_admin_admin_index') }}">{{ user }}</a>
+                            <a class="btn btn-warning btn-sm" href="{{ path('app_admin_user_index', { 'username': user.username }) }}">
+                                <span class="glyphicon glyphicon-edit"></span>
+                                {{ user }}
+                            </a>
                         </td>
                     </tr>
                 {% endif %}

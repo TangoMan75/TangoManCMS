@@ -2,7 +2,9 @@
 
 namespace AppBundle\Form\Admin;
 
+use Doctrine\ORM\EntityRepository;
 use Tiloweb\Base64Bundle\Form\Base64Type;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -56,7 +58,37 @@ class AdminEditUserType extends AbstractType
                     'label'    => 'Biographie',
                     'required' => false,
                 ]
-            );
+            )
+            ->add(
+                'roles',
+                EntityType::class,
+                [
+                    'label'         => 'Roles',
+                    'class'         => 'AppBundle:Role',
+                    'multiple'      => true,
+                    'expanded'      => false,
+                    'required'      => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('role');
+                    },
+                ]
+            )
+            ->add(
+                'privileges',
+                EntityType::class,
+                [
+                    'label'         => 'Privileges',
+                    'class'         => 'AppBundle:Privilege',
+                    'multiple'      => true,
+                    'expanded'      => true,
+                    'required'      => false,
+                    'by_reference'  => false,
+                    'query_builder' => function (EntityRepository $em) {
+                        return $em->createQueryBuilder('privilege');
+                    },
+                ]
+            )
+        ;
     }
 
     /**

@@ -31,6 +31,14 @@
                     </div>
 
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="inputRole">Role</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="role" id="inputRole" class="form-control"
+                                   value="{{ app.request.get('role') }}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="inputUser">Utilisateur</label>
                         <div class="col-sm-8">
                             <input type="text" name="user" id="inputUser" class="form-control"
@@ -90,6 +98,16 @@
                         </a>
                     </th>
 
+                    <th class="{{ app.request.query.get('order') == 'role' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'role',
+                            'way'   : app.request.query.get('order') == 'role'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Roles
+                        </a>
+                    </th>
+
                     <th colspan="2">Actions</th>
                 </tr>
                 </thead>
@@ -112,7 +130,7 @@
                                 <a href="{{ path('app_admin_user_index', { 'privilege': privilege.name }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ privilege.users|length }} utilisateurs possédant le privilege &quot;{{ privilege.name }}&quot;"
+                                   data-original-title="Lister les {{ privilege.users|length }} utilisateurs possédant le privilège &quot;{{ privilege.name }}&quot;"
                                 >
                                     Utilisateurs
                                     <span class="badge-sm text-success">{{ privilege.users|length }}</span>
@@ -134,8 +152,41 @@
                             {% else %}
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
-                                      data-original-title="Le privilege &quot;{{ privilege.name }}&quot; n'a été attribuée à aucun utilisateur"
+                                      data-original-title="Le privilège &quot;{{ privilege.name }}&quot; n'a été attribué à aucun utilisateur"
                                 >Aucun utilisateur</span>
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% if privilege.roles|length > 1 %}
+                                <a href="{{ path('app_superadmin_role_index', { 'privilege': privilege.name }) }}"
+                                   class="label label-success"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ privilege.roles|length }} roles possédant le privilège &quot;{{ privilege.name }}&quot;"
+                                >
+                                    Roles
+                                    <span class="badge-sm text-success">{{ privilege.roles|length }}</span>
+                                </a><br/>
+                            {% endif %}
+
+                            {% for role in privilege.roles %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_superadmin_role_index', { 'role': role.name }) }}"
+                                       class="label label-{{ role.label }}"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail du role &quot;{{ role }}&quot;"
+                                    >
+                                        <span class="{{ role.icon }}"></span>
+                                        {{ role }}
+                                    </a><br/>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="Le privilège &quot;{{ privilege.name }}&quot; n'a été attribué à aucun role"
+                                >Aucun role</span>
                             {% endfor %}
                         </td>
 

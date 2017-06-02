@@ -35,7 +35,7 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 20;
+        return 10;
     }
 
     /**
