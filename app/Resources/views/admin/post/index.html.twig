@@ -236,7 +236,7 @@
                                 </a>
                             {% else %}
                                 <a href="{{ path('app_post_show', { 'slug': post.slug }) }}" class="cover"
-                                   style="padding-bottom: 80px; width: 80px; background-image: url('{{ post.image ? media.image : '//placehold.it/80?text=Image' }}');">
+                                   style="padding-bottom: 80px; width: 80px; background-image: url('{{ post.image ? post.image : '//placehold.it/80?text=Image' }}');">
                                 </a>
                             {% endif %}
                         </td>
