@@ -27,12 +27,6 @@ Trait Ordered
         $way = $query->get('way', 'DESC');
 
         switch ($order) {
-            // Author by username
-            case 'author':
-                $dql->addSelect('user.username as orderParam');
-                $dql->leftJoin($this->getTableName().'.user', 'user');
-                break;
-
             // Simplest way to order entities owning base64 avatar or not
             case 'avatar':
                 $dql->addSelect('COUNT('.$this->getTableName().'.avatar) as orderParam');
@@ -92,8 +86,8 @@ Trait Ordered
 
             // User by username
             case 'user':
-                $dql->addSelect('user.username as orderParam');
-                $dql->leftJoin($this->getTableName().'.user', 'user');
+                $dql->addSelect('o_user.username as orderParam');
+                $dql->leftJoin($this->getTableName().'.user', 'o_user');
                 break;
 
             // User count
