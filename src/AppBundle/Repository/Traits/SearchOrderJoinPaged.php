@@ -8,20 +8,20 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Trait SearchableOrderedPaged
+ * Trait SearchOrderJoinPaged
  * Requires repository to own "TableName" trait.
  * @author  Matthias Morin <tangoman@free.fr>
  *
  * @package AppBundle\Repository\Traits
  */
-Trait SearchableOrderedPagedWithUser
+Trait SearchOrderJoinPaged
 {
     /**
      * @param ParameterBag $query
      *
      * @return Paginator
      */
-    public function searchableOrderedPageWithUser(ParameterBag $query)
+    public function searchOrderJoinPaged(ParameterBag $query)
     {
         // Sets default values
         $page = $query->get('page', 1);

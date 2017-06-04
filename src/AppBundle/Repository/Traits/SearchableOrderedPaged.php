@@ -21,7 +21,7 @@ Trait SearchableOrderedPaged
      *
      * @return Paginator
      */
-    public function searchableOrderedPage(ParameterBag $query)
+    public function searchableOrderedPaged(ParameterBag $query, $showPublishedOnly = false)
     {
         // Sets default values
         $page = $query->get('page', 1);
@@ -45,8 +45,14 @@ Trait SearchableOrderedPaged
         $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
+        // Joins User
+        // $dql->leftJoin($this->getTableName().'.user', 'user');
         // Group
         $dql->groupBy($this->getTableName().'.id');
+        // Published
+        if ($showPublishedOnly) {
+            $dql->andWhere($this->getTableName().'.published = 1');
+        }
 
         $firstResult = ($page - 1) * $limit;
         $query = $dql->getQuery();

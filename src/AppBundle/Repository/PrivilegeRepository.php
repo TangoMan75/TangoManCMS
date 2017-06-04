@@ -16,5 +16,6 @@ class PrivilegeRepository extends EntityRepository
     use Traits\Ordered;
     use Traits\Searchable;
     use Traits\SearchableOrderedPaged;
+    use Traits\SearchableSimpleArray;
     use Traits\TableName;
 }

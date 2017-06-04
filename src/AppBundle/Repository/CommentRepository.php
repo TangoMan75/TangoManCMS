@@ -19,8 +19,8 @@ class CommentRepository extends EntityRepository
     use Traits\Countable;
     use Traits\Ordered;
     use Traits\Searchable;
+    use Traits\SearchableOrderedPaged;
     use Traits\SearchableSimpleArray;
-    use Traits\SearchableOrderedPagedWithUser;
     use Traits\TableName;
 
     /**
