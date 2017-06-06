@@ -14,6 +14,7 @@
     <div class="container">
         <section id="posts">
             {% for post in posts %}
+                {% set post = post[0] %}
                 {% include "includes/_post.html.twig" with { 'callback': app.request.uri|callback } %}
             {% else %}
                 {% include "includes/_nothing.html.twig" %}

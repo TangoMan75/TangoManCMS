@@ -38,7 +38,8 @@
         {% endif %}
 
         <section id="comments">
-            {% for comment in list_comment %}
+            {% for comment in comments %}
+                {% set comment = comment[0] %}
                 {% include "includes/_comment.html.twig" with { 'callback': app.request.uri|callback } %}
             {% else %}
                 <div class="jumbotron">
@@ -49,7 +50,7 @@
                 </div>
             {% endfor %}
             <div class="text-center">
-                {{ pagination(list_comment) }}
+                {{ pagination(comments) }}
             </div>
         </section>
     </div>
