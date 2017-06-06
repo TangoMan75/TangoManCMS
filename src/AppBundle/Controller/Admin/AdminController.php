@@ -19,7 +19,6 @@ class AdminController extends Controller
         return $this->render(
             'admin/default/index.html.twig',
             [
-                'currentUser'  => $this->getUser(),
                 'commentCount' => $this->get('doctrine')->getRepository('AppBundle:Comment')->count(),
                 'mediaCount'   => null,
                 'pageCount'    => $this->get('doctrine')->getRepository('AppBundle:Page')->count(),

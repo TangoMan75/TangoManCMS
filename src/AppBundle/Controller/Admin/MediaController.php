@@ -27,13 +27,12 @@ class MediaController extends Controller
     {
         // Show searchable, sortable, paginated media list
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->searchableOrderedPaged($request->query);
+        $listMedia = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
 
         return $this->render(
             'admin/media/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'listMedia'   => $listMedia,
+                'listMedia' => $listMedia,
             ]
         );
     }
@@ -66,8 +65,7 @@ class MediaController extends Controller
         return $this->render(
             'admin/media/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -98,9 +96,8 @@ class MediaController extends Controller
         return $this->render(
             'admin/media/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'media'       => $post,
+                'form'  => $form->createView(),
+                'media' => $post,
             ]
         );
     }
@@ -163,8 +160,7 @@ class MediaController extends Controller
         return $this->render(
             'admin/media/export.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'listMedia'   => $listMedia,
+                'listMedia' => $listMedia,
             ]
         );
     }
@@ -180,9 +176,9 @@ class MediaController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type'        => 'application/force-download',
-                'Content-Disposition' => 'attachment; filename="listMedia.json"',
-            ]
+                         'Content-Type'        => 'application/force-download',
+                         'Content-Disposition' => 'attachment; filename="listMedia.json"',
+                     ]
         );
     }
 
@@ -214,8 +210,7 @@ class MediaController extends Controller
         return $this->render(
             'admin/media/import.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

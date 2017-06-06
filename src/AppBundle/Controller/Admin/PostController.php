@@ -27,13 +27,12 @@ class PostController extends Controller
     {
         // Show searchable, sortable, paginated post list
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->searchableOrderedPaged($request->query);
+        $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
 
         return $this->render(
             'admin/post/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'posts'       => $posts,
+                'posts' => $posts,
             ]
         );
     }
@@ -66,8 +65,7 @@ class PostController extends Controller
         return $this->render(
             'admin/post/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -124,9 +122,8 @@ class PostController extends Controller
         return $this->render(
             'admin/post/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'post'        => $post,
+                'form' => $form->createView(),
+                'post' => $post,
             ]
         );
     }
@@ -158,13 +155,12 @@ class PostController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $posts = $em->getRepository('AppBundle:Post')->export(true);
 
         return $this->render(
             'admin/post/export.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'posts'       => $posts,
+                'posts' => $posts,
             ]
         );
     }
@@ -175,14 +171,14 @@ class PostController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findAllPosts();
+        $posts = $em->getRepository('AppBundle:Post')->export(true);
         $response = json_encode($posts);
 
         return new Response(
             $response, 200, [
-                'Content-Type' => 'application/force-download',
-                'Content-Disposition' => 'attachment; filename="posts.json"',
-            ]
+                         'Content-Type'        => 'application/force-download',
+                         'Content-Disposition' => 'attachment; filename="posts.json"',
+                     ]
         );
     }
 
@@ -214,8 +210,7 @@ class PostController extends Controller
         return $this->render(
             'admin/post/import.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

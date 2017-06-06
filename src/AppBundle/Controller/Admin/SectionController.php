@@ -24,13 +24,12 @@ class SectionController extends Controller
     {
         // Show searchable, sortable, paginated section list
         $em = $this->get('doctrine')->getManager();
-        $sections = $em->getRepository('AppBundle:Section')->searchableOrderedPaged($request->query);
+        $sections = $em->getRepository('AppBundle:Section')->findByQuery($request->query);
 
         return $this->render(
             'admin/section/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'sections'    => $sections,
+                'sections' => $sections,
             ]
         );
     }
@@ -59,8 +58,7 @@ class SectionController extends Controller
         return $this->render(
             'admin/section/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -117,9 +115,8 @@ class SectionController extends Controller
         return $this->render(
             'admin/section/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'section'     => $section,
+                'form'    => $form->createView(),
+                'section' => $section,
             ]
         );
     }

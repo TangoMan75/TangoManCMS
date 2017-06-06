@@ -24,13 +24,12 @@ class GalleryController extends Controller
     {
         // Show searchable, sortable, paginated gallery list
         $em = $this->get('doctrine')->getManager();
-        $galleries = $em->getRepository('AppBundle:Section')->searchableOrderedPaged($request->query);
+        $galleries = $em->getRepository('AppBundle:Section')->findByQuery($request->query);
 
         return $this->render(
             'admin/gallery/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'galleries'    => $galleries,
+                'galleries' => $galleries,
             ]
         );
     }
@@ -59,8 +58,7 @@ class GalleryController extends Controller
         return $this->render(
             'admin/gallery/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -117,9 +115,8 @@ class GalleryController extends Controller
         return $this->render(
             'admin/gallery/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'gallery'     => $gallery,
+                'form'    => $form->createView(),
+                'gallery' => $gallery,
             ]
         );
     }

@@ -23,13 +23,12 @@ class CommentController extends Controller
     {
         // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $comments = $em->getRepository('AppBundle:Comment')->searchableOrderedPaged($request->query);
+        $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query);
 
         return $this->render(
             'admin/comment/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'comments'    => $comments,
+                'comments' => $comments,
             ]
         );
     }
@@ -58,8 +57,7 @@ class CommentController extends Controller
         return $this->render(
             'admin/comment/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -112,9 +110,8 @@ class CommentController extends Controller
         return $this->render(
             'admin/comment/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'comment'     => $comment,
+                'form'    => $form->createView(),
+                'comment' => $comment,
             ]
         );
     }

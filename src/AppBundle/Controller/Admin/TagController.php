@@ -24,13 +24,12 @@ class TagController extends Controller
     {
         // Show searchable, sortable, paginated tag list
         $em = $this->get('doctrine')->getManager();
-        $tags = $em->getRepository('AppBundle:Tag')->searchableOrderedPaged($request->query);
+        $tags = $em->getRepository('AppBundle:Tag')->findByQuery($request->query);
 
         return $this->render(
             'admin/tag/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'tags'        => $tags,
+                'tags' => $tags,
             ]
         );
     }
@@ -62,8 +61,7 @@ class TagController extends Controller
         return $this->render(
             'admin/tag/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -94,9 +92,8 @@ class TagController extends Controller
         return $this->render(
             'admin/tag/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'tag'         => $tag,
+                'form' => $form->createView(),
+                'tag'  => $tag,
             ]
         );
     }

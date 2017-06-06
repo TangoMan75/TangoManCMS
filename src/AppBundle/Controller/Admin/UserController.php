@@ -23,13 +23,12 @@ class UserController extends Controller
     {
         // Show searchable, sortable, paginated user list
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->searchableOrderedPaged($request->query);
+        $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
 
         return $this->render(
             'admin/user/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'users'       => $users,
+                'users' => $users,
             ]
         );
     }
@@ -63,8 +62,7 @@ class UserController extends Controller
         return $this->render(
             'admin/user/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -96,9 +94,8 @@ class UserController extends Controller
         return $this->render(
             'admin/user/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'user'        => $user,
+                'form' => $form->createView(),
+                'user' => $user,
             ]
         );
     }
@@ -232,8 +229,7 @@ class UserController extends Controller
         return $this->render(
             'admin/user/export.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'users'       => $users,
+                'users' => $users,
             ]
         );
     }
@@ -292,9 +288,9 @@ class UserController extends Controller
 
         return new Response(
             $response, 200, [
-                'Content-Type'        => 'application/force-download',
-                'Content-Disposition' => 'attachment; filename="users.csv"',
-            ]
+                         'Content-Type'        => 'application/force-download',
+                         'Content-Disposition' => 'attachment; filename="users.csv"',
+                     ]
         );
     }
 
@@ -326,8 +322,7 @@ class UserController extends Controller
         return $this->render(
             'admin/user/import.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

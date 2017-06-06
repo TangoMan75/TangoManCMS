@@ -24,13 +24,12 @@ class PageController extends Controller
     {
         // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $pages = $em->getRepository('AppBundle:Page')->searchableOrderedPaged($request->query);
+        $pages = $em->getRepository('AppBundle:Page')->findByQuery($request->query);
 
         return $this->render(
             'admin/page/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'pages'       => $pages,
+                'pages' => $pages,
             ]
         );
     }
@@ -59,8 +58,7 @@ class PageController extends Controller
         return $this->render(
             'admin/page/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -117,9 +115,8 @@ class PageController extends Controller
         return $this->render(
             'admin/page/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'page'        => $page,
+                'form' => $form->createView(),
+                'page' => $page,
             ]
         );
     }
