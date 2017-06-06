@@ -24,13 +24,12 @@ class PrivilegeController extends Controller
     {
         // Show searchable, sortable, paginated privilege list
         $em = $this->get('doctrine')->getManager();
-        $privileges = $em->getRepository('AppBundle:Privilege')->searchableOrderedPaged($request->query);
+        $privileges = $em->getRepository('AppBundle:Privilege')->findByQuery($request->query);
 
         return $this->render(
             'admin/privilege/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'privileges'       => $privileges,
+                'privileges' => $privileges,
             ]
         );
     }
@@ -62,8 +61,7 @@ class PrivilegeController extends Controller
         return $this->render(
             'admin/privilege/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -94,9 +92,8 @@ class PrivilegeController extends Controller
         return $this->render(
             'admin/privilege/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'privilege'        => $privilege,
+                'form'      => $form->createView(),
+                'privilege' => $privilege,
             ]
         );
     }
@@ -109,11 +106,11 @@ class PrivilegeController extends Controller
         // Only author or admin can edit comment
         if (in_array(
             $privilege->getType(), [
-                                'ROLE_USER',
-                                'ROLE_SUPER_USER',
-                                'ROLE_ADMIN',
-                                'ROLE_SUPER_ADMIN',
-                            ]
+                                     'ROLE_USER',
+                                     'ROLE_SUPER_USER',
+                                     'ROLE_ADMIN',
+                                     'ROLE_SUPER_ADMIN',
+                                 ]
         )) {
             $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le privilege <strong>&quot;'.$privilege->getName().'&quot;</strong>.');
 

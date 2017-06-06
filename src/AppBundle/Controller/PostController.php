@@ -11,6 +11,7 @@ use AppBundle\Form\CommentType;
 use AppBundle\Form\EditPostType;
 use AppBundle\Form\NewPostType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -30,11 +31,9 @@ class PostController extends Controller
         $em = $this->get('doctrine')->getManager();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')
-                ->findAllPaged($request->query->getInt('page', 1), 5, false);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, false);
         } else {
-            $posts = $em->getRepository('AppBundle:Post')
-                ->findAllPaged($request->query->getInt('page', 1), 5);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
         }
 
         $formPost = null;
@@ -132,11 +131,11 @@ class PostController extends Controller
         $em->persist($post);
         $em->flush();
 
-        $listComment = $em->getRepository('AppBundle:Comment')->findAllPaged(
-            $post,
-            $request->query->getInt('page', 1),
-            5
-        );
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query, false);
+        } else {
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query);
+        }
 
         $formComment = null;
 
@@ -164,25 +163,19 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'formPost'     => $formComment,
-                'list_comment' => $listComment,
-                'post'         => $post,
+                'formPost' => $formComment,
+                'comments' => $comments,
+                'post'     => $post,
             ]
         );
     }
 
     /**
      * @Route("/new")
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         $post = new Post();
         $post->setUser($this->getUser());
         $form = $this->createForm(NewPostType::class, $post);
@@ -212,16 +205,10 @@ class PostController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function editAction(Request $request, Post $post)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         // Only author or admin can edit post
         if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
@@ -259,16 +246,10 @@ class PostController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, Post $post)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         // Only author or admin can edit post
         if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
@@ -294,16 +275,10 @@ class PostController extends Controller
 
     /**
      * @Route("/vote/{slug}/{value}", requirements={"slug": "[\w-]+", "value": "(up|down)"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function voteAction(Request $request, $slug, $value)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         $em = $this->get('doctrine')->getManager();
         $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
         $user = $this->getUser();

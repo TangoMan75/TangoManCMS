@@ -24,13 +24,12 @@ class RoleController extends Controller
     {
         // Show searchable, sortable, paginated role list
         $em = $this->get('doctrine')->getManager();
-        $roles = $em->getRepository('AppBundle:Role')->searchableOrderedPaged($request->query);
+        $roles = $em->getRepository('AppBundle:Role')->findByQuery($request->query);
 
         return $this->render(
             'admin/role/index.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'roles'       => $roles,
+                'roles' => $roles,
             ]
         );
     }
@@ -62,8 +61,7 @@ class RoleController extends Controller
         return $this->render(
             'admin/role/new.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
@@ -94,9 +92,8 @@ class RoleController extends Controller
         return $this->render(
             'admin/role/edit.html.twig',
             [
-                'currentUser' => $this->getUser(),
-                'form'        => $form->createView(),
-                'role'        => $role,
+                'form' => $form->createView(),
+                'role' => $role,
             ]
         );
     }

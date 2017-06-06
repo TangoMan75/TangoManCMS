@@ -30,9 +30,9 @@ class DefaultController extends Controller
         }
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5, false);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, false);
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findAllPaged($request->query->getInt('page', 1), 5);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
         }
 
         $formPost = null;
