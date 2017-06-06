@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Trait SearchableOrderedPaged
+ * Trait AllPaged
  * Requires repository to own "TableName" trait.
  * @author  Matthias Morin <tangoman@free.fr>
  *
@@ -37,7 +37,6 @@ Trait AllPaged
         }
 
         $dql = $this->createQueryBuilder($this->getTableName());
-        $dql->orderBy($this->getTableName().'.modified', 'DESC');
 
         if ($published) {
             $dql->andWhere($this->getTableName().'.published = 1');

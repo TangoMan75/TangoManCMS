@@ -18,7 +18,7 @@ class TagRepository extends EntityRepository
     use Traits\Countable;
     use Traits\Ordered;
     use Traits\Searchable;
-    use Traits\SearchableOrderedPaged;
+    use Traits\FindByQuery;
     use Traits\SearchableSimpleArray;
     use Traits\TableName;
 }

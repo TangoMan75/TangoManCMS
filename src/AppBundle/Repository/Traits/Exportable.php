@@ -2,36 +2,36 @@
 
 namespace AppBundle\Repository\Traits;
 
+use Symfony\Component\HttpFoundation\ParameterBag;
+
 /**
- * Trait SearchableOrderedPaged
+ * Trait Exportable
  * Requires repository to own "TableName" trait.
- * @author  Matthias Morin <tangoman@free.fr>
  *
+ * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Repository\Traits
  */
 Trait Exportable
 {
     /**
      * Return all entities with joined author email (for export)
+     *
      * @return mixed
      */
-    public function exportAllWithUserEmail()
+    public function export(ParameterBag $query, $joinUserEmail = false)
     {
-        return $this->createQueryBuilder($this->getTableName())
-            ->leftJoin($this->getTableName().'.user', 'user')
-            ->addSelect('user.email AS user_email')
-            ->getQuery()
-            ->getScalarResult();
-    }
+        // QueryBuilder
+        $dql = $this->createQueryBuilder($this->getTableName());
+        // Search
+        $dql = $this->search($dql, $query);
+        // Order
+        $dql = $this->order($dql, $query);
 
-    /**
-     * Return all entities (for export)
-     * @return mixed
-     */
-    public function exportAll()
-    {
-        return $this->createQueryBuilder($this->getTableName())
-            ->getQuery()
-            ->getScalarResult();
+        if ($joinUserEmail) {
+            $dql->leftJoin($this->getTableName().'.user', 'j_user')
+                ->addSelect('j_user.email AS user_email');
+        }
+
+        return $dql->getQuery()->getScalarResult();
     }
 }

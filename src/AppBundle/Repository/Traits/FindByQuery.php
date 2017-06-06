@@ -2,26 +2,27 @@
 
 namespace AppBundle\Repository\Traits;
 
+use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
- * Trait SearchableOrderedPaged
+ * Trait FindByQuery
  * Requires repository to own "TableName" trait.
- * @author  Matthias Morin <tangoman@free.fr>
  *
+ * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Repository\Traits
  */
-Trait SearchableOrderedPaged
+Trait FindByQuery
 {
     /**
      * @param ParameterBag $query
      *
      * @return Paginator
      */
-    public function searchableOrderedPaged(ParameterBag $query, $showPublishedOnly = false)
+    public function findByQuery(ParameterBag $query, $showPublishedOnly = false)
     {
         // Sets default values
         $page = $query->get('page', 1);
@@ -45,22 +46,24 @@ Trait SearchableOrderedPaged
         $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
-        // Joins User
-        // $dql->leftJoin($this->getTableName().'.user', 'user');
-        // Group
-        $dql->groupBy($this->getTableName().'.id');
+
         // Published
         if ($showPublishedOnly) {
             $dql->andWhere($this->getTableName().'.published = 1');
         }
 
         $firstResult = ($page - 1) * $limit;
+
         $query = $dql->getQuery();
         $query->setFirstResult($firstResult);
         $query->setMaxResults($limit);
         $paginator = new Paginator($query);
 
-        if (($paginator->count() <= $firstResult) && $page != 1) {
+        try {
+            if (($paginator->count() <= $firstResult) && $page != 1) {
+                throw new NotFoundHttpException('Page not found');
+            }
+        } catch (QueryException $qe) {
             throw new NotFoundHttpException('Page not found');
         }
 
