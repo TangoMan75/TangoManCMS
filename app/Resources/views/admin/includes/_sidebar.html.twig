@@ -2,26 +2,26 @@
 
     <div class="sidebar-avatar">
         <div class="user-avatar">
-            <img src="{{ currentUser.avatar ? currentUser.avatar : asset('img/user.jpg') }}"
-                 alt="{{ currentUser.username }}">
+            <img src="{{ app.user.avatar ? app.user.avatar : asset('img/user.jpg') }}"
+                 alt="{{ app.user.username }}">
         </div>
 
         <div class="sidebar-username">
-            {{ currentUser.username }}
+            {{ app.user.username }}
         </div>
 
         <div class="sidebar-roles">
-            {% if 'ROLE_SUPER_ADMIN' in currentUser.roles %}
+            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
                 <div class="btn btn-danger btn-sm">
                     <span class="glyphicon glyphicon-king"></span>
                     Super Administrateur
                 </div>
-            {% elseif 'ROLE_ADMIN' in currentUser.roles %}
+            {% elseif 'ROLE_ADMIN' in app.user.roles %}
                 <div class="btn btn-warning btn-sm">
                     <span class="glyphicon glyphicon-tower"></span>
                     Administrateur
                 </div>
-            {% elseif 'ROLE_SUPER_USER' in currentUser.roles %}
+            {% elseif 'ROLE_SUPER_USER' in app.user.roles %}
                 <div class="btn btn-success btn-sm">
                     <span class="glyphicon glyphicon-bishop"></span>
                 </div>
