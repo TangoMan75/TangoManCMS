@@ -23,7 +23,7 @@ class UserController extends Controller
     {
         // Show searchable, sortable, paginated user list
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->searchableOrderedPage($request->query);
+        $users = $em->getRepository('AppBundle:User')->searchableOrderedPaged($request->query);
 
         return $this->render(
             'admin/user/index.html.twig',

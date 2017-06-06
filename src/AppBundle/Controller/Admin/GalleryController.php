@@ -24,7 +24,7 @@ class GalleryController extends Controller
     {
         // Show searchable, sortable, paginated gallery list
         $em = $this->get('doctrine')->getManager();
-        $galleries = $em->getRepository('AppBundle:Section')->searchableOrderedPage($request->query);
+        $galleries = $em->getRepository('AppBundle:Section')->searchableOrderedPaged($request->query);
 
         return $this->render(
             'admin/gallery/index.html.twig',
