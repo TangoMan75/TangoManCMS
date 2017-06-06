@@ -9,6 +9,7 @@ use AppBundle\Form\CommentType;
 use AppBundle\Form\EditMediaType;
 use AppBundle\Form\NewMediaType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
@@ -76,16 +77,10 @@ class MediaController extends Controller
 
     /**
      * @Route("/new")
+     * @Security("has_role('ROLE_USER')")
      */
     public function newAction(Request $request)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         $media = new Post();
         $media->setUser($this->getUser());
         $form = $this->createForm(NewMediaType::class, $media);
@@ -115,16 +110,10 @@ class MediaController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function editAction(Request $request, Post $media)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         // Only author or admin can edit media
         if ($this->getUser() !== $media->getUser() && !$this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
@@ -162,16 +151,10 @@ class MediaController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @Security("has_role('ROLE_USER')")
      */
     public function deleteAction(Request $request, Post $media)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         // Only author or admin can edit media
         if ($this->getUser() !== $media->getUser() && !$this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'

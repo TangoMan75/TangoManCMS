@@ -7,9 +7,9 @@ use AppBundle\Form\UserType;
 use AppBundle\Form\EmailChangeType;
 use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 
 class SecurityController extends Controller
 {
@@ -184,13 +184,6 @@ class SecurityController extends Controller
      */
     public function createAction(Request $request, $action, User $user)
     {
-        // User must log in
-        if (!$this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_FULLY')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous devez être connecté pour réaliser cette action.');
-
-            return $this->redirectToRoute('app_login');
-        }
-
         // Only user can send tokens to self
         if ($this->getUser() !== $user) {
             $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');

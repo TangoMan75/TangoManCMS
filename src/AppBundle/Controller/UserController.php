@@ -16,7 +16,6 @@ class UserController extends Controller
 {
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
-     *
      * @param Request $request
      * @param         $slug
      *
@@ -60,7 +59,6 @@ class UserController extends Controller
     /**
      * @Route("/edit/{slug}", requirements={"slug": "[\w-]+"})
      * @ParamConverter("user", class="AppBundle:User")
-     *
      * @param Request $request
      * @param         $slug
      *
