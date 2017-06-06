@@ -45,6 +45,7 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
     {
         // Default Tags
         $tags = [
+            'Import',    'default', 'default',
             'Défaut',    'default', 'default',
             'Principal', 'primary', 'primary',
             'Info',      'info',    'info',

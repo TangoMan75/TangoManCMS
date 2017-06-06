@@ -155,7 +155,7 @@ class PostController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export(true);
+        $posts = $em->getRepository('AppBundle:Post')->export($request->query, true);
 
         return $this->render(
             'admin/post/export.html.twig',
@@ -171,7 +171,7 @@ class PostController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export(true);
+        $posts = $em->getRepository('AppBundle:Post')->export($request->query, true);
         $response = json_encode($posts);
 
         return new Response(
@@ -239,16 +239,7 @@ class PostController extends Controller
             $posts = $em->getRepository('AppBundle:Post');
             $tags = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
-
-            // Creates "import" tag when non-existent
             $tag = $tags->findOneByName('import');
-            if (!$tag) {
-                $tag = new Tag();
-                $tag->setName('import');
-                $tag->setType('default');
-                $em->persist($tag);
-                $em->flush();
-            }
 
             foreach (json_decode(file_get_contents($file)) as $import) {
 
@@ -279,9 +270,9 @@ class PostController extends Controller
             }
 
             if ($counter > 1) {
-                $success = "$counter articles ont été importés.";
+                $success = $counter.'articles ont été importés.';
             } else {
-                $success = "Aucun article n'a été importé.";
+                $success = 'Aucun article n\'a été importé.';
             }
 
             $this->get('session')->getFlashBag()->add('success', $success);

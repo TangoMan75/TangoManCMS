@@ -19,7 +19,10 @@
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'export' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_post_export') }}">
+            <a href="{{ path('app_admin_post_exportjson', app.request.query.all ) }}"
+               data-toggle="tooltip" data-placement="top"
+               data-original-title="Exporter les {{ posts.count }} articles sélectionnés."
+            >
                 <span class="glyphicon glyphicon-export"></span>
                 Exporter
             </a>
