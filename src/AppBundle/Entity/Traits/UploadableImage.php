@@ -105,10 +105,18 @@ trait UploadableImage
      */
     public function getImagePrettyFileName()
     {
-        $extension = explode('.', $this->imageFileName);
-
         // Returns string left part before last dash
-        return substr($this->slug, 0, strrpos($this->slug, '-')).'.'.end($extension);
+        return substr($this->slug, 0, strrpos($this->slug, '-')).'.'.$this->getImageExtension();
+    }
+
+    /**
+     * Retrieve file extension
+     *
+     * @return String|null
+     */
+    public function getImageExtension()
+    {
+        return end(explode('.', $this->imageFileName));
     }
 
     /**

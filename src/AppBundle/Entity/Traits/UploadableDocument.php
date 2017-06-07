@@ -114,10 +114,18 @@ trait UploadableDocument
      */
     public function getDocumentPrettyFileName()
     {
-        $extension = explode('.', $this->documentFileName);
-
         // Returns string left part before last dash
-        return substr($this->slug, 0, strrpos($this->slug, '-')).'.'.end($extension);
+        return substr($this->slug, 0, strrpos($this->slug, '-')).'.'.$this->getDocumentExtension();
+    }
+
+    /**
+     * Retrieve file extension
+     *
+     * @return String|null
+     */
+    public function getDocumentExtension()
+    {
+        return end(explode('.', $this->documentFileName));
     }
 
     /**
