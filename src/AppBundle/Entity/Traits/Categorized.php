@@ -112,10 +112,9 @@ trait Categorized
     }
 
     /**
-     * @ORM\PrePersist()
-     * @ORM\PreUpdate()
+     * @ORM\PreFlush()
      */
-    private function setDefaultCategories()
+    public function setDefaultCategories()
     {
         if ($this->type) {
             foreach ($this->assoc as $type => $category) {
