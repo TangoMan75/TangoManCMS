@@ -26,7 +26,7 @@ Trait Ordered
         $orders = (array)$query->get('order', 'id');
         $ways = (array)$query->get('way', 'DESC');
 
-        $grpb = false;
+        $groupBy = false;
 
         foreach ($orders as $index => $order) {
 
@@ -42,20 +42,20 @@ Trait Ordered
                 case 'comments':
                     $dql->addSelect('COUNT(c_comments) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.comments', 'c_comments');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Simplest way to order entities owning image or not
                 case 'image':
                     $dql->addSelect('COUNT('.$this->getTableName().'.image) AS orderParam_'.$index);
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Item count
                 case 'items':
                     $dql->addSelect('COUNT(c_items) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.items', 'c_items');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Page by title
@@ -68,20 +68,20 @@ Trait Ordered
                 case 'pages':
                     $dql->addSelect('COUNT(c_page) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.pages', 'c_page');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Simplest way to order all valid users
                 case 'password':
                     $dql->addSelect('COUNT('.$this->getTableName().'.password) AS orderParam_'.$index);
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Post count
                 case 'posts':
                     $dql->addSelect('COUNT(c_post.id) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.posts', 'c_post');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Post by title
@@ -94,14 +94,14 @@ Trait Ordered
                 case 'sections':
                     $dql->addSelect('COUNT(c_section.id) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.sections', 'c_section');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Tag count
                 case 'tags':
                     $dql->addSelect('COUNT(c_tags) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.tags', 'c_tags');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // User by username
@@ -114,14 +114,14 @@ Trait Ordered
                 case 'users':
                     $dql->addSelect('COUNT(c_users) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.users', 'c_users');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 // Vote count
                 case 'votes':
                     $dql->addSelect('COUNT(c_votes) AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.votes', 'c_votes');
-                    $grpb = true;
+                    $groupBy = true;
                     break;
 
                 default:
@@ -132,7 +132,7 @@ Trait Ordered
              $dql->addOrderBy('orderParam_'.$index, $way);
         }
 
-        if ($grpb) {
+        if ($groupBy) {
             $dql->groupBy($this->getTableName());
         }
 
