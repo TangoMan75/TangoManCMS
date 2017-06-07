@@ -21,7 +21,7 @@ class CommentRepository extends EntityRepository
     use Traits\Searchable;
     use Traits\FindByQuery;
     use Traits\AllPaged;
-    use Traits\SearchableSimpleArray;
+    use Traits\SimpleArray;
     use Traits\TableName;
 
 //    /**

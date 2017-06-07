@@ -5,11 +5,11 @@ namespace AppBundle\Repository\Traits;
 use Doctrine\ORM\QueryBuilder;
 
 /**
- * Trait SearchableSimpleArray
+ * Trait SimpleArray
  *
  * @package AppBundle\Repository\Traits
  */
-Trait SearchableSimpleArray
+Trait SimpleArray
 {
     /**
      * @param QueryBuilder $dql
@@ -28,6 +28,21 @@ Trait SearchableSimpleArray
             ->setParameter(':end', "%,$search")
             ->orWhere($this->getTableName().'.'.$column.' LIKE :middle')
             ->setParameter(':middle', "%,$search,%");
+
+        return $dql;
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param              $column
+     * @param              $search
+     *
+     * @return QueryBuilder
+     */
+    public function findInSimpleArray(QueryBuilder $dql, $column, $search)
+    {
+            $dql->andWhere(':search IN '.$this->getTableName().'.'.$column)
+                ->setParameter(':search', $search);
 
         return $dql;
     }

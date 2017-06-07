@@ -13,6 +13,6 @@ use Doctrine\ORM\EntityRepository;
 class CategoryRepository extends EntityRepository
 {
     use Traits\Countable;
-    use Traits\SearchableSimpleArray;
+    use Traits\SimpleArray;
     use Traits\TableName;
 }

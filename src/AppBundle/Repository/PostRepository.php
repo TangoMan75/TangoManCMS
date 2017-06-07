@@ -22,7 +22,7 @@ class PostRepository extends EntityRepository
     use Traits\Ordered;
     use Traits\Searchable;
     use Traits\FindByQuery;
-    use Traits\SearchableSimpleArray;
+    use Traits\SimpleArray;
     use Traits\TableName;
 
     /**

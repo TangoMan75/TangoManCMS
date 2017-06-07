@@ -20,7 +20,7 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     use Traits\Ordered;
     use Traits\Searchable;
     use Traits\FindByQuery;
-    use Traits\SearchableSimpleArray;
+    use Traits\SimpleArray;
     use Traits\TableName;
 
     /**
