@@ -21,6 +21,7 @@ class Category
     use Relationships\CategoriesHavePosts;
     use Relationships\CategoriesHaveSections;
 
+    use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
 
