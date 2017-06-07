@@ -8,6 +8,13 @@ services:
         class: AppBundle\Service\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
+    services.categories:
+        class: AppBundle\Service\CategoriesService
+        arguments: ["@doctrine.orm.entity_manager"]
+
+    services.csv_reader:
+        class: AppBundle\Service\CSVReaderService
+
     twig.extension.remove_query:
         class: AppBundle\TwigExtension\RemoveQuery
         tags:
@@ -22,6 +29,3 @@ services:
            class: Twig_Extensions_Extension_Text
            tags:
                 - { name: twig.extension }
-
-    services.csv_reader:
-        class: AppBundle\Service\CSVReaderService
