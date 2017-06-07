@@ -48,7 +48,7 @@ class CommentController extends Controller
         return $this->render(
             'comment/edit.html.twig',
             [
-                "formPost" => $form->createView(),
+                "form" => $form->createView(),
             ]
         );
     }

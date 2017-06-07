@@ -56,8 +56,8 @@ class DefaultController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'formPost' => $formPost,
-                'posts'    => $posts,
+                'form'  => $formPost,
+                'posts' => $posts,
             ]
         );
     }

@@ -29,7 +29,7 @@ class MediaController extends Controller
         $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
         $medias = $em->getRepository('AppBundle:Post')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
-        $formMedia = null;
+        $form = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->getUser();
@@ -37,7 +37,7 @@ class MediaController extends Controller
             $media->setUser($user);
             $form = $this->createForm(NewMediaType::class, $media);
             $form->handleRequest($request);
-            $formMedia = $form->createView();
+            $form = $form->createView();
 
             if ($form->isValid()) {
                 $em->persist($media);
@@ -51,7 +51,7 @@ class MediaController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'formMedia' => $formMedia,
+                'form' => $form,
                 'medias'    => $medias,
             ]
         );
@@ -85,7 +85,6 @@ class MediaController extends Controller
         $media->setUser($this->getUser());
         $form = $this->createForm(NewMediaType::class, $media);
         $form->handleRequest($request);
-        $formMedia = $form->createView();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->get('doctrine')->getManager();
@@ -103,7 +102,7 @@ class MediaController extends Controller
         return $this->render(
             'media/edit.html.twig',
             [
-                'formMedia' => $formMedia,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -144,7 +143,7 @@ class MediaController extends Controller
         return $this->render(
             'media/edit.html.twig',
             [
-                'formMedia' => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }

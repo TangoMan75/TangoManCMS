@@ -36,14 +36,13 @@ class PostController extends Controller
             $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
         }
 
-        $formPost = null;
+        $form = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $post = new Post();
             $post->setUser($this->getUser());
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
-            $formPost = $form->createView();
 
             if ($form->isValid()) {
                 $em->persist($post);
@@ -60,7 +59,7 @@ class PostController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'formPost' => $formPost,
+                'form' => $form->createView(),
                 'posts'    => $posts,
             ]
         );
@@ -83,14 +82,13 @@ class PostController extends Controller
                 ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
         }
 
-        $formPost = null;
+        $form = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $post = new Post();
             $post->setUser($this->getUser());
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
-            $formPost = $form->createView();
 
             if ($form->isValid()) {
                 $em->persist($post);
@@ -107,7 +105,7 @@ class PostController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'formPost' => $formPost,
+                'form' => $form->createView(),
                 'posts'    => $posts,
             ]
         );
@@ -148,7 +146,6 @@ class PostController extends Controller
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
-            $formComment = $form->createView();
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $em->persist($comment);
@@ -163,7 +160,7 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'formPost' => $formComment,
+                'form' => $form->createView(),
                 'comments' => $comments,
                 'post'     => $post,
             ]
@@ -180,7 +177,6 @@ class PostController extends Controller
         $post->setUser($this->getUser());
         $form = $this->createForm(NewPostType::class, $post);
         $form->handleRequest($request);
-        $formPost = $form->createView();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->get('doctrine')->getManager();
@@ -198,7 +194,7 @@ class PostController extends Controller
         return $this->render(
             'post/edit.html.twig',
             [
-                'formPost' => $formPost,
+                'form' => $form->createView(),
             ]
         );
     }
@@ -239,7 +235,7 @@ class PostController extends Controller
         return $this->render(
             'post/edit.html.twig',
             [
-                'formPost' => $form->createView(),
+                'form' => $form->createView(),
             ]
         );
     }
