@@ -23,7 +23,7 @@ Trait Searchable
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
         if ($query->get('category')) {
-            $dql = $this->searchSimpleArray($dql, 'category', $query->get('category'));
+            $dql = $this->searchSimpleArray($dql, 'categories', $query->get('category'));
         }
 
         if ($query->get('email')) {
