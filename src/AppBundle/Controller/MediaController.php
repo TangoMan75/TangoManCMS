@@ -29,15 +29,16 @@ class MediaController extends Controller
         $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
         $medias = $em->getRepository('AppBundle:Post')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
-        $form = null;
+        $formView = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $user = $this->getUser();
             $media = new Post();
             $media->setUser($user);
+
             $form = $this->createForm(NewMediaType::class, $media);
             $form->handleRequest($request);
-            $form = $form->createView();
+            $formView = $form->createView();
 
             if ($form->isValid()) {
                 $em->persist($media);
@@ -51,8 +52,8 @@ class MediaController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'form' => $form,
-                'medias'    => $medias,
+                'form'   => $formView,
+                'medias' => $medias,
             ]
         );
     }
