@@ -37,7 +37,7 @@ class TagsCommand extends ContainerAwareCommand
             'Danger',    'danger',  'danger',
         ];
 
-        $categories = [
+        $types = [
             'Argus 360',   'argus360',    'success',
             'Article',     'post',        'primary',
             'Dailymotion', 'dailymotion', 'danger',
