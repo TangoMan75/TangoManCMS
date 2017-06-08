@@ -23,7 +23,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class PostController extends Controller
 {
     /**
-     * Displays post by tag.
      * @Route()
      */
     public function indexAction(Request $request)
@@ -31,18 +30,21 @@ class PostController extends Controller
         $em = $this->get('doctrine')->getManager();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, false);
-        } else {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
+        } else {
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, ['published' => true]);
         }
 
-        $form = null;
+        $formView = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $post = new Post();
             $post->setUser($this->getUser());
+            $post->setType('post');
+
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
+            $formView = $form->createView();
 
             if ($form->isValid()) {
                 $em->persist($post);
@@ -59,8 +61,8 @@ class PostController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'form' => $form->createView(),
-                'posts'    => $posts,
+                'form'  => $formView,
+                'posts' => $posts,
             ]
         );
     }
@@ -82,13 +84,16 @@ class PostController extends Controller
                 ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
         }
 
-        $form = null;
+        $formView = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
             $post = new Post();
             $post->setUser($this->getUser());
+            $post->setType('post');
+
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
+            $formView = $form->createView();
 
             if ($form->isValid()) {
                 $em->persist($post);
@@ -105,8 +110,8 @@ class PostController extends Controller
         return $this->render(
             'default/index.html.twig',
             [
-                'form' => $form->createView(),
-                'posts'    => $posts,
+                'form'  => $formView,
+                'posts' => $posts,
             ]
         );
     }
@@ -130,9 +135,9 @@ class PostController extends Controller
         $em->flush();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query, false);
-        } else {
             $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query);
+        } else {
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query, ['published' => true]);
         }
 
         $formComment = null;
@@ -160,7 +165,7 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'form' => $form->createView(),
+                'form'     => $form->createView(),
                 'comments' => $comments,
                 'post'     => $post,
             ]
@@ -175,6 +180,8 @@ class PostController extends Controller
     {
         $post = new Post();
         $post->setUser($this->getUser());
+        $post->setType('post');
+
         $form = $this->createForm(NewPostType::class, $post);
         $form->handleRequest($request);
 

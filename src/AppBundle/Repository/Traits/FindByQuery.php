@@ -22,7 +22,7 @@ Trait FindByQuery
      *
      * @return Paginator
      */
-    public function findByQuery(ParameterBag $query, $showPublishedOnly = false)
+    public function findByQuery(ParameterBag $query, $criteria = array())
     {
         // Sets default values
         $page = $query->get('page', 1);
@@ -40,17 +40,14 @@ Trait FindByQuery
             );
         }
 
+        // Merge criteria with query
+        $query->replace(array_merge($query->all(), $criteria));
         // QueryBuilder
         $dql = $this->createQueryBuilder($this->getTableName());
         // Search
         $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
-
-        // Published
-        if ($showPublishedOnly) {
-            $dql->andWhere($this->getTableName().'.published = 1');
-        }
 
         $firstResult = ($page - 1) * $limit;
 

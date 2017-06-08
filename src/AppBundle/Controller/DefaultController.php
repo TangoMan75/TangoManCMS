@@ -30,9 +30,9 @@ class DefaultController extends Controller
         }
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, false);
-        } else {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
+        } else {
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, ['published' => true]);
         }
 
         $formPost = null;
