@@ -140,11 +140,11 @@
                         </a>
                     </th>
 
-                    <th colspan="2" class="{{ app.request.query.get('order') == 'user' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2" class="{{ app.request.query.get('order') == 'user.username' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'user',
-                            'way'   : app.request.query.get('order') == 'user'
+                            'order' : 'user.username',
+                            'way'   : app.request.query.get('order') == 'user.username'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Auteur
                         </a>
@@ -160,11 +160,11 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'comments' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_comments' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'comments',
-                            'way'   : app.request.query.get('order') == 'comments'
+                            'order' : 'j_comments',
+                            'way'   : app.request.query.get('order') == 'j_comments'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Commentaires
                         </a>
@@ -180,21 +180,21 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'section' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_sections' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'section',
-                            'way'   : app.request.query.get('order') == 'section'
+                            'order' : 'j_sections',
+                            'way'   : app.request.query.get('order') == 'j_sections'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Section
+                            Galeries
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'tags' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_tags' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'tags',
-                            'way'   : app.request.query.get('order') == 'tags'
+                            'order' : 'j_tags',
+                            'way'   : app.request.query.get('order') == 'j_tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Étiquettes
                         </a>

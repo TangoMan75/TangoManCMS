@@ -114,31 +114,31 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'pages' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_pages' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'pages',
-                            'way'   : app.request.query.get('order') == 'pages'
+                            'order' : 'j_pages',
+                            'way'   : app.request.query.get('order') == 'j_pages'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Pages
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'posts' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_posts' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'posts',
-                            'way'   : app.request.query.get('order') == 'posts'
+                            'order' : 'j_posts',
+                            'way'   : app.request.query.get('order') == 'j_posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Articles
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'tags' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_tags' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_section_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'tags',
-                            'way'   : app.request.query.get('order') == 'tags'
+                            'order' : 'j_tags',
+                            'way'   : app.request.query.get('order') == 'j_tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Étiquettes
                         </a>

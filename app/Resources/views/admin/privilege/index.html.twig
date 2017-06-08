@@ -88,21 +88,21 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'user' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_users' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'user',
-                            'way'   : app.request.query.get('order') == 'user'
+                            'order' : 'j_users',
+                            'way'   : app.request.query.get('order') == 'j_users'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Utilisateurs
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'role' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j_roles' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'role',
-                            'way'   : app.request.query.get('order') == 'role'
+                            'order' : 'j_roles',
+                            'way'   : app.request.query.get('order') == 'j_roles'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Roles
                         </a>

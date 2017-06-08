@@ -25,111 +25,54 @@ Trait Ordered
     {
         $orders = (array)$query->get('order', 'id');
         $ways = (array)$query->get('way', 'DESC');
-
         $groupBy = false;
 
         foreach ($orders as $index => $order) {
-
             $way = (isset($ways[$index]) && $ways[$index] == 'ASC') ? 'ASC' : 'DESC';
 
-            switch ($order) {
-                // Simplest way to order entities owning base64 avatar or not
-                case 'avatar':
-                    $dql->addSelect('COUNT('.$this->getTableName().'.avatar) AS orderParam_'.$index);
-                    break;
+            $parse = [
+                'action'  => null,
+                'join'    => null,
+                'orderBy' => null,
+            ];
 
-                // Comment count
-                case 'comments':
-                    $dql->addSelect('COUNT(c_comments) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.comments', 'c_comments');
-                    $groupBy = true;
-                    break;
+            $strTemp = $order;
 
-                // Simplest way to order entities owning image or not
-                case 'image':
-                    $dql->addSelect('COUNT('.$this->getTableName().'.image) AS orderParam_'.$index);
-                    $groupBy = true;
-                    break;
-
-                // Item count
-                case 'items':
-                    $dql->addSelect('COUNT(c_items) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.items', 'c_items');
-                    $groupBy = true;
-                    break;
-
-                // Page by title
-                case 'page':
-                    $dql->addSelect('o_page.title AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.page', 'o_page');
-                    break;
-
-                // Page count
-                case 'pages':
-                    $dql->addSelect('COUNT(c_page) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.pages', 'c_page');
-                    $groupBy = true;
-                    break;
-
-                // Simplest way to order all valid users
-                case 'password':
-                    $dql->addSelect('COUNT('.$this->getTableName().'.password) AS orderParam_'.$index);
-                    $groupBy = true;
-                    break;
-
-                // Post count
-                case 'posts':
-                    $dql->addSelect('COUNT(c_post.id) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.posts', 'c_post');
-                    $groupBy = true;
-                    break;
-
-                // Post by title
-                case 'post':
-                    $dql->addSelect('o_post.title AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.post', 'o_post');
-                    break;
-
-                // Section count
-                case 'sections':
-                    $dql->addSelect('COUNT(c_section.id) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.sections', 'c_section');
-                    $groupBy = true;
-                    break;
-
-                // Tag count
-                case 'tags':
-                    $dql->addSelect('COUNT(c_tags) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.tags', 'c_tags');
-                    $groupBy = true;
-                    break;
-
-                // User by username
-                case 'user':
-                    $dql->addSelect('o_user.username AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.user', 'o_user');
-                    break;
-
-                // User count
-                case 'users':
-                    $dql->addSelect('COUNT(c_users) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.users', 'c_users');
-                    $groupBy = true;
-                    break;
-
-                // Vote count
-                case 'votes':
-                    $dql->addSelect('COUNT(c_votes) AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.votes', 'c_votes');
-                    $groupBy = true;
-                    break;
-
-                default:
-                    $dql->addSelect($this->getTableName().'.'.$order.' AS orderParam_'.$index);
-                    break;
+            if (stripos($order, '_') > 0) {
+                $parse['action'] = strstr($order, '_', true);
+                $strTemp = ltrim(strstr($order, '_'), '_');
             }
 
-             $dql->addOrderBy('orderParam_'.$index, $way);
+            if (stripos($strTemp, '.') > 0) {
+                $parse['join'] = strstr($strTemp, '.', true);
+                $parse['orderBy'] = ltrim(strstr($strTemp, '.'), '.');
+            } else {
+                $parse['orderBy'] = $strTemp;
+            }
+
+            // ACTIONS
+
+            if (!$parse['action'] || $parse['action'] == 'o') {
+                if ($parse['join']) {
+                    $dql->addSelect('o_'.$parse['join'].'.'.$parse['orderBy'].' AS orderParam_'.$index);
+                    $dql->leftJoin($this->getTableName().'.'.$parse['join'], 'o_'.$parse['join']);
+                } else {
+                    $dql->addSelect($this->getTableName().'.'.$parse['orderBy'].' AS orderParam_'.$index);
+                }
+            }
+
+            if ($parse['action'] == 'c') {
+                $dql->addSelect('COUNT('.$this->getTableName().'.'.$parse['orderBy'].') AS orderParam_'.$index);
+                $groupBy = true;
+            }
+
+            if ($parse['action'] == 'j') {
+                $dql->addSelect('COUNT(c_'.$parse['orderBy'].') AS orderParam_'.$index);
+                $dql->leftJoin($this->getTableName().'.'.$parse['orderBy'], 'c_'.$parse['orderBy']);
+                $groupBy = true;
+            }
+
+            $dql->addOrderBy('orderParam_'.$index, $way);
         }
 
         if ($groupBy) {
