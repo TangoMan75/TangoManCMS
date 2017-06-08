@@ -45,37 +45,35 @@ trait Embeddable
             (isset($result['query']) ? '?'.$result['query'] : '').
             (isset($result['fragment']) ? '#'.$result['fragment'] : '');
 
-        // Sets type according to url
+        // Set post type and thumbnail according to url
         if (isset($result['host'])) {
-            // Automatically set post type according to given url
             switch ($result['host']) {
                 case 'www.car360app.com':
                 case 'www.argus360.fr':
-                    $this->setType('argus360');
-                    // //car360app.com/viewer/?spin=3e7802c1cd69f08f2a3bae389816ece6&res=640x360&angle=45
+                    $this->type ='argus360';
                     $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
                 case 'dai.ly':
                 case 'www.dailymotion.com':
-                    $this->setType('dailymotion');
+                    $this->type ='dailymotion';
                     $this->image = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
                     break;
                 case 'giphy.com':
-                    $this->setType('giphy');
+                    $this->type ='giphy';
                     break;
                 case 'gist.github.com':
-                    $this->setType('gist');
+                    $this->type ='gist';
                     break;
                 case 'twitter.com':
-                    $this->setType('tweet');
+                    $this->type ='tweet';
                     break;
                 case 'www.youtube.com':
                 case 'youtu.be':
-                    $this->setType('youtube');
+                    $this->type ='youtube';
                     $this->image = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
                     break;
                 case 'vimeo.com':
-                    $this->setType('vimeo');
+                    $this->type = 'vimeo';
                     $xml = unserialize(
                         file_get_contents('http://vimeo.com/api/v2/video/'.$this->getHash($link).'.php')
                     );
