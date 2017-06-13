@@ -13,9 +13,10 @@ use Doctrine\ORM\EntityRepository;
 class PrivilegeRepository extends EntityRepository
 {
     use Traits\Countable;
-    use Traits\Ordered;
-    use Traits\Searchable;
     use Traits\FindByQuery;
+    use Traits\Ordered;
+    use Traits\Parse;
+    use Traits\Searchable;
     use Traits\SimpleArray;
     use Traits\TableName;
 }

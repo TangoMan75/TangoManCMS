@@ -17,9 +17,10 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     use Traits\Countable;
-    use Traits\Ordered;
-    use Traits\Searchable;
     use Traits\FindByQuery;
+    use Traits\Ordered;
+    use Traits\Parse;
+    use Traits\Searchable;
     use Traits\SimpleArray;
     use Traits\TableName;
 
