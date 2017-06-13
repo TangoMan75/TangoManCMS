@@ -184,7 +184,7 @@
 
                         <td>
                             {% if page.sections|length > 1 %}
-                                <a href="{{ path('app_admin_section_index', { 's_page': page.title }) }}"
+                                <a href="{{ path('app_admin_section_index', { 'a_page': page.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ page.sections|length }} sections appartenant à la page &quot;{{ page }}&quot;"

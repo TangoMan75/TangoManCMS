@@ -27,6 +27,9 @@ Trait FindByQuery
         // Sets default values
         $page = $query->get('page', 1);
         $limit = $query->get('limit', 10);
+        // Removes reserved limit and page keywords from query
+        $query->remove('limit');
+        $query->remove('page');
 
         if (!is_numeric($page)) {
             throw new \InvalidArgumentException(
@@ -42,20 +45,21 @@ Trait FindByQuery
 
         // Merge criteria with query
         $query->replace(array_merge($query->all(), $criteria));
+
         // QueryBuilder
         $dql = $this->createQueryBuilder($this->getTableName());
-        // Search
-        $dql = $this->search($dql, $query);
+
         // Order
         $dql = $this->order($dql, $query);
+        // Removes reserved order and way keywords from query
+        $query->remove('order');
+        $query->remove('way');
+
+        // Search
+        $dql = $this->search($dql, $query);
 
         $firstResult = ($page - 1) * $limit;
-
-        $query = $dql->getQuery();
-        $query->setFirstResult($firstResult);
-        $query->setMaxResults($limit);
-        $paginator = new Paginator($query);
-
+        $paginator = new Paginator($dql->getQuery()->setFirstResult($firstResult)->setMaxResults($limit));
         try {
             if (($paginator->count() <= $firstResult) && $page != 1) {
                 throw new NotFoundHttpException('Page not found');

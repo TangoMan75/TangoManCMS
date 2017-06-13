@@ -16,6 +16,7 @@ Trait Parse
      */
     public function parse($string)
     {
+        // action_entity.property
         $result = [
             'action'   => null,
             'entity'   => null,
@@ -27,9 +28,9 @@ Trait Parse
             $string = ltrim(strstr($string, '_'), '_');
         }
 
-        if (stripos($string, '.') > 0) {
-            $result['entity'] = strstr($string, '.', true);
-            $result['property'] = ltrim(strstr($string, '.'), '.');
+        if (stripos($string, ':') > 0) {
+            $result['entity'] = strstr($string, ':', true);
+            $result['property'] = ltrim(strstr($string, ':'), ':');
         } else {
             $result['property'] = $string;
         }

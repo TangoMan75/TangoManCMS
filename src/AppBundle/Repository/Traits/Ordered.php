@@ -34,11 +34,12 @@ Trait Ordered
 
             // Default action is orderBy
             if (!$result['action']) {
-                if ($result['entity']) {
+                // Default entity is current table name
+                if (!$result['entity']) {
+                    $dql->addSelect($this->getTableName().'.'.$result['property'].' AS orderParam_'.$index);
+                } else {
                     $dql->addSelect('o_'.$result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
                     $dql->leftJoin($this->getTableName().'.'.$result['entity'], 'o_'.$result['entity']);
-                } else {
-                    $dql->addSelect($this->getTableName().'.'.$result['property'].' AS orderParam_'.$index);
                 }
             }
 

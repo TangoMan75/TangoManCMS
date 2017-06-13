@@ -98,11 +98,11 @@
                     </th>
 
                     <th colspan="2"
-                        class="{{ app.request.query.get('order') == 'user.username' ? app.request.query.get('way', 'ASC') }}">
+                        class="{{ app.request.query.get('order') == 'user:username' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_comment_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'user.username',
-                            'way'   : app.request.query.get('order') == 'user.username'
+                            'order' : 'user:username',
+                            'way'   : app.request.query.get('order') == 'user:username'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Auteur
                         </a>
