@@ -101,11 +101,11 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th class="{{ app.request.query.get('order') == 'image' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c_image' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'image',
-                            'way'   : app.request.query.get('order') == 'image'
+                            'order' : 'c_image',
+                            'way'   : app.request.query.get('order') == 'c_image'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Image
                         </a>
