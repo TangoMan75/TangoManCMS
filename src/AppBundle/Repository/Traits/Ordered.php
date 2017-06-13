@@ -30,45 +30,26 @@ Trait Ordered
         foreach ($orders as $index => $order) {
             $way = (isset($ways[$index]) && $ways[$index] == 'ASC') ? 'ASC' : 'DESC';
 
-            $parse = [
-                'action'  => null,
-                'join'    => null,
-                'orderBy' => null,
-            ];
+            $result = $this->parse($order);
 
-            $strTemp = $order;
-
-            if (stripos($order, '_') > 0) {
-                $parse['action'] = strstr($order, '_', true);
-                $strTemp = ltrim(strstr($order, '_'), '_');
-            }
-
-            if (stripos($strTemp, '.') > 0) {
-                $parse['join'] = strstr($strTemp, '.', true);
-                $parse['orderBy'] = ltrim(strstr($strTemp, '.'), '.');
-            } else {
-                $parse['orderBy'] = $strTemp;
-            }
-
-            // ACTIONS
-
-            if (!$parse['action'] || $parse['action'] == 'o') {
-                if ($parse['join']) {
-                    $dql->addSelect('o_'.$parse['join'].'.'.$parse['orderBy'].' AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.'.$parse['join'], 'o_'.$parse['join']);
+            // Default action is orderBy
+            if (!$result['action']) {
+                if ($result['entity']) {
+                    $dql->addSelect('o_'.$result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
+                    $dql->leftJoin($this->getTableName().'.'.$result['entity'], 'o_'.$result['entity']);
                 } else {
-                    $dql->addSelect($this->getTableName().'.'.$parse['orderBy'].' AS orderParam_'.$index);
+                    $dql->addSelect($this->getTableName().'.'.$result['property'].' AS orderParam_'.$index);
                 }
             }
 
-            if ($parse['action'] == 'c') {
-                $dql->addSelect('COUNT('.$this->getTableName().'.'.$parse['orderBy'].') AS orderParam_'.$index);
+            if ($result['action'] == 'c') {
+                $dql->addSelect('COUNT('.$this->getTableName().'.'.$result['property'].') AS orderParam_'.$index);
                 $groupBy = true;
             }
 
-            if ($parse['action'] == 'j') {
-                $dql->addSelect('COUNT(c_'.$parse['orderBy'].') AS orderParam_'.$index);
-                $dql->leftJoin($this->getTableName().'.'.$parse['orderBy'], 'c_'.$parse['orderBy']);
+            if ($result['action'] == 'j') {
+                $dql->addSelect('COUNT(c_'.$result['property'].') AS orderParam_'.$index);
+                $dql->leftJoin($this->getTableName().'.'.$result['property'], 'c_'.$result['property']);
                 $groupBy = true;
             }
 
