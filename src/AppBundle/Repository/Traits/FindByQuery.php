@@ -22,7 +22,7 @@ Trait FindByQuery
      *
      * @return Paginator
      */
-    public function findByQuery(ParameterBag $query, $criteria = array(), $orWhere = false)
+    public function findByQuery(ParameterBag $query, $criteria = array())
     {
         // Sets default values
         $page = $query->get('page', 1);
@@ -45,7 +45,7 @@ Trait FindByQuery
         // QueryBuilder
         $dql = $this->createQueryBuilder($this->getTableName());
         // Search
-        $dql = $this->search($dql, $query, $orWhere);
+        $dql = $this->search($dql, $query);
         // Order
         $dql = $this->order($dql, $query);
 
