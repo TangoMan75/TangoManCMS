@@ -34,24 +34,38 @@ Trait Ordered
 
             // Default action is orderBy
             if (!$result['action']) {
-                // Default entity is current table name
                 if (!$result['entity']) {
-                    $dql->addSelect($this->getTableName().'.'.$result['property'].' AS orderParam_'.$index);
+                    $result['action'] = 'b';
                 } else {
-                    $dql->addSelect('o_'.$result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
-                    $dql->leftJoin($this->getTableName().'.'.$result['entity'], 'o_'.$result['entity']);
+                    if ($result['entity'] !== $this->getTableName()) {
+                        // When entity provided default action is join
+                        $result['action'] = 'jb';
+                    }
                 }
             }
 
-            if ($result['action'] == 'c') {
-                $dql->addSelect('COUNT('.$this->getTableName().'.'.$result['property'].') AS orderParam_'.$index);
-                $groupBy = true;
+            // Default entity is current table
+            if (!$result['entity']) {
+                $result['entity'] = $this->getTableName();
             }
 
-            if ($result['action'] == 'j') {
-                $dql->addSelect('COUNT(c_'.$result['property'].') AS orderParam_'.$index);
-                $dql->leftJoin($this->getTableName().'.'.$result['property'], 'c_'.$result['property']);
-                $groupBy = true;
+            switch ($result['action']) {
+                case 'b':
+                    $dql->addSelect($result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
+                    break;
+                case 'c':
+                    $dql->addSelect('COUNT('.$result['entity'].'.'.$result['property'].') AS orderParam_'.$index);
+                    $groupBy = true;
+                    break;
+                case 'j':
+                    $dql->addSelect('COUNT(c_'.$result['property'].') AS orderParam_'.$index);
+                    $dql->leftJoin($this->getTableName().'.'.$result['property'], 'c_'.$result['property']);
+                    $groupBy = true;
+                    break;
+                case 'jb':
+                    $dql->addSelect('o_'.$result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
+                    $dql->leftJoin($this->getTableName().'.'.$result['entity'], 'o_'.$result['entity']);
+                    break;
             }
 
             $dql->addOrderBy('orderParam_'.$index, $way);
