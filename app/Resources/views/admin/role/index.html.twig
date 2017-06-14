@@ -80,11 +80,11 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j_users' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-users' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_superadmin_role_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_users',
-                            'way'   : app.request.query.get('order') == 'j_users'
+                            'order' : 'j-users',
+                            'way'   : app.request.query.get('order') == 'j-users'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Utilisateurs
                         </a>

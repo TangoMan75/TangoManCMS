@@ -117,11 +117,11 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'c_avatar' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'c-avatar' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'c_avatar',
-                                'way'   : app.request.query.get('order') == 'c_avatar'
+                                'order' : 'c-avatar',
+                                'way'   : app.request.query.get('order') == 'c-avatar'
                                 and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                                 Avatar
                             </a>
@@ -147,21 +147,21 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'j_posts' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'j-posts' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'j_posts',
-                                'way'   : app.request.query.get('order') == 'j_posts'
+                                'order' : 'j-posts',
+                                'way'   : app.request.query.get('order') == 'j-posts'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Articles
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'j_comments' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'j-comments' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'j_comments',
-                                'way'   : app.request.query.get('order') == 'j_comments'
+                                'order' : 'j-comments',
+                                'way'   : app.request.query.get('order') == 'j-comments'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Commentaires
                             </a>
@@ -187,11 +187,11 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'c_password' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'c-password' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'c_password',
-                                'way'   : app.request.query.get('order') == 'c_password'
+                                'order' : 'c-password',
+                                'way'   : app.request.query.get('order') == 'c-password'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Actif
                             </a>

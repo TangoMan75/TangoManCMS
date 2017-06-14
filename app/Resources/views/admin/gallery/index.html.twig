@@ -114,31 +114,31 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j_pages' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-pages' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_gallery_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_pages',
-                            'way'   : app.request.query.get('order') == 'j_pages'
+                            'order' : 'j-pages',
+                            'way'   : app.request.query.get('order') == 'j-pages'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Pages
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j_posts' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-posts' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_gallery_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_posts',
-                            'way'   : app.request.query.get('order') == 'j_posts'
+                            'order' : 'j-posts',
+                            'way'   : app.request.query.get('order') == 'j-posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Médias
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j_tags' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-tags' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_gallery_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_tags',
-                            'way'   : app.request.query.get('order') == 'j_tags'
+                            'order' : 'j-tags',
+                            'way'   : app.request.query.get('order') == 'j-tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Étiquettes
                         </a>

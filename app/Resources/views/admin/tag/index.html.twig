@@ -115,32 +115,32 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j_posts' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-posts' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_posts',
-                            'way'   : app.request.query.get('order') == 'j_posts'
+                            'order' : 'j-posts',
+                            'way'   : app.request.query.get('order') == 'j-posts'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Publications
                         </a>
                     </th>
 
 
-                    <th class="{{ app.request.query.get('order') == 'j_sections' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-sections' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_sections',
-                            'way'   : app.request.query.get('order') == 'j_sections'
+                            'order' : 'j-sections',
+                            'way'   : app.request.query.get('order') == 'j-sections'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Sections
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j_pages' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'j-pages' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_tag_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j_pages',
-                            'way'   : app.request.query.get('order') == 'j_pages'
+                            'order' : 'j-pages',
+                            'way'   : app.request.query.get('order') == 'j-pages'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Pages
                         </a>
