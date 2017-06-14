@@ -43,7 +43,7 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < mt_rand(200, 400); $i++) {
+        for ($i = 0; $i < mt_rand(50, 100); $i++) {
             $comment = new Comment();
             $comment
                 ->setText('<p>'.$faker->text(mt_rand(300, 1200)).'</p>')

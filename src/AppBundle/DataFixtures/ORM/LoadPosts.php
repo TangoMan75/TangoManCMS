@@ -46,7 +46,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < mt_rand(100, 200); $i++) {
+        for ($i = 0; $i < mt_rand(50, 100); $i++) {
 
             $post = new Post();
             $post
