@@ -23,7 +23,7 @@
                             <label class="control-label col-sm-4" for="inputId">Id</label>
                             <div class="col-sm-8">
                                 <input type="number" name="id" id="inputId" class="form-control"
-                                       value="{{ app.request.get('id') }}"/>
+                                       value="{{ app.request.get('id')|join(', ') }}"/>
                             </div>
                         </div>
 
@@ -31,7 +31,7 @@
                             <label class="control-label col-sm-4" for="inputUsername">Utilisateur</label>
                             <div class="col-sm-8">
                                 <input type="text" name="username" id="inputUsername" class="form-control"
-                                       value="{{ app.request.get('username') }}"/>
+                                       value="{{ app.request.get('username')|join(', ') }}"/>
                             </div>
                         </div>
 
@@ -39,7 +39,7 @@
                             <label class="control-label col-sm-4" for="inputEmail">Email</label>
                             <div class="col-sm-8">
                                 <input type="text" name="email" id="inputEmail" class="form-control"
-                                       value="{{ app.request.get('email') }}"/>
+                                       value="{{ app.request.get('email')|join(', ') }}"/>
                             </div>
                         </div>
 

@@ -17,7 +17,7 @@
                         <label class="control-label col-sm-4" for="inputPost">Article</label>
                         <div class="col-sm-8">
                             <input type="text" name="post" id="inputPost" class="form-control"
-                                   value="{{ app.request.get('post') }}"/>
+                                   value="{{ app.request.get('post')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -25,7 +25,7 @@
                         <label class="control-label col-sm-4" for="inputUser">Auteur</label>
                         <div class="col-sm-8">
                             <input type="text" name="user" id="inputUser" class="form-control"
-                                   value="{{ app.request.get('user') }}"/>
+                                   value="{{ app.request.get('user')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@
                         <label class="control-label col-sm-4" for="inputText">Commentaire</label>
                         <div class="col-sm-8">
                             <input type="text" name="text" id="inputText" class="form-control"
-                                   value="{{ app.request.get('text') }}"/>
+                                   value="{{ app.request.get('text')|join(', ') }}"/>
                         </div>
                     </div>
 

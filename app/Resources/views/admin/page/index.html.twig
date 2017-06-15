@@ -17,7 +17,7 @@
                         <label class="control-label col-sm-4" for="inputTitle">Titre</label>
                         <div class="col-sm-8">
                             <input type="text" name="title" id="inputTitle" class="form-control"
-                                   value="{{ app.request.get('title') }}"/>
+                                   value="{{ app.request.get('title')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -25,7 +25,7 @@
                         <label class="control-label col-sm-4" for="inputSlug">Slug</label>
                         <div class="col-sm-8">
                             <input type="text" name="slug" id="inputSlug" class="form-control"
-                                   value="{{ app.request.get('slug') }}"/>
+                                   value="{{ app.request.get('slug')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@
                         <label class="control-label col-sm-4" for="inputSection">Section</label>
                         <div class="col-sm-8">
                             <input type="text" name="section" id="inputSection" class="form-control"
-                                   value="{{ app.request.get('section') }}"/>
+                                   value="{{ app.request.get('section')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -41,7 +41,7 @@
                         <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
                         <div class="col-sm-8">
                             <input type="text" name="tag" id="inputTag" class="form-control"
-                                   value="{{ app.request.get('tag') }}"/>
+                                   value="{{ app.request.get('tag')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -184,7 +184,7 @@
 
                         <td>
                             {% if page.sections|length > 1 %}
-                                <a href="{{ path('app_admin_section_index', { 'a_page': page.title }) }}"
+                                <a href="{{ path('app_admin_section_index', { 'page-title': page.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ page.sections|length }} sections appartenant à la page &quot;{{ page }}&quot;"
