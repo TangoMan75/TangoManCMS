@@ -6,3 +6,4 @@ TangoManCMS
 Project is meant to be 100% Heroku compatible...
 
 Project is availlable here : [http://tangomancms.herokuapp.com](http://tangomancms.herokuapp.com)
+
