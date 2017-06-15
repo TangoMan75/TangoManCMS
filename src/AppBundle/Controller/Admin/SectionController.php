@@ -24,7 +24,7 @@ class SectionController extends Controller
     {
         // Show searchable, sortable, paginated section list
         $em = $this->get('doctrine')->getManager();
-        $sections = $em->getRepository('AppBundle:Section')->findByQuery($request->query);
+        $sections = $em->getRepository('AppBundle:Section')->findByQuery($request->query, ['type' => 'section']);
 
         return $this->render(
             'admin/section/index.html.twig',

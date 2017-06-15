@@ -27,15 +27,39 @@ class MediaController extends Controller
     {
         // Show searchable, sortable, paginated media list
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
-            'type'=>'argus360',
-            'type'=>'dailymotion',
-            'type'=>'giphy',
-            'type'=>'gist',
-            'type'=>'tweet',
-            'type'=>'youtube',
-            'type'=>'vimeo',
-        ]);
+        $listMedia = $em->getRepository('AppBundle:Post')->findByQuery(
+            $request->query, [
+            'type' => [
+                '360',
+                'argus360',
+                'article',
+                'comment',
+                'csv',
+                'dailymotion',
+                'doc',
+                'document',
+                'embed',
+                'gif',
+                'giphy',
+                'gist',
+                'image',
+                'jpeg',
+                'jpg',
+                'message',
+                'ods',
+                'odt',
+                'pdf',
+                'png',
+                'pptx',
+                'thetas',
+                'tweet',
+                'txt',
+                'vimeo',
+                'xls',
+                'youtube',
+            ],
+        ]
+        );
 
         return $this->render(
             'admin/media/index.html.twig',
