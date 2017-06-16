@@ -53,7 +53,7 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur '.$user.' a bien été ajouté.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -84,8 +84,8 @@ class UserController extends Controller
             $em = $this->get('doctrine')->getManager();
             $em->persist($user);
             $em->flush();
-            // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur a bien été modifié.');
+
+            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur '.$user.' a bien été modifié.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
