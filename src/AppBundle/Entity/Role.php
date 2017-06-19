@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -22,6 +23,7 @@ class Role
     use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
+    use Traits\Privatable;
 
     /**
      * @var int
