@@ -27,6 +27,7 @@ class User implements UserInterface
     use Relationships\UsersHavePrivileges;
     use Relationships\UsersHaveRoles;
 
+    use Traits\Privatable;
     use Traits\Sluggable;
     use Traits\Timestampable;
 
