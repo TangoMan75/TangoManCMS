@@ -59,14 +59,6 @@ trait UsersHaveRoles
     }
 
     /**
-     * @return Role[]|array|ArrayCollection
-     */
-    public function getListRoles()
-    {
-        return $this->roles;
-    }
-
-    /**
      * @param Role $role
      *
      * @return bool
