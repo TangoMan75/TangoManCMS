@@ -91,9 +91,8 @@ class Role
      */
     public function setIcon($icon)
     {
-        if (in_array(
-            $icon,
-            [
+        // Allowed icons for user roles are: User, pawn, knight, bishop, tower, queen, and king.
+        if (in_array($icon, [
                 'glyphicon glyphicon-user',
                 'glyphicon glyphicon-pawn',
                 'glyphicon glyphicon-knight',
@@ -101,11 +100,9 @@ class Role
                 'glyphicon glyphicon-tower',
                 'glyphicon glyphicon-queen',
                 'glyphicon glyphicon-king',
-            ]
+                ]
         )) {
             $this->icon = $icon;
-        } else {
-            $this->icon = 'glyphicon glyphicon-user';
         }
 
         return $this;
@@ -116,6 +113,7 @@ class Role
      */
     public function setDefaults()
     {
+        // Default role type is uppercased name with "ROLE_" prefix without whitespaces
         if (!$this->type) {
             $this->type = $this->name;
         }
