@@ -46,15 +46,18 @@ trait UsersHaveRoles
      */
     public function getRoles()
     {
+        return $this->roles;
+    }
+
+    /**
+     * @return array $roles
+     */
+    public function getRolesAsArray()
+    {
         $roles = [];
         foreach ($this->roles as $role) {
             $roles[] = $role->getType();
         }
-
-        foreach ($this->privileges as $privilege) {
-            $roles[] = $privilege->getType();
-        }
-
         return $roles;
     }
 
