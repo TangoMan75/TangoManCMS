@@ -21,9 +21,9 @@ Trait TableName
     public function getTableName()
     {
         if (!$this->tableName) {
-            $entityName = $this->getEntityName();
             $em = $this->getEntityManager();
-            $this->tableName = $em->getClassMetadata($entityName)->getTableName();
+//            $this->tableName = $em->getClassMetadata(get_class($this))->getTableName();
+            $this->tableName = $em->getClassMetadata($this->getEntityName())->getTableName();
         }
 
         return $this->tableName;
