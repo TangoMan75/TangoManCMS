@@ -24,8 +24,10 @@ Trait FindByQuery
 
     /**
      * @param ParameterBag $query
+     * @param array        $criteria
      *
      * @return Paginator
+     * @throws QueryException
      */
     public function findByQuery(ParameterBag $query, $criteria = [])
     {
@@ -45,11 +47,12 @@ Trait FindByQuery
             );
         }
 
-        // Merge criteria with query
+        // Cloning object to avoid browser side query string override
         $query = clone $query;
-        $query->replace(array_merge($query->all(), $criteria));
 
         $dql = $this->createQueryBuilder($this->getTableName());
+
+        $dql = $this->filter($dql, $criteria);
         $dql = $this->order($dql, $query);
         $dql = $this->search($dql, $query);
 
@@ -68,6 +71,29 @@ Trait FindByQuery
         }
 
         return $paginator;
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param array        $criteria
+     *
+     * @return QueryBuilder
+     */
+    public function filter(QueryBuilder $dql, $criteria = [])
+    {
+        $index = 0;
+        foreach ($criteria as $param => $value) {
+            if (is_array($value)) {
+                $dql->andWhere($this->getTableName().'.'.$param.' IN(:filterParam_'.$index.')')
+                    ->setParameter(':filterParam_'.$index, array_values($value));
+            } else {
+                $dql->andWhere($this->getTableName().'.'.$param.' = :filterParam_'.$index)
+                    ->setParameter(':filterParam_'.$index, $value);
+            }
+            $index++;
+        }
+
+        return $dql;
     }
 
     /**
@@ -178,7 +204,8 @@ Trait FindByQuery
 
     /**
      * @param QueryBuilder $dql
-     * @param              $result
+     * @param              $params
+     * @param              $value
      *
      * @return QueryBuilder
      */
@@ -270,6 +297,7 @@ Trait FindByQuery
         // action_entity_property
         $params = [
             'action'   => null,
+            'join'     => null,
             'entity'   => null,
             'property' => null,
         ];
@@ -290,21 +318,25 @@ Trait FindByQuery
         $temp = explode('-', $string);
 
         switch (count($temp)) {
+            // One parameter only is property
             case 1:
                 $params['property'] = $temp[0];
                 break;
 
+            // Two parameters are either "action + property" or "entity + property + join"
             case 2:
                 if (in_array($temp[0], $validActions)) {
                     $params['action'] = $temp[0];
                     $params['property'] = $temp[1];
                 } else {
+                    $params['join'] = true;
                     $params['entity'] = $temp[0];
                     $params['property'] = $temp[1];
                 }
                 break;
 
             case 3:
+                $params['join'] = true;
                 $params['action'] = $temp[0];
                 $params['entity'] = $temp[1];
                 $params['property'] = $temp[2];
