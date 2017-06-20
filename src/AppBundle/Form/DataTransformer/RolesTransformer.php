@@ -32,11 +32,8 @@ class RolesTransformer implements DataTransformerInterface
      */
     public function transform($types)
     {
-        return $this->em->getRepository('AppBundle:Role')->findBy(
-            [
-                'type' => $types,
-            ]
-        );
+        //        die(dump($roles));
+        return $roles;
     }
 
     /**
@@ -47,6 +44,10 @@ class RolesTransformer implements DataTransformerInterface
     public function reverseTransform($roles)
     {
 //        die(dump($roles));
-        return $roles;
+        return $this->em->getRepository('AppBundle:Role')->findBy(
+            [
+                'type' => $types,
+            ]
+        );
     }
 }
