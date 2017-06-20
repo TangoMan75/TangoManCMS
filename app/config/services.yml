@@ -8,6 +8,9 @@ services:
         class: AppBundle\Service\EntityManagerService
         arguments: ["@doctrine.orm.entity_manager"]
 
+    services.string_helper:
+        class: AppBundle\Service\StringHelperService
+
     services.csv_reader:
         class: AppBundle\Service\CSVReaderService
 
