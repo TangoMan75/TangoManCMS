@@ -14,6 +14,12 @@ services:
     services.csv_reader:
         class: AppBundle\Service\CSVReaderService
 
+    app.form.type.task:
+        class: AppBundle\Form\Admin\AdminEditUserType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type }
+
     twig.extension.remove_query:
         class: AppBundle\TwigExtension\RemoveQuery
         tags:

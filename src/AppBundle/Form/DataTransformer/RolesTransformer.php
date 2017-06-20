@@ -3,22 +3,22 @@
 namespace AppBundle\Form\DataTransformer;
 
 use AppBundle\Entity\Role;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\Common\Persistence\ObjectManager;
+//use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class RolesTransformer implements DataTransformerInterface
 {
     /**
-     * @var EntityManagerInterface
+     * @var ObjectManager
      */
     private $em;
 
     /**
-     * @param EntityManagerInterface $em
+     * @param ObjectManager $em
      */
-    public function __construct(EntityManagerInterface  $em)
+    public function __construct(ObjectManager $em)
     {
         $this->em = $em;
     }
@@ -45,6 +45,7 @@ class RolesTransformer implements DataTransformerInterface
      */
     public function reverseTransform($roles)
     {
+//        die(dump($roles));
         return $roles;
     }
 }

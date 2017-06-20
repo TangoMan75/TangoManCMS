@@ -2,6 +2,8 @@
 
 namespace AppBundle\Form\Admin;
 
+use AppBundle\Form\DataTransformer\RolesTransformer;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Tiloweb\Base64Bundle\Form\Base64Type;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -9,12 +11,18 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdminEditUserType extends AbstractType
 {
+    private $manager;
+
+    public function __construct(ObjectManager $manager)
+    {
+        $this->manager = $manager;
+    }
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -68,6 +76,7 @@ class AdminEditUserType extends AbstractType
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
+//                    'by_reference'  => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('role');
                     },
@@ -87,8 +96,10 @@ class AdminEditUserType extends AbstractType
                         return $em->createQueryBuilder('privilege');
                     },
                 ]
-            )
-        ;
+            );
+
+        $builder->get('roles')
+            ->addModelTransformer(new RolesTransformer($this->manager));
     }
 
     /**
