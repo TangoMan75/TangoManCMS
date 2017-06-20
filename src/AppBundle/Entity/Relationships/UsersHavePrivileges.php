@@ -49,6 +49,18 @@ trait UsersHavePrivileges
     }
 
     /**
+     * @return array $privileges
+     */
+    public function getPrivilegesAsArray()
+    {
+        $privileges = [];
+        foreach ($this->privileges as $privilege) {
+            $privileges[] = $privilege->getType();
+        }
+        return $privileges;
+    }
+
+    /**
      * @param Privilege $privilege
      *
      * @return bool
