@@ -14,7 +14,7 @@ trait Privatable
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $private = false;
+    private $private = true;
 
     /**
      * @return bool
@@ -25,10 +25,30 @@ trait Privatable
     }
 
     /**
-     * @param bool $private
+     * @return bool
      */
-    public function setPrivate($private)
+    public function isPublic()
     {
-        $this->private = $private;
+        return !$this->private;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPrivate()
+    {
+        $this->private = true;
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function setPublic()
+    {
+        $this->private = false;
+
+        return $this;
     }
 }
