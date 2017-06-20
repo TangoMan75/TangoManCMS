@@ -2,8 +2,6 @@
 
 namespace AppBundle\Entity\Traits;
 
-use AppBundle\Entity\Page;
-
 /**
  * Trait Publishable
  *
