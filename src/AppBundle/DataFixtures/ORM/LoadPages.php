@@ -53,7 +53,6 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setTitle($faker->sentence(4, true))
                 ->setViews(mt_rand(0, 100));
 
-
             $em->persist($page);
         }
 

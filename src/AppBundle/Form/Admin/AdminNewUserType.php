@@ -88,8 +88,7 @@ class AdminNewUserType extends AbstractType
                         return $em->createQueryBuilder('privilege');
                     },
                 ]
-            )
-        ;
+            );
     }
 
     /**

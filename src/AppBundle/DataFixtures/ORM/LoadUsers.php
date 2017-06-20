@@ -47,7 +47,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $encoder = $this->container->get('security.password_encoder');
 
         // Default roles
-         $roles = $em->getRepository('AppBundle:Role')->findAll();
+        $roles = $em->getRepository('AppBundle:Role')->findAll();
 
         // Load Users
         for ($i = 0; $i < 100; $i++) {

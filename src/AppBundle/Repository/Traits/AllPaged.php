@@ -10,8 +10,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 /**
  * Trait AllPaged
  * Requires repository to own "TableName" trait.
- * @author  Matthias Morin <tangoman@free.fr>
  *
+ * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Repository\Traits
  */
 Trait AllPaged

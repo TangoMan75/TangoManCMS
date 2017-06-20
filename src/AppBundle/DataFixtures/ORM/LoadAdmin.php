@@ -40,10 +40,10 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
-        $email    = $this->container->getParameter('mailer_from');
+        $email = $this->container->getParameter('mailer_from');
         $username = $this->container->getParameter('super_admin_username');
-        $pwd      = $this->container->getParameter('super_admin_pwd');
-        $encoder  = $this->container->get('security.password_encoder');
+        $pwd = $this->container->getParameter('super_admin_pwd');
+        $encoder = $this->container->get('security.password_encoder');
 
         $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
 

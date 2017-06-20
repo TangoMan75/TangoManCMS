@@ -92,15 +92,16 @@ class Role
     public function setIcon($icon)
     {
         // Allowed icons for user roles are: User, pawn, knight, bishop, tower, queen, and king.
-        if (in_array($icon, [
-                'glyphicon glyphicon-user',
-                'glyphicon glyphicon-pawn',
-                'glyphicon glyphicon-knight',
-                'glyphicon glyphicon-bishop',
-                'glyphicon glyphicon-tower',
-                'glyphicon glyphicon-queen',
-                'glyphicon glyphicon-king',
-                ]
+        if (in_array(
+            $icon, [
+                     'glyphicon glyphicon-user',
+                     'glyphicon glyphicon-pawn',
+                     'glyphicon glyphicon-knight',
+                     'glyphicon glyphicon-bishop',
+                     'glyphicon glyphicon-tower',
+                     'glyphicon glyphicon-queen',
+                     'glyphicon glyphicon-king',
+                 ]
         )) {
             $this->icon = $icon;
         }

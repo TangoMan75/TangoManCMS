@@ -57,6 +57,7 @@ trait UsersHavePrivileges
         foreach ($this->privileges as $privilege) {
             $privileges[] = $privilege->getType();
         }
+
         return $privileges;
     }
 

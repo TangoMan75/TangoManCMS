@@ -58,6 +58,7 @@ trait UsersHaveRoles
         foreach ($this->roles as $role) {
             $roles[] = $role->getType();
         }
+
         return $roles;
     }
 

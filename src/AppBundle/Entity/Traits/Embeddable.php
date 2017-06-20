@@ -50,26 +50,26 @@ trait Embeddable
             switch ($result['host']) {
                 case 'www.car360app.com':
                 case 'www.argus360.fr':
-                    $this->type ='argus360';
+                    $this->type = 'argus360';
                     $this->image = '//car360app.com/viewer/?spin='.$this->getHash($link).'&res=640x360&angle=45';
                     break;
                 case 'dai.ly':
                 case 'www.dailymotion.com':
-                    $this->type ='dailymotion';
+                    $this->type = 'dailymotion';
                     $this->image = '//www.dailymotion.com/thumbnail/video/'.$this->getHash($link);
                     break;
                 case 'giphy.com':
-                    $this->type ='giphy';
+                    $this->type = 'giphy';
                     break;
                 case 'gist.github.com':
-                    $this->type ='gist';
+                    $this->type = 'gist';
                     break;
                 case 'twitter.com':
-                    $this->type ='tweet';
+                    $this->type = 'tweet';
                     break;
                 case 'www.youtube.com':
                 case 'youtu.be':
-                    $this->type ='youtube';
+                    $this->type = 'youtube';
                     $this->image = '//i.ytimg.com/vi/'.$this->getHash($link).'/hqdefault.jpg';
                     break;
                 case 'vimeo.com':

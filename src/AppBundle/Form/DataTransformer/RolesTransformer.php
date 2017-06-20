@@ -25,6 +25,7 @@ class RolesTransformer implements DataTransformerInterface
 
     /**
      * Transforms array containing role types into an arrayCollection
+     *
      * @param array $types
      *
      * @return Role[]|array
