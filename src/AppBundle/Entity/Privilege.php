@@ -54,14 +54,15 @@ class Privilege
      */
     public function setDefaults()
     {
+        // Default privilege type is uppercased name with "CAN_" prefix without whitespaces
         if (!$this->type) {
             $this->type = $this->name;
         }
 
         $this->type = strtoupper(str_replace(' ', '_', $this->type));
 
-        if (stripos($this->type, 'ROLE_') !== 0) {
-            $this->type = 'ROLE_'.$this->type;
+        if (stripos($this->type, 'CAN_') !== 0) {
+            $this->type = 'CAN_'.$this->type;
         }
     }
 
