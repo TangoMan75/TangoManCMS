@@ -58,6 +58,8 @@ class PrivilegesCommand extends ContainerAwareCommand
             'Commentaire - Créer',     'primary', 'CAN_CREATE_COMMENT',   'ROLE_USER',
         ];
 
+        $superAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
+
         for ($i = 0; $i < count($privileges); $i = $i + 4) {
             if (!$em->getRepository('AppBundle:Privilege')->findBy(['privilege' => $privileges[$i + 3]])) {
 
@@ -67,6 +69,7 @@ class PrivilegesCommand extends ContainerAwareCommand
                     ->setName($privileges[$i])
                     ->setLabel($privileges[$i + 1])
                     ->setType($privileges[$i + 2])
+                    ->addRole($superAdmin)
                     ->addRole($role);
 
                 $em->persist($privilege);
