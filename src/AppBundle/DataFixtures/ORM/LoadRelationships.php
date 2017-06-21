@@ -43,15 +43,15 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
     public function load(ObjectManager $em)
     {
         // findBy seems to be the only working method in fixtures
-        $comments = $em->getRepository('AppBundle:Comment')->findAll();
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
+        $pages      = $em->getRepository('AppBundle:Page')->findAll();
+        $posts      = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $roles = $em->getRepository('AppBundle:Role')->findAll();
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
-        $users = $em->getRepository('AppBundle:User')->findAll();
-        $votes = $em->getRepository('AppBundle:Vote')->findAll();
+        $roles      = $em->getRepository('AppBundle:Role')->findAll();
+        $sections   = $em->getRepository('AppBundle:Section')->findAll();
+        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
+        $users      = $em->getRepository('AppBundle:User')->findAll();
+        $votes      = $em->getRepository('AppBundle:Vote')->findAll();
 
         foreach ($users as $user) {
             $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
