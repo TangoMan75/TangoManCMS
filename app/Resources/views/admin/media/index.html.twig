@@ -189,6 +189,17 @@
                         </a>
                     </th>
 
+
+                    <th class="{{ app.request.query.get('order') == 'j-votes' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'j-votes',
+                            'way'   : app.request.query.get('order') == 'j-votes'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Votes
+                        </a>
+                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'j-sections' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -305,6 +316,7 @@
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ media.comments|length }} commentaires reçu par le média &quot;{{ media }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-comment"></span>
                                     Commentaires
                                     <span class="badge-sm text-success">{{ media.comments|length }}</span>
                                 </a>
@@ -315,6 +327,7 @@
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail du commentaire &quot;{{ comment }}&quot; reçu par le média &quot;{{ media }}&quot;"
                                     >
+                                        <span class="glyphicon glyphicon-comment"></span>
                                         {{ comment|truncate(15) }}
                                     </a>
                                 {% endfor %}
@@ -323,14 +336,23 @@
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="Le média &quot;{{ media }}&quot; n'a reçu aucun commentaire"
                                 >
+                                    <span class="glyphicon glyphicon-comment"></span>
                                         Aucun commentaire
                                     </span>
                             {% endif %}
                         </td>
 
                         <td>
-                            <span class="label label-success">
+                            <span class="label label-info">
+                                <span class="glyphicon glyphicon-eye-open"></span>
                                 {% if media.views %}{{ media.views }}{% else %}0{% endif %}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="label label-success">
+                                <span class="glyphicon glyphicon-thumbs-up"></span>
+                                {% if media.votes is defined %}{{ media.votes|length }}{% else %}0{% endif %}
                             </span>
                         </td>
 

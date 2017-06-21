@@ -60,6 +60,7 @@
 
                 <div class="comments col-xs-12 col-sm-3">
                     <span class="btn btn-warning btn-sm">
+                        <span class="glyphicon glyphicon-eye-open"></span>
                         Vues
                         <span class="badge">
                             {% if post.views %}{{ post.views }}{% else %}0{% endif %}
@@ -71,6 +72,7 @@
                     <a href="{{ path('app_post_vote', { 'slug': post.slug, 'value': 'up', 'callback': callback }) }}"
                        class="btn btn-success btn-sm">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
+                        J'aime
                         <span class="badge">
                             {% if post.votes is defined %}{{ post.votes|length }}{% else %}0{% endif %}
                         </span>
@@ -79,6 +81,7 @@
 
                 <div class="comments col-xs-12 col-sm-3">
                     <a href="{{ path('app_post_show', {'slug': post.slug}) }}" class="btn btn-primary btn-sm">
+                        <span class="glyphicon glyphicon-comment"></span>
                         Commentaires
                         <span class="badge">{{ post.comments|length }}</span>
                     </a>
