@@ -20,8 +20,8 @@ class PostRepository extends EntityRepository
     use Traits\Countable;
     use Traits\Exportable;
     use Traits\FindByQuery;
+    use Traits\RepositoryHelper;
     use Traits\SimpleArray;
-    use Traits\TableName;
 
     /**
      * All Posts with joined author email (for export)

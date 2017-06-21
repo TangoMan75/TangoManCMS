@@ -18,8 +18,8 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
 {
     use Traits\Countable;
     use Traits\FindByQuery;
+    use Traits\RepositoryHelper;
     use Traits\SimpleArray;
-    use Traits\TableName;
 
     /**
      * Required for user login

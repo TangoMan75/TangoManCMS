@@ -19,6 +19,6 @@ class CommentRepository extends EntityRepository
     use Traits\AllPaged;
     use Traits\Countable;
     use Traits\FindByQuery;
+    use Traits\RepositoryHelper;
     use Traits\SimpleArray;
-    use Traits\TableName;
 }

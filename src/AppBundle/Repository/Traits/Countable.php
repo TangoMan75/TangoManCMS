@@ -18,11 +18,13 @@ Trait Countable
      *
      * @return int $count
      */
-    public function count()
+    public function count($criteria = [])
     {
-        return $this->createQueryBuilder($this->getTableName())
-            ->select('COUNT('.$this->getTableName().')')
-            ->getQuery()
-            ->getSingleScalarResult();
+        $dql = $this->createQueryBuilder($this->getTableName());
+        $dql = $this->filter($dql, $criteria);
+
+        $dql->select('COUNT('.$this->getTableName().')');
+
+        return $dql->getQuery()->getSingleScalarResult();
     }
 }
