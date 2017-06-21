@@ -48,21 +48,26 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $posts      = $em->getRepository('AppBundle:Post')->findAll();
 //        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
         $roles      = $em->getRepository('AppBundle:Role')->findAll();
-        $sections   = $em->getRepository('AppBundle:Section')->findAll();
+        $sections   = $em->getRepository('AppBundle:Section')->findBy(['type' => 'section']);
+        $galleries  = $em->getRepository('AppBundle:Section')->findBy(['type' => 'gallery']);
 //        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
         $users      = $em->getRepository('AppBundle:User')->findAll();
         $votes      = $em->getRepository('AppBundle:Vote')->findAll();
 
+        // USERS
         foreach ($users as $user) {
             $user->addRole($roles[mt_rand(1, count($roles) - 1)]);
             $em->persist($user);
         }
         $em->flush();
 
+        // PAGES
         foreach ($pages as $page) {
             shuffle($sections);
+            shuffle($galleries);
             for ($i = 0; $i < mt_rand(0, 4); $i++) {
                 $page->addSection($sections[$i]);
+                $page->addSection($galleries[$i]);
             }
 
 //            shuffle($tags);
@@ -74,6 +79,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         }
         $em->flush();
 
+        // SECTIONS
 //        foreach ($sections as $section) {
 //            shuffle($tags);
 //            for ($i = 0; $i < mt_rand(0, 4); $i++) {
@@ -84,9 +90,14 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
 //        }
 //        $em->flush();
 
+        // POSTS
         $j = 0;
         foreach ($posts as $post) {
-            $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
+            if ($post->getType() == 'post') {
+                $post->addSection($sections[mt_rand(1, count($sections) - 1)]);
+            } else {
+                $post->addSection($galleries[mt_rand(1, count($sections) - 1)]);
+            }
 
 //            shuffle($tags);
 //            for ($i = 0; $i < mt_rand(0, 4); $i++) {
@@ -99,6 +110,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         }
         $em->flush();
 
+        // COMMENTS
         foreach ($comments as $comment) {
             $comment->setUser($users[mt_rand(1, count($users) - 1)]);
             $comment->setPost($posts[mt_rand(1, count($posts) - 1)]);
@@ -107,7 +119,8 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         }
         $em->flush();
 
-        foreach ($votes as $i => $vote) {
+        // VOTES
+        foreach ($votes as $vote) {
             $vote->setUser($users[mt_rand(1, count($users) - 1)]);
             $vote->setPost($posts[mt_rand(1, count($posts) - 1)]);
             $em->persist($vote);

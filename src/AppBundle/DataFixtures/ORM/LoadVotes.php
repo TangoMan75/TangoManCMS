@@ -43,7 +43,7 @@ class LoadVotes implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function load(ObjectManager $em)
     {
-        for ($i = 0; $i < 200; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $vote = new Vote();
             $vote->setValue(1);
             $em->persist($vote);

@@ -43,13 +43,13 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 10; $i++) {
+        for ($i = 0; $i < 20; $i++) {
             $section = new Section();
             $section->setTitle($faker->sentence(4, true))
                 ->setSubtitle($faker->sentence(6, true))
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                ->setType('section')
-                ->setPublished($i % 2);
+                ->setType($i % 2 ? 'section' : 'gallery')
+                ->setPublished($i % 3 ? false : true);
 
             $em->persist($section);
         }
