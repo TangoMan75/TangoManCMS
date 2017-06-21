@@ -23,7 +23,6 @@ class Role
     use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
-    use Traits\Privatable;
 
     /**
      * @var int
