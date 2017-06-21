@@ -43,8 +43,8 @@ trait UsersHaveRoles
      */
     public function getRoles()
     {
-        return $this->roles;
-//        return $this->getRolesAsArray();
+//        return $this->roles;
+        return $this->getRolesAsArray();
     }
 
     /**
