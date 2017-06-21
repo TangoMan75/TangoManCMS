@@ -31,7 +31,7 @@ trait HasType
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->type = strtolower($type);
 
         return $this;
     }
