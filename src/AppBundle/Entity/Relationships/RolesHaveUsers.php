@@ -2,9 +2,6 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// role
-use AppBundle\Entity\Role;
-// user
 use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 

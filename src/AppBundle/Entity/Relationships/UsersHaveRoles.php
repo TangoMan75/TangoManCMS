@@ -2,10 +2,7 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// role
 use AppBundle\Entity\Role;
-// user
-use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
@@ -46,7 +43,8 @@ trait UsersHaveRoles
      */
     public function getRoles()
     {
-        return $this->getRolesAsArray();
+        return $this->roles;
+//        return $this->getRolesAsArray();
     }
 
     /**

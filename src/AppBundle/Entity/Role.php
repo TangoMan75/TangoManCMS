@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\RoleInterface;
 
 /**
  * Class Role
@@ -15,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
  */
-class Role
+class Role implements RoleInterface
 {
     use Relationships\RolesHavePrivileges;
     use Relationships\RolesHaveUsers;
@@ -69,6 +70,14 @@ class Role
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return string
+     */
+    public function getRole()
+    {
+        return $this->type;
     }
 
     /**
@@ -132,5 +141,4 @@ class Role
     {
         return $this->type;
     }
-
 }

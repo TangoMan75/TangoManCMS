@@ -16,13 +16,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdminEditUserType extends AbstractType
 {
-    private $manager;
-
-    public function __construct(ObjectManager $manager)
-    {
-        $this->manager = $manager;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -76,7 +69,7 @@ class AdminEditUserType extends AbstractType
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
-//                    'by_reference'  => false,
+                    'by_reference'  => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('role');
                     },
@@ -97,9 +90,6 @@ class AdminEditUserType extends AbstractType
                     },
                 ]
             );
-
-        $builder->get('roles')
-            ->addModelTransformer(new RolesTransformer($this->manager));
     }
 
     /**
