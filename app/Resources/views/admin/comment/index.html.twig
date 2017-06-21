@@ -17,7 +17,7 @@
                         <label class="control-label col-sm-4" for="inputPost">Article</label>
                         <div class="col-sm-8">
                             <input type="text" name="post" id="inputPost" class="form-control"
-                                   value="{{ app.request.get('post')|join(', ') }}"/>
+                                   value="{{ app.request.get('post-title')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -25,7 +25,7 @@
                         <label class="control-label col-sm-4" for="inputUser">Auteur</label>
                         <div class="col-sm-8">
                             <input type="text" name="user" id="inputUser" class="form-control"
-                                   value="{{ app.request.get('user')|join(', ') }}"/>
+                                   value="{{ app.request.get('user-username')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -148,13 +148,15 @@
 
                         <td>
                             {% if comment.post.imageFileName %}
-                                <a href="{{ path('app_admin_post_index', { 'slug': comment.post.slug }) }}" class="cover"
+                                <a href="{{ path('app_admin_post_index', { 'slug': comment.post.slug }) }}"
+                                   class="cover"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Voir le détail de l'article &quot;{{ comment.post }}&quot;"
                                    style="padding-bottom: 60px; width: 60px; background-image: url('{{ comment.post.image ? comment.post.image|imagine_filter('thumbnail') : '//placehold.it/60?text=Image' }}');">
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_post_index', { 'slug': comment.post.slug }) }}" class="cover"
+                                <a href="{{ path('app_admin_post_index', { 'slug': comment.post.slug }) }}"
+                                   class="cover"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Voir le détail de l'article &quot;{{ comment.post }}&quot;"
                                    style="padding-bottom: 60px; width: 60px; background-image: url('{{ comment.post.image ? comment.post.image : '//placehold.it/60?text=Image' }}');">
@@ -182,7 +184,8 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_user_index', { 'user': comment.user.username }) }}" class="cover"
+                            <a href="{{ path('app_admin_user_index', { 'user': comment.user.username }) }}"
+                               class="cover"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Afficher le profil de &quot;{{ comment.user }}&quot;"
                                style="padding-bottom: 30px; width: 30px; background-image: url('{{ comment.user.avatar ? comment.user.avatar : asset('img/user.jpg') }}');">
@@ -190,10 +193,15 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_comment_index', { 'user': comment.user.username }) }}"
+                            <a href="{{ path('app_admin_comment_index', { 'user-username': comment.user.username }) }}"
                                class="label label-primary"
                                data-toggle="tooltip" data-placement="top"
-                               data-original-title="Lister les {{ comment.user.comments|length }} commentaires publiés par &quot;{{ comment.user }}&quot;">
+                                    {% if comment.user.comments|length > 1 %}
+                                        data-original-title="Lister les {{ comment.user.comments|length }} commentaires publiés par &quot;{{ comment.user }}&quot;"
+                                    {% else %}
+                                        data-original-title="Voir le commentaire publié par &quot;{{ comment.user }}&quot;"
+                                    {% endif %}
+                            >
                                 {{ comment.user }}
                                 <span class="badge-sm text-primary">{{ comment.user.comments|length }}</span>
                             </a>

@@ -222,7 +222,7 @@
 
                         <td>
                             {% if gallery.posts|length > 1 %}
-                                <a href="{{ path('app_admin_post_index', { 'gallery': gallery.title }) }}"
+                                <a href="{{ path('app_admin_gallery_index', { 'gallery': gallery.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ gallery.posts|length }} médias de la galerie &quot;{{ gallery }}&quot;"
@@ -234,7 +234,7 @@
 
                             {% for post in gallery.posts %}
                                 {% if loop.index < 6 %}
-                                    <a href="{{ path('app_admin_post_index', { 'title': post.title }) }}"
+                                    <a href="{{ path('app_admin_media_index', { 'title': post.title }) }}"
                                        class="label label-primary"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail du média &quot;{{ post|truncate(20) }}&quot;"
