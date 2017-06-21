@@ -79,7 +79,7 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="gallery" value="1"/>
+                    <input type="hidden" name="page" value="1"/>
                     <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
                     <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
@@ -193,7 +193,7 @@
 
                         <td>
                             {% if gallery.pages|length > 1 %}
-                                <a href="{{ path('app_admin_page_index', { 'gallery': gallery.title }) }}"
+                                <a href="{{ path('app_admin_page_index', { 'sections-title': gallery.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ gallery.pages|length }} pages contenant la galerie &quot;{{ gallery }}&quot;"
@@ -222,7 +222,7 @@
 
                         <td>
                             {% if gallery.posts|length > 1 %}
-                                <a href="{{ path('app_admin_gallery_index', { 'gallery': gallery.title }) }}"
+                                <a href="{{ path('app_admin_gallery_index', { 'title': gallery.title }) }}"
                                    class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ gallery.posts|length }} médias de la galerie &quot;{{ gallery }}&quot;"

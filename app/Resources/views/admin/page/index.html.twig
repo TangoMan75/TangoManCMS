@@ -111,7 +111,7 @@
                             'order' : 'j-sections',
                             'way'   : app.request.query.get('order') == 'j-sections'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Sections
+                            Sections/Galeries
                         </a>
                     </th>
 
@@ -184,14 +184,23 @@
 
                         <td>
                             {% if page.sections|length > 1 %}
-                                <a href="{{ path('app_admin_section_index', { 'page-title': page.title }) }}"
-                                   class="label label-success"
+                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
+                                   class="label label-info"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ page.sections|length }} sections appartenant à la page &quot;{{ page }}&quot;"
                                 >
                                     Sections
                                     <span class="badge-sm text-success">{{ page.sections|length }}</span>
-                                </a><br/>
+                                </a>
+                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
+                                   class="label label-warning"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ page.sections|length }} galeries appartenant à la page &quot;{{ page }}&quot;"
+                                >
+                                    Galeries
+                                    <span class="badge-sm text-success">{{ page.sections|length }}</span>
+                                </a>
+                                <br/>
                             {% endif %}
 
                             {% for section in page.sections %}
