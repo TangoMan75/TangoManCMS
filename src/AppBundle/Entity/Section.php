@@ -45,11 +45,13 @@ class Section
 
     /**
      * @var int
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $postCount;
 
     /**
      * @var int
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $mediaCount;
 
