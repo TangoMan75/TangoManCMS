@@ -22,6 +22,7 @@ trait RolesHaveUsers
     /**
      * @var array|User[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles", cascade={"persist"})
+     * @ORM\OrderBy({"username"="DESC"})
      */
     private $users = [];
 

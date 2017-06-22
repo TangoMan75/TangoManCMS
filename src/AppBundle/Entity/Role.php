@@ -40,20 +40,6 @@ class Role implements RoleInterface
     private $icon;
 
     /**
-     * @var Privilege[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles", cascade={"persist"})
-     * @ORM\OrderBy({"name"="DESC"})
-     */
-    private $privileges = [];
-
-    /**
-     * @var User[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\User", mappedBy="roles", cascade={"persist"})
-     * @ORM\OrderBy({"username"="DESC"})
-     */
-    private $users = [];
-
-    /**
      * Role constructor.
      */
     public function __construct()

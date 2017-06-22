@@ -2,7 +2,6 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// privilege
 use AppBundle\Entity\Privilege;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -23,6 +22,7 @@ trait RolesHavePrivileges
     /**
      * @var array|Privilege[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles", cascade={"persist"})
+     * @ORM\OrderBy({"name"="DESC"})
      */
     private $privileges = [];
 
