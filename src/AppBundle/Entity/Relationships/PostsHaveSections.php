@@ -2,9 +2,6 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// post
-use AppBundle\Entity\Post;
-// section
 use AppBundle\Entity\Section;
 use Doctrine\Common\Collections\ArrayCollection;
 

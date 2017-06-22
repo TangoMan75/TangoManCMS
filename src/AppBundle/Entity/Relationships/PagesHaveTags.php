@@ -2,10 +2,7 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// tag
 use AppBundle\Entity\Tag;
-// page
-use AppBundle\Entity\Page;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

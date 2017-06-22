@@ -4,8 +4,6 @@ namespace AppBundle\Entity\Relationships;
 
 // privilege
 use AppBundle\Entity\Privilege;
-// role
-use AppBundle\Entity\Role;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

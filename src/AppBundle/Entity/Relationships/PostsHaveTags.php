@@ -2,10 +2,7 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// tag
 use AppBundle\Entity\Tag;
-// post
-use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

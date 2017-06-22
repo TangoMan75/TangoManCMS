@@ -2,9 +2,6 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// comment
-use AppBundle\Entity\Comment;
-// post
 use AppBundle\Entity\Post;
 
 /**

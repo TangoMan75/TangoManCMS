@@ -2,10 +2,7 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// comment
 use AppBundle\Entity\Comment;
-// user
-use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**

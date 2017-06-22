@@ -2,10 +2,7 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// post
 use AppBundle\Entity\Post;
-// user
-use AppBundle\Entity\User;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
