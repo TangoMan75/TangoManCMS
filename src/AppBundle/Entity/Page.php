@@ -36,11 +36,14 @@ class Page
     private $id;
 
     /**
-     * @var Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
+     * @var int
      */
-    private $sections = [];
+    private $galleryCount;
+
+    /**
+     * @var int
+     */
+    private $sectionCount;
 
     /**
      * Section constructor.
@@ -65,10 +68,59 @@ class Page
     }
 
     /**
+     * @return int
+     */
+    public function getGalleryCount()
+    {
+        return $this->galleryCount;
+    }
+
+    /**
+     * @param int $galleryCount
+     *
+     * @return $this
+     */
+    public function setGalleryCount($galleryCount)
+    {
+        $this->galleryCount = $galleryCount;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSectionCount()
+    {
+        return $this->sectionCount;
+    }
+
+    /**
+     * @param $sectionCount
+     *
+     * @return $this
+     */
+    public function setSectionCount($sectionCount)
+    {
+        $this->sectionCount = $sectionCount;
+
+        return $this;
+    }
+
+    /**
      * @ORM\PreFlush()
      */
     public function setDefaults()
     {
+        // Count galleries and sections
+        foreach ($this->sections as $section) {
+            if ($section->getType() == 'gallery') {
+                $this->galleryCount++;
+            } else {
+                $this->sectionCount++;
+            }
+        }
+
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }

@@ -44,6 +44,16 @@ class Section
     private $title;
 
     /**
+     * @var int
+     */
+    private $postCount;
+
+    /**
+     * @var int
+     */
+    private $mediaCount;
+
+    /**
      * Section constructor.
      */
     public function __construct()
@@ -67,10 +77,59 @@ class Section
     }
 
     /**
+     * @return int
+     */
+    public function getPostCount()
+    {
+        return $this->postCount;
+    }
+
+    /**
+     * @param int $postCount
+     *
+     * @return $this
+     */
+    public function setPostCount($postCount)
+    {
+        $this->postCount = $postCount;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMediaCount()
+    {
+        return $this->mediaCount;
+    }
+
+    /**
+     * @param $mediaCount
+     *
+     * @return $this
+     */
+    public function setMediaCount($mediaCount)
+    {
+        $this->mediaCount = $mediaCount;
+
+        return $this;
+    }
+
+    /**
      * @ORM\PreFlush()
      */
     public function setDefaults()
     {
+        // Count galleries and sections
+        foreach ($this->posts as $post) {
+            if ($post->getType() == 'post') {
+                $this->postCount++;
+            } else {
+                $this->mediaCount++;
+            }
+        }
+
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
