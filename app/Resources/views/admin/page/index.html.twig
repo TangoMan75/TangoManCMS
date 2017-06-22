@@ -197,18 +197,20 @@
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="La page &quot;{{ page }}&quot; ne contient aucune section"
                                 >
+                                <span class="glyphicon glyphicon-list-alt"></span>
                                 Aucune section
                                 </span>
                             {% endif %}
 
                             {% if page.sectionCount > 1 %}
                                 <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
-                                   class="label label-info"
+                                   class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ page.sectionCount }} sections appartenant à la page &quot;{{ page }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-list-alt"></span>
                                     Sections
-                                    <span class="badge-sm text-success">{{ page.sectionCount }}</span>
+                                    <span class="badge-sm text-muted">{{ page.sectionCount }}</span>
                                 </a><br/>
                             {% endif %}
 
@@ -223,9 +225,14 @@
                                             >
                                                 {{ section|truncate(20) }}
                                                 <span class="glyphicon glyphicon-text-color"></span>
-                                                <span class="badge-sm text-success">{{ section.postCount }}</span>
+                                                <span class="badge-sm text-muted">
+                                                    {{ section.postCount }}
+                                                </span>
+
                                                 <span class="glyphicon glyphicon-music"></span>
-                                                <span class="badge-sm text-warning">{{ section.mediaCount }}</span>
+                                                <span class="badge-sm text-muted">
+                                                    {{ section.mediaCount }}
+                                                </span>
                                             </a>
                                             <br/>
                                         {% elseif loop.last %}
@@ -242,16 +249,18 @@
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="La page &quot;{{ page }}&quot; ne contient aucune galerie"
                                 >
+                                <span class="glyphicon glyphicon-picture"></span>
                                 Aucune galerie
                                 </span>
                             {% endif %}
 
                             {% if page.galleryCount > 1 %}
                                 <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
-                                   class="label label-info"
+                                   class="label label-success"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ page.galleryCount }} sections appartenant à la page &quot;{{ page }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-picture"></span>
                                     Galeries
                                     <span class="badge-sm text-success">{{ page.galleryCount }}</span>
                                 </a><br/>
@@ -267,7 +276,10 @@
                                                data-original-title="Voir le détail de la galerie &quot;{{ section|truncate(20) }}&quot; appartenant à la page &quot;{{ page }}&quot;"
                                             >
                                                 {{ section|truncate(20) }}
-                                                <span class="badge-sm text-primary">{{ section.mediaCount }}</span>
+                                                <span class="glyphicon glyphicon-picture"></span>
+                                                <span class="badge-sm text-muted">
+                                                    {{ section.mediaCount }}
+                                                </span>
                                             </a><br/>
                                         {% elseif loop.last %}
                                             <span class="label label-primary">...</span>
