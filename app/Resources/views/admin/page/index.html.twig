@@ -170,7 +170,6 @@
                 </thead>
                 <tbody>
                 {% for page in pages %}
-                    {% set page = page[0] %}
                     <tr>
                         <td>
                             <a href="{{ path('app_page_show', { 'slug': page.slug }) }}">

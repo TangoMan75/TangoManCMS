@@ -39,7 +39,7 @@
 
         <section id="comments">
             {% for comment in comments %}
-                {% set comment = comment[0] %}
+
                 {% include "includes/_comment.html.twig" with { 'callback': app.request.uri|callback } %}
             {% else %}
                 <div class="jumbotron">

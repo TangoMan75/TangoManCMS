@@ -107,26 +107,29 @@ Trait FindByQuery
                 $result['entity'] = $this->getTableName();
             }
 
+            $orderParam = null;
             switch ($result['action']) {
                 case 'b':
-                    $dql->addSelect($result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
+                    $orderParam = $result['entity'].'.'.$result['property'];
                     break;
                 case 'c':
-                    $dql->addSelect('COUNT('.$result['entity'].'.'.$result['property'].') AS orderParam_'.$index);
+                    $orderParam = 'COUNT('.$result['entity'].'.'.$result['property'].')';
                     $groupBy = true;
                     break;
                 case 'j':
-                    $dql->addSelect('COUNT(c_'.$result['property'].') AS orderParam_'.$index);
+                    $orderParam = 'COUNT(c_'.$result['property'].')';
                     $dql->leftJoin($this->getTableName().'.'.$result['property'], 'c_'.$result['property']);
                     $groupBy = true;
                     break;
                 case 'jb':
-                    $dql->addSelect('o_'.$result['entity'].'.'.$result['property'].' AS orderParam_'.$index);
+                    $orderParam = 'o_'.$result['entity'].'.'.$result['property'];
                     $dql->leftJoin($this->getTableName().'.'.$result['entity'], 'o_'.$result['entity']);
                     break;
             }
 
-            $dql->addOrderBy('orderParam_'.$index, $way);
+            if ($orderParam) {
+                $dql->addOrderBy($orderParam, $way);
+            }
         }
 
         if ($groupBy) {

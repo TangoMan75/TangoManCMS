@@ -9,7 +9,7 @@
         </header>
         <section>
             {% for media in listMedia %}
-                {% set media = media[0] %}
+
                 {% include "includes/_media.html.twig" with { 'callback': app.request.uri|callback } %}
             {% endfor %}
         </section>

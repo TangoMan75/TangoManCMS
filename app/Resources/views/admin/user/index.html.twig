@@ -208,7 +208,7 @@
                     </thead>
                     <tbody>
                     {% for user in users %}
-                        {% set user = user[0] %}
+
                         <tr>
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">

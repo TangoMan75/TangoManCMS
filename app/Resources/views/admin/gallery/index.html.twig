@@ -179,7 +179,7 @@
                 </thead>
                 <tbody>
                 {% for gallery in galleries %}
-                    {% set gallery = gallery[0] %}
+
                     <tr>
                         <td>
                             <a href="{{ path('app_section_show', { 'slug': gallery.slug }) }}">
