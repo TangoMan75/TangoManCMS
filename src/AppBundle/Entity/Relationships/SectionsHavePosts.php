@@ -34,7 +34,13 @@ trait SectionsHavePosts
      */
     public function setPosts($posts)
     {
-        $this->posts = $posts;
+        foreach (array_diff($this->posts, $posts) as $post) {
+            $this->unlinkPost($post);
+        }
+
+        foreach ($posts as $post) {
+            $this->linkPost($post);
+        }
 
         return $this;
     }

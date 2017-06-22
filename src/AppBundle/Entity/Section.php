@@ -81,6 +81,10 @@ class Section
      */
     public function getPostCount()
     {
+        if (!$this->postCount) {
+            return 0;
+        }
+
         return $this->postCount;
     }
 
@@ -101,6 +105,10 @@ class Section
      */
     public function getMediaCount()
     {
+        if (!$this->mediaCount) {
+            return 0;
+        }
+
         return $this->mediaCount;
     }
 
@@ -121,15 +129,6 @@ class Section
      */
     public function setDefaults()
     {
-        // Count posts and media
-        foreach ($this->posts as $post) {
-            if ($post->getType() == 'post') {
-                $this->postCount++;
-            } else {
-                $this->mediaCount++;
-            }
-        }
-
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }

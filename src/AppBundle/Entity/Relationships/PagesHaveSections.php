@@ -33,7 +33,13 @@ trait PagesHaveSections
      */
     public function setSections($sections)
     {
-        $this->sections = $sections;
+        foreach (array_diff($this->sections, $sections) as $section) {
+            $this->unlinkSection($section);
+        }
+
+        foreach ($sections as $section) {
+            $this->linkSection($section);
+        }
 
         return $this;
     }
@@ -92,6 +98,11 @@ trait PagesHaveSections
     public function linkSection(Section $section)
     {
         if (!$this->sections->contains($section)) {
+            if ($section->getType() == 'gallery') {
+                $this->galleryCount = ++$this->galleryCount;
+            } else {
+                $this->sectionCount = ++$this->sectionCount;
+            }
             $this->sections[] = $section;
         }
     }
@@ -101,6 +112,13 @@ trait PagesHaveSections
      */
     public function unlinkSection(Section $section)
     {
+        if ($this->sections->contains($section)) {
+            if ($section->getType() == 'gallery') {
+                $this->galleryCount = --$this->galleryCount;
+            } else {
+                $this->sectionCount = --$this->sectionCount;
+            }
+        }
         $this->sections->removeElement($section);
     }
 }

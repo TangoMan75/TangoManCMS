@@ -37,11 +37,13 @@ class Page
 
     /**
      * @var int
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $galleryCount;
 
     /**
      * @var int
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $sectionCount;
 
@@ -72,6 +74,10 @@ class Page
      */
     public function getGalleryCount()
     {
+        if (!$this->galleryCount) {
+            return 0;
+        }
+
         return $this->galleryCount;
     }
 
@@ -92,6 +98,10 @@ class Page
      */
     public function getSectionCount()
     {
+        if (!$this->sectionCount) {
+            return 0;
+        }
+
         return $this->sectionCount;
     }
 
@@ -112,15 +122,6 @@ class Page
      */
     public function setDefaults()
     {
-        // Count galleries and sections
-        foreach ($this->sections as $section) {
-            if ($section->getType() == 'gallery') {
-                $this->galleryCount++;
-            } else {
-                $this->sectionCount++;
-            }
-        }
-
         if (!$this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
