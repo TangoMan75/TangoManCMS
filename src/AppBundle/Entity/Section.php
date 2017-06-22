@@ -121,7 +121,7 @@ class Section
      */
     public function setDefaults()
     {
-        // Count galleries and sections
+        // Count posts and media
         foreach ($this->posts as $post) {
             if ($post->getType() == 'post') {
                 $this->postCount++;
