@@ -111,7 +111,17 @@
                             'order' : 'j-sections',
                             'way'   : app.request.query.get('order') == 'j-sections'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Sections/Galeries
+                            Sections
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'j-sections' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'j-sections',
+                            'way'   : app.request.query.get('order') == 'j-sections'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Galeries
                         </a>
                     </th>
 
@@ -182,47 +192,89 @@
                         </td>
 
                         <td>
-                            {% if page.sections|length > 1 %}
-                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
-                                   class="label label-info"
-                                   data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ page.sections|length }} sections appartenant à la page &quot;{{ page }}&quot;"
-                                >
-                                    Sections
-                                    <span class="badge-sm text-success">{{ page.sections|length }}</span>
-                                </a>
-                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
-                                   class="label label-warning"
-                                   data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ page.sections|length }} galeries appartenant à la page &quot;{{ page }}&quot;"
-                                >
-                                    Galeries
-                                    <span class="badge-sm text-success">{{ page.sections|length }}</span>
-                                </a>
-                                <br/>
-                            {% endif %}
-
-                            {% for section in page.sections %}
-                                {% if loop.index < 6 %}
-                                    <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                       class="label label-primary"
-                                       data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot; appartenant à la page &quot;{{ page }}&quot;"
-                                    >
-                                        {{ section|truncate(20) }}
-                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
-                                    </a><br/>
-                                {% elseif loop.last %}
-                                    <span class="label label-primary">...</span>
-                                {% endif %}
-                            {% else %}
+                            {% if page.sectionCount == 0 %}
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="La page &quot;{{ page }}&quot; ne contient aucune section"
                                 >
-                                    Aucune section
+                                Aucune section
                                 </span>
-                            {% endfor %}
+                            {% endif %}
+
+                            {% if page.sectionCount > 1 %}
+                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
+                                   class="label label-info"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ page.sectionCount }} sections appartenant à la page &quot;{{ page }}&quot;"
+                                >
+                                    Sections
+                                    <span class="badge-sm text-success">{{ page.sectionCount }}</span>
+                                </a><br/>
+                            {% endif %}
+
+                            {% if page.sectionCount %}
+                                {% for section in page.sections %}
+                                    {% if section.type == 'section' %}
+                                        {% if loop.index - page.galleryCount < 6 %}
+                                            <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
+                                               class="label label-primary"
+                                               data-toggle="tooltip" data-placement="top"
+                                               data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot; appartenant à la page &quot;{{ page }}&quot;"
+                                            >
+                                                {{ section|truncate(20) }}
+                                                <span class="glyphicon glyphicon-text-color"></span>
+                                                <span class="badge-sm text-success">{{ section.postCount }}</span>
+                                                <span class="glyphicon glyphicon-music"></span>
+                                                <span class="badge-sm text-warning">{{ section.mediaCount }}</span>
+                                            </a>
+                                            <br/>
+                                        {% elseif loop.last %}
+                                            <span class="label label-primary">...</span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {% if page.galleryCount == 0 %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="La page &quot;{{ page }}&quot; ne contient aucune galerie"
+                                >
+                                Aucune galerie
+                                </span>
+                            {% endif %}
+
+                            {% if page.galleryCount > 1 %}
+                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
+                                   class="label label-info"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ page.galleryCount }} sections appartenant à la page &quot;{{ page }}&quot;"
+                                >
+                                    Galeries
+                                    <span class="badge-sm text-success">{{ page.galleryCount }}</span>
+                                </a><br/>
+                            {% endif %}
+
+                            {% if page.galleryCount %}
+                                {% for section in page.sections %}
+                                    {% if section.type == 'gallery' %}
+                                        {% if loop.index - page.sectionCount < 6 %}
+                                            <a href="{{ path('app_admin_gallery_index', { 'title': section.title }) }}"
+                                               class="label label-primary"
+                                               data-toggle="tooltip" data-placement="top"
+                                               data-original-title="Voir le détail de la galerie &quot;{{ section|truncate(20) }}&quot; appartenant à la page &quot;{{ page }}&quot;"
+                                            >
+                                                {{ section|truncate(20) }}
+                                                <span class="badge-sm text-primary">{{ section.mediaCount }}</span>
+                                            </a><br/>
+                                        {% elseif loop.last %}
+                                            <span class="label label-primary">...</span>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                         </td>
 
                         <td>
@@ -303,13 +355,13 @@
     {% include "admin/includes/_delete-page-modal.html.twig" %}
 {% endblock %}
 
-{% block javascript %}
-    {{ parent() }}
-    <script src="{{ asset('js/modal.js') }}"></script>
-    <script>
-        $('#reset').click(function () {
-            $('form').find('input:text, input:password, select, textarea').val('');
-            $('form').find('input:radio, input:checkbox').prop('checked', false);
-        });
-    </script>
-{% endblock %}
+    {% block javascript %}
+        {{ parent() }}
+        <script src="{{ asset('js/modal.js') }}"></script>
+        <script>
+            $('#reset').click(function () {
+                $('form').find('input:text, input:password, select, textarea').val('');
+                $('form').find('input:radio, input:checkbox').prop('checked', false);
+            });
+        </script>
+    {% endblock %}
