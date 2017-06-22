@@ -2,9 +2,6 @@
 
 namespace AppBundle\Entity\Relationships;
 
-// vote
-use AppBundle\Entity\Vote;
-// user
 use AppBundle\Entity\User;
 
 /**
