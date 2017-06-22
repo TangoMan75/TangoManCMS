@@ -99,6 +99,11 @@ trait SectionsHavePosts
     public function linkPost(Post $post)
     {
         if (!$this->posts->contains($post)) {
+            if ($post->getType() == 'post') {
+                $this->postCount = ++$this->postCount;
+            } else {
+                $this->mediaCount = ++$this->mediaCount;
+            }
             $this->posts[] = $post;
         }
     }
@@ -108,6 +113,13 @@ trait SectionsHavePosts
      */
     public function unlinkPost(Post $post)
     {
+        if (!$this->posts->contains($post)) {
+            if ($post->getType() == 'post') {
+                $this->postCount = --$this->postCount;
+            } else {
+                $this->mediaCount = --$this->mediaCount;
+            }
+        }
         $this->posts->removeElement($post);
     }
 }
