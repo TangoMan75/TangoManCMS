@@ -16,6 +16,13 @@ body {
 }
 
 /**
+ * Text
+ */
+.text-default {
+	color: #333;
+}
+
+/**
  * Colors
  */
 .primary {
