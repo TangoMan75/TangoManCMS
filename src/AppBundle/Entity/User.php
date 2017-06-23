@@ -40,6 +40,18 @@ class User implements UserInterface
     private $id;
 
     /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $postCount;
+
+    /**
+     * @var int
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $mediaCount;
+
+    /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\Expression("value not in ['delete','edit','new','register','unsubscribe']", message="Désolé, ce nom d'utilisateur est réservé.")
@@ -99,6 +111,54 @@ class User implements UserInterface
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPostCount()
+    {
+        if (!$this->postCount) {
+            return 0;
+        }
+
+        return $this->postCount;
+    }
+
+    /**
+     * @param int $postCount
+     *
+     * @return $this
+     */
+    public function setPostCount($postCount)
+    {
+        $this->postCount = $postCount;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getMediaCount()
+    {
+        if (!$this->mediaCount) {
+            return 0;
+        }
+
+        return $this->mediaCount;
+    }
+
+    /**
+     * @param $mediaCount
+     *
+     * @return $this
+     */
+    public function setMediaCount($mediaCount)
+    {
+        $this->mediaCount = $mediaCount;
+
+        return $this;
     }
 
     /**
