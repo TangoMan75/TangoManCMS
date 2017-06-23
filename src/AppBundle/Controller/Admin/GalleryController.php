@@ -66,7 +66,7 @@ class GalleryController extends Controller
     /**
      * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
      */
-    public function publishAction(Request $request, Gallery $gallery, $publish)
+    public function publishAction(Request $request, Section $gallery, $publish)
     {
         $gallery->setPublished($publish);
         $em = $this->get('doctrine')->getManager();
@@ -92,7 +92,7 @@ class GalleryController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Gallery $gallery)
+    public function editAction(Request $request, Section $gallery)
     {
         $form = $this->createForm(AdminEditGalleryType::class, $gallery);
         $form->handleRequest($request);
@@ -124,7 +124,7 @@ class GalleryController extends Controller
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Gallery $gallery)
+    public function deleteAction(Request $request, Section $gallery)
     {
         if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
             $this->get('session')->getFlashBag()->add(
