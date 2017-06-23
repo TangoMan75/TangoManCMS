@@ -28,7 +28,7 @@ class TagsCommand extends ContainerAwareCommand
 
         // Default Tags
         $tags = [
-            'Import',    'default', 'default',
+            'Import',    'import',  'default',
             'Défaut',    'default', 'default',
             'Principal', 'primary', 'primary',
             'Info',      'info',    'info',
