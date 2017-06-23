@@ -271,11 +271,10 @@ class MediaController extends Controller
             $users = $em->getRepository('AppBundle:User');
 
             // Creates "import" tag when non-existent
-            $tag = $tags->findOneByName('import');
+            $tag = $tags->findOneByName('Import');
             if (!$tag) {
                 $tag = new Tag();
-                $tag->setName('import');
-                $tag->setType('default');
+                $tag->setName('Import');
                 $em->persist($tag);
                 $em->flush();
             }
