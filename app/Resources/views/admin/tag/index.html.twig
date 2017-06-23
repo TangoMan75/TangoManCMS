@@ -193,7 +193,10 @@
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'étiquette &quot;{{ tag }}&quot; n'a été attribuée à aucune publication"
-                                >Aucune publication</span>
+                                >
+                                    <span class="glyphicon glyphicon-text-color"></span>
+                                    Aucune publication
+                                </span>
                             {% endfor %}
                         </td>
 
@@ -204,6 +207,7 @@
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ tag.sections|length }} sections possédant l'étiquette &quot;{{ tag }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-list-alt"></span>
                                     Sections
                                     <span class="badge-sm pull-right">{{ tag.sections|length }}</span>
                                 </a><br/>
@@ -227,6 +231,7 @@
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'étiquette &quot;{{ tag }}&quot; n'a été attribuée à aucune section"
                                 >
+                                    <span class="glyphicon glyphicon-list-alt"></span>
                                     Aucune section
                                 </span>
                             {% endfor %}
@@ -260,7 +265,10 @@
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'étiquette &quot;{{ tag }}&quot; n'a été attribuée à aucune page"
-                                >Aucune page</span>
+                                >
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    Aucune page
+                                </span>
                             {% endfor %}
                         </td>
 

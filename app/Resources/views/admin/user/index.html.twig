@@ -63,22 +63,22 @@
                         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                             <label class="control-label col-sm-4" for="selectRole">Role</label>
                             <div class="col-sm-8">
-                                <select name="role" id="selectRole" class="form-control">
+                                <select name="roles-type" id="selectRole" class="form-control">
                                     <option value="">Tous</option>
                                     <option value="ROLE_SUPER_ADMIN"
-                                            {% if app.request.get('role') == "ROLE_SUPER_ADMIN" %}selected{% endif %}>
+                                            {% if app.request.get('roles-type') == "ROLE_SUPER_ADMIN" %}selected{% endif %}>
                                         ROLE_SUPER_ADMIN
                                     </option>
                                     <option value="ROLE_ADMIN"
-                                            {% if app.request.get('role') == "ROLE_ADMIN" %}selected{% endif %}>
+                                            {% if app.request.get('roles-type') == "ROLE_ADMIN" %}selected{% endif %}>
                                         ROLE_ADMIN
                                     </option>
                                     <option value="ROLE_SUPER_USER"
-                                            {% if app.request.get('role') == "ROLE_SUPER_USER" %}selected{% endif %}>
+                                            {% if app.request.get('roles-type') == "ROLE_SUPER_USER" %}selected{% endif %}>
                                         ROLE_SUPER_USER
                                     </option>
                                     <option value="ROLE_USER"
-                                            {% if app.request.get('role') == "ROLE_USER" %}selected{% endif %}>
+                                            {% if app.request.get('roles-type') == "ROLE_USER" %}selected{% endif %}>
                                         ROLE_USER
                                     </option>
                                 </select>
@@ -154,6 +154,16 @@
                                 'way'   : app.request.query.get('order') == 'j-posts'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Articles
+                            </a>
+                        </th>
+
+                        <th class="{{ app.request.query.get('order') == 'j-posts' ? app.request.query.get('way', 'ASC') }}">
+                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
+                                'page'  : 1,
+                                'order' : 'j-posts',
+                                'way'   : app.request.query.get('order') == 'j-posts'
+                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                                Médias
                             </a>
                         </th>
 
@@ -235,63 +245,131 @@
                             </td>
 
                             <td>
-                                {% if user.posts|length > 1 %}
-                                    <a href="{{ path('app_admin_post_index', { 'user' : user.username }) }}"
-                                       class="label label-primary"
+                                {% if user.postCount > 1 %}
+                                    <a href="{{ path('app_admin_post_index', { 'user-username' : user.username }) }}"
+                                       class="label label-success label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Lister les {{ user.posts|length }} articles publiés par &quot;{{ user }}&quot;"
                                     >
+                                        <span class="glyphicon glyphicon-text-color"></span>
                                         Articles
-                                        <span class="badge-sm pull-right">{{ user.posts|length }}</span>
+                                        <span class="badge-sm pull-right">
+                                            {{ user.posts|length }}
+                                        </span>
                                     </a>
-                                {% elseif user.posts|length > 0 %}
+                                {% endif %}
+
+                                {% if user.postCount %}
                                     {% for post in user.posts %}
-                                        <a href="{{ path('app_admin_post_index', { 'user' : user.username }) }}"
-                                           class="label label-primary"
-                                           data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Voir le détail de l'article &quot;{{ post }}&quot; publié par &quot;{{ user }}&quot;"
-                                        >
-                                            {{ post|truncate(12) }}
-                                        </a>
+                                        {% if post.type == 'post' %}
+                                            {% if loop.index - user.postCount < 6 %}
+                                                <a href="{{ path('app_admin_post_index', { 'title' : post.title }) }}"
+                                                   class="label label-primary label-block"
+                                                   data-toggle="tooltip" data-placement="top"
+                                                   data-original-title="Voir le détail de l'article &quot;{{ post }}&quot; publié par &quot;{{ user }}&quot;"
+                                                >
+                                            <span class="label-text">
+                                                {{ post|slice(0, 50) }}
+                                            </span>
+                                                </a>
+                                            {% elseif loop.last %}
+                                                <span class="label label-primary">...</span>
+                                            {% endif %}
+                                        {% endif %}
                                     {% endfor %}
                                 {% else %}
-                                    <span class="label label-danger"
+                                    <span class="label label-danger label-block"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="&quot;{{ user }}&quot; n'a publié aucun article"
                                     >
+                                        <span class="glyphicon glyphicon-text-color"></span>
                                         Aucun article
                                     </span>
                                 {% endif %}
                             </td>
 
                             <td>
+                                {% if user.mediaCount > 1 %}
+                                    <a href="{{ path('app_admin_post_index', { 'user-username' : user.username }) }}"
+                                       class="label label-success label-block"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Lister les {{ user.posts|length }} articles publiés par &quot;{{ user }}&quot;"
+                                    >
+                                        <span class="glyphicon glyphicon-text-color"></span>
+                                        Média
+                                        <span class="badge-sm pull-right">
+                                            {{ user.posts|length }}
+                                        </span>
+                                    </a>
+                                {% endif %}
+
+                                {% if user.mediaCount %}
+                                    {% for post in user.posts %}
+                                        {% if post.type == 'media' %}
+                                            {% if loop.index - user.mediaCount < 6 %}
+                                                <a href="{{ path('app_admin_media_index', { 'title' : post.title }) }}"
+                                                   class="label label-primary label-block"
+                                                   data-toggle="tooltip" data-placement="top"
+                                                   data-original-title="Voir le détail du média &quot;{{ post }}&quot; publié par &quot;{{ user }}&quot;"
+                                                >
+                                            <span class="label-text">
+                                                {{ post|slice(0, 50) }}
+                                            </span>
+                                                </a>
+                                            {% elseif loop.last %}
+                                                <span class="label label-primary">...</span>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="label label-danger label-block"
+                                          data-toggle="tooltip" data-placement="top"
+                                          data-original-title="&quot;{{ user }}&quot; n'a publié aucun média"
+                                    >
+                                        <span class="glyphicon glyphicon-text-color"></span>
+                                        Aucun média
+                                    </span>
+                                {% endif %}
+                            </td>
+
+                            <td>
                                 {% if user.comments|length > 1 %}
-                                    <a href="{{ path('app_admin_comment_index', { 'user' : user.username }) }}"
-                                       class="label label-success"
+                                    <a href="{{ path('app_admin_comment_index', { 'user-username' : user.username }) }}"
+                                       class="label label-success label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Lister les {{ user.comments|length }} commentaires publiés par &quot;{{ user }}&quot;"
                                     >
+                                        <span class="glyphicon glyphicon-comment"></span>
                                         Commentaires
-                                        <span class="badge-sm pull-right">{{ user.comments|length }}</span>
+                                        <span class="badge-sm pull-right">
+                                            {{ user.comments|length }}
+                                        </span>
                                     </a>
-                                {% elseif user.comments|length > 0 %}
-                                    {% for comment in user.comments %}
-                                        <a href="{{ path('app_admin_comment_index', { 'user' : user.username }) }}"
-                                           class="label label-primary"
+                                {% endif %}
+
+                                {% for comment in user.comments %}
+                                    {% if loop.index < 6 %}
+                                        <a href="{{ path('app_admin_comment_index', { 'user-username' : user.username }) }}"
+                                           class="label label-primary label-block"
                                            data-toggle="tooltip" data-placement="top"
                                            data-original-title="Voir le détail du commentaire &quot;{{ comment }}&quot; publié par &quot;{{ user }}&quot;"
                                         >
-                                            {{ comment|truncate(15) }}
+                                            <span class="label-text">
+                                                {{ comment|slice(0, 50) }}
+                                            </span>
                                         </a>
-                                    {% endfor %}
+                                    {% elseif loop.last %}
+                                        <span class="label label-primary">...</span>
+                                    {% endif %}
                                 {% else %}
-                                    <span class="label label-danger"
+                                    <span class="label label-danger label-block"
                                           data-toggle="tooltip" data-placement="top"
                                           data-original-title="&quot;{{ user }}&quot; n'a publié aucun commentaire"
                                     >
+                                        <span class="glyphicon glyphicon-comment"></span>
                                         Aucun commentaire
                                     </span>
-                                {% endif %}
+                                {% endfor %}
                             </td>
 
                             <td>

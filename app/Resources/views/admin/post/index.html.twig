@@ -57,8 +57,8 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
                         <div class="col-sm-8">
-                            <input type="text" name="tag" id="inputTag" class="form-control"
-                                   value="{{ app.request.get('tag')|join(', ') }}"/>
+                            <input type="text" name="tags-name" id="inputTag" class="form-control"
+                                   value="{{ app.request.get('tags-name')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -299,20 +299,20 @@
 
                             {% for comment in post.comments %}
                                 {% if loop.index < 6 %}
-                                    <a href="{{ path('app_admin_comment_index', { 'post' : post.title }) }}"
+                                    <a href="{{ path('app_admin_comment_index', { 'post-title' : post.title }) }}"
                                        class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail du commentaire &quot;{{ comment|truncate(20) }}&quot; reçu par l'article &quot;{{ post }}&quot;"
                                     >
-                                    <span class="label-text">
-                                        {{ comment|slice(0, 50) }}
-                                    </span>
+                                        <span class="label-text">
+                                            {{ comment|slice(0, 50) }}
+                                        </span>
                                     </a>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
                                 {% endif %}
                             {% else %}
-                                <span class="label label-danger label-block"
+                                <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'article &quot;{{ post }}&quot; n'a reçu aucun commentaire"
                                 >
@@ -378,7 +378,7 @@
                         <td>
                             {% for tag in post.tags %}
                                 <a href="{{ path('app_admin_post_index', app.request.query.all|merge({'tag' : tag.name})) }}"
-                                   class="label label-{{ tag.type }}">
+                                   class="label label-{{ tag.label }}">
                                     {{ tag.name }}
                                 </a><br/>
                             {% else %}

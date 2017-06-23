@@ -49,8 +49,8 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="inputUser">Auteur</label>
                         <div class="col-sm-8">
-                            <input type="text" name="user" id="inputUser" class="form-control"
-                                   value="{{ app.request.get('user')|join(', ') }}"/>
+                            <input type="text" name="user-username" id="inputUser" class="form-control"
+                                   value="{{ app.request.get('user-username')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -65,8 +65,8 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
                         <div class="col-sm-8">
-                            <input type="text" name="tag" id="inputTag" class="form-control"
-                                   value="{{ app.request.get('tag')|join(', ') }}"/>
+                            <input type="text" name="tags-name" id="inputTag" class="form-control"
+                                   value="{{ app.request.get('tags-name')|join(', ') }}"/>
                         </div>
                     </div>
 
@@ -149,7 +149,8 @@
                         </a>
                     </th>
 
-                    <th colspan="2" class="{{ app.request.query.get('order') == 'user-username' ? app.request.query.get('way', 'ASC') }}">
+                    <th colspan="2"
+                        class="{{ app.request.query.get('order') == 'user-username' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'user-username',
@@ -260,7 +261,7 @@
                         <td>
                             {% if media.imageFileName %}
                                 <a href="{{ media.image }}" target="_blank" class="cover"
-                                    style="padding-bottom: 80px; width: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
+                                   style="padding-bottom: 80px; width: 80px; background-image: url('{{ media.image ? media.image|imagine_filter('thumbnail') : '//placehold.it/80?text=Image' }}');">
                                 </a>
                             {% else %}
                                 <a href="{{ path('app_post_show', { 'slug': media.slug }) }}" class="cover"
@@ -311,8 +312,8 @@
 
                         <td>
                             {% if media.comments|length > 1 %}
-                                <a href="{{ path('app_admin_comment_index', { 'media' : media.title }) }}"
-                                   class="label label-success"
+                                <a href="{{ path('app_admin_comment_index', { 'media-title' : media.title }) }}"
+                                   class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ media.comments|length }} commentaires reçu par le média &quot;{{ media }}&quot;"
                                 >
@@ -320,17 +321,22 @@
                                     Commentaires
                                     <span class="badge-sm pull-right">{{ media.comments|length }}</span>
                                 </a>
-                            {% elseif media.comments|length > 0 %}
-                                {% for comment in media.comments %}
-                                    <a href="{{ path('app_admin_comment_index', { 'media' : media.title }) }}"
-                                       class="label label-primary"
+                            {% endif %}
+
+                            {% for comment in media.comments %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_admin_comment_index', { 'post-title' : media.title }) }}"
+                                       class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail du commentaire &quot;{{ comment }}&quot; reçu par le média &quot;{{ media }}&quot;"
                                     >
-                                        <span class="glyphicon glyphicon-comment"></span>
-                                        {{ comment|truncate(15) }}
+                                        <span class="label-text">
+                                            {{ comment|slice(0, 50) }}
+                                        </span>
                                     </a>
-                                {% endfor %}
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
@@ -339,7 +345,7 @@
                                     <span class="glyphicon glyphicon-comment"></span>
                                         Aucun commentaire
                                     </span>
-                            {% endif %}
+                            {% endfor %}
                         </td>
 
                         <td>
@@ -371,12 +377,14 @@
                             {% for section in media.sections %}
                                 {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_gallery_index', { 'title': section.title }) }}"
-                                       class="label label-primary"
+                                       class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail de la galerie &quot;{{ section|truncate(20) }}&quot; contenant le média &quot;{{ media }}&quot;"
                                     >
-                                        {{ section|truncate(20) }}
                                         <span class="badge-sm pull-right">{{ section.posts|length }}</span>
+                                        <span class="label-text">
+                                            {{ section|slice(0, 50) }}
+                                        </span>
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
@@ -393,15 +401,18 @@
 
                         <td>
                             {% for tag in media.tags %}
-                                <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'tag' : tag.name})) }}"
-                                   class="label label-{{ tag.type }}">
+                                <a href="{{ path('app_admin_media_index', app.request.query.all|merge({'tag-name' : tag.name})) }}"
+                                   class="label label-{{ tag.label }}">
                                     {{ tag.name }}
                                 </a><br/>
                             {% else %}
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="Le média &quot;{{ media }}&quot; ne possède aucune étiquette"
-                                >Aucune étiquette</span>
+                                >
+                                    <span class="glyphicon glyphicon-tag"></span>
+                                    Aucune étiquette
+                                </span>
                             {% endfor %}
                         </td>
 
