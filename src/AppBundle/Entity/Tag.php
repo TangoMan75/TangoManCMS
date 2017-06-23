@@ -44,7 +44,6 @@ class Tag
         $this->pages = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->sections = new ArrayCollection();
-        $this->label = 'default';
     }
 
     /**
@@ -61,7 +60,7 @@ class Tag
     public function setDefaults()
     {
         if (!$this->type) {
-            $this->setType($this->name);
+            $this->setType(strtolower($this->name));
         }
     }
 
