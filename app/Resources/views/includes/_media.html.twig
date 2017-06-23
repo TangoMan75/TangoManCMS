@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="tags col-xs-12 col-sm-6">
                     {% for tag in media.tags %}
-                        <a href="{{ path('app_media_index', { 'tag': tag.name }) }}" class="label label-{{ tag.type }}">
+                        <a href="{{ path('app_media_index', { 'tag': tag.name }) }}" class="label label-{{ tag.label }}">
                             {{ tag.name }}
                         </a>&nbsp;
                     {% endfor %}
