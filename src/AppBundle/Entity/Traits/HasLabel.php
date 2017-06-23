@@ -23,9 +23,9 @@ trait HasLabel
     {
         if (!$this->label) {
             return 'default';
-        } else {
-            return $this->label;
         }
+
+        return $this->label;
     }
 
     /**
@@ -35,7 +35,6 @@ trait HasLabel
      */
     public function setLabel($label)
     {
-
         if (in_array(
             $label,
             [
