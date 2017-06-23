@@ -79,6 +79,6 @@ class Comment
      */
     public function __toString()
     {
-        return substr(strip_tags($this->text), 0, 20).'...';
+        return substr(strip_tags($this->text), 0, 50);
     }
 }
