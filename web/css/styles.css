@@ -37,10 +37,30 @@ a.label:hover {
 }
 
 /**
- * Small badges inside primary labels
+ * Labels with badges
+ */
+.label-block {
+	display: block;
+	margin-top: 3px;
+	text-align: left;
+	line-height: 1.5;
+	width: 20em;
+}
+
+.label-text {
+	display: block;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	padding-right: 1em;
+}
+
+/**
+ * Small badges inside label blocks
  */
 .badge-sm {
-	background-color: #fff;
+	color: #777;
+	background-color: #FFF;
 	border-radius: 6px;
 	padding-left: 3px;
 	padding-right: 3px;

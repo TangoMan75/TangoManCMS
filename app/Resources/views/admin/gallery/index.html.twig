@@ -194,58 +194,73 @@
                         <td>
                             {% if gallery.pages|length > 1 %}
                                 <a href="{{ path('app_admin_page_index', { 'sections-title': gallery.title }) }}"
-                                   class="label label-success"
+                                   class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ gallery.pages|length }} pages contenant la galerie &quot;{{ gallery }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-file"></span>
                                     Pages
-                                    <span class="badge-sm text-success">{{ gallery.pages|length }}</span>
-                                </a><br/>
+                                    <span class="badge-sm pull-right">{{ gallery.pages|length }}</span>
+                                </a>
                             {% endif %}
 
                             {% for page in gallery.pages %}
                                 {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
-                                       class="label label-primary"
+                                       class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail de la page &quot;{{ page|truncate(20) }}&quot;"
                                     >
-                                        {{ page|truncate(20) }}
-                                    </a><br/>
+                                        <span class="badge-sm pull-right">
+                                            {{ page.sections|length }}
+                                        </span>
+                                        <span class="label-text">
+                                            {{ page|slice(0, 50) }}
+                                        </span>
+                                    </a>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
                                 {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucune page</span>
+                                <span class="label label-danger label-block">
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    Aucune page
+                                </span>
                             {% endfor %}
                         </td>
 
                         <td>
                             {% if gallery.posts|length > 1 %}
                                 <a href="{{ path('app_admin_gallery_index', { 'title': gallery.title }) }}"
-                                   class="label label-success"
+                                   class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ gallery.posts|length }} médias de la galerie &quot;{{ gallery }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-picture"></span>
                                     Médias
-                                    <span class="badge-sm text-success">{{ gallery.posts|length }}</span>
-                                </a><br/>
+                                    <span class="badge-sm pull-right">{{ gallery.posts|length }}</span>
+                                </a>
                             {% endif %}
 
                             {% for post in gallery.posts %}
                                 {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_media_index', { 'title': post.title }) }}"
-                                       class="label label-primary"
+                                       class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail du média &quot;{{ post|truncate(20) }}&quot;"
                                     >
-                                        {{ post|truncate(20) }}
-                                    </a><br/>
+                                        <span class="label-text">
+                                            {{ post|slice(0, 50) }}
+                                        </span>
+                                    </a>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
                                 {% endif %}
                             {% else %}
-                                <span class="label label-danger">Aucun média</span>
+                                <span class="label label-danger label-block">
+                                    <span class="glyphicon glyphicon-picture"></span>
+                                    Aucun média
+                                </span>
                             {% endfor %}
                         </td>
 

@@ -262,7 +262,8 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_user_index', { 'user': post.user.username }) }}" class="cover"
+                            <a href="{{ path('app_admin_user_index', { 'username': post.user.username }) }}"
+                               class="cover"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Afficher les détails de &quot;{{ post.user }}&quot;"
                                style="padding-bottom: 30px; width: 30px; background-image: url('{{ post.user.avatar ? post.user.avatar : asset('img/user.jpg') }}');">
@@ -270,7 +271,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_post_index', { 'user': post.user.username }) }}"
+                            <a href="{{ path('app_admin_post_index', { 'user-username': post.user.username }) }}"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Lister tous les articles publiés par &quot;{{ post.user }}&quot;">
                                 {{ post.user }}
@@ -285,35 +286,40 @@
 
                         <td>
                             {% if post.comments|length > 1 %}
-                                <a href="{{ path('app_admin_comment_index', { 'post' : post.title }) }}"
-                                   class="label label-success"
+                                <a href="{{ path('app_admin_comment_index', { 'post-title': post.title }) }}"
+                                   class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ post.comments|length }} commentaires reçu par l'article &quot;{{ post }}&quot;"
                                 >
                                     <span class="glyphicon glyphicon-comment"></span>
                                     Commentaires
-                                    <span class="badge-sm text-success">{{ post.comments|length }}</span>
+                                    <span class="badge-sm pull-right">{{ post.comments|length }}</span>
                                 </a>
-                            {% elseif post.comments|length > 0 %}
-                                {% for comment in post.comments %}
+                            {% endif %}
+
+                            {% for comment in post.comments %}
+                                {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_comment_index', { 'post' : post.title }) }}"
-                                       class="label label-primary"
+                                       class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
-                                       data-original-title="Voir le détail du commentaire &quot;{{ comment }}&quot; reçu par l'article &quot;{{ post }}&quot;"
+                                       data-original-title="Voir le détail du commentaire &quot;{{ comment|truncate(20) }}&quot; reçu par l'article &quot;{{ post }}&quot;"
                                     >
-                                        <span class="glyphicon glyphicon-comment"></span>
-                                        {{ comment|truncate(15) }}
+                                    <span class="label-text">
+                                        {{ comment|slice(0, 50) }}
+                                    </span>
                                     </a>
-                                {% endfor %}
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
                             {% else %}
-                                <span class="label label-danger"
+                                <span class="label label-danger label-block"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'article &quot;{{ post }}&quot; n'a reçu aucun commentaire"
                                 >
                                     <span class="glyphicon glyphicon-comment"></span>
                                         Aucun commentaire
-                                    </span>
-                            {% endif %}
+                                </span>
+                            {% endfor %}
                         </td>
 
                         <td>
@@ -333,25 +339,28 @@
                         <td>
                             {% if post.sections|length > 1 %}
                                 <a href="{{ path('app_admin_section_index', { 'post': post.title }) }}"
-                                   class="label label-success"
+                                   class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ post.sections|length }} sections contenant l'article &quot;{{ post }}&quot;"
                                 >
+                                    <span class="glyphicon glyphicon-list-alt"></span>
                                     Sections
-                                    <span class="badge-sm text-success">{{ post.sections|length }}</span>
-                                </a><br/>
+                                    <span class="badge-sm pull-right">{{ post.sections|length }}</span>
+                                </a>
                             {% endif %}
 
                             {% for section in post.sections %}
                                 {% if loop.index < 6 %}
                                     <a href="{{ path('app_admin_section_index', { 'title': section.title }) }}"
-                                       class="label label-primary"
+                                       class="label label-primary label-block"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot; contenant l'article &quot;{{ post }}&quot;"
                                     >
-                                        {{ section|truncate(20) }}
-                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
-                                    </a><br/>
+                                        <span class="badge-sm pull-right">{{ section.posts|length }}</span>
+                                        <span class="label-text">
+                                            {{ section|slice(0, 50) }}
+                                        </span>
+                                    </a>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
                                 {% endif %}
@@ -360,6 +369,7 @@
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'article &quot;{{ post }}&quot; n'appartient à aucune section"
                                 >
+                                    <span class="glyphicon glyphicon-list-alt"></span>
                                     Aucune section
                                 </span>
                             {% endfor %}
@@ -375,7 +385,10 @@
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
                                       data-original-title="L'article &quot;{{ post }}&quot; ne possède aucune étiquette"
-                                >Aucune étiquette</span>
+                                >
+                                    <span class="glyphicon glyphicon-tag"></span>
+                                    Aucune étiquette
+                                </span>
                             {% endfor %}
                         </td>
 

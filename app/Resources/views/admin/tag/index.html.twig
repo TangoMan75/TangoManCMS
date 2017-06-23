@@ -173,7 +173,7 @@
                                    data-original-title="Lister les {{ tag.posts|length }} publications possédant l'étiquette &quot;{{ tag }}&quot;"
                                 >
                                     Publications
-                                    <span class="badge-sm text-success">{{ tag.posts|length }}</span>
+                                    <span class="badge-sm pull-right">{{ tag.posts|length }}</span>
                                 </a><br/>
                             {% endif %}
 
@@ -205,7 +205,7 @@
                                    data-original-title="Lister les {{ tag.sections|length }} sections possédant l'étiquette &quot;{{ tag }}&quot;"
                                 >
                                     Sections
-                                    <span class="badge-sm text-success">{{ tag.sections|length }}</span>
+                                    <span class="badge-sm pull-right">{{ tag.sections|length }}</span>
                                 </a><br/>
                             {% endif %}
 
@@ -217,7 +217,7 @@
                                        data-original-title="Voir le détail de la section &quot;{{ section|truncate(20) }}&quot;"
                                     >
                                         {{ section|truncate(20) }}
-                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
+                                        <span class="badge-sm pull-right">{{ section.posts|length }}</span>
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>
@@ -240,7 +240,7 @@
                                    data-original-title="Lister les {{ tag.pages|length }} pages possédant l'étiquette &quot;{{ tag }}&quot;"
                                 >
                                     Pages
-                                    <span class="badge-sm text-success">{{ tag.pages|length }}</span>
+                                    <span class="badge-sm pull-right">{{ tag.pages|length }}</span>
                                 </a><br/>
                             {% endif %}
 

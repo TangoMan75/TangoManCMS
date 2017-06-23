@@ -318,7 +318,7 @@
                                 >
                                     <span class="glyphicon glyphicon-comment"></span>
                                     Commentaires
-                                    <span class="badge-sm text-success">{{ media.comments|length }}</span>
+                                    <span class="badge-sm pull-right">{{ media.comments|length }}</span>
                                 </a>
                             {% elseif media.comments|length > 0 %}
                                 {% for comment in media.comments %}
@@ -364,7 +364,7 @@
                                    data-original-title="Lister les {{ media.sections|length }} sections contenant le média &quot;{{ media }}&quot;"
                                 >
                                     Sections
-                                    <span class="badge-sm text-success">{{ media.sections|length }}</span>
+                                    <span class="badge-sm pull-right">{{ media.sections|length }}</span>
                                 </a><br/>
                             {% endif %}
 
@@ -376,7 +376,7 @@
                                        data-original-title="Voir le détail de la galerie &quot;{{ section|truncate(20) }}&quot; contenant le média &quot;{{ media }}&quot;"
                                     >
                                         {{ section|truncate(20) }}
-                                        <span class="badge-sm text-primary">{{ section.posts|length }}</span>
+                                        <span class="badge-sm pull-right">{{ section.posts|length }}</span>
                                     </a><br/>
                                 {% elseif loop.last %}
                                     <span class="label label-primary">...</span>

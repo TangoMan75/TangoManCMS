@@ -203,7 +203,9 @@
                                     {% endif %}
                             >
                                 {{ comment.user }}
-                                <span class="badge-sm text-primary">{{ comment.user.comments|length }}</span>
+                                <span class="badge-sm">
+                                    {{ comment.user.comments|length }}
+                                </span>
                             </a>
                         </td>
 
