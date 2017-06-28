@@ -28,7 +28,21 @@ class MediaController extends Controller
         $em = $this->get('doctrine')->getManager();
         $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
-        $medias = $em->getRepository('AppBundle:Post')->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+            $medias = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request->query, [
+                'tag' => $tag,
+            ]
+            );
+        } else {
+            $medias = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request->query, [
+                'published' => true,
+                'tag'       => $tag,
+            ]
+            );
+        }
+
         $formView = null;
 
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {

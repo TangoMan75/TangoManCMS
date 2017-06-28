@@ -159,7 +159,6 @@ class MediaController extends Controller
     }
 
     /**
-     * Finds and deletes a Media.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
     public function deleteAction(Request $request, Post $post)
@@ -185,7 +184,7 @@ class MediaController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->findAll();
+        $listMedia = $em->getRepository('AppBundle:Post')->export();
 
         return $this->render(
             'admin/media/export.html.twig',
@@ -201,7 +200,7 @@ class MediaController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->findAllPosts();
+        $listMedia = $em->getRepository('AppBundle:Post')->export();
         $response = json_encode($listMedia);
 
         return new Response(

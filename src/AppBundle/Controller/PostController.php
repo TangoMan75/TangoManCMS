@@ -77,11 +77,14 @@ class PostController extends Controller
         $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')
-                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5, false);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
+                'tag' => $tag
+                ]);
         } else {
-            $posts = $em->getRepository('AppBundle:Post')
-                ->findByTagPaged($tag, $request->query->getInt('page', 1), 5);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
+                'published' => true,
+                'tag' => $tag
+                ]);
         }
 
         $formView = null;
