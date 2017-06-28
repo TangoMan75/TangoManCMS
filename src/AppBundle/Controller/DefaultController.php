@@ -16,7 +16,12 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $page = $em->getRepository('AppBundle:Page')->findOneBy(['slug' => 'homepage']);
+        $page = $em->getRepository('AppBundle:Page')->findOneBy(
+            [
+                'slug'      => 'homepage',
+                'published' => true,
+            ]
+        );
 
         if ($page) {
             $page->addView();
@@ -29,6 +34,7 @@ class DefaultController extends Controller
             );
         }
 
+        // Else just display a bunch of posts
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
         } else {
@@ -58,6 +64,23 @@ class DefaultController extends Controller
             [
                 'form'  => $formPost,
                 'posts' => $posts,
+            ]
+        );
+    }
+
+    /**
+     * @Route("/sitemap.xml", defaults={"_format"="xml"})
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function sitemapAction()
+    {
+        $em = $this->get('doctrine')->getManager();
+        $pages = $em->getRepository('AppBundle:Page')->findBy(['published' => true]);
+
+        return $this->render(
+            'sitemap.xml.twig',
+            [
+                'pages' => $pages,
             ]
         );
     }
