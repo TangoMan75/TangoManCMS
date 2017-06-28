@@ -12,7 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class VoteRepository extends EntityRepository
 {
-    use Traits\Countable;
     use Traits\RepositoryHelper;
-    use Traits\SimpleArray;
 }

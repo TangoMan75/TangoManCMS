@@ -15,8 +15,6 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PageRepository extends EntityRepository
 {
-    use Traits\Countable;
     use Traits\FindByQuery;
     use Traits\RepositoryHelper;
-    use Traits\SimpleArray;
 }

@@ -10,7 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * Trait FindByQuery
- * Requires repository to own "TableName" trait.
+ * Requires repository to own "RepositoryHelper" trait.
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Repository\Traits

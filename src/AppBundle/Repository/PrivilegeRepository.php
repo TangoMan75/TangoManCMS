@@ -12,8 +12,6 @@ use Doctrine\ORM\EntityRepository;
  */
 class PrivilegeRepository extends EntityRepository
 {
-    use Traits\Countable;
     use Traits\FindByQuery;
     use Traits\RepositoryHelper;
-    use Traits\SimpleArray;
 }
