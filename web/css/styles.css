@@ -44,7 +44,7 @@ a.label:hover {
 	margin-top: 3px;
 	text-align: left;
 	line-height: 1.5;
-	width: 20em;
+	max-width: 15em;
 }
 
 .label-text {
