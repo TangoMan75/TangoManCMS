@@ -85,7 +85,7 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur '.$user.' a bien été modifié.');
+            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été modifié.');
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));

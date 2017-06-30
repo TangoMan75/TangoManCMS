@@ -107,32 +107,23 @@
                 <table class="table table-striped">
                     <thead>
                     <tr>
-                        <th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'id',
-                                'way'   : app.request.query.get('order') == 'id'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                                Id
-                            </a>
-                        </th>
+                        {#<th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">#}
+                        {#<a href="{{ path('app_admin_user_index', app.request.query.all|merge({#}
+                        {#'page'  : 1,#}
+                        {#'order' : 'id',#}
+                        {#'way'   : app.request.query.get('order') == 'id'#}
+                        {#and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">#}
+                        {#Id#}
+                        {#</a>#}
+                        {#</th>#}
 
-                        <th class="{{ app.request.query.get('order') == 'c-avatar' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'c-avatar',
-                                'way'   : app.request.query.get('order') == 'c-avatar'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                                Avatar
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
+                        <th colspan="2"
+                            class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
                                 'order' : 'username',
                                 'way'   : app.request.query.get('order') == 'username'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                                 Utilisateur
                             </a>
                         </th>
@@ -187,16 +178,6 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'modified',
-                                'way'   : app.request.query.get('order') == 'modified'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Modification
-                            </a>
-                        </th>
-
                         <th class="{{ app.request.query.get('order') == 'c-password' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
@@ -220,11 +201,11 @@
                     {% for user in users %}
 
                         <tr>
-                            <td>
-                                <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
-                                    {{ user.id }}
-                                </a>
-                            </td>
+                            {#<td>#}
+                            {#<a href="{{ path('app_user_show', { 'slug': user.slug }) }}">#}
+                            {#{{ user.id }}#}
+                            {#</a>#}
+                            {#</td>#}
 
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}" class="cover"
@@ -375,12 +356,6 @@
                             <td>
                                 <span class="small">
                                     {{ user.created|date('d/m/Y H:i:s') }}
-                                </span>
-                            </td>
-
-                            <td>
-                                <span class="small">
-                                    {{ user.modified|date('d/m/Y H:i:s') }}
                                 </span>
                             </td>
 
