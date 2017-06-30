@@ -123,7 +123,7 @@ trait UsersHaveRoles
     }
 
     /**
-     * @param $role
+     * @param Role|String $role
      *
      * @return Role|null
      */
