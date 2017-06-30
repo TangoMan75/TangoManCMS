@@ -88,14 +88,17 @@ trait UsersHaveRoles
     }
 
     /**
-     * @param Role $role
+     * @param Role|String $role
      *
      * @return $this
      */
-    public function removeRole(Role $role)
+    public function removeRole($role)
     {
         $this->unlinkRole($role);
-        $role->unlinkUser($this);
+
+        if ($role !== null) {
+            $role->unlinkUser($this);
+        }
 
         return $this;
     }
@@ -111,10 +114,31 @@ trait UsersHaveRoles
     }
 
     /**
-     * @param Role $role
+     * @param Role|String $role
      */
-    public function unlinkRole(Role $role)
+    public function unlinkRole(&$role)
     {
+        $role = $this->checkRole($role);
         $this->roles->removeElement($role);
+    }
+
+    /**
+     * @param $role
+     *
+     * @return Role|null
+     */
+    private function checkRole($role)
+    {
+        if ($role instanceof Role) {
+            return $role;
+        }
+
+        foreach ($this->roles as $temp) {
+            if ($temp->getType() == $role) {
+                return $temp;
+            }
+        }
+
+        return null;
     }
 }
