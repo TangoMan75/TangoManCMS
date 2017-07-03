@@ -7,9 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PagesHaveSites
- * This trait defines the OWNING side of a ManyToMany relationship.
- * 1. Requires owned `Site` entity to implement `$pages` property with `ManyToMany` and `mappedBy="sites"` annotation.
- * 2. Requires owned `Site` entity to implement `linkPage` and `unlinkPage` methods.
+ *
+ * This trait defines the INVERSE side of a ManyToMany bidirectional relationship.
+ *
+ * 1. Requires `Site` entity to implement `$pages` property with `ManyToMany` and `inversedBy="sites"` annotation.
+ * 2. Requires `Site` entity to implement `linkPage` and `unlinkPage` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.
  * 4. Entity constructor must initialize ArrayCollection object
  *     $this->sites = new ArrayCollection();
@@ -21,7 +23,8 @@ trait PagesHaveSites
 {
     /**
      * @var array|Site[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", inversedBy="pages", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="pages", cascade={"persist"})
+     * @ORM\OrderBy({"id"="DESC"})
      */
     private $sites = [];
 
@@ -33,11 +36,11 @@ trait PagesHaveSites
     public function setSites($sites)
     {
         foreach (array_diff($this->sites, $sites) as $site) {
-            $this->unlinkSite($site);
+            $this->unlinkPage($site);
         }
 
         foreach ($sites as $site) {
-            $this->linkSite($site);
+            $this->linkPage($site);
         }
 
         return $this;
