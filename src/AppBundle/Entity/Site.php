@@ -18,7 +18,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Site
 {
     use Relationships\SitesHavePages;
-    use Relationships\SitesHavetags;
+    use Relationships\SitesHaveTags;
 
     use Traits\HasSummary;
     use Traits\HasTitle;
