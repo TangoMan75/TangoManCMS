@@ -1,0 +1,296 @@
+{% extends 'admin/admin-base.html.twig' %}
+
+{% block title %}{{ parent() }} | Sites{% endblock %}
+
+{% block admin %}
+    <header>
+        <h1>Sites</h1>
+        <h2>Liste des sites</h2>
+        <p>Ici vous pouvez accèder à la liste des sites de <strong>{{ site_name }}</strong>.</p>
+    </header>
+    {% include "admin/includes/_site_tabs.html.twig" %}
+    <section id="search">
+        <div class="jumbotron">
+            <form method="GET" class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="inputTitle">Titre</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="title" id="inputTitle" class="form-control"
+                                   value="{{ app.request.get('title')|join(', ') }}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="inputSlug">Slug</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="slug" id="inputSlug" class="form-control"
+                                   value="{{ app.request.get('slug')|join(', ') }}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="inputPage">Page</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="pages-title" id="inputPage" class="form-control"
+                                   value="{{ app.request.get('pages-title')|join(', ') }}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="inputTag">Étiquette</label>
+                        <div class="col-sm-8">
+                            <input type="text" name="tags-name" id="inputTag" class="form-control"
+                                   value="{{ app.request.get('tags-name')|join(', ') }}"/>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        <label class="control-label col-sm-4" for="selectStatus">Publication</label>
+                        <div class="col-sm-8">
+                            <select name="published" id="selectStatus" class="form-control">
+                                <option value="">Tous</option>
+                                <option value="true"
+                                        {% if app.request.get('published') == "true" %}selected{% endif %}>
+                                    Publié
+                                </option>
+                                <option value="false"
+                                        {% if app.request.get('published') == "false" %}selected{% endif %}>
+                                    Non-publié
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 text-right pull-right">
+                        <button type="submit" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-search"></span> Filtrer ({{ sites.count }})
+                        </button>
+                        <button id="reset" class="btn btn-warning">
+                            <span class="glyphicon glyphicon-remove"></span> Effacer
+                        </button>
+                    </div>
+
+                    <input type="hidden" name="page" value="1"/>
+                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
+                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
+                </div>
+
+            </form>
+        </div>
+    </section>
+
+    <section id="site-list">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+
+                    <th class="{{ app.request.query.get('order') == 'title' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'title',
+                            'way'   : app.request.query.get('order') == 'title'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Titre
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'slug',
+                            'way'   : app.request.query.get('order') == 'slug'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Slug
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'j-pages' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'j-pages',
+                            'way'   : app.request.query.get('order') == 'j-pages'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Pages
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'j-tags' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'j-tags',
+                            'way'   : app.request.query.get('order') == 'j-tags'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Étiquettes
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'created',
+                            'way'   : app.request.query.get('order') == 'created'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Création
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'modified',
+                            'way'   : app.request.query.get('order') == 'modified'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Modification
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'published' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'published',
+                            'way'   : app.request.query.get('order') == 'published'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Publication
+                        </a>
+                    </th>
+
+                    <th colspan="2">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for site in sites %}
+
+                    <tr>
+                        <td>
+                            <a href="{{ path('app_site_show', { 'slug': site.slug }) }}">
+                                {{ site }}
+                            </a>
+                        </td>
+
+                        <td>
+                            {{ site.slug }}
+                        </td>
+
+                        <td>
+                            {% if site.pages|length > 1 %}
+                                <a href="{{ path('app_admin_page_index', { 'sites-title': site.title }) }}"
+                                   class="label label-success label-block"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ site.pages|length }} pages contenant la site &quot;{{ site }}&quot;"
+                                >
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    Pages
+                                    <span class="badge-sm pull-right">{{ site.pages|length }}</span>
+                                </a>
+                            {% endif %}
+
+                            {% for page in site.pages %}
+                                {% if loop.index < 6 %}
+                                    <a href="{{ path('app_admin_page_index', { 'title': page.title }) }}"
+                                       class="label label-primary label-block"
+                                       data-toggle="tooltip" data-placement="top"
+                                       data-original-title="Voir le détail de la page &quot;{{ page|truncate(20) }}&quot;"
+                                    >
+                                        <span class="badge-sm pull-right">
+                                            {{ page.sites|length }}
+                                        </span>
+                                        <span class="label-text">
+                                            {{ page|slice(0, 50) }}
+                                        </span>
+                                    </a>
+                                {% elseif loop.last %}
+                                    <span class="label label-primary">...</span>
+                                {% endif %}
+                            {% else %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="La site &quot;{{ site }}&quot; n'appartient à aucune page"
+                                >
+                                    <span class="glyphicon glyphicon-file"></span>
+                                    Aucune page
+                                </span>
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            {% for tag in site.tags %}
+                                <a href="{{ path('app_admin_site_index', app.request.query.all|merge({'tag' : tag.name})) }}"
+                                   class="label label-{{ tag.label }}">
+                                    {{ tag.name }}
+                                </a><br/>
+                            {% endfor %}
+                        </td>
+
+                        <td>
+                            <span class="small">
+                                {{ site.created|date('d/m/Y H:i:s') }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <span class="small">
+                                {{ site.modified|date('d/m/Y H:i:s') }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {% if site.published %}
+                                <a href="{{ path('app_admin_site_publish', { 'id': site.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                   class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Retirer la publication">
+                                    <span class="glyphicon glyphicon-ok"></span>
+                                </a>
+                            {% else %}
+                                <a href="{{ path('app_admin_site_publish', { 'id': site.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                   class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Publier cette site">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            <a href="{{ path('app_admin_site_edit', { 'id': site.id, 'callback': app.request.uri|callback }) }}"
+                               class="btn btn-warning btn-sm"
+                               data-toggle="tooltip" data-placement="top"
+                               data-original-title="Modifier la site &quot;{{ site }}&quot;"
+                            >
+                                <span class="glyphicon glyphicon-edit"></span>
+                                <span class="hidden-xs">Modifier</span>
+                            </a>
+                        </td>
+
+                        <td data-toggle="tooltip" data-placement="top"
+                            data-original-title="Supprimer la site &quot;{{ site }}&quot;"
+                        >
+                            <button type="button" class="btn btn-danger btn-sm"
+                                    data-toggle="modal" data-target=".my-modal" data-item="{{ site }}"
+                                    data-path="{{ path('app_admin_site_delete', { 'id': site.id, 'callback': app.request.uri|remove_query }) }}">
+                                <span class="glyphicon glyphicon-trash"></span>
+                                <span class="hidden-xs">Supprimer</span>
+                            </button>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="text-center">
+            {{ pagination(sites) }}
+        </div>
+    </section>
+    {% include "admin/includes/_delete-site-modal.html.twig" %}
+{% endblock %}
+
+{% block javascript %}
+    {{ parent() }}
+    <script src="{{ asset('js/modal.js') }}"></script>
+    <script>
+        $('#reset').click(function () {
+            $('form').find('input:text, input:password, select, textarea').val('');
+            $('form').find('input:radio, input:checkbox').prop('checked', false);
+        });
+    </script>
+{% endblock %}
