@@ -22,6 +22,7 @@ class Tag
     use Relationships\TagsHavePages;
     use Relationships\TagsHavePosts;
     use Relationships\TagsHaveSections;
+    use Relationships\TagsHaveSites;
 
     use Traits\HasLabel;
     use Traits\HasName;

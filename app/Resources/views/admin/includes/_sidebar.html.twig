@@ -45,6 +45,13 @@
                 </a>
             </li>
 
+            <li{% if app.request.attributes.get('_route') starts with 'app_admin_admin_sites' %} class="active"{% endif %}>
+                <a href="#">
+                    <span class="glyphicon glyphicon-home"></span>
+                    <span class="sidebar-label">Sites</span>
+                </a>
+            </li>
+
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_page' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_page_index') }}">
                     <span class="glyphicon glyphicon-file"></span>
