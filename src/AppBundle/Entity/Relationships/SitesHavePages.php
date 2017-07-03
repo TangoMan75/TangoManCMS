@@ -98,11 +98,6 @@ trait SitesHavePages
     public function linkPage(Page $page)
     {
         if (!$this->pages->contains($page)) {
-            if ($page->getType() == 'gallery') {
-                $this->galleryCount = ++$this->galleryCount;
-            } else {
-                $this->pageCount = ++$this->pageCount;
-            }
             $this->pages[] = $page;
         }
     }
@@ -112,13 +107,6 @@ trait SitesHavePages
      */
     public function unlinkPage(Page $page)
     {
-        if ($this->pages->contains($page)) {
-            if ($page->getType() == 'gallery') {
-                $this->galleryCount = --$this->galleryCount;
-            } else {
-                $this->pageCount = --$this->pageCount;
-            }
-        }
         $this->pages->removeElement($page);
     }
 }
