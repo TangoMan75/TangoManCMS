@@ -56,7 +56,6 @@ class Page
         $this->modified = new \DateTimeImmutable();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->stats = new ArrayCollection();
     }
 
     /**

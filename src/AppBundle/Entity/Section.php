@@ -65,7 +65,6 @@ class Section
         $this->posts = new ArrayCollection();
         $this->pages = new ArrayCollection();
         $this->tags = new ArrayCollection();
-        $this->stats = new ArrayCollection();
 
         $this->type = 'default';
     }
