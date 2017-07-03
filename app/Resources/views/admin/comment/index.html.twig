@@ -40,14 +40,14 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="selectStatus">Publication</label>
                         <div class="col-sm-8">
-                            <select name="published" id="selectStatus" class="form-control">
+                            <select name="e-published" id="selectPublished" class="form-control">
                                 <option value="">Tous</option>
                                 <option value="true"
-                                        {% if app.request.get('published') == "true" %}selected{% endif %}>
+                                        {% if app.request.get('e-published') == "true" %}selected{% endif %}>
                                     Publié
                                 </option>
                                 <option value="false"
-                                        {% if app.request.get('published') == "false" %}selected{% endif %}>
+                                        {% if app.request.get('e-published') == "false" %}selected{% endif %}>
                                     Non-publié
                                 </option>
                             </select>
