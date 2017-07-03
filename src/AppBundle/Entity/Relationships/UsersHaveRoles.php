@@ -54,6 +54,11 @@ trait UsersHaveRoles
             $roles[] = $role->getType();
         }
 
+        // Every user has "ROLE_USER"
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
         return $roles;
     }
 
@@ -64,6 +69,10 @@ trait UsersHaveRoles
      */
     public function hasRole(Role $role)
     {
+        if ($role->getType() == 'ROLE_USER') {
+            return true;
+        }
+
         if ($this->roles->contains($role)) {
             return true;
         }
