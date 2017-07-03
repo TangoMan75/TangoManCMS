@@ -178,7 +178,7 @@
                                 <a href="{{ path('app_admin_page_index', { 'sites-title': site.title }) }}"
                                    class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Lister les {{ site.pages|length }} pages contenant la site &quot;{{ site }}&quot;"
+                                   data-original-title="Lister les {{ site.pages|length }} pages du site &quot;{{ site }}&quot;"
                                 >
                                     <span class="glyphicon glyphicon-file"></span>
                                     Pages
@@ -206,7 +206,7 @@
                             {% else %}
                                 <span class="label label-danger"
                                       data-toggle="tooltip" data-placement="top"
-                                      data-original-title="La site &quot;{{ site }}&quot; n'appartient à aucune page"
+                                      data-original-title="Le site &quot;{{ site }}&quot; ne contient aucune page"
                                 >
                                     <span class="glyphicon glyphicon-file"></span>
                                     Aucune page

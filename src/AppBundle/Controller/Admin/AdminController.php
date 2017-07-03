@@ -55,6 +55,7 @@ class AdminController extends Controller
                 'galleryCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->count(['type' => 'gallery']),
                 'sectionCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->count(['type' => 'section']),
                 'userCount'      => $this->get('doctrine')->getRepository('AppBundle:User')->count(),
+                'siteCount'      => $this->get('doctrine')->getRepository('AppBundle:Site')->count(),
             ]
         );
     }
