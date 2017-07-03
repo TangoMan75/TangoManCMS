@@ -277,8 +277,8 @@ Trait FindByQuery
         // action_entity_property
         $params = [
             'action'   => null,
-            'join'     => null,
             'entity'   => null,
+            'join'     => null,
             'property' => null,
         ];
 
@@ -300,26 +300,36 @@ Trait FindByQuery
         switch (count($temp)) {
             // One parameter only is property
             case 1:
+                $params['join'] = false;
                 $params['property'] = $temp[0];
                 break;
 
-            // Two parameters are either "action + property" or "entity + property + join"
+            // Two parameters are either "action + property" or "entity + property (+ join)"
             case 2:
                 if (in_array($temp[0], $validActions)) {
                     $params['action'] = $temp[0];
                     $params['property'] = $temp[1];
                 } else {
-                    $params['join'] = true;
                     $params['entity'] = $temp[0];
+                    $params['join'] = true;
                     $params['property'] = $temp[1];
                 }
                 break;
 
             case 3:
-                $params['join'] = true;
                 $params['action'] = $temp[0];
                 $params['entity'] = $temp[1];
+                $params['join'] = true;
                 $params['property'] = $temp[2];
+                break;
+        }
+
+        switch ($params['action']) {
+            case 'j':
+            case 'ja':
+            case 'jb':
+            case 'jo':
+                $params['join'] = true;
                 break;
         }
 
