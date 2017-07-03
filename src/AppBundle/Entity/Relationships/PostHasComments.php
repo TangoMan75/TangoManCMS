@@ -33,7 +33,13 @@ trait PostHasComments
      */
     public function setComments($comments)
     {
-        $this->comments = $comments;
+        foreach (array_diff($this->comments, $comments) as $comment) {
+            $this->unlinkComment($comment);
+        }
+
+        foreach ($comments as $comment) {
+            $this->linkComment($comment);
+        }
 
         return $this;
     }

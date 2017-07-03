@@ -33,7 +33,13 @@ trait UsersHaveRoles
      */
     public function setRoles($roles)
     {
-        $this->roles = $roles;
+        foreach (array_diff($this->roles, $roles) as $role) {
+            $this->unlinkRole($role);
+        }
+
+        foreach ($roles as $role) {
+            $this->linkRole($role);
+        }
 
         return $this;
     }
@@ -42,15 +48,6 @@ trait UsersHaveRoles
      * @return array $roles
      */
     public function getRoles()
-    {
-//        return $this->roles;
-        return $this->getRolesAsArray();
-    }
-
-    /**
-     * @return array $roles
-     */
-    public function getRolesAsArray()
     {
         $roles = [];
         foreach ($this->roles as $role) {

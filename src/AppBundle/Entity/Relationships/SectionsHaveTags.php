@@ -32,7 +32,13 @@ trait SectionsHaveTags
      */
     public function setTags($tags)
     {
-        $this->tags = $tags;
+        foreach (array_diff($this->tags, $tags) as $tag) {
+            $this->unlinkTag($tag);
+        }
+
+        foreach ($tags as $tag) {
+            $this->linkTag($tag);
+        }
 
         return $this;
     }

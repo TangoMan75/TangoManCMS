@@ -33,7 +33,13 @@ trait PostsHaveSections
      */
     public function setSections($sections)
     {
-        $this->sections = $sections;
+        foreach (array_diff($this->sections, $sections) as $section) {
+            $this->unlinkSection($section);
+        }
+
+        foreach ($sections as $section) {
+            $this->linkSection($section);
+        }
 
         return $this;
     }

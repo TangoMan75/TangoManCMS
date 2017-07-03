@@ -33,7 +33,13 @@ trait SectionsHavePages
      */
     public function setPages($pages)
     {
-        $this->pages = $pages;
+        foreach (array_diff($this->pages, $pages) as $page) {
+            $this->unlinkPage($page);
+        }
+
+        foreach ($pages as $page) {
+            $this->linkPage($page);
+        }
 
         return $this;
     }

@@ -33,7 +33,13 @@ trait RolesHavePrivileges
      */
     public function setPrivileges($privileges)
     {
-        $this->privileges = $privileges;
+        foreach (array_diff($this->privileges, $privileges) as $privilege) {
+            $this->unlinkPrivilege($privilege);
+        }
+
+        foreach ($privileges as $privilege) {
+            $this->linkPrivilege($privilege);
+        }
 
         return $this;
     }

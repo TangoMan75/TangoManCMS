@@ -32,7 +32,13 @@ trait UserHasVotes
      */
     public function setVotes($votes)
     {
-        $this->votes = $votes;
+        foreach (array_diff($this->votes, $votes) as $vote) {
+            $this->unlinkVote($vote);
+        }
+
+        foreach ($votes as $vote) {
+            $this->linkVote($vote);
+        }
 
         return $this;
     }

@@ -32,7 +32,13 @@ trait PrivilegesHaveUsers
      */
     public function setUsers($users)
     {
-        $this->users = $users;
+        foreach (array_diff($this->users, $users) as $user) {
+            $this->unlinkUser($user);
+        }
+
+        foreach ($users as $user) {
+            $this->linkUser($user);
+        }
 
         return $this;
     }
