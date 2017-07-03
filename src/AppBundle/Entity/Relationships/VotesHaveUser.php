@@ -24,14 +24,6 @@ trait VotesHaveUser
     private $user;
 
     /**
-     * @return User
-     */
-    public function getUser()
-    {
-        return $this->user;
-    }
-
-    /**
      * @param User $user
      *
      * @return $this
@@ -47,6 +39,14 @@ trait VotesHaveUser
         }
 
         return $this;
+    }
+
+    /**
+     * @return User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 
     /**

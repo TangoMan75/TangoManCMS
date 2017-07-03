@@ -24,14 +24,6 @@ trait CommentsHavePost
     private $post;
 
     /**
-     * @return Post
-     */
-    public function getPost()
-    {
-        return $this->post;
-    }
-
-    /**
      * @param Post $post
      *
      * @return $this
@@ -47,6 +39,14 @@ trait CommentsHavePost
         }
 
         return $this;
+    }
+
+    /**
+     * @return Post
+     */
+    public function getPost()
+    {
+        return $this->post;
     }
 
     /**
