@@ -34,7 +34,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
      */
     public function getOrder()
     {
-        return 150;
+        return 160;
     }
 
     /**
@@ -45,6 +45,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         // findBy seems to be the only working method in fixtures
         $comments   = $em->getRepository('AppBundle:Comment')->findAll();
         $pages      = $em->getRepository('AppBundle:Page')->findAll();
+        $sites      = $em->getRepository('AppBundle:Site')->findAll();
         $posts      = $em->getRepository('AppBundle:Post')->findAll();
 //        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
         $roles      = $em->getRepository('AppBundle:Role')->findAll();
@@ -63,11 +64,13 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
 
         // PAGES
         foreach ($pages as $page) {
+            shuffle($sites);
             shuffle($sections);
             shuffle($galleries);
             for ($i = 0; $i < mt_rand(0, 4); $i++) {
                 $page->addSection($sections[$i]);
                 $page->addSection($galleries[$i]);
+                $page->addSite($sites[$i]);
             }
 
 //            shuffle($tags);

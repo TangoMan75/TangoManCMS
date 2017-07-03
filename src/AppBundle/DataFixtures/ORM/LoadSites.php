@@ -2,7 +2,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\Section;
+use AppBundle\Entity\Site;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -11,12 +11,12 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class LoadSections
+ * Class LoadSites
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadSections implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadSites implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     private $container;
 
@@ -33,7 +33,7 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
      */
     public function getOrder()
     {
-        return 100;
+        return 80;
     }
 
     /**
@@ -43,12 +43,11 @@ class LoadSections implements FixtureInterface, ContainerAwareInterface, Ordered
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i = 0; $i < 20; $i++) {
-            $section = new Section();
+        for ($i = 0; $i < 10; $i++) {
+            $section = new Site();
             $section->setTitle($faker->sentence(4, true))
                 ->setSubtitle($faker->sentence(6, true))
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                ->setType($i % 2 ? 'section' : 'gallery')
                 ->setPublished($i % 3 ? false : true);
 
             $em->persist($section);

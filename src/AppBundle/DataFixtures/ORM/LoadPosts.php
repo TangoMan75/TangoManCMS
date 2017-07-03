@@ -36,7 +36,7 @@ class LoadPosts implements FixtureInterface, ContainerAwareInterface, OrderedFix
      */
     public function getOrder()
     {
-        return 100;
+        return 110;
     }
 
     /**
