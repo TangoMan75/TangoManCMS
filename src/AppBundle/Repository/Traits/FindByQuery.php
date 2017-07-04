@@ -209,13 +209,15 @@ Trait FindByQuery
         }
 
         // Fix boolean bug
-        switch ($value) {
-            case 'true':
-                $value = true;
-                break;
-            case 'false':
-                $value = false;
-                break;
+        if ($params['action'] == 'b') {
+            switch ($value) {
+                case 'true':
+                    $value = true;
+                    break;
+                case 'false':
+                    $value = false;
+                    break;
+            }
         }
 
         switch ($params['action']) {
