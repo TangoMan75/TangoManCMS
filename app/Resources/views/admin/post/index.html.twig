@@ -65,14 +65,14 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="selectPublished">Publication</label>
                         <div class="col-sm-8">
-                            <select name="e-published" id="selectPublished" class="form-control">
+                            <select name="b-published" id="selectPublished" class="form-control">
                                 <option value="">Tous</option>
                                 <option value="true"
-                                        {% if app.request.get('e-published') == "true" %}selected{% endif %}>
+                                        {% if app.request.get('b-published') == "true" %}selected{% endif %}>
                                     Publié
                                 </option>
                                 <option value="false"
-                                        {% if app.request.get('e-published') == "false" %}selected{% endif %}>
+                                        {% if app.request.get('b-published') == "false" %}selected{% endif %}>
                                     Non-publié
                                 </option>
                             </select>
@@ -121,15 +121,15 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'slug',
-                            'way'   : app.request.query.get('order') == 'slug'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Slug
-                        </a>
-                    </th>
+                    {#<th class="{{ app.request.query.get('order') == 'slug' ? app.request.query.get('way', 'ASC') }}">#}
+                        {#<a href="{{ path('app_admin_post_index', app.request.query.all|merge({#}
+                            {#'page'  : 1,#}
+                            {#'order' : 'slug',#}
+                            {#'way'   : app.request.query.get('order') == 'slug'#}
+                            {#and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">#}
+                            {#Slug#}
+                        {#</a>#}
+                    {#</th>#}
 
                     <th colspan="2"
                         class="{{ app.request.query.get('order') == 'user-username' ? app.request.query.get('way', 'ASC') }}">
@@ -142,15 +142,15 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'text',
-                            'way'   : app.request.query.get('order') == 'text'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Contenu
-                        </a>
-                    </th>
+                    {#<th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">#}
+                        {#<a href="{{ path('app_admin_post_index', app.request.query.all|merge({#}
+                            {#'page'  : 1,#}
+                            {#'order' : 'text',#}
+                            {#'way'   : app.request.query.get('order') == 'text'#}
+                            {#and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">#}
+                            {#Contenu#}
+                        {#</a>#}
+                    {#</th>#}
 
                     <th class="{{ app.request.query.get('order') == 'j-comments' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
@@ -202,23 +202,13 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'created',
-                            'way'   : app.request.query.get('order') == 'created'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Création
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'modified',
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Modification
+                            Date
                         </a>
                     </th>
 
@@ -257,9 +247,9 @@
                             </a>
                         </td>
 
-                        <td>
-                            {{ post.slug }}
-                        </td>
+                        {#<td>#}
+                            {#{{ post.slug }}#}
+                        {#</td>#}
 
                         <td>
                             <a href="{{ path('app_admin_user_index', { 'username': post.user.username }) }}"
@@ -278,11 +268,11 @@
                             </a>
                         </td>
 
-                        <td>
-                            <div class="table-text">
-                                {{ post.text|striptags|truncate(255) }}
-                            </div>
-                        </td>
+                        {#<td>#}
+                            {#<div class="table-text">#}
+                                {#{{ post.text|striptags|truncate(255) }}#}
+                            {#</div>#}
+                        {#</td>#}
 
                         <td>
                             {% if post.comments|length > 1 %}
@@ -393,13 +383,14 @@
                         </td>
 
                         <td>
-                            <span class="small">
-                                {{ post.created|date('d/m/Y H:i:s') }}
-                            </span>
-                        </td>
-
-                        <td>
-                            <span class="small">
+                            <span class="small"
+                                  data-toggle="tooltip" data-placement="top"
+                                    {% if post.created|date('d/m/Y H:i:s') == post.modified|date('d/m/Y H:i:s') %}
+                                        data-original-title="Création"
+                                    {% else %}
+                                        data-original-title="Dernière modification"
+                                    {% endif %}
+                            >
                                 {{ post.modified|date('d/m/Y H:i:s') }}
                             </span>
                         </td>

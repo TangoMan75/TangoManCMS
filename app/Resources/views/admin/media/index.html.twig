@@ -73,14 +73,14 @@
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
                         <label class="control-label col-sm-4" for="selectPublished">Publication</label>
                         <div class="col-sm-8">
-                            <select name="e-published" id="selectPublished" class="form-control">
+                            <select name="b-published" id="selectPublished" class="form-control">
                                 <option value="">Tous</option>
                                 <option value="true"
-                                        {% if app.request.get('e-published') == "true" %}selected{% endif %}>
+                                        {% if app.request.get('b-published') == "true" %}selected{% endif %}>
                                     Publié
                                 </option>
                                 <option value="false"
-                                        {% if app.request.get('e-published') == "false" %}selected{% endif %}>
+                                        {% if app.request.get('b-published') == "false" %}selected{% endif %}>
                                     Non-publié
                                 </option>
                             </select>
@@ -129,6 +129,17 @@
                         </a>
                     </th>
 
+                    <th colspan="2"
+                        class="{{ app.request.query.get('order') == 'user-username' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
+                            'page'  : 1,
+                            'order' : 'user-username',
+                            'way'   : app.request.query.get('order') == 'user-username'
+                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                            Auteur
+                        </a>
+                    </th>
+
                     <th class="{{ app.request.query.get('order') == 'type' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
@@ -149,26 +160,15 @@
                         </a>
                     </th>
 
-                    <th colspan="2"
-                        class="{{ app.request.query.get('order') == 'user-username' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'user-username',
-                            'way'   : app.request.query.get('order') == 'user-username'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Auteur
-                        </a>
-                    </th>
-
-                    <th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'text',
-                            'way'   : app.request.query.get('order') == 'text'
-                            and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                            Description
-                        </a>
-                    </th>
+                    {#<th class="{{ app.request.query.get('order') == 'text' ? app.request.query.get('way', 'ASC') }}">#}
+                        {#<a href="{{ path('app_admin_media_index', app.request.query.all|merge({#}
+                            {#'page'  : 1,#}
+                            {#'order' : 'text',#}
+                            {#'way'   : app.request.query.get('order') == 'text'#}
+                            {#and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">#}
+                            {#Description#}
+                        {#</a>#}
+                    {#</th>#}
 
                     <th class="{{ app.request.query.get('order') == 'j-comments' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
@@ -221,23 +221,13 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
-                            'page'  : 1,
-                            'order' : 'created',
-                            'way'   : app.request.query.get('order') == 'created'
-                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Création
-                        </a>
-                    </th>
-
                     <th class="{{ app.request.query.get('order') == 'modified' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_media_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'modified',
                             'way'   : app.request.query.get('order') == 'modified'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                            Modification
+                            Date
                         </a>
                     </th>
 
@@ -277,18 +267,6 @@
                         </td>
 
                         <td>
-                            <span class="label label-success">
-                                {{ media.type }}
-                            </span>
-                        </td>
-
-                        <td class="table-wrap">
-                            <a href="{{ media.link }}" target="_blank">
-                                {{ absolute_url(media.link) }}
-                            </a>
-                        </td>
-
-                        <td>
                             <a href="{{ path('app_admin_user_index', { 'user': media.user.username }) }}" class="cover"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Afficher les détails de &quot;{{ media.user }}&quot;"
@@ -305,10 +283,22 @@
                         </td>
 
                         <td>
-                            <div class="table-text">
-                                {{ media.text|striptags|truncate(255) }}
-                            </div>
+                            <span class="label label-success">
+                                {{ media.type }}
+                            </span>
                         </td>
+
+                        <td class="table-wrap">
+                            <a href="{{ media.link }}" target="_blank">
+                                {{ absolute_url(media.link) }}
+                            </a>
+                        </td>
+
+                        {#<td>#}
+                            {#<div class="table-text">#}
+                                {#{{ media.text|striptags|truncate(255) }}#}
+                            {#</div>#}
+                        {#</td>#}
 
                         <td>
                             {% if media.comments|length > 1 %}
@@ -415,15 +405,15 @@
                                 </span>
                             {% endfor %}
                         </td>
-
                         <td>
-                            <span class="small">
-                                {{ media.created|date('d/m/Y H:i:s') }}
-                            </span>
-                        </td>
-
-                        <td>
-                            <span class="small">
+                            <span class="small"
+                                  data-toggle="tooltip" data-placement="top"
+                                  {% if media.created|date('d/m/Y H:i:s') == media.modified|date('d/m/Y H:i:s') %}
+                                    data-original-title="Création"
+                                  {% else %}
+                                    data-original-title="Dernière modification"
+                                  {% endif %}
+                            >
                                 {{ media.modified|date('d/m/Y H:i:s') }}
                             </span>
                         </td>
