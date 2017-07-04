@@ -108,6 +108,16 @@
                     <th class="{{ app.request.query.get('order') == 'j-sections' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
                             'page'  : 1,
+                            'order' : 'j-sites',
+                            'way'   : app.request.query.get('order') == 'j-sites'
+                            and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
+                            Sites
+                        </a>
+                    </th>
+
+                    <th class="{{ app.request.query.get('order') == 'j-sections' ? app.request.query.get('way', 'ASC') }}">
+                        <a href="{{ path('app_admin_page_index', app.request.query.all|merge({
+                            'page'  : 1,
                             'order' : 'j-sections',
                             'way'   : app.request.query.get('order') == 'j-sections'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
@@ -179,6 +189,51 @@
 
                         <td>
                             {{ page.slug }}
+                        </td>
+
+                        <td>
+                            {% if page.sites|length > 1 %}
+                                <a href="{{ path('app_admin_section_index', { 'pages-title': page.title }) }}"
+                                   class="label label-success label-block"
+                                   data-toggle="tooltip" data-placement="top"
+                                   data-original-title="Lister les {{ page.sites|length }} sites contenant la page &quot;{{ page }}&quot;"
+                                >
+                                    <span class="glyphicon glyphicon-list-alt"></span>
+                                    Sites
+                                    <span class="badge-sm pull-right">
+                                        {{ page.sites|length }}
+                                    </span>
+                                </a>
+                            {% endif %}
+
+                            {% if page.sites %}
+                                {% for site in page.sites %}
+                                    {% if loop.index - page.sites|length < 6 %}
+                                        <a href="{{ path('app_admin_site_index', { 'title': site.title }) }}"
+                                           class="label label-primary label-block"
+                                           data-toggle="tooltip" data-placement="top"
+                                           data-original-title="Voir le détail du site &quot;{{ site|truncate(20) }}&quot; contenant la page &quot;{{ page }}&quot;"
+                                        >
+                                            <span class="badge-sm pull-right">
+                                                    {{ site.pages|length }}
+                                            </span>
+                                            <span class="label-text">
+                                                    {{ site|slice(0, 50) }}
+                                            </span>
+                                        </a>
+                                    {% elseif loop.last %}
+                                        <span class="label label-primary">...</span>
+                                    {% endif %}
+                                {% endfor %}
+                            {% else %}
+                                <span class="label label-danger"
+                                      data-toggle="tooltip" data-placement="top"
+                                      data-original-title="La page &quot;{{ page }}&quot; n'appartient à aucun site"
+                                >
+                                <span class="glyphicon glyphicon-list-alt"></span>
+                                Aucun site
+                                </span>
+                            {% endif %}
                         </td>
 
                         <td>
