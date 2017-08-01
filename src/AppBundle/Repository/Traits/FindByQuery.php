@@ -33,11 +33,11 @@ Trait FindByQuery
      * n : action not null
      * s : action simple array
      * c : action orderBy count
-     * p : action orderBy property
+     * p : action orderBy property (alphabetical)
      *
      * @var array $switches
      */
-    private $switches = ['a', 'b', 'c', 'e', 'j', 'l', 'n', 'o', 'p', 's'];
+    private $switches = ['j', 'a', 'o', 'r', 'b', 'e', 'l', 'n', 's', 'c', 'p'];
 
     /**
      * @param ParameterBag $query
@@ -83,7 +83,7 @@ Trait FindByQuery
             if (function_exists('dump')) {
                 throw $qe;
             } else {
-                throw new NotFoundHttpException('Page not found'); // or whatever
+                throw new NotFoundHttpException('Page not found');
             }
         }
 
@@ -262,14 +262,26 @@ Trait FindByQuery
     }
 
     /**
+     * @param        $string
+     * @param string $defaultMode
+     * @param string $defaultAction
+     *
      * @return array
      */
     public function parse($string, $defaultMode = 'a')
     {
         // Set default values for action-entity-property
-        // join   : true / false
-        // mode   : andWhere / orWhere / orderBy
-        // action : boolean / count / exact match / not null / simple array
+        // j : join
+        // a : mode andWhere
+        // o : mode orWhere
+        // r : mode orderBy
+        // b : action boolean
+        // e : action exact match
+        // l : action like
+        // n : action not null
+        // s : action simple array
+        // c : action orderBy count
+        // p : action orderBy property (alphabetical)
         $params = [
             'join'     => false,
             'mode'     => $defaultMode,
@@ -278,8 +290,9 @@ Trait FindByQuery
             'property' => null,
         ];
 
+        // when default mode is orderBy, default action is orderBy property
         if ($defaultMode == 'r') {
-            $params['action'] = 'r';
+            $params['action'] = 'p';
         }
 
         $temp = explode('-', $string);
@@ -290,43 +303,98 @@ Trait FindByQuery
                 $params['property'] = $temp[0];
                 break;
 
-            // Two parameters are either "action + property" or "entity + property (+ join)"
+            // Two parameters are either "(action or mode) + property" or "entity + property (+ join)"
             case 2:
-                $switches =$this->getSwitches($temp[0]);
+                $switches = $this->getSwitches($temp[0]);
+
                 if ($switches) {
-                    $params['action'] = $this->getAction($switches);
-                    $params['property'] = $temp[1];
+                    $join = $this->getJoin($switches);
+                    if ($join) {
+                        $params['join'] = $join;
+                    }
+
+                    $mode = $this->getMode($switches);
+                    if ($mode) {
+                        $params['mode'] = $mode;
+                    }
+
+                    $action = $this->getAction($switches);
+                    if ($action) {
+                        $params['action'] = $action;
+                    }
+
                 } else {
                     $params['join'] = true;
                     $params['entity'] = $temp[0];
-                    $params['property'] = $temp[1];
                 }
+
+                $params['property'] = $temp[1];
                 break;
 
-            // Three parameters are "action + entity + property (+join)"
+            // Three parameters are "(action or mode) + entity + property (+join)"
             case 3:
+                // join is true when given entity different from current entity
                 if ($params['entity'] != $temp[1]) {
                     $params['join'] = true;
                 }
-                $params['action'] = $temp[0];
+
+                $switches = $this->getSwitches($temp[0]);
+
+                if ($switches) {
+                    $join = $this->getJoin($switches);
+                    if ($join) {
+                        $params['join'] = $join;
+                    }
+
+                    $mode = $this->getMode($switches);
+                    if ($mode) {
+                        $params['mode'] = $mode;
+                    }
+
+                    $action = $this->getAction($switches);
+                    if ($action) {
+                        $params['action'] = $action;
+                    }
+                }
+
                 $params['entity'] = $temp[1];
                 $params['property'] = $temp[2];
                 break;
         }
 
-        // andWhere is default action when join is true
-        if (stripos($params['action'], 'j') === 0) {
-            $params['join'] = true;
-            if ($params['action'] == 'j') {
-                $params['action'] = $defaultAction;
-            } else {
-                $params['action'] = str_split($params['action'], 1)[1];
-            }
-        }
-
-        die(dump($params));
+        // when join true andWhere is default mode, and like is default action
+//        if (stripos($params['action'], 'j') === 0) {
+//            $params['join'] = true;
+//            if ($params['action'] == 'j') {
+//                $params['mode'] = 'a';
+//            } else {
+//                $params['action'] = str_split($params['action'], 1)[1];
+//            }
+//        }
 
         return $params;
+    }
+
+    /**
+     * @param $string
+     *
+     * @return array|bool
+     */
+    public function getSwitches($string)
+    {
+        $switches = str_split($string, 1);
+
+        // No more than 3 switches allowed (join, mode, action)
+        if (count($switches) > 3) {
+            return false;
+        }
+
+        // Only valid switches allowed
+        if (count(array_diff($switches, $this->switches)) > 0) {
+            return false;
+        }
+
+        return $switches;
     }
 
     /**
@@ -341,23 +409,6 @@ Trait FindByQuery
         }
 
         return false;
-    }
-
-    /**
-     * @param array $switches
-     *
-     * @return array
-     */
-    public function getAction($switches)
-    {
-        $remove = [
-            'a',
-            'j',
-            'o',
-            'r',
-        ];
-
-        return array_diff($switches, $remove);
     }
 
     /**
@@ -383,24 +434,25 @@ Trait FindByQuery
     }
 
     /**
-     * @param $string
+     * @param array $switches
      *
-     * @return array|bool
+     * @return null|string
      */
-    public function getSwitches($string)
+    public function getAction($switches)
     {
-        $switches = str_split($string, 1);
+        $remove = [
+            'j',
+            'a',
+            'o',
+            'r',
+        ];
 
-        // No more than 3 switches allowed
-        if (count($switches) > 3) {
-            return false;
+        $action = array_diff($switches, $remove);
+
+        if (count($action) === 0) {
+            return null;
         }
 
-        // Only valid switches allowed
-        if (count(array_diff($switches, $this->switches)) === 0) {
-            return false;
-        }
-
-        return $switches;
+        return implode($action);
     }
 }

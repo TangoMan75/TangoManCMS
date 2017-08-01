@@ -44,8 +44,9 @@ Trait RepositoryHelper
     }
 
     /**
-     * @param int $pages
-     * @param int $limit
+     * @param int   $page
+     * @param int   $limit
+     * @param array $criteria
      *
      * @return Paginator
      */
