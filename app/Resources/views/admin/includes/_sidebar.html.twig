@@ -45,6 +45,8 @@
                 </a>
             </li>
 
+            <li class="nav-divider"></li>
+
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_admin_sites' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_site_index') }}">
                     <span class="glyphicon glyphicon-home"></span>
@@ -73,6 +75,8 @@
                 </a>
             </li>
 
+            <li class="nav-divider"></li>
+
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_post' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_post_index') }}">
                     <span class="glyphicon glyphicon-text-color"></span>
@@ -100,6 +104,8 @@
                     <span class="sidebar-label">Étiquettes</span>
                 </a>
             </li>
+
+            <li class="nav-divider"></li>
 
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_user' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_user_index', { 'limit': 25 }) }}">
