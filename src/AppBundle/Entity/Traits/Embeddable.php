@@ -170,7 +170,12 @@ trait Embeddable
                 }
 
                 // https://www.dailymotion.com/video/x5232zo_jaguar-i-pace-concept-2016_auto
-                return strstr(ltrim(strrchr(parse_url($url)['path'], '/'), '/'), '_', true);
+                // https://www.dailymotion.com/video/x5s849a
+                $temp = ltrim(strrchr(parse_url($url)['path'], '/'), '/');
+                if (stripos($temp, '_')) {
+                    return strstr($temp, '_', true);
+                }
+                return $temp;
                 break;
             case 'giphy.com':
                 // https://giphy.com/gifs/030tango-tango-argentine-uGrH3htu5xFW8
