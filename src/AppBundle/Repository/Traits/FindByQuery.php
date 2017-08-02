@@ -109,15 +109,21 @@ Trait FindByQuery
             $way = (isset($ways[$index]) && $ways[$index] == 'ASC') ? 'ASC' : 'DESC';
 
             $params = $this->parse($order, 'r');
-
             $orderParam = null;
 
             if ($params['join']) {
                 switch ($params['action']) {
                     // Join count
                     case 'c':
-                        $dql->addSelect('COUNT(count_'.$params['property'].') AS HIDDEN order_'.$index);
-                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'count_'.$params['property']);
+                        $dql->addSelect('COUNT(orderJoin_'.$params['property'].') AS HIDDEN orderCount_'.$index);
+                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'orderJoin_'.$params['property']);
+                        $orderParam = 'orderCount_'.$index;
+                        $groupBy = true;
+                        break;
+
+                    case 'p':
+                        $dql->addSelect('orderJoin_'.$params['property'].' AS HIDDEN order_'.$index);
+                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'orderJoin_'.$params['property']);
                         $orderParam = 'order_'.$index;
                         $groupBy = true;
                         break;
@@ -183,10 +189,10 @@ Trait FindByQuery
                 $params['action'] = 'o';
 
                 foreach ($value as $multipleSearch) {
-                    $dql = $this->buildSearchDql($dql, $params, $multipleSearch);
+                    $dql = $this->searchDql($dql, $params, $multipleSearch);
                 }
             } else {
-                $dql = $this->buildSearchDql($dql, $params, $value);
+                $dql = $this->searchDql($dql, $params, $value);
             }
         }
 
@@ -200,9 +206,11 @@ Trait FindByQuery
      *
      * @return QueryBuilder
      */
-    public function buildSearchDql(QueryBuilder $dql, $params, $value)
+    public function searchDql(QueryBuilder $dql, $params, $value)
     {
         // Fix boolean bug
+        // b : boolean
+        // n : not null
         if ($params['action'] == 'b' || $params['action'] == 'n') {
             switch ($value) {
                 case 'true':
@@ -300,7 +308,7 @@ Trait FindByQuery
             'property' => null,
         ];
 
-        // when default mode is orderBy, default action is orderBy property
+        // when mode is orderBy, default action is orderBy property (alphabetical)
         if ($defaultMode == 'r') {
             $params['action'] = 'p';
         }
@@ -373,8 +381,12 @@ Trait FindByQuery
         }
 
         // when order mode with join, default action is count
-        if ($params['mode'] == 'r' && $params['join']) {
-            $params['action'] = 'c';
+//        if ($params['mode'] == 'r' && $params['join']) {
+//            $params['action'] = 'c';
+//        }
+
+        if ($params['mode'] == 'r' && $params['action'] == 'c') {
+            $params['join'] = true;
         }
 
         dump($params);
@@ -389,6 +401,7 @@ Trait FindByQuery
      */
     public function getSwitches($string)
     {
+        $string = strtolower($string);
         $switches = str_split($string, 1);
 
         // No more than 3 switches allowed (join, mode, action)
@@ -447,6 +460,7 @@ Trait FindByQuery
      */
     public function getAction($switches)
     {
+        // I left here possibility to have several actions
         $remove = [
             'j',
             'a',
