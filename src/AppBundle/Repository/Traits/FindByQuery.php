@@ -109,30 +109,34 @@ Trait FindByQuery
             $params = $this->parse($order, 'r');
 
             $orderParam = null;
-            switch ($params['action']) {
 
-                // Default orderParam
-                case 'p':
-                    $orderParam = $params['entity'].'.'.$params['property'];
-                    break;
+            if ($params['join']) {
+                switch ($params['action']) {
+                    // Join count
+                    case 'c':
+                        $orderParam = 'COUNT(c_'.$params['property'].')';
+                        $dql->leftJoin($this->getTableName().'.'.$params['property'], 'c_'.$params['property']);
+                        $groupBy = true;
+                        break;
 
-                // order count
-                case 'c':
-                    $orderParam = 'COUNT('.$params['entity'].'.'.$params['property'].')';
-                    $groupBy = true;
-                    break;
+                    case 'jb':
+                        $orderParam = 'o_'.$params['entity'].'.'.$params['property'];
+                        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'o_'.$params['entity']);
+                        break;
+                }
+            } else {
+                switch ($params['action']) {
+                    // Default orderParam
+                    case 'p':
+                        $orderParam = $params['entity'].'.'.$params['property'];
+                        break;
 
-                // Join count
-                case 'j':
-                    $orderParam = 'COUNT(c_'.$params['property'].')';
-                    $dql->leftJoin($this->getTableName().'.'.$params['property'], 'c_'.$params['property']);
-                    $groupBy = true;
-                    break;
-
-                case 'jb':
-                    $orderParam = 'o_'.$params['entity'].'.'.$params['property'];
-                    $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'o_'.$params['entity']);
-                    break;
+                    // order count
+                    case 'c':
+                        $orderParam = 'COUNT('.$params['entity'].'.'.$params['property'].')';
+                        $groupBy = true;
+                        break;
+                }
             }
 
             if ($orderParam) {
@@ -140,6 +144,7 @@ Trait FindByQuery
             }
         }
 
+        // groupBy statement should appear only once
         if ($groupBy) {
             $dql->groupBy($this->getTableName());
         }
@@ -243,7 +248,15 @@ Trait FindByQuery
 
             // b : boolean
             case 'b':
-                // n : not null
+                if ($value === true) {
+                    $dql->andWhere($this->getTableName().'.'.$params['property'].' = 1');
+                }
+                if ($value === false) {
+                    $dql->andWhere($this->getTableName().'.'.$params['property'].' = 0');
+                }
+                break;
+
+            // n : not null
             case 'n':
                 if ($value === true) {
                     $dql->andWhere($this->getTableName().'.'.$params['property'].' IS NOT NULL');
@@ -262,15 +275,96 @@ Trait FindByQuery
     }
 
     /**
-     * @param        $string
+     * @param string $string
+     *
+     * @return array
+     */
+    public function parseOrder($string)
+    {
+        $params = [
+            'join'     => false,
+            'mode'     => 'r',
+            'action'   => 'p',
+            'entity'   => $this->getTableName(),
+            'property' => null,
+        ];
+
+        $temp = explode('-', $string);
+
+        switch (count($temp)) {
+            // One parameter only is property
+            case 1:
+                $params['property'] = $temp[0];
+                break;
+
+            // Two parameters are either "action + property" or "entity + property (+ join)"
+            case 2:
+                $switches = $this->getSwitches($temp[0]);
+
+                // We have switches
+                if ($switches) {
+                    $join = $this->getJoin($switches);
+                    if ($join) {
+                        $params['join'] = $join;
+                    }
+
+                    $action = $this->getAction($switches);
+                    if ($action) {
+                        $params['action'] = $action;
+                    }
+                } else {
+                    // No switches then we have "entity + property (+ join)"
+                    $params['entity'] = $temp[0];
+                }
+
+                $params['property'] = $temp[1];
+                break;
+
+            // Three parameters are "action + entity + property (+join)"
+            case 3:
+                $switches = $this->getSwitches($temp[0]);
+
+                if ($switches) {
+                    $join = $this->getJoin($switches);
+                    if ($join) {
+                        $params['join'] = $join;
+                    }
+
+                    $action = $this->getAction($switches);
+                    if ($action) {
+                        $params['action'] = $action;
+                    }
+                }
+
+                $params['entity'] = $temp[1];
+                $params['property'] = $temp[2];
+                break;
+        }
+
+        // join is true when given entity different from current entity
+        if ($params['entity'] != $this->getTableName()) {
+            $params['join'] = true;
+        }
+
+        // when join, default action is count
+        if ($params['join']) {
+            $params['action'] = 'c';
+        }
+
+        dump($params);
+
+        return $params;
+    }
+
+    /**
+     * @param string $string
      * @param string $defaultMode
-     * @param string $defaultAction
      *
      * @return array
      */
     public function parse($string, $defaultMode = 'a')
     {
-        // Set default values for action-entity-property
+        // Set default values for (join/mode/action)-entity-property
         // j : join
         // a : mode andWhere
         // o : mode orWhere
@@ -303,10 +397,11 @@ Trait FindByQuery
                 $params['property'] = $temp[0];
                 break;
 
-            // Two parameters are either "(action or mode) + property" or "entity + property (+ join)"
+            // Two parameters are either "(mode/action) + property" or "entity + property (+ join)"
             case 2:
                 $switches = $this->getSwitches($temp[0]);
 
+                // We have switches
                 if ($switches) {
                     $join = $this->getJoin($switches);
                     if ($join) {
@@ -322,22 +417,16 @@ Trait FindByQuery
                     if ($action) {
                         $params['action'] = $action;
                     }
-
                 } else {
-                    $params['join'] = true;
+                    // No switches then we have "entity + property (+ join)"
                     $params['entity'] = $temp[0];
                 }
 
                 $params['property'] = $temp[1];
                 break;
 
-            // Three parameters are "(action or mode) + entity + property (+join)"
+            // Three parameters are "(mode/action) + entity + property (+join)"
             case 3:
-                // join is true when given entity different from current entity
-                if ($params['entity'] != $temp[1]) {
-                    $params['join'] = true;
-                }
-
                 $switches = $this->getSwitches($temp[0]);
 
                 if ($switches) {
@@ -362,6 +451,16 @@ Trait FindByQuery
                 break;
         }
 
+        // join is true when given entity different from current entity
+        if ($params['entity'] != $this->getTableName()) {
+            $params['join'] = true;
+        }
+
+        // when order mode with join, default action is count
+        if ($params['mode'] == 'r' && $params['join']) {
+            $params['action'] = 'c';
+        }
+
         // when join true andWhere is default mode, and like is default action
 //        if (stripos($params['action'], 'j') === 0) {
 //            $params['join'] = true;
@@ -371,6 +470,8 @@ Trait FindByQuery
 //                $params['action'] = str_split($params['action'], 1)[1];
 //            }
 //        }
+
+        dump($params);
 
         return $params;
     }
