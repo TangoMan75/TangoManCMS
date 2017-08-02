@@ -106,21 +106,21 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j-pages' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c-pages' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j-pages',
-                            'way'   : app.request.query.get('order') == 'j-pages'
+                            'order' : 'c-pages',
+                            'way'   : app.request.query.get('order') == 'c-pages'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Pages
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j-tags' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c-tags' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_site_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j-tags',
-                            'way'   : app.request.query.get('order') == 'j-tags'
+                            'order' : 'c-tags',
+                            'way'   : app.request.query.get('order') == 'c-tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Étiquettes
                         </a>

@@ -152,11 +152,11 @@
                         {#</a>#}
                     {#</th>#}
 
-                    <th class="{{ app.request.query.get('order') == 'j-comments' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c-comments' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j-comments',
-                            'way'   : app.request.query.get('order') == 'j-comments'
+                            'order' : 'c-comments',
+                            'way'   : app.request.query.get('order') == 'c-comments'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Commentaires
                         </a>
@@ -172,31 +172,31 @@
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j-votes' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c-votes' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j-votes',
-                            'way'   : app.request.query.get('order') == 'j-votes'
+                            'order' : 'c-votes',
+                            'way'   : app.request.query.get('order') == 'c-votes'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Votes
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j-sections' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c-sections' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j-sections',
-                            'way'   : app.request.query.get('order') == 'j-sections'
+                            'order' : 'c-sections',
+                            'way'   : app.request.query.get('order') == 'c-sections'
                             and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
                             Sections
                         </a>
                     </th>
 
-                    <th class="{{ app.request.query.get('order') == 'j-tags' ? app.request.query.get('way', 'ASC') }}">
+                    <th class="{{ app.request.query.get('order') == 'c-tags' ? app.request.query.get('way', 'ASC') }}">
                         <a href="{{ path('app_admin_post_index', app.request.query.all|merge({
                             'page'  : 1,
-                            'order' : 'j-tags',
-                            'way'   : app.request.query.get('order') == 'j-tags'
+                            'order' : 'c-tags',
+                            'way'   : app.request.query.get('order') == 'c-tags'
                             and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                             Étiquettes
                         </a>

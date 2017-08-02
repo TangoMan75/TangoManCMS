@@ -138,31 +138,31 @@
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'j-posts' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'c-posts' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'j-posts',
-                                'way'   : app.request.query.get('order') == 'j-posts'
+                                'order' : 'c-posts',
+                                'way'   : app.request.query.get('order') == 'c-posts'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Articles
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'j-posts' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'c-posts' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'j-posts',
-                                'way'   : app.request.query.get('order') == 'j-posts'
+                                'order' : 'c-posts',
+                                'way'   : app.request.query.get('order') == 'c-posts'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Médias
                             </a>
                         </th>
 
-                        <th class="{{ app.request.query.get('order') == 'j-comments' ? app.request.query.get('way', 'ASC') }}">
+                        <th class="{{ app.request.query.get('order') == 'c-comments' ? app.request.query.get('way', 'ASC') }}">
                             <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
                                 'page'  : 1,
-                                'order' : 'j-comments',
-                                'way'   : app.request.query.get('order') == 'j-comments'
+                                'order' : 'c-comments',
+                                'way'   : app.request.query.get('order') == 'c-comments'
                                 and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
                                 Commentaires
                             </a>
