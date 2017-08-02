@@ -73,6 +73,8 @@ Trait FindByQuery
         $dql = $this->order($dql, $query);
         $dql = $this->search($dql, $query);
 
+        dump($dql->getDQL());
+
         $firstResult = ($page - 1) * $limit;
         $paginator = new Paginator($dql->getQuery()->setFirstResult($firstResult)->setMaxResults($limit));
         try {
@@ -114,14 +116,10 @@ Trait FindByQuery
                 switch ($params['action']) {
                     // Join count
                     case 'c':
-                        $orderParam = 'COUNT(c_'.$params['property'].')';
-                        $dql->leftJoin($this->getTableName().'.'.$params['property'], 'c_'.$params['property']);
+                        $dql->addSelect('COUNT(count_'.$params['property'].') AS HIDDEN order_'.$index);
+                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'count_'.$params['property']);
+                        $orderParam = 'order_'.$index;
                         $groupBy = true;
-                        break;
-
-                    case 'jb':
-                        $orderParam = 'o_'.$params['entity'].'.'.$params['property'];
-                        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'o_'.$params['entity']);
                         break;
                 }
             } else {
@@ -276,88 +274,6 @@ Trait FindByQuery
 
     /**
      * @param string $string
-     *
-     * @return array
-     */
-    public function parseOrder($string)
-    {
-        $params = [
-            'join'     => false,
-            'mode'     => 'r',
-            'action'   => 'p',
-            'entity'   => $this->getTableName(),
-            'property' => null,
-        ];
-
-        $temp = explode('-', $string);
-
-        switch (count($temp)) {
-            // One parameter only is property
-            case 1:
-                $params['property'] = $temp[0];
-                break;
-
-            // Two parameters are either "action + property" or "entity + property (+ join)"
-            case 2:
-                $switches = $this->getSwitches($temp[0]);
-
-                // We have switches
-                if ($switches) {
-                    $join = $this->getJoin($switches);
-                    if ($join) {
-                        $params['join'] = $join;
-                    }
-
-                    $action = $this->getAction($switches);
-                    if ($action) {
-                        $params['action'] = $action;
-                    }
-                } else {
-                    // No switches then we have "entity + property (+ join)"
-                    $params['entity'] = $temp[0];
-                }
-
-                $params['property'] = $temp[1];
-                break;
-
-            // Three parameters are "action + entity + property (+join)"
-            case 3:
-                $switches = $this->getSwitches($temp[0]);
-
-                if ($switches) {
-                    $join = $this->getJoin($switches);
-                    if ($join) {
-                        $params['join'] = $join;
-                    }
-
-                    $action = $this->getAction($switches);
-                    if ($action) {
-                        $params['action'] = $action;
-                    }
-                }
-
-                $params['entity'] = $temp[1];
-                $params['property'] = $temp[2];
-                break;
-        }
-
-        // join is true when given entity different from current entity
-        if ($params['entity'] != $this->getTableName()) {
-            $params['join'] = true;
-        }
-
-        // when join, default action is count
-        if ($params['join']) {
-            $params['action'] = 'c';
-        }
-
-        dump($params);
-
-        return $params;
-    }
-
-    /**
-     * @param string $string
      * @param string $defaultMode
      *
      * @return array
@@ -460,16 +376,6 @@ Trait FindByQuery
         if ($params['mode'] == 'r' && $params['join']) {
             $params['action'] = 'c';
         }
-
-        // when join true andWhere is default mode, and like is default action
-//        if (stripos($params['action'], 'j') === 0) {
-//            $params['join'] = true;
-//            if ($params['action'] == 'j') {
-//                $params['mode'] = 'a';
-//            } else {
-//                $params['action'] = str_split($params['action'], 1)[1];
-//            }
-//        }
 
         dump($params);
 
