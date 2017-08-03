@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * @Route("/admin/user")
+ * @Route("/admin/users")
  */
 class UserController extends Controller
 {

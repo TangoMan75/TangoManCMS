@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class MediaController
- * @Route("/admin/media")
+ * @Route("/admin/medias")
  *
  * @package AppBundle\Controller
  */
