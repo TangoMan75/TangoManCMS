@@ -73,7 +73,10 @@ Trait FindByQuery
         $dql = $this->order($dql, $query);
         $dql = $this->search($dql, $query);
 
-        dump($dql->getDQL());
+        global $kernel;
+        if ($kernel->getEnvironment() == 'dev') {
+            dump($dql->getDQL());
+        }
 
         $firstResult = ($page - 1) * $limit;
         $paginator = new Paginator($dql->getQuery()->setFirstResult($firstResult)->setMaxResults($limit));
@@ -115,30 +118,25 @@ Trait FindByQuery
                 switch ($params['action']) {
                     // Join count
                     case 'c':
-                        $dql->addSelect('COUNT(orderJoin_'.$params['property'].') AS HIDDEN orderCount_'.$index);
-                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'orderJoin_'.$params['property']);
-                        $orderParam = 'orderCount_'.$index;
+                        $dql->addSelect('COUNT(join_'.$index.') AS HIDDEN orderParam_'.$index);
+                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'join_'.$index);
+                        $orderParam = 'orderParam_'.$index;
                         $groupBy = true;
                         break;
 
+                    // alphabetical order
                     case 'p':
-                        $dql->addSelect('orderJoin_'.$params['property'].' AS HIDDEN order_'.$index);
-                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'orderJoin_'.$params['property']);
-                        $orderParam = 'order_'.$index;
+                        $dql->addSelect('join_'.$index.'.'.$params['property'].' AS HIDDEN orderParam_'.$index);
+                        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'join_'.$index);
+                        $orderParam = 'orderParam_'.$index;
                         $groupBy = true;
                         break;
                 }
             } else {
                 switch ($params['action']) {
-                    // Default orderParam
+                    // alphabetical order
                     case 'p':
                         $orderParam = $params['entity'].'.'.$params['property'];
-                        break;
-
-                    // order count
-                    case 'c':
-                        $orderParam = 'COUNT('.$params['entity'].'.'.$params['property'].')';
-                        $groupBy = true;
                         break;
                 }
             }
@@ -225,7 +223,7 @@ Trait FindByQuery
         switch ($params['action']) {
             // e  : exact match
             case 'e':
-                if ($params['mode'] = 'a') {
+                if ($params['mode'] == 'a') {
                     $dql->andWhere($params['entity'].'.'.$params['property'].' = :searchParam_'.$this->index);
                 } else {
                     $dql->orWhere($params['entity'].'.'.$params['property'].' = :searchParam_'.$this->index);
@@ -237,7 +235,7 @@ Trait FindByQuery
 
             // l : like
             case 'l':
-                if ($params['mode'] = 'a') {
+                if ($params['mode'] == 'a') {
                     $dql->andWhere($params['entity'].'.'.$params['property'].' LIKE :searchParam_'.$this->index);
                 } else {
                     $dql->orWhere($params['entity'].'.'.$params['property'].' LIKE :searchParam_'.$this->index);
@@ -309,8 +307,10 @@ Trait FindByQuery
         ];
 
         // when mode is orderBy, default action is orderBy property (alphabetical)
+        // and default property is id
         if ($defaultMode == 'r') {
             $params['action'] = 'p';
+            $params['property'] = 'id';
         }
 
         $temp = explode('-', $string);
@@ -318,7 +318,9 @@ Trait FindByQuery
         switch (count($temp)) {
             // One parameter only is property
             case 1:
-                $params['property'] = $temp[0];
+                if ($temp[0]) {
+                    $params['property'] = $temp[0];
+                }
                 break;
 
             // Two parameters are either "(mode/action) + property" or "entity + property (+ join)"
@@ -380,16 +382,15 @@ Trait FindByQuery
             $params['join'] = true;
         }
 
-        // when order mode with join, default action is count
-//        if ($params['mode'] == 'r' && $params['join']) {
-//            $params['action'] = 'c';
-//        }
-
+        // join is true when mode order and action is count
         if ($params['mode'] == 'r' && $params['action'] == 'c') {
             $params['join'] = true;
         }
 
-        dump($params);
+        global $kernel;
+        if ($kernel->getEnvironment() == 'dev') {
+            dump($params);
+        }
 
         return $params;
     }
