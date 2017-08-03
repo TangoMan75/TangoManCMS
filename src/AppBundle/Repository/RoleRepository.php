@@ -15,6 +15,5 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RoleRepository extends EntityRepository
 {
-    use Traits\FindByQuery;
     use Traits\RepositoryHelper;
 }

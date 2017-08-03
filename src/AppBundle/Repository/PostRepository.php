@@ -17,6 +17,5 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PostRepository extends EntityRepository
 {
-    use Traits\FindByQuery;
     use Traits\RepositoryHelper;
 }

@@ -12,6 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class PrivilegeRepository extends EntityRepository
 {
-    use Traits\FindByQuery;
     use Traits\RepositoryHelper;
 }
