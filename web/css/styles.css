@@ -143,6 +143,12 @@ form div .form-group figure img {
 	margin-bottom: 1em;
 }
 
+/* Override bootstrap nav-divider margin-top */
+.nav-stacked .nav-divider {
+	margin-top: 0;
+	margin-bottom: 0;
+}
+
 /**
  * Responsive sidebar labels
  */
