@@ -87,7 +87,7 @@
             <li{% if app.request.attributes.get('_route') starts with 'app_admin_media' %} class="active"{% endif %}>
                 <a href="{{ path('app_admin_media_index') }}">
                     <span class="glyphicon glyphicon-music"></span>
-                    <span class="sidebar-label">Medias</span>
+                    <span class="sidebar-label">Médias</span>
                 </a>
             </li>
 
@@ -118,14 +118,14 @@
                 <li{% if app.request.attributes.get('_route') starts with 'app_superadmin_role' %} class="active"{% endif %}>
                     <a href="{{ path('app_superadmin_role_index') }}">
                         <span class="glyphicon glyphicon-king"></span>
-                        <span class="sidebar-label">Roles</span>
+                        <span class="sidebar-label">Rôles</span>
                     </a>
                 </li>
 
                 <li{% if app.request.attributes.get('_route') starts with 'app_superadmin_privilege' %} class="active"{% endif %}>
                     <a href="{{ path('app_superadmin_privilege_index', { 'limit': 25 }) }}">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
-                        <span class="sidebar-label">Privileges</span>
+                        <span class="sidebar-label">Privilèges</span>
                     </a>
                 </li>
             {% endif %}
