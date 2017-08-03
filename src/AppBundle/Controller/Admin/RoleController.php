@@ -1,35 +1,35 @@
 <?php
 
-namespace AppBundle\Controller\SuperAdmin;
+namespace AppBundle\Controller\Admin;
 
-use AppBundle\Entity\Privilege;
-use AppBundle\Form\Admin\AdminEditPrivilegeType;
-use AppBundle\Form\Admin\AdminNewPrivilegeType;
+use AppBundle\Entity\Role;
+use AppBundle\Form\Admin\AdminEditRoleType;
+use AppBundle\Form\Admin\AdminNewRoleType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class PrivilegeController
- * @Route("/super-admin/privileges")
+ * Class RoleController
+ * @Route("/admin/roles")
  *
  * @package AppBundle\Controller
  */
-class PrivilegeController extends Controller
+class RoleController extends Controller
 {
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
-        // Show searchable, sortable, paginated privilege list
+        // Show searchable, sortable, paginated role list
         $em = $this->get('doctrine')->getManager();
-        $privileges = $em->getRepository('AppBundle:Privilege')->findByQuery($request->query);
+        $roles = $em->getRepository('AppBundle:Role')->findByQuery($request->query);
 
         return $this->render(
-            'admin/privilege/index.html.twig',
+            'admin/role/index.html.twig',
             [
-                'privileges' => $privileges,
+                'roles' => $roles,
             ]
         );
     }
@@ -39,19 +39,19 @@ class PrivilegeController extends Controller
      */
     public function newAction(Request $request)
     {
-        $privilege = new Privilege();
-        $form = $this->createForm(AdminNewPrivilegeType::class, $privilege);
+        $role = new Role();
+        $form = $this->createForm(AdminNewRoleType::class, $role);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persists new privilege
+            // Persists new role
             $em = $this->get('doctrine')->getManager();
-            $em->persist($privilege);
+            $em->persist($role);
             $em->flush();
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le privilege <strong>&quot;'.$privilege.'&quot;</strong> a bien été ajoutée.'
+                'Le role <strong>&quot;'.$role.'&quot;</strong> a bien été ajoutée.'
             );
 
             // User is redirected to referrer page
@@ -59,7 +59,7 @@ class PrivilegeController extends Controller
         }
 
         return $this->render(
-            'admin/privilege/new.html.twig',
+            'admin/role/new.html.twig',
             [
                 'form' => $form->createView(),
             ]
@@ -69,20 +69,20 @@ class PrivilegeController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
-    public function editAction(Request $request, Privilege $privilege)
+    public function editAction(Request $request, Role $role)
     {
-        $form = $this->createForm(AdminEditPrivilegeType::class, $privilege);
+        $form = $this->createForm(AdminEditRoleType::class, $role);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Persists edited privilege
+            // Persists edited role
             $em = $this->get('doctrine')->getManager();
-            $em->persist($privilege);
+            $em->persist($role);
             $em->flush();
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le privilege <strong>&quot;'.$privilege.'&quot;</strong> a bien été modifiée.'
+                'Le role <strong>&quot;'.$role.'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -90,10 +90,10 @@ class PrivilegeController extends Controller
         }
 
         return $this->render(
-            'admin/privilege/edit.html.twig',
+            'admin/role/edit.html.twig',
             [
-                'form'      => $form->createView(),
-                'privilege' => $privilege,
+                'form' => $form->createView(),
+                'role' => $role,
             ]
         );
     }
@@ -101,31 +101,31 @@ class PrivilegeController extends Controller
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      */
-    public function deleteAction(Request $request, Privilege $privilege)
+    public function deleteAction(Request $request, Role $role)
     {
         // Only author or admin can edit comment
         if (in_array(
-            $privilege->getType(), [
-                                     'ROLE_USER',
-                                     'ROLE_SUPER_USER',
-                                     'ROLE_ADMIN',
-                                     'ROLE_SUPER_ADMIN',
-                                 ]
+            $role->getType(), [
+                                'ROLE_USER',
+                                'ROLE_SUPER_USER',
+                                'ROLE_ADMIN',
+                                'ROLE_SUPER_ADMIN',
+                            ]
         )) {
-            $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le privilege <strong>&quot;'.$privilege->getName().'&quot;</strong>.');
+            $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le role <strong>&quot;'.$role->getName().'&quot;</strong>.');
 
             return $this->redirect($request->get('callback'));
         }
 
-        // Deletes specified privilege
+        // Deletes specified role
         $em = $this->get('doctrine')->getManager();
-        $em->remove($privilege);
+        $em->remove($role);
         $em->flush();
 
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le privilege <strong>&quot;'.$privilege->getName().'&quot;</strong> a bien été supprimée.'
+            'Le role <strong>&quot;'.$role->getName().'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page
