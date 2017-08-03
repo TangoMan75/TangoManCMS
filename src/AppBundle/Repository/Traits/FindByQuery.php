@@ -23,18 +23,6 @@ Trait FindByQuery
     private $index;
 
     /**
-     * j : join
-     * a : mode andWhere
-     * o : mode orWhere
-     * r : mode orderBy
-     * b : action boolean
-     * e : action exact match
-     * l : action like
-     * n : action not null
-     * s : action simple array
-     * c : action orderBy count
-     * p : action orderBy property (alphabetical)
-     *
      * @var array $switches
      */
     private $switches = ['j', 'a', 'o', 'r', 'b', 'e', 'l', 'n', 's', 'c', 'p'];
@@ -117,6 +105,7 @@ Trait FindByQuery
             if ($params['join']) {
                 switch ($params['action']) {
                     // Join count
+                    // HIDDEN parameter allows to use statement as orderBy without doctrine fetching undesired data
                     case 'c':
                         $dql->addSelect('COUNT(join_'.$index.') AS HIDDEN orderParam_'.$index);
                         $dql->leftJoin($params['entity'].'.'.$params['property'], 'join_'.$index);
@@ -382,7 +371,7 @@ Trait FindByQuery
             $params['join'] = true;
         }
 
-        // join is true when mode order and action is count
+        // join is true when order mode and action is count
         if ($params['mode'] == 'r' && $params['action'] == 'c') {
             $params['join'] = true;
         }
