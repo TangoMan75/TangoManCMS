@@ -241,7 +241,7 @@ class UserController extends Controller
     public function exportCSVAction()
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findBy([], ['username' => 'ASC']);
+        $users = $em->getRepository('AppBundle:User')->export([], ['username' => 'ASC']);
 
         $delimiter = ';';
         $handle = fopen('php://memory', 'r+');
@@ -435,5 +435,22 @@ class UserController extends Controller
         $this->get('session')->getFlashBag()->add('success', $success);
 
         return $this->redirectToRoute('app_admin_user_index');
+    }
+
+    /**
+     * @Route("/export-json")
+     */
+    public function exportJSONAction(Request $request)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $posts = $em->getRepository('AppBundle:User')->export($request->query);
+        $response = json_encode($posts);
+
+        return new Response(
+            $response, 200, [
+                         'Content-Type'        => 'application/force-download',
+                         'Content-Disposition' => 'attachment; filename="users.json"',
+                     ]
+        );
     }
 }

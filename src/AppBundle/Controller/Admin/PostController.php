@@ -9,6 +9,7 @@ use AppBundle\Form\Admin\AdminNewPostType;
 use AppBundle\Form\FileUploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -155,7 +156,7 @@ class PostController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query, true);
+        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
 
         return $this->render(
             'admin/post/export.html.twig',
@@ -171,7 +172,7 @@ class PostController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query, true);
+        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
         $response = json_encode($posts);
 
         return new Response(
@@ -179,6 +180,19 @@ class PostController extends Controller
                          'Content-Type'        => 'application/force-download',
                          'Content-Disposition' => 'attachment; filename="posts.json"',
                      ]
+        );
+    }
+
+    /**
+     * @Route("/api")
+     */
+    public function apiAction(Request $request)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
+
+        return new JsonResponse(
+            ['posts' => $posts]
         );
     }
 

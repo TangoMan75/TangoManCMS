@@ -96,75 +96,6 @@ Trait RepositoryHelper
     }
 
     /**
-     * Return all entities with joined author email (for export)
-     *
-     * @param ParameterBag $query
-     * @param bool         $joinUserEmail
-     *
-     * @return mixed
-     */
-    public function export(ParameterBag $query, $joinUserEmail = false)
-    {
-        // QueryBuilder
-        $dql = $this->createQueryBuilder($this->getTableName());
-        // Search
-        $dql = $this->search($dql, $query);
-        // Order
-        $dql = $this->order($dql, $query);
-
-        if ($joinUserEmail) {
-            $dql->leftJoin($this->getTableName().'.user', 'j_user')
-                ->addSelect('j_user.email AS user_email');
-        }
-
-        return $dql->getQuery()->getScalarResult();
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param              $column
-     * @param              $search
-     *
-     * @return QueryBuilder
-     */
-    public function searchSimpleArray(QueryBuilder $dql, $column, $search)
-    {
-        $dql->andWhere($this->getTableName().'.'.$column.' LIKE :search')
-            ->setParameter(':search', "%,$search,%")
-            ->orWhere($this->getTableName().'.'.$column.' = :single')
-            ->setParameter(':single', $search)
-            ->orWhere($this->getTableName().'.'.$column.' LIKE :start')
-            ->setParameter(':start', "$search,%")
-            ->orWhere($this->getTableName().'.'.$column.' LIKE :end')
-            ->setParameter(':end', "%,$search");
-
-        return $dql;
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param array        $criteria
-     *
-     * @return QueryBuilder
-     */
-    public function filter(QueryBuilder $dql, $criteria = [])
-    {
-        $index = 0;
-        foreach ($criteria as $param => $value) {
-            if (is_array($value)) {
-                $dql->andWhere($this->getTableName().'.'.$param.' IN(:filterParam_'.$index.')')
-                    ->setParameter(':filterParam_'.$index, array_values($value));
-            } else {
-                $dql->andWhere($this->getTableName().'.'.$param.' = :filterParam_'.$index)
-                    ->setParameter(':filterParam_'.$index, $value);
-            }
-            $index++;
-        }
-
-        return $dql;
-    }
-
-    /**
      * @param ParameterBag $query
      * @param array        $criteria
      *
@@ -197,11 +128,12 @@ Trait RepositoryHelper
         $dql = $this->filter($dql, $criteria);
         $dql = $this->order($dql, $query);
         $dql = $this->search($dql, $query);
+        $dql = $this->join($dql, $query);
 
-        global $kernel;
-        if ($kernel->getEnvironment() == 'dev') {
-            dump($dql->getDQL());
-        }
+//        global $kernel;
+//        if ($kernel->getEnvironment() == 'dev') {
+//            dump($dql->getDQL());
+//        }
 
         $firstResult = ($page - 1) * $limit;
         $paginator = new Paginator($dql->getQuery()->setFirstResult($firstResult)->setMaxResults($limit));
@@ -218,6 +150,81 @@ Trait RepositoryHelper
         }
 
         return $paginator;
+    }
+
+    /**
+     * Return all entities as scalar result (for export)
+     *
+     * @param ParameterBag $query
+     * @param array        $criteria
+     *
+     * @return array
+     */
+    public function export(ParameterBag $query, $criteria = [])
+    {
+        // QueryBuilder
+        $dql = $this->createQueryBuilder($this->getTableName());
+        $dql = $this->filter($dql, $criteria);
+        $dql = $this->order($dql, $query);
+        $dql = $this->search($dql, $query);
+
+        return $dql->getQuery()->getScalarResult();
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param array        $criteria
+     *
+     * @return QueryBuilder
+     */
+    public function filter(QueryBuilder $dql, $criteria = [])
+    {
+        $index = 0;
+        foreach ($criteria as $param => $value) {
+            if (is_array($value)) {
+                $dql->andWhere($this->getTableName().'.'.$param.' IN(:filterParam_'.$index.')')
+                    ->setParameter(':filterParam_'.$index, array_values($value));
+            } else {
+                $dql->andWhere($this->getTableName().'.'.$param.' = :filterParam_'.$index)
+                    ->setParameter(':filterParam_'.$index, $value);
+            }
+            $index++;
+        }
+
+        return $dql;
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param ParameterBag $query
+     *
+     * @return QueryBuilder
+     */
+    public function join(QueryBuilder $dql, ParameterBag $query)
+    {
+        $joins = (array)$query->get('join');
+        $this->index = 0;
+
+        foreach ($joins as $index => $value) {
+            $dql = $this->joinDql($dql, $this->parse($value));
+        }
+
+        return $dql;
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param              $params
+     *
+     * @return QueryBuilder
+     */
+    public function joinDql(QueryBuilder $dql, $params)
+    {
+        $dql->addSelect('join_'.$this->index.'.'.$params['property'].' AS '.$params['entity'].'_'.$params['property']);
+        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'join_'.$this->index);
+        $this->index++;
+
+        return $dql;
     }
 
     /**
@@ -244,16 +251,16 @@ Trait RepositoryHelper
                     // Join count
                     // HIDDEN parameter allows to use statement as orderBy without doctrine fetching undesired data
                     case 'c':
-                        $dql->addSelect('COUNT(join_'.$index.') AS HIDDEN orderParam_'.$index);
-                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'join_'.$index);
+                        $dql->addSelect('COUNT(joinOrder_'.$index.') AS HIDDEN orderParam_'.$index);
+                        $dql->leftJoin($params['entity'].'.'.$params['property'], 'joinOrder_'.$index);
                         $orderParam = 'orderParam_'.$index;
                         $groupBy = true;
                         break;
 
                     // alphabetical order
                     case 'p':
-                        $dql->addSelect('join_'.$index.'.'.$params['property'].' AS HIDDEN orderParam_'.$index);
-                        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'join_'.$index);
+                        $dql->addSelect('joinOrder_'.$index.'.'.$params['property'].' AS HIDDEN orderParam_'.$index);
+                        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'joinOrder_'.$index);
                         $orderParam = 'orderParam_'.$index;
                         $groupBy = true;
                         break;
@@ -288,11 +295,12 @@ Trait RepositoryHelper
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        // Removes reserved limit and page keywords from query
+        // Removes reserved keywords from query
         $query->remove('order');
         $query->remove('way');
         $query->remove('limit');
         $query->remove('page');
+        $query->remove('join');
 
         // Remove empty values from query
         $query->replace(
@@ -513,10 +521,10 @@ Trait RepositoryHelper
             $params['join'] = true;
         }
 
-        global $kernel;
-        if ($kernel->getEnvironment() == 'dev') {
-            dump($params);
-        }
+//        global $kernel;
+//        if ($kernel->getEnvironment() == 'dev') {
+//            dump($params);
+//        }
 
         return $params;
     }
@@ -589,7 +597,6 @@ Trait RepositoryHelper
     {
         // I left here possibility to have several actions
         $remove = [
-            'j',
             'a',
             'o',
             'r',
@@ -602,5 +609,26 @@ Trait RepositoryHelper
         }
 
         return implode($action);
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param              $column
+     * @param              $search
+     *
+     * @return QueryBuilder
+     */
+    public function searchSimpleArray(QueryBuilder $dql, $column, $search)
+    {
+        $dql->andWhere($this->getTableName().'.'.$column.' LIKE :search')
+            ->setParameter(':search', "%,$search,%")
+            ->orWhere($this->getTableName().'.'.$column.' = :single')
+            ->setParameter(':single', $search)
+            ->orWhere($this->getTableName().'.'.$column.' LIKE :start')
+            ->setParameter(':start', "$search,%")
+            ->orWhere($this->getTableName().'.'.$column.' LIKE :end')
+            ->setParameter(':end', "%,$search");
+
+        return $dql;
     }
 }
