@@ -115,15 +115,15 @@
             </li>
 
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li{% if app.request.attributes.get('_route') starts with 'app_superadmin_role' %} class="active"{% endif %}>
-                    <a href="{{ path('app_superadmin_role_index') }}">
+                <li{% if app.request.attributes.get('_route') starts with 'app_admin_role' %} class="active"{% endif %}>
+                    <a href="{{ path('app_admin_role_index') }}">
                         <span class="glyphicon glyphicon-king"></span>
                         <span class="sidebar-label">Rôles</span>
                     </a>
                 </li>
 
-                <li{% if app.request.attributes.get('_route') starts with 'app_superadmin_privilege' %} class="active"{% endif %}>
-                    <a href="{{ path('app_superadmin_privilege_index', { 'limit': 25 }) }}">
+                <li{% if app.request.attributes.get('_route') starts with 'app_admin_privilege' %} class="active"{% endif %}>
+                    <a href="{{ path('app_admin_privilege_index', { 'limit': 25 }) }}">
                         <span class="glyphicon glyphicon-thumbs-up"></span>
                         <span class="sidebar-label">Privilèges</span>
                     </a>

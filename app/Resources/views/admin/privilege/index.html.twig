@@ -86,7 +86,7 @@
                 <thead>
                 <tr>
                     <th class="{{ app.request.query.get('order') == 'name' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
+                        <a href="{{ path('app_admin_privilege_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'name',
                             'way'   : app.request.query.get('order') == 'name'
@@ -96,7 +96,7 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'type' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
+                        <a href="{{ path('app_admin_privilege_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'type',
                             'way'   : app.request.query.get('order') == 'type'
@@ -106,7 +106,7 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'c-users' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
+                        <a href="{{ path('app_admin_privilege_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'c-users',
                             'way'   : app.request.query.get('order') == 'c-users'
@@ -116,7 +116,7 @@
                     </th>
 
                     <th class="{{ app.request.query.get('order') == 'c-roles' ? app.request.query.get('way', 'ASC') }}">
-                        <a href="{{ path('app_superadmin_privilege_index', app.request.query.all|merge({
+                        <a href="{{ path('app_admin_privilege_index', app.request.query.all|merge({
                             'page'  : 1,
                             'order' : 'c-roles',
                             'way'   : app.request.query.get('order') == 'c-roles'
@@ -179,7 +179,7 @@
 
                         <td>
                             {% if privilege.roles|length > 1 %}
-                                <a href="{{ path('app_superadmin_role_index', { 'privilege': privilege.name }) }}"
+                                <a href="{{ path('app_admin_role_index', { 'privilege': privilege.name }) }}"
                                    class="label label-success label-block"
                                    data-toggle="tooltip" data-placement="top"
                                    data-original-title="Lister les {{ privilege.roles|length }} roles possédant le privilège &quot;{{ privilege.name }}&quot;"
@@ -192,7 +192,7 @@
 
                             {% for role in privilege.roles %}
                                 {% if loop.index < 6 %}
-                                    <a href="{{ path('app_superadmin_role_index', { 'role': role.name }) }}"
+                                    <a href="{{ path('app_admin_role_index', { 'role': role.name }) }}"
                                        class="label label-{{ role.label }}"
                                        data-toggle="tooltip" data-placement="top"
                                        data-original-title="Voir le détail du role &quot;{{ role }}&quot;"
@@ -212,7 +212,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_superadmin_privilege_edit', { 'id': privilege.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_privilege_edit', { 'id': privilege.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier le privilege &quot;{{ privilege.name }}&quot;"
@@ -227,7 +227,7 @@
                         >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ privilege.name }}"
-                                    data-path="{{ path('app_superadmin_privilege_delete', { 'id': privilege.id, 'callback': app.request.uri|remove_query }) }}">
+                                    data-path="{{ path('app_admin_privilege_delete', { 'id': privilege.id, 'callback': app.request.uri|remove_query }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <span class="hidden-xs">Supprimer</span>
                             </button>
