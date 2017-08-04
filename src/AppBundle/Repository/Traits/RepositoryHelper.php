@@ -28,9 +28,11 @@ Trait RepositoryHelper
     /**
      * @var array $switches
      */
-    private $switches = ['j', 'a', 'o', 'r', 'b', 'e', 'l', 'n', 's', 'c', 'p'];
+    private $switches = ['a', 'o', 'r', 'b', 'e', 'l', 'n', 's', 'c', 'p'];
 
     /**
+     * Returns current table name
+     *
      * @return string
      */
     public function getTableName()
@@ -46,7 +48,9 @@ Trait RepositoryHelper
     /**
      * Returns element count
      *
-     * @return int $count
+     * @param array $criteria
+     *
+     * @return mixed
      */
     public function count($criteria = [])
     {
@@ -59,6 +63,8 @@ Trait RepositoryHelper
     }
 
     /**
+     * Returns result with pagination
+     *
      * @param int   $page
      * @param int   $limit
      * @param array $criteria
@@ -96,6 +102,8 @@ Trait RepositoryHelper
     }
 
     /**
+     * Returns query result with pagination
+     *
      * @param ParameterBag $query
      * @param array        $criteria
      *
@@ -120,20 +128,15 @@ Trait RepositoryHelper
             );
         }
 
-        // Cloning object to avoid browser side query string override
-        $query = clone $query;
-
         $dql = $this->createQueryBuilder($this->getTableName());
-
         $dql = $this->filter($dql, $criteria);
         $dql = $this->order($dql, $query);
-        $dql = $this->search($dql, $query);
+        $dql = $this->search($dql, $this->cleanQuery($query));
         $dql = $this->join($dql, $query);
 
-//        global $kernel;
-//        if ($kernel->getEnvironment() == 'dev') {
-//            dump($dql->getDQL());
-//        }
+        if (function_exists('dump')) {
+            dump($dql->getDQL());
+        }
 
         $firstResult = ($page - 1) * $limit;
         $paginator = new Paginator($dql->getQuery()->setFirstResult($firstResult)->setMaxResults($limit));
@@ -153,7 +156,7 @@ Trait RepositoryHelper
     }
 
     /**
-     * Return all entities as scalar result (for export)
+     * Return all entities as scalar result (for export or API)
      *
      * @param ParameterBag $query
      * @param array        $criteria
@@ -166,7 +169,8 @@ Trait RepositoryHelper
         $dql = $this->createQueryBuilder($this->getTableName());
         $dql = $this->filter($dql, $criteria);
         $dql = $this->order($dql, $query);
-        $dql = $this->search($dql, $query);
+        $dql = $this->search($dql, $this->cleanQuery($query));
+        $dql = $this->join($dql, $query);
 
         return $dql->getQuery()->getScalarResult();
     }
@@ -190,39 +194,6 @@ Trait RepositoryHelper
             }
             $index++;
         }
-
-        return $dql;
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param ParameterBag $query
-     *
-     * @return QueryBuilder
-     */
-    public function join(QueryBuilder $dql, ParameterBag $query)
-    {
-        $joins = (array)$query->get('join');
-        $this->index = 0;
-
-        foreach ($joins as $index => $value) {
-            $dql = $this->joinDql($dql, $this->parse($value));
-        }
-
-        return $dql;
-    }
-
-    /**
-     * @param QueryBuilder $dql
-     * @param              $params
-     *
-     * @return QueryBuilder
-     */
-    public function joinDql(QueryBuilder $dql, $params)
-    {
-        $dql->addSelect('join_'.$this->index.'.'.$params['property'].' AS '.$params['entity'].'_'.$params['property']);
-        $dql->leftJoin($this->getTableName().'.'.$params['entity'], 'join_'.$this->index);
-        $this->index++;
 
         return $dql;
     }
@@ -295,22 +266,6 @@ Trait RepositoryHelper
      */
     public function search(QueryBuilder $dql, ParameterBag $query)
     {
-        // Removes reserved keywords from query
-        $query->remove('order');
-        $query->remove('way');
-        $query->remove('limit');
-        $query->remove('page');
-        $query->remove('join');
-
-        // Remove empty values from query
-        $query->replace(
-            array_filter(
-                $query->all(), function ($v) {
-                return $v !== '';
-            }
-            )
-        );
-
         $this->index = 0;
         foreach ($query as $search => $value) {
 
@@ -413,6 +368,47 @@ Trait RepositoryHelper
     }
 
     /**
+     * @param QueryBuilder $dql
+     * @param ParameterBag $query
+     *
+     * @return QueryBuilder
+     */
+    public function join(QueryBuilder $dql, ParameterBag $query)
+    {
+        $joins = (array)$query->get('join');
+        $this->index = 0;
+
+        foreach ($joins as $index => $value) {
+            $dql = $this->joinDql($dql, $this->parse($value));
+        }
+
+        return $dql;
+    }
+
+    /**
+     * @param QueryBuilder $dql
+     * @param              $params
+     *
+     * @return QueryBuilder
+     */
+    public function joinDql(QueryBuilder $dql, $params)
+    {
+        if ($params['entity'] == $this->getTableName()) {
+            // We have entity: Joining full entity
+            $dql->addSelect($params['property'].' AS '.$params['entity'].'_'.$params['property']);
+            $dql->leftJoin($params['entity'].'.'.$params['property'], $params['property']);
+        } else {
+            // We have entity-property: Joining entity-property
+            $dql->addSelect($params['entity'].'.'.$params['property'].' AS '.$params['entity'].'_'.$params['property']);
+            $dql->leftJoin($this->getTableName().'.'.$params['entity'], $params['entity']);
+        }
+
+        $this->index++;
+
+        return $dql;
+    }
+
+    /**
      * @param string $string
      * @param string $defaultMode
      *
@@ -421,7 +417,6 @@ Trait RepositoryHelper
     public function parse($string, $defaultMode = 'a')
     {
         // Set default values for (join/mode/action)-entity-property
-        // j : join
         // a : mode andWhere
         // o : mode orWhere
         // r : mode orderBy
@@ -463,11 +458,6 @@ Trait RepositoryHelper
 
                 // We have switches
                 if ($switches) {
-                    $join = $this->getJoin($switches);
-                    if ($join) {
-                        $params['join'] = $join;
-                    }
-
                     $mode = $this->getMode($switches);
                     if ($mode) {
                         $params['mode'] = $mode;
@@ -490,11 +480,6 @@ Trait RepositoryHelper
                 $switches = $this->getSwitches($temp[0]);
 
                 if ($switches) {
-                    $join = $this->getJoin($switches);
-                    if ($join) {
-                        $params['join'] = $join;
-                    }
-
                     $mode = $this->getMode($switches);
                     if ($mode) {
                         $params['mode'] = $mode;
@@ -516,15 +501,10 @@ Trait RepositoryHelper
             $params['join'] = true;
         }
 
-        // join is true when order mode and action is count
+        // join is true when order and count mode
         if ($params['mode'] == 'r' && $params['action'] == 'c') {
             $params['join'] = true;
         }
-
-//        global $kernel;
-//        if ($kernel->getEnvironment() == 'dev') {
-//            dump($params);
-//        }
 
         return $params;
     }
@@ -550,20 +530,6 @@ Trait RepositoryHelper
         }
 
         return $switches;
-    }
-
-    /**
-     * @param array $switches
-     *
-     * @return bool
-     */
-    public function getJoin($switches)
-    {
-        if (in_array('j', $switches)) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
@@ -612,6 +578,36 @@ Trait RepositoryHelper
     }
 
     /**
+     * Removes reserved keywords and empty values from query
+     *
+     * @param ParameterBag $query
+     *
+     * @return ParameterBag
+     */
+    public function cleanQuery(ParameterBag $query)
+    {
+        // Cloning object to avoid browser side query string override
+        $query = clone $query;
+
+        $query->remove('order');
+        $query->remove('way');
+        $query->remove('limit');
+        $query->remove('page');
+        $query->remove('join');
+
+        // Remove empty values from query
+        $query->replace(
+            array_filter(
+                $query->all(), function ($value) {
+                return $value !== '';
+            }
+            )
+        );
+
+        return $query;
+    }
+
+    /**
      * @param QueryBuilder $dql
      * @param              $column
      * @param              $search
@@ -631,4 +627,5 @@ Trait RepositoryHelper
 
         return $dql;
     }
+
 }
