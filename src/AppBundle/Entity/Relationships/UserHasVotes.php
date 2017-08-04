@@ -21,7 +21,7 @@ trait UserHasVotes
 {
     /**
      * @var array|Vote[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="user", cascade={"persist", "remove"})
      */
     private $votes = [];
 

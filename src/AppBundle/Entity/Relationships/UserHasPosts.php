@@ -21,7 +21,7 @@ trait UserHasPosts
 {
     /**
      * @var array|Post[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts = [];
