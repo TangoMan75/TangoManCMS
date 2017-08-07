@@ -454,17 +454,4 @@ class UserController extends Controller
                      ]
         );
     }
-
-    /**
-     * @Route("/api")
-     */
-    public function apiAction(Request $request)
-    {
-        $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->export($request->query);
-//        var_dump($users);
-        return new JsonResponse(
-            ['users' => $users]
-        );
-    }
 }
