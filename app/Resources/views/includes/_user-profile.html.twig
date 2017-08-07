@@ -26,7 +26,6 @@
                 <tr>
                     <th>Roles</th>
                     <td>
-                        {% for role in user.listroles %}
                             <div class="btn btn-{{ role.label }} btn-sm">
                                 <span class="{{ role.icon }}"></span>
                                 <span class="hidden-xs">{{ role.name }}</span>

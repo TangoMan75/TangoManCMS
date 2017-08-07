@@ -134,10 +134,6 @@ Trait RepositoryHelper
         $dql = $this->search($dql, $this->cleanQuery($query));
         $dql = $this->join($dql, $query);
 
-        if (function_exists('dump')) {
-            dump($dql->getDQL());
-        }
-
         $firstResult = ($page - 1) * $limit;
         $paginator = new Paginator($dql->getQuery()->setFirstResult($firstResult)->setMaxResults($limit));
         try {
