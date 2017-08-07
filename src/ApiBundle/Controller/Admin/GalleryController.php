@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api/admin/users")
+ * @Route("/api/admin/galleries")
  */
-class UserController extends Controller
+class GalleryController extends Controller
 {
     /**
      * @Route("/")
@@ -18,10 +18,10 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findByQueryScalar($request->query);
+        $galleries = $em->getRepository('AppBundle:Gallery')->findByQueryScalar($request->query, ['type' => 'galery']);
 
         return new JsonResponse(
-            ['users' => $users]
+            ['galleries' => $galleries]
         );
     }
 }

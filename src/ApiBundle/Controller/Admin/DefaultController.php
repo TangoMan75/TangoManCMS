@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api/admin/users")
+ * @Route("/api/admin")
  */
-class UserController extends Controller
+class DefaultController extends Controller
 {
     /**
      * @Route("/")

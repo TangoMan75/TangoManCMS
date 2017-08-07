@@ -152,6 +152,26 @@ Trait RepositoryHelper
     }
 
     /**
+     * Return query as scalar result (for export or API)
+     *
+     * @param ParameterBag $query
+     * @param array        $criteria
+     *
+     * @return array
+     */
+    public function findByQueryScalar(ParameterBag $query, $criteria = [])
+    {
+        // QueryBuilder
+        $dql = $this->createQueryBuilder($this->getTableName());
+        $dql = $this->filter($dql, $criteria);
+        $dql = $this->order($dql, $query);
+        $dql = $this->search($dql, $this->cleanQuery($query));
+        $dql = $this->join($dql, $query);
+
+        return $dql->getQuery()->getScalarResult();
+    }
+
+    /**
      * Return all entities as scalar result (for export or API)
      *
      * @param ParameterBag $query

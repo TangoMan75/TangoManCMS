@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api/admin/users")
+ * @Route("/api/admin/roles")
  */
-class UserController extends Controller
+class RoleController extends Controller
 {
     /**
      * @Route("/")
@@ -18,10 +18,10 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findByQueryScalar($request->query);
+        $roles = $em->getRepository('AppBundle:Role')->findByQueryScalar($request->query);
 
         return new JsonResponse(
-            ['users' => $users]
+            ['roles' => $roles]
         );
     }
 }

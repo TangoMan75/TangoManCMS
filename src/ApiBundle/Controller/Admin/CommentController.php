@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * @Route("/api/admin/users")
+ * @Route("/api/admin/comments")
  */
-class UserController extends Controller
+class CommentController extends Controller
 {
     /**
      * @Route("/")
@@ -18,10 +18,10 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findByQueryScalar($request->query);
+        $comments = $em->getRepository('AppBundle:Comment')->findByQueryScalar($request->query, ['type' => 'section']);
 
         return new JsonResponse(
-            ['users' => $users]
+            ['comments' => $comments]
         );
     }
 }

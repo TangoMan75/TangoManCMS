@@ -7,6 +7,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * @Route("/api")
+ */
 class DefaultController extends Controller
 {
     /**
@@ -15,7 +18,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
+        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar($request->query);
 
         return new JsonResponse(
             ['posts' => $posts]
