@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new Tiloweb\PaginationBundle\TilowebPaginationBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
             new TangoMan\TestBundle\TangoManTestBundle(),
+            new TangoMan\CallbackBundle\TangoManCallbackBundle(),
         ];
 
         return $bundles;

@@ -1,0 +1,32 @@
+{
+    "name": "tangoman/callback-twig-extension-bundle",
+    "description": "Callback Symfony Twig Extension Bundle",
+    "version": "1.0.0",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Matthias Morin",
+            "email": "tangoman@free.fr"
+        }
+    ],
+    "type": "library",
+    "keywords": [
+        "Callback",
+        "Twig",
+        "Extension",
+        "Token",
+        "Service",
+        "Symfony",
+        "Bundle"
+    ],
+    "require": {
+        "php": ">=5.3.0",
+    },
+    "autoload": {
+        "psr-4": {
+            "TangoMan\\CallbackBundle\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

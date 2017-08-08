@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\TwigExtension;
+namespace TangoMan\CallbackBundle\TwigExtension;
 
 /**
  * Class Callback

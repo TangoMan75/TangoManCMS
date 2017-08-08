@@ -1,0 +1,5 @@
+services:
+    twig.extension.callback:
+        class: TangoMan\CallbackBundle\TwigExtension\Callback
+        tags:
+            - { name: twig.extension }
