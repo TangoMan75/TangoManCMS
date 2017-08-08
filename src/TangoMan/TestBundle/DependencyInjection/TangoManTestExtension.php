@@ -1,6 +1,6 @@
 <?php
 
-namespace ApiBundle\DependencyInjection;
+namespace TangoMan\TestBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\Loader;
  *
  * @link http://symfony.com/doc/current/cookbook/bundles/extension.html
  */
-class ApiExtension extends Extension
+class TangoManTestExtension extends Extension
 {
     /**
      * {@inheritdoc}

@@ -44,17 +44,8 @@ class Callback extends \Twig_Extension
             parse_str($result['query'], $query);
 
             // Remove callback from query
-            foreach ($query as $key => $item) {
-                if ($key == 'callback') {
-                    $callbackQuery = $item;
-                } else {
-                    $arNewQuery[$key] = $item;
-                }
-            }
+            $query = array_diff_key($query, ['callback' => null]);
 
-            if (isset($arNewQuery)){
-                $strNewQuery = http_build_query($arNewQuery);
-            }
         } else {
             // Return unchanged url
             return $url;
@@ -66,7 +57,7 @@ class Callback extends \Twig_Extension
             $result['host'].
             (isset($result['port']) ? ':'.$result['port'] : '').
             (isset($result['path']) ? $result['path'] : '').
-            (isset($strNewQuery) ? '?'.$strNewQuery : '').
+            (isset($query) ? '?'.http_build_query($query) : '').
             (isset($result['fragment']) ? '#'.$result['fragment'] : '');
     }
 }

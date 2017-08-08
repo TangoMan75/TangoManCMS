@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Symfony test app global variable{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <table class="table table-striped">
+            <tr>
+                <th>Symfony test app global variable</th>
+                <th><a href="{{ url(app.request.attributes.get('_route'), { 'foo':'bar' }) }}">{{ url(app.request.attributes.get('_route'), { 'foo':'bar' }) }}</a></th>
+            </tr>
+            <tr>
+                <th>Command</th>
+                <th>Result</th>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.uri
+                </td>
+                <td>
+                    <a href="{{ app.request.uri }}">
+                        {{ app.request.uri }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.baseUrl
+                </td>
+                <td>
+                    <a href="{{ app.request.baseUrl }}">
+                        {{ app.request.baseUrl }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    absolute_url(app.request.uri)
+                </td>
+                <td>
+                    <a href="{{ absolute_url(app.request.uri) }}">
+                        {{ absolute_url(app.request.uri) }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.attributes.get('_route')
+                </td>
+                <td>
+                    <a href="{{ app.request.attributes.get('_route') }}">
+                        {{ app.request.attributes.get('_route') }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    path(app.request.attributes.get('_route'))
+                </td>
+                <td>
+                    <a href="{{ path(app.request.attributes.get('_route')) }}">
+                        {{ path(app.request.attributes.get('_route')) }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    path(app.request.attributes.get('_route'), { 'foo': 'bar' })
+                </td>
+                <td>
+                    <a href="{{ path(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}">
+                        {{ path(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    url(app.request.attributes.get('_route'), { 'foo': 'bar' })
+                </td>
+                <td>
+                    <a href="{{ url(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}">
+                        {{ url(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    url(app.request.attributes.get('_route'))
+                </td>
+                <td>
+                    <a href="{{ url(app.request.attributes.get('_route')) }}">
+                        {{ url(app.request.attributes.get('_route')) }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    absolute_url(path(app.request.attributes.get('_route')))
+                </td>
+                <td>
+                    <a href="{{ absolute_url(path(app.request.attributes.get('_route'))) }}">
+                        {{ absolute_url(path(app.request.attributes.get('_route'))) }}
+                    </a>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.attributes.get('_route_params')|join(',')
+                </td>
+                <td>
+                    {{ app.request.attributes.get('_route_params')|join(',') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.query.all|join(',')
+                </td>
+                <td>
+                    {{ app.request.query.all|join(',') }}
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    path(app.request.attributes.get('_route'), { 'callback': app.request.uri })
+                </td>
+                <td>
+                    <a href="{{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri }) }}">
+                        {{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri }) }}
+                    </a>
+                </td>
+            </tr>
+
+        </table>
+
+        <table class="table table-striped">
+            <tr>
+                <th>Query String</th>
+            </tr>
+            {% for request in app.request.query.all %}
+                <tr>
+                    <td>{{ request }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
