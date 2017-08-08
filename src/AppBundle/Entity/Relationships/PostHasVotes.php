@@ -22,7 +22,7 @@ trait PostHasVotes
 {
     /**
      * @var array|Vote[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="post", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="post", cascade={"persist", "remove"})
      */
     private $votes = [];
 

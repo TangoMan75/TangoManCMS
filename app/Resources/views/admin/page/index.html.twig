@@ -390,7 +390,7 @@
                             <button type="button"
                                     class="btn btn-danger btn-sm"
                                     data-toggle="modal" data-target=".my-modal" data-item="{{ page }}"
-                                    data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': app.request.uri|remove_query }) }}">
+                                    data-path="{{ path('app_admin_page_delete', { 'id': page.id, 'callback': url(app.request.attributes.get('_route')) }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <span class="hidden-xs">Supprimer</span>
                             </button>

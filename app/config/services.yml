@@ -20,11 +20,6 @@ services:
         tags:
             - { name: form.type }
 
-    twig.extension.remove_query:
-        class: AppBundle\TwigExtension\RemoveQuery
-        tags:
-            - { name: twig.extension }
-
     twig.extension.callback:
         class: AppBundle\TwigExtension\Callback
         tags:

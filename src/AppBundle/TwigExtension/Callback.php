@@ -57,7 +57,7 @@ class Callback extends \Twig_Extension
             $result['host'].
             (isset($result['port']) ? ':'.$result['port'] : '').
             (isset($result['path']) ? $result['path'] : '').
-            (isset($query) ? '?'.http_build_query($query) : '').
+            ($query != [] ? '?'.http_build_query($query) : '').
             (isset($result['fragment']) ? '#'.$result['fragment'] : '');
     }
 }

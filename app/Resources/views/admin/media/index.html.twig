@@ -450,7 +450,7 @@
                         >
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target=".my-modal" data-item="{{ media }}"
-                                    data-path="{{ path('app_admin_media_delete', { 'id': media.id, 'callback': app.request.uri|remove_query }) }}">
+                                    data-path="{{ path('app_admin_media_delete', { 'id': media.id, 'callback': url(app.request.attributes.get('_route')) }) }}">
                                 <span class="glyphicon glyphicon-trash"></span>
                                 <span class="hidden-xs">Supprimer</span>
                             </button>

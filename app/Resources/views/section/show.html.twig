@@ -16,7 +16,7 @@
                            data-original-title="Modifier cette section">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a href="{{ path("app_admin_section_delete", { 'id': section.id, 'callback': app.request.uri|remove_query }) }}"
+                        <a href="{{ path("app_admin_section_delete", { 'id': section.id, 'callback': url(app.request.attributes.get('_route')) }) }}"
                            class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                            data-original-title="Supprimer cette section">
                             <span class="glyphicon glyphicon-trash"></span>
