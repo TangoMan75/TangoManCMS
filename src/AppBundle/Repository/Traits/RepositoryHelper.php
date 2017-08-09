@@ -161,6 +161,10 @@ Trait RepositoryHelper
      */
     public function findByQueryScalar(ParameterBag $query, $criteria = [])
     {
+        // Sets default values
+        $page = $query->get('page', 1);
+        $limit = $query->get('limit', 10);
+
         // QueryBuilder
         $dql = $this->createQueryBuilder($this->getTableName());
         $dql = $this->filter($dql, $criteria);
@@ -168,7 +172,10 @@ Trait RepositoryHelper
         $dql = $this->search($dql, $this->cleanQuery($query));
         $dql = $this->join($dql, $query);
 
-        return $dql->getQuery()->getScalarResult();
+        $result = $dql->getQuery()->getScalarResult();
+        $offset = ($page - 1) * $limit;
+
+        return array_slice($result, $offset, $limit);
     }
 
     /**

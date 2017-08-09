@@ -23,12 +23,12 @@ class AppKernel extends Kernel
             new Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle(),
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
+            new TangoMan\CallbackBundle\TangoManCallbackBundle(),
             new TangoMan\JWTBundle\TangoManJWTBundle(),
+            new TangoMan\TestBundle\TangoManTestBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Tiloweb\PaginationBundle\TilowebPaginationBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new TangoMan\TestBundle\TangoManTestBundle(),
-            new TangoMan\CallbackBundle\TangoManCallbackBundle(),
         ];
 
         return $bundles;
