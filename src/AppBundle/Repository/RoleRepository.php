@@ -3,10 +3,7 @@
 namespace AppBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use TangoMan\RepositoryHelper\RepositoryHelper;
 
 /**
  * Class RoleRepository
@@ -15,5 +12,5 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class RoleRepository extends EntityRepository
 {
-    use Traits\RepositoryHelper;
+    use RepositoryHelper;
 }

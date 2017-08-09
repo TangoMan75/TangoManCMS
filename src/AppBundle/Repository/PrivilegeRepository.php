@@ -2,8 +2,8 @@
 
 namespace AppBundle\Repository;
 
-use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
+use TangoMan\RepositoryHelper\RepositoryHelper;
 
 /**
  * Class PrivilegeRepository
@@ -12,5 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class PrivilegeRepository extends EntityRepository
 {
-    use Traits\RepositoryHelper;
+    use RepositoryHelper;
 }

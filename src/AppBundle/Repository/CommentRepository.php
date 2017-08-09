@@ -2,12 +2,8 @@
 
 namespace AppBundle\Repository;
 
-use AppBundle\Entity\Post;
-use Doctrine\ORM\QueryBuilder;
-use Doctrine\ORM\Tools\Pagination\Paginator;
-use Symfony\Component\HttpFoundation\ParameterBag;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Doctrine\ORM\EntityRepository;
+use TangoMan\RepositoryHelper\RepositoryHelper;
 
 /**
  * Class CommentRepository
@@ -16,5 +12,5 @@ use Doctrine\ORM\EntityRepository;
  */
 class CommentRepository extends EntityRepository
 {
-    use Traits\RepositoryHelper;
+    use RepositoryHelper;
 }

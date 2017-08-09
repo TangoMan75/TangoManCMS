@@ -1,8 +1,7 @@
 <?php
 
-namespace AppBundle\Repository\Traits;
+namespace TangoMan\RepositoryHelper;
 
-use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query\QueryException;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -11,9 +10,9 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
  * @author  Matthias Morin <tangoman@free.fr>
- * @package AppBundle\Repository
+ * @package TangoMan\RepositoryHelper
  */
-Trait RepositoryHelper
+trait RepositoryHelper
 {
     /**
      * @var null
@@ -179,7 +178,7 @@ Trait RepositoryHelper
     }
 
     /**
-     * Return all entities as scalar result
+     * Return all objects as scalar result
      *
      * @param ParameterBag $query
      * @param array        $criteria
@@ -439,7 +438,7 @@ Trait RepositoryHelper
      */
     public function parse($string, $defaultMode = 'a')
     {
-        // Set default values for (join/mode/action)-entity-property
+        // Set default values for (mode/action)-entity-property
         // a : mode andWhere
         // o : mode orWhere
         // r : mode orderBy

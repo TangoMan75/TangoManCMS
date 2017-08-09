@@ -1,0 +1,30 @@
+{
+    "name": "tangoman/repository-helper",
+    "description": "Symfony Repository Helper",
+    "version": "1.0.0",
+    "license": "GPL-3.0",
+    "authors": [
+        {
+            "name": "Matthias Morin",
+            "email": "tangoman@free.fr"
+        }
+    ],
+    "type": "library",
+    "keywords": [
+        "TangoMan",
+        "Symfony",
+        "Repository",
+        "Helper",
+        "Trait"
+    ],
+    "require": {
+        "php": ">=5.3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "TangoMan\\RepositoryHelper\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
