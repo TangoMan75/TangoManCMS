@@ -48,6 +48,19 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
         // Default roles
         $roles = $em->getRepository('AppBundle:Role')->findAll();
+        $roleUser = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_USER']);
+
+        // Generating user account with password '321'
+        $user = new User();
+        $user
+            ->setUsername('user')
+            ->setEmail('user@localhost.dev')
+            ->setPassword($encoder->encodePassword($user, '321'))
+            ->addRole($roleUser)
+            ->setBio('<p>Ceci est un simple compte utilisateur.</p>');
+
+        $em->persist($user);
+        $em->flush();
 
         // Load Users
         for ($i = 0; $i < 100; $i++) {
