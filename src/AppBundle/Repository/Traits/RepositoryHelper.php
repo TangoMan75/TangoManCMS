@@ -179,7 +179,7 @@ Trait RepositoryHelper
     }
 
     /**
-     * Return all entities as scalar result (for export or API)
+     * Return all entities as scalar result
      *
      * @param ParameterBag $query
      * @param array        $criteria
