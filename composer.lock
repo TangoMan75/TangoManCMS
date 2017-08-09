@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "172df298068419640b34311ea21ce896",
-    "content-hash": "c2117a9699d2f173b880ff17f911a0bb",
+    "hash": "ba5390e54066e3933719cead524165ac",
+    "content-hash": "f58f963c5f38e76300868025f552c69d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2618,6 +2618,50 @@
                 "framework"
             ],
             "time": "2017-01-28 02:53:38"
+        },
+        {
+            "name": "tangoman/callback-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/CallbackBundle.git",
+                "reference": "1ae31312181cd9ae017efb7b4f2b3bbbd2d80310"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/CallbackBundle/zipball/1ae31312181cd9ae017efb7b4f2b3bbbd2d80310",
+                "reference": "1ae31312181cd9ae017efb7b4f2b3bbbd2d80310",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\CallbackBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                }
+            ],
+            "description": "Callback Symfony Twig Extension Bundle",
+            "keywords": [
+                "bundle",
+                "callback",
+                "extension",
+                "service",
+                "symfony",
+                "twig"
+            ],
+            "time": "2017-08-09 09:30:37"
         },
         {
             "name": "tangoman/jwt-bundle",
