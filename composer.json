@@ -40,7 +40,8 @@
         "twig/extensions": "^1.4",
         "vich/uploader-bundle": "1.4",
         "liip/imagine-bundle": "^1.7",
-        "tangoman/callback-bundle": "^1.0"
+        "tangoman/callback-bundle": "^1.0",
+        "tangoman/repository-helper": "^1.0"
     },
     "scripts": {
         "symfony-scripts": [

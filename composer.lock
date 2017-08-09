@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ba5390e54066e3933719cead524165ac",
-    "content-hash": "f58f963c5f38e76300868025f552c69d",
+    "hash": "17b99e95d85ce02fe4554560763b2c9c",
+    "content-hash": "e9d51ed6ff45193a5cfd769b518f9a5e",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2708,6 +2708,49 @@
                 "web"
             ],
             "time": "2017-02-17 13:50:06"
+        },
+        {
+            "name": "tangoman/repository-helper",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/RepositoryHelper.git",
+                "reference": "a0c7a6b68b19f213e4f98fcdde94052fa5e93060"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/RepositoryHelper/zipball/a0c7a6b68b19f213e4f98fcdde94052fa5e93060",
+                "reference": "a0c7a6b68b19f213e4f98fcdde94052fa5e93060",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\RepositoryHelper\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                }
+            ],
+            "description": "Symfony Repository Helper",
+            "keywords": [
+                "TangoMan",
+                "helper",
+                "repository",
+                "symfony",
+                "trait"
+            ],
+            "time": "2017-08-09 14:39:27"
         },
         {
             "name": "tiloweb/base64-bundle",
