@@ -184,19 +184,6 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/api")
-     */
-    public function apiAction(Request $request)
-    {
-        $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
-
-        return new JsonResponse(
-            ['posts' => $posts]
-        );
-    }
-
-    /**
      * @Route("/import")
      */
     public function importAction(Request $request)
