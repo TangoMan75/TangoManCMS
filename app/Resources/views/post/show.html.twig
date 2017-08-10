@@ -14,7 +14,7 @@
     <div class="container">
 
         <section id="posts">
-            {% include "includes/_post.html.twig" with { 'callback': app.request.uri|callback } %}
+            {% include "includes/_post.html.twig" %}
         </section>
 
         {% if app.user %}
@@ -39,7 +39,6 @@
 
         <section id="comments">
             {% for comment in comments %}
-
                 {% include "includes/_comment.html.twig" with { 'callback': app.request.uri|callback } %}
             {% else %}
                 <div class="jumbotron">

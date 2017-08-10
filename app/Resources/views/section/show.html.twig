@@ -11,12 +11,12 @@
                 <p class="section-summary">{{ section.summary|raw }}</p>
                 {% if is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">
-                        <a href="{{ path("app_admin_section_edit",   { 'id': section.id, 'callback': app.request.uri }) }}"
+                        <a href="{{ path("app_admin_section_edit",   { 'id': section.id, 'callback': app.request.uri|callback }) }}"
                            class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                            data-original-title="Modifier cette section">
                             <span class="glyphicon glyphicon-edit"></span>
                         </a>
-                        <a href="{{ path("app_admin_section_delete", { 'id': section.id, 'callback': url(app.request.attributes.get('_route')) }) }}"
+                        <a href="{{ path("app_admin_section_delete", { 'id': section.id, 'callback': path('homepage') }) }}"
                            class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                            data-original-title="Supprimer cette section">
                             <span class="glyphicon glyphicon-trash"></span>
@@ -25,8 +25,7 @@
                 {% endif %}
             </header>
             {% for post in section.posts %}
-
-                {% include "includes/_post.html.twig" with { 'post': post, 'callback': app.request.uri|callback } %}
+                {% include "includes/_post.html.twig" %}
             {% endfor %}
         </section>
     </div>

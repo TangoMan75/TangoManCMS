@@ -6,12 +6,12 @@
                 {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     {% if (comment.user.id == app.user.id) or is_granted('ROLE_ADMIN') %}
                         <div class="pull-right btn-group" role="group">
-                            <a href="{{ path("app_comment_edit", { 'id': comment.id, 'callback': callback }) }}"
+                            <a href="{{ path("app_comment_edit", { 'id': comment.id, 'callback': app.request.uri|callback }) }}"
                                class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier ce commentaire">
                                 <span class="glyphicon glyphicon-edit"></span>
                             </a>
-                            <a href="{{ path("app_comment_delete", { 'id': comment.id, 'callback': url(app.request.attributes.get('_route')) }) }}"
+                            <a href="{{ path("app_comment_delete", { 'id': comment.id, 'callback': path('homepage') }) }}"
                                class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top"
                                data-original-title="Supprimer ce commentaire">
                                 <span class="glyphicon glyphicon-trash"></span>
