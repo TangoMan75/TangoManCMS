@@ -257,7 +257,7 @@ class SecurityController extends Controller
      * Sends token with swift mailer
      *
      * @param   User   $user
-     * @param   string $msg
+     * @param   array $msg
      */
     public function sendEmail(User $user, $msg, $view)
     {
@@ -284,7 +284,7 @@ class SecurityController extends Controller
      * Sends notification message
      *
      * @param   User   $user
-     * @param   string $msg
+     * @param   array $msg
      */
     public function confirmMessage(User $user, $msg)
     {
