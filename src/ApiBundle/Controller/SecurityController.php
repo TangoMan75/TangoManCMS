@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * api follows jsend standard.
- *
  * @Route("/api")
  */
 class SecurityController extends Controller
@@ -32,14 +31,17 @@ class SecurityController extends Controller
         // Instantiate new user entity
         $user = new User;
 
-            $msg['title'] = 'Création de compte';
-            $msg['token'] = $this->genToken($user, 'account_create');
+        $msg['title'] = 'Création de compte';
+        $msg['token'] = $this->genToken($user, 'account_create');
 
-            $this->sendEmail($user, $msg, 'email/user-register.html.twig');
-            $this->confirmMessage($user, $msg);
+        $this->sendEmail($user, $msg, 'email/user-register.html.twig');
+        $this->confirmMessage($user, $msg);
 
         return new JsonResponse(
-            ['status' => 'success']
+            [
+                'status' => 'success',
+                'data'   => null,
+            ]
         );
     }
 
