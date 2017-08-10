@@ -10,8 +10,8 @@
                 </h4>
             </div>
             <div class="modal-body">
-                <p>Êtes vous sûr que vous voulez définitivement supprimer l'utilisateur:<br/>
-                    &quot;<strong></strong>&quot; et tous ses articles ?
+                <p>Êtes vous sûr que vous voulez définitivement supprimer {{ msg }}:<br/>
+                    &quot;<strong></strong>&quot; {% if msg2 is defined %}{{ msg2 }}{% endif %} ?
                 </p>
             </div>
             <div class="modal-footer">
