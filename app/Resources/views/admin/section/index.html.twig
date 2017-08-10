@@ -348,7 +348,7 @@
             {{ pagination(sections) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-section-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'la section' } %}
 {% endblock %}
 
 {% block javascript %}

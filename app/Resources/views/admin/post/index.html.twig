@@ -441,7 +441,7 @@
             {{ pagination(posts) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-post-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'l\'article', 'msg2': 'et toutes ses commentaires' } %}
 {% endblock %}
 
 {% block javascript %}

@@ -272,7 +272,7 @@
             {{ pagination(sites) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-site-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le site' } %}
 {% endblock %}
 
 {% block javascript %}

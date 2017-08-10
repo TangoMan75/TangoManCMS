@@ -328,7 +328,8 @@
             {{ pagination(galleries) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-gallery-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'la galerie' } %}
+
 {% endblock %}
 
 {% block javascript %}

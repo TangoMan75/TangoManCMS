@@ -533,7 +533,7 @@
                 {{ pagination(users) }}
             </div>
         </section>
-        {% include "admin/includes/_delete-user-modal.html.twig" %}
+        {% include "admin/includes/_delete-modal.html.twig" with { 'msg1': 'l\'utilisateur', 'msg2': 'et tous ses articles' } %}
     {% endif %}
 {% endblock %}
 

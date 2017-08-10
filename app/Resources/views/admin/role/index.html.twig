@@ -189,7 +189,7 @@
             {{ pagination(roles) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-role-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le role' } %}
 {% endblock %}
 
 {% block javascript %}

@@ -464,7 +464,8 @@
             {{ pagination(listMedia) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-media-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le média', 'msg2': 'et tous ses commentaires' } %}
+
 {% endblock %}
 
 {% block javascript %}

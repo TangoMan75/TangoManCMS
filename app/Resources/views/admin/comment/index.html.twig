@@ -14,7 +14,7 @@
             <form method="GET" class="form-horizontal">
                 <div class="form-group">
                     <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputPost">Article</label>
+                        <label class="control-label col-sm-4" for="inputPost">Article / Média</label>
                         <div class="col-sm-8">
                             <input type="text" name="post-title" id="inputPost" class="form-control"
                                    value="{{ app.request.get('post-title')|join(', ') }}"/>
@@ -266,7 +266,7 @@
             {{ pagination(comments) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-comment-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le commentaire' } %}
 {% endblock %}
 
 {% block javascript %}

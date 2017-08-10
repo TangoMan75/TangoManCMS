@@ -404,7 +404,7 @@
             {{ pagination(pages) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-page-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'la page' } %}
 {% endblock %}
 
     {% block javascript %}

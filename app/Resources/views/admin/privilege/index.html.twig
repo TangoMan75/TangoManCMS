@@ -242,7 +242,7 @@
             {{ pagination(privileges) }}
         </div>
     </section>
-    {% include "admin/includes/_delete-privilege-modal.html.twig" %}
+    {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le privilege' } %}
 {% endblock %}
 
 {% block javascript %}
