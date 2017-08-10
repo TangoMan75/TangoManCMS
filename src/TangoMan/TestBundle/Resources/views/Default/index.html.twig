@@ -8,45 +8,91 @@
 
 {% block body %}
     <div class="container">
-        <h1>Twig test app global variable</h1>
+        <h1>Test Symfony Twig Extensions</h1>
+        <hr>
+
+        <table class="table table-striped">
+            <tr>
+                <th colspan="2">
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html" target="_blank">Symfony Twig Extensions Documentation</a>
+                </th>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#app" target="_blank">app</a>
+                </td>
+                <td>
+                    The app variable is available everywhere and gives access to many commonly needed objects and
+                    values.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.uri
+                </td>
+                <td>
+                    Returns the absolute URL (with scheme and host) for current view.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.attributes.get('_route')
+                </td>
+                <td>
+                    Returns route for current view.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#path" target="_blank">
+                        path('app_route', { 'param': 'value' })
+                    </a>
+                </td>
+                <td>
+                    Returns the relative URL (without the scheme and host) for the given route.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#url" target="_blank">
+                        url('app_route', { 'param': 'value' })
+                    </a>
+                </td>
+                <td>
+                    Returns the absolute URL (with scheme and host) for the given route.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#absolute-url" target="_blank">
+                        absolute_url('/relative/path')
+                    </a>
+                </td>
+                <td>
+                    Returns the absolute URL from the passed relative path.
+                </td>
+            </tr>
+        </table>
+
+        <hr>
+
         <div class="table-responsive">
             <table class="table table-striped">
                 <tr>
+                    <th colspan="2">
+                        Examples
+                    </th>
+                </tr>
+
+                <tr>
                     <th>Command</th>
                     <th>Result</th>
-                </tr>
-
-                <tr>
-                    <td>
-                        app.request.uri
-                    </td>
-                    <td>
-                        <a href="{{ app.request.uri }}">
-                            {{ app.request.uri }}
-                        </a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        app.request.baseUrl
-                    </td>
-                    <td>
-                        <a href="{{ app.request.baseUrl }}">
-                            {{ app.request.baseUrl }}
-                        </a>
-                    </td>
-                </tr>
-
-                <tr>
-                    <td>
-                        absolute_url(app.request.uri)
-                    </td>
-                    <td>
-                        <a href="{{ absolute_url(app.request.uri) }}">
-                            {{ absolute_url(app.request.uri) }}
-                        </a>
-                    </td>
                 </tr>
 
                 <tr>
@@ -56,6 +102,17 @@
                     <td>
                         <a href="{{ app.request.attributes.get('_route') }}">
                             {{ app.request.attributes.get('_route') }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        app.request.uri
+                    </td>
+                    <td>
+                        <a href="{{ app.request.uri }}">
+                            {{ app.request.uri }}
                         </a>
                     </td>
                 </tr>
@@ -156,7 +213,6 @@
                         <td>{{ value }}</td>
                     </tr>
                 {% endfor %}
-
 
 
             </table>
