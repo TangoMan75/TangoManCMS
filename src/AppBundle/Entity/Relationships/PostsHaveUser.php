@@ -19,7 +19,7 @@ trait PostsHaveUser
 {
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"}, fetch="EAGER")
      */
     private $user;
 
