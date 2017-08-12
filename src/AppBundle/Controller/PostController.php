@@ -143,7 +143,7 @@ class PostController extends Controller
             $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query, ['published' => true]);
         }
 
-        $formComment = null;
+        $form = null;
 
         // User cannot comment when not logged in
         if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
@@ -154,6 +154,7 @@ class PostController extends Controller
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
+            $form->createView();
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $em->persist($comment);
@@ -168,7 +169,7 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'form'     => $form->createView(),
+                'form'     => $form,
                 'comments' => $comments,
                 'post'     => $post,
             ]
