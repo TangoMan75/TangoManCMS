@@ -26,6 +26,7 @@ class AppKernel extends Kernel
             new TangoMan\CallbackBundle\CallbackBundle(),
             new TangoMan\JWTBundle\JWTBundle(),
             new TangoMan\TestBundle\TangoManTestBundle(),
+            new TangoMan\UserBundle\UserBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Tiloweb\PaginationBundle\TilowebPaginationBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),

@@ -1,7 +1,10 @@
 tango_man_test:
     resource: "@TangoManTestBundle/Controller/"
     type:     annotation
-    prefix:   /
+
+tango_man_user:
+    resource: "@TangoManUserBundle/Controller/"
+    type:     annotation
 
 api:
     resource: "@ApiBundle/Controller/"
