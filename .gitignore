@@ -68,3 +68,6 @@
 
 #Bower
 /web/src/components
+
+#TangoMan
+/src/TangoMan

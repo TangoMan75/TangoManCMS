@@ -6,6 +6,18 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use TangoMan\EntityHelper\Categorized;
+use TangoMan\EntityHelper\Embeddable;
+use TangoMan\EntityHelper\HasSummary;
+use TangoMan\EntityHelper\HasText;
+use TangoMan\EntityHelper\HasTitle;
+use TangoMan\EntityHelper\HasType;
+use TangoMan\EntityHelper\HasViews;
+use TangoMan\EntityHelper\Publishable;
+use TangoMan\EntityHelper\Sluggable;
+use TangoMan\EntityHelper\Timestampable;
+use TangoMan\EntityHelper\UploadableDocument;
+use TangoMan\EntityHelper\UploadableImage;
 
 /**
  * Class Post
@@ -25,18 +37,18 @@ class Post
     use Relationships\PostsHaveUser;
     use Relationships\PostHasVotes;
 
-    use Traits\Categorized;
-    use Traits\Embeddable;
-    use Traits\HasSummary;
-    use Traits\HasText;
-    use Traits\HasTitle;
-    use Traits\HasType;
-    use Traits\HasViews;
-    use Traits\Publishable;
-    use Traits\Sluggable;
-    use Traits\Timestampable;
-    use Traits\UploadableDocument;
-    use Traits\UploadableImage;
+    use Categorized;
+    use Embeddable;
+    use HasSummary;
+    use HasText;
+    use HasTitle;
+    use HasType;
+    use HasViews;
+    use Publishable;
+    use Sluggable;
+    use Timestampable;
+    use UploadableDocument;
+    use UploadableImage;
 
     /**
      * @var int

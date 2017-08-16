@@ -7,9 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait SitesHavePages
- *
  * This trait defines the OWNING side of a ManyToMany bidirectional relationship.
- *
  * 1. Requires owned `Page` entity to implement `$sites` property with `ManyToMany` and `mappedBy="pages"` annotation.
  * 2. Requires owned `Page` entity to implement `linkSite` and `unlinkSite` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

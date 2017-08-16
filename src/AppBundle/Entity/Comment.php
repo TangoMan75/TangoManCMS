@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\Publishable;
+use TangoMan\EntityHelper\Timestampable;
 
 /**
  * Class Comment
@@ -19,8 +21,8 @@ class Comment
     use Relationships\CommentsHavePost;
     use Relationships\CommentsHaveUser;
 
-    use Traits\Publishable;
-    use Traits\Timestampable;
+    use Publishable;
+    use Timestampable;
 
     /**
      * @var int

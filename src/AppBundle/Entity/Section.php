@@ -5,6 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\HasSummary;
+use TangoMan\EntityHelper\HasTitle;
+use TangoMan\EntityHelper\HasType;
+use TangoMan\EntityHelper\Publishable;
+use TangoMan\EntityHelper\Sluggable;
+use TangoMan\EntityHelper\Timestampable;
 
 /**
  * Class Section
@@ -21,12 +27,12 @@ class Section
     use Relationships\SectionsHavePosts;
     use Relationships\SectionsHaveTags;
 
-    use Traits\HasSummary;
-    use Traits\HasTitle;
-    use Traits\HasType;
-    use Traits\Publishable;
-    use Traits\Sluggable;
-    use Traits\Timestampable;
+    use HasSummary;
+    use HasTitle;
+    use HasType;
+    use Publishable;
+    use Sluggable;
+    use Timestampable;
 
     /**
      * @var int

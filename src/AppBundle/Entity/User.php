@@ -8,6 +8,10 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use TangoMan\EntityHelper\Privatable;
+use TangoMan\EntityHelper\Sluggable;
+use TangoMan\EntityHelper\Timestampable;
+
 /**
  * Class User
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
@@ -27,9 +31,9 @@ class User implements UserInterface
     use Relationships\UsersHavePrivileges;
     use Relationships\UsersHaveRoles;
 
-    use Traits\Privatable;
-    use Traits\Sluggable;
-    use Traits\Timestampable;
+    use Privatable;
+    use Sluggable;
+    use Timestampable;
 
     /**
      * @var int User id

@@ -8,6 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
+use TangoMan\EntityHelper\HasLabel;
+use TangoMan\EntityHelper\HasName;
+use TangoMan\EntityHelper\HasType;
+use TangoMan\EntityHelper\Slugify;
+
 /**
  * Class Tag
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
@@ -24,10 +29,10 @@ class Tag
     use Relationships\TagsHaveSections;
     use Relationships\TagsHaveSites;
 
-    use Traits\HasLabel;
-    use Traits\HasName;
-    use Traits\HasType;
-    use Traits\Slugify;
+    use HasLabel;
+    use HasName;
+    use HasType;
+    use Slugify;
 
     /**
      * @var int

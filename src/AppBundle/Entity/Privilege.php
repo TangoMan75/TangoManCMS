@@ -5,6 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\HasLabel;
+use TangoMan\EntityHelper\HasName;
+use TangoMan\EntityHelper\HasType;
 
 /**
  * Class Privilege
@@ -20,9 +23,9 @@ class Privilege
     use Relationships\PrivilegesHaveRoles;
     use Relationships\PrivilegesHaveUsers;
 
-    use Traits\HasLabel;
-    use Traits\HasName;
-    use Traits\HasType;
+    use HasLabel;
+    use HasName;
+    use HasType;
 
     /**
      * @var int

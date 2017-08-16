@@ -36,9 +36,6 @@
         "firebase/php-jwt": "^4.0",
         "fzaninotto/faker": "^1.6",
         "liip/imagine-bundle": "^1.7",
-        "tangoman/callback-bundle": "^1.0",
-        "tangoman/jwt-bundle": "^1.0",
-        "tangoman/repository-helper": "^1.0",
         "tiloweb/base64-bundle": "^1.0",
         "tiloweb/pagination-bundle": "^1.1",
         "vich/uploader-bundle": "1.4"

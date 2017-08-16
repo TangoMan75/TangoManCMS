@@ -7,9 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 
 /**
  * Trait PagesHaveSites
- *
  * This trait defines the INVERSE side of a ManyToMany bidirectional relationship.
- *
  * 1. Requires `Site` entity to implement `$pages` property with `ManyToMany` and `inversedBy="sites"` annotation.
  * 2. Requires `Site` entity to implement `linkPage` and `unlinkPage` methods.
  * 3. Requires formType to own `'by_reference => false,` attribute to force use of `add` and `remove` methods.

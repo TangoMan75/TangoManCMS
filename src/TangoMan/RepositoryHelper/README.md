@@ -24,15 +24,13 @@ Add "use" statement just like when you're using a trait.
 ```php
 <?php
 
-namespace AppBundle\Repository;
+namespace FoobarBundle\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use TangoMan\RepositoryHelper\RepositoryHelper;
 
 /**
  * Class FoobarRepository
- *
- * @package FoobarBundle\Repository
  */
 class FoobarRepository extends EntityRepository
 {

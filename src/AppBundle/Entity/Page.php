@@ -5,6 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\HasSummary;
+use TangoMan\EntityHelper\HasTitle;
+use TangoMan\EntityHelper\HasViews;
+use TangoMan\EntityHelper\Publishable;
+use TangoMan\EntityHelper\Sluggable;
+use TangoMan\EntityHelper\Timestampable;
 
 /**
  * Class Page
@@ -21,12 +27,12 @@ class Page
     use Relationships\PagesHaveSites;
     use Relationships\PagesHaveTags;
 
-    use Traits\HasSummary;
-    use Traits\HasTitle;
-    use Traits\HasViews;
-    use Traits\Publishable;
-    use Traits\Sluggable;
-    use Traits\Timestampable;
+    use HasSummary;
+    use HasTitle;
+    use HasViews;
+    use Publishable;
+    use Sluggable;
+    use Timestampable;
 
     /**
      * @var int Page id

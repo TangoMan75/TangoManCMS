@@ -7,6 +7,10 @@ use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\RoleInterface;
 
+use TangoMan\EntityHelper\HasLabel;
+use TangoMan\EntityHelper\HasName;
+use TangoMan\EntityHelper\HasType;
+
 /**
  * Class Role
  * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
@@ -21,9 +25,9 @@ class Role implements RoleInterface
     use Relationships\RolesHavePrivileges;
     use Relationships\RolesHaveUsers;
 
-    use Traits\HasLabel;
-    use Traits\HasName;
-    use Traits\HasType;
+    use HasLabel;
+    use HasName;
+    use HasType;
 
     /**
      * @var int
