@@ -30,6 +30,8 @@ class AppKernel extends Kernel
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Tiloweb\PaginationBundle\TilowebPaginationBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new TangoMan\CSVReaderBundle\CSVReaderBundle(),
+            new TangoMan\TruncateHtmlBundle\TruncateHtmlBundle(),
         ];
 
         return $bundles;

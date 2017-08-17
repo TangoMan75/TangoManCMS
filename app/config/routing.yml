@@ -1,8 +1,8 @@
-tango_man_test:
+tangoman_test:
     resource: "@TangoManTestBundle/Controller/"
     type:     annotation
 
-tango_man_user:
+tangoman_user:
     resource: "@UserBundle/Controller/"
     type:     annotation
 
