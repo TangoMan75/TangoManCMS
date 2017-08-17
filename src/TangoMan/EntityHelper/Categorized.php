@@ -20,14 +20,14 @@ trait Categorized
      * @var array|ArrayCollection
      * @ORM\Column(type="simple_array", nullable=true)
      */
-    private $categories = [];
+    protected $categories = [];
 
     /**
      * These are the associated categories of each type
      *
      * @var array
      */
-    private $assoc = [
+    protected $assoc = [
         'csv'         => 'document',
         'doc'         => 'document',
         'ods'         => 'document',

@@ -17,7 +17,7 @@ trait HasClickDate
      * @var \DateTime
      * @ORM\Column(type="datetime")
      */
-    private $clickDate;
+    protected $clickDate;
 
     /**
      * @return \DateTime

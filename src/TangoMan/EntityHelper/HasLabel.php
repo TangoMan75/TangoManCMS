@@ -14,7 +14,7 @@ trait HasLabel
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $label;
+    protected $label;
 
     /**
      * @return string

@@ -14,7 +14,7 @@ Trait HasIcon
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $icon;
+    protected $icon;
 
     /**
      * @return string

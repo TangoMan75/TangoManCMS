@@ -31,14 +31,6 @@ class User extends TangoManUser
     use Sluggable;
 
     /**
-     * @var int User id
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */

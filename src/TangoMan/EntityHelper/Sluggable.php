@@ -16,7 +16,7 @@ trait Sluggable
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $slug;
+    protected $slug;
 
     /**
      * @return string

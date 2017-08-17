@@ -20,7 +20,7 @@ trait UploadableDocument
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $document;
+    protected $document;
 
     /**
      * @Vich\UploadableField(mapping="document_upload", fileNameProperty="documentFileName", size="documentSize")
@@ -35,19 +35,19 @@ trait UploadableDocument
      * })
      * @var File
      */
-    private $documentFile;
+    protected $documentFile;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $documentFileName;
+    protected $documentFileName;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @var integer
      */
-    private $documentSize;
+    protected $documentSize;
 
     /**
      * @return string

@@ -19,13 +19,13 @@ trait Timestampable
      * @var \DateTime Creation date
      * @ORM\Column(type="datetime")
      */
-    private $created;
+    protected $created;
 
     /**
      * @var \DateTime Date last modified
      * @ORM\Column(type="datetime")
      */
-    private $modified;
+    protected $modified;
 
     /**
      * @return \DateTime

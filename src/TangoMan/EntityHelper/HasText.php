@@ -14,7 +14,7 @@ trait HasText
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $text;
+    protected $text;
 
     /**
      * @return string

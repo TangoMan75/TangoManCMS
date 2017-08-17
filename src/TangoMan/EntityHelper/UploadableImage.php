@@ -20,7 +20,7 @@ trait UploadableImage
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $image;
+    protected $image;
 
     /**
      * @Vich\UploadableField(mapping="image_upload", fileNameProperty="imageFileName")
@@ -32,13 +32,13 @@ trait UploadableImage
      * })
      * @var File
      */
-    private $imageFile;
+    protected $imageFile;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $imageFileName;
+    protected $imageFileName;
 
     /**
      * @return string

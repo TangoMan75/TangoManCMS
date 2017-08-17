@@ -14,7 +14,7 @@ trait Illustrable
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $image;
+    protected $image;
 
     /**
      * @return string

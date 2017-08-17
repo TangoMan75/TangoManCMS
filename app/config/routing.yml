@@ -3,7 +3,7 @@ tango_man_test:
     type:     annotation
 
 tango_man_user:
-    resource: "@TangoManUserBundle/Controller/"
+    resource: "@UserBundle/Controller/"
     type:     annotation
 
 api:

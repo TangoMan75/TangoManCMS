@@ -14,7 +14,7 @@ trait HasViews
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $views;
+    protected $views;
 
     /**
      * @param integer $views

@@ -43,13 +43,6 @@ class Section
     private $id;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank(message="Le titre doit être renseigné")
-     */
-    private $title;
-
-    /**
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */

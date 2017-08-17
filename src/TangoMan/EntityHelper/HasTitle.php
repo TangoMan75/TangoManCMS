@@ -14,13 +14,13 @@ trait HasTitle
      * @var String
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $title;
+    protected $title;
 
     /**
      * @var String
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $subtitle;
+    protected $subtitle;
 
     /**
      * @return string

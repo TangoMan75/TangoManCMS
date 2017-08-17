@@ -14,7 +14,7 @@ trait HasName
      * @var String
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $name;
+    protected $name;
 
     /**
      * @return string

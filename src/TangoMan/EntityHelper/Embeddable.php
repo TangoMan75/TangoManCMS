@@ -15,7 +15,7 @@ trait Embeddable
      * @var String
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $link;
+    protected $link;
 
     /**
      * @return String

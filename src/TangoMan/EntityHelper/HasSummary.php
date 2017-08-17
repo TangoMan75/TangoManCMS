@@ -14,7 +14,7 @@ trait HasSummary
      * @var string
      * @ORM\Column(type="text", nullable=true)
      */
-    private $summary;
+    protected $summary;
 
     /**
      * @return string

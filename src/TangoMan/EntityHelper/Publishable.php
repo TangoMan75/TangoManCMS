@@ -14,7 +14,7 @@ trait Publishable
      * @var boolean
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $published = false;
+    protected $published = false;
 
     /**
      * @return boolean

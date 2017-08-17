@@ -14,7 +14,7 @@ trait HasType
      * @var string
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $type;
+    protected $type;
 
     /**
      * @return string

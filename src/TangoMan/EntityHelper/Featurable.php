@@ -14,7 +14,7 @@ trait Featurable
      * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $featured = false;
+    protected $featured = false;
 
     /**
      * @return bool
