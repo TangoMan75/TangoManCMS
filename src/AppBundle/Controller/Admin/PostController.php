@@ -156,13 +156,71 @@ class PostController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
+        $postCount = $em->getRepository('AppBundle:Post')->count();
 
         return $this->render(
             'admin/post/export.html.twig',
             [
-                'posts' => $posts,
+                'postCount' => $postCount,
             ]
+        );
+    }
+
+    /**
+     * Exports user list in csv format.
+     * @Route("/export-csv")
+     */
+    public function exportCSVAction(Request $request)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar($request->query);
+
+        $delimiter = ';';
+        $handle = fopen('php://memory', 'r+');
+
+        // Building csv header from array keys
+        $keys = [];
+        if (count($posts) > 0) {
+            $keys = array_keys($posts[0]);
+        }
+
+        fputcsv(
+            $handle,
+            $keys,
+            $delimiter
+        );
+
+        foreach ($posts as $post) {
+            $values = [];
+
+            // Converts DateTime objects and arrays to string
+            foreach (array_values($post) as $value) {
+
+                if ($value instanceof \DateTime) {
+                    $value = $value->format('Y/m/d H:i:s');
+                } elseif (is_array($value)) {
+                    $value = implode(',', $value);
+                }
+
+                $values[] = $value;
+            }
+
+            fputcsv(
+                $handle,
+                $values,
+                $delimiter
+            );
+        }
+
+        rewind($handle);
+        $response = stream_get_contents($handle);
+        fclose($handle);
+
+        return new Response(
+            $response, 200, [
+                         'Content-Type'        => 'application/force-download',
+                         'Content-Disposition' => 'attachment; filename="posts.csv"',
+                     ]
         );
     }
 

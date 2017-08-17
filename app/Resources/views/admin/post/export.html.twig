@@ -7,7 +7,7 @@
         <h1>Articles</h1>
         <h2>Exporter la liste d'articles</h2>
         {% if is_granted('ROLE_ADMIN') %}
-            <p>Ici vous pouvez exporter la liste des articles de <strong>{{ site_name }}</strong> au format JSON.</p>
+            <p>Ici vous pouvez exporter la liste des articles de <strong>{{ site_name }}</strong>.</p>
         {% else %}
             <p>Vous devez possèder des droits administrateur pour effectuer cette action.</p>
         {% endif %}
@@ -19,14 +19,33 @@
                 <div id="export" class="panel panel-success">
                     <div class="panel-heading">
                         <h1 class="text-center">
-                            Exporter la liste d'articles
+                            Exporter la liste d'articles au format csv
                         </h1>
                     </div>
                     <div class="panel-body text-center">
-                        <p><strong>{{ posts|length }}</strong> articles</p>
-                        <a href="{{ path('app_admin_post_exportjson', { 'join':'user-email' }) }}" class="btn btn-primary">
+                        <p><strong>{{ postCount }}</strong> articles</p>
+                        <a href="{{ path('app_admin_post_exportcsv', { 'order': 'user-username', 'way': 'ASC', 'join':'user-email' }) }}"
+                           class="btn btn-primary">
                             <span class="glyphicon glyphicon-export"></span>
-                            Exporter au format json
+                            Exporter
+                        </a>
+                    </div>
+                    <div class="panel-footer"></div>
+                </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+                <div id="export" class="panel panel-success">
+                    <div class="panel-heading">
+                        <h1 class="text-center">
+                            Exporter la liste d'articles au format json
+                        </h1>
+                    </div>
+                    <div class="panel-body text-center">
+                        <p><strong>{{ postCount }}</strong> articles</p>
+                        <a href="{{ path('app_admin_post_exportjson', { 'order': 'user-username', 'way': 'ASC', 'join':'user-email' }) }}"
+                           class="btn btn-primary">
+                            <span class="glyphicon glyphicon-export"></span>
+                            Exporter
                         </a>
                     </div>
                     <div class="panel-footer"></div>

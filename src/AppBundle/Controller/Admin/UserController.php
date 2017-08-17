@@ -222,15 +222,15 @@ class UserController extends Controller
     /**
      * @Route("/export")
      */
-    public function exportAction(Request $request)
+    public function exportAction()
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findAll();
+        $userCount = $em->getRepository('AppBundle:User')->count();
 
         return $this->render(
             'admin/user/export.html.twig',
             [
-                'users' => $users,
+                'userCount' => $userCount,
             ]
         );
     }
@@ -239,10 +239,10 @@ class UserController extends Controller
      * Exports user list in csv format.
      * @Route("/export-csv")
      */
-    public function exportCSVAction()
+    public function exportCSVAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->export([], ['username' => 'ASC']);
+        $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
 
         $delimiter = ';';
         $handle = fopen('php://memory', 'r+');

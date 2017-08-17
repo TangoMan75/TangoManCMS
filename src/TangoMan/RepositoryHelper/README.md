@@ -41,6 +41,8 @@ class FoobarRepository extends EntityRepository
 Inside your controller:
 
 ```php
+use Symfony\Component\HttpFoundation\Request;
+
 class FoobarController extends Controller
 {
     /**

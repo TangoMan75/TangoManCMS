@@ -178,7 +178,7 @@ trait RepositoryHelper
     }
 
     /**
-     * Return all objects as scalar result (no query support)
+     * Return all objects as scalar result (no pagination)
      *
      * @param ParameterBag $query
      * @param array        $criteria

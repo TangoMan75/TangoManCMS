@@ -23,8 +23,9 @@
                         </h1>
                     </div>
                     <div class="panel-body text-center">
-                        <p><strong>{{ users|length }}</strong> utilisateur enregistrés</p>
-                        <a href="{{ path('app_admin_user_exportcsv') }}" class="btn btn-primary">
+                        <p><strong>{{ userCount }}</strong> utilisateur enregistrés</p>
+                        <a href="{{ path('app_admin_user_exportcsv', { 'order': 'username', 'way': 'ASC' }) }}"
+                           class="btn btn-primary">
                             <span class="glyphicon glyphicon-export"></span>
                             Exporter
                         </a>
@@ -40,8 +41,9 @@
                         </h1>
                     </div>
                     <div class="panel-body text-center">
-                        <p><strong>{{ users|length }}</strong> utilisateur enregistrés</p>
-                        <a href="{{ path('app_admin_user_exportjson', { 'join':'user-email' }) }}" class="btn btn-primary">
+                        <p><strong>{{ userCount }}</strong> utilisateur enregistrés</p>
+                        <a href="{{ path('app_admin_user_exportjson', { 'order': 'username', 'way': 'ASC' }) }}"
+                           class="btn btn-primary">
                             <span class="glyphicon glyphicon-export"></span>
                             Exporter
                         </a>
