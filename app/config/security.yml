@@ -42,4 +42,3 @@ security:
 
     access_control:
         - { path: '^/admin', roles: [ROLE_ADMIN] }
-        - { path: '^/super-admin', roles: [ROLE_SUPER_ADMIN] }
