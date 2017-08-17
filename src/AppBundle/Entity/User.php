@@ -31,7 +31,6 @@ class User extends TangoManUser
     use Relationships\UsersHaveRoles;
 
     use Privatable;
-    use Sluggable;
 
     /**
      * @var int
