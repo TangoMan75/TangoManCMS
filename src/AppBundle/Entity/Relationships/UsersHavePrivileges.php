@@ -23,7 +23,7 @@ trait UsersHavePrivileges
      * @var array|Privilege[]|ArrayCollection
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="users", cascade={"persist"})
      */
-    private $privileges = [];
+    protected $privileges = [];
 
     /**
      * @param array|Privilege[]|ArrayCollection $privileges

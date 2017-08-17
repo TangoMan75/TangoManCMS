@@ -24,7 +24,7 @@ trait UsersHaveRoles
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users")
      * @ORM\OrderBy({"id"="DESC"})
      */
-    private $roles = [];
+    protected $roles = [];
 
     /**
      * @param array|Role[]|ArrayCollection $roles

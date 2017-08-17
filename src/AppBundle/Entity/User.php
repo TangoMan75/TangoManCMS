@@ -27,6 +27,9 @@ class User extends TangoManUser
     use Relationships\UserHasPosts;
     use Relationships\UserHasVotes;
 
+    use Relationships\UsersHavePrivileges;
+    use Relationships\UsersHaveRoles;
+
     use Privatable;
     use Sluggable;
 
@@ -60,6 +63,8 @@ class User extends TangoManUser
     public function __construct()
     {
         parent::__construct();
+        $this->roles = new ArrayCollection();
+        $this->privileges = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
     }
