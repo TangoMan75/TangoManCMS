@@ -36,6 +36,7 @@
         "symfony/swiftmailer-bundle": "^2.3",
         "symfony/symfony": "3.1.*",
         "tangoman/callback-bundle": "^1.0",
+        "tangoman/csv-export-helper": "^1.0",
         "tangoman/csv-reader-bundle": "^1.0",
         "tangoman/entity-helper": "^1.0",
         "tangoman/jwt-bundle": "^1.0",
