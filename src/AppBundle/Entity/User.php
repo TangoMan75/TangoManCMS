@@ -4,19 +4,13 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Validator\Constraints as Assert;
 use TangoMan\EntityHelper\Privatable;
-use TangoMan\EntityHelper\Sluggable;
 use TangoMan\UserBundle\Model\User as TangoManUser;
 
 /**
  * Class User
- * @ORM\HasLifecycleCallbacks()
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
- * @UniqueEntity(fields={"email"}, message="Cet email est déjà utilisé.")
- * @UniqueEntity(fields={"username"}, message="Ce nom d'utilisateur est déjà utilisé.")
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
