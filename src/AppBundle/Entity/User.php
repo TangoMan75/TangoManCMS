@@ -6,6 +6,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use TangoMan\EntityHelper\Privatable;
 use TangoMan\UserBundle\Model\User as TangoManUser;
+use TangoMan\RoleBundle\Relationships\UsersHavePrivileges;
+use TangoMan\RoleBundle\Relationships\UsersHaveRoles;
 
 /**
  * Class User
@@ -21,8 +23,8 @@ class User extends TangoManUser
     use Relationships\UserHasPosts;
     use Relationships\UserHasVotes;
 
-    use Relationships\UsersHavePrivileges;
-    use Relationships\UsersHaveRoles;
+    use UsersHavePrivileges;
+    use UsersHaveRoles;
 
     use Privatable;
 

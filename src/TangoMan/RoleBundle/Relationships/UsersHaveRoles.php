@@ -3,7 +3,7 @@
 namespace TangoMan\RoleBundle\Relationships;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use TangoMan\RoleBundle\Model\Role;
+use AppBundle\Entities\Role;
 
 /**
  * Trait UsersHaveRoles
@@ -21,7 +21,7 @@ trait UsersHaveRoles
 {
     /**
      * @var array|Role[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="TangoMan\RoleBundle\Model\Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entities\Role", inversedBy="users")
      * @ORM\OrderBy({"id"="DESC"})
      */
     protected $roles = [];
@@ -141,7 +141,7 @@ trait UsersHaveRoles
      *
      * @return Role|null
      */
-    private function checkRole($role)
+    protected function checkRole($role)
     {
         if ($role instanceof Role) {
             return $role;

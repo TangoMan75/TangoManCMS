@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "fbe6c5f75aa790eb1321c4b9a278db31",
-    "content-hash": "fb9c088c2d40357522ac8604f98789a8",
+    "hash": "d32c4724d25c6403f5205914caeb52fe",
+    "content-hash": "1c43851da6e80d86d0cc2b2a3bb9550c",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2671,12 +2671,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/CSVExportHelper.git",
-                "reference": "d73b890b970cc1f260cc0d7b3e48d2676c4d4c66"
+                "reference": "fdf9d350fd47730bdd69727aaa3d82e96cf83171"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/CSVExportHelper/zipball/d73b890b970cc1f260cc0d7b3e48d2676c4d4c66",
-                "reference": "d73b890b970cc1f260cc0d7b3e48d2676c4d4c66",
+                "url": "https://api.github.com/repos/TangoMan75/CSVExportHelper/zipball/fdf9d350fd47730bdd69727aaa3d82e96cf83171",
+                "reference": "fdf9d350fd47730bdd69727aaa3d82e96cf83171",
                 "shasum": ""
             },
             "require": {
@@ -2685,7 +2685,7 @@
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "TangoMan\\CSVExportyHelper\\": ""
+                    "TangoMan\\CSVExportHelper\\": ""
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -2707,7 +2707,7 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2017-08-18 15:58:48"
+            "time": "2017-08-18 17:24:14"
         },
         {
             "name": "tangoman/csv-reader-bundle",

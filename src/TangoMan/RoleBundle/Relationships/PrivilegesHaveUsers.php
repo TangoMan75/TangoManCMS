@@ -3,7 +3,7 @@
 namespace TangoMan\RoleBundle\Relationships;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use TangoMan\RoleBundle\Model\User;
+use AppBundle\Entities\User;
 
 /**
  * Trait PrivilegesHaveUsers
@@ -21,9 +21,9 @@ trait PrivilegesHaveUsers
 {
     /**
      * @var array|User[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="TangoMan\RoleBundle\Model\User", mappedBy="privileges", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entities\User", mappedBy="privileges", cascade={"persist"})
      */
-    private $users = [];
+    protected $users = [];
 
     /**
      * @param array|User[]|ArrayCollection $users

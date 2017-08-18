@@ -3,7 +3,7 @@
 namespace TangoMan\RoleBundle\Relationships;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use TangoMan\RoleBundle\Model\User;
+use AppBundle\Entities\User;
 
 /**
  * Trait RolesHaveUsers
@@ -21,10 +21,10 @@ trait RolesHaveUsers
 {
     /**
      * @var array|User[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="TangoMan\RoleBundle\Model\User", mappedBy="roles", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entities\User", mappedBy="roles", cascade={"persist"})
      * @ORM\OrderBy({"username"="DESC"})
      */
-    private $users = [];
+    protected $users = [];
 
     /**
      * @param array|User[]|ArrayCollection $users

@@ -41,6 +41,7 @@ Create your Role entity
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use TangoMan\RoleBundle\Model\Role as TangoManRole;
 
 /**
@@ -69,6 +70,7 @@ Create your Privilege entity
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use TangoMan\RoleBundle\Model\Privilege as TangoManPrivilege;
 
 /**

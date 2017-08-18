@@ -28,7 +28,7 @@ class Privilege
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * Privilege constructor.

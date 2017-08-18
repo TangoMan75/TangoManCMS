@@ -2,17 +2,20 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
 use TangoMan\RoleBundle\Model\Privilege as TangoManPrivilege;
+use TangoMan\RoleBundle\Relationships\PrivilegesHaveRoles;
+use TangoMan\RoleBundle\Relationships\PrivilegesHaveUsers;
 
 /**
  * Class Privilege
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
- * @ORM\Table(name="role")
+ * @ORM\Table(name="privilege")
  */
 class Privilege extends TangoManPrivilege
 {
-    use Relationships\PrivilegesHaveRoles;
-    use Relationships\PrivilegesHaveUsers;
+    use PrivilegesHaveRoles;
+    use PrivilegesHaveUsers;
 
     public function __construct()
     {
