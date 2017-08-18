@@ -12,6 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use TangoMan\CSVExportHelper\CSVExportHelper;
 
 /**
  * Class PostController
@@ -21,6 +22,8 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class PostController extends Controller
 {
+    use CSVExportHelper;
+
     /**
      * @Route("/")
      */
@@ -167,54 +170,14 @@ class PostController extends Controller
     }
 
     /**
-     * Exports user list in csv format.
+     * Exports post list in csv format.
      * @Route("/export-csv")
      */
     public function exportCSVAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar($request->query);
-
-        $delimiter = ';';
-        $handle = fopen('php://memory', 'r+');
-
-        // Building csv header from array keys
-        $keys = [];
-        if (count($posts) > 0) {
-            $keys = array_keys($posts[0]);
-        }
-
-        fputcsv(
-            $handle,
-            $keys,
-            $delimiter
-        );
-
-        foreach ($posts as $post) {
-            $values = [];
-
-            // Converts DateTime objects and arrays to string
-            foreach (array_values($post) as $value) {
-
-                if ($value instanceof \DateTime) {
-                    $value = $value->format('Y/m/d H:i:s');
-                } elseif (is_array($value)) {
-                    $value = implode(',', $value);
-                }
-
-                $values[] = $value;
-            }
-
-            fputcsv(
-                $handle,
-                $values,
-                $delimiter
-            );
-        }
-
-        rewind($handle);
-        $response = stream_get_contents($handle);
-        fclose($handle);
+        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
+        $response = $this->exportCSV($posts);
 
         return new Response(
             $response, 200, [

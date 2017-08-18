@@ -24,14 +24,14 @@ class AppKernel extends Kernel
             new Symfony\Bundle\TwigBundle\TwigBundle(),
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new TangoMan\CallbackBundle\CallbackBundle(),
+            new TangoMan\CSVReaderBundle\CSVReaderBundle(),
             new TangoMan\JWTBundle\JWTBundle(),
             new TangoMan\TestBundle\TangoManTestBundle(),
+            new TangoMan\TruncateHtmlBundle\TruncateHtmlBundle(),
             new TangoMan\UserBundle\UserBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Tiloweb\PaginationBundle\TilowebPaginationBundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new TangoMan\CSVReaderBundle\CSVReaderBundle(),
-            new TangoMan\TruncateHtmlBundle\TruncateHtmlBundle(),
         ];
 
         return $bundles;

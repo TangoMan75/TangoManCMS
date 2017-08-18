@@ -11,9 +11,6 @@ services:
     services.string_helper:
         class: AppBundle\Service\StringHelperService
 
-    services.csv_reader:
-        class: AppBundle\Service\CSVReaderService
-
     app.form.type.task:
         class: AppBundle\Form\Admin\AdminEditUserType
         arguments: ["@doctrine.orm.entity_manager"]

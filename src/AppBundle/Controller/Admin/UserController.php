@@ -11,12 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use TangoMan\CSVExportHelper\CSVExportHelper;
 
 /**
  * @Route("/admin/users")
  */
 class UserController extends Controller
 {
+    use CSVExportHelper;
+
     /**
      * @Route("/")
      */
@@ -242,55 +245,30 @@ class UserController extends Controller
     public function exportCSVAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
-
-        $delimiter = ';';
-        $handle = fopen('php://memory', 'r+');
-
-        fputcsv(
-            $handle,
-            [
-                'id',
-                'slug',
-                'username',
-                'email',
-                'avatar',
-                'bio',
-                'password',
-                'roles',
-                'created',
-                'modified',
-            ],
-            $delimiter
-        );
-
-        foreach ($users as $user) {
-            fputcsv(
-                $handle,
-                [
-                    $user->getId(),
-                    $user->getSlug(),
-                    $user,
-                    $user->getEmail(),
-                    $user->getAvatar(),
-                    $user->getBio(),
-                    $user->getPassword(),
-                    implode(',', $user->getRoles()),
-                    $user->getCreated()->format('Y/m/d H:i:s'),
-                    $user->getModified()->format('Y/m/d H:i:s'),
-                ],
-                $delimiter
-            );
-        }
-
-        rewind($handle);
-        $response = stream_get_contents($handle);
-        fclose($handle);
+        $users = $em->getRepository('AppBundle:User')->export($request->query);
+        $response = $this->exportCSV($users);
 
         return new Response(
             $response, 200, [
                          'Content-Type'        => 'application/force-download',
                          'Content-Disposition' => 'attachment; filename="users.csv"',
+                     ]
+        );
+    }
+
+    /**
+     * @Route("/export-json")
+     */
+    public function exportJSONAction(Request $request)
+    {
+        $em = $this->get('doctrine')->getManager();
+        $posts = $em->getRepository('AppBundle:User')->export($request->query);
+        $response = json_encode($posts);
+
+        return new Response(
+            $response, 200, [
+                         'Content-Type'        => 'application/force-download',
+                         'Content-Disposition' => 'attachment; filename="users.json"',
                      ]
         );
     }
@@ -359,12 +337,13 @@ class UserController extends Controller
             // Load user entity
             $em = $this->get('doctrine')->getManager();
             $users = $em->getRepository('AppBundle:User');
+            // Read current line
             while (false !== ($line = $reader->readLine())) {
 
                 // Check import validity
                 // Minimum required to import user are username and email
-                $username = $line->get('username');
-                $email = $line->get('email');
+                $username = $line->get('user_username');
+                $email = $line->get('user_email');
 
                 if (!$email || !$username) {
                     $this->get('session')->getFlashBag()->add(
@@ -375,8 +354,8 @@ class UserController extends Controller
                     return $this->redirectToRoute('app_admin_user_index');
                 }
 
-                // Check if user with same email already exist
-                $user = $users->findOneByEmail($line->get('email'));
+                // Check if user with same email exists already
+                $user = $users->findOneByEmail($line->get('user_email'));
                 // When not found persist new user
                 if (!$user) {
                     $counter++;
@@ -384,39 +363,39 @@ class UserController extends Controller
                     $user->setUsername($username)
                         ->setEmail($email);
 
-                    $slug = $line->get('slug');
+                    $slug = $line->get('user_slug');
                     if ($slug) {
                         $user->setSlug($slug);
                     }
 
-                    $bio = $line->get('bio');
+                    $bio = $line->get('user_bio');
                     if ($bio) {
                         $user->setBio($bio);
                     }
 
-                    $password = $line->get('password');
+                    $password = $line->get('user_password');
                     if ($password) {
                         $user->setPassword($password);
                     }
 
-                    $avatar = $line->get('avatar');
+                    $avatar = $line->get('user_avatar');
                     if ($avatar) {
                         $user->setAvatar($avatar);
                     }
 
-                    $roles = $line->get('roles');
+                    $roles = $line->get('user_roles');
                     if ($roles) {
-                        $user->setRoles(explode(',', $line->get('roles')));
+                        $user->setRoles(explode(',', $line->get('user_roles')));
                     }
 
-                    $created = $line->get('created');
+                    $created = $line->get('user_created');
                     if ($created) {
-                        $user->setCreated(date_create_from_format('Y/m/d H:i:s', $line->get('created')));
+                        $user->setCreated(date_create_from_format('Y/m/d H:i:s', $line->get('user_created')));
                     }
 
-                    $modified = $line->get('modified');
+                    $modified = $line->get('user_modified');
                     if ($modified) {
-                        $user->setModified(date_create_from_format('Y/m/d H:i:s', $line->get('modified')));
+                        $user->setModified(date_create_from_format('Y/m/d H:i:s', $line->get('user_modified')));
                     }
 
                     $em->persist($user);
@@ -427,31 +406,19 @@ class UserController extends Controller
             }
         }
 
-        if ($counter > 1) {
-            $success = $counter.' comptes utilisateur ont été importés.';
-        } else {
-            $success = 'Aucun compte utilisateur n\'a été importé.';
+        switch ($counter) {
+            case 0:
+                $msg = 'Aucun compte utilisateur n\'a été importé.';
+                break;
+            case 1:
+                $msg = 'L\'utilisateur <strong>"'.$user.'"</strong> a bien été importé.';
+                break;
+            default:
+                $msg = $counter.' comptes utilisateur ont été importés.';
         }
 
-        $this->get('session')->getFlashBag()->add('success', $success);
+        $this->get('session')->getFlashBag()->add('success', $msg);
 
         return $this->redirectToRoute('app_admin_user_index');
-    }
-
-    /**
-     * @Route("/export-json")
-     */
-    public function exportJSONAction(Request $request)
-    {
-        $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:User')->export($request->query);
-        $response = json_encode($posts);
-
-        return new Response(
-            $response, 200, [
-                         'Content-Type'        => 'application/force-download',
-                         'Content-Disposition' => 'attachment; filename="users.json"',
-                     ]
-        );
     }
 }
