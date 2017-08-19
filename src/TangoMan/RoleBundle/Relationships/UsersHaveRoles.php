@@ -3,7 +3,7 @@
 namespace TangoMan\RoleBundle\Relationships;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entities\Role;
+use AppBundle\Entity\Role;
 
 /**
  * Trait UsersHaveRoles
@@ -21,7 +21,7 @@ trait UsersHaveRoles
 {
     /**
      * @var array|Role[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entities\Role", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", inversedBy="users")
      * @ORM\OrderBy({"id"="DESC"})
      */
     protected $roles = [];

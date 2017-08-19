@@ -3,7 +3,7 @@
 namespace TangoMan\RoleBundle\Relationships;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use AppBundle\Entities\Privilege;
+use AppBundle\Entity\Privilege;
 
 /**
  * Trait RolesHavePrivileges
@@ -21,7 +21,7 @@ trait RolesHavePrivileges
 {
     /**
      * @var array|Privilege[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entities\Privilege", inversedBy="roles", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Privilege", inversedBy="roles", cascade={"persist"})
      * @ORM\OrderBy({"name"="DESC"})
      */
     protected $privileges = [];
