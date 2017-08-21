@@ -3,9 +3,11 @@
 namespace TangoMan\RoleBundle\Model;
 
 use Doctrine\Common\Collections\ArrayCollection;
-use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Symfony\Component\Security\Core\Role\RoleInterface;
+use TangoMan\RoleBundle\Relationships\RolesHavePrivileges;
+use TangoMan\RoleBundle\Relationships\RolesHaveUsers;
 
 /**
  * Class Role
@@ -19,6 +21,9 @@ class Role implements RoleInterface
     use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
+
+    use RolesHavePrivileges;
+    use RolesHaveUsers;
 
     /**
      * @var int

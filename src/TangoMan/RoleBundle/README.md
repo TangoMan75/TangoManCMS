@@ -36,6 +36,7 @@ public function registerBundles()
 Create your Role entity
 -----------------------
 
+
 ```php
 <?php
 
@@ -51,13 +52,6 @@ use TangoMan\RoleBundle\Model\Role as TangoManRole;
  */
 class Role extends TangoManRole
 {
-    // ...
-
-    public function __construct()
-    {
-        parent::__construct();
-        // ...
-    }
 }
 ```
 
@@ -80,20 +74,14 @@ use TangoMan\RoleBundle\Model\Privilege as TangoManPrivilege;
  */
 class Privilege extends TangoManPrivilege
 {
-    // ...
-
-    public function __construct()
-    {
-        parent::__construct();
-        // ...
-
-    }
 }
 ```
 
 
 Inside your User entity
 -----------------------
+
+Note that: If you override the __construct() method in your User class, be sure to call parent::__construct(), as the base User class depends on this to initialize some fields.
 
 ```php
 <?php

@@ -5,6 +5,8 @@ namespace TangoMan\RoleBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\RoleBundle\Relationships\PrivilegesHaveRoles;
+use TangoMan\RoleBundle\Relationships\PrivilegesHaveUsers;
 
 /**
  * Class Privilege
@@ -18,6 +20,9 @@ class Privilege
     use Traits\HasLabel;
     use Traits\HasName;
     use Traits\HasType;
+
+    use PrivilegesHaveRoles;
+    use PrivilegesHaveUsers;
 
     /**
      * @var int

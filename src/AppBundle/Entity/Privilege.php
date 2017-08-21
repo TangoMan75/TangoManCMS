@@ -4,8 +4,6 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use TangoMan\RoleBundle\Model\Privilege as TangoManPrivilege;
-use TangoMan\RoleBundle\Relationships\PrivilegesHaveRoles;
-use TangoMan\RoleBundle\Relationships\PrivilegesHaveUsers;
 
 /**
  * Class Privilege
@@ -14,11 +12,4 @@ use TangoMan\RoleBundle\Relationships\PrivilegesHaveUsers;
  */
 class Privilege extends TangoManPrivilege
 {
-    use PrivilegesHaveRoles;
-    use PrivilegesHaveUsers;
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
 }
