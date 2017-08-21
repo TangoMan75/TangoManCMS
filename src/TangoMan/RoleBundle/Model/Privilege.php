@@ -5,9 +5,6 @@ namespace TangoMan\RoleBundle\Model;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use TangoMan\EntityHelper\HasLabel;
-use TangoMan\EntityHelper\HasName;
-use TangoMan\EntityHelper\HasType;
 
 /**
  * Class Privilege
@@ -18,9 +15,9 @@ use TangoMan\EntityHelper\HasType;
  */
 class Privilege
 {
-    use HasLabel;
-    use HasName;
-    use HasType;
+    use Traits\HasLabel;
+    use Traits\HasName;
+    use Traits\HasType;
 
     /**
      * @var int

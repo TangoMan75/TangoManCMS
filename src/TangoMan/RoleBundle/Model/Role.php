@@ -6,9 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Security\Core\Authorization\Voter\RoleHierarchyVoter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\RoleInterface;
-use TangoMan\EntityHelper\HasLabel;
-use TangoMan\EntityHelper\HasName;
-use TangoMan\EntityHelper\HasType;
 
 /**
  * Class Role
@@ -19,9 +16,9 @@ use TangoMan\EntityHelper\HasType;
  */
 class Role implements RoleInterface
 {
-    use HasLabel;
-    use HasName;
-    use HasType;
+    use Traits\HasLabel;
+    use Traits\HasName;
+    use Traits\HasType;
 
     /**
      * @var int
