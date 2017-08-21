@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "d32c4724d25c6403f5205914caeb52fe",
-    "content-hash": "1c43851da6e80d86d0cc2b2a3bb9550c",
+    "hash": "cf3af65a36c3934a16cf44c69e72c68d",
+    "content-hash": "90e243b36b98236bca4a19c64f9e08f8",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2889,6 +2889,49 @@
             "time": "2017-08-18 16:12:35"
         },
         {
+            "name": "tangoman/role-bundle",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/RoleBundle.git",
+                "reference": "2d21f2a09ace2fea47e4db1243696bcc417cbfa7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/2d21f2a09ace2fea47e4db1243696bcc417cbfa7",
+                "reference": "2d21f2a09ace2fea47e4db1243696bcc417cbfa7",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\RoleBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                }
+            ],
+            "description": "Symfony Role Bundle",
+            "keywords": [
+                "TangoMan",
+                "bundle",
+                "privilege",
+                "role",
+                "symfony"
+            ],
+            "time": "2017-08-21 10:15:00"
+        },
+        {
             "name": "tangoman/truncate-html-bundle",
             "version": "1.0.0",
             "source": {
@@ -3383,7 +3426,9 @@
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "tangoman/role-bundle": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

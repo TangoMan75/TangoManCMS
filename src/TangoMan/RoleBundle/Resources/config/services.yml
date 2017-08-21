@@ -1,4 +1,0 @@
-services:
-#    tango_man_role.example:
-#        class: TangoMan\RoleBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
