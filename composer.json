@@ -60,7 +60,7 @@
         ],
         "warmup": [
             "@symfony-scripts",
-            "php bin/console cache:clear -e=prod"
+            "php bin/console cache:clear -e=prod --no-warmup"
         ],
         "post-install-cmd": [
             "@symfony-scripts",
@@ -68,11 +68,11 @@
             "php bin/console doctrine:database:create",
             "php bin/console doctrine:schema:create",
             "php bin/console doctrine:fixtures:load",
-            "php bin/console cache:clear -e=prod"
+            "php bin/console cache:clear -e=prod --no-warmup"
         ],
         "post-update-cmd": [
             "@symfony-scripts",
-            "php bin/console cache:clear -e=prod"
+            "php bin/console cache:clear -e=prod --no-warmup"
         ]
     },
     "extra": {

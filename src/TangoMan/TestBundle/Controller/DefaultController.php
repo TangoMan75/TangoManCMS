@@ -15,6 +15,6 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->render('TangoManTestBundle:Default:index.html.twig');
+        return $this->render('@TangoManTest/Default/index.html.twig');
     }
 }

@@ -2968,16 +2968,16 @@
         },
         {
             "name": "tangoman/entity-helper",
-            "version": "1.2.1",
+            "version": "1.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/EntityHelper.git",
-                "reference": "fc587eb3062a8a22ded67c77b7e3c8a261ecfb0b"
+                "reference": "c89149bdbca16bd3b0ede236bdfff4db29a66c2e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/fc587eb3062a8a22ded67c77b7e3c8a261ecfb0b",
-                "reference": "fc587eb3062a8a22ded67c77b7e3c8a261ecfb0b",
+                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/c89149bdbca16bd3b0ede236bdfff4db29a66c2e",
+                "reference": "c89149bdbca16bd3b0ede236bdfff4db29a66c2e",
                 "shasum": ""
             },
             "require": {
@@ -3008,7 +3008,7 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2017-08-23 14:32:20"
+            "time": "2017-08-24 13:07:00"
         },
         {
             "name": "tangoman/jwt-bundle",
