@@ -15,9 +15,9 @@ use TangoMan\EntityHelper\Slugify;
 
 /**
  * Class Tag
+ * @ORM\Table(name="tag")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="tag")
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity

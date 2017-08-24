@@ -14,9 +14,9 @@ use TangoMan\EntityHelper\Timestampable;
 
 /**
  * Class Section
+ * @ORM\Table(name="section")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SectionRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="section")
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity

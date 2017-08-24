@@ -7,8 +7,8 @@ use TangoMan\RoleBundle\Model\Privilege as TangoManPrivilege;
 
 /**
  * Class Privilege
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
  * @ORM\Table(name="privilege")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PrivilegeRepository")
  */
 class Privilege extends TangoManPrivilege
 {

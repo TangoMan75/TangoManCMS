@@ -14,9 +14,9 @@ use TangoMan\EntityHelper\Timestampable;
 
 /**
  * Class Site
+ * @ORM\Table(name="site")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SiteRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="site")
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity

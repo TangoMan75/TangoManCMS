@@ -21,9 +21,9 @@ use TangoMan\EntityHelper\UploadableImage;
 
 /**
  * Class Post
+ * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  * @ORM\HasLifecycleCallbacks()
- * @ORM\Table(name="post")
  *
  * @Vich\Uploadable
  * @author  Matthias Morin <tangoman@free.fr>

@@ -11,8 +11,8 @@ use TangoMan\RoleBundle\Relationships\UsersHaveRoles;
 
 /**
  * Class User
- * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @ORM\Table(name="user")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  *
  * @author  Matthias Morin <tangoman@free.fr>
  * @package AppBundle\Entity
