@@ -48,7 +48,8 @@ class LoadComments implements FixtureInterface, ContainerAwareInterface, Ordered
             $comment
                 ->setText('<p>'.$faker->text(mt_rand(300, 1200)).'</p>')
                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setPublished($i % 2);
+                ->setPublished($i % 2)
+            ;
 
             $em->persist($comment);
         }

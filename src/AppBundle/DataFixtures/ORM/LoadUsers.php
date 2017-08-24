@@ -57,7 +57,8 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
             ->setEmail('user@localhost.dev')
             ->setPassword($encoder->encodePassword($user, '321'))
             ->addRole($roleUser)
-            ->setBio('<p>Ceci est un simple compte utilisateur.</p>');
+            ->setBio('<p>Ceci est un simple compte utilisateur.</p>')
+        ;
 
         $em->persist($user);
         $em->flush();

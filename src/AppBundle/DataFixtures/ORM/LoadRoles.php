@@ -56,7 +56,8 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
             $role->setIcon($roles[$i])
                 ->setLabel($roles[$i + 1])
                 ->setName($roles[$i + 2])
-                ->setType($roles[$i + 3]);
+                ->setType($roles[$i + 3])
+            ;
 
             $em->persist($role);
         }

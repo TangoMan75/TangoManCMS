@@ -86,7 +86,8 @@ class LoadPrivileges implements FixtureInterface, ContainerAwareInterface, Order
                 ->setLabel($privileges[$i + 1])
                 ->setType($privileges[$i + 2])
                 ->addRole($superAdmin)
-                ->addRole($role);
+                ->addRole($role)
+            ;
 
             $em->persist($privilege);
         }

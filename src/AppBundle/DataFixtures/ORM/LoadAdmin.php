@@ -55,7 +55,8 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
             ->setEmail($email)
             ->setPassword($encoder->encodePassword($user, $pwd))
             ->addRole($roleSuperAdmin)
-            ->setBio('<p>Ceci est le compte super administrateur.</p>');
+            ->setBio('<p>Ceci est le compte super administrateur.</p>')
+        ;
 
         $em->persist($user);
         $em->flush();

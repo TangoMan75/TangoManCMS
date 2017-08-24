@@ -94,7 +94,8 @@ class LoadTags implements FixtureInterface, ContainerAwareInterface, OrderedFixt
             $tag = new Tag();
             $tag->setName($tags[$i])
                 ->setType($tags[$i + 1])
-                ->setLabel($tags[$i + 2]);
+                ->setLabel($tags[$i + 2])
+            ;
 
             $em->persist($tag);
         }

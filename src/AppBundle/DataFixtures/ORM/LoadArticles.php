@@ -68,7 +68,8 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
                 ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                 ->setTitle($faker->sentence(4, true))
                 ->setType('post')
-                ->setViews(mt_rand(0, 100));
+                ->setViews(mt_rand(0, 100))
+            ;
 
             $em->persist($post);
         }

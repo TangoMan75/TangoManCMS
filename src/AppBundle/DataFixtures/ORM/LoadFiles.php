@@ -73,7 +73,8 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setText($faker->text(mt_rand(100, 255)))
                 ->setTitle($faker->sentence(4, true))
                 ->setType('pptx')
-                ->setViews(mt_rand(0, 100));
+                ->setViews(mt_rand(0, 100))
+            ;
             $em->persist($doc);
         }
 
@@ -86,7 +87,8 @@ class LoadFiles implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setText($faker->text(mt_rand(100, 255)))
                 ->setTitle($faker->sentence(4, true))
                 ->setType('pdf')
-                ->setViews(mt_rand(0, 100));
+                ->setViews(mt_rand(0, 100))
+            ;
             $em->persist($doc);
         }
 
