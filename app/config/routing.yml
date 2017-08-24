@@ -1,3 +1,8 @@
+tango_man_list_manager:
+    resource: "@TangoManListManagerBundle/Controller/"
+    type:     annotation
+    prefix:   /
+
 tangoman_test:
     resource: "@TangoManTestBundle/Controller/"
     type:     annotation

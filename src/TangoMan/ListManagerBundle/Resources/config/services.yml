@@ -1,0 +1,7 @@
+services:
+    twig.extension.tangoman_listmanager:
+        class: TangoMan\ListManagerBundle\Twig\Extension\ListManagerExtension
+        public: false
+        arguments: ["@twig"]
+        tags:
+            - { name: twig.extension }

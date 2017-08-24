@@ -45,7 +45,6 @@
         "tangoman/truncate-html-bundle": "^1.0",
         "tangoman/user-bundle": "^1.0",
         "tiloweb/base64-bundle": "^1.0",
-        "tiloweb/pagination-bundle": "^1.1",
         "twig/extensions": "^1.4",
         "vich/uploader-bundle": "1.4"
     },
