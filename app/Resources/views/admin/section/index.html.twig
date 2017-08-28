@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Sections{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(sections, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Sections</h1>
@@ -79,11 +84,7 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
-                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
-                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
-
             </form>
         </div>
     </section>
@@ -345,7 +346,7 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(sections) }}
+            {{ pagination(sections, 'smart') }}
         </div>
     </section>
     {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'la section' } %}

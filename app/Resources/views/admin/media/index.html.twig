@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Articles{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(listMedia, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Medias</h1>
@@ -96,9 +101,6 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
-                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'title') }}"/>
-                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
             </form>
         </div>
@@ -461,7 +463,7 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(listMedia) }}
+            {{ pagination(listMedia, 'smart') }}
         </div>
     </section>
     {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le média', 'msg2': 'et tous ses commentaires' } %}

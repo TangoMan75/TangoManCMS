@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Privilèges{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(privileges, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Privilèges</h1>
@@ -72,9 +77,6 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
-                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'id') }}"/>
-                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
             </form>
         </div>
@@ -239,7 +241,7 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(privileges) }}
+            {{ pagination(privileges, 'smart') }}
         </div>
     </section>
     {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le privilege' } %}

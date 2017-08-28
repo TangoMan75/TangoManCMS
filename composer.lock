@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "cd1beabc1d611e3e999e13f3815eafe0",
-    "content-hash": "b12c7b23327d5dfe8dc14c504a18c14b",
+    "hash": "100d8074b2ac87f2a01ecd9736acb203",
+    "content-hash": "10a6a641cda72891d752a260fb1fa458",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3055,6 +3055,61 @@
                 "web"
             ],
             "time": "2017-08-18 15:44:21"
+        },
+        {
+            "name": "tangoman/pagination-bundle",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/PaginationBundle.git",
+                "reference": "bc95eb023ec892af3f7ddfac7ceff642793fff20"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/bc95eb023ec892af3f7ddfac7ceff642793fff20",
+                "reference": "bc95eb023ec892af3f7ddfac7ceff642793fff20",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "twig/twig": "~1.12|~2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\PaginationBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Thibault Henry",
+                    "homepage": "http://www.tiloweb.com"
+                },
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                },
+                {
+                    "name": "Fabrice Lazzarotto",
+                    "email": "fabrice.lazzarotto@gmail.com"
+                }
+            ],
+            "description": "Symfony Pagination Twig Extension Bundle",
+            "keywords": [
+                "TangoMan",
+                "bundle",
+                "extension",
+                "pager",
+                "pagination",
+                "paginator",
+                "service",
+                "symfony",
+                "tiloweb",
+                "twig"
+            ],
+            "time": "2017-08-25 11:53:53"
         },
         {
             "name": "tangoman/repository-helper",

@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Commentaires{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(comments, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Commentaires</h1>
@@ -63,9 +68,6 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
-                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'post') }}"/>
-                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
             </form>
         </div>
@@ -263,7 +265,7 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(comments) }}
+            {{ pagination(comments, 'smart') }}
         </div>
     </section>
     {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le commentaire' } %}

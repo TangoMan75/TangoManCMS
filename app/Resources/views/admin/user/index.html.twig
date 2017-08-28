@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Utilisateurs{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(users, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Utilisateurs</h1>
@@ -94,9 +99,6 @@
                             </button>
                         </div>
 
-                        <input type="hidden" name="page" value="1"/>
-                        <input type="hidden" name="order" value="{{ app.request.query.get('order', 'username') }}"/>
-                        <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                     </div>
                 </form>
             </div>
@@ -530,7 +532,8 @@
                 </table>
             </div>
             <div class="text-center">
-                {{ pagination(users) }}
+                {{ pagination(users, 'select') }}
+                {{ pagination(users, 'smart') }}
             </div>
         </section>
         {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'l\'utilisateur', 'msg2': 'et tous ses articles' } %}

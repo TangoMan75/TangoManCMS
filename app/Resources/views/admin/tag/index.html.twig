@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Étiquettes{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(tags, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Étiquettes</h1>
@@ -72,9 +77,6 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
-                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'id') }}"/>
-                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
             </form>
         </div>
@@ -300,7 +302,7 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(tags) }}
+            {{ pagination(tags, 'smart') }}
         </div>
     </section>
     {% include "admin/includes/_delete-tag-modal.html.twig" %}

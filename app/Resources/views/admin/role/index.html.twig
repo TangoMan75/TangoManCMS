@@ -2,6 +2,11 @@
 
 {% block title %}{{ parent() }} | Roles{% endblock %}
 
+{% block head %}
+    {{ parent() }}
+    {{ pagination(roles, 'meta') }}
+{% endblock %}
+
 {% block admin %}
     <header>
         <h1>Roles</h1>
@@ -64,9 +69,6 @@
                         </button>
                     </div>
 
-                    <input type="hidden" name="page" value="1"/>
-                    <input type="hidden" name="order" value="{{ app.request.query.get('order', 'id') }}"/>
-                    <input type="hidden" name="way" value="{{ app.request.query.get('way', 'ASC') }}"/>
                 </div>
             </form>
         </div>
@@ -186,7 +188,7 @@
             </table>
         </div>
         <div class="text-center">
-            {{ pagination(roles) }}
+            {{ pagination(roles, 'smart') }}
         </div>
     </section>
     {% include "admin/includes/_delete-modal.html.twig" with { 'msg': 'le role' } %}

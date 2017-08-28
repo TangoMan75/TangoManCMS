@@ -10,6 +10,14 @@ class ListManagerExtension extends \Twig_Extension
     private $template;
 
     /**
+     * @return string
+     */
+    public function getName()
+    {
+        return 'tangoman_listmanager';
+    }
+
+    /**
      * ListManagerExtension constructor.
      *
      * @param \Twig_Environment $template
@@ -34,18 +42,10 @@ class ListManagerExtension extends \Twig_Extension
     /**
      * @return string
      */
-    public function getName()
-    {
-        return 'tangoman_listmanager';
-    }
-
-    /**
-     * @return string
-     */
     public function listManagerFunction()
     {
         return $this->template->render(
-            'TilowebListManagerBundle::listManager.html.twig', []
+            '@TangoManListManager/index.html.twig', []
         );
     }
 }
