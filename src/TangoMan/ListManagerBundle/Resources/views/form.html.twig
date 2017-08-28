@@ -43,7 +43,7 @@
         {% endfor %}
 
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <label class="control-label col-sm-4" for="select-{{ input.name }}">{{ input.name }}</label>
+            <label class="control-label col-sm-4" for="select-{{ input.name }}">{{ input.label }}</label>
             <div class="col-sm-8">
                 <select name="{{ item.name }}" id="select-{{ input.name }}" class="form-control">
                     <option value="">{{ input.default }}</option>
@@ -65,5 +65,13 @@
                 <span class="glyphicon glyphicon-remove"></span> Effacer
             </button>
         </div>
+
+        {# Appending query parameters when submitting form instead of replacing them, removing empty values #}
+        {% for index, value in app.request.query.all %}
+            {% if value != '' and index == 'page' or index == 'limit' or index == 'order' or index == 'way' %}
+                <input type="hidden" name="{{ index }}" value="{{ value }}">
+            {% endif %}
+        {% endfor %}
+
     </div>
 </form>

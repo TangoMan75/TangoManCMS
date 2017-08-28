@@ -69,6 +69,12 @@
                         </button>
                     </div>
 
+                    {# Appending query parameters when submitting form instead of replacing them, removing empty values #}
+                    {% for index, value in app.request.query.all %}
+                        {% if value != '' and index == 'page' or index == 'limit' or index == 'order' or index == 'way' %}
+                            <input type="hidden" name="{{ index }}" value="{{ value }}">
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </form>
         </div>

@@ -3058,16 +3058,16 @@
         },
         {
             "name": "tangoman/pagination-bundle",
-            "version": "1.2.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/PaginationBundle.git",
-                "reference": "bc95eb023ec892af3f7ddfac7ceff642793fff20"
+                "reference": "3b37625300974c6d5daebd5f110ec9bb00c2ab3d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/bc95eb023ec892af3f7ddfac7ceff642793fff20",
-                "reference": "bc95eb023ec892af3f7ddfac7ceff642793fff20",
+                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/3b37625300974c6d5daebd5f110ec9bb00c2ab3d",
+                "reference": "3b37625300974c6d5daebd5f110ec9bb00c2ab3d",
                 "shasum": ""
             },
             "require": {
@@ -3109,7 +3109,7 @@
                 "tiloweb",
                 "twig"
             ],
-            "time": "2017-08-25 11:53:53"
+            "time": "2017-08-28 08:20:30"
         },
         {
             "name": "tangoman/repository-helper",
