@@ -2,6 +2,10 @@
 
 namespace TangoMan\ListManagerBundle\Twig\Extension;
 
+use TangoMan\ListManagerBundle\Model\SearchForm;
+use TangoMan\ListManagerBundle\Model\SearchInput;
+use TangoMan\ListManagerBundle\Model\SearchOption;
+
 class ListManagerExtension extends \Twig_Extension
 {
     /**
@@ -40,12 +44,21 @@ class ListManagerExtension extends \Twig_Extension
     }
 
     /**
+     * @param        $form
+     * @param string $template
+     *
      * @return string
      */
-    public function listManagerFunction()
+    public function listManagerFunction($form, $template = 'search')
     {
+        if ($template == 'search' || $template == 'order') {
+            $template = '@TangoManListManager/'.$template.'.html.twig';
+        }
+
         return $this->template->render(
-            '@TangoManListManager/index.html.twig', []
+            $template, [
+                         'form' => $form,
+                     ]
         );
     }
 }

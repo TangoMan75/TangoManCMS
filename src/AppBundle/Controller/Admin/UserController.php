@@ -12,6 +12,9 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use TangoMan\CSVExportHelper\CSVExportHelper;
+use TangoMan\ListManagerBundle\Model\SearchForm;
+use TangoMan\ListManagerBundle\Model\SearchInput;
+use TangoMan\ListManagerBundle\Model\SearchOption;
 
 /**
  * @Route("/admin/users")
@@ -29,9 +32,67 @@ class UserController extends Controller
         $em = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
 
+        $form = new SearchForm();
+
+        $input = new SearchInput();
+        $input->setLabel('Id')
+            ->setName('e-id')
+            ->setType('number');
+        $form->addInput($input);
+
+        $input = new SearchInput();
+        $input->setLabel('Utilisateur')
+            ->setName('user-username');
+        $form->addInput($input);
+
+        $input = new SearchInput();
+        $input->setLabel('Email')
+            ->setName('user-email');
+        $form->addInput($input);
+
+        $input = new SearchInput();
+        $input->setLabel('Status')
+            ->setName('n-password');
+        $option = new SearchOption();
+        $option->setName('Actif')
+            ->setValue('true');
+        $input->addOption($option);
+        $option = new SearchOption();
+        $option->setName('Inactif')
+            ->setValue('false');
+        $input->addOption($option);
+        $form->addInput($input);
+
+        $input = new SearchInput();
+        $input->setLabel('Role')
+            ->setName('roles-type');
+
+        $option = new SearchOption();
+        $option->setName('Super Admin')
+            ->setValue('ROLE_SUPER_ADMIN');
+        $input->addOption($option);
+
+        $option = new SearchOption();
+        $option->setName('Admin')
+            ->setValue('ROLE_ADMIN');
+        $input->addOption($option);
+
+        $option = new SearchOption();
+        $option->setName('Super Utilisateur')
+            ->setValue('ROLE_SUPER_USER');
+        $input->addOption($option);
+
+        $option = new SearchOption();
+        $option->setName('Utilisateur')
+            ->setValue('ROLE_USER');
+        $input->addOption($option);
+
+        $form->addInput($input);
+
         return $this->render(
             'admin/user/index.html.twig',
             [
+                'form' => $form,
                 'users' => $users,
             ]
         );

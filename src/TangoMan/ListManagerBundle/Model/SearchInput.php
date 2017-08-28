@@ -2,44 +2,19 @@
 
 namespace TangoMan\ListManagerBundle\Model;
 
+use TangoMan\ListManagerBundle\Model\SearchOption;
+
 /**
- * Class InputBuilder
+ * Class SearchInput
  *
  * @package TangoMan\ListManagerBundle\Model
  */
-class InputBuilder
+class SearchInput
 {
-    /**
-     * @var array
-     */
-    private $validTypes = [
-        'button',
-        'color',
-        'date',
-        'datetime',
-        'datetime-local',
-        'email',
-        'file',
-        'keygen',
-        'month',
-        'number',
-        'password',
-        'phone',
-        'range',
-        'reset',
-        'search',
-        'submit',
-        'tel',
-        'text',
-        'time',
-        'url',
-        'week',
-    ];
-
     /**
      * @var string
      */
-    private $type;
+    private $type = 'text';
 
     /**
      * @var string
@@ -54,7 +29,7 @@ class InputBuilder
     /**
      * @var string
      */
-    private $default;
+    private $default = 'Tous';
 
     /**
      * @var array
@@ -76,7 +51,32 @@ class InputBuilder
      */
     public function setType($type)
     {
-        if (in_array($type, $this->validTypes)) {
+        if (in_array(
+            $type,
+            [
+                'button',
+                'color',
+                'date',
+                'datetime',
+                'datetime-local',
+                'email',
+                'file',
+                'keygen',
+                'month',
+                'number',
+                'password',
+                'phone',
+                'range',
+                'reset',
+                'search',
+                'submit',
+                'tel',
+                'text',
+                'time',
+                'url',
+                'week',
+            ]
+        )) {
             $this->type = $type;
         }
 
@@ -130,6 +130,7 @@ class InputBuilder
      */
     public function setOptions($options)
     {
+        $this->type = 'select';
         $this->options = $options;
 
         return $this;
@@ -144,58 +145,46 @@ class InputBuilder
     }
 
     /**
-     * @param String $name
+     * @param \TangoMan\ListManagerBundle\Model\SearchOption $option
      *
      * @return bool
      */
-    public function hasOption($name)
+    public function hasOption(SearchOption $option)
     {
-        $flag = false;
-        foreach ($this->options as $option) {
-            if ($option['name'] = $name) {
-                $flag = true;
-            }
+        if (in_array($option, $this->options)) {
+            return true;
         }
 
-        return $flag;
+        return false;
     }
 
     /**
-     * @param String $name
-     * @param String $value
+     * @param \TangoMan\ListManagerBundle\Model\SearchOption $option
      *
      * @return $this
      */
-    public function addOption($name, $value)
+    public function addOption(SearchOption $option)
     {
-        // Value is replaced when option exists
-        foreach ($this->options as $option) {
-            if ($option['name'] = $name) {
-                $option['value'] = $value;
-
-                return $this;
-            }
+        $this->type = 'select';
+        if (!$this->hasOption($option)) {
+            $this->options[] = $option;
         }
-
-        $this->options[] = [
-            'name'  => $name,
-            'value' => $value,
-        ];
 
         return $this;
     }
 
     /**
-     * @param String $name
+     * @param \TangoMan\ListManagerBundle\Model\SearchOption $option
      *
      * @return $this
      */
-    public function removeOption($name)
+    public function removeOption(SearchOption $option)
     {
-        foreach ($this->options as $option) {
-            if ($option['name'] = $name) {
-                unset($this->options[$option]);
-            }
+        $options = $this->options;
+
+        if ($this->hasOption($option)) {
+            $remove[] = $option;
+            $this->options = array_diff($options, $remove);
         }
 
         return $this;
