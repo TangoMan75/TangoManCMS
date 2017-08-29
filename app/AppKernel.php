@@ -28,13 +28,16 @@ class AppKernel extends Kernel
             new TangoMan\JWTBundle\TangoManJWTBundle(),
             new TangoMan\PaginationBundle\TangoManPaginationBundle(),
             new TangoMan\RoleBundle\TangoManRoleBundle(),
-            new TangoMan\TestBundle\TangoManTestBundle(),
             new TangoMan\TruncateHtmlBundle\TangoManTruncateHtmlBundle(),
             new TangoMan\UserBundle\TangoManUserBundle(),
+            new TangoMan\ListManagerBundle\TangoManListManagerBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new TangoMan\ListManagerBundle\TangoManListManagerBundle(),
         ];
+
+        if (in_array($this->getEnvironment(), ['dev', 'test'])) {
+            $bundles[] = new TangoMan\TestBundle\TangoManTestBundle();
+        }
 
         return $bundles;
     }
