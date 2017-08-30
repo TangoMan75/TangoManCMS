@@ -150,7 +150,7 @@ class UserController extends Controller
                 },
                 {
                     "label": "Actions",
-                    "colspan": 2
+                    "colspan": 3
                 }
             ]
         }';
