@@ -12,9 +12,6 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use TangoMan\CSVExportHelper\CSVExportHelper;
-use TangoMan\ListManagerBundle\Model\SearchForm;
-use TangoMan\ListManagerBundle\Model\SearchInput;
-use TangoMan\ListManagerBundle\Model\SearchOption;
 
 /**
  * @Route("/admin/users")
@@ -37,7 +34,7 @@ class UserController extends Controller
                 {
                     "type": "number",
                     "name": "e-id",
-                    "icon": "glyphicon glyphicon-info-sign",
+                    "icon": "fa fa-hashtag",
                     "label": "Id"
                 },
                 {
@@ -147,7 +144,7 @@ class UserController extends Controller
                     "route": "app_admin_user_index"
                 },
                 {
-                    "name": "c-password",
+                    "name": "password",
                     "label": "Actif",
                     "route": "app_admin_user_index"
                 },

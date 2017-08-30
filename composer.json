@@ -47,7 +47,8 @@
         "tiloweb/base64-bundle": "^1.0",
         "twig/extensions": "^1.4",
         "vich/uploader-bundle": "1.4",
-        "tangoman/pagination-bundle": "^1.2"
+        "tangoman/pagination-bundle": "^1.2",
+        "tangoman/list-manager-bundle": "^1.0"
     },
     "scripts": {
         "symfony-scripts": [

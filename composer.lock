@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "100d8074b2ac87f2a01ecd9736acb203",
-    "content-hash": "10a6a641cda72891d752a260fb1fa458",
+    "hash": "95ca0e029ea18bc8b58ff1d1c922e903",
+    "content-hash": "c397ee636cc980d3f55fdd21929cc14d",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3055,6 +3055,55 @@
                 "web"
             ],
             "time": "2017-08-18 15:44:21"
+        },
+        {
+            "name": "tangoman/list-manager-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/ListManagerBundle.git",
+                "reference": "5d03d237f16d7415c03448089840e4c91c1e8bd2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/ListManagerBundle/zipball/5d03d237f16d7415c03448089840e4c91c1e8bd2",
+                "reference": "5d03d237f16d7415c03448089840e4c91c1e8bd2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "twig/twig": "~1.12|~2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\ListManagerBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                }
+            ],
+            "description": "Symfony Searchable Paginated Ordered List Twig Extension Bundle",
+            "keywords": [
+                "Paginated",
+                "TangoMan",
+                "back office",
+                "bootstrap",
+                "bundle",
+                "extension",
+                "list",
+                "ordered",
+                "searchable",
+                "service",
+                "symfony",
+                "twig"
+            ],
+            "time": "2017-08-30 13:28:04"
         },
         {
             "name": "tangoman/pagination-bundle",
