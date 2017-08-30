@@ -26,11 +26,11 @@ class AppKernel extends Kernel
             new TangoMan\CallbackBundle\TangoManCallbackBundle(),
             new TangoMan\CSVReaderBundle\TangoManCSVReaderBundle(),
             new TangoMan\JWTBundle\TangoManJWTBundle(),
+            new TangoMan\ListManagerBundle\TangoManListManagerBundle(),
             new TangoMan\PaginationBundle\TangoManPaginationBundle(),
             new TangoMan\RoleBundle\TangoManRoleBundle(),
             new TangoMan\TruncateHtmlBundle\TangoManTruncateHtmlBundle(),
             new TangoMan\UserBundle\TangoManUserBundle(),
-            new TangoMan\ListManagerBundle\TangoManListManagerBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
         ];

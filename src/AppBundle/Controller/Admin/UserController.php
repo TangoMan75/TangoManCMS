@@ -32,67 +32,137 @@ class UserController extends Controller
         $em = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
 
-        $form = new SearchForm();
+        $form = '{
+            "inputs": [
+                {
+                    "type": "number",
+                    "name": "e-id",
+                    "icon": "glyphicon glyphicon-info-sign",
+                    "label": "Id"
+                },
+                {
+                    "type": "text",
+                    "icon": "glyphicon glyphicon-user",
+                    "name": "user-username",
+                    "label": "Utilisateur"
+                },
+                {
+                    "type": "text",
+                    "icon": "glyphicon glyphicon-envelope",
+                    "name": "user-email",
+                    "label": "Email"
+                },
+                {
+                    "type": "select",
+                    "name": "n-password",
+                    "icon": "glyphicon glyphicon-ok",
+                    "label": "Status",
+                    "options": [
+                        {
+                            "name": "Tous",
+                            "value": null
+                        },
+                        {
+                            "name": "Actif",
+                            "value": "true"
+                        },
+                        {
+                            "name": "Inactif",
+                            "value": "false"
+                        }
+                    ]
+                },
+                {
+                    "type": "select",
+                    "name": "roles-type",
+                    "label": "Role",
+                    "icon": "glyphicon glyphicon-king",
+                    "options": [
+                        {
+                            "name": "Tous",
+                            "value": null
+                        },
+                        {
+                            "name": "Super Admin",
+                            "value": "ROLE_SUPER_ADMIN"
+                        },
+                        {
+                            "name": "Admin",
+                            "value": "ROLE_ADMIN"
+                        },
+                        {
+                            "name": "Super Utilisateur",
+                            "value": "ROLE_SUPER_USER"
+                        },
+                        {
+                            "name": "Utilisateur",
+                            "value": "ROLE_USER"
+                        }
+                    ]
+                },
+                {
+                    "type": "submit",
+                    "label": "Filtrer",
+                    "icon": "glyphicon glyphicon-search"
+                },
+                {
+                    "type": "reset",
+                    "label": "Effacer",
+                    "icon": "glyphicon glyphicon-remove"
+                }
+            ]
+        }';
 
-        $input = new SearchInput();
-        $input->setLabel('Id')
-            ->setName('e-id')
-            ->setType('number');
-        $form->addInput($input);
-
-        $input = new SearchInput();
-        $input->setLabel('Utilisateur')
-            ->setName('user-username');
-        $form->addInput($input);
-
-        $input = new SearchInput();
-        $input->setLabel('Email')
-            ->setName('user-email');
-        $form->addInput($input);
-
-        $input = new SearchInput();
-        $input->setLabel('Status')
-            ->setName('n-password');
-        $option = new SearchOption();
-        $option->setName('Actif')
-            ->setValue('true');
-        $input->addOption($option);
-        $option = new SearchOption();
-        $option->setName('Inactif')
-            ->setValue('false');
-        $input->addOption($option);
-        $form->addInput($input);
-
-        $input = new SearchInput();
-        $input->setLabel('Role')
-            ->setName('roles-type');
-
-        $option = new SearchOption();
-        $option->setName('Super Admin')
-            ->setValue('ROLE_SUPER_ADMIN');
-        $input->addOption($option);
-
-        $option = new SearchOption();
-        $option->setName('Admin')
-            ->setValue('ROLE_ADMIN');
-        $input->addOption($option);
-
-        $option = new SearchOption();
-        $option->setName('Super Utilisateur')
-            ->setValue('ROLE_SUPER_USER');
-        $input->addOption($option);
-
-        $option = new SearchOption();
-        $option->setName('Utilisateur')
-            ->setValue('ROLE_USER');
-        $input->addOption($option);
-
-        $form->addInput($input);
+        $order = '{
+            "fields": [
+                {
+                    "name": "username",
+                    "label": "Utilisateur",
+                    "route": "app_admin_user_index",
+                    "colspan": 2
+                },
+                {
+                    "name": "email",
+                    "label": "Email",
+                    "route": "app_admin_user_index"
+                },
+                {
+                    "name": "c-posts",
+                    "label": "Articles",
+                    "route": "app_admin_user_index"
+                },
+                {
+                    "name": "c-posts",
+                    "label": "Médias",
+                    "route": "app_admin_user_index"
+                },
+                {
+                    "name": "c-comments",
+                    "label": "Commentaires",
+                    "route": "app_admin_user_index"
+                },
+                {
+                    "name": "created",
+                    "label": "Création",
+                    "route": "app_admin_user_index"
+                },
+                {
+                    "name": "c-password",
+                    "label": "Actif",
+                    "route": "app_admin_user_index"
+                },
+                {
+                    "label": "Actions",
+                    "colspan": 2
+                }
+            ]
+        }';
 
         return $this->render(
             'admin/user/index.html.twig',
             [
                 'form' => $form,
+                'order' => $order,
                 'users' => $users,
             ]
         );

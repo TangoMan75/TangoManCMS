@@ -9,7 +9,7 @@ use TangoMan\ListManagerBundle\Model\SearchOption;
  *
  * @package TangoMan\ListManagerBundle\Model
  */
-class SearchInput
+class SearchInput implements \JsonSerializable
 {
     /**
      * @var string
@@ -29,7 +29,17 @@ class SearchInput
     /**
      * @var string
      */
-    private $default = 'Tous';
+    private $class;
+
+    /**
+     * @var string
+     */
+    private $icon;
+
+    /**
+     * @var string
+     */
+    private $placeholder;
 
     /**
      * @var array
@@ -69,6 +79,7 @@ class SearchInput
                 'range',
                 'reset',
                 'search',
+                'select',
                 'submit',
                 'tel',
                 'text',
@@ -119,6 +130,66 @@ class SearchInput
     public function setLabel($label)
     {
         $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param string $class
+     *
+     * @return SearchInput
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getIcon()
+    {
+        return $this->icon;
+    }
+
+    /**
+     * @param string $icon
+     *
+     * @return SearchInput
+     */
+    public function setIcon($icon)
+    {
+        $this->icon = $icon;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPlaceholder()
+    {
+        return $this->placeholder;
+    }
+
+    /**
+     * @param string $placeholder
+     *
+     * @return SearchInput
+     */
+    public function setPlaceholder($placeholder)
+    {
+        $this->placeholder = $placeholder;
 
         return $this;
     }
@@ -191,23 +262,45 @@ class SearchInput
     }
 
     /**
-     * @return string
+     * @return array
      */
-    public function getDefault()
+    public function jsonSerialize()
     {
-        return $this->default;
+        $json = [];
+
+        $options = [];
+        foreach ($this->options as $option) {
+            $options[] = $option->jsonSerialize();
+        }
+
+        if ($this->type) {
+            $json['type'] = $this->type;
+        }
+
+        if ($this->name) {
+            $json['name'] = $this->name;
+        }
+
+        if ($this->placeholder) {
+            $json['placeholder'] = $this->placeholder;
+        }
+
+        if ($this->label) {
+            $json['label'] = $this->label;
+        }
+
+        if ($this->class) {
+            $json['class'] = $this->class;
+        }
+
+        if ($this->icon) {
+            $json['icon'] = $this->icon;
+        }
+
+        if ($this->type == 'select') {
+            $json['options'] = $options;
+        }
+
+        return $json;
     }
-
-    /**
-     * @param string $default
-     *
-     * @return $this
-     */
-    public function setDefault($default)
-    {
-        $this->default = $default;
-
-        return $this;
-    }
-
 }

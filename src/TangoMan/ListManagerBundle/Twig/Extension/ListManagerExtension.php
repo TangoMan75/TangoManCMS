@@ -2,10 +2,6 @@
 
 namespace TangoMan\ListManagerBundle\Twig\Extension;
 
-use TangoMan\ListManagerBundle\Model\SearchForm;
-use TangoMan\ListManagerBundle\Model\SearchInput;
-use TangoMan\ListManagerBundle\Model\SearchOption;
-
 class ListManagerExtension extends \Twig_Extension
 {
     /**
@@ -38,7 +34,10 @@ class ListManagerExtension extends \Twig_Extension
     {
         return [
             new \Twig_SimpleFunction(
-                'listManager', [$this, 'listManagerFunction'], ['is_safe' => ['html']]
+                'searchForm', [$this, 'searchFormFunction'], ['is_safe' => ['html']]
+            ),
+            new \Twig_SimpleFunction(
+                'orderFields', [$this, 'orderFieldsFunction'], ['is_safe' => ['html']]
             ),
         ];
     }
@@ -49,15 +48,42 @@ class ListManagerExtension extends \Twig_Extension
      *
      * @return string
      */
-    public function listManagerFunction($form, $template = 'search')
+    public function searchFormFunction($form, $template = 'search')
     {
-        if ($template == 'search' || $template == 'order') {
+        if ($template == 'search') {
             $template = '@TangoManListManager/'.$template.'.html.twig';
+        }
+
+        if (is_string($form)) {
+            $form = json_decode($form);
         }
 
         return $this->template->render(
             $template, [
                          'form' => $form,
+                     ]
+        );
+    }
+
+    /**
+     * @param        $order
+     * @param string $template
+     *
+     * @return string
+     */
+    public function orderFieldsFunction($order, $template = 'order')
+    {
+        if ($template == 'order') {
+            $template = '@TangoManListManager/'.$template.'.html.twig';
+        }
+
+        if (is_string($order)) {
+            $order = json_decode($order);
+        }
+
+        return $this->template->render(
+            $template, [
+                         'order' => $order,
                      ]
         );
     }

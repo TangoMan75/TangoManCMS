@@ -3248,16 +3248,16 @@
         },
         {
             "name": "tangoman/user-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/UserBundle.git",
-                "reference": "99b6a019776cd8a55e8cc88fe0641e2e892bae19"
+                "reference": "8a314c4c9da0c1a4b88f8a2d3351cf02cdab9147"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/UserBundle/zipball/99b6a019776cd8a55e8cc88fe0641e2e892bae19",
-                "reference": "99b6a019776cd8a55e8cc88fe0641e2e892bae19",
+                "url": "https://api.github.com/repos/TangoMan75/UserBundle/zipball/8a314c4c9da0c1a4b88f8a2d3351cf02cdab9147",
+                "reference": "8a314c4c9da0c1a4b88f8a2d3351cf02cdab9147",
                 "shasum": ""
             },
             "require": {
@@ -3265,7 +3265,7 @@
                 "tangoman/entity-helper": "^1.0",
                 "tangoman/jwt-bundle": "^1.0"
             },
-            "type": "library",
+            "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
                     "TangoMan\\UserBundle\\": ""
@@ -3288,7 +3288,7 @@
                 "symfony",
                 "user"
             ],
-            "time": "2017-08-21 15:24:51"
+            "time": "2017-08-29 13:34:35"
         },
         {
             "name": "tiloweb/base64-bundle",

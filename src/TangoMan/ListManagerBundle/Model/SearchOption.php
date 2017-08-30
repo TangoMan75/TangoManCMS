@@ -7,7 +7,7 @@ namespace TangoMan\ListManagerBundle\Model;
  *
  * @package TangoMan\ListManagerBundle\Model
  */
-class SearchOption
+class SearchOption implements \JsonSerializable
 {
     /**
      * @var String
@@ -57,5 +57,16 @@ class SearchOption
         $this->value = $value;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        return [
+            'name'  => $this->name,
+            'value' => $this->value,
+        ];
     }
 }

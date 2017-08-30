@@ -9,12 +9,17 @@ use TangoMan\ListManagerBundle\Model\SearchInput;
  *
  * @package TangoMan\ListManagerBundle\Model
  */
-class SearchForm
+class SearchForm implements \JsonSerializable
 {
     /**
      * @var array
      */
     private $inputs = [];
+
+    /**
+     * @var String
+     */
+    private $class;
 
     /**
      * @var integer
@@ -87,6 +92,26 @@ class SearchForm
     }
 
     /**
+     * @return String
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param String $class
+     *
+     * @return SearchForm
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+
+        return $this;
+    }
+
+    /**
      * @return int
      */
     public function getCount()
@@ -104,5 +129,20 @@ class SearchForm
         $this->count = $count;
 
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize()
+    {
+        $inputs = [];
+        foreach ($this->inputs as $input) {
+            $inputs[] = $input->jsonSerialize();
+        }
+
+        return [
+            'inputs' => $inputs,
+        ];
     }
 }

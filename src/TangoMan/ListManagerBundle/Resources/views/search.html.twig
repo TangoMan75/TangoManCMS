@@ -1,47 +1,88 @@
-<form method="GET" class="form-horizontal">
-    <div class="form-group">
-
-        {% for input in form.inputs %}
-            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+{% if form.inputs is defined and form %}
+    <form method="GET"
+          class="{% if form.class is defined and form.class %}{{ form.class }}{% else %}form-horizontal{% endif %}">
+        <div class="form-group">
+            {% set hasbuttons = false %}
+            {% for input in form.inputs %}
                 {% if input.type == 'select' %}
-                    <label class="control-label col-sm-4" for="select-{{ input.name }}">{{ input.label }}</label>
-                    <div class="col-sm-8">
-                        <select name="{{ input.name }}" id="select-{{ input.name }}" class="form-control">
-                            <option value="">{{ input.default }}</option>
-                            {% for option in input.options %}
-                                <option value="{{ option.value }}"
-                                        {% if app.request.get(input.name) == option.value %}selected{% endif %}>
-                                    {{ option.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        {% if input.label is defined and input.label %}
+                            <label class="control-label col-sm-3"
+                                   for="select-{{ input.name }}">{{ input.label }}</label>
+                        {% else %}
+                            <div class="col-sm-3"></div>
+                        {% endif %}
+                        <div class="{% if input.icon is defined and input.icon %}input-group {% endif %}col-sm-9">
+                            {% if input.icon is defined and input.icon %}
+                                <label for="select-{{ input.name }}" class="input-group-addon">
+                                    <i class="{{ input.icon }}"></i>
+                                </label>
+                            {% endif %}
+                            <select name="{{ input.name }}" id="select-{{ input.name }}"
+                                    class="{% if input.class is defined and input.class %}{{ input.class }}{% else %}form-control{% endif %}"{% if input.auto is defined and input.auto %} onchange="this.input.submit()"{% endif %}>
+                                {% for option in input.options %}
+                                    <option value="{{ option.value }}"
+                                            {% if app.request.get(input.name) == option.value %}selected{% endif %}>
+                                        {{ option.name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
                     </div>
-                {% else %}
-                    <label class="control-label col-sm-4" for="input-{{ input.name }}">{{ input.label }}</label>
-                    <div class="col-sm-8">
-                        <input type="{{ input.type }}" name="{{ input.name }}" id="input-{{ input.name }}"
-                               class="form-control"
-                               value="{{ app.request.get(input.name)|join(', ') }}"/>
+                {% elseif input.type != 'submit' and input.type != 'reset' and input.type != 'button' %}
+                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                        {% if input.label is defined and input.label %}
+                            <label class="control-label col-sm-3" for="input-{{ input.name }}">{{ input.label }}</label>
+                        {% else %}
+                            <div class="col-sm-3"></div>
+                        {% endif %}
+                        <div class="{% if input.icon is defined and input.icon %}input-group {% endif %}col-sm-9">
+                            {% if input.icon is defined and input.icon %}
+                                <label for="input-{{ input.name }}" class="input-group-addon">
+                                    <i class="{{ input.icon }}"></i>
+                                </label>
+                            {% endif %}
+                            <input type="{{ input.type }}"
+                                   name="{{ input.name }}"
+                                   id="input-{{ input.name }}"
+                                   class="{% if input.class is defined and input.class %}{{ input.class }}{% else %}form-control{% endif %}"
+                                    {% if input.auto is defined and input.auto %} onblur="this.form.submit()"{% endif %}
+                                    {% if input.default is defined and input.default %} placeholder="{{ input.default }}"{% endif %}
+                                   value="{{ app.request.get(input.name)|join(', ') }}"/>
+                        </div>
                     </div>
                 {% endif %}
-            </div>
-        {% endfor %}
-
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 text-right pull-right">
-            <button type="submit" class="btn btn-primary">
-                <span class="glyphicon glyphicon-search"></span> Filtrer {% if form.count %}({{ form.count }}){% endif %}
-            </button>
-            <button id="reset" class="btn btn-warning">
-                <span class="glyphicon glyphicon-remove"></span> Effacer
-            </button>
-        </div>
-
-        {# Appending query parameters when submitting form instead of replacing them, removing empty values #}
-        {% for index, value in app.request.query.all %}
-            {% if value != '' and index == 'page' or index == 'limit' or index == 'order' or index == 'way' %}
-                <input type="hidden" name="{{ index }}" value="{{ value }}">
+                {% if input.type == 'submit' or input.type == 'reset' or input.type == 'button' %}
+                    {% set hasbuttons = true %}
+                {% endif %}
+            {% endfor %}
+            {% if hasbuttons %}
+                <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 text-right pull-right">
+                    {% for input in form.inputs %}
+                        {% if input.type == 'submit' or input.type == 'button' %}
+                            <button type="{{ input.type }}"
+                                    class="{% if input.class is defined and input.class %}{{ input.class }}{% else %}btn btn-primary{% endif %}">
+                                {% if input.icon is defined and input.icon %}
+                                    <span class="{{ input.icon }}"></span>
+                                {% endif %}
+                                {{ input.label }}
+                            </button>
+                        {% elseif input.type == 'reset' %}
+                            <button id="{{ input.type }}"
+                                    class="{% if input.class is defined and input.class %}{{ input.class }}{% else %}btn btn-warning{% endif %}">
+                                <span class="glyphicon glyphicon-remove"></span>
+                                Effacer
+                            </button>
+                        {% endif %}
+                    {% endfor %}
+                </div>
             {% endif %}
-        {% endfor %}
-
-    </div>
-</form>
+            {# Appending query parameters when submitting form instead of replacing them, removing empty values #}
+            {% for index, value in app.request.query.all %}
+                {% if value != '' and index == 'page' or index == 'limit' or index == 'order' or index == 'way' %}
+                    <input type="hidden" name="{{ index }}" value="{{ value }}">
+                {% endif %}
+            {% endfor %}
+        </div>
+    </form>
+{% endif %}

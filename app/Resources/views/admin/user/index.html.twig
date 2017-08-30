@@ -21,105 +21,14 @@
     {% if is_granted('ROLE_ADMIN') %}
         <section id="search">
             <div class="jumbotron">
-                {{ listManager(form) }}
+                {{ searchForm(form) }}
             </div>
         </section>
 
         <section id="user-list">
             <div class="table-responsive">
                 <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        {#<th class="{{ app.request.query.get('order') == 'id' ? app.request.query.get('way', 'ASC') }}">#}
-                        {#<a href="{{ path('app_admin_user_index', app.request.query.all|merge({#}
-                        {#'page'  : 1,#}
-                        {#'order' : 'id',#}
-                        {#'way'   : app.request.query.get('order') == 'id'#}
-                        {#and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">#}
-                        {#Id#}
-                        {#</a>#}
-                        {#</th>#}
-
-                        <th colspan="2"
-                            class="{{ app.request.query.get('order') == 'username' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'username',
-                                'way'   : app.request.query.get('order') == 'username'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                                Utilisateur
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'email' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'email',
-                                'way'   : app.request.query.get('order') == 'email'
-                                and app.request.query.get('way', 'ASC') == 'ASC' ? 'DESC' : 'ASC'})) }}">
-                                Email
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'c-posts' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'c-posts',
-                                'way'   : app.request.query.get('order') == 'c-posts'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Articles
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'c-posts' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'c-posts',
-                                'way'   : app.request.query.get('order') == 'c-posts'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Médias
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'c-comments' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'c-comments',
-                                'way'   : app.request.query.get('order') == 'c-comments'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Commentaires
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'created' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'created',
-                                'way'   : app.request.query.get('order') == 'created'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Création
-                            </a>
-                        </th>
-
-                        <th class="{{ app.request.query.get('order') == 'c-password' ? app.request.query.get('way', 'ASC') }}">
-                            <a href="{{ path('app_admin_user_index', app.request.query.all|merge({
-                                'page'  : 1,
-                                'order' : 'c-password',
-                                'way'   : app.request.query.get('order') == 'c-password'
-                                and app.request.query.get('way', 'DESC') == 'DESC' ? 'ASC' : 'DESC'})) }}">
-                                Actif
-                            </a>
-                        </th>
-
-                        <th>Role</th>
-
-                        {#<th colspan="2">Token</th>#}
-
-                        <th colspan="{% if is_granted('ROLE_SUPER_ADMIN') %}2{% else %}1{% endif %}">
-                            Actions
-                        </th>
-                    </tr>
-                    </thead>
+                    {{ orderFields(order) }}
                     <tbody>
                     {% for user in users %}
 

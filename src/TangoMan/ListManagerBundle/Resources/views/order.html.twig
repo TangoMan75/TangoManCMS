@@ -1,0 +1,34 @@
+{% if order.fields is defined and order %}
+    <thead>
+    <tr>
+        {% for field in order.fields %}
+            {# Setting default way #}
+            {% if not field.way is defined %}
+                {% set fieldWay = 'ASC' %}
+            {% else %}
+                {% if field.way != 'ASC' and field.way != 'DESC' %}
+                    {% set fieldWay = 'ASC' %}
+                {% else %}
+                    {% set fieldWay = field.way %}
+                {% endif %}
+            {% endif %}
+            {% if field.route is defined and field.route %}
+                <th{% if field.colspan is defined and field.colspan %} colspan="{{ field.colspan }}"{% endif %}
+                        class="{{ app.request.query.get('order') == field.name ? app.request.query.get('way', fieldWay) }}">
+                    <a href="{{ path(field.route, app.request.query.all|merge({
+                        'page'  : 1,
+                        'order' : field.name,
+                        'way'   : app.request.query.get('order') == field.name
+                        and app.request.query.get('way', fieldWay) == 'ASC' ? 'DESC' : 'ASC'})) }}">
+                        {{ field.label }}
+                    </a>
+                </th>
+            {% else %}
+                <th{% if field.colspan is defined and field.colspan %} colspan="{{ field.colspan }}"{% endif %}>
+                    {{ field.label }}
+                </th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    </thead>
+{% endif %}
