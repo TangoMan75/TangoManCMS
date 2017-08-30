@@ -28,6 +28,7 @@ class AppKernel extends Kernel
             new TangoMan\JWTBundle\TangoManJWTBundle(),
             new TangoMan\ListManagerBundle\TangoManListManagerBundle(),
             new TangoMan\PaginationBundle\TangoManPaginationBundle(),
+            new TangoMan\MenuBundle\TangoManMenuBundle(),
             new TangoMan\RoleBundle\TangoManRoleBundle(),
             new TangoMan\TruncateHtmlBundle\TangoManTruncateHtmlBundle(),
             new TangoMan\UserBundle\TangoManUserBundle(),

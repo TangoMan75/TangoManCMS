@@ -29,6 +29,77 @@ class UserController extends Controller
         $em = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
 
+        $menu = '{
+            "items": [
+                {
+                    "label": "Tableau de bord",
+                    "route": "app_admin_admin_index",
+                    "icon": "glyphicon glyphicon-dashboard"
+                },
+                {
+                    "label": "Sites",
+                    "route": "app_admin_site_index",
+                    "icon": "glyphicon glyphicon-home"
+                },
+                {
+                    "label": "Pages",
+                    "route": "app_admin_page_index",
+                    "icon": "glyphicon glyphicon-file"
+                },
+                {
+                    "label": "Sections",
+                    "route": "app_admin_section_index",
+                    "icon": "glyphicon glyphicon-list-alt"
+                },
+                {
+                    "label": "Galeries",
+                    "route": "app_admin_gallery_index",
+                    "icon": "glyphicon glyphicon-picture"
+                },
+                {
+                    "divider": true
+                },
+                {
+                    "label": "Articles",
+                    "route": "app_admin_post_index",
+                    "icon": "glyphicon glyphicon-text-color"
+                },
+                {
+                    "label": "Medias",
+                    "route": "app_admin_media_index",
+                    "icon": "glyphicon glyphicon-music"
+                },
+                {
+                    "label": "Commentaires",
+                    "route": "app_admin_comment_index",
+                    "icon": "glyphicon glyphicon-comment"
+                },
+                {
+                    "label": "Étiquettes",
+                    "route": "app_admin_tag_index",
+                    "icon": "glyphicon glyphicon-tag"
+                },
+                {
+                    "divider": true
+                },
+                {
+                    "label": "Utilisateurs",
+                    "route": "app_admin_user_index",
+                    "icon": "glyphicon glyphicon-user"
+                },
+                {
+                    "label": "Rôles",
+                    "route": "app_admin_role_index",
+                    "icon": "glyphicon glyphicon-king"
+                },
+                {
+                    "label": "Privilèges",
+                    "route": "app_admin_privilege_index",
+                    "icon": "glyphicon glyphicon-thumbs-up"
+                }
+            ]
+        }';
+
         $form = '{
             "inputs": [
                 {
@@ -158,6 +229,7 @@ class UserController extends Controller
         return $this->render(
             'admin/user/index.html.twig',
             [
+                'menu' => $menu,
                 'form' => $form,
                 'order' => $order,
                 'users' => $users,

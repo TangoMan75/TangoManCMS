@@ -9,6 +9,7 @@
     <div class="container-fluid">
         <div class="row">
             {% block sidebar %}
+                {{ menu(menu) }}
                 {% include "admin/includes/_sidebar.html.twig" %}
             {% endblock %}
             <div class="col-xs-12 col-sm-11 col-md-10">

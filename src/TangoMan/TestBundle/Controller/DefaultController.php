@@ -10,6 +10,8 @@ use TangoMan\ListManagerBundle\Model\SearchOption;
 use TangoMan\ListManagerBundle\Model\Fields;
 use TangoMan\ListManagerBundle\Model\OrderField;
 use Symfony\Component\HttpFoundation\Response;
+use TangoMan\MenuBundle\Model\Item;
+use TangoMan\MenuBundle\Model\Menu;
 
 /**
  * @Route("/test")
@@ -150,5 +152,97 @@ class DefaultController extends Controller
         $fields = json_encode($fields);
 
         return new Response($fields);
+    }
+
+    /**
+     * @Route("/menu-builder")
+     */
+    public function menuBuilderAction()
+    {
+        $menu = new Menu();
+
+        $item = new Item();
+        $item->setLabel('Tableau de bord')
+            ->setRoute('app_admin_admin_index')
+            ->setIcon('glyphicon glyphicon-dashboard');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Sites')
+            ->setRoute('app_admin_site_index')
+            ->setIcon('glyphicon glyphicon-home');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Pages')
+            ->setRoute('app_admin_page_index')
+            ->setIcon('glyphicon glyphicon-file');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Sections')
+            ->setRoute('app_admin_section_index')
+            ->setIcon('glyphicon glyphicon-list-alt');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Galeries')
+            ->setRoute('app_admin_gallery_index')
+            ->setIcon('glyphicon glyphicon-picture');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setDivider(true);
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Articles')
+            ->setRoute('app_admin_post_index')
+            ->setIcon('glyphicon glyphicon-text-color');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Medias')
+            ->setRoute('app_admin_media_index')
+            ->setIcon('glyphicon glyphicon-music');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Commentaires')
+            ->setRoute('app_admin_comment_index')
+            ->setIcon('glyphicon glyphicon-comment');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Étiquettes')
+            ->setRoute('app_admin_tag_index')
+            ->setIcon('glyphicon glyphicon-tag');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setDivider(true);
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Utilisateurs')
+            ->setRoute('app_admin_user_index')
+            ->setIcon('glyphicon glyphicon-user');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Rôles')
+            ->setRoute('app_admin_role_index')
+            ->setIcon('glyphicon glyphicon-king');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Privilèges')
+            ->setRoute('app_admin_privilege_index')
+            ->setIcon('glyphicon glyphicon-thumbs-up');
+        $menu->addItem($item);
+
+        $menu = json_encode($menu);
+
+        return new Response($menu);
     }
 }

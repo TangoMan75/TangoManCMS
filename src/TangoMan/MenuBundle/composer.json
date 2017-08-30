@@ -1,0 +1,37 @@
+{
+	"name": "tangoman/menu-bundle",
+	"description": "Symfony Menu Twig Extension Bundle",
+	"version": "1.3.2",
+	"type": "symfony-bundle",
+	"keywords": [
+		"Menu",
+		"Nav",
+		"Navigation",
+		"Bootstrap",
+		"Symfony",
+		"Twig",
+		"Extension",
+		"Service",
+		"Bundle",
+		"TangoMan"
+	],
+	"licence": "GNU",
+	"authors": [
+		{
+			"name": "Matthias Morin",
+			"email": "tangoman@free.fr"
+		}
+	],
+	"require": {
+		"php":                      ">=5.4.0",
+		"symfony/framework-bundle": "~2.3|~3.0",
+		"twig/twig":                "~1.12|~2"
+	},
+	"autoload": {
+		"psr-4": {
+			"TangoMan\\MenuBundle\\": ""
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}
