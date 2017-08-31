@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "92a3a6ed28323e52a7efe78677d411f8",
-    "content-hash": "6c7cace2510d2142081bb03464ab32e4",
+    "hash": "b8cced475277c25989bc59aa07729393",
+    "content-hash": "e2055d577271d6a4d89ce7f224e8cf04",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3154,16 +3154,16 @@
         },
         {
             "name": "tangoman/pagination-bundle",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/PaginationBundle.git",
-                "reference": "bbc48c1e1fa716a51f3a0504ec17f948a10bc973"
+                "reference": "59dbd2c88412736c3d7a850a48cd5077d9e9ca98"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/bbc48c1e1fa716a51f3a0504ec17f948a10bc973",
-                "reference": "bbc48c1e1fa716a51f3a0504ec17f948a10bc973",
+                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/59dbd2c88412736c3d7a850a48cd5077d9e9ca98",
+                "reference": "59dbd2c88412736c3d7a850a48cd5077d9e9ca98",
                 "shasum": ""
             },
             "require": {
@@ -3206,7 +3206,7 @@
                 "tiloweb",
                 "twig"
             ],
-            "time": "2017-08-30 14:21:32"
+            "time": "2017-08-31 15:22:09"
         },
         {
             "name": "tangoman/repository-helper",
