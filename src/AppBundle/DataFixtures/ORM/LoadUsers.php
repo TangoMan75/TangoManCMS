@@ -64,7 +64,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $em->flush();
 
         // Load Users
-        for ($i = 0; $i < 1000; $i++) {
+        for ($i = 0; $i < 50; $i++) {
             // Makes sure user doesn't exist
             do {
                 $username = $faker->userName;
