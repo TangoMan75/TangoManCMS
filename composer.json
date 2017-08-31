@@ -89,6 +89,7 @@
             "env-map": {
                 "analytics": "ANALYTICS",
                 "database_url": "DATABASE_URL",
+                "hotjar": "HOTJAR",
                 "mailer_from": "MAILER_FROM",
                 "mailer_host": "MAILER_HOST",
                 "mailer_password": "MAILER_PASSWORD",

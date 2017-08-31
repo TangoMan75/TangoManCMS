@@ -41,6 +41,7 @@ twig:
         site_author:  "%site_author%"
         mailer_from:  "%mailer_from%"
         analytics:    "%analytics%"
+        hotjar:       "%hotjar%"
     form_themes:
         - bootstrap_3_layout.html.twig
         - TilowebBase64Bundle:form:fields.html.twig

@@ -28,6 +28,7 @@ parameters:
     super_admin_username: "admin"
     super_admin_pwd:      "321"
     analytics:            UA-XXXXXXXX-X
+    hotjar:               000000
 
     # A secret key that's used to generate certain security-related tokens
     secret:            89befbcf084a78dd505f185552f23f1b1de441e2

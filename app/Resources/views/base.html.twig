@@ -3,16 +3,15 @@
 <head>
     {% set domain_name = absolute_url(path('homepage'))|split('//')[1]|trim('/') %}
     {% block head %}
-        <meta charset="UTF-8"/>
         <title>{% block title %}{{ site_name }}{% endblock %}</title>
 
         {% block meta %}
+            <meta charset="UTF-8"/>
             {# Disables Internet Explorer compatibility mode (for IE 9 and IE 8 support) #}
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             {# Sets page scale to 1 #}
             <meta name="viewport" content="width=device-width, initial-scale=1">
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
             <meta name="autor" content="{{ site_author }}">
             <meta name="copyright" content="{{ 'now'|date('Y') }} {{ site_author }}">
             <meta name="subject" content="{{ site_name }}">
@@ -44,34 +43,20 @@
         {% endblock %}
 
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"/>
-            <link rel="stylesheet" href="{{ asset('css/styles.css') }}"/>
-            {# Use with Gulp inject #}
-            <!-- inject:css -->
-            <!-- endinject -->
-        {% endblock %}
-
-        {% block style %}
-        {% endblock %}
-
-        {% block cdn %}
-            {#<!-- Google fonts CDN -->#}
-            {#<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu|Roboto:100" />#}
-
-            {#<!-- Font-awesome CDN -->#}
-            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" />#}
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
-
             {#<!-- Reset CDN -->#}
             {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css" />#}
 
             {#<!-- Normalize CDN -->#}
-            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css" />#}
+            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/7.0.0/normalize.min.css" />#}
 
             {#<!-- Bootstrap CSS CDN -->#}
             {#<!-- Note: normalize.css, and reset.css are unnecessary with Bootstrap -->#}
-            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">#}
-            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">#}
+            <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+            {#<!-- Bootstrap CSS Local -->#}
+            {#<link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}"/>#}
+
+            {#<!-- jQuery UI theme -->#}
+            {#<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">#}
 
             {#<!-- TinyMCE CDN -->#}
             {#<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>#}
@@ -82,6 +67,22 @@
             {#<!-- Magnific Popup core CSS file -->#}
             {#<link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}">#}
 
+            {#<!-- Custom Stylesheets -->#}
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}"/>
+            {# Use with Gulp inject #}
+            <!-- inject:css -->
+            <!-- endinject -->
+        {% endblock %}
+
+        {% block fonts %}
+            {#<!-- Google fonts CDN -->#}
+            {#<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Ubuntu|Roboto:100" />#}
+
+            {#<!-- Font-awesome CDN -->#}
+            {#<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />#}
+        {% endblock %}
+
+        {% block cdn %}
             {#<!-- Highlight CDN -->#}
             {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/styles/default.min.css">#}
             {#<script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.6.0/highlight.min.js"></script>#}
@@ -91,7 +92,6 @@
 
             {#<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->#}
             {#<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->#}
-
             <!-- [if lt IE 9]>
             <script src="//oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
             <script src="//oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -127,78 +127,102 @@
 
 {% block javascript %}
     {#<!-- jQuery CDN -->#}
-    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>#}
-    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>#}
-    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>#}
-    {#<script src="//ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>#}
-
-    <!-- jQuery local -->
-    <script src="{{ asset('js/jquery.js') }}"></script>
+    {#<script src="//code.jquery.com/jquery-1.12.4.min.js"></script>#}
+    {#<script src="//code.jquery.com/jquery-2.2.4.min.js"></script>#}
+    {#<script src="//code.jquery.com/jquery-3.2.1.min.js"></script>#}
+    {#<!-- jQuery local -->#}
+    {#<script src="{{ asset('js/jquery.js') }}"></script>#}
 
     {#<!-- jQuery UI CDN -->#}
-    {#<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.0/jquery-ui.min.js"></script>#}
+    {#<script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>#}
+    {#<!-- jQuery UI Local -->#}
+    {#<script src="{{ asset('js/jquery-ui.js') }}"></script>#}
 
-    {#<!-- Bootstrap JavaScript CDN -->#}
+    {#<!-- Bootstrap CDN -->#}
     {#<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>#}
     {#<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>#}
-
-    {#<!-- Bootstrap JavaScript local -->#}
-    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    {#<!-- Bootstrap local -->#}
+    {#<script src="{{ asset('js/bootstrap.js') }}"></script>#}
 
     {#<!-- Masonry CDN -->#}
     {#<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.2/masonry.pkgd.min.js"></script>#}
+    {#<script src="https://cdnjs.cloudflare.com/ajax/libs/masonry/4.2.0/masonry.pkgd.min.js"></script>#}
+    {#<!-- Masonry Local -->#}
+    {#<script src="{{ asset('js/masonry.pkgd.min.js') }}"></script>#}
+
+    {# High Charts CDN #}
+    {#<script src="//code.highcharts.com/highcharts.src.js"></script>#}
+    {# High Charts Local #}
+    {#<script src="{{ asset('js/highcharts.src.js') }}"></script>#}
 
     {# Magnific popup initialisation #}
     {#{% if 'photo' in gallery %}#}
-    {#<!-- Magnific Popup core JS file -->#}
+    {#<!-- Magnific Popup core JS -->#}
     {#<script src="{{ asset('vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>#}
 
     {#<style>#}
-    {#.gallery a {#}
-    {#background-size: cover;#}
-    {#background-repeat: no-repeat;#}
-    {#display: inline-block;#}
-    {#width: 75px;#}
-    {#height: 75px;#}
-    {#margin-bottom: 2px;#}
-    {#}#}
+        {#.gallery a {#}
+            {#background-size: cover;#}
+            {#background-repeat: no-repeat;#}
+            {#display: inline-block;#}
+            {#width: 75px;#}
+            {#height: 75px;#}
+            {#margin-bottom: 2px;#}
+        {#}#}
     {#</style>#}
 
     {#<script>#}
-    {#$(document).ready(function () {#}
-    {#$('.gallery').magnificPopup({#}
-    {#delegate: 'a.image-popup',#}
-    {#type: 'image',#}
-    {#tLoading: 'Chargement de l\'image #%curr%...',#}
-    {#mainClass: 'mfp-img-mobile',#}
-    {#gallery: {#}
-    {#enabled: true,#}
-    {#navigateByImgClick: true,#}
-    {#preload: [0, 1] // Will preload 0 - before current, and 1 after the current image#}
-    {#},#}
-    {#image: {#}
-    {#tError: '<a href="%url%">L\'image #%curr%</a> n\'a pas pu être chargée.',#}
-    {#titleSrc: function (item) {#}
-    {#return item.el.attr('title');#}
-    {#}#}
-    {#}#}
-    {#});#}
-    {#});#}
+        {#$(document).ready(function () {#}
+            {#$('.gallery').magnificPopup({#}
+                {#delegate: 'a.image-popup',#}
+                {#type: 'image',#}
+                {#tLoading: 'Chargement de l\'image #%curr%...',#}
+                {#mainClass: 'mfp-with-zoom',#}
+                {#gallery: {#}
+                    {#enabled: true,#}
+                    {#navigateByImgClick: true,#}
+                    {#preload: [0, 1] // Will preload 0 - before current, and 1 after the current image#}
+                {#},#}
+                {#image: {#}
+                    {#tError: '<a href="%url%">L\'image #%curr%</a> n\'a pas pu être chargée.',#}
+                    {#titleSrc: function (item) {#}
+                        {#return item.el.attr('title');#}
+                    {#}#}
+                {#},#}
+                {#zoom: {#}
+                    {#enabled: true,#}
+                    {#duration: 300,#}
+                    {#easing: 'ease-in-out'#}
+                {#}#}
+            {#});#}
+        {#});#}
     {#</script>#}
     {#{% endif %}#}
 
     {# Custom JavaScript #}
     <script src="{{ asset('js/main.js') }}"></script>
 
+    {# Hotjar tracking code #}
+    <script>
+        (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:{{ hotjar }},hjsv:5};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'//static.hotjar.com/c/hotjar-','.js?sv=');
+    </script>
+
     {# Google Analytics #}
-    <!--    <script>
+    <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
         (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
         })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
         ga('create', '{{ analytics }}', 'auto');
         ga('send', 'pageview');
-    </script>  -->
+    </script>
 {% endblock %}
 </body>
 </html>
