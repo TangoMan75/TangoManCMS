@@ -9,8 +9,129 @@
     <div class="container-fluid">
         <div class="row">
             {% block sidebar %}
-                {{ menu(menu) }}
-                {% include "admin/includes/_sidebar.html.twig" %}
+                <div id="sidebar" class="col-xs-12 col-sm-1 col-lg-2">
+
+                    <div class="sidebar-avatar">
+                        <div class="user-avatar">
+                            <img src="{{ app.user.avatar ? app.user.avatar : asset('img/user.jpg') }}"
+                                 alt="{{ app.user.username }}">
+                        </div>
+
+                        <div class="sidebar-username">
+                            {{ app.user.username }}
+                        </div>
+
+                        <div class="sidebar-roles">
+                            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                                <div class="btn btn-danger btn-sm">
+                                    <span class="glyphicon glyphicon-king"></span>
+                                    Super Administrateur
+                                </div>
+                            {% elseif 'ROLE_ADMIN' in app.user.roles %}
+                                <div class="btn btn-warning btn-sm">
+                                    <span class="glyphicon glyphicon-tower"></span>
+                                    Administrateur
+                                </div>
+                            {% elseif 'ROLE_SUPER_USER' in app.user.roles %}
+                                <div class="btn btn-success btn-sm">
+                                    <span class="glyphicon glyphicon-bishop"></span>
+                                </div>
+                                Super Utilisateur
+                            {% else %}
+                                <div class="btn btn-primary btn-sm">
+                                    <span class="glyphicon glyphicon-pawn"></span>
+                                    Utilisateur
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    {{ menu('{
+                    "items": [
+                        {
+                            "label": "Tableau de bord",
+                            "route": "app_admin_admin_index",
+                            "active": "app_admin_admin",
+                            "icon": "glyphicon glyphicon-dashboard"
+                        },
+                        {
+                            "divider": true
+                        },
+                        {
+                            "label": "Sites",
+                            "route": "app_admin_site_index",
+                            "active": "app_admin_site",
+                            "icon": "glyphicon glyphicon-home"
+                        },
+                        {
+                            "label": "Pages",
+                            "route": "app_admin_page_index",
+                            "active": "app_admin_page",
+                            "icon": "glyphicon glyphicon-file"
+                        },
+                        {
+                            "label": "Sections",
+                            "route": "app_admin_section_index",
+                            "active": "app_admin_section",
+                            "icon": "glyphicon glyphicon-list-alt"
+                        },
+                        {
+                            "label": "Galeries",
+                            "route": "app_admin_gallery_index",
+                            "active": "app_admin_gallery",
+                            "icon": "glyphicon glyphicon-picture"
+                        },
+                        {
+                            "divider": true
+                        },
+                        {
+                            "label": "Articles",
+                            "route": "app_admin_post_index",
+                            "active": "app_admin_post",
+                            "icon": "glyphicon glyphicon-text-color"
+                        },
+                        {
+                            "label": "Medias",
+                            "route": "app_admin_media_index",
+                            "active": "app_admin_media",
+                            "icon": "glyphicon glyphicon-music"
+                        },
+                        {
+                            "label": "Commentaires",
+                            "route": "app_admin_comment_index",
+                            "active": "app_admin_comment",
+                            "icon": "glyphicon glyphicon-comment"
+                        },
+                        {
+                            "label": "Étiquettes",
+                            "route": "app_admin_tag_index",
+                            "active": "app_admin_tag",
+                            "icon": "glyphicon glyphicon-tag"
+                        },
+                        {
+                            "divider": true
+                        },
+                        {
+                            "label": "Utilisateurs",
+                            "route": "app_admin_user_index",
+                            "active": "app_admin_user",
+                            "icon": "glyphicon glyphicon-user"
+                        },
+                        {
+                            "label": "Rôles",
+                            "route": "app_admin_role_index",
+                            "active": "app_admin_role",
+                            "icon": "glyphicon glyphicon-king"
+                        },
+                        {
+                            "label": "Privilèges",
+                            "route": "app_admin_privilege_index",
+                            "active": "app_admin_privilege",
+                            "icon": "glyphicon glyphicon-thumbs-up"
+                        }
+                    ]
+                }') }}
+                </div>
             {% endblock %}
             <div class="col-xs-12 col-sm-11 col-md-10">
                 {% block admin %}

@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "95ca0e029ea18bc8b58ff1d1c922e903",
-    "content-hash": "c397ee636cc980d3f55fdd21929cc14d",
+    "hash": "92a3a6ed28323e52a7efe78677d411f8",
+    "content-hash": "6c7cace2510d2142081bb03464ab32e4",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3104,6 +3104,53 @@
                 "twig"
             ],
             "time": "2017-08-30 13:28:04"
+        },
+        {
+            "name": "tangoman/menu-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/MenuBundle.git",
+                "reference": "ba276b3c51d3d97b8fc02a5aead84bd28ea758b8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/MenuBundle/zipball/ba276b3c51d3d97b8fc02a5aead84bd28ea758b8",
+                "reference": "ba276b3c51d3d97b8fc02a5aead84bd28ea758b8",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "twig/twig": "~1.12|~2"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\MenuBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Matthias Morin",
+                    "email": "tangoman@free.fr"
+                }
+            ],
+            "description": "Symfony Menu Twig Extension Bundle",
+            "keywords": [
+                "TangoMan",
+                "bootstrap",
+                "bundle",
+                "extension",
+                "menu",
+                "nav",
+                "navigation",
+                "service",
+                "symfony",
+                "twig"
+            ],
+            "time": "2017-08-31 10:19:22"
         },
         {
             "name": "tangoman/pagination-bundle",

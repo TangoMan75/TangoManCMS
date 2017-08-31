@@ -27,7 +27,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/search-form-builder")
+     * @Route("/search")
      */
     public function searchFormBuilderAction()
     {
@@ -107,12 +107,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/order-builder")
+     * @Route("/order")
      */
     public function orderBuilderAction()
     {
         $fields = new Fields();
-        $fields->setRoute('app_admin_user_index');
 
         $field = new OrderField();
         $field->setName('username')
@@ -155,7 +154,7 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/menu-builder")
+     * @Route("/menu")
      */
     public function menuBuilderAction()
     {
@@ -168,8 +167,13 @@ class DefaultController extends Controller
         $menu->addItem($item);
 
         $item = new Item();
+        $item->setDivider(true);
+        $menu->addItem($item);
+
+        $item = new Item();
         $item->setLabel('Sites')
             ->setRoute('app_admin_site_index')
+            ->setActive('app_admin_site')
             ->setIcon('glyphicon glyphicon-home');
         $menu->addItem($item);
 
