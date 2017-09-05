@@ -110,8 +110,8 @@ class UserController extends Controller
             ]
         }';
 
-        $order = '{
-            "fields": [
+        $thead = '{
+            "items": [
                 {
                     "name": "username",
                     "label": "Utilisateur",
@@ -159,7 +159,7 @@ class UserController extends Controller
             'admin/user/index.html.twig',
             [
                 'form' => $form,
-                'order' => $order,
+                'thead' => $thead,
                 'users' => $users,
             ]
         );

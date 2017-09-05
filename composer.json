@@ -40,16 +40,16 @@
         "tangoman/csv-reader-bundle": "^1.0",
         "tangoman/entity-helper": "^1.2",
         "tangoman/jwt-bundle": "^1.0",
+        "tangoman/list-manager-bundle": "^1.0",
+        "tangoman/menu-bundle": "^1.0",
+        "tangoman/pagination-bundle": "^1.2",
         "tangoman/repository-helper": "^1.0",
         "tangoman/role-bundle": "^1.0",
         "tangoman/truncate-html-bundle": "^1.0",
         "tangoman/user-bundle": "^1.0",
         "tiloweb/base64-bundle": "^1.0",
         "twig/extensions": "^1.4",
-        "vich/uploader-bundle": "1.4",
-        "tangoman/pagination-bundle": "^1.2",
-        "tangoman/list-manager-bundle": "^1.0",
-        "tangoman/menu-bundle": "^1.0"
+        "vich/uploader-bundle": "1.4"
     },
     "scripts": {
         "symfony-scripts": [

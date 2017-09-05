@@ -7,8 +7,8 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use TangoMan\ListManagerBundle\Model\SearchForm;
 use TangoMan\ListManagerBundle\Model\SearchInput;
 use TangoMan\ListManagerBundle\Model\SearchOption;
-use TangoMan\ListManagerBundle\Model\Fields;
-use TangoMan\ListManagerBundle\Model\OrderField;
+use TangoMan\ListManagerBundle\Model\Th;
+use TangoMan\ListManagerBundle\Model\Thead;
 use Symfony\Component\HttpFoundation\Response;
 use TangoMan\MenuBundle\Model\Item;
 use TangoMan\MenuBundle\Model\Menu;
@@ -19,7 +19,7 @@ use TangoMan\MenuBundle\Model\Menu;
 class DefaultController extends Controller
 {
     /**
-     * @Route("/app-request")
+     * @Route("/")
      */
     public function indexAction()
     {
@@ -27,7 +27,23 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/search")
+     * @Route("/app-request")
+     */
+    public function appRequestAction()
+    {
+        return $this->render('@TangoManTest/app-request.html.twig');
+    }
+
+    /**
+     * @Route("/navbar")
+     */
+    public function navbarAction()
+    {
+        return $this->render('@TangoManTest/navbar.html.twig');
+    }
+
+    /**
+     * @Route("/search-builder")
      */
     public function searchFormBuilderAction()
     {
@@ -107,54 +123,70 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/order")
+     * @Route("/isgranted/{role}")
      */
-    public function orderBuilderAction()
+    public function roleServiceAction($role)
     {
-        $fields = new Fields();
-
-        $field = new OrderField();
-        $field->setName('username')
-            ->setLabel('Utilisateur');
-        $fields->addField($field);
-
-        $field = new OrderField();
-        $field->setName('email')
-            ->setLabel('Email');
-        $fields->addField($field);
-
-        $field = new OrderField();
-        $field->setName('c-posts')
-            ->setLabel('Articles');
-        $fields->addField($field);
-
-        $field = new OrderField();
-        $field->setName('c-posts')
-            ->setLabel('Médias');
-        $fields->addField($field);
-
-        $field = new OrderField();
-        $field->setName('c-comments')
-            ->setLabel('Commentaires');
-        $fields->addField($field);
-
-        $field = new OrderField();
-        $field->setName('created')
-            ->setLabel('Création');
-        $fields->addField($field);
-
-        $field = new OrderField();
-        $field->setName('c-password')
-            ->setLabel('Actif');
-        $fields->addField($field);
-
-        $fields = json_encode($fields);
-
-        return new Response($fields);
+        $permission = $this->get('security.authorization_checker')->isGranted($role);
+        return new Response(json_encode($permission));
     }
 
     /**
-     * @Route("/menu")
+     * @Route("/thead-builder")
+     */
+    public function theadBuilderAction()
+    {
+        $thead = new Thead();
+        $thead->setClass('thead');
+
+        $item = new Th();
+        $item->setName('username')
+            ->setLabel('Utilisateur');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('email')
+            ->setLabel('Email');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('c-posts')
+            ->setLabel('Articles');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('c-posts')
+            ->setLabel('Médias');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('c-comments')
+            ->setLabel('Commentaires');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('created')
+            ->setLabel('Création');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('c-password')
+            ->setLabel('Actif');
+        $thead->addTh($item);
+
+        $item = new Th();
+        $item->setName('actions')
+            ->setLabel('Actions')
+            ->setRoles(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER']);
+        $thead->addTh($item);
+
+        $thead = json_encode($thead);
+
+        return new Response($thead);
+    }
+
+    /**
+     * @Route("/menu-builder")
      */
     public function menuBuilderAction()
     {
@@ -243,6 +275,98 @@ class DefaultController extends Controller
         $item->setLabel('Privilèges')
             ->setRoute('app_admin_privilege_index')
             ->setIcon('glyphicon glyphicon-thumbs-up');
+        $menu->addItem($item);
+
+        $menu = json_encode($menu);
+
+        return new Response($menu);
+    }
+
+    /**
+     * @Route("/navbar-builder")
+     */
+    public function navbarBuilderAction()
+    {
+        $menu = new Menu();
+        $subMenu = new Menu();
+
+        $item = new Item();
+        $item->setLabel('Tableau de bord')
+            ->setRoute('app_admin_admin_index')
+            ->setIcon('glyphicon glyphicon-dashboard')
+            ->addRole('ROLE_ADMIN');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Sociétés')
+            ->setRoute('admin_company')
+            ->setActive('admin_company')
+            ->setIcon('glyphicon glyphicon-home')
+            ->addRole('ROLE_ADMIN');
+        $menu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Sites')
+            ->setRoute('admin_local')
+            ->setActive('admin_local')
+            ->addRole('admin_local');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Services')
+            ->setRoute('admin_service')
+            ->setActive('admin_service')
+            ->addRole('admin_service');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Parkings')
+            ->setRoute('admin_pool')
+            ->setActive('admin_pool')
+            ->addRole('admin_pool');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Véhicules')
+            ->setRoute('admin_vehicle')
+            ->setActive('admin_vehicle')
+            ->addRole('admin_vehicle');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Fournisseurs')
+            ->setRoute('admin_provider')
+            ->setActive('admin_provider')
+            ->addRole('admin_provider');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Assurances')
+            ->setRoute('admin_insurance')
+            ->setActive('admin_insurance')
+            ->addRole('admin_insurance');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Révisions')
+            ->setRoute('admin_carService')
+            ->setActive('admin_carService')
+            ->addRole('admin_carService');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Utilisateurs')
+            ->setRoute('admin_user_list')
+            ->setActive('admin_user_list')
+            ->addRole('admin_user_list');
+        $subMenu->addItem($item);
+
+        $item = new Item();
+        $item->setLabel('Espace de gestion')
+            ->setIcon('caret')
+            ->setSubMenu($subMenu)
+            ->addRole('ROLE_ADMIN')
+            ->addRole('ROLE_MANAGER');
         $menu->addItem($item);
 
         $menu = json_encode($menu);

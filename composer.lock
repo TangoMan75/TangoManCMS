@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "b8cced475277c25989bc59aa07729393",
-    "content-hash": "e2055d577271d6a4d89ce7f224e8cf04",
+    "hash": "a299d61dc724e4b7f28298fbf9bd813e",
+    "content-hash": "49963fe0ff65befea88028b02aaca831",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1100,23 +1100,24 @@
         },
         {
             "name": "imagine/imagine",
-            "version": "v0.6.3",
+            "version": "v0.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/avalanche123/Imagine.git",
-                "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d"
+                "reference": "a9a702a946073cbca166718f1b02a1e72d742daa"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/149041d2a1b517107bfe270ca2b1a17aa341715d",
-                "reference": "149041d2a1b517107bfe270ca2b1a17aa341715d",
+                "url": "https://api.github.com/repos/avalanche123/Imagine/zipball/a9a702a946073cbca166718f1b02a1e72d742daa",
+                "reference": "a9a702a946073cbca166718f1b02a1e72d742daa",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.2"
             },
             "require-dev": {
-                "sami/sami": "dev-master"
+                "sami/sami": "^3.3",
+                "symfony/phpunit-bridge": "^3.2"
             },
             "suggest": {
                 "ext-gd": "to use the GD implementation",
@@ -1153,7 +1154,7 @@
                 "image manipulation",
                 "image processing"
             ],
-            "time": "2015-09-19 16:54:05"
+            "time": "2017-05-16 10:31:22"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -1309,20 +1310,20 @@
         },
         {
             "name": "liip/imagine-bundle",
-            "version": "1.8.0",
+            "version": "1.9.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/liip/LiipImagineBundle.git",
-                "reference": "d2551d8560212d440b4a6483236005957fbd4bff"
+                "reference": "2b9f4e66a56b735c15435f5a154eded8d02d0750"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/liip/LiipImagineBundle/zipball/d2551d8560212d440b4a6483236005957fbd4bff",
-                "reference": "d2551d8560212d440b4a6483236005957fbd4bff",
+                "url": "https://api.github.com/repos/liip/LiipImagineBundle/zipball/2b9f4e66a56b735c15435f5a154eded8d02d0750",
+                "reference": "2b9f4e66a56b735c15435f5a154eded8d02d0750",
                 "shasum": ""
             },
             "require": {
-                "imagine/imagine": "^0.6.3,<0.7",
+                "imagine/imagine": "^0.6.3|^0.7.0,<0.8",
                 "php": "^5.3.9|^7.0",
                 "symfony/asset": "~2.3|~3.0",
                 "symfony/filesystem": "~2.3|~3.0",
@@ -1406,7 +1407,7 @@
                 "symfony",
                 "transformation"
             ],
-            "time": "2017-05-09 14:18:19"
+            "time": "2017-09-02 23:08:10"
         },
         {
             "name": "monolog/monolog",
@@ -3012,16 +3013,16 @@
         },
         {
             "name": "tangoman/jwt-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/JWTBundle.git",
-                "reference": "5cae99c2c285bd86192efed50b55b56ea0428f13"
+                "reference": "6276daaba06e05fd05bf8e8c9d9814f3cdf80dc2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/5cae99c2c285bd86192efed50b55b56ea0428f13",
-                "reference": "5cae99c2c285bd86192efed50b55b56ea0428f13",
+                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/6276daaba06e05fd05bf8e8c9d9814f3cdf80dc2",
+                "reference": "6276daaba06e05fd05bf8e8c9d9814f3cdf80dc2",
                 "shasum": ""
             },
             "require": {
@@ -3054,7 +3055,7 @@
                 "token",
                 "web"
             ],
-            "time": "2017-08-18 15:44:21"
+            "time": "2017-09-05 14:12:18"
         },
         {
             "name": "tangoman/list-manager-bundle",
@@ -3062,12 +3063,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/ListManagerBundle.git",
-                "reference": "5d03d237f16d7415c03448089840e4c91c1e8bd2"
+                "reference": "455112ce8f34c997bc85ffc70106b47a2fff08a5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/ListManagerBundle/zipball/5d03d237f16d7415c03448089840e4c91c1e8bd2",
-                "reference": "5d03d237f16d7415c03448089840e4c91c1e8bd2",
+                "url": "https://api.github.com/repos/TangoMan75/ListManagerBundle/zipball/455112ce8f34c997bc85ffc70106b47a2fff08a5",
+                "reference": "455112ce8f34c997bc85ffc70106b47a2fff08a5",
                 "shasum": ""
             },
             "require": {
@@ -3103,7 +3104,7 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2017-08-30 13:28:04"
+            "time": "2017-09-05 14:09:29"
         },
         {
             "name": "tangoman/menu-bundle",
@@ -3111,12 +3112,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/MenuBundle.git",
-                "reference": "ba276b3c51d3d97b8fc02a5aead84bd28ea758b8"
+                "reference": "b9092ee1208d16c4d7a25dd708e94160da7443a0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/MenuBundle/zipball/ba276b3c51d3d97b8fc02a5aead84bd28ea758b8",
-                "reference": "ba276b3c51d3d97b8fc02a5aead84bd28ea758b8",
+                "url": "https://api.github.com/repos/TangoMan75/MenuBundle/zipball/b9092ee1208d16c4d7a25dd708e94160da7443a0",
+                "reference": "b9092ee1208d16c4d7a25dd708e94160da7443a0",
                 "shasum": ""
             },
             "require": {
@@ -3150,7 +3151,7 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2017-08-31 10:19:22"
+            "time": "2017-09-05 14:35:58"
         },
         {
             "name": "tangoman/pagination-bundle",
@@ -3253,16 +3254,16 @@
         },
         {
             "name": "tangoman/role-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/RoleBundle.git",
-                "reference": "29cd87fd39e55ab719a0184870b276c311196ba7"
+                "reference": "afe041732d852641c8ef28477ac95cedd1232724"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/29cd87fd39e55ab719a0184870b276c311196ba7",
-                "reference": "29cd87fd39e55ab719a0184870b276c311196ba7",
+                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/afe041732d852641c8ef28477ac95cedd1232724",
+                "reference": "afe041732d852641c8ef28477ac95cedd1232724",
                 "shasum": ""
             },
             "require": {
@@ -3293,7 +3294,7 @@
                 "role",
                 "symfony"
             ],
-            "time": "2017-08-21 15:08:03"
+            "time": "2017-09-05 13:58:57"
         },
         {
             "name": "tangoman/truncate-html-bundle",

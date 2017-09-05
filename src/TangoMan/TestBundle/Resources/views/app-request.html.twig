@@ -1,0 +1,221 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }} | Twig test app global variable{% endblock %}
+
+{% block head %}
+    {{ parent() }}
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Test Symfony Twig Extensions</h1>
+        <hr>
+
+        <table class="table table-striped">
+            <tr>
+                <th colspan="2">
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html" target="_blank">Symfony Twig Extensions Documentation</a>
+                </th>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#app" target="_blank">app</a>
+                </td>
+                <td>
+                    The app variable is available everywhere and gives access to many commonly needed objects and
+                    values.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.uri
+                </td>
+                <td>
+                    Returns the absolute URL (with scheme and host) for current view.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    app.request.attributes.get('_route')
+                </td>
+                <td>
+                    Returns route for current view.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#path" target="_blank">
+                        path('app_route', { 'param': 'value' })
+                    </a>
+                </td>
+                <td>
+                    Returns the relative URL (without the scheme and host) for the given route.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#url" target="_blank">
+                        url('app_route', { 'param': 'value' })
+                    </a>
+                </td>
+                <td>
+                    Returns the absolute URL (with scheme and host) for the given route.
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <a href="https://symfony.com/doc/current/reference/twig_reference.html#absolute-url" target="_blank">
+                        absolute_url('/relative/path')
+                    </a>
+                </td>
+                <td>
+                    Returns the absolute URL from the passed relative path.
+                </td>
+            </tr>
+        </table>
+
+        <hr>
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <tr>
+                    <th colspan="2">
+                        Examples
+                    </th>
+                </tr>
+
+                <tr>
+                    <th>Command</th>
+                    <th>Result</th>
+                </tr>
+
+                <tr>
+                    <td>
+                        app.request.attributes.get('_route')
+                    </td>
+                    <td>
+                        <a href="{{ app.request.attributes.get('_route') }}">
+                            {{ app.request.attributes.get('_route') }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        app.request.uri
+                    </td>
+                    <td>
+                        <a href="{{ app.request.uri }}">
+                            {{ app.request.uri }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        path(app.request.attributes.get('_route'))
+                    </td>
+                    <td>
+                        <a href="{{ path(app.request.attributes.get('_route')) }}">
+                            {{ path(app.request.attributes.get('_route')) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        path(app.request.attributes.get('_route'), { 'foo': 'bar' })
+                    </td>
+                    <td>
+                        <a href="{{ path(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}">
+                            {{ path(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        url(app.request.attributes.get('_route'))
+                    </td>
+                    <td>
+                        <a href="{{ url(app.request.attributes.get('_route')) }}">
+                            {{ url(app.request.attributes.get('_route')) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        url(app.request.attributes.get('_route'), { 'foo': 'bar' })
+                    </td>
+                    <td>
+                        <a href="{{ url(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}">
+                            {{ url(app.request.attributes.get('_route'), { 'foo': 'bar' }) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        absolute_url(path(app.request.attributes.get('_route')))
+                    </td>
+                    <td>
+                        <a href="{{ absolute_url(path(app.request.attributes.get('_route'))) }}">
+                            {{ absolute_url(path(app.request.attributes.get('_route'))) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        path(app.request.attributes.get('_route'), { 'callback': app.request.uri })
+                    </td>
+                    <td>
+                        <a href="{{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri }) }}">
+                            {{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri }) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        path(app.request.attributes.get('_route'), { 'callback': app.request.uri|callback })
+                    </td>
+                    <td>
+                        <a href="{{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri|callback }) }}">
+                            {{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri|callback }) }}
+                        </a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <th colspan="2">app.request.attributes.get('_route_params')</th>
+                </tr>
+                {% for index, value in app.request.attributes.get('_route_params') %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+
+                <tr>
+                    <th colspan="2">app.request.query.all</th>
+                </tr>
+                {% for index, value in app.request.query.all %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ value }}</td>
+                    </tr>
+                {% endfor %}
+
+
+            </table>
+        </div>
+    </div>
+{% endblock %}

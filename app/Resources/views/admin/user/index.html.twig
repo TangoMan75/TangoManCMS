@@ -19,6 +19,7 @@
     </header>
     {% include "admin/includes/_user_tabs.html.twig" %}
     {% if is_granted('ROLE_ADMIN') %}
+
         <section id="search">
             <div class="jumbotron">
                 {{ searchForm(form) }}
@@ -28,17 +29,10 @@
         <section id="user-list">
             <div class="table-responsive">
                 <table class="table table-striped">
-                    {{ orderFields(order) }}
+                    {{ thead(thead) }}
                     <tbody>
                     {% for user in users %}
-
                         <tr>
-                            {#<td>#}
-                            {#<a href="{{ path('app_user_show', { 'slug': user.slug }) }}">#}
-                            {#{{ user.id }}#}
-                            {#</a>#}
-                            {#</td>#}
-
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}" class="cover"
                                    data-toggle="tooltip" data-placement="top"
@@ -46,17 +40,14 @@
                                    style="padding-bottom: 30px; width: 30px; background-image: url('{{ user.avatar ? user.avatar : asset('img/user.jpg') }}');">
                                 </a>
                             </td>
-
                             <td>
                                 <a href="{{ path('app_user_show', { 'slug': user.slug }) }}">
                                     {{ user }}
                                 </a>
                             </td>
-
                             <td>
                                 {{ user.email }}
                             </td>
-
                             <td>
                                 {% if user.postCount > 1 %}
                                     <a href="{{ path('app_admin_post_index', { 'user-username' : user.username }) }}"
@@ -71,7 +62,6 @@
                                         </span>
                                     </a>
                                 {% endif %}
-
                                 {% if user.postCount %}
                                     {% for post in user.posts %}
                                         {% if post.type == 'post' %}
@@ -100,7 +90,6 @@
                                     </span>
                                 {% endif %}
                             </td>
-
                             <td>
                                 {% if user.mediaCount > 1 %}
                                     <a href="{{ path('app_admin_post_index', { 'user-username' : user.username }) }}"
@@ -115,7 +104,6 @@
                                         </span>
                                     </a>
                                 {% endif %}
-
                                 {% if user.mediaCount %}
                                     {% for post in user.posts %}
                                         {% if post.type == 'media' %}
@@ -144,7 +132,6 @@
                                     </span>
                                 {% endif %}
                             </td>
-
                             <td>
                                 {% if user.comments|length > 1 %}
                                     <a href="{{ path('app_admin_comment_index', { 'user-username' : user.username }) }}"
@@ -159,7 +146,6 @@
                                         </span>
                                     </a>
                                 {% endif %}
-
                                 {% for comment in user.comments %}
                                     {% if loop.index < 6 %}
                                         <a href="{{ path('app_admin_comment_index', { 'user-username' : user.username }) }}"
@@ -184,13 +170,11 @@
                                     </span>
                                 {% endfor %}
                             </td>
-
                             <td>
                                 <span class="small">
                                     {{ user.created|date('d/m/Y H:i:s') }}
                                 </span>
                             </td>
-
                             <td>
                                 {% if user.password %}
                                     <span class="btn btn-success btn-xs"
@@ -209,7 +193,6 @@
                                     </span>
                                 {% endif %}
                             </td>
-
                             <td>
                                 {% if 'ROLE_SUPER_ADMIN' in user.roles %}
                                     <span class="btn btn-danger btn-sm"
@@ -236,7 +219,6 @@
                                         <span class="glyphicon glyphicon-pawn"></span>
                                     </span>
                                 {% endif %}
-
                                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                                     {% if 'ROLE_SUPER_ADMIN' in user.roles %}
                                         {# super admin cannot change his own role #}
@@ -318,20 +300,25 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
-
                             {#<td>#}
-                            {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-share"></span>&nbsp;Renvoyer</button>#}
+                                {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm">#}
+                                    {#<span class="glyphicon glyphicon-share"></span>#}
+                                    {#Renvoyer#}
+                                {#</a>#}
                             {#</td>#}
                             {#{% if user.token %}#}
-                            {#<td>#}
-                            {#<a href="{{ path('app_validate', { 'id': user.id }) }}" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;Valider</button>#}
-                            {#</td>#}
+                                {#<td>#}
+                                    {#<a href="{{ path('app_validate', { 'id': user.id }) }}"#}
+                                       {#class="btn btn-success btn-sm"><span#}
+                                                {#class="glyphicon glyphicon-thumbs-up"></span>#}
+                                        {#Valider#}
+                                    {#</a>#}
+                                {#</td>#}
                             {#{% else %}#}
-                            {#<td>#}
-                            {#<span class="glyphicon glyphicon-ok text-success"></span>#}
-                            {#</td>#}
+                                {#<td>#}
+                                    {#<span class="glyphicon glyphicon-ok text-success"></span>#}
+                                {#</td>#}
                             {#{% endif %}#}
-
                             <td>
                                 <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
                                    class="btn btn-warning btn-sm"
