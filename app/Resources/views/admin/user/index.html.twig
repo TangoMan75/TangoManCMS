@@ -20,16 +20,134 @@
     {% include "admin/includes/_user_tabs.html.twig" %}
     {% if is_granted('ROLE_ADMIN') %}
 
+        {{ menu(tabs, 'tabs') }}
+
         <section id="search">
             <div class="jumbotron">
-                {{ searchForm(form) }}
+                {{ searchForm('{
+                    "inputs": [
+                        {
+                            "type": "number",
+                            "name": "e-id",
+                            "icon": "fa fa-hashtag",
+                            "label": "Id"
+                        },
+                        {
+                            "type": "text",
+                            "icon": "glyphicon glyphicon-user",
+                            "name": "user-username",
+                            "label": "Utilisateur"
+                        },
+                        {
+                            "type": "text",
+                            "icon": "glyphicon glyphicon-envelope",
+                            "name": "user-email",
+                            "label": "Email"
+                        },
+                        {
+                            "type": "select",
+                            "name": "n-password",
+                            "icon": "glyphicon glyphicon-ok",
+                            "label": "Status",
+                            "placeholder": "Tous les utilisateurs",
+                            "options": [
+                                {
+                                    "name": "Actif",
+                                    "value": "true"
+                                },
+                                {
+                                    "name": "Inactif",
+                                    "value": "false"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "select",
+                            "name": "roles-type",
+                            "label": "Role",
+                            "icon": "glyphicon glyphicon-king",
+                            "placeholder": "Tous les roles",
+                            "options": [
+                                {
+                                    "name": "Super Admin",
+                                    "value": "ROLE_SUPER_ADMIN"
+                                },
+                                {
+                                    "name": "Admin",
+                                    "value": "ROLE_ADMIN"
+                                },
+                                {
+                                    "name": "Super Utilisateur",
+                                    "value": "ROLE_SUPER_USER"
+                                },
+                                {
+                                    "name": "Utilisateur",
+                                    "value": "ROLE_USER"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "submit",
+                            "label": "Filtrer",
+                            "icon": "glyphicon glyphicon-search"
+                        },
+                        {
+                            "type": "reset",
+                            "label": "Effacer",
+                            "icon": "glyphicon glyphicon-remove"
+                        }
+                    ]
+                }') }}
             </div>
         </section>
 
         <section id="user-list">
             <div class="table-responsive">
                 <table class="table table-striped">
-                    {{ thead(thead) }}
+                    {{ thead('{
+                        "ths": [
+                            {
+                                "name": "username",
+                                "label": "Utilisateur",
+                                "route": "app_admin_user_index",
+                                "colspan": 2
+                            },
+                            {
+                                "name": "email",
+                                "label": "Email",
+                                "route": "app_admin_user_index"
+                            },
+                            {
+                                "name": "c-posts",
+                                "label": "Articles",
+                                "route": "app_admin_user_index"
+                            },
+                            {
+                                "name": "c-posts",
+                                "label": "Médias",
+                                "route": "app_admin_user_index"
+                            },
+                            {
+                                "name": "c-comments",
+                                "label": "Commentaires",
+                                "route": "app_admin_user_index"
+                            },
+                            {
+                                "name": "created",
+                                "label": "Création",
+                                "route": "app_admin_user_index"
+                            },
+                            {
+                                "name": "password",
+                                "label": "Actif",
+                                "route": "app_admin_user_index"
+                            },
+                            {
+                                "label": "Actions",
+                                "colspan": 3
+                            }
+                        ]
+                    }') }}
                     <tbody>
                     {% for user in users %}
                         <tr>
@@ -301,23 +419,23 @@
                                 {% endif %}
                             </td>
                             {#<td>#}
-                                {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm">#}
-                                    {#<span class="glyphicon glyphicon-share"></span>#}
-                                    {#Renvoyer#}
-                                {#</a>#}
+                            {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm">#}
+                            {#<span class="glyphicon glyphicon-share"></span>#}
+                            {#Renvoyer#}
+                            {#</a>#}
                             {#</td>#}
                             {#{% if user.token %}#}
-                                {#<td>#}
-                                    {#<a href="{{ path('app_validate', { 'id': user.id }) }}"#}
-                                       {#class="btn btn-success btn-sm"><span#}
-                                                {#class="glyphicon glyphicon-thumbs-up"></span>#}
-                                        {#Valider#}
-                                    {#</a>#}
-                                {#</td>#}
+                            {#<td>#}
+                            {#<a href="{{ path('app_validate', { 'id': user.id }) }}"#}
+                            {#class="btn btn-success btn-sm"><span#}
+                            {#class="glyphicon glyphicon-thumbs-up"></span>#}
+                            {#Valider#}
+                            {#</a>#}
+                            {#</td>#}
                             {#{% else %}#}
-                                {#<td>#}
-                                    {#<span class="glyphicon glyphicon-ok text-success"></span>#}
-                                {#</td>#}
+                            {#<td>#}
+                            {#<span class="glyphicon glyphicon-ok text-success"></span>#}
+                            {#</td>#}
                             {#{% endif %}#}
                             <td>
                                 <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
