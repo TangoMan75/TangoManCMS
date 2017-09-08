@@ -23,7 +23,6 @@ class UserController extends Controller
      */
     public function showAction(Request $request, $slug)
     {
-
         $em = $this->get('doctrine')->getManager();
         $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
 

@@ -29,137 +29,40 @@ class UserController extends Controller
         $em = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->findByQuery($request->query);
 
-        $form = '{
-            "inputs": [
-                {
-                    "type": "number",
-                    "name": "e-id",
-                    "icon": "fa fa-hashtag",
-                    "label": "Id"
-                },
-                {
-                    "type": "text",
-                    "icon": "glyphicon glyphicon-user",
-                    "name": "user-username",
-                    "label": "Utilisateur"
-                },
-                {
-                    "type": "text",
-                    "icon": "glyphicon glyphicon-envelope",
-                    "name": "user-email",
-                    "label": "Email"
-                },
-                {
-                    "type": "select",
-                    "name": "n-password",
-                    "icon": "glyphicon glyphicon-ok",
-                    "label": "Status",
-                    "options": [
-                        {
-                            "name": "Tous",
-                            "value": null
-                        },
-                        {
-                            "name": "Actif",
-                            "value": "true"
-                        },
-                        {
-                            "name": "Inactif",
-                            "value": "false"
-                        }
-                    ]
-                },
-                {
-                    "type": "select",
-                    "name": "roles-type",
-                    "label": "Role",
-                    "icon": "glyphicon glyphicon-king",
-                    "options": [
-                        {
-                            "name": "Tous",
-                            "value": null
-                        },
-                        {
-                            "name": "Super Admin",
-                            "value": "ROLE_SUPER_ADMIN"
-                        },
-                        {
-                            "name": "Admin",
-                            "value": "ROLE_ADMIN"
-                        },
-                        {
-                            "name": "Super Utilisateur",
-                            "value": "ROLE_SUPER_USER"
-                        },
-                        {
-                            "name": "Utilisateur",
-                            "value": "ROLE_USER"
-                        }
-                    ]
-                },
-                {
-                    "type": "submit",
-                    "label": "Filtrer",
-                    "icon": "glyphicon glyphicon-search"
-                },
-                {
-                    "type": "reset",
-                    "label": "Effacer",
-                    "icon": "glyphicon glyphicon-remove"
-                }
-            ]
-        }';
-
-        $thead = '{
-            "items": [
-                {
-                    "name": "username",
-                    "label": "Utilisateur",
-                    "route": "app_admin_user_index",
-                    "colspan": 2
-                },
-                {
-                    "name": "email",
-                    "label": "Email",
-                    "route": "app_admin_user_index"
-                },
-                {
-                    "name": "c-posts",
-                    "label": "Articles",
-                    "route": "app_admin_user_index"
-                },
-                {
-                    "name": "c-posts",
-                    "label": "Médias",
-                    "route": "app_admin_user_index"
-                },
-                {
-                    "name": "c-comments",
-                    "label": "Commentaires",
-                    "route": "app_admin_user_index"
-                },
-                {
-                    "name": "created",
-                    "label": "Création",
-                    "route": "app_admin_user_index"
-                },
-                {
-                    "name": "password",
-                    "label": "Actif",
-                    "route": "app_admin_user_index"
-                },
-                {
-                    "label": "Actions",
-                    "colspan": 3
-                }
-            ]
-        }';
+        $tabs = '{
+			"items": [
+				{
+					"label": "Liste",
+					"route": "app_admin_user_index",
+					"active": "app_admin_user_index",
+					"icon": "glyphicon glyphicon-list"
+				},
+				{
+					"label": "Ajouter",
+					"route": "app_admin_user_new",
+					"active": "app_admin_user_new",
+					"callback": true,
+					"icon": "glyphicon glyphicon-plus"
+				},
+				{
+					"label": "Importer",
+					"route": "app_admin_user_import",
+					"active": "app_admin_user_import",
+					"icon": "glyphicon glyphicon-import"
+				},
+				{
+					"label": "Exporter",
+					"route": "app_admin_user_export",
+					"active": "app_admin_user_export",
+					"icon": "glyphicon glyphicon-export"
+				}
+			]
+		}';
 
         return $this->render(
             'admin/user/index.html.twig',
             [
-                'form' => $form,
-                'thead' => $thead,
+                'tabs'  => $tabs,
                 'users' => $users,
             ]
         );
