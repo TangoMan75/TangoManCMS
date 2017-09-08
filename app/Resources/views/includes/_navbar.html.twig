@@ -1,91 +1,188 @@
 <div class="container">
-    <!-- Header -->
-    <header role="banner">
-        <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-            <div class="container">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse"
-                            data-target=".navbar-collapse">
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                    </button>
-                    <a class="navbar-brand" href="{{ path('homepage') }}">
-                        <span class="glyphicon glyphicon-book"></span>
-                        {{ site_name }}
-                    </a>
-                </div>
-                <div class="collapse navbar-collapse">
-                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                        <ul class="nav navbar-nav navbar-left">
-                            {% if app.request.get('_route') == 'homepage' %}
-                                <li>
-                                    <a href="#post-form" class="smooth">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                        Publier
-                                    </a>
-                                </li>
-                            {% elseif app.request.get('_route') == 'post_index' %}
-                                <li>
-                                    <a href="#post-form">
-                                        <span class="glyphicon glyphicon-comment"></span>
-                                        Commenter
-                                    </a>
-                                </li>
-                            {% else %}
-                                <li>
-                                    <a href="{{ path('app_post_new', {'callback': app.request.uri|callback }) }}">
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                        Publier
-                                    </a>
-                                </li>
-                            {% endif %}
-                            {% if is_granted('ROLE_ADMIN') %}
-                                <li>
-                                    <a href="{{ path('app_admin_admin_index') }}">
-                                        <span class="glyphicon glyphicon-cog"></span>
-                                        Administration
-                                    </a>
-                                </li>
-                            {% endif %}
-                        </ul>
-                    {% endif %}
-                    <ul class="nav navbar-nav navbar-right">
-                        {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                            <li>
-                                <a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">
-                                    <span class="glyphicon glyphicon-user"></span>
-                                    {{ app.user|capitalize }}
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_user_edit', { 'slug':app.user.slug, 'callback': app.request.uri|callback }) }}">
-                                    <span class="glyphicon glyphicon-cog"></span>
-                                    Paramètres
-                                </a>
-                            </li>
-                            <li>
-                                <a href="{{ path('app_logout') }}">
-                                    <span class="glyphicon glyphicon-off"></span>
-                                    Déconnexion
-                                </a>
-                            </li>
-                        {% else %}
-                            <li><a href="{{ path('app_security_register', { 'callback': app.request.uri|callback }) }}">
-                                    <span class="glyphicon glyphicon-floppy-disk"></span>
-                                    Inscription
-                                </a>
-                            </li>
-                            <li><a href="{{ path('app_login') }}">
-                                    <span class="glyphicon glyphicon-lock"></span>
-                                    Connexion
-                                </a>
-                            </li>
-                        {% endif %}
-                    </ul>
-
-                </div>
-            </div>
-        </nav>
-    </header>
+    {{ menu('{
+    "label": "Tangoman CMS",
+    "route": "homepage",
+    "icon": "glyphicon glyphicon-book",
+    "items": [
+        {
+            "label": "Administration",
+            "route": "app_admin_admin_index",
+            "roles":["ROLE_ADMIN","ROLE_SUPER_ADMIN"],
+            "icon": "glyphicon glyphicon-cog"
+        },
+        {
+            "subMenu": {
+                "label": "Tableau de bord",
+                "route": "app_admin_admin_index",
+                "active": "app_admin_admin",
+                "icon": "glyphicon glyphicon-dashboard",
+                "items": [
+                    {
+                        "label": "Sites",
+                        "route": "app_admin_site_index",
+                        "active": "app_admin_site",
+                        "icon": "glyphicon glyphicon-home"
+                    },
+                    {
+                        "label": "Pages",
+                        "route": "app_admin_page_index",
+                        "active": "app_admin_page",
+                        "icon": "glyphicon glyphicon-file"
+                    },
+                    {
+                        "label": "Sections",
+                        "route": "app_admin_section_index",
+                        "active": "app_admin_section",
+                        "icon": "glyphicon glyphicon-list-alt"
+                    },
+                    {
+                        "label": "Galeries",
+                        "route": "app_admin_gallery_index",
+                        "active": "app_admin_gallery",
+                        "icon": "glyphicon glyphicon-picture"
+                    },
+                    {
+                        "divider": true
+                    },
+                    {
+                        "label": "Articles",
+                        "route": "app_admin_post_index",
+                        "active": "app_admin_post",
+                        "icon": "glyphicon glyphicon-text-color"
+                    },
+                    {
+                        "label": "Medias",
+                        "route": "app_admin_media_index",
+                        "active": "app_admin_media",
+                        "icon": "glyphicon glyphicon-music"
+                    },
+                    {
+                        "label": "Commentaires",
+                        "route": "app_admin_comment_index",
+                        "active": "app_admin_comment",
+                        "icon": "glyphicon glyphicon-comment"
+                    },
+                    {
+                        "label": "Étiquettes",
+                        "route": "app_admin_tag_index",
+                        "active": "app_admin_tag",
+                        "icon": "glyphicon glyphicon-tag"
+                    },
+                    {
+                        "divider": true
+                    },
+                    {
+                        "label": "Utilisateurs",
+                        "route": "app_admin_user_index",
+                        "active": "app_admin_user",
+                        "icon": "glyphicon glyphicon-user"
+                    },
+                    {
+                        "label": "Rôles",
+                        "route": "app_admin_role_index",
+                        "active": "app_admin_role",
+                        "icon": "glyphicon glyphicon-king"
+                    },
+                    {
+                        "label": "Privilèges",
+                        "route": "app_admin_privilege_index",
+                        "active": "app_admin_privilege",
+                        "icon": "glyphicon glyphicon-thumbs-up"
+                    }
+                ]
+            }
+        }
+    ]
+}', 'navbar') }}
 </div>
+{#<div class="container">#}
+    {#<!-- Header -->#}
+    {#<header role="banner">#}
+        {#<nav class="navbar navbar-default navbar-fixed-top" role="navigation">#}
+            {#<div class="container">#}
+                {#<div class="navbar-header">#}
+                    {#<button type="button" class="navbar-toggle" data-toggle="collapse"#}
+                            {#data-target=".navbar-collapse">#}
+                        {#<span class="icon-bar"></span>#}
+                        {#<span class="icon-bar"></span>#}
+                        {#<span class="icon-bar"></span>#}
+                    {#</button>#}
+                    {#<a class="navbar-brand" href="{{ path('homepage') }}">#}
+                        {#<span class="glyphicon glyphicon-book"></span>#}
+                        {#{{ site_name }}#}
+                    {#</a>#}
+                {#</div>#}
+                {#<div class="collapse navbar-collapse">#}
+                    {#{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}#}
+                        {#<ul class="nav navbar-nav navbar-left">#}
+                            {#{% if app.request.get('_route') == 'homepage' %}#}
+                                {#<li>#}
+                                    {#<a href="#post-form" class="smooth">#}
+                                        {#<span class="glyphicon glyphicon-pencil"></span>#}
+                                        {#Publier#}
+                                    {#</a>#}
+                                {#</li>#}
+                            {#{% elseif app.request.get('_route') == 'post_index' %}#}
+                                {#<li>#}
+                                    {#<a href="#post-form">#}
+                                        {#<span class="glyphicon glyphicon-comment"></span>#}
+                                        {#Commenter#}
+                                    {#</a>#}
+                                {#</li>#}
+                            {#{% else %}#}
+                                {#<li>#}
+                                    {#<a href="{{ path('app_post_new', {'callback': app.request.uri|callback }) }}">#}
+                                        {#<span class="glyphicon glyphicon-pencil"></span>#}
+                                        {#Publier#}
+                                    {#</a>#}
+                                {#</li>#}
+                            {#{% endif %}#}
+                            {#{% if is_granted('ROLE_ADMIN') %}#}
+                                {#<li>#}
+                                    {#<a href="{{ path('app_admin_admin_index') }}">#}
+                                        {#<span class="glyphicon glyphicon-cog"></span>#}
+                                        {#Administration#}
+                                    {#</a>#}
+                                {#</li>#}
+                            {#{% endif %}#}
+                        {#</ul>#}
+                    {#{% endif %}#}
+                    {#<ul class="nav navbar-nav navbar-right">#}
+                        {#{% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}#}
+                            {#<li>#}
+                                {#<a href="{{ path('app_user_show', { 'slug':app.user.slug }) }}">#}
+                                    {#<span class="glyphicon glyphicon-user"></span>#}
+                                    {#{{ app.user|capitalize }}#}
+                                {#</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('app_user_edit', { 'slug':app.user.slug, 'callback': app.request.uri|callback }) }}">#}
+                                    {#<span class="glyphicon glyphicon-cog"></span>#}
+                                    {#Paramètres#}
+                                {#</a>#}
+                            {#</li>#}
+                            {#<li>#}
+                                {#<a href="{{ path('app_logout') }}">#}
+                                    {#<span class="glyphicon glyphicon-off"></span>#}
+                                    {#Déconnexion#}
+                                {#</a>#}
+                            {#</li>#}
+                        {#{% else %}#}
+                            {#<li><a href="{{ path('app_security_register', { 'callback': app.request.uri|callback }) }}">#}
+                                    {#<span class="glyphicon glyphicon-floppy-disk"></span>#}
+                                    {#Inscription#}
+                                {#</a>#}
+                            {#</li>#}
+                            {#<li><a href="{{ path('app_login') }}">#}
+                                    {#<span class="glyphicon glyphicon-lock"></span>#}
+                                    {#Connexion#}
+                                {#</a>#}
+                            {#</li>#}
+                        {#{% endif %}#}
+                    {#</ul>#}
+
+                {#</div>#}
+            {#</div>#}
+        {#</nav>#}
+    {#</header>#}
+{#</div>#}
