@@ -217,18 +217,6 @@ form div .form-group figure img {
 	padding: 2em;
 }
 
-#search .form-group {
-	margin-bottom: 0;
-}
-
-#search .form-group > div {
-	padding: 4px;
-}
-
-#search button {
-	margin-right: 1em;
-}
-
 /**
  * Import Export
  */
