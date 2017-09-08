@@ -1489,16 +1489,16 @@
         },
         {
             "name": "ocramius/package-versions",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/PackageVersions.git",
-                "reference": "51e867c70f0799790b3e82276875414ce13daaca"
+                "reference": "72b226d2957e9e6a9ed09aeaa29cabd840d1a3b7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/51e867c70f0799790b3e82276875414ce13daaca",
-                "reference": "51e867c70f0799790b3e82276875414ce13daaca",
+                "url": "https://api.github.com/repos/Ocramius/PackageVersions/zipball/72b226d2957e9e6a9ed09aeaa29cabd840d1a3b7",
+                "reference": "72b226d2957e9e6a9ed09aeaa29cabd840d1a3b7",
                 "shasum": ""
             },
             "require": {
@@ -1508,7 +1508,8 @@
             "require-dev": {
                 "composer/composer": "^1.3",
                 "ext-zip": "*",
-                "phpunit/phpunit": "^5.4.7"
+                "humbug/humbug": "dev-master",
+                "phpunit/phpunit": "^5.7.5"
             },
             "type": "composer-plugin",
             "extra": {
@@ -1533,7 +1534,7 @@
                 }
             ],
             "description": "Composer plugin that provides efficient querying for installed package versions (no runtime IO)",
-            "time": "2016-12-30 09:49:15"
+            "time": "2017-09-06 15:24:43"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -3063,12 +3064,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/ListManagerBundle.git",
-                "reference": "455112ce8f34c997bc85ffc70106b47a2fff08a5"
+                "reference": "f1170eb24a9d4296c90d95c9672df3ad001e4216"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/ListManagerBundle/zipball/455112ce8f34c997bc85ffc70106b47a2fff08a5",
-                "reference": "455112ce8f34c997bc85ffc70106b47a2fff08a5",
+                "url": "https://api.github.com/repos/TangoMan75/ListManagerBundle/zipball/f1170eb24a9d4296c90d95c9672df3ad001e4216",
+                "reference": "f1170eb24a9d4296c90d95c9672df3ad001e4216",
                 "shasum": ""
             },
             "require": {
@@ -3099,12 +3100,13 @@
                 "extension",
                 "list",
                 "ordered",
+                "responsive",
                 "searchable",
                 "service",
                 "symfony",
                 "twig"
             ],
-            "time": "2017-09-05 14:09:29"
+            "time": "2017-09-07 12:34:42"
         },
         {
             "name": "tangoman/menu-bundle",
@@ -3112,12 +3114,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/MenuBundle.git",
-                "reference": "b9092ee1208d16c4d7a25dd708e94160da7443a0"
+                "reference": "349086615119a6f54c8bb004b6165c472dd8a26a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/MenuBundle/zipball/b9092ee1208d16c4d7a25dd708e94160da7443a0",
-                "reference": "b9092ee1208d16c4d7a25dd708e94160da7443a0",
+                "url": "https://api.github.com/repos/TangoMan75/MenuBundle/zipball/349086615119a6f54c8bb004b6165c472dd8a26a",
+                "reference": "349086615119a6f54c8bb004b6165c472dd8a26a",
                 "shasum": ""
             },
             "require": {
@@ -3147,24 +3149,25 @@
                 "menu",
                 "nav",
                 "navigation",
+                "responsive",
                 "service",
                 "symfony",
                 "twig"
             ],
-            "time": "2017-09-05 14:35:58"
+            "time": "2017-09-07 10:11:16"
         },
         {
             "name": "tangoman/pagination-bundle",
-            "version": "1.3.4",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/PaginationBundle.git",
-                "reference": "5ae89aaadbb9d25a5660290f1bf8486921566597"
+                "reference": "ff24e9c611c384f87858bc333b96fe9b0c70090a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/5ae89aaadbb9d25a5660290f1bf8486921566597",
-                "reference": "5ae89aaadbb9d25a5660290f1bf8486921566597",
+                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/ff24e9c611c384f87858bc333b96fe9b0c70090a",
+                "reference": "ff24e9c611c384f87858bc333b96fe9b0c70090a",
                 "shasum": ""
             },
             "require": {
@@ -3202,25 +3205,27 @@
                 "pager",
                 "pagination",
                 "paginator",
+                "responsive",
+                "seo",
                 "service",
                 "symfony",
                 "tiloweb",
                 "twig"
             ],
-            "time": "2017-08-31 16:14:42"
+            "time": "2017-09-07 13:26:07"
         },
         {
             "name": "tangoman/repository-helper",
-            "version": "1.0.0",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/RepositoryHelper.git",
-                "reference": "91a63bf150d9578ef367ad4f83d0da01b846c197"
+                "reference": "9db8ee3c65b75f8bd89baef37840df0a2774d24c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/RepositoryHelper/zipball/91a63bf150d9578ef367ad4f83d0da01b846c197",
-                "reference": "91a63bf150d9578ef367ad4f83d0da01b846c197",
+                "url": "https://api.github.com/repos/TangoMan75/RepositoryHelper/zipball/9db8ee3c65b75f8bd89baef37840df0a2774d24c",
+                "reference": "9db8ee3c65b75f8bd89baef37840df0a2774d24c",
                 "shasum": ""
             },
             "require": {
@@ -3250,7 +3255,7 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2017-08-18 16:12:35"
+            "time": "2017-09-06 15:41:36"
         },
         {
             "name": "tangoman/role-bundle",
@@ -3391,17 +3396,17 @@
         },
         {
             "name": "tiloweb/base64-bundle",
-            "version": "1.0.1",
+            "version": "1.1",
             "target-dir": "Tiloweb/Base64Bundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Tiloweb/SymfonyBase64Bundle.git",
-                "reference": "cc1406f2f65bff68b7a6b5ecb0e0f178a41b3742"
+                "reference": "841cd7adcb7113f73ae43b0cc6ba620cfdf6b7b2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Tiloweb/SymfonyBase64Bundle/zipball/cc1406f2f65bff68b7a6b5ecb0e0f178a41b3742",
-                "reference": "cc1406f2f65bff68b7a6b5ecb0e0f178a41b3742",
+                "url": "https://api.github.com/repos/Tiloweb/SymfonyBase64Bundle/zipball/841cd7adcb7113f73ae43b0cc6ba620cfdf6b7b2",
+                "reference": "841cd7adcb7113f73ae43b0cc6ba620cfdf6b7b2",
                 "shasum": ""
             },
             "require": {
@@ -3427,10 +3432,11 @@
                 "bundle",
                 "custom form type",
                 "image",
+                "resize",
                 "symfony3",
                 "tiloweb"
             ],
-            "time": "2016-07-28 07:36:50"
+            "time": "2017-09-06 09:32:36"
         },
         {
             "name": "twig/extensions",
