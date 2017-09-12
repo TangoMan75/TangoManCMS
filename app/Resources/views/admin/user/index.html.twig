@@ -19,9 +19,6 @@
     </header>
     {% include "admin/includes/_user_tabs.html.twig" %}
     {% if is_granted('ROLE_ADMIN') %}
-
-        {{ menu(tabs, 'tabs') }}
-
         <section id="search">
             <div class="jumbotron">
                 {{ searchForm('{
@@ -418,6 +415,30 @@
                                     {% endif %}
                                 {% endif %}
                             </td>
+                            <td colspan="2">
+                                {{ buttons('[
+                                    {
+                                        "icon": "glyphicon glyphicon-edit",
+                                        "label": "Modifier",
+                                        "class": "btn btn-warning btn-sm",
+                                        "route": "app_admin_user_edit",
+                                        "tooltip": "Modifier le profil de '~user~'",
+                                        "id": '~user.id~',
+                                        "roles": ["ROLE_ADMIN","ROLE_SUPER_ADMIN"]
+                                    },
+                                    {
+                                        "icon": "glyphicon glyphicon-trash",
+                                        "label": "Supprimer",
+                                        "class": "btn btn-danger btn-sm",
+                                        "route": "app_admin_user_delete",
+                                        "id": '~user.id~',
+                                        "tooltip": "Supprimer le profil de '~user~'",
+                                        "toggle": "modal",
+                                        "target": ".my-modal",
+                                        "roles": ["ROLE_ADMIN","ROLE_SUPER_ADMIN"]
+                                    }
+                                ]') }}
+                            </td>
                             {#<td>#}
                             {#<a href="{{ path('app_resend_token', { 'id': user.id }) }}" class="btn btn-info btn-sm">#}
                             {#<span class="glyphicon glyphicon-share"></span>#}
@@ -437,30 +458,30 @@
                             {#<span class="glyphicon glyphicon-ok text-success"></span>#}
                             {#</td>#}
                             {#{% endif %}#}
-                            <td>
-                                <a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"
-                                   class="btn btn-warning btn-sm"
-                                   data-toggle="tooltip" data-placement="top"
-                                   data-original-title="Modifier le profil de &quot;{{ user }}&quot;"
-                                >
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                    <span class="hidden-xs">Modifier</span>
-                                </a>
-                            </td>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <td data-toggle="tooltip" data-placement="top"
-                                    data-original-title="Supprimer le profil de &quot;{{ user }}&quot;"
-                                >
-                                    <button type="button" class="btn btn-danger btn-sm"
-                                            data-toggle="modal" data-target=".my-modal"
-                                            data-item="{{ user }}"
-                                            data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': url(app.request.attributes.get('_route')) }) }}"
-                                            {% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>
-                                        <span class="glyphicon glyphicon-trash"></span>
-                                        <span class="hidden-xs">Supprimer</span>
-                                    </button>
-                                </td>
-                            {% endif %}
+                            {#<td>#}
+                                {#<a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"#}
+                                   {#class="btn btn-warning btn-sm"#}
+                                   {#data-toggle="tooltip" data-placement="top"#}
+                                   {#data-original-title="Modifier le profil de &quot;{{ user }}&quot;"#}
+                                {#>#}
+                                    {#<span class="glyphicon glyphicon-edit"></span>#}
+                                    {#<span class="hidden-xs">Modifier</span>#}
+                                {#</a>#}
+                            {#</td>#}
+                            {#{% if is_granted('ROLE_SUPER_ADMIN') %}#}
+                                {#<td data-toggle="tooltip" data-placement="top"#}
+                                    {#data-original-title="Supprimer le profil de &quot;{{ user }}&quot;"#}
+                                {#>#}
+                                    {#<button type="button" class="btn btn-danger btn-sm"#}
+                                            {#data-toggle="modal" data-target=".my-modal"#}
+                                            {#data-item="{{ user }}"#}
+                                            {#data-path="{{ path('app_admin_user_delete', { 'id' : user.id, 'callback': url(app.request.attributes.get('_route')) }) }}"#}
+                                            {#{% if 'ROLE_SUPER_ADMIN' in user.roles %} disabled{% endif %}>#}
+                                        {#<span class="glyphicon glyphicon-trash"></span>#}
+                                        {#<span class="hidden-xs">Supprimer</span>#}
+                                    {#</button>#}
+                                {#</td>#}
+                            {#{% endif %}#}
                         </tr>
                     {% endfor %}
                     </tbody>

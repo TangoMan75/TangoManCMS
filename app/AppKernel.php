@@ -31,10 +31,10 @@ class AppKernel extends Kernel
             new TangoMan\PaginationBundle\TangoManPaginationBundle(),
             new TangoMan\RoleBundle\TangoManRoleBundle(),
             new TangoMan\TruncateHtmlBundle\TangoManTruncateHtmlBundle(),
+            new TangoMan\TwigHelperBundle\TangoManTwigHelperBundle(),
             new TangoMan\UserBundle\TangoManUserBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-//            new TangoMan\JsonDecodeBundle\TangoManJsonDecodeBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {

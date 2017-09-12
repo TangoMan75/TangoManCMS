@@ -37,6 +37,16 @@ a.label:hover {
 }
 
 /**
+ * Datetime picker
+ */
+input[type="datetime"] {
+	display: block !important;
+	opacity: 0;
+	position: relative;
+	bottom: 0;
+}
+
+/**
  * Labels with badges
  */
 .label-block {
@@ -234,21 +244,6 @@ h1.user-list {
 
 #user-list {
 	margin-bottom: 3em;
-}
-
-/**
- * User index sorting
- */
-th.DESC a:after {
-	content: "\e252";
-	float: right;
-	font-family: 'Glyphicons Halflings';
-}
-
-th.ASC a:after {
-	content: "\e253";
-	float: right;
-	font-family: 'Glyphicons Halflings';
 }
 
 /********

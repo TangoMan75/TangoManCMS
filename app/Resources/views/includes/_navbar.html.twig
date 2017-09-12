@@ -5,18 +5,26 @@
     "icon": "glyphicon glyphicon-book",
     "items": [
         {
-            "label": "Administration",
-            "route": "app_admin_admin_index",
-            "roles":["ROLE_ADMIN","ROLE_SUPER_ADMIN"],
-            "icon": "glyphicon glyphicon-cog"
+            "label": "Publier",
+            "anchor": "post-form",
+            "pages": ["home"],
+            "icon": "glyphicon glyphicon-pencil"
         },
         {
             "subMenu": {
-                "label": "Tableau de bord",
-                "route": "app_admin_admin_index",
-                "active": "app_admin_admin",
-                "icon": "glyphicon glyphicon-dashboard",
+                "label": "Administration",
+                "roles":["ROLE_ADMIN","ROLE_SUPER_ADMIN"],
+                "icon": "glyphicon glyphicon-cog",
                 "items": [
+                    {
+                        "label": "Tableau de bord",
+                        "route": "app_admin_admin_index",
+                        "active": "app_admin_admin",
+                        "icon": "glyphicon glyphicon-dashboard"
+                    },
+                    {
+                        "divider": true
+                    },
                     {
                         "label": "Sites",
                         "route": "app_admin_site_index",

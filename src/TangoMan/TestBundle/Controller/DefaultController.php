@@ -4,6 +4,8 @@ namespace TangoMan\TestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use TangoMan\ListManagerBundle\Model\Button;
+use TangoMan\ListManagerBundle\Model\ButtonGroup;
 use TangoMan\ListManagerBundle\Model\SearchForm;
 use TangoMan\ListManagerBundle\Model\SearchInput;
 use TangoMan\ListManagerBundle\Model\SearchOption;
@@ -58,20 +60,26 @@ class DefaultController extends Controller
 
         // Text
         $input = new SearchInput();
-        $input->setLabel('Utilisateur')
-            ->setName('user-username');
+        $input
+            ->setLabel('Utilisateur')
+            ->setName('user-username')
+        ;
         $form->addInput($input);
 
         // Text
         $input = new SearchInput();
-        $input->setLabel('Email')
-            ->setName('user-email');
+        $input
+            ->setLabel('Email')
+            ->setName('user-email')
+        ;
         $form->addInput($input);
 
         // Select
         $input = new SearchInput();
-        $input->setLabel('Status')
-            ->setName('n-password');
+        $input
+            ->setLabel('Status')
+            ->setName('n-password')
+        ;
         $option = new SearchOption();
         $option->setName('Tous');
         $input->addOption($option);
@@ -140,42 +148,50 @@ class DefaultController extends Controller
         $thead->setClass('thead');
 
         $item = new Th();
-        $item->setName('username')
+        $item
+            ->setName('username')
             ->setLabel('Utilisateur');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('email')
+        $item
+            ->setName('email')
             ->setLabel('Email');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('c-posts')
+        $item
+            ->setName('c-posts')
             ->setLabel('Articles');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('c-posts')
+        $item
+            ->setName('c-posts')
             ->setLabel('Médias');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('c-comments')
+        $item
+            ->setName('c-comments')
             ->setLabel('Commentaires');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('created')
+        $item
+            ->setName('created')
             ->setLabel('Création');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('c-password')
+        $item
+            ->setName('c-password')
             ->setLabel('Actif');
         $thead->addTh($item);
 
         $item = new Th();
-        $item->setName('actions')
+        $item
+            ->setName('actions')
             ->setLabel('Actions')
             ->setRoles(['ROLE_USER', 'ROLE_ADMIN', 'ROLE_MANAGER']);
         $thead->addTh($item);
@@ -294,7 +310,8 @@ class DefaultController extends Controller
         $item->setLabel('Tableau de bord')
             ->setRoute('app_admin_admin_index')
             ->setIcon('glyphicon glyphicon-dashboard')
-            ->addRole('ROLE_ADMIN');
+            ->addRole('ROLE_ADMIN')
+        ;
         $menu->addItem($item);
 
         $item = new Item();
@@ -302,14 +319,16 @@ class DefaultController extends Controller
             ->setRoute('admin_company')
             ->setActive('admin_company')
             ->setIcon('glyphicon glyphicon-home')
-            ->addRole('ROLE_ADMIN');
+            ->addRole('ROLE_ADMIN')
+        ;
         $menu->addItem($item);
 
         $item = new Item();
         $item->setLabel('Sites')
             ->setRoute('admin_local')
             ->setActive('admin_local')
-            ->addRole('admin_local');
+            ->addRole('admin_local')
+        ;
         $subMenu->addItem($item);
 
         $item = new Item();
@@ -323,21 +342,24 @@ class DefaultController extends Controller
         $item->setLabel('Parkings')
             ->setRoute('admin_pool')
             ->setActive('admin_pool')
-            ->addRole('admin_pool');
+            ->addRole('admin_pool')
+        ;
         $subMenu->addItem($item);
 
         $item = new Item();
         $item->setLabel('Véhicules')
             ->setRoute('admin_vehicle')
             ->setActive('admin_vehicle')
-            ->addRole('admin_vehicle');
+            ->addRole('admin_vehicle')
+        ;
         $subMenu->addItem($item);
 
         $item = new Item();
         $item->setLabel('Fournisseurs')
             ->setRoute('admin_provider')
             ->setActive('admin_provider')
-            ->addRole('admin_provider');
+            ->addRole('admin_provider')
+        ;
         $subMenu->addItem($item);
 
         $item = new Item();
@@ -351,14 +373,16 @@ class DefaultController extends Controller
         $item->setLabel('Révisions')
             ->setRoute('admin_carService')
             ->setActive('admin_carService')
-            ->addRole('admin_carService');
+            ->addRole('admin_carService')
+        ;
         $subMenu->addItem($item);
 
         $item = new Item();
         $item->setLabel('Utilisateurs')
             ->setRoute('admin_user_list')
             ->setActive('admin_user_list')
-            ->addRole('admin_user_list');
+            ->addRole('admin_user_list')
+        ;
         $subMenu->addItem($item);
 
         $item = new Item();
@@ -366,11 +390,46 @@ class DefaultController extends Controller
             ->setIcon('caret')
             ->setSubMenu($subMenu)
             ->addRole('ROLE_ADMIN')
-            ->addRole('ROLE_MANAGER');
+            ->addRole('ROLE_MANAGER')
+        ;
         $menu->addItem($item);
 
         $menu = json_encode($menu);
 
         return new Response($menu);
+    }
+
+    /**
+     * @Route("/buttons-builder")
+     */
+    public function buttonsBuilderAction()
+    {
+        $buttons = new ButtonGroup();
+
+        $button = new Button();
+        $button->setLabel('Modifier')
+            ->setRoute('app_admin_user_edit')
+            ->setIcon('glyphicon glyphicon-edit')
+            ->setId(1)
+            ->setCallback(true)
+            ->setRoles(['ROLE_ADMIN','ROLE_SUPER_ADMIN'])
+        ;
+        $buttons->addButton($button);
+
+        $button = new Button();
+        $button->setLabel('Supprimer')
+            ->setRoute('app_admin_user_delete')
+            ->setIcon('glyphicon glyphicon-trash')
+            ->setId(1)
+            ->setCallback(true)
+            ->setToggle('modal')
+            ->setTarget('.my-modal')
+            ->setRoles(['ROLE_ADMIN','ROLE_SUPER_ADMIN'])
+        ;
+        $buttons->addButton($button);
+
+        $buttons = json_encode($buttons);
+
+        return new Response($buttons);
     }
 }
