@@ -32,23 +32,27 @@ class UserController extends Controller
 
         // Admin or author only can see user unpublished posts
         if ($this->getUser() === $user || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
-                'user' => $user
-                ]);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request->query, [
+                'user' => $user,
+            ]
+            );
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request->query, [
                 'published' => true,
-                'user' => $user
-                ]);
+                'user'      => $user,
+            ]
+            );
         }
 
         return $this->render(
             'user/show.html.twig',
             [
-            'user'  => $user,
-            'posts' => $posts,
+                'user'  => $user,
+                'posts' => $posts,
             ]
-            );
+        );
     }
 
     /**
@@ -85,9 +89,9 @@ class UserController extends Controller
         return $this->render(
             'user/edit.html.twig',
             [
-            'user'       => $user,
-            'formAvatar' => $form->createView(),
+                'user'       => $user,
+                'formAvatar' => $form->createView(),
             ]
-            );
+        );
     }
 }

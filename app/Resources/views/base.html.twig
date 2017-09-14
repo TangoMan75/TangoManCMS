@@ -138,7 +138,7 @@
     {#<!-- jQuery UI Local -->#}
     {#<script src="{{ asset('js/jquery-ui.js') }}"></script>#}
 
-    {#<!-- Bootstrap CDN -->#}
+    {#<!-- Bootstrap CDN (requires jQuery) -->#}
     {#<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>#}
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     {#<!-- Bootstrap local -->#}
@@ -198,6 +198,13 @@
     {#});#}
     {#</script>#}
     {#{% endif %}#}
+
+    {# BOOTSTRAP TOOTIPS INIT #}
+    {#<script>#}
+        {#$(function() {#}
+            {#$('[data-toggle="tooltip"]').tooltip()#}
+        {#});#}
+    {#</script>#}
 
     {# Custom JavaScript #}
     <script src="{{ asset('js/main.js') }}"></script>
