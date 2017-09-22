@@ -1,9 +1,14 @@
 {
-	"name": "tangoman/list-manager-bundle",
-	"description": "Symfony Searchable Paginated Ordered List Twig Extension Bundle",
-	"version": "2.1.5",
+	"name": "tangoman/front-bundle",
+	"description": "Symfony Front Twig Extension Bundle",
+	"version": "1.0.0",
 	"type": "symfony-bundle",
 	"keywords": [
+		"Front",
+		"Forms",
+		"Buttons",
+		"Menus",
+		"Navbar",
 		"Searchable",
 		"Paginated",
 		"Ordered",
