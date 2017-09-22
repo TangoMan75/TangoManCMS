@@ -1,0 +1,35 @@
+{% if is_granted(link.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+    <a
+            {% if link.route is defined and link.route %}
+                {# ID AND SLUG PARAMETERS HAVE AUTO CALLBACK #}
+                {% if link.callback is defined and link.callback %}
+                    href="{{ path(link.route, { 'callback': app.request.uri|callback }) }}"
+                {% elseif link.id is defined and link.id %}
+                    href="{{ path(link.route, { 'id': link.id, 'callback': app.request.uri|callback }) }}"
+                {% elseif link.slug is defined and link.slug %}
+                    href="{{ path(link.route, { 'slug': link.parameter.slug, 'callback': app.request.uri|callback }) }}"
+                {% elseif link.anchor is defined and link.anchor %}
+                    href="{{ link.anchor }}"
+                {% else %}
+                    href="{{ path(link.route) }}"
+                {% endif %}
+            {% endif %}
+            {% if link.class is defined and link.class %}
+                class="{{ link.class }}"
+            {% endif %}
+            {% if link.tooltip is defined and link.tooltip %}
+                data-toggle="tooltip" data-placement="top"
+                data-original-title="{{ link.tooltip }}"
+            {% endif %}
+            {% if link.data.key is defined and link.data.key %}
+                data-{{ link.data.key }}="{{ link.data.value ?? '' }}"
+            {% endif %}
+    >
+        {% if link.icon is defined and link.icon %}
+            <span class="{{ link.icon }}"></span>
+        {% endif %}
+        {% if link.label is defined and link.label %}
+            {{ link.label|trans }}
+        {% endif %}
+    </a>
+{% endif %}

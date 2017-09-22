@@ -1,0 +1,15 @@
+<div class="checkbox">
+    <label>
+        <input type="checkbox"
+               name="{{ input.name }}"
+               id="input-{{ input.name }}"
+                {% if input.class is defined and input.class %} class="{{ input.class }}"{% endif %}
+                {% if input.auto is defined and input.auto %} onchange="this.form.submit()"{% endif %}
+                {% if input.disabled is defined and input.disabled %} disabled="disabled"{% endif %}
+               value="{{ app.request.get(input.name) }}"
+        />
+        {% if input.label is defined and input.label %}
+            {{ input.label|trans }}
+        {% endif %}
+    </label>
+</div>

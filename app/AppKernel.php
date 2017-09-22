@@ -26,8 +26,6 @@ class AppKernel extends Kernel
             new TangoMan\CallbackBundle\TangoManCallbackBundle(),
             new TangoMan\CSVReaderBundle\TangoManCSVReaderBundle(),
             new TangoMan\JWTBundle\TangoManJWTBundle(),
-            new TangoMan\ListManagerBundle\TangoManListManagerBundle(),
-            new TangoMan\MenuBundle\TangoManMenuBundle(),
             new TangoMan\PaginationBundle\TangoManPaginationBundle(),
             new TangoMan\RoleBundle\TangoManRoleBundle(),
             new TangoMan\TruncateHtmlBundle\TangoManTruncateHtmlBundle(),
@@ -35,6 +33,7 @@ class AppKernel extends Kernel
             new TangoMan\UserBundle\TangoManUserBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
+            new TangoMan\FrontBundle\TangoManFrontBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {

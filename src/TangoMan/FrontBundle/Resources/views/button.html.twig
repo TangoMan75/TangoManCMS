@@ -1,0 +1,79 @@
+{#{% set button_data = button.data|merge({"key":"foo","value":"bar"}) %}#}
+{#{% set button = button|merge({"data":button_data}) %}#}
+{% if is_granted(button.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+    {# WRAPPING ELEMENT WITH <SPAN> WHEN USING TOOLTIP AND TOGGLE TOGETHER #}
+    {% if button.toggle is defined and button.toggle and button.tooltip is defined and button.tooltip %}
+        <span style="display: inline-block;"
+        data-toggle="tooltip" data-placement="top"
+        data-original-title="{{ button.tooltip }}"
+        >
+    {% endif %}
+    {% if button.type is defined %}
+        {% if button.type == 'dismiss' %}
+            <button type="button" data-dismiss="modal"
+        {% elseif button.type == 'reset' or button.type == 'submit' or button.type == 'button' %}
+            <button type="{{ button.type }}"
+        {% else %}
+            <a
+        {% endif %}
+    {% else %}
+        <a
+    {% endif %}
+    {% if button.route is defined and button.route %}
+        {# WHEN MODAL REPLACE HREF WITH DATA-HREF ATTRIBUTE #}
+        {% if button.toggle is defined and button.toggle == 'modal' %}{% set dataHref = 'data-href' %}{% endif %}
+        {# ID AND SLUG HAVE AUTO CALLBACK #}
+        {% if button.callback is defined and button.callback %}
+            {{ dataHref ?? 'href' }}="{{ path(button.route, { 'callback': app.request.uri|callback }) }}"
+        {% elseif button.id is defined and button.id %}
+            {{ dataHref ?? 'href' }}="{{ path(button.route, { 'id': button.id, 'callback': app.request.uri|callback }) }}"
+        {% elseif button.slug is defined and button.slug %}
+            {{ dataHref ?? 'href' }}="{{ path(button.route, { 'slug': button.parameter.slug, 'callback': app.request.uri|callback }) }}"
+        {% else %}
+            {{ dataHref ?? 'href' }}="{{ path(button.route) }}"
+        {% endif %}
+    {% endif %}
+    class="{{ button.class ?? 'btn btn-primary' }}"
+    {# TOOLTIPS AND TOGGLES DO NOT WORK TOGETHER #}
+    {% if button.toggle is defined and button.toggle %}
+        data-toggle="{{ button.toggle }}"
+        {% if button.target is defined and button.target %}
+            data-target="{{ button.target }}"
+        {% endif %}
+    {% elseif button.tooltip is defined and button.tooltip %}
+        data-toggle="tooltip" data-placement="top"
+        data-original-title="{{ button.tooltip }}"
+    {% endif %}
+    {% if button.data is defined and button.data %}
+        {% for item in button.data %}
+            data-{{ item.key }}="{{ item.value ?? '' }}"
+        {% endfor %}
+    {% endif %}
+    {% if button.disabled is defined and button.disabled %}
+        disabled="disabled"
+    {% endif %}
+    role="button"
+    >
+    {% if button.icon is defined and button.icon %}
+        <span class="{{ button.icon }}" aria-hidden="true"></span>
+    {% endif %}
+    {% if button.label is defined and button.label %}
+        &nbsp;
+        <span{% if button.icon is defined and button.icon %} class="hidden-xs"{% endif %}>{{ button.label|trans }}</span>
+    {% endif %}
+    {% if button.badge is defined and button.badge %}
+        &nbsp;<span class="badge">{{ button.badge }}</span>
+    {% endif %}
+    {% if button.type is defined %}
+        {% if button.type == 'button' or button.type == 'dismiss' or button.type == 'reset' or button.type == 'submit' %}
+            </button>
+{% else %}
+            </a>
+        {% endif %}
+{% else %}
+        </a>
+    {% endif %}
+    {% if button.toggle is defined and button.toggle and button.tooltip is defined and button.tooltip %}
+        </span>
+    {% endif %}
+{% endif %}

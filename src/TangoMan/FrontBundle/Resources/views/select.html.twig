@@ -1,0 +1,43 @@
+{% if input.label is defined and input.label %}
+    <label class="control-label" for="select-{{ input.name }}">{{ input.label|trans }}</label>
+{% endif %}
+<div{% if input.icon is defined and input.icon %} class="input-group"{% endif %}>
+    {% if input.icon is defined and input.icon %}
+        <label for="select-{{ input.name }}" class="input-group-addon">
+            <span class="{{ input.icon }}" aria-hidden="true"></span>
+        </label>
+    {% endif %}
+    <select name="{{ input.name }}" id="select-{{ input.name }}"
+            class="{{ input.class ?? 'form-control' }}"
+            {% if input.auto is defined and input.auto %} onchange="this.input.submit()"{% endif %}
+            {% if input.disabled is defined and input.disabled %} disabled="disabled"{% endif %}>
+        {# PLACEHOLDER #}
+        {% if input.placeholder is defined and input.placeholder %}
+            <option value="">
+                {{ input.placeholder|trans }}
+            </option>
+        {% endif %}
+        {# OPTIONS #}
+        {% if input.options is defined and input.options %}
+            {% for group, option in input.options %}
+                {% if option.value is not defined or option.name is not defined %}
+                    {% if not (group matches '#^[0-9]+$#') %}
+                        <optgroup label="{{ group }}">
+                            {% for opt in option %}
+                                <option value="{{ opt.value }}"
+                                        {% if app.request.get(input.name) == opt.value %}selected{% endif %}>
+                                    {{ opt.name }}
+                                </option>
+                            {% endfor %}
+                        </optgroup>
+                    {% endif %}
+                {% else %}
+                    <option value="{{ option.value }}"
+                            {% if app.request.get(input.name) == option.value %}selected{% endif %}>
+                        {{ option.name }}
+                    </option>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </select>
+</div>

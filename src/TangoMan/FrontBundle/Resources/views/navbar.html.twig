@@ -1,0 +1,203 @@
+<header role="banner">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                {% if menu.icon is defined or menu.label is defined or menu.logo is defined %}
+                    <a class="navbar-brand" href="{{ menu.route ? path(menu.route) : '#' }}">
+                        {% if menu.logo is defined and menu.logo %}
+                            <img src="{{ menu.logo }}" alt="{{ menu.label ?? 'Logo' }}">
+                        {% endif %}
+                        {% if menu.icon is defined and menu.icon %}
+                            <span class="{{ menu.icon }}" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if menu.label is defined and menu.label %}
+                            {{ menu.label|trans }}
+                        {% endif %}
+                    </a>
+                {% endif %}
+            </div>
+            <div class="collapse navbar-collapse">
+                {# USER IS AUTHENTICATED #}
+                {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                    {% if is_granted(menu.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+                        {% if start_with(app.request.attributes.get('_route'), menu.pages ?? []) %}
+                            <ul class="nav navbar-nav navbar-left">
+                                {% for item in menu.items %}
+                                    {% if item.subMenu is defined %}
+                                        {% if is_granted(item.subMenu.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+                                            {% if start_with(app.request.attributes.get('_route'), item.subMenu.page ?? []) %}
+                                                <li class="dropdown">
+                                                    <a class="dropdown-toggle" data-toggle="dropdown"
+                                                       role="button"
+                                                       aria-haspopup="true" aria-expanded="false">
+                                                        {% if item.subMenu.icon is defined and item.subMenu.icon %}
+                                                            <span class="{{ item.subMenu.icon }}"
+                                                                  aria-hidden="true"></span>
+                                                        {% endif %}
+                                                        {% if item.subMenu.label is defined and item.subMenu.label %}
+                                                            {{ item.subMenu.label|trans }}
+                                                        {% endif %}
+                                                        <span class="caret"></span>
+                                                    </a>
+                                                    <ul class="dropdown-menu">
+                                                        {% for subItem in item.subMenu.items %}
+                                                            {% if is_granted(subItem.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+                                                                {% if start_with(app.request.attributes.get('_route'), subItem.pages ?? []) %}
+
+                                                                    {% if subItem.divider is defined and subItem.divider %}
+                                                                        <li class="divider" role="separator"></li>
+                                                                    {% elseif subItem.route is defined and subItem.route %}
+                                                                        {% if subItem.active is defined %}
+                                                                        <li{% if app.request.attributes.get('_route') starts with subItem.active %} class="active"{% endif %}>
+                                                                        {% else %}
+                                                                            <li>
+                                                                        {% endif %}
+                                                                        {% if subItem.route is defined and subItem.route %}
+                                                                            <a
+                                                                                    {% if subItem.route is defined and subItem.route %}
+                                                                                        {% if subItem.callback is defined and subItem.callback %}
+                                                                                            href="{{ path(subItem.route, { 'callback': app.request.uri|callback }) }}"
+                                                                                        {% elseif subItem.id is defined and subItem.id %}
+                                                                                            href="{{ path(subItem.route, { 'id': subItem.id, 'callback': app.request.uri|callback }) }}"
+                                                                                        {% elseif subItem.slug is defined and subItem.slug %}
+                                                                                            href="{{ path(subItem.route, { 'slug': subItem.parameter.slug, 'callback': app.request.uri|callback }) }}"
+                                                                                        {% else %}
+                                                                                            href="{{ path(subItem.route) }}"
+                                                                                        {% endif %}
+                                                                                    {% elseif subItem.anchor is defined and subItem.anchor %}
+                                                                                        href="{{ subItem.anchor }}"
+                                                                                    {% endif %}
+                                                                                    {% if subItem.toggle is defined and subItem.toggle %}
+                                                                                        data-toggle="{{ subItem.toggle }}"
+                                                                                        {% if subItem.target is defined and subItem.target %}
+                                                                                            data-target="{{ subItem.target }}"
+                                                                                        {% endif %}
+                                                                                    {% endif %}
+                                                                            >
+                                                                                {% if subItem.icon is defined and subItem.icon %}
+                                                                                    <span class="{{ subItem.icon }}"
+                                                                                          aria-hidden="true"></span>
+                                                                                {% endif %}
+                                                                                {% if subItem.label is defined and subItem.label %}
+                                                                                    {{ subItem.label|trans }}
+                                                                                {% endif %}
+                                                                            </a>
+                                                                        {% endif %}
+                                                                        </li>
+                                                                    {% else %}
+                                                                        <li class="dropdown-header">
+                                                                            {% if subItem.icon is defined and subItem.icon %}
+                                                                                <span class="{{ subItem.icon }}"
+                                                                                      aria-hidden="true"></span>
+                                                                            {% endif %}
+                                                                            {% if subItem.label is defined and subItem.label %}
+                                                                                {{ subItem.label|trans }}
+                                                                            {% endif %}
+                                                                        </li>
+                                                                    {% endif %}
+                                                                {% endif %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </ul>
+                                                </li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% else %}
+                                        {# USER IS NOT LOGGED IN #}
+                                        {% if is_granted(item.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+                                            {% if start_with(app.request.attributes.get('_route'), item.pages ?? []) %}
+                                                {% if item.active is defined %}
+                                                <li{% if app.request.attributes.get('_route') starts with item.active %} class="active"{% endif %}>
+                                                {% else %}
+                                                    <li>
+                                                {% endif %}
+                                                <a
+                                                        {% if item.route is defined and item.route %}
+                                                            {% if item.callback is defined and item.callback %}
+                                                                href="{{ path(item.route, { 'callback': app.request.uri|callback }) }}"
+                                                            {% elseif item.id is defined and item.id %}
+                                                                href="{{ path(item.route, { 'id': item.id, 'callback': app.request.uri|callback }) }}"
+                                                            {% elseif item.slug is defined and item.slug %}
+                                                                href="{{ path(item.route, { 'slug': item.parameter.slug, 'callback': app.request.uri|callback }) }}"
+                                                            {% else %}
+                                                                href="{{ path(item.route) }}"
+                                                            {% endif %}
+                                                        {% elseif item.anchor is defined and item.anchor %}
+                                                            href="{{ item.anchor }}"
+                                                        {% endif %}
+                                                        {% if item.toggle is defined and item.toggle %}
+                                                            data-toggle="{{ item.toggle }}"
+                                                            {% if item.target is defined and item.target %}
+                                                                data-target="{{ item.target }}"
+                                                            {% endif %}
+                                                        {% endif %}
+                                                >
+                                                    {% if item.icon is defined and item.icon %}
+                                                        <span class="{{ item.icon }}" aria-hidden="true"></span>
+                                                    {% endif %}
+                                                    {% if item.label is defined and item.label %}
+                                                        {{ item.label|trans }}
+                                                    {% endif %}
+                                                </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    {% endif %}
+                {% endif %}
+                <ul class="nav navbar-nav navbar-right">
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <li class="dropdown">
+                            <a class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-user"></span>
+                                {{ app.user.username }}
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li{% if app.request.attributes.get('_route') ends with 'show' %} class="active"{% endif %}>
+                                    <a href="{{ path('app_user_show', { 'slug': app.user.slug }) }}">
+                                        <span class="glyphicon glyphicon-user"></span>
+                                        Voir mon profil
+                                    </a>
+                                </li>
+                                <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
+                                    <a href="{{ path('app_user_edit', { 'slug': app.user.slug }) }}">
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                        Modifier mon profil
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('app_logout') }}">
+                                        <span class="glyphicon glyphicon-off"></span>
+                                        Déconnexion
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    {% else %}
+                        <li><a href="{{ path('app_security_register') }}">
+                                <span class="glyphicon glyphicon-floppy-disk"></span>
+                                Inscription
+                            </a>
+                        </li>
+                        <li><a href="{{ path('app_login') }}">
+                                <span class="glyphicon glyphicon-lock"></span>
+                                Connexion
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>

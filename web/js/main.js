@@ -1,6 +1,23 @@
 // Bootstrap tooltips initialisation
-$(function() {
+$(function () {
     $('[data-toggle="tooltip"]').tooltip()
+});
+
+
+/**
+ * Reset button
+ *
+ * @author         Matthias Morin <tangoman@free.fr>
+ * @last-modified  17:00 19/09/2017
+ * @version        0.1.0
+ * @requires       jQuery
+ */
+$(function () {
+    $('button[type="reset"]').click(function (e) {
+        e.preventDefault();
+        $('form').find('input:text, input:password, input[type="number"], select, textarea').val('');
+        $('form').find('input:radio, input:checkbox').prop('checked', false);
+    });
 });
 
 /**
@@ -11,7 +28,7 @@ $(function() {
  * @requires  jQuery & Bootstap
  * @requires  smooth scrolling
  */
-$(function() {
+$(function () {
     /* Injects element. */
     $("body").prepend('<a href="#page-top" id="scroll-top"><span class="glyphicon glyphicon-chevron-up"></span></a>');
     $("body").attr("id", "page-top");
@@ -35,8 +52,8 @@ $(function() {
     });
 
     /* Detects user srolls */
-    $(window).scroll(function() {
-        if ( $(window).scrollTop() > 300 ) {
+    $(window).scroll(function () {
+        if ($(window).scrollTop() > 300) {
             $('#scroll-top').fadeIn('slow');
         } else {
             $('#scroll-top').fadeOut('slow');
@@ -45,13 +62,13 @@ $(function() {
 });
 
 // Smooth scrolling
-$(function() {
-    $("a[href^='#']").on("click", function(e) {
+$(function () {
+    $("a[href^='#']").on("click", function (e) {
         e.preventDefault();
         var hash = this.hash;
         $("html, body").animate({
             scrollTop: $(this.hash).offset().top
-        }, 700, function() {
+        }, 700, function () {
             window.location.hash = hash;
         })
     })

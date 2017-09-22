@@ -1,0 +1,92 @@
+<style>
+    .ordered-thead > tr > th {
+        border: 0 !important;
+        padding: 0 !important;
+    }
+
+    .ordered-thead > tr > th > a,
+    .ordered-thead > tr > th > span {
+        border-radius: 4px 4px 0 0;
+        border: 1px solid transparent;
+        padding: 10px 15px;
+        display: block;
+        margin-right: 2px;
+    }
+
+    .ordered-thead > tr > th > a:focus,
+    .ordered-thead > tr > th > a:hover {
+        border-color: #eee;
+        background-color: #eee;
+        text-decoration: none;
+    }
+
+    .ordered-thead > tr > th.ASC a,
+    .ordered-thead > tr > th.DESC a {
+        border: 1px solid #ddd;
+        border-bottom-color: transparent;
+    }
+
+    .ordered-thead > tr > th a:before {
+        font-family: 'Glyphicons Halflings';
+        float: right;
+    }
+
+    .ordered-thead > tr > th.ASC a:before {
+        content: "\e253";
+    }
+
+    .ordered-thead > tr > th.DESC a:before {
+        content: "\e252";
+    }
+</style>
+<thead class="ordered-thead">
+<tr>
+    {% for th in thead.ths %}
+        {% if is_granted(th.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+            {# Setting default way #}
+            {% if not th.way is defined %}
+                {% set thWay = 'ASC' %}
+            {% else %}
+                {% if th.way != 'ASC' and th.way != 'DESC' %}
+                    {% set thWay = 'ASC' %}
+                {% else %}
+                    {% set thWay = th.way %}
+                {% endif %}
+            {% endif %}
+            {% if th.route is defined and th.route %}
+                <th
+                        {% if th.colspan is defined and th.colspan %}
+                            colspan="{{ th.colspan }}"
+                        {% endif %}
+                        {% if app.request.query.get('order') %}
+                            class="{{ app.request.query.get('order') == th.name ? app.request.query.get('way', thWay) }}"
+                        {% endif %}
+                >
+                    <a href="{{ path(th.route, app.request.query.all|merge({
+                        'page'  : null,
+                        'order' : th.name,
+                        'way'   : app.request.query.get('order') == th.name
+                        and app.request.query.get('way', thWay) == 'ASC' ? 'DESC' : 'ASC'})) }}"
+                    >
+                        {% if th.icon is defined and th.icon %}
+                            <span class="{{ th.icon }}"></span>
+                        {% endif %}
+                        {% if th.label is defined and th.label %}
+                            {{ th.label|trans }}
+                        {% endif %}
+                    </a>
+                </th>
+            {% else %}
+                <th{% if th.colspan is defined and th.colspan %} colspan="{{ th.colspan }}"{% endif %}>
+                    {% if th.icon is defined and th.icon %}
+                        <span class="{{ th.icon }}"></span>
+                    {% endif %}
+                    {% if th.label is defined and th.label %}
+                        <span>{{ th.label|trans }}</span>
+                    {% endif %}
+                </th>
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</tr>
+</thead>

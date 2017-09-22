@@ -1,0 +1,49 @@
+{% if is_granted(app.user.roles, menu.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+    {% if start_with(app.request.attributes.get('_route'), menu.pages ?? []) %}
+        <div id="tabs">
+            <ul class="nav nav-tabs">
+                {% for item in menu.items %}
+                    {% if is_granted(item.item.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+                        {% if start_with(app.request.attributes.get('_route'), item.pages ?? []) %}
+                            {% if item.active is defined %}
+                            <li{% if app.request.attributes.get('_route') ends with item.active %} class="active"{% endif %}>
+                            {% else %}
+                                <li>
+                            {% endif %}
+                            <a
+                                    {% if item.route is defined and item.route %}
+                                        {% if item.callback is defined and item.callback %}
+                                            href="{{ path(item.route, { 'callback': app.request.uri|callback }) }}"
+                                        {% elseif item.id is defined and item.id %}
+                                            href="{{ path(item.route, { 'id': item.id, 'callback': app.request.uri|callback }) }}"
+                                        {% elseif item.slug is defined and item.slug %}
+                                            href="{{ path(item.route, { 'slug': item.parameter.slug, 'callback': app.request.uri|callback }) }}"
+                                        {% else %}
+                                            href="{{ path(item.route) }}"
+                                        {% endif %}
+                                    {% elseif item.anchor is defined and item.anchor %}
+                                        href="{{ item.anchor }}"
+                                    {% endif %}
+                                    {% if item.tooltip is defined and item.tooltip %}
+                                        data-toggle="tooltip" data-placement="top"
+                                        data-original-title="{{ item.tooltip }}"
+                                    {% endif %}
+                                    {% if item.data.key is defined and item.data.key %}
+                                        data-{{ item.data.key }}="{{ item.data.value ?? '' }}"
+                                    {% endif %}
+                            >
+                                {% if item.icon is defined and item.icon %}
+                                    <span class="{{ item.icon }}"></span>
+                                {% endif %}
+                                {% if item.label is defined and item.label %}
+                                    {{ item.label|trans }}
+                                {% endif %}
+                            </a>
+                            </li>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+{% endif %}

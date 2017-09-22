@@ -90,6 +90,7 @@
                                 {
                                     "type": "submit",
                                     "label": "Filtrer",
+                                    "badge": '~users|length~',
                                     "icon": "glyphicon glyphicon-search"
                                 },
                                 {
@@ -490,6 +491,8 @@
                                 {#</td>#}
                             {#{% endif %}#}
                         </tr>
+                    {% else %}
+                        <td colspan="9"><p class="text-center">Aucun utilisateurs.</p></td>
                     {% endfor %}
                     </tbody>
                 </table>
@@ -506,10 +509,4 @@
 {% block javascript %}
     {{ parent() }}
     <script src="{{ asset('js/modal.js') }}"></script>
-    <script>
-        $('#reset').click(function () {
-            $('form').find('input:text, input:password, input[type="number"], select, textarea').val('');
-            $('form').find('input:radio, input:checkbox').prop('checked', false);
-        });
-    </script>
 {% endblock %}

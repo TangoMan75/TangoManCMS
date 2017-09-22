@@ -1,0 +1,24 @@
+{% if input.label is defined and input.label %}
+    <label class="control-label">
+        {{ input.label|trans }}
+    </label>
+{% endif %}
+{% if input.options is defined and input.options %}
+    {% for option in input.options %}
+        <div class="radio">
+            <label class="{{ input.class ?? 'radio-inline' }}">
+                <input type="radio"
+                       name="{{ input.name }}"
+                       id="input-{{ input.name }}-{{ loop.index }}"
+                        {% if input.auto is defined and input.auto %} onchange="this.form.submit()"{% endif %}
+                        {% if option.disabled is defined and option.disabled %} disabled="disabled"{% endif %}
+                       value="{{ option.value }}"
+                        {% if app.request.get(input.name) == option.value %} checked{% endif %}
+                />
+                {% if option.name is defined and option.name %}
+                    {{ option.name|trans }}
+                {% endif %}
+            </label>
+        </div>
+    {% endfor %}
+{% endif %}

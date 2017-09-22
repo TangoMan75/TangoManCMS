@@ -1,0 +1,21 @@
+{% if input.label is defined and input.label %}
+    <label class="control-label" for="input-{{ input.name }}">
+        {{ input.label|trans }}
+    </label>
+{% endif %}
+<div{% if input.icon is defined and input.icon %} class="input-group"{% endif %}>
+    {% if input.icon is defined and input.icon %}
+        <label for="input-{{ input.name }}" class="input-group-addon">
+            <span class="{{ input.icon }}" aria-hidden="true"></span>
+        </label>
+    {% endif %}
+    <input type="{{ input.type }}"
+           name="{{ input.name }}"
+           id="input-{{ input.name }}"
+           class="{% if input.class is defined and input.class %}{{ input.class }}{% else %}form-control{% endif %}"
+            {% if input.auto is defined and input.auto %} onblur="this.form.submit()"{% endif %}
+            {% if input.placeholder is defined and input.placeholder %} placeholder="{{ input.placeholder }}"{% endif %}
+            {% if input.disabled is defined and input.disabled %} disabled="disabled"{% endif %}
+           value="{{ app.request.get(input.name)|join(', ') }}"
+    />
+</div>

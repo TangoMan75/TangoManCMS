@@ -1,0 +1,54 @@
+{% if is_granted(app.user.roles, menu.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+    {% if start_with(app.request.attributes.get('_route'), menu.pages ?? []) %}
+        <nav class="navbar navbar-default">
+            <ul class="nav nav-pills nav-stacked">
+                {% for item in menu.items %}
+                    {% if is_granted(item.subMenu.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+                        {% if start_with(app.request.attributes.get('_route'), item.pages ?? []) %}
+                            {% if item.divider is defined and item.divider %}
+                                <li class="nav-divider" role="separator"></li>
+                            {% else %}
+                                {% if item.active is defined %}
+                                <li{% if app.request.attributes.get('_route') starts with item.active %} class="active"{% endif %}>
+                                {% else %}
+                                    <li>
+                                {% endif %}
+                                <a
+                                        {% if item.route is defined and item.route %}
+                                            {% if item.callback is defined and item.callback %}
+                                                href="{{ path(item.route, { 'callback': app.request.uri|callback }) }}"
+                                            {% elseif item.id is defined and item.id %}
+                                                href="{{ path(item.route, { 'id': item.id, 'callback': app.request.uri|callback }) }}"
+                                            {% elseif item.slug is defined and item.slug %}
+                                                href="{{ path(item.route, { 'slug': item.parameter.slug, 'callback': app.request.uri|callback }) }}"
+                                            {% else %}
+                                                href="{{ path(item.route) }}"
+                                            {% endif %}
+                                        {% elseif item.anchor is defined and item.anchor %}
+                                            href="{{ item.anchor }}"
+                                        {% endif %}
+                                        {% if item.toggle is defined and item.toggle %}
+                                            data-toggle="{{ item.toggle }}"
+                                            {% if item.target is defined and item.target %}
+                                                data-target="{{ item.target }}"
+                                            {% endif %}
+                                        {% endif %}
+                                >
+                                    {% if item.icon is defined and item.icon %}
+                                        <span class="{{ item.icon }}"></span>
+                                    {% endif %}
+                                    <span {% if item.icon is defined and item.icon %} class="hidden-sm"{% endif %}>
+                                    {% if item.label is defined and item.label %}
+                                        {{ item.label|trans }}
+                                    {% endif %}
+                                </span>
+                                </a>
+                                </li>
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </nav>
+    {% endif %}
+{% endif %}

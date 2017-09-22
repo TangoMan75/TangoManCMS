@@ -1,0 +1,7 @@
+services:
+    twig.extension.tangoman_front:
+        class: TangoMan\FrontBundle\Twig\Extension\FrontExtension
+        public: false
+        arguments: ["@twig"]
+        tags:
+            - { name: twig.extension }

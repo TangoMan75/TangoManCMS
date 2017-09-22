@@ -1,0 +1,35 @@
+<form method="GET" class="clearfix{% if form.class is defined and form.class %} {{ form.class }}{% endif %}">
+    {% for input in form.inputs %}
+        {% if is_granted(input.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+            {% if input.type == 'divider' %}
+                <div class="clearfix"></div>
+            {% elseif input.type == 'select' %}
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3"{% if input.label is not defined %} style="padding-top: 2.5rem"{% endif %}>
+                    {% include '@TangoManFront/select.html.twig' %}
+                </div>
+            {% elseif input.type == 'checkbox' %}
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding-top: 2rem;">
+                    {% include '@TangoManFront/checkbox.html.twig' %}
+                </div>
+            {% elseif input.type == 'radio' %}
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3"{% if input.label is not defined %} style="padding-top: 2.5rem"{% endif %}>
+                    {% include '@TangoManFront/radio.html.twig' %}
+                </div>
+            {% elseif input.type == 'email' or input.type == 'number' or input.type == 'password' or input.type == 'search' or input.type == 'tel' or input.type == 'text' or input.type == 'url' %}
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3"{% if input.label is not defined %} style="padding-top: 2.5rem"{% endif %}>
+                    {% include '@TangoManFront/input.html.twig' %}
+                </div>
+            {% elseif input.type == 'button' or input.type == 'dismiss' or input.type == 'reset' or input.type == 'submit' %}
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding-top: 2.5rem">
+                    {% include '@TangoManFront/button.html.twig' with { 'button': input } %}
+                </div>
+            {% elseif input.type == 'buttonGroup' %}
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3" style="padding-top: 2.5rem">
+                    {% include '@TangoManFront/button-group.html.twig' with { 'buttonGroup': input } %}
+                </div>
+            {% elseif input.type == 'hidden' %}
+                {% include '@TangoManFront/hidden.html.twig' %}
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+</form>

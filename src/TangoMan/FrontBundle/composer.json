@@ -1,0 +1,42 @@
+{
+	"name": "tangoman/list-manager-bundle",
+	"description": "Symfony Searchable Paginated Ordered List Twig Extension Bundle",
+	"version": "2.1.5",
+	"type": "symfony-bundle",
+	"keywords": [
+		"Searchable",
+		"Paginated",
+		"Ordered",
+		"List",
+		"Back Office",
+		"Responsive",
+		"Bootstrap",
+		"Symfony",
+		"Twig",
+		"Extension",
+		"Service",
+		"Bundle",
+		"TangoMan"
+	],
+	"licence": "GPL-3.0",
+	"authors": [
+		{
+			"name": "Matthias Morin",
+			"email": "tangoman@free.fr"
+		}
+	],
+	"require": {
+		"php"                         : ">=5.4.0",
+		"symfony/framework-bundle"    : "~2.3|~3.0",
+		"twig/twig"                   : "~1.12|~2",
+		"tangoman/callback-bundle"    : "^1.0",
+		"tangoman/twig-helper-bundle" : "^2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"TangoMan\\FrontBundle\\": ""
+		}
+	},
+	"minimum-stability": "dev",
+	"prefer-stable": true
+}

@@ -1,0 +1,15 @@
+{% if is_granted(app.user.roles, buttonGroup.roles ?? ['IS_AUTHENTICATED_ANONYMOUSLY']) %}
+    {% if start_with(app.request.attributes.get('_route'), buttonGroup.pages ?? []) %}
+        {% if buttonGroup.buttons is defined and buttonGroup.buttons %}
+            <div class="{{ buttonGroup.class ?? 'btn-group' }}" role="group">
+                {% for button in buttonGroup.buttons %}
+                    {% include('@TangoManFront/button.html.twig') %}
+                {% endfor %}
+            </div>
+        {% else %}
+            {% for button in buttonGroup %}
+                {% include('@TangoManFront/button.html.twig') %}
+            {% endfor %}
+        {% endif %}
+    {% endif %}
+{% endif %}
