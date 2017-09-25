@@ -64,7 +64,9 @@
             {#<script src="{{ asset('js/tinymce.js') }}></script>#}
             {#<script>tinymce.init({ selector:'textarea', height: '250' });</script>#}
 
-            {#<!-- Magnific Popup core CSS file -->#}
+            {#<!-- Magnific Popup CDN -->#}
+            {#<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css">#}
+            {#<!-- Magnific Popup Local -->#}
             {#<link rel="stylesheet" href="{{ asset('vendor/magnific-popup/magnific-popup.css') }}">#}
 
             {#<!-- Custom Stylesheets -->#}
@@ -157,45 +159,45 @@
 
     {# Magnific popup initialisation #}
     {#{% if 'photo' in gallery %}#}
-    {#<!-- Magnific Popup core JS -->#}
+    {#<!-- Magnific Popup CDN -->#}
+    {#<script src="//cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>#}
+    {#<!-- Magnific Popup Local -->#}
     {#<script src="{{ asset('vendor/magnific-popup/jquery.magnific-popup.min.js') }}"></script>#}
-
     {#<style>#}
-    {#.gallery a {#}
-    {#background-size: cover;#}
-    {#background-repeat: no-repeat;#}
-    {#display: inline-block;#}
-    {#width: 75px;#}
-    {#height: 75px;#}
-    {#margin-bottom: 2px;#}
-    {#}#}
+        {#.gallery a {#}
+            {#background-size: cover;#}
+            {#background-repeat: no-repeat;#}
+            {#display: inline-block;#}
+            {#width: 75px;#}
+            {#height: 75px;#}
+            {#margin-bottom: 2px;#}
+        {#}#}
     {#</style>#}
-
     {#<script>#}
-    {#$(document).ready(function () {#}
-    {#$('.gallery').magnificPopup({#}
-    {#delegate: 'a.image-popup',#}
-    {#type: 'image',#}
-    {#tLoading: 'Chargement de l\'image #%curr%...',#}
-    {#mainClass: 'mfp-with-zoom',#}
-    {#gallery: {#}
-    {#enabled: true,#}
-    {#navigateByImgClick: true,#}
-    {#preload: [0, 1] // Will preload 0 - before current, and 1 after the current image#}
-    {#},#}
-    {#image: {#}
-    {#tError: '<a href="%url%">L\'image #%curr%</a> n\'a pas pu être chargée.',#}
-    {#titleSrc: function (item) {#}
-    {#return item.el.attr('title');#}
-    {#}#}
-    {#},#}
-    {#zoom: {#}
-    {#enabled: true,#}
-    {#duration: 300,#}
-    {#easing: 'ease-in-out'#}
-    {#}#}
-    {#});#}
-    {#});#}
+        {#$(document).ready(function () {#}
+            {#$('.gallery').magnificPopup({#}
+                {#delegate: 'a',#}
+                {#type: 'image',#}
+                {#tLoading: 'Chargement de l\'image #%curr%...',#}
+                {#mainClass: 'mfp-with-zoom',#}
+                {#gallery: {#}
+                    {#enabled: true,#}
+                    {#navigateByImgClick: true,#}
+                    {#preload: [0, 1] // Will preload 0 - before current, and 1 after the current image#}
+                {#},#}
+                {#image: {#}
+                    {#tError: '<a href="%url%">L\'image #%curr%</a> n\'a pas pu être chargée.',#}
+                    {#titleSrc: function (item) {#}
+                        {#return item.el.attr('title');#}
+                    {#}#}
+                {#},#}
+                {#zoom: {#}
+                    {#enabled: true,#}
+                    {#duration: 300,#}
+                    {#easing: 'ease-in-out'#}
+                {#}#}
+            {#});#}
+        {#});#}
     {#</script>#}
     {#{% endif %}#}
 
