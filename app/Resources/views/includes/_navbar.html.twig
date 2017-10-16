@@ -139,7 +139,7 @@
                                 {#</li>#}
                             {#{% else %}#}
                                 {#<li>#}
-                                    {#<a href="{{ path('app_post_new', {'callback': app.request.uri|callback }) }}">#}
+                                    {#<a href="{{ path('app_post_new', {'callback': callback() }) }}">#}
                                         {#<span class="glyphicon glyphicon-pencil"></span>#}
                                         {#Publier#}
                                     {#</a>#}
@@ -164,7 +164,7 @@
                                 {#</a>#}
                             {#</li>#}
                             {#<li>#}
-                                {#<a href="{{ path('app_user_edit', { 'slug':app.user.slug, 'callback': app.request.uri|callback }) }}">#}
+                                {#<a href="{{ path('app_user_edit', { 'slug':app.user.slug, 'callback': callback() }) }}">#}
                                     {#<span class="glyphicon glyphicon-cog"></span>#}
                                     {#Paramètres#}
                                 {#</a>#}
@@ -176,7 +176,7 @@
                                 {#</a>#}
                             {#</li>#}
                         {#{% else %}#}
-                            {#<li><a href="{{ path('app_security_register', { 'callback': app.request.uri|callback }) }}">#}
+                            {#<li><a href="{{ path('app_security_register', { 'callback': callback() }) }}">#}
                                     {#<span class="glyphicon glyphicon-floppy-disk"></span>#}
                                     {#Inscription#}
                                 {#</a>#}

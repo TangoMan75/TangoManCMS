@@ -7,14 +7,14 @@
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_privilege_new', { 'callback': app.request.uri|callback }) }}">
+            <a href="{{ path('app_admin_privilege_new', { 'callback': callback() }) }}">
                 <span class="glyphicon glyphicon-plus"></span>
                 Ajouter
             </a>
         </li>
         {% if privilege is defined %}
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_privilege_edit', { 'id': privilege.id, 'callback': app.request.uri|callback }) }}">
+                <a href="{{ path('app_admin_privilege_edit', { 'id': privilege.id, 'callback': callback() }) }}">
                     <span class="glyphicon glyphicon-edit"></span>
                     {{ privilege.name }}
                 </a>

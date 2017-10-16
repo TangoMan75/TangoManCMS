@@ -14,14 +14,14 @@
     <div class="container">
 
         {% if app.user %}
-            {% include "includes/_media-form.html.twig" with { 'callback': app.request.uri|callback } %}
+            {% include "includes/_media-form.html.twig" with { 'callback': callback() } %}
         {% else %}
             <div class="jumbotron">
                 <div class="text-center">
                     <h2>Vous devez être connecté pour pouvoir publier des contenus.</h2>
                     <p>
                         <a href="{{ path('app_login') }}" class="btn btn-primary btn-lg">Se connecter</a>
-                        <a href="{{ path('app_security_register', { 'callback': app.request.uri|callback }) }}"
+                        <a href="{{ path('app_security_register', { 'callback': callback() }) }}"
                            class="btn btn-danger btn-lg">S'inscrire</a>
                     </p>
                 </div>

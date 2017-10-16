@@ -291,13 +291,13 @@
 
                         <td>
                             {% if gallery.published %}
-                                <a href="{{ path('app_admin_gallery_publish', { 'id': gallery.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_gallery_publish', { 'id': gallery.id, 'publish': 0, 'callback': callback() }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Retirer la publication">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_gallery_publish', { 'id': gallery.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_gallery_publish', { 'id': gallery.id, 'publish': 1, 'callback': callback() }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Publier cette galerie">
                                     <span class="glyphicon glyphicon-remove"></span>
@@ -306,7 +306,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_gallery_edit', { 'id': gallery.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_gallery_edit', { 'id': gallery.id, 'callback': callback() }) }}"
                                class="btn btn-warning btn-sm"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier la galerie &quot;{{ gallery }}&quot;"

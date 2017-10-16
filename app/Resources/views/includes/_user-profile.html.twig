@@ -77,7 +77,7 @@
                     <p>Pour reçevoir un lien de connexion rapide dans votre boite mail cliquez sur le bouton suivant:
                         <br/>
                         <a class="btn btn-success"
-                           href="{{ path('app_security_create', {'id': user.id, 'action': 'user_login', 'callback': app.request.uri|callback}) }}">
+                           href="{{ path('app_security_create', {'id': user.id, 'action': 'user_login', 'callback': callback()}) }}">
                             Générer un lien
                         </a>
                     </p>

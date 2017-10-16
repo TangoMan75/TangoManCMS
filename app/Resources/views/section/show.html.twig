@@ -11,7 +11,7 @@
                 <p class="section-summary">{{ section.summary|raw }}</p>
                 {% if is_granted('ROLE_ADMIN') %}
                     <div class="pull-right btn-group" role="group">
-                        <a href="{{ path("app_admin_section_edit",   { 'id': section.id, 'callback': app.request.uri|callback }) }}"
+                        <a href="{{ path("app_admin_section_edit",   { 'id': section.id, 'callback': callback() }) }}"
                            class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top"
                            data-original-title="Modifier cette section">
                             <span class="glyphicon glyphicon-edit"></span>

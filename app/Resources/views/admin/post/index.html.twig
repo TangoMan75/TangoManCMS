@@ -405,13 +405,13 @@
 
                         <td>
                             {% if post.published %}
-                                <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 0, 'callback': callback() }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Retirer la publication de &quot;{{ post }}&quot;">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_post_publish', { 'id': post.id, 'publish': 1, 'callback': callback() }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Publier &quot;{{ post }}&quot;">
                                     <span class="glyphicon glyphicon-remove"></span>
@@ -420,7 +420,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_post_edit', { 'id': post.id, 'callback': callback() }) }}"
                                class="btn btn-warning btn-sm"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier l'article &quot;{{ post }}&quot;"

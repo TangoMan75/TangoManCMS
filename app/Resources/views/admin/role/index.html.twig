@@ -167,7 +167,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_role_edit', { 'id': role.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_role_edit', { 'id': role.id, 'callback': callback() }) }}"
                                class="btn btn-warning btn-sm"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier le role &quot;{{ role.name }}&quot;"

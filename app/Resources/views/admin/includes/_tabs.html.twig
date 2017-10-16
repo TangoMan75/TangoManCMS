@@ -7,7 +7,7 @@
             </a>
         </li>
         <li{% if app.request.attributes.get('_route') ends with 'new' %} class="active"{% endif %}>
-            <a href="{{ path('app_admin_'~ item ~'_new', { 'callback': app.request.uri|callback } ) }}">
+            <a href="{{ path('app_admin_'~ item ~'_new', { 'callback': callback() } ) }}">
                 <span class="glyphicon glyphicon-plus"></span>
                 Ajouter
             </a>
@@ -26,7 +26,7 @@
         </li>
         {% if object is defined %}
             <li{% if app.request.attributes.get('_route') ends with 'edit' %} class="active"{% endif %}>
-                <a href="{{ path('app_admin_'~ item ~'_edit', { 'id': object.id, 'callback': app.request.uri|callback }) }}">
+                <a href="{{ path('app_admin_'~ item ~'_edit', { 'id': object.id, 'callback': callback() }) }}">
                     <span class="glyphicon glyphicon-edit"></span>
                     {{ object|truncate(20) }}
                 </a>

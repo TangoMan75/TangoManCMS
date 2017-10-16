@@ -366,13 +366,13 @@
 
                         <td>
                             {% if page.published %}
-                                <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 0, 'callback': callback() }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Retirer la publication">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_page_publish', { 'id': page.id, 'publish': 1, 'callback': callback() }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Publier cette page">
                                     <span class="glyphicon glyphicon-remove"></span>
@@ -381,7 +381,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_page_edit', { 'id': page.id, 'callback': callback() }) }}"
                                class="btn btn-warning btn-sm"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier la page &quot;{{ page }}&quot;"

@@ -247,22 +247,22 @@
 
                 <tr>
                     <td>
-                        path(app.request.attributes.get('_route'), { 'callback': app.request.uri })
+                        path(app.request.attributes.get('_route'), { 'callback': callback() })
                     </td>
                     <td>
-                        <a href="{{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri }) }}">
-                            {{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri }) }}
+                        <a href="{{ path(app.request.attributes.get('_route'), { 'callback': callback() }) }}">
+                            {{ path(app.request.attributes.get('_route'), { 'callback': callback() }) }}
                         </a>
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        path(app.request.attributes.get('_route'), { 'callback': app.request.uri|callback })
+                        path(app.request.attributes.get('_route'), { 'callback': callback() })
                     </td>
                     <td>
-                        <a href="{{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri|callback }) }}">
-                            {{ path(app.request.attributes.get('_route'), { 'callback': app.request.uri|callback }) }}
+                        <a href="{{ path(app.request.attributes.get('_route'), { 'callback': callback() }) }}">
+                            {{ path(app.request.attributes.get('_route'), { 'callback': callback() }) }}
                         </a>
                     </td>
                 </tr>

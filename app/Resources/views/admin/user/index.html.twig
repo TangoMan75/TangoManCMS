@@ -316,133 +316,147 @@
                                     </span>
                                 {% endif %}
                             </td>
-                            <td>
-                                {% if 'ROLE_SUPER_ADMIN' in user.roles %}
-                                    <span class="btn btn-danger btn-sm"
-                                          data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Super Administrateur">
-                                        <span class="glyphicon glyphicon-king"></span>
-                                    </span>
-                                {% elseif 'ROLE_ADMIN' in user.roles %}
-                                    <span class="btn btn-warning btn-sm"
-                                          data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Administrateur">
-                                        <span class="glyphicon glyphicon-tower"></span>
-                                    </span>
-                                {% elseif 'ROLE_SUPER_USER' in user.roles %}
-                                    <span class="btn btn-success btn-sm"
-                                          data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Super Utilisateur">
-                                        <span class="glyphicon glyphicon-bishop"></span>
-                                    </span>
-                                {% else %}
-                                    <span class="btn btn-primary btn-sm"
-                                          data-toggle="tooltip" data-placement="top"
-                                          data-original-title="Utilisateur">
-                                        <span class="glyphicon glyphicon-pawn"></span>
-                                    </span>
-                                {% endif %}
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                    {% if 'ROLE_SUPER_ADMIN' in user.roles %}
+                            {#<td>#}
+                                {#{% if 'ROLE_SUPER_ADMIN' in user.roles %}#}
+                                    {#<span class="btn btn-danger btn-sm"#}
+                                          {#data-toggle="tooltip" data-placement="top"#}
+                                          {#data-original-title="Super Administrateur">#}
+                                        {#<span class="glyphicon glyphicon-king"></span>#}
+                                    {#</span>#}
+                                {#{% elseif 'ROLE_ADMIN' in user.roles %}#}
+                                    {#<span class="btn btn-warning btn-sm"#}
+                                          {#data-toggle="tooltip" data-placement="top"#}
+                                          {#data-original-title="Administrateur">#}
+                                        {#<span class="glyphicon glyphicon-tower"></span>#}
+                                    {#</span>#}
+                                {#{% elseif 'ROLE_SUPER_USER' in user.roles %}#}
+                                    {#<span class="btn btn-success btn-sm"#}
+                                          {#data-toggle="tooltip" data-placement="top"#}
+                                          {#data-original-title="Super Utilisateur">#}
+                                        {#<span class="glyphicon glyphicon-bishop"></span>#}
+                                    {#</span>#}
+                                {#{% else %}#}
+                                    {#<span class="btn btn-primary btn-sm"#}
+                                          {#data-toggle="tooltip" data-placement="top"#}
+                                          {#data-original-title="Utilisateur">#}
+                                        {#<span class="glyphicon glyphicon-pawn"></span>#}
+                                    {#</span>#}
+                                {#{% endif %}#}
+                                {#{% if is_granted('ROLE_SUPER_ADMIN') %}#}
+                                    {#{% if 'ROLE_SUPER_ADMIN' in user.roles %}#}
                                         {# super admin cannot change his own role #}
-                                        {% if (user.id == app.user.id) %}
-                                            <span class="btn btn-warning btn-xs disabled">
-                                                <span class="glyphicon glyphicon-minus"></span>
-                                            </span>
-                                        {% else %}
-                                            <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
-                                                'id'       : user.id,
-                                                'remove'   : 'ROLE_SUPER_ADMIN',
-                                                'callback' : app.request.uri|callback
-                                            })) }}"
-                                               class="btn btn-warning btn-xs"
-                                               data-toggle="tooltip" data-placement="top"
-                                               data-original-title="Retirer les droits super administrateur de &quot;{{ user }}&quot;">
-                                                <span class="glyphicon glyphicon-minus"></span>
-                                            </a>
-                                        {% endif %}
-                                        <span class="btn btn-success btn-xs disabled">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </span>
-                                    {% elseif 'ROLE_ADMIN' in user.roles %}
-                                        <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
-                                            'id'       : user.id,
-                                            'remove'   : 'ROLE_ADMIN',
-                                            'callback' : app.request.uri|callback
-                                        })) }}"
-                                           class="btn btn-warning btn-xs"
-                                           data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Retirer les droits administrateur de &quot;{{ user }}&quot;">
-                                            <span class="glyphicon glyphicon-minus"></span>
-                                        </a>
-                                        <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
-                                            'id'       : user.id,
-                                            'add'      : 'ROLE_SUPER_ADMIN',
-                                            'callback' : app.request.uri|callback
-                                        })) }}"
-                                           class="btn btn-success btn-xs"
-                                           data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Promouvoir &quot;{{ user }}&quot;">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
-                                    {% elseif 'ROLE_SUPER_USER' in user.roles %}
-                                        <a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({
-                                            'id'       : user.id,
-                                            'remove'   : 'ROLE_SUPER_USER',
-                                            'callback' : app.request.uri|callback
-                                        })) }}"
-                                           class="btn btn-warning btn-xs"
-                                           data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Retirer les droits super utilisateur de &quot;{{ user }}&quot;">
-                                            <span class="glyphicon glyphicon-minus"></span>
-                                        </a>
-                                        <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
-                                            'id'       : user.id,
-                                            'add'      : 'ROLE_ADMIN',
-                                            'callback' : app.request.uri|callback
-                                        })) }}"
-                                           class="btn btn-success btn-xs"
-                                           data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Promouvoir &quot;{{ user }}&quot;">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
-                                    {% else %}
-                                        <span class="btn btn-warning btn-xs disabled">
-                                            <span class="glyphicon glyphicon-minus"></span>
-                                        </span>
-                                        <a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({
-                                            'id'       : user.id,
-                                            'add'      : 'ROLE_SUPER_USER',
-                                            'callback' : app.request.uri|callback
-                                        })) }}"
-                                           class="btn btn-success btn-xs"
-                                           data-toggle="tooltip" data-placement="top"
-                                           data-original-title="Promouvoir &quot;{{ user }}&quot;">
-                                            <span class="glyphicon glyphicon-plus"></span>
-                                        </a>
-                                    {% endif %}
-                                {% endif %}
-                            </td>
+                                        {#{% if (user.id == app.user.id) %}#}
+                                            {#<span class="btn btn-warning btn-xs disabled">#}
+                                                {#<span class="glyphicon glyphicon-minus"></span>#}
+                                            {#</span>#}
+                                        {#{% else %}#}
+                                            {#<a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({#}
+                                                {#'id'       : user.id,#}
+                                                {#'remove'   : 'ROLE_SUPER_ADMIN',#}
+                                                {#'callback' : callback()#}
+                                            {#})) }}"#}
+                                               {#class="btn btn-warning btn-xs"#}
+                                               {#data-toggle="tooltip" data-placement="top"#}
+                                               {#data-original-title="Retirer les droits super administrateur de &quot;{{ user }}&quot;">#}
+                                                {#<span class="glyphicon glyphicon-minus"></span>#}
+                                            {#</a>#}
+                                        {#{% endif %}#}
+                                        {#<span class="btn btn-success btn-xs disabled">#}
+                                            {#<span class="glyphicon glyphicon-plus"></span>#}
+                                        {#</span>#}
+                                    {#{% elseif 'ROLE_ADMIN' in user.roles %}#}
+                                        {#<a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({#}
+                                            {#'id'       : user.id,#}
+                                            {#'remove'   : 'ROLE_ADMIN',#}
+                                            {#'callback' : callback()#}
+                                        {#})) }}"#}
+                                           {#class="btn btn-warning btn-xs"#}
+                                           {#data-toggle="tooltip" data-placement="top"#}
+                                           {#data-original-title="Retirer les droits administrateur de &quot;{{ user }}&quot;">#}
+                                            {#<span class="glyphicon glyphicon-minus"></span>#}
+                                        {#</a>#}
+                                        {#<a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({#}
+                                            {#'id'       : user.id,#}
+                                            {#'add'      : 'ROLE_SUPER_ADMIN',#}
+                                            {#'callback' : callback()#}
+                                        {#})) }}"#}
+                                           {#class="btn btn-success btn-xs"#}
+                                           {#data-toggle="tooltip" data-placement="top"#}
+                                           {#data-original-title="Promouvoir &quot;{{ user }}&quot;">#}
+                                            {#<span class="glyphicon glyphicon-plus"></span>#}
+                                        {#</a>#}
+                                    {#{% elseif 'ROLE_SUPER_USER' in user.roles %}#}
+                                        {#<a href="{{ path('app_admin_user_removerole', app.request.query.all|merge({#}
+                                            {#'id'       : user.id,#}
+                                            {#'remove'   : 'ROLE_SUPER_USER',#}
+                                            {#'callback' : callback()#}
+                                        {#})) }}"#}
+                                           {#class="btn btn-warning btn-xs"#}
+                                           {#data-toggle="tooltip" data-placement="top"#}
+                                           {#data-original-title="Retirer les droits super utilisateur de &quot;{{ user }}&quot;">#}
+                                            {#<span class="glyphicon glyphicon-minus"></span>#}
+                                        {#</a>#}
+                                        {#<a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({#}
+                                            {#'id'       : user.id,#}
+                                            {#'add'      : 'ROLE_ADMIN',#}
+                                            {#'callback' : callback()#}
+                                        {#})) }}"#}
+                                           {#class="btn btn-success btn-xs"#}
+                                           {#data-toggle="tooltip" data-placement="top"#}
+                                           {#data-original-title="Promouvoir &quot;{{ user }}&quot;">#}
+                                            {#<span class="glyphicon glyphicon-plus"></span>#}
+                                        {#</a>#}
+                                    {#{% else %}#}
+                                        {#<span class="btn btn-warning btn-xs disabled">#}
+                                            {#<span class="glyphicon glyphicon-minus"></span>#}
+                                        {#</span>#}
+                                        {#<a href="{{ path('app_admin_user_addrole', app.request.query.all|merge({#}
+                                            {#'id'       : user.id,#}
+                                            {#'add'      : 'ROLE_SUPER_USER',#}
+                                            {#'callback' : callback()#}
+                                        {#})) }}"#}
+                                           {#class="btn btn-success btn-xs"#}
+                                           {#data-toggle="tooltip" data-placement="top"#}
+                                           {#data-original-title="Promouvoir &quot;{{ user }}&quot;">#}
+                                            {#<span class="glyphicon glyphicon-plus"></span>#}
+                                        {#</a>#}
+                                    {#{% endif %}#}
+                                {#{% endif %}#}
+                            {#</td>#}
                             <td colspan="2">
                                 {{ buttons('[
                                     {
+                                        "icon": "glyphicon glyphicon-refresh",
+                                        "class": "btn btn-success btn-sm",
+                                        "route": "homepage",
+                                        "tooltip": "Se connecter en tant que '~user~'",
+                                        "parameters":
+                                            {
+                                                "_switch_user": "'~user~'"
+                                            },
+                                        "roles": ["ROLE_ALLOWED_TO_SWITCH"]
+                                    },
+                                    {
                                         "icon": "glyphicon glyphicon-edit",
-                                        "label": "Modifier",
                                         "class": "btn btn-warning btn-sm",
                                         "route": "app_admin_user_edit",
                                         "tooltip": "Modifier le profil de '~user~'",
-                                        "id": '~user.id~',
+                                        "parameters":
+                                            {
+                                                "id": '~user.id~'
+                                            },
                                         "roles": ["ROLE_ADMIN","ROLE_SUPER_ADMIN"]
                                     },
                                     {
                                         "icon": "glyphicon glyphicon-trash",
-                                        "label": "Supprimer",
                                         "class": "btn btn-danger btn-sm",
                                         "route": "app_admin_user_delete",
-                                        "id": '~user.id~',
+                                        "parameters":
+                                            {
+                                                "id": '~user.id~'
+                                            },
                                         "tooltip": "Supprimer le profil de '~user~'",
-                                        "toggle": "modal",
-                                        "target": ".my-modal",
+                                        "modal": ".my-modal",
                                         "roles": ["ROLE_ADMIN","ROLE_SUPER_ADMIN"]
                                     }
                                 ]') }}
@@ -467,7 +481,7 @@
                             {#</td>#}
                             {#{% endif %}#}
                             {#<td>#}
-                                {#<a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': app.request.uri|callback }) }}"#}
+                                {#<a href="{{ path('app_admin_user_edit', { 'id' : user.id, 'callback': callback() }) }}"#}
                                    {#class="btn btn-warning btn-sm"#}
                                    {#data-toggle="tooltip" data-placement="top"#}
                                    {#data-original-title="Modifier le profil de &quot;{{ user }}&quot;"#}

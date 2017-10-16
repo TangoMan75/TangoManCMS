@@ -230,13 +230,13 @@
 
                         <td>
                             {% if comment.published %}
-                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 0, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 0, 'callback': callback() }) }}"
                                    class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Retirer la publication">
                                     <span class="glyphicon glyphicon-ok"></span>
                                 </a>
                             {% else %}
-                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 1, 'callback': app.request.uri|callback }) }}"
+                                <a href="{{ path('app_admin_comment_publish', { 'id': comment.id, 'publish': 1, 'callback': callback() }) }}"
                                    class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top"
                                    data-original-title="Publier ce commentaire">
                                     <span class="glyphicon glyphicon-remove"></span>
@@ -245,7 +245,7 @@
                         </td>
 
                         <td>
-                            <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': app.request.uri|callback }) }}"
+                            <a href="{{ path('app_admin_comment_edit', { 'id': comment.id, 'callback': callback() }) }}"
                                class="btn btn-warning btn-sm"
                                data-toggle="tooltip" data-placement="top"
                                data-original-title="Modifier le commentaire &quot;{{ comment }}&quot;"
