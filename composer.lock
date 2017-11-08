@@ -2986,12 +2986,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/EntityHelper.git",
-                "reference": "15d20e3809c2532c1305e4b60ee8323d9c8eb5ae"
+                "reference": "d7577527ddc0b6455dddf91ec0d915affdcf7fda"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/15d20e3809c2532c1305e4b60ee8323d9c8eb5ae",
-                "reference": "15d20e3809c2532c1305e4b60ee8323d9c8eb5ae",
+                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/d7577527ddc0b6455dddf91ec0d915affdcf7fda",
+                "reference": "d7577527ddc0b6455dddf91ec0d915affdcf7fda",
                 "shasum": ""
             },
             "require": {
@@ -3022,7 +3022,7 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2017-11-08T10:38:42+00:00"
+            "time": "2017-11-08T16:01:25+00:00"
         },
         {
             "name": "tangoman/front-bundle",
