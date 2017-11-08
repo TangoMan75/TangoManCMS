@@ -4,16 +4,8 @@ namespace TangoMan\TestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use TangoMan\ListManagerBundle\Model\Button;
-use TangoMan\ListManagerBundle\Model\ButtonGroup;
-use TangoMan\ListManagerBundle\Model\SearchForm;
-use TangoMan\ListManagerBundle\Model\SearchInput;
-use TangoMan\ListManagerBundle\Model\SearchOption;
-use TangoMan\ListManagerBundle\Model\Th;
-use TangoMan\ListManagerBundle\Model\Thead;
 use Symfony\Component\HttpFoundation\Response;
-use TangoMan\MenuBundle\Model\Item;
-use TangoMan\MenuBundle\Model\Menu;
+
 
 /**
  * @Route("/test")
