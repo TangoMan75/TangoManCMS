@@ -33,13 +33,13 @@ class UserController extends Controller
         // Admin or author only can see user unpublished posts
         if ($this->getUser() === $user || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request->query, [
+                $request, [
                 'user' => $user,
             ]
             );
         } else {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request->query, [
+                $request, [
                 'published' => true,
                 'user'      => $user,
             ]

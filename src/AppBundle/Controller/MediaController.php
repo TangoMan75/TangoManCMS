@@ -30,13 +30,13 @@ class MediaController extends Controller
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
             $medias = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request->query, [
+                $request, [
                 'tag' => $tag,
             ]
             );
         } else {
             $medias = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request->query, [
+                $request, [
                 'published' => true,
                 'tag'       => $tag,
             ]

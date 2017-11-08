@@ -18,7 +18,7 @@ class MediaController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->findByQueryScalar(            $request->query, [
+        $listMedia = $em->getRepository('AppBundle:Post')->findByQueryScalar($request, [
                                'type' => [
                                    '360',
                                    'argus360',
