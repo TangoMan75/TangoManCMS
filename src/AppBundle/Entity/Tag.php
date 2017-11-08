@@ -8,10 +8,10 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-use TangoMan\EntityHelper\HasLabel;
-use TangoMan\EntityHelper\HasName;
-use TangoMan\EntityHelper\HasType;
-use TangoMan\EntityHelper\Slugify;
+use TangoMan\EntityHelper\Traits\HasLabel;
+use TangoMan\EntityHelper\Traits\HasName;
+use TangoMan\EntityHelper\Traits\HasType;
+use TangoMan\EntityHelper\Traits\Slugify;
 
 /**
  * Class Tag

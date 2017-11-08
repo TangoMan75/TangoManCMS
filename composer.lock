@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "a5b5aa91543a80f4bb7b917a1fddbecc",
+    "content-hash": "c30dec943f8c0e9e21eca8fde3ae7f7b",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -2982,16 +2982,16 @@
         },
         {
             "name": "tangoman/entity-helper",
-            "version": "1.2.5",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/EntityHelper.git",
-                "reference": "72c842d97f58244fab3daf57cf390a0cee1307ad"
+                "reference": "15d20e3809c2532c1305e4b60ee8323d9c8eb5ae"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/72c842d97f58244fab3daf57cf390a0cee1307ad",
-                "reference": "72c842d97f58244fab3daf57cf390a0cee1307ad",
+                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/15d20e3809c2532c1305e4b60ee8323d9c8eb5ae",
+                "reference": "15d20e3809c2532c1305e4b60ee8323d9c8eb5ae",
                 "shasum": ""
             },
             "require": {
@@ -3006,12 +3006,12 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
                     "name": "Matthias Morin",
-                    "email": "tangoman@free.fr"
+                    "email": "matthias.morin@gmail.com"
                 }
             ],
             "description": "Symfony Entity Helper",
@@ -3022,7 +3022,7 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2017-09-13T08:26:01+00:00"
+            "time": "2017-11-08T10:38:42+00:00"
         },
         {
             "name": "tangoman/front-bundle",
@@ -3228,21 +3228,21 @@
         },
         {
             "name": "tangoman/role-bundle",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/RoleBundle.git",
-                "reference": "afe041732d852641c8ef28477ac95cedd1232724"
+                "reference": "7cac12008a587a0168671c7dad37b7decdd66d1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/afe041732d852641c8ef28477ac95cedd1232724",
-                "reference": "afe041732d852641c8ef28477ac95cedd1232724",
+                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/7cac12008a587a0168671c7dad37b7decdd66d1e",
+                "reference": "7cac12008a587a0168671c7dad37b7decdd66d1e",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "tangoman/entity-helper": "^1.0"
+                "tangoman/entity-helper": "^2.0"
             },
             "type": "library",
             "autoload": {
@@ -3252,12 +3252,12 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
                     "name": "Matthias Morin",
-                    "email": "tangoman@free.fr"
+                    "email": "matthias.morin@gmail.com"
                 }
             ],
             "description": "Symfony Role Bundle",
@@ -3268,7 +3268,7 @@
                 "role",
                 "symfony"
             ],
-            "time": "2017-09-05T13:58:57+00:00"
+            "time": "2017-11-08T10:44:47+00:00"
         },
         {
             "name": "tangoman/truncate-html-bundle",
@@ -3363,21 +3363,21 @@
         },
         {
             "name": "tangoman/user-bundle",
-            "version": "1.0.3",
+            "version": "1.0.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/UserBundle.git",
-                "reference": "08e8284a9281d6e621d6da89ee49406fbf1629d3"
+                "reference": "e2f38206624c83a2a884ccd5d5299727d810b515"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/UserBundle/zipball/08e8284a9281d6e621d6da89ee49406fbf1629d3",
-                "reference": "08e8284a9281d6e621d6da89ee49406fbf1629d3",
+                "url": "https://api.github.com/repos/TangoMan75/UserBundle/zipball/e2f38206624c83a2a884ccd5d5299727d810b515",
+                "reference": "e2f38206624c83a2a884ccd5d5299727d810b515",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.0",
-                "tangoman/entity-helper": "^1.0",
+                "tangoman/entity-helper": "^2.0",
                 "tangoman/jwt-bundle": "^1.0"
             },
             "type": "symfony-bundle",
@@ -3388,7 +3388,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
@@ -3404,7 +3404,7 @@
                 "symfony",
                 "user"
             ],
-            "time": "2017-08-31T14:59:52+00:00"
+            "time": "2017-11-07T14:48:43+00:00"
         },
         {
             "name": "tiloweb/base64-bundle",

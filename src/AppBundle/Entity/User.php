@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use TangoMan\EntityHelper\Privatable;
+use TangoMan\EntityHelper\Traits\Privatable;
 use TangoMan\UserBundle\Model\User as TangoManUser;
 use TangoMan\RoleBundle\Relationships\UsersHavePrivileges;
 use TangoMan\RoleBundle\Relationships\UsersHaveRoles;

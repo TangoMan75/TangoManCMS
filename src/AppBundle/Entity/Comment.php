@@ -4,8 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use TangoMan\EntityHelper\Publishable;
-use TangoMan\EntityHelper\Timestampable;
+use TangoMan\EntityHelper\Traits\Publishable;
+use TangoMan\EntityHelper\Traits\Timestampable;
 
 /**
  * Class Comment

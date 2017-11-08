@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use TangoMan\EntityHelper\HasSummary;
-use TangoMan\EntityHelper\HasTitle;
-use TangoMan\EntityHelper\HasType;
-use TangoMan\EntityHelper\Publishable;
-use TangoMan\EntityHelper\Sluggable;
-use TangoMan\EntityHelper\Timestampable;
+use TangoMan\EntityHelper\Traits\HasSummary;
+use TangoMan\EntityHelper\Traits\HasTitle;
+use TangoMan\EntityHelper\Traits\HasType;
+use TangoMan\EntityHelper\Traits\Publishable;
+use TangoMan\EntityHelper\Traits\Sluggable;
+use TangoMan\EntityHelper\Traits\Timestampable;
 
 /**
  * Class Section
