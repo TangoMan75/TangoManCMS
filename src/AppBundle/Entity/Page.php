@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\HasSummary;
 use TangoMan\EntityHelper\Traits\HasTitle;
 use TangoMan\EntityHelper\Traits\HasViews;
@@ -23,9 +24,11 @@ use TangoMan\EntityHelper\Traits\Timestampable;
  */
 class Page
 {
-    use Relationships\PagesHaveSections;
-    use Relationships\PagesHaveSites;
-    use Relationships\PagesHaveTags;
+//    use Relationships\PagesHaveSections;
+//    use Relationships\PagesHaveSites;
+//    use Relationships\PagesHaveTags;
+    use HasRelationships;
+
 
     use HasSummary;
     use HasTitle;
@@ -41,6 +44,26 @@ class Page
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var array|Section[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $sections = [];
+
+    /**
+     * @var array|Site[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="pages", cascade={"persist"})
+     * @ORM\OrderBy({"id"="DESC"})
+     */
+    private $sites = [];
+
+    /**
+     * @var array|Tag[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages", cascade={"persist"})
+     */
+    private $tags = [];
 
     /**
      * @var int
@@ -62,6 +85,7 @@ class Page
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->sections = new ArrayCollection();
+        $this->sites = new ArrayCollection();
         $this->tags = new ArrayCollection();
     }
 

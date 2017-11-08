@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\Privatable;
 use TangoMan\UserBundle\Model\User as TangoManUser;
 use TangoMan\RoleBundle\Relationships\UsersHavePrivileges;
@@ -19,14 +20,35 @@ use TangoMan\RoleBundle\Relationships\UsersHaveRoles;
  */
 class User extends TangoManUser
 {
-    use Relationships\UserHasComments;
-    use Relationships\UserHasPosts;
-    use Relationships\UserHasVotes;
+//    use Relationships\UserHasComments;
+//    use Relationships\UserHasPosts;
+//    use Relationships\UserHasVotes;
+    use HasRelationships;
 
     use UsersHavePrivileges;
     use UsersHaveRoles;
 
     use Privatable;
+
+    /**
+     * @var array|Comment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $comments = [];
+
+    /**
+     * @var array|Post[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $posts = [];
+
+    /**
+     * @var array|Vote[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="user", cascade={"persist", "remove"})
+     */
+    private $votes = [];
 
     /**
      * @var int
@@ -62,6 +84,7 @@ class User extends TangoManUser
         $this->privileges = new ArrayCollection();
         $this->posts = new ArrayCollection();
         $this->comments = new ArrayCollection();
+        $this->votes = new ArrayCollection();
     }
 
     /**

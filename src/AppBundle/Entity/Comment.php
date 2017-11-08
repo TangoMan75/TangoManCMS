@@ -2,8 +2,10 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\Publishable;
 use TangoMan\EntityHelper\Traits\Timestampable;
 
@@ -18,8 +20,9 @@ use TangoMan\EntityHelper\Traits\Timestampable;
  */
 class Comment
 {
-    use Relationships\CommentsHavePost;
-    use Relationships\CommentsHaveUser;
+//    use Relationships\CommentsHavePost;
+//    use Relationships\CommentsHaveUser;
+    use HasRelationships;
 
     use Publishable;
     use Timestampable;
@@ -31,6 +34,18 @@ class Comment
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var Post
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
+     */
+    private $post;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
+     */
+    private $user;
 
     /**
      * @var string

@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\HasSummary;
 use TangoMan\EntityHelper\Traits\HasTitle;
 use TangoMan\EntityHelper\Traits\HasViews;
@@ -23,8 +24,9 @@ use TangoMan\EntityHelper\Traits\Timestampable;
  */
 class Site
 {
-    use Relationships\SitesHavePages;
-    use Relationships\SitesHaveTags;
+//    use Relationships\SitesHavePages;
+//    use Relationships\SitesHaveTags;
+    use HasRelationships;
 
     use HasSummary;
     use HasTitle;
@@ -42,6 +44,19 @@ class Site
     private $id;
 
     /**
+     * @var array|Page[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sites", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $pages = [];
+
+    /**
+     * @var array|Tag[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sites", cascade={"persist"})
+     */
+    private $tags = [];
+
+    /**
      * @var int
      * @ORM\Column(type="integer", nullable=true)
      */
@@ -55,6 +70,7 @@ class Site
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
         $this->pages = new ArrayCollection();
+        $this->tags = new ArrayCollection();
     }
 
     /**

@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use TangoMan\EntityHelper\Traits\Categorized;
 use TangoMan\EntityHelper\Traits\Embeddable;
@@ -31,11 +32,12 @@ use TangoMan\EntityHelper\Traits\UploadableImage;
  */
 class Post
 {
-    use Relationships\PostHasComments;
-    use Relationships\PostsHaveSections;
-    use Relationships\PostsHaveTags;
-    use Relationships\PostsHaveUser;
-    use Relationships\PostHasVotes;
+//    use Relationships\PostHasComments;
+//    use Relationships\PostsHaveSections;
+//    use Relationships\PostsHaveTags;
+//    use Relationships\PostsHaveUser;
+//    use Relationships\PostHasVotes;
+    use HasRelationships;
 
     use Categorized;
     use Embeddable;
@@ -59,13 +61,39 @@ class Post
     private $id;
 
     /**
+     * @var array|Comment[]|ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $comments = [];
+
+    /**
+     * @var array|Section[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $sections = [];
+
+    /**
+     * @var array|Tag[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts", cascade={"persist"})
+     */
+    private $tags = [];
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"}, fetch="EAGER")
+     */
+    private $user;
+
+    /**
      * Post constructor.
      */
     public function __construct()
     {
+        $this->comments = new ArrayCollection();
         $this->created = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
-        $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->votes = new ArrayCollection();

@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 
 /**
  * Vote
@@ -12,8 +13,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Vote
 {
-    use Relationships\VotesHavePost;
-    use Relationships\VotesHaveUser;
+//    use Relationships\VotesHavePost;
+//    use Relationships\VotesHaveUser;
+    use HasRelationships;
 
     /**
      * @var int
@@ -22,6 +24,18 @@ class Vote
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var Post
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="votes", cascade={"persist"})
+     */
+    private $post;
+
+    /**
+     * @var User
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="votes", cascade={"persist"})
+     */
+    private $user;
 
     /**
      * @var int

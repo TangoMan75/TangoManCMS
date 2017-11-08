@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\HasSummary;
 use TangoMan\EntityHelper\Traits\HasTitle;
 use TangoMan\EntityHelper\Traits\HasType;
@@ -23,9 +24,10 @@ use TangoMan\EntityHelper\Traits\Timestampable;
  */
 class Section
 {
-    use Relationships\SectionsHavePages;
-    use Relationships\SectionsHavePosts;
-    use Relationships\SectionsHaveTags;
+//    use Relationships\SectionsHavePages;
+//    use Relationships\SectionsHavePosts;
+//    use Relationships\SectionsHaveTags;
+    use HasRelationships;
 
     use HasSummary;
     use HasTitle;
@@ -41,6 +43,26 @@ class Section
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @var array|Page[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $pages = [];
+
+    /**
+     * @var array|Post[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $posts = [];
+
+    /**
+     * @var array|Tag[]|ArrayCollection
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sections", cascade={"persist"})
+     */
+    private $tags = [];
 
     /**
      * @var int
