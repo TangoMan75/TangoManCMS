@@ -17,7 +17,37 @@
             <p>Vous devez possèder des droits administrateur pour accéder à ces informations.</p>
         {% endif %}
     </header>
-    {% include "admin/includes/_user_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_user_index",
+                "active": "app_admin_user_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_user_new",
+                "active": "app_admin_user_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            },
+            {
+                "label": "Importer",
+                "route": "app_admin_user_import",
+                "active": "app_admin_user_import",
+                "icon": "glyphicon glyphicon-import"
+            },
+            {
+                "label": "Exporter",
+                "route": "app_admin_user_export",
+                "active": "app_admin_user_export",
+                "icon": "glyphicon glyphicon-export"
+            }
+        ]
+    }', 'tabs') }}
+
     {% if is_granted('ROLE_ADMIN') %}
         <section id="search">
             <div class="jumbotron">

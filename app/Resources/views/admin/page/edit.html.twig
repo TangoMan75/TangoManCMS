@@ -16,7 +16,25 @@
         <h2>Modifier la page &quot;{{ page }}&quot;</h2>
         <p>Ici vous pouvez modifier la page &quot;{{ page }}&quot; de <strong>{{ site_name }}</strong></p>
     </header>
-    {% include "admin/includes/_page_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_page_index",
+                "active": "app_admin_page_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_page_new",
+                "active": "app_admin_page_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="edit">
         <div class="jumbotron">
             {{ form_start(form) }}

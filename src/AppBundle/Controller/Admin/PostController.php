@@ -176,7 +176,7 @@ class PostController extends Controller
     public function exportCSVAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
+        $posts = $em->getRepository('AppBundle:Post')->export($request);
         $response = $this->exportCSV($posts);
 
         return new Response(
@@ -193,7 +193,7 @@ class PostController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request->query);
+        $posts = $em->getRepository('AppBundle:Post')->export($request);
         $response = json_encode($posts);
 
         return new Response(

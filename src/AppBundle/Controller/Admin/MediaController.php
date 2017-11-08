@@ -29,7 +29,7 @@ class MediaController extends Controller
         $em = $this->get('doctrine')->getManager();
 
         $listMedia = $em->getRepository('AppBundle:Post')->findByQuery(
-            $request->query, [
+            $request, [
                                'type' => [
                                    '360',
                                    'argus360',
@@ -184,7 +184,7 @@ class MediaController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->export();
+        $listMedia = $em->getRepository('AppBundle:Post')->export($request);
 
         return $this->render(
             'admin/media/export.html.twig',
@@ -200,7 +200,7 @@ class MediaController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $listMedia = $em->getRepository('AppBundle:Post')->export();
+        $listMedia = $em->getRepository('AppBundle:Post')->export($request);
         $response = json_encode($listMedia);
 
         return new Response(

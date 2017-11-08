@@ -16,7 +16,25 @@
         <h2>Modifier le privilège &quot;{{ privilege.name }}&quot;</h2>
         <p>Ici vous pouvez modifier le privilèges &quot;{{ privilege.name }}&quot; de {{ site_name }}</p>
     </header>
-    {% include "admin/includes/_privilege_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_privilege_index",
+                "active": "app_admin_privilege_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_privilege_new",
+                "active": "app_admin_privilege_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="edit">
         <div class="jumbotron">
             {{ form_start(form) }}

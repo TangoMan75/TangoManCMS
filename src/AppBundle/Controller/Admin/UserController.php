@@ -276,7 +276,7 @@ class UserController extends Controller
     public function exportCSVAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->export($request->query);
+        $users = $em->getRepository('AppBundle:User')->export($request);
         $response = $this->exportCSV($users);
 
         return new Response(
@@ -293,7 +293,7 @@ class UserController extends Controller
     public function exportJSONAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:User')->export($request->query);
+        $posts = $em->getRepository('AppBundle:User')->export($request);
         $response = json_encode($posts);
 
         return new Response(

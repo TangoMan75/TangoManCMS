@@ -16,7 +16,25 @@
         <h2>Modifier la galerie &quot;{{ gallery }}&quot;</h2>
         <p>Ici vous pouvez modifier la galerie &quot;{{ gallery }}&quot; de {{ site_name }}</p>
     </header>
-    {% include "admin/includes/_gallery_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_gallery_index",
+                "active": "app_admin_gallery_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_gallery_new",
+                "active": "app_admin_gallery_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="edit">
         <div class="jumbotron">
             {{ form_start(form) }}

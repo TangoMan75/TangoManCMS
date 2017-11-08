@@ -16,8 +16,26 @@
         <h2>Modifier la site &quot;{{ site }}&quot;</h2>
         <p>Ici vous pouvez modifier la site &quot;{{ site }}&quot; de {{ site_name }}</p>
     </header>
-    {% include "admin/includes/_site_tabs.html.twig" %}
-    <site id="edit">
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_site_index",
+                "active": "app_admin_site_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_site_new",
+                "active": "app_admin_site_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
+    <section id="edit">
         <div class="jumbotron">
             {{ form_start(form) }}
             {{ form_widget(form) }}
@@ -33,5 +51,5 @@
             </div>
             {{ form_end(form) }}
         </div>
-    </site>
+    </section>
 {% endblock %}

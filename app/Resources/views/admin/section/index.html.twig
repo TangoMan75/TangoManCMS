@@ -13,7 +13,25 @@
         <h2>Liste des sections</h2>
         <p>Ici vous pouvez accèder à la liste des sections de <strong>{{ site_name }}</strong>.</p>
     </header>
-    {% include "admin/includes/_section_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_section_index",
+                "active": "app_admin_section_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_section_new",
+                "active": "app_admin_section_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="search">
         <div class="jumbotron">
             <form method="GET" class="form-horizontal">

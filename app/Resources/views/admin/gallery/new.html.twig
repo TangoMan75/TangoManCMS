@@ -16,7 +16,25 @@
         <h2>Ajouter des galeries</h2>
         <p>Ici vous pouvez ajouter des galeries à {{ site_name }}.</p>
     </header>
-    {% include "admin/includes/_gallery_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_gallery_index",
+                "active": "app_admin_gallery_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_gallery_new",
+                "active": "app_admin_gallery_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="new">
         <div class="jumbotron">
             {{ form_start(form) }}

@@ -16,7 +16,37 @@
         <h2>Ajouter des articles</h2>
         <p>Ici vous pouvez ajouter des articles à <strong>{{ site_name }}</strong>.</p>
     </header>
-    {% include "admin/includes/_post_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_post_index",
+                "active": "app_admin_post_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_post_new",
+                "active": "app_admin_post_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            },
+            {
+                "label": "Importer",
+                "route": "app_admin_post_import",
+                "active": "app_admin_post_import",
+                "icon": "glyphicon glyphicon-import"
+            },
+            {
+                "label": "Exporter",
+                "route": "app_admin_post_export",
+                "active": "app_admin_post_export",
+                "icon": "glyphicon glyphicon-export"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="new">
         <div class="jumbotron">
             {{ form_start(form) }}

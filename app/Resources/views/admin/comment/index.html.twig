@@ -13,7 +13,25 @@
         <h2>Liste des commentaires</h2>
         <p>Ici vous pouvez modérer les commentaires laissés par les visiteurs de <strong>{{ site_name }}</strong>.</p>
     </header>
-    {% include "admin/includes/_comment_tabs.html.twig" %}
+
+    {{ menu('{
+        "items": [
+            {
+                "label": "Liste",
+                "route": "app_admin_comment_index",
+                "active": "app_admin_comment_index",
+                "icon": "glyphicon glyphicon-list"
+            },
+            {
+                "label": "Ajouter",
+                "route": "app_admin_comment_new",
+                "active": "app_admin_comment_new",
+                "callback": true,
+                "icon": "glyphicon glyphicon-plus"
+            }
+        ]
+    }', 'tabs') }}
+
     <section id="search">
         <div class="jumbotron">
             <form method="GET" class="form-horizontal">
