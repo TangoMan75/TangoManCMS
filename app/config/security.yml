@@ -13,9 +13,9 @@ security:
                 class: AppBundle:User
 
     role_hierarchy:
-            ROLE_SUPER_USER:  ROLE_USER
-            ROLE_ADMIN:       ROLE_SUPER_USER
-            ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+        ROLE_SUPER_USER:  ROLE_USER
+        ROLE_ADMIN:       ROLE_SUPER_USER
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

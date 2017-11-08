@@ -18,7 +18,7 @@ class PageController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $pages = $em->getRepository('AppBundle:Page')->findByQueryScalar($request->query);
+        $pages = $em->getRepository('AppBundle:Page')->findByQueryScalar($request);
 
         return new JsonResponse(
             ['pages' => $pages]

@@ -18,7 +18,7 @@ class TagController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $tags = $em->getRepository('AppBundle:Tag')->findByQueryScalar($request->query);
+        $tags = $em->getRepository('AppBundle:Tag')->findByQueryScalar($request);
 
         return new JsonResponse(
             ['tags' => $tags]

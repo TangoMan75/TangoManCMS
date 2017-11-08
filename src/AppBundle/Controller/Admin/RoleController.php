@@ -24,7 +24,7 @@ class RoleController extends Controller
     {
         // Show searchable, sortable, paginated role list
         $em = $this->get('doctrine')->getManager();
-        $roles = $em->getRepository('AppBundle:Role')->findByQuery($request->query);
+        $roles = $em->getRepository('AppBundle:Role')->findByQuery($request);
 
         return $this->render(
             'admin/role/index.html.twig',

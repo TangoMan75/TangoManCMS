@@ -30,9 +30,9 @@ class PostController extends Controller
         $em = $this->get('doctrine')->getManager();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request);
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, ['published' => true]);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, ['published' => true]);
         }
 
         $formView = null;
@@ -77,11 +77,11 @@ class PostController extends Controller
         $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, [
                 'tag' => $tag
                 ]);
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, [
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, [
                 'published' => true,
                 'tag' => $tag
                 ]);
@@ -138,9 +138,9 @@ class PostController extends Controller
         $em->flush();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query);
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request);
         } else {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request->query, ['published' => true]);
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request, ['published' => true]);
         }
 
         $form = null;

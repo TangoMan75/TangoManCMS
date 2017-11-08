@@ -24,7 +24,7 @@ class TagController extends Controller
     {
         // Show searchable, sortable, paginated tag list
         $em = $this->get('doctrine')->getManager();
-        $tags = $em->getRepository('AppBundle:Tag')->findByQuery($request->query);
+        $tags = $em->getRepository('AppBundle:Tag')->findByQuery($request);
 
         return $this->render(
             'admin/tag/index.html.twig',

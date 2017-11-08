@@ -18,7 +18,7 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar($request->query);
+        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar($request);
 
         return new JsonResponse(
             ['posts' => $posts]

@@ -18,7 +18,7 @@ class SectionController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $sections = $em->getRepository('AppBundle:Section')->findByQueryScalar($request->query);
+        $sections = $em->getRepository('AppBundle:Section')->findByQueryScalar($request);
 
         return new JsonResponse(
             ['sections' => $sections]

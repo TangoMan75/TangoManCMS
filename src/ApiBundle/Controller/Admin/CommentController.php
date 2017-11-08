@@ -18,7 +18,7 @@ class CommentController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $comments = $em->getRepository('AppBundle:Comment')->findByQueryScalar($request->query, ['type' => 'section']);
+        $comments = $em->getRepository('AppBundle:Comment')->findByQueryScalar($request, ['type' => 'section']);
 
         return new JsonResponse(
             ['comments' => $comments]

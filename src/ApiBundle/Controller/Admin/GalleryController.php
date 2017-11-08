@@ -18,7 +18,7 @@ class GalleryController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $galleries = $em->getRepository('AppBundle:Gallery')->findByQueryScalar($request->query, ['type' => 'galery']);
+        $galleries = $em->getRepository('AppBundle:Gallery')->findByQueryScalar($request, ['type' => 'galery']);
 
         return new JsonResponse(
             ['galleries' => $galleries]

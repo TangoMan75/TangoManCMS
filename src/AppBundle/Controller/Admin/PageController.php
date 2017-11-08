@@ -24,7 +24,7 @@ class PageController extends Controller
     {
         // Show searchable, sortable, paginated page list
         $em = $this->get('doctrine')->getManager();
-        $pages = $em->getRepository('AppBundle:Page')->findByQuery($request->query);
+        $pages = $em->getRepository('AppBundle:Page')->findByQuery($request);
 
         return $this->render(
             'admin/page/index.html.twig',

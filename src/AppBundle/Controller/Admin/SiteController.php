@@ -24,7 +24,7 @@ class SiteController extends Controller
     {
         // Show searchable, sortable, paginated site list
         $em = $this->get('doctrine')->getManager();
-        $sites = $em->getRepository('AppBundle:Site')->findByQuery($request->query);
+        $sites = $em->getRepository('AppBundle:Site')->findByQuery($request);
 
         return $this->render(
             'admin/site/index.html.twig',

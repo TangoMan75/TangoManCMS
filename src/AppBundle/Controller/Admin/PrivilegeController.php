@@ -24,7 +24,7 @@ class PrivilegeController extends Controller
     {
         // Show searchable, sortable, paginated privilege list
         $em = $this->get('doctrine')->getManager();
-        $privileges = $em->getRepository('AppBundle:Privilege')->findByQuery($request->query);
+        $privileges = $em->getRepository('AppBundle:Privilege')->findByQuery($request);
 
         return $this->render(
             'admin/privilege/index.html.twig',

@@ -18,7 +18,7 @@ class RoleController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $roles = $em->getRepository('AppBundle:Role')->findByQueryScalar($request->query);
+        $roles = $em->getRepository('AppBundle:Role')->findByQueryScalar($request);
 
         return new JsonResponse(
             ['roles' => $roles]

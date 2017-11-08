@@ -18,7 +18,7 @@ class SiteController extends Controller
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $sites = $em->getRepository('AppBundle:Site')->findByQueryScalar($request->query);
+        $sites = $em->getRepository('AppBundle:Site')->findByQueryScalar($request);
 
         return new JsonResponse(
             ['sites' => $sites]

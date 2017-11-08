@@ -36,9 +36,9 @@ class DefaultController extends Controller
 
         // Else just display a bunch of posts
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request);
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request->query, ['published' => true]);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, ['published' => true]);
         }
 
         $formPost = null;
