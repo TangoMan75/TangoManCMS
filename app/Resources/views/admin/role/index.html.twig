@@ -34,67 +34,65 @@
 
     <section id="search">
         <div class="jumbotron">
-            <form method="GET" class="form-horizontal">
-                <div class="form-group">
-
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <label class="control-label col-sm-4" for="inputName">Nom</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="name" id="inputName" class="form-control"
-                                   value="{{ app.request.get('name')|join(', ') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="selectRole">Type</label>
-                        <div class="col-sm-8">
-                            <select name="type" id="selectRole" class="form-control">
-                                <option value="">Tous</option>
-                                <option value="ROLE_SUPER_ADMIN"
-                                        {% if app.request.get('type') == "ROLE_SUPER_ADMIN" %}selected{% endif %}>
-                                    ROLE_SUPER_ADMIN
-                                </option>
-                                <option value="ROLE_ADMIN"
-                                        {% if app.request.get('type') == "ROLE_ADMIN" %}selected{% endif %}>
-                                    ROLE_ADMIN
-                                </option>
-                                <option value="ROLE_SUPER_USER"
-                                        {% if app.request.get('type') == "ROLE_SUPER_USER" %}selected{% endif %}>
-                                    ROLE_SUPER_USER
-                                </option>
-                                <option value="ROLE_USER"
-                                        {% if app.request.get('type') == "ROLE_USER" %}selected{% endif %}>
-                                    ROLE_USER
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-                        <label class="control-label col-sm-4" for="inputUser">Utilisateur</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="users-username" id="inputUser" class="form-control"
-                                   value="{{ app.request.get('users-username')|join(', ') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-3 text-right pull-right">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-search"></span> Filtrer ({{ roles.count }})
-                        </button>
-                        <button id="reset" class="btn btn-warning">
-                            <span class="glyphicon glyphicon-remove"></span> Effacer
-                        </button>
-                    </div>
-
-                    {# Appending query parameters when submitting form instead of replacing them, removing empty values #}
-                    {% for index, value in app.request.query.all %}
-                        {% if value != '' and index == 'page' or index == 'limit' or index == 'order' or index == 'way' %}
-                            <input type="hidden" name="{{ index }}" value="{{ value }}">
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </form>
+            {{ searchForm('{
+                    "inputs": [
+                        {
+                            "type": "text",
+                            "icon": "glyphicon glyphicon-king",
+                            "name": "name",
+                            "label": "Nom"
+                        },
+                        {
+                            "type": "text",
+                            "icon": "glyphicon glyphicon-user",
+                            "name": "user-username",
+                            "label": "Utilisateur"
+                        },
+                        {
+                            "type": "select",
+                            "name": "roles-type",
+                            "label": "Type",
+                            "icon": "glyphicon glyphicon-cog",
+                            "placeholder": "Tous les roles",
+                            "options": [
+                                {
+                                    "name": "Super Admin",
+                                    "value": "ROLE_SUPER_ADMIN"
+                                },
+                                {
+                                    "name": "Admin",
+                                    "value": "ROLE_ADMIN"
+                                },
+                                {
+                                    "name": "Super Utilisateur",
+                                    "value": "ROLE_SUPER_USER"
+                                },
+                                {
+                                    "name": "Utilisateur",
+                                    "value": "ROLE_USER"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "buttonGroup",
+                            "class": "pull-right",
+                            "buttons": [
+                                {
+                                    "type": "reset",
+                                    "label": "Réinitialiser",
+                                    "icon": "glyphicon glyphicon-refresh",
+                                    "class": "btn btn-warning"
+                                },
+                                {
+                                    "type": "submit",
+                                    "label": "Filtrer",
+                                    "badge": '~roles|length~',
+                                    "icon": "glyphicon glyphicon-filter"
+                                }
+                            ]
+                        }
+                    ]
+                }') }}
         </div>
     </section>
 
@@ -221,10 +219,5 @@
 {% block javascript %}
     {{ parent() }}
     <script src="{{ asset('js/modal.js') }}"></script>
-    <script>
-        $('#reset').click(function () {
-            $('form').find('input:text, input:password, select, textarea').val('');
-            $('form').find('input:radio, input:checkbox').prop('checked', false);
-        });
-    </script>
+    <script src="{{ asset('bundles/tangomanfront/js/tangoman-front-bundle.js') }}"></script>
 {% endblock %}

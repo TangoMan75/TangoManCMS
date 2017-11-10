@@ -34,75 +34,73 @@
 
     <section id="search">
         <div class="jumbotron">
-            <form method="GET" class="form-horizontal">
-                <div class="form-group">
-
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <label class="control-label col-sm-4" for="inputName">Nom</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="name" id="inputName" class="form-control"
-                                   value="{{ app.request.get('name')|join(', ') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <label class="control-label col-sm-4" for="inputType">Type</label>
-                        <div class="col-sm-8">
-                            <input type="text" name="type" id="inputType" class="form-control"
-                                   value="{{ app.request.get('type')|join(', ') }}"/>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-3">
-                        <label class="control-label col-sm-4" for="selectLabel">Label</label>
-                        <div class="col-sm-8">
-                            <select name="label" id="selectLabel" class="form-control">
-                                <option value="">Tous</option>
-                                <option value="default"
-                                        {% if app.request.get('label') == "default" %}selected{% endif %}>
-                                    default
-                                </option>
-                                <option value="primary"
-                                        {% if app.request.get('label') == "primary" %}selected{% endif %}>
-                                    primary
-                                </option>
-                                <option value="info"
-                                        {% if app.request.get('label') == "info" %}selected{% endif %}>
-                                    info
-                                </option>
-                                <option value="success"
-                                        {% if app.request.get('label') == "success" %}selected{% endif %}>
-                                    success
-                                </option>
-                                <option value="warning"
-                                        {% if app.request.get('label') == "warning" %}selected{% endif %}>
-                                    warning
-                                </option>
-                                <option value="danger"
-                                        {% if app.request.get('label') == "danger" %}selected{% endif %}>
-                                    danger
-                                </option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col-xs-12 col-sm-6 col-md-3 text-right pull-right">
-                        <button type="submit" class="btn btn-primary">
-                            <span class="glyphicon glyphicon-search"></span> Filtrer ({{ tags.count }})
-                        </button>
-                        <button id="reset" class="btn btn-warning">
-                            <span class="glyphicon glyphicon-remove"></span> Effacer
-                        </button>
-                    </div>
-
-                    {# Appending query parameters when submitting form instead of replacing them, removing empty values #}
-                    {% for index, value in app.request.query.all %}
-                        {% if value != '' and index == 'page' or index == 'limit' or index == 'order' or index == 'way' %}
-                            <input type="hidden" name="{{ index }}" value="{{ value }}">
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </form>
+            {{ searchForm('{
+                    "inputs": [
+                        {
+                            "type": "text",
+                            "icon": "glyphicon glyphicon-tag",
+                            "name": "name",
+                            "label": "Nom"
+                        },
+                        {
+                            "type": "text",
+                            "icon": "glyphicon glyphicon-cog",
+                            "name": "type",
+                            "label": "Type"
+                        },
+                        {
+                            "type": "select",
+                            "name": "label",
+                            "label": "Label",
+                            "icon": "glyphicon glyphicon-tags",
+                            "placeholder": "Tous les labels",
+                            "options": [
+                                {
+                                    "name": "default",
+                                    "value": "default"
+                                },
+                                {
+                                    "name": "primary",
+                                    "value": "primary"
+                                },
+                                {
+                                    "name": "info",
+                                    "value": "info"
+                                },
+                                {
+                                    "name": "success",
+                                    "value": "success"
+                                },
+                                {
+                                    "name": "warning",
+                                    "value": "warning"
+                                },
+                                {
+                                    "name": "danger",
+                                    "value": "danger"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "buttonGroup",
+                            "class": "pull-right",
+                            "buttons": [
+                                {
+                                    "type": "reset",
+                                    "label": "Réinitialiser",
+                                    "icon": "glyphicon glyphicon-refresh",
+                                    "class": "btn btn-warning"
+                                },
+                                {
+                                    "type": "submit",
+                                    "label": "Filtrer",
+                                    "badge": '~tags|length~',
+                                    "icon": "glyphicon glyphicon-filter"
+                                }
+                            ]
+                        }
+                    ]
+                }') }}
         </div>
     </section>
 
@@ -335,10 +333,5 @@
 {% block javascript %}
     {{ parent() }}
     <script src="{{ asset('js/modal.js') }}"></script>
-    <script>
-        $('#reset').click(function () {
-            $('form').find('input:text, input:password, select, textarea').val('');
-            $('form').find('input:radio, input:checkbox').prop('checked', false);
-        });
-    </script>
+    <script src="{{ asset('bundles/tangomanfront/js/tangoman-front-bundle.js') }}"></script>
 {% endblock %}
