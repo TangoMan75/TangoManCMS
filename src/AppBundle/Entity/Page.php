@@ -5,13 +5,13 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\HasSummary;
 use TangoMan\EntityHelper\Traits\HasTitle;
 use TangoMan\EntityHelper\Traits\HasViews;
 use TangoMan\EntityHelper\Traits\Publishable;
 use TangoMan\EntityHelper\Traits\Sluggable;
 use TangoMan\EntityHelper\Traits\Timestampable;
+use TangoMan\RelationshipBundle\Traits\HasRelationships;
 
 /**
  * Class Page
@@ -19,17 +19,12 @@ use TangoMan\EntityHelper\Traits\Timestampable;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PageRepository")
  * @ORM\HasLifecycleCallbacks()
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\Entity
  */
 class Page
 {
-//    use Relationships\PagesHaveSections;
-//    use Relationships\PagesHaveSites;
-//    use Relationships\PagesHaveTags;
     use HasRelationships;
-
-
     use HasSummary;
     use HasTitle;
     use HasViews;

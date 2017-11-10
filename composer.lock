@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "c30dec943f8c0e9e21eca8fde3ae7f7b",
+    "content-hash": "4aded91277afd3d28a78109aeb4045cd",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -3182,6 +3182,57 @@
                 "twig"
             ],
             "time": "2017-09-07T13:26:07+00:00"
+        },
+        {
+            "name": "tangoman/relationship-bundle",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/TangoMan75/RelationshipBundle.git",
+                "reference": "5e55b606863c0ffd5183c33b61b740998af78c14"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/TangoMan75/RelationshipBundle/zipball/5e55b606863c0ffd5183c33b61b740998af78c14",
+                "reference": "5e55b606863c0ffd5183c33b61b740998af78c14",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "TangoMan\\RelationshipBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabrice Lazzarotto",
+                    "email": "fabrice.lazzarotto@gmail.com"
+                },
+                {
+                    "name": "Matthias Morin",
+                    "email": "matthias.morin@gmail.com"
+                }
+            ],
+            "description": "Symfony Relationship Bundle",
+            "keywords": [
+                "ManyToOne",
+                "Relationships",
+                "TangoMan",
+                "bundle",
+                "manytomany",
+                "onetomany",
+                "onetoone",
+                "symfony",
+                "traits"
+            ],
+            "time": "2017-11-10T16:58:50+00:00"
         },
         {
             "name": "tangoman/repository-helper",

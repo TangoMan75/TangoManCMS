@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use TangoMan\EntityHelper\Traits\HasRelationships;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use TangoMan\EntityHelper\Traits\Categorized;
 use TangoMan\EntityHelper\Traits\Embeddable;
 use TangoMan\EntityHelper\Traits\HasSummary;
@@ -19,6 +17,8 @@ use TangoMan\EntityHelper\Traits\Sluggable;
 use TangoMan\EntityHelper\Traits\Timestampable;
 use TangoMan\EntityHelper\Traits\UploadableDocument;
 use TangoMan\EntityHelper\Traits\UploadableImage;
+use TangoMan\RelationshipBundle\Traits\HasRelationships;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Post
@@ -27,20 +27,14 @@ use TangoMan\EntityHelper\Traits\UploadableImage;
  * @ORM\HasLifecycleCallbacks()
  *
  * @Vich\Uploadable
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\Entity
  */
 class Post
 {
-//    use Relationships\PostHasComments;
-//    use Relationships\PostsHaveSections;
-//    use Relationships\PostsHaveTags;
-//    use Relationships\PostsHaveUser;
-//    use Relationships\PostHasVotes;
-    use HasRelationships;
-
     use Categorized;
     use Embeddable;
+    use HasRelationships;
     use HasSummary;
     use HasText;
     use HasTitle;

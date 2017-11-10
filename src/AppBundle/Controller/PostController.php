@@ -138,9 +138,9 @@ class PostController extends Controller
         $em->flush();
 
         if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request);
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request, ['post' => $post]);
         } else {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request, ['published' => true]);
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request, ['post' => $post, 'published' => true]);
         }
 
         $form = null;
@@ -154,7 +154,6 @@ class PostController extends Controller
 
             $form = $this->createForm(CommentType::class, $comment);
             $form->handleRequest($request);
-            $form->createView();
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $em->persist($comment);
@@ -169,7 +168,7 @@ class PostController extends Controller
         return $this->render(
             'post/show.html.twig',
             [
-                'form'     => $form,
+                'form'     => $form->createView(),
                 'comments' => $comments,
                 'post'     => $post,
             ]

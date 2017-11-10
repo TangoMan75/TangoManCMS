@@ -25,15 +25,16 @@ class AppKernel extends Kernel
             new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle(),
             new TangoMan\CallbackBundle\TangoManCallbackBundle(),
             new TangoMan\CSVReaderBundle\TangoManCSVReaderBundle(),
+            new TangoMan\FrontBundle\TangoManFrontBundle(),
             new TangoMan\JWTBundle\TangoManJWTBundle(),
             new TangoMan\PaginationBundle\TangoManPaginationBundle(),
+            new TangoMan\RelationshipBundle\TangoManRelationshipBundle(),
             new TangoMan\RoleBundle\TangoManRoleBundle(),
             new TangoMan\TruncateHtmlBundle\TangoManTruncateHtmlBundle(),
             new TangoMan\TwigHelperBundle\TangoManTwigHelperBundle(),
             new TangoMan\UserBundle\TangoManUserBundle(),
             new Tiloweb\Base64Bundle\TilowebBase64Bundle(),
             new Vich\UploaderBundle\VichUploaderBundle(),
-            new TangoMan\FrontBundle\TangoManFrontBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'])) {

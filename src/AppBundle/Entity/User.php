@@ -4,31 +4,26 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\Privatable;
-use TangoMan\UserBundle\Model\User as TangoManUser;
+use TangoMan\RelationshipBundle\Traits\HasRelationships;
 use TangoMan\RoleBundle\Relationships\UsersHavePrivileges;
 use TangoMan\RoleBundle\Relationships\UsersHaveRoles;
+use TangoMan\UserBundle\Model\User as TangoManUser;
 
 /**
  * Class User
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\Entity
  */
 class User extends TangoManUser
 {
-//    use Relationships\UserHasComments;
-//    use Relationships\UserHasPosts;
-//    use Relationships\UserHasVotes;
     use HasRelationships;
-
+    use Privatable;
     use UsersHavePrivileges;
     use UsersHaveRoles;
-
-    use Privatable;
 
     /**
      * @var array|Comment[]|ArrayCollection

@@ -4,7 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use TangoMan\EntityHelper\Traits\HasRelationships;
+use TangoMan\RelationshipBundle\Traits\HasRelationships;
 
 /**
  * Vote
@@ -13,8 +13,6 @@ use TangoMan\EntityHelper\Traits\HasRelationships;
  */
 class Vote
 {
-//    use Relationships\VotesHavePost;
-//    use Relationships\VotesHaveUser;
     use HasRelationships;
 
     /**

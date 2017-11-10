@@ -11,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class LoadRelations
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
 class LoadRelationships implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
@@ -51,7 +51,7 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
         $roles      = $em->getRepository('AppBundle:Role')->findAll();
         $sections   = $em->getRepository('AppBundle:Section')->findBy(['type' => 'section']);
         $galleries  = $em->getRepository('AppBundle:Section')->findBy(['type' => 'gallery']);
-//        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
+        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
         $users      = $em->getRepository('AppBundle:User')->findAll();
         $votes      = $em->getRepository('AppBundle:Vote')->findAll();
 
@@ -102,10 +102,10 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
                 $post->addSection($galleries[mt_rand(1, count($sections) - 1)]);
             }
 
-//            shuffle($tags);
-//            for ($i = 0; $i < mt_rand(0, 4); $i++) {
-//                $post->addTag($tags[$i]);
-//            }
+            shuffle($tags);
+            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+                $post->addTag($tags[$i]);
+            }
 
             $post->setUser($users[mt_rand(1, count($users) - 1)]);
 

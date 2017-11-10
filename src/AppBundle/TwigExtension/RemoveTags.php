@@ -8,7 +8,7 @@ use Symfony\Component\Debug\Exception\UndefinedFunctionException;
  * Class RemoveTags
  * Remove specified tags
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\TwigExtension
  */
 class RemoveTags extends \Twig_Extension

@@ -53,6 +53,7 @@ class EditPostType extends AbstractType
                     'label'         => 'Étiquette',
                     'class'         => 'AppBundle:Tag',
                     'multiple'      => true,
+                    'by_reference'  => false,
                     'expanded'      => true,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {

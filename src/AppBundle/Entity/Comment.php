@@ -5,9 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\Publishable;
 use TangoMan\EntityHelper\Traits\Timestampable;
+use TangoMan\RelationshipBundle\Traits\HasRelationships;
 
 /**
  * Class Comment
@@ -15,15 +15,14 @@ use TangoMan\EntityHelper\Traits\Timestampable;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\CommentRepository")
  * @ORM\HasLifecycleCallbacks()
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\Entity
+ *
+ * @method $this setUser(User $user)
  */
 class Comment
 {
-//    use Relationships\CommentsHavePost;
-//    use Relationships\CommentsHaveUser;
     use HasRelationships;
-
     use Publishable;
     use Timestampable;
 

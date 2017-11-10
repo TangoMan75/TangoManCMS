@@ -2,17 +2,16 @@
 
 namespace AppBundle\Entity;
 
-use AppBundle\Entity\Post;
 use AppBundle\Entity\Page;
+use AppBundle\Entity\Post;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
 use TangoMan\EntityHelper\Traits\HasLabel;
 use TangoMan\EntityHelper\Traits\HasName;
-use TangoMan\EntityHelper\Traits\HasRelationships;
 use TangoMan\EntityHelper\Traits\HasType;
 use TangoMan\EntityHelper\Traits\Slugify;
+use TangoMan\RelationshipBundle\Traits\HasRelationships;
 
 /**
  * Class Tag
@@ -20,19 +19,14 @@ use TangoMan\EntityHelper\Traits\Slugify;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\TagRepository")
  * @ORM\HasLifecycleCallbacks()
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\Entity
  */
 class Tag
 {
-//    use Relationships\TagsHavePages;
-//    use Relationships\TagsHavePosts;
-//    use Relationships\TagsHaveSections;
-//    use Relationships\TagsHaveSites;
-    use HasRelationships;
-
     use HasLabel;
     use HasName;
+    use HasRelationships;
     use HasType;
     use Slugify;
 

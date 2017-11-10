@@ -8,7 +8,7 @@ use Symfony\Component\Debug\Exception\UndefinedFunctionException;
  * Class DecodeEntities
  * Remove specified tags
  *
- * @author  Matthias Morin <tangoman@free.fr>
+ * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\TwigExtension
  */
 class DecodeEntities extends \Twig_Extension
