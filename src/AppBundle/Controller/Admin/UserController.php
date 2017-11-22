@@ -120,7 +120,10 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été modifié.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été modifié.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -281,9 +284,9 @@ class UserController extends Controller
 
         return new Response(
             $response, 200, [
-                         'Content-Type'        => 'application/force-download',
-                         'Content-Disposition' => 'attachment; filename="users.csv"',
-                     ]
+                'Content-Type'        => 'application/force-download',
+                'Content-Disposition' => 'attachment; filename="users.csv"',
+            ]
         );
     }
 
@@ -298,9 +301,9 @@ class UserController extends Controller
 
         return new Response(
             $response, 200, [
-                         'Content-Type'        => 'application/force-download',
-                         'Content-Disposition' => 'attachment; filename="users.json"',
-                     ]
+                'Content-Type'        => 'application/force-download',
+                'Content-Disposition' => 'attachment; filename="users.json"',
+            ]
         );
     }
 
@@ -344,21 +347,31 @@ class UserController extends Controller
      */
     public function importCSV($file)
     {
-        // Security checks
+        // Check extentions
         $validExtensions = ['csv', 'tsv'];
         $clientExtension = $file->getClientOriginalExtension();
 
-        if ($file->getClientMimeType() !== 'application/vnd.ms-excel' &&
-            !in_array($clientExtension, $validExtensions)
-        ) {
-
+        if ($file->getClientMimeType() && !in_array($clientExtension, $validExtensions)) {
             $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
 
             return $this->redirectToRoute('app_admin_user_import');
         }
 
-        // Get CSV reader service
-        $reader = $this->get('services.csv_reader');
+        // Check MIME type
+        switch ($file->getClientMimeType()) {
+            case "text/csv":
+            case "application/csv":
+            case "application/vnd.ms-excel":
+                // Get CSV reader service
+                $reader = $this->get('services.csv_reader');
+                break;
+            default:
+                $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+
+                return $this->redirectToRoute('app_admin_user_import');
+        }
+
+        // Init counters
         $counter = 0;
         $dupes = 0;
         // File check
