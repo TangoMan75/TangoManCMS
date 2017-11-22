@@ -8,6 +8,7 @@ use AppBundle\Form\Admin\AdminEditUserType;
 use AppBundle\Form\FileUploadType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -341,11 +342,11 @@ class UserController extends Controller
     }
 
     /**
-     * @param $file
+     * @param UploadedFile $file
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function importCSV($file)
+    public function importCSV(UploadedFile $file)
     {
         // Check extentions
         $validExtensions = ['csv', 'tsv'];
