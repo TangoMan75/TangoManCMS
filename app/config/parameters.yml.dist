@@ -24,11 +24,11 @@ parameters:
     # TangoMan CMS configuration
     site_name:            "TangoMan CMS"
     site_author:          "Matthias Morin"
-    mailer_from:          tangoman@free.fr
+    mailer_from:          superadmin@locahost.dev
     super_admin_username: "admin"
     super_admin_pwd:      "321"
     analytics:            UA-XXXXXXXX-X
     hotjar:               000000
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            89befbcf084a78dd505f185552f23f1b1de441e2
+    secret:            ThisTokenIsNotSoSecretChangeIt
