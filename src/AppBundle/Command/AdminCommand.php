@@ -25,15 +25,17 @@ class AdminCommand extends ContainerAwareCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $em = $this->getContainer()->get('doctrine')->getManager();
+        $username = $this->getContainer()->getParameter('super_admin_username');
 
         $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
-        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['role' => $roleSuperAdmin]);
+//        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+
+        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['username' => $username]);
 
         // Creates super admin account
         if (!$superAdmin) {
 
             $email = $this->getContainer()->getParameter('mailer_from');
-            $username = $this->getContainer()->getParameter('super_admin_username');
             $pwd = $this->getContainer()->getParameter('super_admin_pwd');
             $encoder = $this->getContainer()->get('security.password_encoder');
 
@@ -48,9 +50,9 @@ class AdminCommand extends ContainerAwareCommand
             $em->persist($user);
             $em->flush();
 
-            $output->writeln(''.$user.' account created with password: "'.$pwd.'"</question>');
+            $output->writeln($user.' account created with password: "'.$pwd.'"');
         } else {
-            $output->writeln('Sorry, at least one account with ROLE_SUPER_ADMIN exists already.</question>');
+            $output->writeln('Sorry, user "'.$username.'" exists already.');
         }
     }
 }
