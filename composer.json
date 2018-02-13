@@ -43,7 +43,7 @@
         "tangoman/jwt-bundle": "^1.0",
         "tangoman/pagination-bundle": "^1.4",
         "tangoman/relationship-bundle": "^1.1",
-        "tangoman/repository-helper": "^2.0",
+        "tangoman/repository-helper": "^3.0",
         "tangoman/role-bundle": "^1.0",
         "tangoman/truncate-html-bundle": "^1.0",
         "tangoman/twig-helper-bundle": "^1.0",
