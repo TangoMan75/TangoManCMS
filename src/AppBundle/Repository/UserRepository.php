@@ -21,17 +21,17 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     /**
      * Required for user login
      *
-     * @param string $username
+     * @param string $usernameOrEmail
      *
-     * @return mixed
+     * @return mixed|null|\Symfony\Component\Security\Core\User\UserInterface
+     * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function loadUserByUsername($username)
+    public function loadUserByUsername($usernameOrEmail)
     {
-
         return $this->createQueryBuilder('user')
             ->where('user.username = :username OR user.email = :email')
-            ->setParameter('username', $username)
-            ->setParameter('email', $username)
+            ->setParameter('username', $usernameOrEmail)
+            ->setParameter('email', $usernameOrEmail)
             ->getQuery()
             ->getOneOrNullResult();
     }
