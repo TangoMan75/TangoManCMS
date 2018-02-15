@@ -26,6 +26,10 @@ class PostController extends Controller
 
     /**
      * @Route("/")
+     * @param Request $request
+     *
+     * @return Response
+     * @throws \Doctrine\ORM\Query\QueryException
      */
     public function indexAction(Request $request)
     {
@@ -155,11 +159,14 @@ class PostController extends Controller
 
     /**
      * @Route("/export")
+     * @param Request $request
+     *
+     * @return Response
      */
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $postCount = $em->getRepository('AppBundle:Post')->count();
+        $postCount = $em->getRepository('AppBundle:Post')->countByCriteria();
 
         return $this->render(
             'admin/post/export.html.twig',
@@ -181,9 +188,9 @@ class PostController extends Controller
 
         return new Response(
             $response, 200, [
-                         'Content-Type'        => 'application/force-download',
-                         'Content-Disposition' => 'attachment; filename="posts.csv"',
-                     ]
+                'Content-Type'        => 'application/force-download',
+                'Content-Disposition' => 'attachment; filename="posts.csv"',
+            ]
         );
     }
 
@@ -198,9 +205,9 @@ class PostController extends Controller
 
         return new Response(
             $response, 200, [
-                         'Content-Type'        => 'application/force-download',
-                         'Content-Disposition' => 'attachment; filename="posts.json"',
-                     ]
+                'Content-Type'        => 'application/force-download',
+                'Content-Disposition' => 'attachment; filename="posts.json"',
+            ]
         );
     }
 

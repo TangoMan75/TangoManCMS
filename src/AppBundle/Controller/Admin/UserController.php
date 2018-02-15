@@ -263,7 +263,7 @@ class UserController extends Controller
     public function exportAction()
     {
         $em = $this->get('doctrine')->getManager();
-        $userCount = $em->getRepository('AppBundle:User')->count();
+        $userCount = $em->getRepository('AppBundle:User')->countByCriteria();
 
         return $this->render(
             'admin/user/export.html.twig',
