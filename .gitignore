@@ -52,7 +52,8 @@
 
 # Composer
 /composer.phar
-/composer.lock
+# Uncomment following when not using heroku
+#/composer.lock
 
 # Backup entities generated with doctrine:generate:entities command
 */Entity/*~
