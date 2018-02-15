@@ -41,24 +41,24 @@ class Page
     private $id;
 
     /**
-     * @var array|Section[]|ArrayCollection
+     * @var Section[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $sections = [];
+    private $sections;
 
     /**
-     * @var array|Site[]|ArrayCollection
+     * @var Site[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="pages", cascade={"persist"})
      * @ORM\OrderBy({"id"="DESC"})
      */
-    private $sites = [];
+    private $sites;
 
     /**
-     * @var array|Tag[]|ArrayCollection
+     * @var Tag[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages", cascade={"persist"})
      */
-    private $tags = [];
+    private $tags;
 
     /**
      * @var int
@@ -77,11 +77,11 @@ class Page
      */
     public function __construct()
     {
-        $this->created = new \DateTimeImmutable();
-        $this->modified = new \DateTimeImmutable();
         $this->sections = new ArrayCollection();
         $this->sites = new ArrayCollection();
         $this->tags = new ArrayCollection();
+        $this->created = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
     }
 
     /**

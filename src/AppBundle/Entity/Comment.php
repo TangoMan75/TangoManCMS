@@ -35,16 +35,16 @@ class Comment
     private $id;
 
     /**
-     * @var Post
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
-     */
-    private $post;
-
-    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
      */
     private $user;
+
+    /**
+     * @var Post
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
+     */
+    private $post;
 
     /**
      * @var string

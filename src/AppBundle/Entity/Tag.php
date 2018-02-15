@@ -39,32 +39,32 @@ class Tag
     private $id;
 
     /**
-     * @var array|Page[]|ArrayCollection
+     * @var Page[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $pages = [];
+    private $pages;
 
     /**
-     * @var array|Post[]|ArrayCollection
+     * @var Post[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $posts = [];
+    private $posts;
 
     /**
-     * @var array|Section[]|ArrayCollection
+     * @var Section[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="tags", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $sections = [];
+    private $sections;
 
     /**
-     * @var array|Site[]|ArrayCollection
+     * @var Site[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="tags", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $sites = [];
+    private $sites;
 
     /**
      * Tag constructor.

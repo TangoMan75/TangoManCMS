@@ -55,36 +55,36 @@ class Post
     private $id;
 
     /**
-     * @var array|Comment[]|ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $comments = [];
-
-    /**
-     * @var array|Section[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts", cascade={"persist"})
-     * @ORM\OrderBy({"modified"="DESC"})
-     */
-    private $sections = [];
-
-    /**
-     * @var array|Tag[]|ArrayCollection
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts", cascade={"persist"})
-     */
-    private $tags = [];
-
-    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"}, fetch="EAGER")
      */
     private $user;
 
     /**
-     * @var array|Vote[]|ArrayCollection
+     * @var Comment[]
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $comments;
+
+    /**
+     * @var Section[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts", cascade={"persist"})
+     * @ORM\OrderBy({"modified"="DESC"})
+     */
+    private $sections;
+
+    /**
+     * @var Tag[]
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts", cascade={"persist"})
+     */
+    private $tags;
+
+    /**
+     * @var Vote[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="post", cascade={"persist", "remove"})
      */
-    private $votes = [];
+    private $votes;
 
     /**
      * Post constructor.
@@ -92,11 +92,11 @@ class Post
     public function __construct()
     {
         $this->comments = new ArrayCollection();
-        $this->created = new \DateTimeImmutable();
-        $this->modified = new \DateTimeImmutable();
         $this->sections = new ArrayCollection();
         $this->tags = new ArrayCollection();
         $this->votes = new ArrayCollection();
+        $this->created = new \DateTimeImmutable();
+        $this->modified = new \DateTimeImmutable();
     }
 
     /**

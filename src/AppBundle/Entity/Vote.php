@@ -24,16 +24,16 @@ class Vote
     private $id;
 
     /**
-     * @var Post
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="votes", cascade={"persist"})
-     */
-    private $post;
-
-    /**
      * @var User
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="votes", cascade={"persist"})
      */
     private $user;
+
+    /**
+     * @var Post
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="votes", cascade={"persist"})
+     */
+    private $post;
 
     /**
      * @var int
@@ -42,12 +42,10 @@ class Vote
     private $value;
 
     /**
-     * Stat constructor.
+     * Vote constructor.
      */
     public function __construct()
     {
-        $this->items = new ArrayCollection();
-        $this->users = new ArrayCollection();
     }
 
     /**

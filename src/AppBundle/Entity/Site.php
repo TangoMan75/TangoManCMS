@@ -41,17 +41,17 @@ class Site
     private $id;
 
     /**
-     * @var array|Page[]|ArrayCollection
+     * @var Page[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sites", cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $pages = [];
+    private $pages;
 
     /**
-     * @var array|Tag[]|ArrayCollection
+     * @var Tag[]
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sites", cascade={"persist"})
      */
-    private $tags = [];
+    private $tags;
 
     /**
      * @var int

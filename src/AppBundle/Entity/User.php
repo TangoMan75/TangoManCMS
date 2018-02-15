@@ -26,24 +26,24 @@ class User extends TangoManUser
     use UsersHaveRoles;
 
     /**
-     * @var array|Comment[]|ArrayCollection
+     * @var Comment[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $comments = [];
+    private $comments;
 
     /**
-     * @var array|Post[]|ArrayCollection
+     * @var Post[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist", "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
-    private $posts = [];
+    private $posts;
 
     /**
-     * @var array|Vote[]|ArrayCollection
+     * @var Vote[]
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="user", cascade={"persist", "remove"})
      */
-    private $votes = [];
+    private $votes;
 
     /**
      * @var int
