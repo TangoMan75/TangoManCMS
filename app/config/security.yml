@@ -39,5 +39,19 @@ security:
         main:
             anonymous: ~
 
+        secured_area:
+            pattern:    ^/demo/secured/
+            oauth:
+                resource_owners:
+                    facebook:      /demo/secured/login_facebook
+                login_path:        /demo/secured/login
+                check_path:        /demo/secured/login
+                failure_path:      /demo/secured/login
+                oauth_user_provider:
+                    service: hwi_oauth.user.provider.entity
+
+            # Turn on anonymous for testings need.
+            anonymous: ~
+
     access_control:
         - { path: '^/admin', roles: [ROLE_ADMIN] }

@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use HWI\Bundle\OAuthBundle\OAuth\Response\UserResponseInterface;
+use HWI\Bundle\OAuthBundle\Security\Core\User\OAuthAwareUserProviderInterface;
 use TangoMan\EntityHelper\Traits\Privatable;
 use TangoMan\RelationshipBundle\Traits\HasRelationships;
 use TangoMan\RoleBundle\Relationships\UsersHavePrivileges;
@@ -70,6 +72,18 @@ class User extends TangoManUser
     private $bio;
 
     /**
+     * @var string $facebookId
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $facebookId;
+
+    /**
+     * @var string $facebookAccessToken
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $facebookAccessToken;
+
+    /**
      * User constructor.
      */
     public function __construct()
@@ -90,6 +104,15 @@ class User extends TangoManUser
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param UserResponseInterface $response
+     *
+     * @return \Symfony\Component\Security\Core\User\UserInterface|void
+     */
+    public function loadUserByOAuthUserResponse(UserResponseInterface $response)
+    {
     }
 
     /**
@@ -232,6 +255,46 @@ class User extends TangoManUser
     public function setComments($comments)
     {
         $this->comments = $comments;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookId()
+    {
+        return $this->facebookId;
+    }
+
+    /**
+     * @param string $facebookId
+     *
+     * @return User
+     */
+    public function setFacebookId($facebookId)
+    {
+        $this->facebookId = $facebookId;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFacebookAccessToken()
+    {
+        return $this->facebookAccessToken;
+    }
+
+    /**
+     * @param string $facebookAccessToken
+     *
+     * @return User
+     */
+    public function setFacebookAccessToken($facebookAccessToken)
+    {
+        $this->facebookAccessToken = $facebookAccessToken;
 
         return $this;
     }

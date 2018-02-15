@@ -6,18 +6,25 @@ parameters:
 services:
     em:
         class: AppBundle\Service\EntityManagerService
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ['@doctrine.orm.entity_manager']
 
     services.string_helper:
         class: AppBundle\Service\StringHelperService
 
     app.form.type.task:
         class: AppBundle\Form\Admin\AdminEditUserType
-        arguments: ["@doctrine.orm.entity_manager"]
+        arguments: ['@doctrine.orm.entity_manager']
         tags:
             - { name: form.type }
 
     twig.extension.text:
-           class: Twig_Extensions_Extension_Text
-           tags:
-                - { name: twig.extension }
+        class: Twig_Extensions_Extension_Text
+        tags:
+            - { name: twig.extension }
+
+    hwi_oauth.user.provider.entity:
+        class: HWI\Bundle\OAuthBundle\Security\Core\User\EntityUserProvider
+        arguments:
+            - '@doctrine'
+            - 'AppBundle:User'
+            - []
