@@ -166,7 +166,7 @@ class PostController extends Controller
     public function exportAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $postCount = $em->getRepository('AppBundle:Post')->countByCriteria();
+        $postCount = $em->getRepository('AppBundle:Post')->countBy();
 
         return $this->render(
             'admin/post/export.html.twig',

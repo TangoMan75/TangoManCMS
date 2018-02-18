@@ -19,10 +19,10 @@ class AdminController extends Controller
         return $this->render(
             'admin/default/index.html.twig',
             [
-                'commentCount'   => $this->get('doctrine')->getRepository('AppBundle:Comment')->countByCriteria(),
-                'pageCount'      => $this->get('doctrine')->getRepository('AppBundle:Page')->countByCriteria(),
-                'postCount'      => $this->get('doctrine')->getRepository('AppBundle:Post')->countByCriteria(['type' => 'post']),
-                'mediaCount'     => $this->get('doctrine')->getRepository('AppBundle:Post')->countByCriteria(
+                'commentCount'   => $this->get('doctrine')->getRepository('AppBundle:Comment')->countBy(),
+                'pageCount'      => $this->get('doctrine')->getRepository('AppBundle:Page')->countBy(),
+                'postCount'      => $this->get('doctrine')->getRepository('AppBundle:Post')->countBy(['type' => 'post']),
+                'mediaCount'     => $this->get('doctrine')->getRepository('AppBundle:Post')->countBy(
                     [
                         'type' => [
                             '360',
@@ -52,10 +52,10 @@ class AdminController extends Controller
                         ],
                     ]
                 ),
-                'galleryCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->countByCriteria(['type' => 'gallery']),
-                'sectionCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->countByCriteria(['type' => 'section']),
-                'userCount'      => $this->get('doctrine')->getRepository('AppBundle:User')->countByCriteria(),
-                'siteCount'      => $this->get('doctrine')->getRepository('AppBundle:Site')->countByCriteria(),
+                'galleryCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->countBy(['type' => 'gallery']),
+                'sectionCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->countBy(['type' => 'section']),
+                'userCount'      => $this->get('doctrine')->getRepository('AppBundle:User')->countBy(),
+                'siteCount'      => $this->get('doctrine')->getRepository('AppBundle:Site')->countBy(),
             ]
         );
     }
