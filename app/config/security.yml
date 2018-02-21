@@ -24,6 +24,7 @@ security:
             security: false
 
         admin:
+            logout_on_user_change: true
             anonymous: ~
             provider: database
             pattern: ^/
@@ -37,6 +38,7 @@ security:
                 invalidate_session: true
 
         main:
+            logout_on_user_change: true
             anonymous: ~
 
     access_control:
