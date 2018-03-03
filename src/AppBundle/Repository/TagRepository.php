@@ -12,5 +12,6 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class TagRepository extends EntityRepository
 {
+
     use RepositoryHelper;
 }

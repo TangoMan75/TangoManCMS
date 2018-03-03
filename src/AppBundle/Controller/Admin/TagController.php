@@ -17,13 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TagController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated tag list
-        $em = $this->get('doctrine')->getManager();
+        $em   = $this->get('doctrine')->getManager();
         $tags = $em->getRepository('AppBundle:Tag')->findByQuery($request);
 
         return $this->render(
@@ -39,7 +40,7 @@ class TagController extends Controller
      */
     public function newAction(Request $request)
     {
-        $tag = new Tag();
+        $tag  = new Tag();
         $form = $this->createForm(AdminNewTagType::class, $tag);
         $form->handleRequest($request);
 
@@ -51,7 +52,8 @@ class TagController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été ajoutée.'
+                'L\'étiquette <strong>&quot;'.$tag
+                .'&quot;</strong> a bien été ajoutée.'
             );
 
             // User is redirected to referrer page
@@ -82,7 +84,8 @@ class TagController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été modifiée.'
+                'L\'étiquette <strong>&quot;'.$tag
+                .'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -111,7 +114,8 @@ class TagController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'étiquette <strong>&quot;'.$tag.'&quot;</strong> a bien été supprimée.'
+            'L\'étiquette <strong>&quot;'.$tag
+            .'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page

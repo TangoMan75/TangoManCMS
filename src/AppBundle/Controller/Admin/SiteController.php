@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SiteController extends Controller
 {
+
     /**
      * @Route("/")
      */
@@ -49,7 +50,11 @@ class SiteController extends Controller
             $em->persist($site);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La site <strong>&quot;'.$site.'&quot;</strong> a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La site <strong>&quot;'.$site
+                .'&quot;</strong> a bien été ajoutée.'
+            );
 
             // User is redirected to referrer site
             return $this->redirect($request->get('callback'));
@@ -64,7 +69,8 @@ class SiteController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
+     *                                   "\d+"})
      */
     public function publishAction(Request $request, Site $site, $publish)
     {
@@ -74,9 +80,11 @@ class SiteController extends Controller
         $em->flush();
 
         if ($publish) {
-            $message = 'La site <strong>&quot;'.$site.'&quot;</strong> a bien été publiée.';
+            $message = 'La site <strong>&quot;'.$site
+                       .'&quot;</strong> a bien été publiée.';
         } else {
-            $message = 'La publication de la site <strong>&quot;'.$site.'&quot;</strong> a bien été annulée.';
+            $message = 'La publication de la site <strong>&quot;'.$site
+                       .'&quot;</strong> a bien été annulée.';
         }
 
         // Send flash notification
@@ -105,7 +113,8 @@ class SiteController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La site <strong>&quot;'.$site.'&quot;</strong> a bien été modifiée.'
+                'La site <strong>&quot;'.$site
+                .'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -115,7 +124,7 @@ class SiteController extends Controller
         return $this->render(
             'admin/site/edit.html.twig',
             [
-                'form'    => $form->createView(),
+                'form' => $form->createView(),
                 'site' => $site,
             ]
         );
@@ -126,7 +135,9 @@ class SiteController extends Controller
      */
     public function deleteAction(Request $request, Site $site)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ( ! $this->get('security.authorization_checker')->isGranted(
+            'ROLE_SUPER_ADMIN'
+        )) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$this->getUser().'</strong><br />'.
@@ -145,7 +156,8 @@ class SiteController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La site <strong>&quot;'.$site.'&quot;</strong> a bien été supprimée.'
+            'La site <strong>&quot;'.$site
+            .'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page

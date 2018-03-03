@@ -12,13 +12,15 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PrivilegeController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
-        $privileges = $em->getRepository('AppBundle:Privilege')->findByQueryScalar($request);
+        $em         = $this->get('doctrine')->getManager();
+        $privileges = $em->getRepository('AppBundle:Privilege')
+                         ->findByQueryScalar($request);
 
         return new JsonResponse(
             ['privileges' => $privileges]

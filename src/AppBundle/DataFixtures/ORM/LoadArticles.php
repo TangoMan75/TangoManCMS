@@ -16,8 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadArticles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadArticles implements FixtureInterface, ContainerAwareInterface,
+                              OrderedFixtureInterface
 {
+
     /**
      * @var ContainerInterface
      */
@@ -47,7 +49,8 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
         $faker = Factory::create('fr_FR');
 
         // Get images
-        $rootdir = $this->container->getParameter('kernel.root_dir').'/../web';
+        $rootdir   = $this->container->getParameter('kernel.root_dir')
+                     .'/../web';
         $fileNames = array_map(
             function ($filename) {
                 return basename($filename);
@@ -68,8 +71,7 @@ class LoadArticles implements FixtureInterface, ContainerAwareInterface, Ordered
                 ->setText('<p>'.$faker->text(mt_rand(600, 2400)).'</p>')
                 ->setTitle($faker->sentence(4, true))
                 ->setType('post')
-                ->setViews(mt_rand(0, 100))
-            ;
+                ->setViews(mt_rand(0, 100));
 
             $em->persist($post);
         }

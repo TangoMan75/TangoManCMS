@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ProfileType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options

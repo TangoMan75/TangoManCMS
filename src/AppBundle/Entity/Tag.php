@@ -24,6 +24,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  */
 class Tag
 {
+
     use HasLabel;
     use HasName;
     use HasRelationships;
@@ -40,28 +41,32 @@ class Tag
 
     /**
      * @var Page[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="tags",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages;
 
     /**
      * @var Post[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", mappedBy="tags",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts;
 
     /**
      * @var Section[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="tags",
+     *                                                          cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections;
 
     /**
      * @var Site[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="tags", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="tags",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sites;
@@ -71,10 +76,10 @@ class Tag
      */
     public function __construct()
     {
-        $this->pages = new ArrayCollection();
-        $this->posts = new ArrayCollection();
+        $this->pages    = new ArrayCollection();
+        $this->posts    = new ArrayCollection();
         $this->sections = new ArrayCollection();
-        $this->sites = new ArrayCollection();
+        $this->sites    = new ArrayCollection();
     }
 
     /**
@@ -90,7 +95,7 @@ class Tag
      */
     public function setDefaults()
     {
-        if (!$this->type) {
+        if ( ! $this->type) {
             $this->setType(strtolower($this->name));
         }
     }

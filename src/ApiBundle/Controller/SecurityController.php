@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SecurityController extends Controller
 {
+
     /**
      * Register new user.
      * @Route("/register")
@@ -62,23 +63,26 @@ class SecurityController extends Controller
         // When form is submitted
         if ($form->isSubmitted() && $form->isValid()) {
             $email = $form->getData()['email'];
-            $em = $this->get('doctrine')->getManager();
-            $user = $em->getRepository('AppBundle:User')->findOneBy(['email' => $email]);
+            $em    = $this->get('doctrine')->getManager();
+            $user  = $em->getRepository('AppBundle:User')->findOneBy(
+                ['email' => $email]
+            );
 
             // Send error message when user not found
-            if (!$user) {
+            if ( ! $user) {
                 $this->get('session')->getFlashBag()->add(
                     'error',
-                    'Désolé, aucun utilisateur n\'est enregistré avec l\'email <strong>'.$email.'</strong>.'
+                    'Désolé, aucun utilisateur n\'est enregistré avec l\'email <strong>'
+                    .$email.'</strong>.'
                 );
 
                 return $this->redirectToRoute('app_security_passwordreset');
             }
 
-            $msg['title'] = 'Réinitialisation de mot de passe';
+            $msg['title']       = 'Réinitialisation de mot de passe';
             $msg['description'] = 'renouveler votre mot de passe';
-            $msg['btn'] = 'Réinitialiser mon mot de passe';
-            $msg['token'] = $this->genToken($user, 'password_reset');
+            $msg['btn']         = 'Réinitialiser mon mot de passe';
+            $msg['token']       = $this->genToken($user, 'password_reset');
 
             $this->sendEmail($user, $msg, 'email/token.html.twig');
             $this->confirmMessage($user, $msg);
@@ -107,7 +111,10 @@ class SecurityController extends Controller
     {
         // Only user can send tokens to self
         if ($this->getUser() !== $user) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -138,17 +145,28 @@ class SecurityController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $recoveryMsg['token'] = $this->genToken($oldUser, 'account_recovery', [], true, '+1 Week');
-            $recoveryMsg['title'] = 'Récupération de compte';
+            $recoveryMsg['token']    = $this->genToken(
+                $oldUser,
+                'account_recovery',
+                [],
+                true,
+                '+1 Week'
+            );
+            $recoveryMsg['title']    = 'Récupération de compte';
             $recoveryMsg['newEmail'] = $user->getEmail();
-            $this->sendEmail($oldUser, $recoveryMsg, 'email/account-recovery.html.twig');
+            $this->sendEmail(
+                $oldUser,
+                $recoveryMsg,
+                'email/account-recovery.html.twig'
+            );
 
             $changeMsg['title'] = 'Changement d\'adresse email';
             $this->sendEmail($user, $changeMsg, 'email/email-change.html.twig');
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre demande de <strong>changement d\'adresse email</strong> a '.
+                'Votre demande de <strong>changement d\'adresse email</strong> a '
+                .
                 'bien été prise en compte.<br />'
             );
 
@@ -183,32 +201,35 @@ class SecurityController extends Controller
     {
         // Only user can send tokens to self
         if ($this->getUser() !== $user) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
 
-        $login = false;
+        $login  = false;
         $params = [];
 
         switch ($action) {
             case 'account_delete':
-                $msg['title'] = 'Suppression de compte utilisateur';
+                $msg['title']       = 'Suppression de compte utilisateur';
                 $msg['description'] = 'confirmer votre désinscription';
-                $msg['btn'] = 'Supprimer mon compte';
+                $msg['btn']         = 'Supprimer mon compte';
                 break;
 
             case 'password_change':
-                $msg['title'] = 'Changement de mot de passe';
+                $msg['title']       = 'Changement de mot de passe';
                 $msg['description'] = 'modifier votre mot de passe';
-                $msg['btn'] = 'Changer mon mot de passe';
+                $msg['btn']         = 'Changer mon mot de passe';
                 break;
 
             case 'user_login':
-                $msg['title'] = 'Lien de connexion';
+                $msg['title']       = 'Lien de connexion';
                 $msg['description'] = 'vous connecter à votre compte';
-                $msg['btn'] = 'Me connecter';
-                $login = true;
+                $msg['btn']         = 'Me connecter';
+                $login              = true;
                 break;
         }
 
@@ -235,8 +256,13 @@ class SecurityController extends Controller
      *
      * @return  string  Token
      */
-    public function genToken(User $user, $action, $params = [], $login = false, $validity = '+1 Day')
-    {
+    public function genToken(
+        User $user,
+        $action,
+        $params = [],
+        $login = false,
+        $validity = '+1 Day'
+    ) {
         // Generates token
         $jwt = new JWT();
         $jwt->set('id', $user->getId())
@@ -260,19 +286,22 @@ class SecurityController extends Controller
     {
         // Sends email to user
         $message = \Swift_Message::newInstance()
-            ->setSubject($this->getParameter('site_name').' | '.$msg['title'])
-            ->setFrom($this->getParameter('mailer_from'))
-            ->setTo($user->getEmail())
-            ->setBody(
-                $this->renderView(
-                    $view,
-                    [
-                        'user' => $user,
-                        'msg'  => $msg,
-                    ]
-                ),
-                'text/html'
-            );
+                                 ->setSubject(
+                                     $this->getParameter('site_name').' | '
+                                     .$msg['title']
+                                 )
+                                 ->setFrom($this->getParameter('mailer_from'))
+                                 ->setTo($user->getEmail())
+                                 ->setBody(
+                                     $this->renderView(
+                                         $view,
+                                         [
+                                             'user' => $user,
+                                             'msg'  => $msg,
+                                         ]
+                                     ),
+                                     'text/html'
+                                 );
 
         $this->get('mailer')->send($message);
     }
@@ -291,7 +320,8 @@ class SecurityController extends Controller
                 $msg['title'],
                 'UTF-8'
             ).'</strong> a bien été prise en compte.<br />'.
-            'Un lien de confirmation sécurisé vous à été envoyé à <strong>'.$user->getEmail().'</strong>.<br/>'.
+            'Un lien de confirmation sécurisé vous à été envoyé à <strong>'
+            .$user->getEmail().'</strong>.<br/>'.
             'Vérifiez votre boîte email.<br/>'.
             'Si vous ne reçevez pas d\'email, il est possible qu\'il soit dans votre dossier de spam.'
         );

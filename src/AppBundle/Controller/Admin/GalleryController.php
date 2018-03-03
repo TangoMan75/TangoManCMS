@@ -17,14 +17,18 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GalleryController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated gallery list
-        $em = $this->get('doctrine')->getManager();
-        $galleries = $em->getRepository('AppBundle:Section')->findByQuery($request, ['type' => 'gallery']);
+        $em        = $this->get('doctrine')->getManager();
+        $galleries = $em->getRepository('AppBundle:Section')->findByQuery(
+            $request,
+            ['type' => 'gallery']
+        );
 
         return $this->render(
             'admin/gallery/index.html.twig',
@@ -40,7 +44,7 @@ class GalleryController extends Controller
     public function newAction(Request $request)
     {
         $gallery = new Section();
-        $form = $this->createForm(AdminNewGalleryType::class, $gallery);
+        $form    = $this->createForm(AdminNewGalleryType::class, $gallery);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,7 +53,11 @@ class GalleryController extends Controller
             $em->persist($gallery);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La galerie <strong>&quot;'.$gallery.'&quot;</strong> a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La galerie <strong>&quot;'.$gallery
+                .'&quot;</strong> a bien été ajoutée.'
+            );
 
             // User is redirected to referrer gallery
             return $this->redirect($request->get('callback'));
@@ -64,7 +72,8 @@ class GalleryController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
+     *                                   "\d+"})
      */
     public function publishAction(Request $request, Section $gallery, $publish)
     {
@@ -74,9 +83,11 @@ class GalleryController extends Controller
         $em->flush();
 
         if ($publish) {
-            $message = 'La gallery <strong>&quot;'.$gallery.'&quot;</strong> a bien été publiée.';
+            $message = 'La gallery <strong>&quot;'.$gallery
+                       .'&quot;</strong> a bien été publiée.';
         } else {
-            $message = 'La publication de la galerie <strong>&quot;'.$gallery.'&quot;</strong> a bien été annulée.';
+            $message = 'La publication de la galerie <strong>&quot;'.$gallery
+                       .'&quot;</strong> a bien été annulée.';
         }
 
         // Send flash notification
@@ -105,7 +116,8 @@ class GalleryController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La galerie <strong>&quot;'.$gallery.'&quot;</strong> a bien été modifiée.'
+                'La galerie <strong>&quot;'.$gallery
+                .'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -126,7 +138,9 @@ class GalleryController extends Controller
      */
     public function deleteAction(Request $request, Section $gallery)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ( ! $this->get('security.authorization_checker')->isGranted(
+            'ROLE_SUPER_ADMIN'
+        )) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$this->getUser().'</strong><br />'.
@@ -145,7 +159,8 @@ class GalleryController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La galerie <strong>&quot;'.$gallery.'&quot;</strong> a bien été supprimée.'
+            'La galerie <strong>&quot;'.$gallery
+            .'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page

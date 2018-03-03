@@ -9,13 +9,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class DeployCommand extends ContainerAwareCommand
 {
+
     /**
      * Configuration
      */
     protected function configure()
     {
         $this->setName('deploy')
-            ->setDescription('Run script after deploying application');
+             ->setDescription('Run script after deploying application');
     }
 
     /**
@@ -28,8 +29,8 @@ class DeployCommand extends ContainerAwareCommand
 
         // Update database schema
         $output->writeln("<comment>Updating database schema</comment>");
-        $command = $this->getApplication()->find('doctrine:schema:update');
-        $arguments = ['--force' => true];
+        $command    = $this->getApplication()->find('doctrine:schema:update');
+        $arguments  = ['--force' => true];
         $greetInput = new ArrayInput($arguments);
         $command->run($greetInput, $output);
 
@@ -38,8 +39,10 @@ class DeployCommand extends ContainerAwareCommand
             $output->writeln("<question>Deploying dev environment</question>");
             // Fixture
             $output->writeln("<comment>Loading fixtures</comment>");
-            $command = $this->getApplication()->find('doctrine:fixture:load');
-            $arguments = [];
+            $command    = $this->getApplication()->find(
+                'doctrine:fixture:load'
+            );
+            $arguments  = [];
             $greetInput = new ArrayInput($arguments);
             $greetInput->setInteractive(false);
             $command->run($greetInput, $output);

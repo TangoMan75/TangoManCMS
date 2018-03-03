@@ -15,8 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadRoles implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     /**
      * @var ContainerInterface
      */
@@ -45,19 +47,30 @@ class LoadRoles implements FixtureInterface, ContainerAwareInterface, OrderedFix
     {
         // Default roles
         $roles = [
-            'glyphicon glyphicon-pawn',   'primary', 'Utilisateur',          'ROLE_USER',
-            'glyphicon glyphicon-bishop', 'success', 'Super Utilisateur',    'ROLE_SUPER_USER',
-            'glyphicon glyphicon-tower',  'warning', 'Administrateur',       'ROLE_ADMIN',
-            'glyphicon glyphicon-king',   'danger',  'Super Administrateur', 'ROLE_SUPER_ADMIN',
+            'glyphicon glyphicon-pawn',
+            'primary',
+            'Utilisateur',
+            'ROLE_USER',
+            'glyphicon glyphicon-bishop',
+            'success',
+            'Super Utilisateur',
+            'ROLE_SUPER_USER',
+            'glyphicon glyphicon-tower',
+            'warning',
+            'Administrateur',
+            'ROLE_ADMIN',
+            'glyphicon glyphicon-king',
+            'danger',
+            'Super Administrateur',
+            'ROLE_SUPER_ADMIN',
         ];
 
         for ($i = 0; $i < count($roles); $i = $i + 4) {
             $role = new Role();
             $role->setIcon($roles[$i])
-                ->setLabel($roles[$i + 1])
-                ->setName($roles[$i + 2])
-                ->setType($roles[$i + 3])
-            ;
+                 ->setLabel($roles[$i + 1])
+                 ->setName($roles[$i + 2])
+                 ->setType($roles[$i + 3]);
 
             $em->persist($role);
         }

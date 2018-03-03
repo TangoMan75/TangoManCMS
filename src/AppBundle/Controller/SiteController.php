@@ -13,15 +13,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SiteController extends Controller
 {
+
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
      */
     public function showAction(Request $request, $slug)
     {
         $em = $this->get('doctrine')->getManager();
-        $site = $em->getRepository('AppBundle:Site')->findOneBy(['slug' => $slug]);
+        $site = $em->getRepository('AppBundle:Site')->findOneBy(
+            ['slug' => $slug]
+        );
 
-        if (!$site) {
+        if ( ! $site) {
             throw $this->createNotFoundException('Ce site n\'existe pas.');
         }
 

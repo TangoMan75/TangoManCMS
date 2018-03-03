@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdminEditTagType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -62,7 +63,7 @@ class AdminEditTagType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('post')
-                            ->orderBy('post.title');
+                                  ->orderBy('post.title');
                     },
                 ]
             )
@@ -78,7 +79,7 @@ class AdminEditTagType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('page')
-                            ->orderBy('page.title');
+                                  ->orderBy('page.title');
                     },
                 ]
             );

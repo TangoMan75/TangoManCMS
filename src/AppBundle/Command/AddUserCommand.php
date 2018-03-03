@@ -23,6 +23,7 @@ use AppBundle\Entity\User;
 
 class AddUserCommand extends ContainerAwareCommand
 {
+
     const MAX_ATTEMPTS = 5;
 
     /**
@@ -42,23 +43,47 @@ class AddUserCommand extends ContainerAwareCommand
             ->setHelp($this->getCommandHelp())
             // commands can optionally define arguments and/or options (mandatory and optional)
             // see http://symfony.com/doc/current/components/console/console_arguments.html
-            ->addArgument('username', InputArgument::OPTIONAL, 'The username of the new user')
-            ->addArgument('password', InputArgument::OPTIONAL, 'The plain password of the new user')
-            ->addArgument('email', InputArgument::OPTIONAL, 'The email of the new user')
-            ->addOption('is-admin', null, InputOption::VALUE_NONE, 'If set, the user is created as an administrator')
-        ;
+            ->addArgument(
+                'username',
+                InputArgument::OPTIONAL,
+                'The username of the new user'
+            )
+            ->addArgument(
+                'password',
+                InputArgument::OPTIONAL,
+                'The plain password of the new user'
+            )
+            ->addArgument(
+                'email',
+                InputArgument::OPTIONAL,
+                'The email of the new user'
+            )
+            ->addOption(
+                'is-admin',
+                null,
+                InputOption::VALUE_NONE,
+                'If set, the user is created as an administrator'
+            );
     }
 
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ) {
+        $this->entityManager = $this->getContainer()
+                                    ->get('doctrine')
+                                    ->getManager();
     }
 
 
     protected function interact(InputInterface $input, OutputInterface $output)
     {
-        if (null !== $input->getArgument('username') && null !== $input->getArgument('password') && null !== $input->getArgument('email')) {
+        if (null !== $input->getArgument('username')
+            && null !== $input->getArgument(
+                'password'
+            )
+            && null !== $input->getArgument('email')) {
             return;
         }
 
@@ -68,20 +93,24 @@ class AddUserCommand extends ContainerAwareCommand
         $output->writeln('-----------------------------------');
 
         // ...but you can also pass an array of strings to the writeln() method
-        $output->writeln([
-            '',
-            'If you prefer to not use this interactive wizard, provide the',
-            'arguments required by this command as follows:',
-            '',
-            ' $ php bin/console app:add-user username password email@example.com',
-            '',
-        ]);
+        $output->writeln(
+            [
+                '',
+                'If you prefer to not use this interactive wizard, provide the',
+                'arguments required by this command as follows:',
+                '',
+                ' $ php bin/console app:add-user username password email@example.com',
+                '',
+            ]
+        );
 
-        $output->writeln([
-            '',
-            'Now we\'ll ask you for the value of all the missing command arguments.',
-            '',
-        ]);
+        $output->writeln(
+            [
+                '',
+                'Now we\'ll ask you for the value of all the missing command arguments.',
+                '',
+            ]
+        );
 
         // See http://symfony.com/doc/current/components/console/helpers/questionhelper.html
         $console = $this->getHelper('question');
@@ -90,13 +119,17 @@ class AddUserCommand extends ContainerAwareCommand
         $username = $input->getArgument('username');
         if (null === $username) {
             $question = new Question(' > <info>Username</info>: ');
-            $question->setValidator(function ($answer) {
-                if (empty($answer)) {
-                    throw new \RuntimeException('The username cannot be empty');
-                }
+            $question->setValidator(
+                function ($answer) {
+                    if (empty($answer)) {
+                        throw new \RuntimeException(
+                            'The username cannot be empty'
+                        );
+                    }
 
-                return $answer;
-            });
+                    return $answer;
+                }
+            );
             $question->setMaxAttempts(self::MAX_ATTEMPTS);
 
             $username = $console->ask($input, $output, $question);
@@ -108,7 +141,9 @@ class AddUserCommand extends ContainerAwareCommand
         // Ask for the password if it's not defined
         $password = $input->getArgument('password');
         if (null === $password) {
-            $question = new Question(' > <info>Password</info> (your type will be hidden): ');
+            $question = new Question(
+                ' > <info>Password</info> (your type will be hidden): '
+            );
             $question->setValidator([$this, 'passwordValidator']);
             $question->setHidden(true);
             $question->setMaxAttempts(self::MAX_ATTEMPTS);
@@ -116,7 +151,9 @@ class AddUserCommand extends ContainerAwareCommand
             $password = $console->ask($input, $output, $question);
             $input->setArgument('password', $password);
         } else {
-            $output->writeln(' > <info>Password</info>: '.str_repeat('*', strlen($password)));
+            $output->writeln(
+                ' > <info>Password</info>: '.str_repeat('*', strlen($password))
+            );
         }
 
         // Ask for the email if it's not defined
@@ -141,16 +178,24 @@ class AddUserCommand extends ContainerAwareCommand
     {
         $startTime = microtime(true);
 
-        $username = $input->getArgument('username');
+        $username      = $input->getArgument('username');
         $plainPassword = $input->getArgument('password');
-        $email = $input->getArgument('email');
-        $isAdmin = $input->getOption('is-admin');
+        $email         = $input->getArgument('email');
+        $isAdmin       = $input->getOption('is-admin');
 
         // first check if a user with the same username already exists
-        $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['username' => $username]);
+        $existingUser = $this->entityManager->getRepository(User::class)
+                                            ->findOneBy(
+                                                ['username' => $username]
+                                            );
 
         if (null !== $existingUser) {
-            throw new \RuntimeException(sprintf('There is already a user registered with the "%s" username.', $username));
+            throw new \RuntimeException(
+                sprintf(
+                    'There is already a user registered with the "%s" username.',
+                    $username
+                )
+            );
         }
 
         // create the user and encode its password
@@ -160,7 +205,9 @@ class AddUserCommand extends ContainerAwareCommand
         $user->setRoles([$isAdmin ? 'ROLE_ADMIN' : 'ROLE_USER']);
 
         // See http://symfony.com/doc/current/book/security.html#security-encoding-password
-        $encoder = $this->getContainer()->get('security.password_encoder');
+        $encoder         = $this->getContainer()->get(
+            'security.password_encoder'
+        );
         $encodedPassword = $encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encodedPassword);
 
@@ -168,13 +215,26 @@ class AddUserCommand extends ContainerAwareCommand
         $this->entityManager->flush();
 
         $output->writeln('');
-        $output->writeln(sprintf('[OK] %s was successfully created: %s (%s)', $isAdmin ? 'Administrator user' : 'User', $user->getUsername(), $user->getEmail()));
+        $output->writeln(
+            sprintf(
+                '[OK] %s was successfully created: %s (%s)',
+                $isAdmin ? 'Administrator user' : 'User',
+                $user->getUsername(),
+                $user->getEmail()
+            )
+        );
 
         if ($output->isVerbose()) {
-            $finishTime = microtime(true);
+            $finishTime  = microtime(true);
             $elapsedTime = $finishTime - $startTime;
 
-            $output->writeln(sprintf('[INFO] New user database id: %d / Elapsed time: %.2f ms', $user->getId(), $elapsedTime*1000));
+            $output->writeln(
+                sprintf(
+                    '[INFO] New user database id: %d / Elapsed time: %.2f ms',
+                    $user->getId(),
+                    $elapsedTime * 1000
+                )
+            );
         }
     }
 
@@ -191,7 +251,9 @@ class AddUserCommand extends ContainerAwareCommand
         }
 
         if (strlen(trim($plainPassword)) < 6) {
-            throw new \Exception('The password must be at least 6 characters long');
+            throw new \Exception(
+                'The password must be at least 6 characters long'
+            );
         }
 
         return $plainPassword;

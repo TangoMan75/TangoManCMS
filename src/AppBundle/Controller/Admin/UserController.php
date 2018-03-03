@@ -19,6 +19,7 @@ use TangoMan\CSVExportHelper\CSVExportHelper;
  */
 class UserController extends Controller
 {
+
     use CSVExportHelper;
 
     /**
@@ -27,10 +28,11 @@ class UserController extends Controller
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated user list
-        $em = $this->get('doctrine')->getManager();
+        $em    = $this->get('doctrine')->getManager();
         $users = $em->getRepository('AppBundle:User')->findByQuery($request);
 
-        $tabs = '{
+        $tabs
+            = '{
 			"items": [
 				{
 					"label": "Liste",
@@ -81,7 +83,7 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // Hash password
             $encoder = $this->get('security.password_encoder');
-            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $hash    = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
 
             // Persists new user
@@ -89,7 +91,10 @@ class UserController extends Controller
             $em->persist($user);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'L\'utilisateur '.$user.' a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'L\'utilisateur '.$user.' a bien été ajouté.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));
@@ -114,7 +119,7 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // Hash password
             $encoder = $this->get('security.password_encoder');
-            $hash = $encoder->encodePassword($user, $user->getPassword());
+            $hash    = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($hash);
             // Persists edited user
             $em = $this->get('doctrine')->getManager();
@@ -123,7 +128,8 @@ class UserController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été modifié.'
+                'L\'utilisateur <strong>&quot;'.$user
+                .'&quot;</strong> a bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -144,7 +150,9 @@ class UserController extends Controller
      */
     public function deleteAction(Request $request, User $user)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ( ! $this->get('security.authorization_checker')->isGranted(
+            'ROLE_SUPER_ADMIN'
+        )) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$this->getUser().'</strong><br />'.
@@ -174,7 +182,8 @@ class UserController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'utilisateur <strong>&quot;'.$user.'&quot;</strong> a bien été supprimé.'
+            'L\'utilisateur <strong>&quot;'.$user
+            .'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page
@@ -188,7 +197,9 @@ class UserController extends Controller
     public function addRoleAction(Request $request, User $user, $add)
     {
         // Only admin manage user roles
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ( ! $this->get('security.authorization_checker')->isGranted(
+            'ROLE_SUPER_ADMIN'
+        )) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$this->getUser().'</strong><br />'.
@@ -198,8 +209,10 @@ class UserController extends Controller
             return $this->redirectToRoute('homepage');
         }
 
-        $em = $this->get('doctrine')->getManager();
-        $role = $em->getRepository('AppBundle:Role')->findOneBy(['type' => $add]);
+        $em   = $this->get('doctrine')->getManager();
+        $role = $em->getRepository('AppBundle:Role')->findOneBy(
+            ['type' => $add]
+        );
         $user->addRole($role);
         $em->persist($user);
         $em->flush();
@@ -220,7 +233,9 @@ class UserController extends Controller
     public function removeRoleAction(Request $request, User $user, $remove)
     {
         // Only admin manage user roles
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ( ! $this->get('security.authorization_checker')->isGranted(
+            'ROLE_SUPER_ADMIN'
+        )) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$this->getUser().'</strong><br />'.
@@ -242,8 +257,10 @@ class UserController extends Controller
             return $this->redirect($request->get('callback'));
         }
 
-        $em = $this->get('doctrine')->getManager();
-        $role = $em->getRepository('AppBundle:Role')->findOneBy(['type' => $remove]);
+        $em   = $this->get('doctrine')->getManager();
+        $role = $em->getRepository('AppBundle:Role')->findOneBy(
+            ['type' => $remove]
+        );
         $user->removeRole($role);
         $em->persist($user);
         $em->flush();
@@ -262,7 +279,7 @@ class UserController extends Controller
      */
     public function exportAction()
     {
-        $em = $this->get('doctrine')->getManager();
+        $em        = $this->get('doctrine')->getManager();
         $userCount = $em->getRepository('AppBundle:User')->countBy();
 
         return $this->render(
@@ -279,8 +296,8 @@ class UserController extends Controller
      */
     public function exportCSVAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->export($request);
+        $em       = $this->get('doctrine')->getManager();
+        $users    = $em->getRepository('AppBundle:User')->export($request);
         $response = $this->exportCSV($users);
 
         return new Response(
@@ -296,8 +313,8 @@ class UserController extends Controller
      */
     public function exportJSONAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:User')->export($request);
+        $em       = $this->get('doctrine')->getManager();
+        $posts    = $em->getRepository('AppBundle:User')->export($request);
         $response = json_encode($posts);
 
         return new Response(
@@ -320,7 +337,7 @@ class UserController extends Controller
 
             $file = $request->files->get('file_upload')['file'];
 
-            if (!$file->isValid()) {
+            if ( ! $file->isValid()) {
                 // Upload success check
                 $this->get('session')->getFlashBag()->add(
                     'error',
@@ -352,8 +369,15 @@ class UserController extends Controller
         $validExtensions = ['csv', 'tsv'];
         $clientExtension = $file->getClientOriginalExtension();
 
-        if ($file->getClientMimeType() && !in_array($clientExtension, $validExtensions)) {
-            $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+        if ($file->getClientMimeType()
+            && ! in_array(
+                $clientExtension,
+                $validExtensions
+            )) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Ce format du fichier n\'est pas supporté.'
+            );
 
             return $this->redirectToRoute('app_admin_user_import');
         }
@@ -367,20 +391,23 @@ class UserController extends Controller
                 $reader = $this->get('services.csv_reader');
                 break;
             default:
-                $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+                $this->get('session')->getFlashBag()->add(
+                    'error',
+                    'Ce format du fichier n\'est pas supporté.'
+                );
 
                 return $this->redirectToRoute('app_admin_user_import');
         }
 
         // Init counters
         $counter = 0;
-        $dupes = 0;
+        $dupes   = 0;
         // File check
         if (is_file($file)) {
             // Init reader service
             $reader->init($file, 0, ';');
             // Load user entity
-            $em = $this->get('doctrine')->getManager();
+            $em    = $this->get('doctrine')->getManager();
             $users = $em->getRepository('AppBundle:User');
             // Read current line
             while (false !== ($line = $reader->readLine())) {
@@ -388,9 +415,9 @@ class UserController extends Controller
                 // Check import validity
                 // Minimum required to import user are username and email
                 $username = $line->get('user_username');
-                $email = $line->get('user_email');
+                $email    = $line->get('user_email');
 
-                if (!$email || !$username) {
+                if ( ! $email || ! $username) {
                     $this->get('session')->getFlashBag()->add(
                         'error',
                         'Le format du fichier que vous tentez d\'importer n\'est pas valide'
@@ -402,11 +429,11 @@ class UserController extends Controller
                 // Check if user with same email exists already
                 $user = $users->findOneByEmail($line->get('user_email'));
                 // When not found persist new user
-                if (!$user) {
+                if ( ! $user) {
                     $counter++;
                     $user = new User();
                     $user->setUsername($username)
-                        ->setEmail($email);
+                         ->setEmail($email);
 
                     $slug = $line->get('user_slug');
                     if ($slug) {
@@ -435,12 +462,22 @@ class UserController extends Controller
 
                     $created = $line->get('user_created');
                     if ($created) {
-                        $user->setCreated(date_create_from_format('Y/m/d H:i:s', $line->get('user_created')));
+                        $user->setCreated(
+                            date_create_from_format(
+                                'Y/m/d H:i:s',
+                                $line->get('user_created')
+                            )
+                        );
                     }
 
                     $modified = $line->get('user_modified');
                     if ($modified) {
-                        $user->setModified(date_create_from_format('Y/m/d H:i:s', $line->get('user_modified')));
+                        $user->setModified(
+                            date_create_from_format(
+                                'Y/m/d H:i:s',
+                                $line->get('user_modified')
+                            )
+                        );
                     }
 
                     $em->persist($user);
@@ -456,7 +493,8 @@ class UserController extends Controller
                 $msg = 'Aucun compte utilisateur n\'a été importé.';
                 break;
             case 1:
-                $msg = 'L\'utilisateur <strong>"'.$user.'"</strong> a bien été importé.';
+                $msg = 'L\'utilisateur <strong>"'.$user
+                       .'"</strong> a bien été importé.';
                 break;
             default:
                 $msg = $counter.' comptes utilisateur ont été importés.';

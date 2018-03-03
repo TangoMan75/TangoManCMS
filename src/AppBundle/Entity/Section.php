@@ -24,6 +24,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  */
 class Section
 {
+
     use HasRelationships;
     use HasSummary;
     use HasTitle;
@@ -42,21 +43,24 @@ class Section
 
     /**
      * @var Page[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", mappedBy="sections",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages;
 
     /**
      * @var Post[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Post", inversedBy="sections",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts;
 
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sections", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sections",
+     *                                                      cascade={"persist"})
      */
     private $tags;
 
@@ -77,10 +81,10 @@ class Section
      */
     public function __construct()
     {
-        $this->posts = new ArrayCollection();
-        $this->pages = new ArrayCollection();
-        $this->tags = new ArrayCollection();
-        $this->created = new \DateTimeImmutable();
+        $this->posts    = new ArrayCollection();
+        $this->pages    = new ArrayCollection();
+        $this->tags     = new ArrayCollection();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
 
         $this->type = 'default';
@@ -99,7 +103,7 @@ class Section
      */
     public function getPostCount()
     {
-        if (!$this->postCount) {
+        if ( ! $this->postCount) {
             return 0;
         }
 
@@ -123,7 +127,7 @@ class Section
      */
     public function getMediaCount()
     {
-        if (!$this->mediaCount) {
+        if ( ! $this->mediaCount) {
             return 0;
         }
 
@@ -147,11 +151,11 @@ class Section
      */
     public function setDefaults()
     {
-        if (!$this->title) {
+        if ( ! $this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
 
-        if (!$this->slug) {
+        if ( ! $this->slug) {
             $this->setUniqueSlug($this->title);
         }
     }

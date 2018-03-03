@@ -24,6 +24,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  */
 class Site
 {
+
     use HasRelationships;
     use HasSummary;
     use HasTitle;
@@ -42,14 +43,16 @@ class Site
 
     /**
      * @var Page[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sites", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Page", inversedBy="sites",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $pages;
 
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sites", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="sites",
+     *                                                      cascade={"persist"})
      */
     private $tags;
 
@@ -64,10 +67,10 @@ class Site
      */
     public function __construct()
     {
-        $this->created = new \DateTimeImmutable();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
-        $this->pages = new ArrayCollection();
-        $this->tags = new ArrayCollection();
+        $this->pages    = new ArrayCollection();
+        $this->tags     = new ArrayCollection();
     }
 
     /**
@@ -85,7 +88,7 @@ class Site
      */
     public function getPageCount()
     {
-        if (!$this->pageCount) {
+        if ( ! $this->pageCount) {
             return 0;
         }
 
@@ -109,11 +112,11 @@ class Site
      */
     public function setDefaults()
     {
-        if (!$this->title) {
+        if ( ! $this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
 
-        if (!$this->slug) {
+        if ( ! $this->slug) {
             $this->setUniqueSlug($this->title);
         }
     }

@@ -107,7 +107,9 @@ class AdminEditUserType extends AbstractType
                 ]
             );
 
-        $builder->get('roles')->addModelTransformer(new RolesTransformer($this->manager));
+        $builder->get('roles')->addModelTransformer(
+            new RolesTransformer($this->manager)
+        );
     }
 
     /**

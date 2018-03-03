@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class PageType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options

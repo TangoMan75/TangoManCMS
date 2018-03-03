@@ -10,12 +10,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/", name="homepage")
      */
     public function indexAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
+        $em   = $this->get('doctrine')->getManager();
         $page = $em->getRepository('AppBundle:Page')->findOneBy(
             [
                 'slug'      => 'homepage',
@@ -35,15 +36,24 @@ class DefaultController extends Controller
         }
 
         // Else just display a bunch of posts
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request);
+        if ($this->get('security.authorization_checker')->isGranted(
+            'ROLE_ADMIN'
+        )) {
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request
+            );
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, ['published' => true]);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request,
+                ['published' => true]
+            );
         }
 
         $formPost = null;
 
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->get('security.authorization_checker')->isGranted(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )) {
             $post = new Post();
             $form = $this->createForm(NewPostType::class, $post);
             $form->handleRequest($request);
@@ -53,7 +63,10 @@ class DefaultController extends Controller
                 $post->setUser($this->getUser());
                 $em->persist($post);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre article a bien été enregistré.');
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Votre article a bien été enregistré.'
+                );
 
                 return $this->redirectToRoute('homepage');
             }
@@ -74,8 +87,10 @@ class DefaultController extends Controller
      */
     public function sitemapAction()
     {
-        $em = $this->get('doctrine')->getManager();
-        $pages = $em->getRepository('AppBundle:Page')->findBy(['published' => true]);
+        $em    = $this->get('doctrine')->getManager();
+        $pages = $em->getRepository('AppBundle:Page')->findBy(
+            ['published' => true]
+        );
 
         return $this->render(
             'sitemap.xml.twig',

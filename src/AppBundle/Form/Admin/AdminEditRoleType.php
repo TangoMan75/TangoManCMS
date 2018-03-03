@@ -13,6 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdminEditRoleType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -93,7 +94,7 @@ class AdminEditRoleType extends AbstractType
                     'by_reference'  => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('user')
-                            ->orderBy('user.username');
+                                  ->orderBy('user.username');
                     },
                 ]
             );

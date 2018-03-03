@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RoleController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $roles = $em->getRepository('AppBundle:Role')->findByQueryScalar($request);
+        $roles = $em->getRepository('AppBundle:Role')->findByQueryScalar(
+            $request
+        );
 
         return new JsonResponse(
             ['roles' => $roles]

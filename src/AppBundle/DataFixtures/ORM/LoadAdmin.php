@@ -15,8 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadAdmin implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     private $container;
 
     /**
@@ -45,7 +47,9 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
         $pwd = $this->container->getParameter('super_admin_pwd');
         $encoder = $this->container->get('security.password_encoder');
 
-        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
+        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(
+            ['type' => 'ROLE_SUPER_ADMIN']
+        );
 
         // Generating super admin account with default password
         $user = new User();
@@ -55,8 +59,7 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface, OrderedFix
             ->setEmail($email)
             ->setPassword($encoder->encodePassword($user, $pwd))
             ->addRole($roleSuperAdmin)
-            ->setBio('<p>Ceci est le compte super administrateur.</p>')
-        ;
+            ->setBio('<p>Ceci est le compte super administrateur.</p>');
 
         $em->persist($user);
         $em->flush();

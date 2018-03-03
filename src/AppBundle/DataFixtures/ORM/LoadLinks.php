@@ -16,8 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadLinks implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     /**
      * @var ContainerInterface
      */
@@ -117,8 +119,7 @@ class LoadLinks implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setPublished($i % 2)
                 ->setText('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setTitle($faker->sentence(4, true))
-                ->setViews(mt_rand(0, 100))
-            ;
+                ->setViews(mt_rand(0, 100));
 
             $em->persist($post);
         }

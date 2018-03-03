@@ -12,4 +12,5 @@ use TangoMan\RoleBundle\Model\Privilege as TangoManPrivilege;
  */
 class Privilege extends TangoManPrivilege
 {
+
 }

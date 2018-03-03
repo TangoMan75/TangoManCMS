@@ -13,6 +13,7 @@ use Doctrine\ORM\EntityRepository;
 
 class AdminEditSectionType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -79,7 +80,7 @@ class AdminEditSectionType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('page')
-                            ->orderBy('page.title');
+                                  ->orderBy('page.title');
                     },
                 ]
             )
@@ -96,7 +97,7 @@ class AdminEditSectionType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('post')
-                            ->orderBy('post.title');
+                                  ->orderBy('post.title');
                     },
                 ]
             )

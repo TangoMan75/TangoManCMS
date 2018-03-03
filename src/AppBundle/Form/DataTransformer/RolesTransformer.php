@@ -9,6 +9,7 @@ use Symfony\Component\Form\Exception\TransformationFailedException;
 
 class RolesTransformer implements DataTransformerInterface
 {
+
     /**
      * @var ObjectManager
      */

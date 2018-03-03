@@ -20,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class MediaController extends Controller
 {
+
     /**
      * @Route("/")
      */
@@ -29,34 +30,35 @@ class MediaController extends Controller
         $em = $this->get('doctrine')->getManager();
 
         $listMedia = $em->getRepository('AppBundle:Post')->findByQuery(
-            $request, [
-                               'type' => [
-                                   '360',
-                                   'argus360',
-                                   'csv',
-                                   'dailymotion',
-                                   'doc',
-                                   'document',
-                                   'embed',
-                                   'gif',
-                                   'giphy',
-                                   'gist',
-                                   'image',
-                                   'jpeg',
-                                   'jpg',
-                                   'ods',
-                                   'odt',
-                                   'pdf',
-                                   'png',
-                                   'pptx',
-                                   'thetas',
-                                   'tweet',
-                                   'txt',
-                                   'vimeo',
-                                   'xls',
-                                   'youtube',
-                               ],
-                           ]
+            $request,
+            [
+                'type' => [
+                    '360',
+                    'argus360',
+                    'csv',
+                    'dailymotion',
+                    'doc',
+                    'document',
+                    'embed',
+                    'gif',
+                    'giphy',
+                    'gist',
+                    'image',
+                    'jpeg',
+                    'jpg',
+                    'ods',
+                    'odt',
+                    'pdf',
+                    'png',
+                    'pptx',
+                    'thetas',
+                    'tweet',
+                    'txt',
+                    'vimeo',
+                    'xls',
+                    'youtube',
+                ],
+            ]
         );
 
         return $this->render(
@@ -85,7 +87,8 @@ class MediaController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été ajouté.'
+                'Le média <strong>&quot;'.$post
+                .'&quot;</strong> a bien été ajouté.'
             );
 
             // User is redirected to referrer page
@@ -116,7 +119,8 @@ class MediaController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été modifié.'
+                'Le média <strong>&quot;'.$post
+                .'&quot;</strong> a bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -133,7 +137,8 @@ class MediaController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
+     *                                   "\d+"})
      */
     public function publishAction(Request $request, Post $post, $publish)
     {
@@ -143,9 +148,11 @@ class MediaController extends Controller
         $em->flush();
 
         if ($publish) {
-            $message = 'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été publié.';
+            $message = 'Le média <strong>&quot;'.$post
+                       .'&quot;</strong> a bien été publié.';
         } else {
-            $message = 'La publication du média <strong>&quot;'.$post.'&quot;</strong> a bien été annulée.';
+            $message = 'La publication du média <strong>&quot;'.$post
+                       .'&quot;</strong> a bien été annulée.';
         }
 
         // Send flash notification
@@ -171,7 +178,8 @@ class MediaController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le média <strong>&quot;'.$post.'&quot;</strong> a bien été supprimé.'
+            'Le média <strong>&quot;'.$post
+            .'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page
@@ -183,7 +191,7 @@ class MediaController extends Controller
      */
     public function exportAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
+        $em        = $this->get('doctrine')->getManager();
         $listMedia = $em->getRepository('AppBundle:Post')->export($request);
 
         return $this->render(
@@ -199,15 +207,15 @@ class MediaController extends Controller
      */
     public function exportJSONAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
+        $em        = $this->get('doctrine')->getManager();
         $listMedia = $em->getRepository('AppBundle:Post')->export($request);
-        $response = json_encode($listMedia);
+        $response  = json_encode($listMedia);
 
         return new Response(
             $response, 200, [
-                         'Content-Type'        => 'application/force-download',
-                         'Content-Disposition' => 'attachment; filename="listMedia.json"',
-                     ]
+                'Content-Type'        => 'application/force-download',
+                'Content-Disposition' => 'attachment; filename="listMedia.json"',
+            ]
         );
     }
 
@@ -223,7 +231,7 @@ class MediaController extends Controller
 
             $file = $request->files->get('file_upload')['file'];
 
-            if (!$file->isValid()) {
+            if ( ! $file->isValid()) {
                 // Upload success check
                 $this->get('session')->getFlashBag()->add(
                     'error',
@@ -253,25 +261,32 @@ class MediaController extends Controller
     {
         // Security checks
         $clientExtension = $file->getClientOriginalExtension();
-        if ($file->getClientMimeType() !== 'application/json' && !in_array($clientExtension, ['json'])) {
-            $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+        if ($file->getClientMimeType() !== 'application/json'
+            && ! in_array(
+                $clientExtension,
+                ['json']
+            )) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Ce format du fichier n\'est pas supporté.'
+            );
 
             return $this->redirectToRoute('app_admin_media_import');
         }
 
         $counter = 0;
-        $dupes = 0;
+        $dupes   = 0;
         // File check
         if (is_file($file)) {
             // Load entities
-            $em = $this->get('doctrine')->getManager();
+            $em        = $this->get('doctrine')->getManager();
             $listMedia = $em->getRepository('AppBundle:Post');
-            $tags = $em->getRepository('AppBundle:Tag');
-            $users = $em->getRepository('AppBundle:User');
+            $tags      = $em->getRepository('AppBundle:Tag');
+            $users     = $em->getRepository('AppBundle:User');
 
             // Creates "import" tag when non-existent
             $tag = $tags->findOneByName('Import');
-            if (!$tag) {
+            if ( ! $tag) {
                 $tag = new Tag();
                 $tag->setName('Import');
                 $em->persist($tag);
@@ -281,22 +296,22 @@ class MediaController extends Controller
             foreach (json_decode(file_get_contents($file)) as $import) {
 
                 // Check if media exists already
-                if (!$listMedia->findOneBySlug($import->media_slug)) {
+                if ( ! $listMedia->findOneBySlug($import->media_slug)) {
                     $counter++;
 
                     // Check if media author exists
                     $user = $users->findOneByEmail($import->user_email);
                     // When author doesn't exist sets current user as author
-                    if (!$user) {
+                    if ( ! $user) {
                         $user = $this->getUser();
                     }
 
                     $post = new Post();
                     $post->setUser($user)
-                        ->setTitle($import->media_title)
-                        ->setSlug($import->media_slug)
-                        ->addTag($tag)
-                        ->setText($import->media_text);
+                         ->setTitle($import->media_title)
+                         ->setSlug($import->media_slug)
+                         ->addTag($tag)
+                         ->setText($import->media_text);
 
                     // $post->setCreated($import->media_created);
                     // $post->setModified($import->media_modified);

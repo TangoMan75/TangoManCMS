@@ -14,6 +14,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class AdminEditPostType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -60,7 +61,7 @@ class AdminEditPostType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('s')
-                            ->orderBy('s.title');
+                                  ->orderBy('s.title');
                     },
                 ]
             )

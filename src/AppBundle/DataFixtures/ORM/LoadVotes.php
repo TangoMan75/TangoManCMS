@@ -15,8 +15,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadVotes implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadVotes implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     /**
      * @var ContainerInterface
      */

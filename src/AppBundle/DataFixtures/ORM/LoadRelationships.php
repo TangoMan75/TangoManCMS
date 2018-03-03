@@ -14,8 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadRelationships implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadRelationships implements FixtureInterface, ContainerAwareInterface,
+                                   OrderedFixtureInterface
 {
+
     /**
      * @var ContainerInterface
      */
@@ -43,17 +45,21 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
     public function load(ObjectManager $em)
     {
         // findBy seems to be the only working method in fixtures
-        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
-        $pages      = $em->getRepository('AppBundle:Page')->findAll();
-        $sites      = $em->getRepository('AppBundle:Site')->findAll();
-        $posts      = $em->getRepository('AppBundle:Post')->findAll();
-//        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $roles      = $em->getRepository('AppBundle:Role')->findAll();
-        $sections   = $em->getRepository('AppBundle:Section')->findBy(['type' => 'section']);
-        $galleries  = $em->getRepository('AppBundle:Section')->findBy(['type' => 'gallery']);
-        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
-        $users      = $em->getRepository('AppBundle:User')->findAll();
-        $votes      = $em->getRepository('AppBundle:Vote')->findAll();
+        $comments = $em->getRepository('AppBundle:Comment')->findAll();
+        $pages    = $em->getRepository('AppBundle:Page')->findAll();
+        $sites    = $em->getRepository('AppBundle:Site')->findAll();
+        $posts    = $em->getRepository('AppBundle:Post')->findAll();
+        //        $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
+        $roles     = $em->getRepository('AppBundle:Role')->findAll();
+        $sections  = $em->getRepository('AppBundle:Section')->findBy(
+            ['type' => 'section']
+        );
+        $galleries = $em->getRepository('AppBundle:Section')->findBy(
+            ['type' => 'gallery']
+        );
+        $tags      = $em->getRepository('AppBundle:Tag')->findAll();
+        $users     = $em->getRepository('AppBundle:User')->findAll();
+        $votes     = $em->getRepository('AppBundle:Vote')->findAll();
 
         // USERS
         foreach ($users as $user) {
@@ -73,25 +79,25 @@ class LoadRelationships implements FixtureInterface, ContainerAwareInterface, Or
                 $page->addSite($sites[$i]);
             }
 
-//            shuffle($tags);
-//            for ($i = 0; $i < mt_rand(0, 4); $i++) {
-//                $page->addTag($tags[$i]);
-//            }
+            //            shuffle($tags);
+            //            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+            //                $page->addTag($tags[$i]);
+            //            }
 
             $em->persist($page);
         }
         $em->flush();
 
         // SECTIONS
-//        foreach ($sections as $section) {
-//            shuffle($tags);
-//            for ($i = 0; $i < mt_rand(0, 4); $i++) {
-//                $section->addTag($tags[$i]);
-//            }
-//
-//            $em->persist($section);
-//        }
-//        $em->flush();
+        //        foreach ($sections as $section) {
+        //            shuffle($tags);
+        //            for ($i = 0; $i < mt_rand(0, 4); $i++) {
+        //                $section->addTag($tags[$i]);
+        //            }
+        //
+        //            $em->persist($section);
+        //        }
+        //        $em->flush();
 
         // POSTS
         $j = 0;

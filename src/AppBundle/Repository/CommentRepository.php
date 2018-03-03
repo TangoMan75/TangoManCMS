@@ -12,5 +12,6 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class CommentRepository extends EntityRepository
 {
+
     use RepositoryHelper;
 }

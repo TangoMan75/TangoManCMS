@@ -8,13 +8,14 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class RelationshipsCommand extends ContainerAwareCommand
 {
+
     /**
      * Creates command with description
      */
     protected function configure()
     {
         $this->setName('relationships')
-            ->setDescription('Tests relations');
+             ->setDescription('Tests relations');
     }
 
     /**
@@ -26,15 +27,15 @@ class RelationshipsCommand extends ContainerAwareCommand
         $em = $this->getContainer()->get('doctrine')->getManager();
 
         // findBy seems to be the only working method in fixtures
-        $comments = $em->getRepository('AppBundle:Comment')->findAll();
-        $pages = $em->getRepository('AppBundle:Page')->findAll();
-        $posts = $em->getRepository('AppBundle:Post')->findAll();
+        $comments   = $em->getRepository('AppBundle:Comment')->findAll();
+        $pages      = $em->getRepository('AppBundle:Page')->findAll();
+        $posts      = $em->getRepository('AppBundle:Post')->findAll();
         $privileges = $em->getRepository('AppBundle:Privilege')->findAll();
-        $roles = $em->getRepository('AppBundle:Role')->findAll();
-        $sections = $em->getRepository('AppBundle:Section')->findAll();
-        $tags = $em->getRepository('AppBundle:Tag')->findAll();
-        $users = $em->getRepository('AppBundle:User')->findAll();
-        $votes = $em->getRepository('AppBundle:Vote')->findAll();
+        $roles      = $em->getRepository('AppBundle:Role')->findAll();
+        $sections   = $em->getRepository('AppBundle:Section')->findAll();
+        $tags       = $em->getRepository('AppBundle:Tag')->findAll();
+        $users      = $em->getRepository('AppBundle:User')->findAll();
+        $votes      = $em->getRepository('AppBundle:Vote')->findAll();
 
         $output->writeln(count($comments).' Comments found');
         $output->writeln(count($pages).' Pages found');
@@ -159,7 +160,9 @@ class RelationshipsCommand extends ContainerAwareCommand
         // Roles->Privileges
         $output->writeln('Linking Roles->Privileges...');
         foreach ($roles as $role) {
-            $role->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
+            $role->addPrivilege(
+                $privileges[mt_rand(1, count($privileges) - 1)]
+            );
             $em->persist($role);
         }
         $em->flush();
@@ -261,7 +264,9 @@ class RelationshipsCommand extends ContainerAwareCommand
         // Users->Privileges
         $output->writeln('Linking Users->Privileges...');
         foreach ($users as $user) {
-            $user->addPrivilege($privileges[mt_rand(1, count($privileges) - 1)]);
+            $user->addPrivilege(
+                $privileges[mt_rand(1, count($privileges) - 1)]
+            );
             $em->persist($user);
         }
         $em->flush();

@@ -17,14 +17,18 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class SectionController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated section list
-        $em = $this->get('doctrine')->getManager();
-        $sections = $em->getRepository('AppBundle:Section')->findByQuery($request, ['type' => 'section']);
+        $em       = $this->get('doctrine')->getManager();
+        $sections = $em->getRepository('AppBundle:Section')->findByQuery(
+            $request,
+            ['type' => 'section']
+        );
 
         return $this->render(
             'admin/section/index.html.twig',
@@ -40,7 +44,7 @@ class SectionController extends Controller
     public function newAction(Request $request)
     {
         $section = new Section();
-        $form = $this->createForm(AdminNewSectionType::class, $section);
+        $form    = $this->createForm(AdminNewSectionType::class, $section);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -49,7 +53,11 @@ class SectionController extends Controller
             $em->persist($section);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'La section <strong>&quot;'.$section.'&quot;</strong> a bien été ajoutée.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'La section <strong>&quot;'.$section
+                .'&quot;</strong> a bien été ajoutée.'
+            );
 
             // User is redirected to referrer section
             return $this->redirect($request->get('callback'));
@@ -64,7 +72,8 @@ class SectionController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
+     *                                   "\d+"})
      */
     public function publishAction(Request $request, Section $section, $publish)
     {
@@ -74,9 +83,11 @@ class SectionController extends Controller
         $em->flush();
 
         if ($publish) {
-            $message = 'La section <strong>&quot;'.$section.'&quot;</strong> a bien été publiée.';
+            $message = 'La section <strong>&quot;'.$section
+                       .'&quot;</strong> a bien été publiée.';
         } else {
-            $message = 'La publication de la section <strong>&quot;'.$section.'&quot;</strong> a bien été annulée.';
+            $message = 'La publication de la section <strong>&quot;'.$section
+                       .'&quot;</strong> a bien été annulée.';
         }
 
         // Send flash notification
@@ -105,7 +116,8 @@ class SectionController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La section <strong>&quot;'.$section.'&quot;</strong> a bien été modifiée.'
+                'La section <strong>&quot;'.$section
+                .'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -126,7 +138,9 @@ class SectionController extends Controller
      */
     public function deleteAction(Request $request, Section $section)
     {
-        if (!$this->get('security.authorization_checker')->isGranted('ROLE_SUPER_ADMIN')) {
+        if ( ! $this->get('security.authorization_checker')->isGranted(
+            'ROLE_SUPER_ADMIN'
+        )) {
             $this->get('session')->getFlashBag()->add(
                 'error',
                 'Désolé, <strong>'.$this->getUser().'</strong><br />'.
@@ -145,7 +159,8 @@ class SectionController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La section <strong>&quot;'.$section.'&quot;</strong> a bien été supprimée.'
+            'La section <strong>&quot;'.$section
+            .'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page

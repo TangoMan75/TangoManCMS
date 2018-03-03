@@ -16,14 +16,17 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class CommentController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated page list
-        $em = $this->get('doctrine')->getManager();
-        $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request);
+        $em       = $this->get('doctrine')->getManager();
+        $comments = $em->getRepository('AppBundle:Comment')->findByQuery(
+            $request
+        );
 
         return $this->render(
             'admin/comment/index.html.twig',
@@ -39,7 +42,7 @@ class CommentController extends Controller
     public function newAction(Request $request)
     {
         $comment = new Comment();
-        $form = $this->createForm(AdminEditCommentType::class, $comment);
+        $form    = $this->createForm(AdminEditCommentType::class, $comment);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,7 +51,10 @@ class CommentController extends Controller
             $em->persist($comment);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('success', 'Le commentaire a bien été ajouté.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Le commentaire a bien été ajouté.'
+            );
 
             // User is redirected to referrer page
             return $this->redirectToRoute('app_admin_comment_index');
@@ -63,7 +69,8 @@ class CommentController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
+     *                                   "\d+"})
      */
     public function publishAction(Request $request, Comment $comment, $publish)
     {
@@ -73,9 +80,11 @@ class CommentController extends Controller
         $em->flush();
 
         if ($publish) {
-            $message = 'Le commentaire <strong>&quot;'.$comment.'&quot;</strong> a bien été validé.';
+            $message = 'Le commentaire <strong>&quot;'.$comment
+                       .'&quot;</strong> a bien été validé.';
         } else {
-            $message = 'La publication du commentaire  <strong>&quot;'.$comment.'&quot;</strong> a bien été refusée.';
+            $message = 'La publication du commentaire  <strong>&quot;'.$comment
+                       .'&quot;</strong> a bien été refusée.';
         }
 
         // Send flash notification
@@ -102,7 +111,11 @@ class CommentController extends Controller
             $em->persist($comment);
             $em->flush();
             // Displays success message
-            $this->get('session')->getFlashBag()->add('success', 'Le commentaire <strong>&quot;'.$comment.'&quot;</strong> a bien été modifié.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Le commentaire <strong>&quot;'.$comment
+                .'&quot;</strong> a bien été modifié.'
+            );
 
             return $this->redirectToRoute('app_admin_comment_index');
         }
@@ -129,7 +142,8 @@ class CommentController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le commentaire <strong>&quot;'.$comment.'&quot;</strong> a bien été supprimé.'
+            'Le commentaire <strong>&quot;'.$comment
+            .'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page

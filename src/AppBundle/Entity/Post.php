@@ -32,6 +32,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Post
 {
+
     use Categorized;
     use Embeddable;
     use HasRelationships;
@@ -56,33 +57,41 @@ class Post
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts", cascade={"persist"}, fetch="EAGER")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="posts",
+     *                                                      cascade={"persist"},
+     *                                                      fetch="EAGER")
      */
     private $user;
 
     /**
      * @var Comment[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="post",
+     *                                                         cascade={"persist",
+     *                                                         "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments;
 
     /**
      * @var Section[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", mappedBy="posts",
+     *                                                          cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections;
 
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="posts",
+     *                                                      cascade={"persist"})
      */
     private $tags;
 
     /**
      * @var Vote[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="post", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="post",
+     *                                                      cascade={"persist",
+     *                                                      "remove"})
      */
     private $votes;
 
@@ -93,9 +102,9 @@ class Post
     {
         $this->comments = new ArrayCollection();
         $this->sections = new ArrayCollection();
-        $this->tags = new ArrayCollection();
-        $this->votes = new ArrayCollection();
-        $this->created = new \DateTimeImmutable();
+        $this->tags     = new ArrayCollection();
+        $this->votes    = new ArrayCollection();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
     }
 
@@ -112,15 +121,15 @@ class Post
      */
     public function setDefaults()
     {
-        if (!$this->title) {
+        if ( ! $this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
 
-        if (!$this->slug) {
+        if ( ! $this->slug) {
             $this->setUniqueSlug($this->title);
         }
 
-        if (!$this->type) {
+        if ( ! $this->type) {
             $this->setType('post');
         }
     }

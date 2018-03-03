@@ -16,8 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadUsers implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     private $container;
 
     /**
@@ -48,7 +50,9 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
 
         // Default roles
         $roles = $em->getRepository('AppBundle:Role')->findAll();
-        $roleUser = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_USER']);
+        $roleUser = $em->getRepository('AppBundle:Role')->findOneBy(
+            ['type' => 'ROLE_USER']
+        );
 
         // Generating user account with password '321'
         $user = new User();
@@ -57,8 +61,7 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
             ->setEmail('user@localhost.dev')
             ->setPassword($encoder->encodePassword($user, '321'))
             ->addRole($roleUser)
-            ->setBio('<p>Ceci est un simple compte utilisateur.</p>')
-        ;
+            ->setBio('<p>Ceci est un simple compte utilisateur.</p>');
 
         $em->persist($user);
         $em->flush();
@@ -68,19 +71,25 @@ class LoadUsers implements FixtureInterface, ContainerAwareInterface, OrderedFix
             // Makes sure user doesn't exist
             do {
                 $username = $faker->userName;
-            } while ($em->getRepository('AppBundle:User')->findBy(['username' => $username]));
+            } while ($em->getRepository('AppBundle:User')->findBy(
+                ['username' => $username]
+            ));
 
             $user = new User();
             $user->setUsername($username)
-                ->setEmail($username.'@'.$faker->safeEmailDomain)
+                 ->setEmail($username.'@'.$faker->safeEmailDomain)
                 // ->setEmail($username.'@'.$faker->freeEmailDomain)
                 // ->setEmail($faker->email)
                 // ->setPassword($encoder->encodePassword($user, $username))
-                ->setPassword($i % 2 ? '$2y$13$lPJ8KtvstiwLmvTAX3SxoOL3/Nj.sZQBwh7Pyldw0GAl8mnyU8Wg.' : null)
-                ->addRole($roles[mt_rand(0, 3)])
+                 ->setPassword(
+                    $i % 2
+                        ? '$2y$13$lPJ8KtvstiwLmvTAX3SxoOL3/Nj.sZQBwh7Pyldw0GAl8mnyU8Wg.'
+                        : null
+                )
+                 ->addRole($roles[mt_rand(0, 3)])
                 // ->setAvatar('data:image/jpeg;base64,'.$faker->regexify('[A-Za-z0-9/+=]{1000}'))
-                ->setCreated($faker->dateTimeThisYear($max = 'now'))
-                ->setBio('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
+                 ->setCreated($faker->dateTimeThisYear($max = 'now'))
+                 ->setBio('<p>'.$faker->text(mt_rand(600, 1200)).'</p>');
 
             $em->persist($user);
 

@@ -14,6 +14,7 @@ use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EditPostType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options

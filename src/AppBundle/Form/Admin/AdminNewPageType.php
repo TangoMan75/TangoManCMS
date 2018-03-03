@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityRepository;
 
 class AdminNewPageType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -32,7 +33,7 @@ class AdminNewPageType extends AbstractType
                 [
                     'label'         => 'Étiquette',
                     'class'         => 'AppBundle:Tag',
-//                    'empty_data' => null,
+                    //                    'empty_data' => null,
                     'multiple'      => true,
                     'expanded'      => true,
                     'required'      => false,
@@ -48,13 +49,13 @@ class AdminNewPageType extends AbstractType
                     'label'         => 'Sections',
                     'class'         => 'AppBundle:Section',
                     'by_reference'  => false,
-//                    'empty_data' => null,
+                    //                    'empty_data' => null,
                     'multiple'      => true,
                     'expanded'      => false,
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('s')
-                            ->orderBy('s.title');
+                                  ->orderBy('s.title');
                     },
                 ]
             )

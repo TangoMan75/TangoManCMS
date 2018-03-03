@@ -29,6 +29,7 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class DeleteUserCommand extends ContainerAwareCommand
 {
+
     const MAX_ATTEMPTS = 5;
 
     /**
@@ -44,8 +45,13 @@ class DeleteUserCommand extends ContainerAwareCommand
         $this
             ->setName('app:delete-user')
             ->setDescription('Deletes users from the database')
-            ->addArgument('username', InputArgument::REQUIRED, 'The username of an existing user')
-            ->setHelp(<<<HELP
+            ->addArgument(
+                'username',
+                InputArgument::REQUIRED,
+                'The username of an existing user'
+            )
+            ->setHelp(
+                <<<HELP
 The <info>%command.name%</info> command deletes users from the database:
 
   <info>php %command.full_name%</info> <comment>username</comment>
@@ -58,9 +64,13 @@ HELP
             );
     }
 
-    protected function initialize(InputInterface $input, OutputInterface $output)
-    {
-        $this->entityManager = $this->getContainer()->get('doctrine')->getManager();
+    protected function initialize(
+        InputInterface $input,
+        OutputInterface $output
+    ) {
+        $this->entityManager = $this->getContainer()
+                                    ->get('doctrine')
+                                    ->getManager();
     }
 
     protected function interact(InputInterface $input, OutputInterface $output)
@@ -73,20 +83,24 @@ HELP
         $output->writeln('Delete User Command Interactive Wizard');
         $output->writeln('-----------------------------------');
 
-        $output->writeln([
-            '',
-            'If you prefer to not use this interactive wizard, provide the',
-            'arguments required by this command as follows:',
-            '',
-            ' $ php bin/console app:delete-user username',
-            '',
-        ]);
+        $output->writeln(
+            [
+                '',
+                'If you prefer to not use this interactive wizard, provide the',
+                'arguments required by this command as follows:',
+                '',
+                ' $ php bin/console app:delete-user username',
+                '',
+            ]
+        );
 
-        $output->writeln([
-            '',
-            'Now we\'ll ask you for the value of all the missing command arguments.',
-            '',
-        ]);
+        $output->writeln(
+            [
+                '',
+                'Now we\'ll ask you for the value of all the missing command arguments.',
+                '',
+            ]
+        );
 
         $helper = $this->getHelper('question');
 
@@ -108,7 +122,9 @@ HELP
         $user = $repository->findOneByUsername($username);
 
         if (null === $user) {
-            throw new \RuntimeException(sprintf('User with username "%s" not found.', $username));
+            throw new \RuntimeException(
+                sprintf('User with username "%s" not found.', $username)
+            );
         }
 
         // After an entity has been removed its in-memory state is the same
@@ -120,7 +136,14 @@ HELP
         $this->entityManager->flush();
 
         $output->writeln('');
-        $output->writeln(sprintf('[OK] User "%s" (ID: %d, email: %s) was successfully deleted.', $user->getUsername(), $userId, $user->getEmail()));
+        $output->writeln(
+            sprintf(
+                '[OK] User "%s" (ID: %d, email: %s) was successfully deleted.',
+                $user->getUsername(),
+                $userId,
+                $user->getEmail()
+            )
+        );
     }
 
     /**
@@ -136,7 +159,9 @@ HELP
         }
 
         if (1 !== preg_match('/^[a-z_]+$/', $username)) {
-            throw new \Exception('The username must contain only lowercase latin characters and underscores.');
+            throw new \Exception(
+                'The username must contain only lowercase latin characters and underscores.'
+            );
         }
 
         return $username;

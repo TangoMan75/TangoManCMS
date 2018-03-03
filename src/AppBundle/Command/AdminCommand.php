@@ -9,13 +9,16 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class AdminCommand extends ContainerAwareCommand
 {
+
     /**
      * Creates command with description
      */
     protected function configure()
     {
         $this->setName('admin')
-            ->setDescription('Creates ROLE_SUPER_ADMIN account based on parameters.yml');
+             ->setDescription(
+                 'Creates ROLE_SUPER_ADMIN account based on parameters.yml'
+             );
     }
 
     /**
@@ -24,19 +27,23 @@ class AdminCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $em = $this->getContainer()->get('doctrine')->getManager();
+        $em       = $this->getContainer()->get('doctrine')->getManager();
         $username = $this->getContainer()->getParameter('super_admin_username');
 
-        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(['type' => 'ROLE_SUPER_ADMIN']);
-//        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
+        $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(
+            ['type' => 'ROLE_SUPER_ADMIN']
+        );
+        //        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['roles' => $roleSuperAdmin]);
 
-        $superAdmin = $em->getRepository('AppBundle:User')->findBy(['username' => $username]);
+        $superAdmin = $em->getRepository('AppBundle:User')->findBy(
+            ['username' => $username]
+        );
 
         // Creates super admin account
-        if (!$superAdmin) {
+        if ( ! $superAdmin) {
 
-            $email = $this->getContainer()->getParameter('mailer_from');
-            $pwd = $this->getContainer()->getParameter('super_admin_pwd');
+            $email   = $this->getContainer()->getParameter('mailer_from');
+            $pwd     = $this->getContainer()->getParameter('super_admin_pwd');
             $encoder = $this->getContainer()->get('security.password_encoder');
 
             $user = new User();
@@ -50,7 +57,9 @@ class AdminCommand extends ContainerAwareCommand
             $em->persist($user);
             $em->flush();
 
-            $output->writeln($user.' account created with password: "'.$pwd.'"');
+            $output->writeln(
+                $user.' account created with password: "'.$pwd.'"'
+            );
         } else {
             $output->writeln('Sorry, user "'.$username.'" exists already.');
         }

@@ -16,14 +16,21 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class CommentController extends Controller
 {
+
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      */
     public function editAction(Request $request, Comment $comment)
     {
         // Only author or admin can edit comment
-        if ($this->getUser() !== $comment->getUser() && !$this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+        if ($this->getUser() !== $comment->getUser()
+            && ! $this->get(
+                'security.authorization_checker'
+            )->isGranted('ROLE_ADMIN')) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -59,11 +66,15 @@ class CommentController extends Controller
     public function deleteAction(Request $request, Comment $comment)
     {
         // Only author or admin can edit post
-        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted(
+        if ($this->getUser() !== $post->getUser()
+            && ! $this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
             )
         ) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -72,7 +83,10 @@ class CommentController extends Controller
         $em = $this->get('doctrine')->getManager();
         $em->remove($comment);
         $em->flush();
-        $this->get('session')->getFlashBag()->add('success', "Le commentaire à été supprimé.");
+        $this->get('session')->getFlashBag()->add(
+            'success',
+            "Le commentaire à été supprimé."
+        );
 
         // User is redirected to referrer page
         return $this->redirect($request->get('callback'));

@@ -11,6 +11,7 @@ use Doctrine\ORM\EntityManager;
  */
 class EntityManagerService
 {
+
     /**
      * @var EntityManager
      */

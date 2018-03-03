@@ -13,16 +13,21 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class SectionController extends Controller
 {
+
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
      */
     public function showAction(Request $request, $slug)
     {
         $em = $this->get('doctrine')->getManager();
-        $section = $em->getRepository('AppBundle:Section')->findOneBy(['slug' => $slug]);
+        $section = $em->getRepository('AppBundle:Section')->findOneBy(
+            ['slug' => $slug]
+        );
 
-        if (!$section) {
-            throw $this->createNotFoundException('Cette section n\'existe pas.');
+        if ( ! $section) {
+            throw $this->createNotFoundException(
+                'Cette section n\'existe pas.'
+            );
         }
 
         return $this->render(

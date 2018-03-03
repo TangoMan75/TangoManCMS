@@ -22,6 +22,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  */
 class Comment
 {
+
     use HasRelationships;
     use Publishable;
     use Timestampable;
@@ -36,13 +37,15 @@ class Comment
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="comments",
+     *                                                      cascade={"persist"})
      */
     private $user;
 
     /**
      * @var Post
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="comments",
+     *                                                      cascade={"persist"})
      */
     private $post;
 
@@ -58,7 +61,7 @@ class Comment
      */
     public function __construct()
     {
-        $this->created = new \DateTimeImmutable();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
     }
 

@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class TagController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $tags = $em->getRepository('AppBundle:Tag')->findByQueryScalar($request);
+        $tags = $em->getRepository('AppBundle:Tag')->findByQueryScalar(
+            $request
+        );
 
         return new JsonResponse(
             ['tags' => $tags]

@@ -22,6 +22,7 @@ use TangoMan\CSVExportHelper\CSVExportHelper;
  */
 class PostController extends Controller
 {
+
     use CSVExportHelper;
 
     /**
@@ -34,8 +35,11 @@ class PostController extends Controller
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated post list
-        $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, ['type' => 'post']);
+        $em    = $this->get('doctrine')->getManager();
+        $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+            $request,
+            ['type' => 'post']
+        );
 
         return $this->render(
             'admin/post/index.html.twig',
@@ -63,7 +67,8 @@ class PostController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été ajouté.'
+                'L\'article <strong>&quot;'.$post
+                .'&quot;</strong> a bien été ajouté.'
             );
 
             // User is redirected to referrer page
@@ -79,7 +84,8 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish": "\d+"})
+     * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
+     *                                   "\d+"})
      */
     public function publishAction(Request $request, Post $post, $publish)
     {
@@ -89,9 +95,11 @@ class PostController extends Controller
         $em->flush();
 
         if ($publish) {
-            $message = 'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été publié.';
+            $message = 'L\'article <strong>&quot;'.$post
+                       .'&quot;</strong> a bien été publié.';
         } else {
-            $message = 'La publication de l\'article <strong>&quot;'.$post.'&quot;</strong> a bien été annulée.';
+            $message = 'La publication de l\'article <strong>&quot;'.$post
+                       .'&quot;</strong> a bien été annulée.';
         }
 
         // Send flash notification
@@ -120,7 +128,8 @@ class PostController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été modifié.'
+                'L\'article <strong>&quot;'.$post
+                .'&quot;</strong> a bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -150,7 +159,8 @@ class PostController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'L\'article <strong>&quot;'.$post.'&quot;</strong> a bien été supprimé.'
+            'L\'article <strong>&quot;'.$post
+            .'&quot;</strong> a bien été supprimé.'
         );
 
         // User is redirected to referrer page
@@ -165,7 +175,7 @@ class PostController extends Controller
      */
     public function exportAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
+        $em        = $this->get('doctrine')->getManager();
         $postCount = $em->getRepository('AppBundle:Post')->countBy();
 
         return $this->render(
@@ -182,8 +192,8 @@ class PostController extends Controller
      */
     public function exportCSVAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request);
+        $em       = $this->get('doctrine')->getManager();
+        $posts    = $em->getRepository('AppBundle:Post')->export($request);
         $response = $this->exportCSV($posts);
 
         return new Response(
@@ -199,8 +209,8 @@ class PostController extends Controller
      */
     public function exportJSONAction(Request $request)
     {
-        $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->export($request);
+        $em       = $this->get('doctrine')->getManager();
+        $posts    = $em->getRepository('AppBundle:Post')->export($request);
         $response = json_encode($posts);
 
         return new Response(
@@ -223,7 +233,7 @@ class PostController extends Controller
 
             $file = $request->files->get('file_upload')['file'];
 
-            if (!$file->isValid()) {
+            if ( ! $file->isValid()) {
                 // Upload success check
                 $this->get('session')->getFlashBag()->add(
                     'error',
@@ -253,42 +263,49 @@ class PostController extends Controller
     {
         // Security checks
         $clientExtension = $file->getClientOriginalExtension();
-        if ($file->getClientMimeType() !== 'application/json' && !in_array($clientExtension, ['json'])) {
-            $this->get('session')->getFlashBag()->add('error', 'Ce format du fichier n\'est pas supporté.');
+        if ($file->getClientMimeType() !== 'application/json'
+            && ! in_array(
+                $clientExtension,
+                ['json']
+            )) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Ce format du fichier n\'est pas supporté.'
+            );
 
             return $this->redirectToRoute('app_admin_post_import');
         }
 
         $counter = 0;
-        $dupes = 0;
+        $dupes   = 0;
         // File check
         if (is_file($file)) {
             // Load entities
-            $em = $this->get('doctrine')->getManager();
+            $em    = $this->get('doctrine')->getManager();
             $posts = $em->getRepository('AppBundle:Post');
-            $tags = $em->getRepository('AppBundle:Tag');
+            $tags  = $em->getRepository('AppBundle:Tag');
             $users = $em->getRepository('AppBundle:User');
-            $tag = $tags->findOneByName('import');
+            $tag   = $tags->findOneByName('import');
 
             foreach (json_decode(file_get_contents($file)) as $import) {
 
                 // Check if post exists already
-                if (!$posts->findOneBySlug($import->post_slug)) {
+                if ( ! $posts->findOneBySlug($import->post_slug)) {
                     $counter++;
 
                     // Check if post author exists
                     $user = $users->findOneByEmail($import->user_email);
                     // When author doesn't exist sets current user as author
-                    if (!$user) {
+                    if ( ! $user) {
                         $user = $this->getUser();
                     }
 
                     $post = new Post();
                     $post->setUser($user)
-                        ->setTitle($import->post_title)
-                        ->setSlug($import->post_slug)
-                        ->addTag($tag)
-                        ->setText($import->post_text);
+                         ->setTitle($import->post_title)
+                         ->setSlug($import->post_slug)
+                         ->addTag($tag)
+                         ->setText($import->post_text);
 
                     // $post->setCreated($import->post_created);
                     // $post->setModified($import->post_modified);

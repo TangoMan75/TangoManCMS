@@ -13,6 +13,7 @@ use Symfony\Component\Debug\Exception\UndefinedFunctionException;
  */
 class RemoveTags extends \Twig_Extension
 {
+
     /**
      * @return string
      */
@@ -57,16 +58,28 @@ class RemoveTags extends \Twig_Extension
             if ($invert == false) {
                 $test = '<(?!(?:'.implode('|', $tags).')\b)(\w+)\b.*?';
 
-                return preg_replace('@'.$test.'>.*?</\1>|'.$test.'/>@si', '', $string);
+                return preg_replace(
+                    '@'.$test.'>.*?</\1>|'.$test.'/>@si',
+                    '',
+                    $string
+                );
             } else {
                 $test = '<('.implode('|', $tags).')\b.*?';
 
-                return preg_replace('@'.$test.'>.*?</\1>|'.$test.'/>@si', '', $string);
+                return preg_replace(
+                    '@'.$test.'>.*?</\1>|'.$test.'/>@si',
+                    '',
+                    $string
+                );
             }
         } elseif ($invert == false) {
             $test = '<(\w+)\b.*?';
 
-            return preg_replace('@'.$test.'>.*?</\1>|'.$test.'/>@si', '', $string);
+            return preg_replace(
+                '@'.$test.'>.*?</\1>|'.$test.'/>@si',
+                '',
+                $string
+            );
         }
 
         return $string;

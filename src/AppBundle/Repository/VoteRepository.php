@@ -12,5 +12,6 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class VoteRepository extends EntityRepository
 {
+
     use RepositoryHelper;
 }

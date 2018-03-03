@@ -16,8 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadSites implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadSites implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     private $container;
 
     /**
@@ -46,10 +48,9 @@ class LoadSites implements FixtureInterface, ContainerAwareInterface, OrderedFix
         for ($i = 0; $i < 10; $i++) {
             $section = new Site();
             $section->setTitle($faker->sentence(4, true))
-                ->setSubtitle($faker->sentence(6, true))
-                ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
-                ->setPublished($i % 3 ? false : true)
-            ;
+                    ->setSubtitle($faker->sentence(6, true))
+                    ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
+                    ->setPublished($i % 3 ? false : true);
 
             $em->persist($section);
         }

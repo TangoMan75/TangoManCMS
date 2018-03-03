@@ -16,6 +16,7 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class UserRepository extends EntityRepository implements UserLoaderInterface
 {
+
     use RepositoryHelper;
 
     /**
@@ -29,10 +30,10 @@ class UserRepository extends EntityRepository implements UserLoaderInterface
     public function loadUserByUsername($usernameOrEmail)
     {
         return $this->createQueryBuilder('user')
-            ->where('user.username = :username OR user.email = :email')
-            ->setParameter('username', $usernameOrEmail)
-            ->setParameter('email', $usernameOrEmail)
-            ->getQuery()
-            ->getOneOrNullResult();
+                    ->where('user.username = :username OR user.email = :email')
+                    ->setParameter('username', $usernameOrEmail)
+                    ->setParameter('email', $usernameOrEmail)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
 }

@@ -22,6 +22,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PostController extends Controller
 {
+
     /**
      * @Route()
      */
@@ -29,15 +30,24 @@ class PostController extends Controller
     {
         $em = $this->get('doctrine')->getManager();
 
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request);
+        if ($this->get('security.authorization_checker')->isGranted(
+            'ROLE_ADMIN'
+        )) {
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request
+            );
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, ['published' => true]);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request,
+                ['published' => true]
+            );
         }
 
         $formView = null;
 
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->get('security.authorization_checker')->isGranted(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )) {
             $post = new Post();
             $post->setUser($this->getUser());
             $post->setType('post');
@@ -73,23 +83,35 @@ class PostController extends Controller
      */
     public function indexByTagAction(Request $request, $tag)
     {
-        $em = $this->get('doctrine')->getManager();
-        $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
+        $em  = $this->get('doctrine')->getManager();
+        $tag = $em->getRepository('AppBundle:Tag')->findOneByName(
+            ['name' => $tag]
+        );
 
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, [
-                'tag' => $tag
-                ]);
+        if ($this->get('security.authorization_checker')->isGranted(
+            'ROLE_ADMIN'
+        )) {
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request,
+                [
+                    'tag' => $tag,
+                ]
+            );
         } else {
-            $posts = $em->getRepository('AppBundle:Post')->findByQuery($request, [
-                'published' => true,
-                'tag' => $tag
-                ]);
+            $posts = $em->getRepository('AppBundle:Post')->findByQuery(
+                $request,
+                [
+                    'published' => true,
+                    'tag'       => $tag,
+                ]
+            );
         }
 
         $formView = null;
 
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->get('security.authorization_checker')->isGranted(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )) {
             $post = new Post();
             $post->setUser($this->getUser());
             $post->setType('post');
@@ -126,10 +148,12 @@ class PostController extends Controller
      */
     public function showAction(Request $request, $slug)
     {
-        $em = $this->get('doctrine')->getManager();
-        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
+        $em   = $this->get('doctrine')->getManager();
+        $post = $em->getRepository('AppBundle:Post')->findOneBy(
+            ['slug' => $slug]
+        );
 
-        if (!$post) {
+        if ( ! $post) {
             throw $this->createNotFoundException('Cet article n\'existe pas.');
         }
 
@@ -137,16 +161,26 @@ class PostController extends Controller
         $em->persist($post);
         $em->flush();
 
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request, ['post' => $post]);
+        if ($this->get('security.authorization_checker')->isGranted(
+            'ROLE_ADMIN'
+        )) {
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery(
+                $request,
+                ['post' => $post]
+            );
         } else {
-            $comments = $em->getRepository('AppBundle:Comment')->findByQuery($request, ['post' => $post, 'published' => true]);
+            $comments = $em->getRepository('AppBundle:Comment')->findByQuery(
+                $request,
+                ['post' => $post, 'published' => true]
+            );
         }
 
         $form = null;
 
         // User cannot comment when not logged in
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
+        if ($this->get('security.authorization_checker')->isGranted(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )) {
 
             $comment = new Comment();
             $comment->setUser($this->getUser());
@@ -158,7 +192,10 @@ class PostController extends Controller
             if ($form->isSubmitted() && $form->isValid()) {
                 $em->persist($comment);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre commentaire a bien été enregistré.');
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Votre commentaire a bien été enregistré.'
+                );
 
                 // User is redirected to same page
                 return $this->redirect($request->getUri());
@@ -194,7 +231,8 @@ class PostController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'L\'article intitulé <strong>'.$post.'</strong> a bien été enregistré.'
+                'L\'article intitulé <strong>'.$post
+                .'</strong> a bien été enregistré.'
             );
 
             // User is redirected to referrer page
@@ -216,11 +254,15 @@ class PostController extends Controller
     public function editAction(Request $request, Post $post)
     {
         // Only author or admin can edit post
-        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted(
+        if ($this->getUser() !== $post->getUser()
+            && ! $this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
             )
         ) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -235,7 +277,8 @@ class PostController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre article <strong>&quot;'.$post.'&quot</strong> à bien été modifié.'
+                'Votre article <strong>&quot;'.$post
+                .'&quot</strong> à bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -257,11 +300,15 @@ class PostController extends Controller
     public function deleteAction(Request $request, Post $post)
     {
         // Only author or admin can edit post
-        if ($this->getUser() !== $post->getUser() && !$this->get('security.authorization_checker')->isGranted(
+        if ($this->getUser() !== $post->getUser()
+            && ! $this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
             )
         ) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -280,18 +327,23 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/vote/{slug}/{value}", requirements={"slug": "[\w-]+", "value": "(up|down)"})
+     * @Route("/vote/{slug}/{value}", requirements={"slug": "[\w-]+", "value":
+     *                                "(up|down)"})
      * @Security("has_role('ROLE_USER')")
      */
     public function voteAction(Request $request, $slug, $value)
     {
-        $em = $this->get('doctrine')->getManager();
-        $post = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
+        $em   = $this->get('doctrine')->getManager();
+        $post = $em->getRepository('AppBundle:Post')->findOneBy(
+            ['slug' => $slug]
+        );
         $user = $this->getUser();
-        $vote = $em->getRepository('AppBundle:Vote')->findOneBy(['user' => $user, 'post' => $post]);
+        $vote = $em->getRepository('AppBundle:Vote')->findOneBy(
+            ['user' => $user, 'post' => $post]
+        );
 
         // When not found creates new vote
-        if (!$vote) {
+        if ( ! $vote) {
             $vote = new Vote();
             // Links vote, user & posts
             $vote->setUser($user);

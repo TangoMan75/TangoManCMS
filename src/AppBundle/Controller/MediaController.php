@@ -19,34 +19,43 @@ use Symfony\Component\HttpFoundation\Session\Session;
  */
 class MediaController extends Controller
 {
+
     /**
      * Displays media by tag.
      * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
      */
     public function indexAction(Request $request, $tag)
     {
-        $em = $this->get('doctrine')->getManager();
-        $tag = $em->getRepository('AppBundle:Tag')->findOneByName(['name' => $tag]);
+        $em  = $this->get('doctrine')->getManager();
+        $tag = $em->getRepository('AppBundle:Tag')->findOneByName(
+            ['name' => $tag]
+        );
 
-        if ($this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        if ($this->get('security.authorization_checker')->isGranted(
+            'ROLE_ADMIN'
+        )) {
             $medias = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request, [
-                'tag' => $tag,
-            ]
+                $request,
+                [
+                    'tag' => $tag,
+                ]
             );
         } else {
             $medias = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request, [
-                'published' => true,
-                'tag'       => $tag,
-            ]
+                $request,
+                [
+                    'published' => true,
+                    'tag'       => $tag,
+                ]
             );
         }
 
         $formView = null;
 
-        if ($this->get('security.authorization_checker')->isGranted('IS_AUTHENTICATED_REMEMBERED')) {
-            $user = $this->getUser();
+        if ($this->get('security.authorization_checker')->isGranted(
+            'IS_AUTHENTICATED_REMEMBERED'
+        )) {
+            $user  = $this->getUser();
             $media = new Post();
             $media->setUser($user);
 
@@ -57,7 +66,10 @@ class MediaController extends Controller
             if ($form->isValid()) {
                 $em->persist($media);
                 $em->flush();
-                $this->get('session')->getFlashBag()->add('success', 'Votre publication a bien été enregistré.');
+                $this->get('session')->getFlashBag()->add(
+                    'success',
+                    'Votre publication a bien été enregistré.'
+                );
 
                 return $this->redirectToRoute('homepage');
             }
@@ -79,8 +91,10 @@ class MediaController extends Controller
      */
     public function showAction(Request $request, $slug)
     {
-        $em = $this->get('doctrine')->getManager();
-        $media = $em->getRepository('AppBundle:Post')->findOneBy(['slug' => $slug]);
+        $em    = $this->get('doctrine')->getManager();
+        $media = $em->getRepository('AppBundle:Post')->findOneBy(
+            ['slug' => $slug]
+        );
 
         return $this->render(
             'media/show.html.twig',
@@ -107,7 +121,8 @@ class MediaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'La publication intitulé <strong>'.$media.'</strong> a bien été enregistré.'
+                'La publication intitulé <strong>'.$media
+                .'</strong> a bien été enregistré.'
             );
 
             // User is redirected to referrer page
@@ -129,11 +144,15 @@ class MediaController extends Controller
     public function editAction(Request $request, Post $media)
     {
         // Only author or admin can edit media
-        if ($this->getUser() !== $media->getUser() && !$this->get('security.authorization_checker')->isGranted(
+        if ($this->getUser() !== $media->getUser()
+            && ! $this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
             )
         ) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -148,7 +167,8 @@ class MediaController extends Controller
             $em->flush();
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Votre publication <strong>&quot;'.$media.'&quot</strong> à bien été modifié.'
+                'Votre publication <strong>&quot;'.$media
+                .'&quot</strong> à bien été modifié.'
             );
 
             // User is redirected to referrer page
@@ -170,11 +190,15 @@ class MediaController extends Controller
     public function deleteAction(Request $request, Post $media)
     {
         // Only author or admin can edit media
-        if ($this->getUser() !== $media->getUser() && !$this->get('security.authorization_checker')->isGranted(
+        if ($this->getUser() !== $media->getUser()
+            && ! $this->get('security.authorization_checker')->isGranted(
                 'ROLE_ADMIN'
             )
         ) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à réaliser cette action.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à réaliser cette action.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -185,7 +209,8 @@ class MediaController extends Controller
         $em->flush();
         $this->get('session')->getFlashBag()->add(
             'success',
-            'La publication <strong>&quot;'.$media.'&quot;</strong> à été supprimé.'
+            'La publication <strong>&quot;'.$media
+            .'&quot;</strong> à été supprimé.'
         );
 
         // User is redirected to referrer page

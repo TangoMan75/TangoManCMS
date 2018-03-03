@@ -17,14 +17,17 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class PrivilegeController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated privilege list
-        $em = $this->get('doctrine')->getManager();
-        $privileges = $em->getRepository('AppBundle:Privilege')->findByQuery($request);
+        $em         = $this->get('doctrine')->getManager();
+        $privileges = $em->getRepository('AppBundle:Privilege')->findByQuery(
+            $request
+        );
 
         return $this->render(
             'admin/privilege/index.html.twig',
@@ -40,7 +43,10 @@ class PrivilegeController extends Controller
     public function newAction(Request $request)
     {
         $privilege = new Privilege();
-        $form = $this->createForm(AdminNewPrivilegeType::class, $privilege);
+        $form      = $this->createForm(
+            AdminNewPrivilegeType::class,
+            $privilege
+        );
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,7 +57,8 @@ class PrivilegeController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le privilege <strong>&quot;'.$privilege.'&quot;</strong> a bien été ajoutée.'
+                'Le privilege <strong>&quot;'.$privilege
+                .'&quot;</strong> a bien été ajoutée.'
             );
 
             // User is redirected to referrer page
@@ -82,7 +89,8 @@ class PrivilegeController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le privilege <strong>&quot;'.$privilege.'&quot;</strong> a bien été modifiée.'
+                'Le privilege <strong>&quot;'.$privilege
+                .'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -105,14 +113,19 @@ class PrivilegeController extends Controller
     {
         // Only author or admin can edit comment
         if (in_array(
-            $privilege->getType(), [
-                                     'ROLE_USER',
-                                     'ROLE_SUPER_USER',
-                                     'ROLE_ADMIN',
-                                     'ROLE_SUPER_ADMIN',
-                                 ]
+            $privilege->getType(),
+            [
+                'ROLE_USER',
+                'ROLE_SUPER_USER',
+                'ROLE_ADMIN',
+                'ROLE_SUPER_ADMIN',
+            ]
         )) {
-            $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le privilege <strong>&quot;'.$privilege->getName().'&quot;</strong>.');
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Il n\'est pas possible de supprimer le privilege <strong>&quot;'
+                .$privilege->getName().'&quot;</strong>.'
+            );
 
             return $this->redirect($request->get('callback'));
         }
@@ -125,7 +138,8 @@ class PrivilegeController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le privilege <strong>&quot;'.$privilege->getName().'&quot;</strong> a bien été supprimée.'
+            'Le privilege <strong>&quot;'.$privilege->getName()
+            .'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page

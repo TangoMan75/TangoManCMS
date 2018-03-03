@@ -13,6 +13,7 @@ use Symfony\Component\Debug\Exception\UndefinedFunctionException;
  */
 class DecodeEntities extends \Twig_Extension
 {
+
     /**
      * @return string
      */
@@ -27,7 +28,9 @@ class DecodeEntities extends \Twig_Extension
     public function getFilters()
     {
         return [
-            new \Twig_SimpleFilter('decode_entities', [$this, 'decodeEntities']),
+            new \Twig_SimpleFilter(
+                'decode_entities', [$this, 'decodeEntities']
+            ),
         ];
     }
 

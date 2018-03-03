@@ -24,6 +24,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  */
 class Page
 {
+
     use HasRelationships;
     use HasSummary;
     use HasTitle;
@@ -42,21 +43,24 @@ class Page
 
     /**
      * @var Section[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Section", inversedBy="pages",
+     *                                                          cascade={"persist"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $sections;
 
     /**
      * @var Site[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="pages", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Site", mappedBy="pages",
+     *                                                       cascade={"persist"})
      * @ORM\OrderBy({"id"="DESC"})
      */
     private $sites;
 
     /**
      * @var Tag[]
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Tag", inversedBy="pages",
+     *                                                      cascade={"persist"})
      */
     private $tags;
 
@@ -78,9 +82,9 @@ class Page
     public function __construct()
     {
         $this->sections = new ArrayCollection();
-        $this->sites = new ArrayCollection();
-        $this->tags = new ArrayCollection();
-        $this->created = new \DateTimeImmutable();
+        $this->sites    = new ArrayCollection();
+        $this->tags     = new ArrayCollection();
+        $this->created  = new \DateTimeImmutable();
         $this->modified = new \DateTimeImmutable();
     }
 
@@ -99,7 +103,7 @@ class Page
      */
     public function getGalleryCount()
     {
-        if (!$this->galleryCount) {
+        if ( ! $this->galleryCount) {
             return 0;
         }
 
@@ -123,7 +127,7 @@ class Page
      */
     public function getSectionCount()
     {
-        if (!$this->sectionCount) {
+        if ( ! $this->sectionCount) {
             return 0;
         }
 
@@ -147,11 +151,11 @@ class Page
      */
     public function setDefaults()
     {
-        if (!$this->title) {
+        if ( ! $this->title) {
             $this->setTitle($this->created->format('d/m/Y H:i:s'));
         }
 
-        if (!$this->slug) {
+        if ( ! $this->slug) {
             $this->setUniqueSlug($this->title);
         }
     }

@@ -11,6 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class AdminNewTagType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options

@@ -17,13 +17,14 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class RoleController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         // Show searchable, sortable, paginated role list
-        $em = $this->get('doctrine')->getManager();
+        $em    = $this->get('doctrine')->getManager();
         $roles = $em->getRepository('AppBundle:Role')->findByQuery($request);
 
         return $this->render(
@@ -51,7 +52,8 @@ class RoleController extends Controller
 
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le role <strong>&quot;'.$role.'&quot;</strong> a bien été ajoutée.'
+                'Le role <strong>&quot;'.$role
+                .'&quot;</strong> a bien été ajoutée.'
             );
 
             // User is redirected to referrer page
@@ -82,7 +84,8 @@ class RoleController extends Controller
             // Displays success message
             $this->get('session')->getFlashBag()->add(
                 'success',
-                'Le role <strong>&quot;'.$role.'&quot;</strong> a bien été modifiée.'
+                'Le role <strong>&quot;'.$role
+                .'&quot;</strong> a bien été modifiée.'
             );
 
             // User is redirected to referrer page
@@ -105,14 +108,18 @@ class RoleController extends Controller
     {
         // Only author or admin can edit comment
         if (in_array(
-            $role->getType(), [
-                                'ROLE_USER',
-                                'ROLE_SUPER_USER',
-                                'ROLE_ADMIN',
-                                'ROLE_SUPER_ADMIN',
-                            ]
+            $role->getType(),
+            [
+                'ROLE_USER',
+                'ROLE_SUPER_USER',
+                'ROLE_ADMIN',
+                'ROLE_SUPER_ADMIN',
+            ]
         )) {
-            $this->get('session')->getFlashBag()->add('error', 'Il n\'est pas possible de supprimer le role <strong>&quot;'.$role->getName().'&quot;</strong>.');
+            $this->get('session')->getFlashBag()->add('error',
+                'Il n\'est pas possible de supprimer le role <strong>&quot;'
+                .$role->getName().'&quot;</strong>.'
+            );
 
             return $this->redirect($request->get('callback'));
         }
@@ -125,7 +132,8 @@ class RoleController extends Controller
         // Send flash notification
         $this->get('session')->getFlashBag()->add(
             'success',
-            'Le role <strong>&quot;'.$role->getName().'&quot;</strong> a bien été supprimée.'
+            'Le role <strong>&quot;'.$role->getName()
+            .'&quot;</strong> a bien été supprimée.'
         );
 
         // User is redirected to referrer page

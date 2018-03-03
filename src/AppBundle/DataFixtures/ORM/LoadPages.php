@@ -16,8 +16,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author  Matthias Morin <matthias.morin@gmail.com>
  * @package AppBundle\DataFixtures\ORM
  */
-class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
+class LoadPages implements FixtureInterface, ContainerAwareInterface,
+                           OrderedFixtureInterface
 {
+
     private $container;
 
     /**
@@ -51,8 +53,7 @@ class LoadPages implements FixtureInterface, ContainerAwareInterface, OrderedFix
                 ->setSubtitle($faker->sentence(6, true))
                 ->setSummary('<p>'.$faker->text(mt_rand(100, 255)).'</p>')
                 ->setTitle($faker->sentence(4, true))
-                ->setViews(mt_rand(0, 100))
-            ;
+                ->setViews(mt_rand(0, 100));
 
             $em->persist($page);
         }

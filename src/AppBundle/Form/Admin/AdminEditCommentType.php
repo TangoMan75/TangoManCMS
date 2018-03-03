@@ -12,6 +12,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 class AdminEditCommentType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -27,7 +28,7 @@ class AdminEditCommentType extends AbstractType
                     'class'         => 'AppBundle:Post',
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('p')
-                            ->orderBy('p.title');
+                                  ->orderBy('p.title');
                     },
                 ]
             )

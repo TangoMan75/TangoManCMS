@@ -14,6 +14,7 @@ use Doctrine\ORM\EntityRepository;
 
 class NewMediaType extends AbstractType
 {
+
     /**
      * @param FormBuilderInterface $builder
      * @param array                $options
@@ -56,7 +57,7 @@ class NewMediaType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('u')
-                            ->orderBy('u.username');
+                                  ->orderBy('u.username');
                     },
                 ]
             )
@@ -73,7 +74,7 @@ class NewMediaType extends AbstractType
                     'required'      => false,
                     'query_builder' => function (EntityRepository $em) {
                         return $em->createQueryBuilder('p')
-                            ->orderBy('p.title');
+                                  ->orderBy('p.title');
                     },
                 ]
             )

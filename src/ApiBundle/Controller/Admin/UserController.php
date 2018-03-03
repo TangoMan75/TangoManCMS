@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UserController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $users = $em->getRepository('AppBundle:User')->findByQueryScalar($request);
+        $users = $em->getRepository('AppBundle:User')->findByQueryScalar(
+            $request
+        );
 
         return new JsonResponse(
             ['users' => $users]

@@ -12,5 +12,6 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class SectionRepository extends EntityRepository
 {
+
     use RepositoryHelper;
 }

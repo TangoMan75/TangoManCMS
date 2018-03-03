@@ -20,6 +20,7 @@ use TangoMan\UserBundle\Model\User as TangoManUser;
  */
 class User extends TangoManUser
 {
+
     use HasRelationships;
     use Privatable;
     use UsersHavePrivileges;
@@ -27,21 +28,27 @@ class User extends TangoManUser
 
     /**
      * @var Comment[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Comment", mappedBy="user",
+     *                                                         cascade={"persist",
+     *                                                         "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $comments;
 
     /**
      * @var Post[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Post", mappedBy="user",
+     *                                                      cascade={"persist",
+     *                                                      "remove"})
      * @ORM\OrderBy({"modified"="DESC"})
      */
     private $posts;
 
     /**
      * @var Vote[]
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="user", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Vote", mappedBy="user",
+     *                                                      cascade={"persist",
+     *                                                      "remove"})
      */
     private $votes;
 
@@ -75,11 +82,11 @@ class User extends TangoManUser
     public function __construct()
     {
         parent::__construct();
-        $this->roles = new ArrayCollection();
+        $this->roles      = new ArrayCollection();
         $this->privileges = new ArrayCollection();
-        $this->posts = new ArrayCollection();
-        $this->comments = new ArrayCollection();
-        $this->votes = new ArrayCollection();
+        $this->posts      = new ArrayCollection();
+        $this->comments   = new ArrayCollection();
+        $this->votes      = new ArrayCollection();
     }
 
     /**
@@ -97,7 +104,7 @@ class User extends TangoManUser
      */
     public function getPostCount()
     {
-        if (!$this->postCount) {
+        if ( ! $this->postCount) {
             return 0;
         }
 
@@ -121,7 +128,7 @@ class User extends TangoManUser
      */
     public function getMediaCount()
     {
-        if (!$this->mediaCount) {
+        if ( ! $this->mediaCount) {
             return 0;
         }
 

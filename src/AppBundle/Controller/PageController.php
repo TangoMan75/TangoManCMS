@@ -13,15 +13,18 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
  */
 class PageController extends Controller
 {
+
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
      */
     public function showAction(Request $request, $slug)
     {
         $em = $this->get('doctrine')->getManager();
-        $page = $em->getRepository('AppBundle:Page')->findOneBy(['slug' => $slug]);
+        $page = $em->getRepository('AppBundle:Page')->findOneBy(
+            ['slug' => $slug]
+        );
 
-        if (!$page) {
+        if ( ! $page) {
             throw $this->createNotFoundException('Cette page n\'existe pas.');
         }
 

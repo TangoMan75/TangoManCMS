@@ -7,6 +7,7 @@ namespace AppBundle\Service;
  */
 class HostHelperService
 {
+
     /**
      * @return string
      */

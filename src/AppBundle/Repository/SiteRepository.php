@@ -12,5 +12,6 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class SiteRepository extends EntityRepository
 {
+
     use RepositoryHelper;
 }

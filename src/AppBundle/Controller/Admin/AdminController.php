@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class AdminController extends Controller
 {
+
     /**
      * @Route("/")
      */
@@ -19,10 +20,18 @@ class AdminController extends Controller
         return $this->render(
             'admin/default/index.html.twig',
             [
-                'commentCount'   => $this->get('doctrine')->getRepository('AppBundle:Comment')->countBy(),
-                'pageCount'      => $this->get('doctrine')->getRepository('AppBundle:Page')->countBy(),
-                'postCount'      => $this->get('doctrine')->getRepository('AppBundle:Post')->countBy(['type' => 'post']),
-                'mediaCount'     => $this->get('doctrine')->getRepository('AppBundle:Post')->countBy(
+                'commentCount' => $this->get('doctrine')->getRepository(
+                    'AppBundle:Comment'
+                )->countBy(),
+                'pageCount'    => $this->get('doctrine')->getRepository(
+                    'AppBundle:Page'
+                )->countBy(),
+                'postCount'    => $this->get('doctrine')->getRepository(
+                    'AppBundle:Post'
+                )->countBy(['type' => 'post']),
+                'mediaCount'   => $this->get('doctrine')->getRepository(
+                    'AppBundle:Post'
+                )->countBy(
                     [
                         'type' => [
                             '360',
@@ -52,10 +61,18 @@ class AdminController extends Controller
                         ],
                     ]
                 ),
-                'galleryCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->countBy(['type' => 'gallery']),
-                'sectionCount'   => $this->get('doctrine')->getRepository('AppBundle:Section')->countBy(['type' => 'section']),
-                'userCount'      => $this->get('doctrine')->getRepository('AppBundle:User')->countBy(),
-                'siteCount'      => $this->get('doctrine')->getRepository('AppBundle:Site')->countBy(),
+                'galleryCount' => $this->get('doctrine')->getRepository(
+                    'AppBundle:Section'
+                )->countBy(['type' => 'gallery']),
+                'sectionCount' => $this->get('doctrine')->getRepository(
+                    'AppBundle:Section'
+                )->countBy(['type' => 'section']),
+                'userCount'    => $this->get('doctrine')->getRepository(
+                    'AppBundle:User'
+                )->countBy(),
+                'siteCount'    => $this->get('doctrine')->getRepository(
+                    'AppBundle:Site'
+                )->countBy(),
             ]
         );
     }

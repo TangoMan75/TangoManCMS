@@ -12,5 +12,6 @@ use TangoMan\RepositoryHelper\RepositoryHelper;
  */
 class PrivilegeRepository extends EntityRepository
 {
+
     use RepositoryHelper;
 }

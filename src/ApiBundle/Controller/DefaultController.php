@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class DefaultController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar($request);
+        $posts = $em->getRepository('AppBundle:Post')->findByQueryScalar(
+            $request
+        );
 
         return new JsonResponse(
             ['posts' => $posts]

@@ -12,4 +12,5 @@ use TangoMan\RoleBundle\Model\Role as TangoManRole;
  */
 class Role extends TangoManRole
 {
+
 }

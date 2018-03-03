@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class UserController extends Controller
 {
+
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
      * @param Request $request
@@ -23,26 +24,35 @@ class UserController extends Controller
      */
     public function showAction(Request $request, $slug)
     {
-        $em = $this->get('doctrine')->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
+        $em   = $this->get('doctrine')->getManager();
+        $user = $em->getRepository('AppBundle:User')->findOneBy(
+            ['slug' => $slug]
+        );
 
-        if (!$user) {
-            throw $this->createNotFoundException('Cet utilisateur n\'existe pas.');
+        if ( ! $user) {
+            throw $this->createNotFoundException(
+                'Cet utilisateur n\'existe pas.'
+            );
         }
 
         // Admin or author only can see user unpublished posts
-        if ($this->getUser() === $user || $this->get('security.authorization_checker')->isGranted('ROLE_ADMIN')) {
+        if ($this->getUser() === $user
+            || $this->get(
+                'security.authorization_checker'
+            )->isGranted('ROLE_ADMIN')) {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request, [
-                'user' => $user,
-            ]
+                $request,
+                [
+                    'user' => $user,
+                ]
             );
         } else {
             $posts = $em->getRepository('AppBundle:Post')->findByQuery(
-                $request, [
-                'published' => true,
-                'user'      => $user,
-            ]
+                $request,
+                [
+                    'published' => true,
+                    'user'      => $user,
+                ]
             );
         }
 
@@ -65,11 +75,20 @@ class UserController extends Controller
      */
     public function editAction(Request $request, $slug)
     {
-        $em = $this->get('doctrine')->getManager();
-        $user = $em->getRepository('AppBundle:User')->findOneBy(['slug' => $slug]);
+        $em   = $this->get('doctrine')->getManager();
+        $user = $em->getRepository('AppBundle:User')->findOneBy(
+            ['slug' => $slug]
+        );
 
-        if ($this->getUser() !== $user && !in_array('ROLE_ADMIN', $this->getUser()->getRoles())) {
-            $this->get('session')->getFlashBag()->add('error', 'Vous n\'êtes pas autorisé à modifier cet utilisateur.');
+        if ($this->getUser() !== $user
+            && ! in_array(
+                'ROLE_ADMIN',
+                $this->getUser()->getRoles()
+            )) {
+            $this->get('session')->getFlashBag()->add(
+                'error',
+                'Vous n\'êtes pas autorisé à modifier cet utilisateur.'
+            );
 
             return $this->redirectToRoute('homepage');
         }
@@ -80,7 +99,10 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             $em->persist($user);
             $em->flush();
-            $this->get('session')->getFlashBag()->add('success', 'Votre profil a bien été enregistré.');
+            $this->get('session')->getFlashBag()->add(
+                'success',
+                'Votre profil a bien été enregistré.'
+            );
 
             // User is redirected to referrer page
             return $this->redirect($request->get('callback'));

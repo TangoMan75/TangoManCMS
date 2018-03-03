@@ -13,6 +13,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  */
 class Vote
 {
+
     use HasRelationships;
 
     /**
@@ -25,13 +26,15 @@ class Vote
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="votes", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User", inversedBy="votes",
+     *                                                      cascade={"persist"})
      */
     private $user;
 
     /**
      * @var Post
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="votes", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Post", inversedBy="votes",
+     *                                                      cascade={"persist"})
      */
     private $post;
 

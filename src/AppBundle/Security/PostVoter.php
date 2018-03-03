@@ -10,9 +10,13 @@ use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
 class PostVoter extends Voter
 {
+
     const CAN_CREATE_POST = 'CAN_CREATE_POST';
+
     const CAN_READ_POST = 'CAN_READ_POST';
+
     const CAN_UPDATE_POST = 'CAN_UPDATE_POST';
+
     const CAN_DELETE_POST = 'CAN_DELETE_POST';
 
     /**
@@ -37,19 +41,19 @@ class PostVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // You only want to vote if the attribute and subject are what you expect
-        if (!in_array(
-            $attribute, [
-                          self::CAN_CREATE_POST,
-                          self::CAN_READ_POST,
-                          self::CAN_UPDATE_POST,
-                          self::CAN_DELETE_POST,
-                      ]
-        )
-        ) {
+        if ( ! in_array(
+            $attribute,
+            [
+                self::CAN_CREATE_POST,
+                self::CAN_READ_POST,
+                self::CAN_UPDATE_POST,
+                self::CAN_DELETE_POST,
+            ]
+        )) {
             return false;
         }
 
-        if (!$subject instanceof Post) {
+        if ( ! $subject instanceof Post) {
             return false;
         }
 
@@ -63,26 +67,29 @@ class PostVoter extends Voter
      *
      * @return bool
      */
-    protected function voteOnAttribute($attribute, $subject, TokenInterface $token)
-    {
+    protected function voteOnAttribute(
+        $attribute,
+        $subject,
+        TokenInterface $token
+    ) {
         // ROLE_SUPER_ADMIN can do anything
         if ($this->decisionManager->decide($token, ['ROLE_SUPER_ADMIN'])) {
             return true;
         }
 
-//        // ROLE_SUPER_USER, ROLE_ADMIN can do anything as well
-//        foreach ($token->getRoles() as $role) {
-//            if (in_array($role->getRole(), ['ROLE_SUPER_USER', 'ROLE_ADMIN'])) {
-//                return true;
-//            }
-//        }
+        //        // ROLE_SUPER_USER, ROLE_ADMIN can do anything as well
+        //        foreach ($token->getRoles() as $role) {
+        //            if (in_array($role->getRole(), ['ROLE_SUPER_USER', 'ROLE_ADMIN'])) {
+        //                return true;
+        //            }
+        //        }
 
-//        // Permission is denied when user not logged in
-//        if (!$this->decisionManager->decide($token, ['IS_AUTHENTICATED_REMEMBERED'])) {
-//            return false;
-//        }
+        //        // Permission is denied when user not logged in
+        //        if (!$this->decisionManager->decide($token, ['IS_AUTHENTICATED_REMEMBERED'])) {
+        //            return false;
+        //        }
         $user = $token->getUser();
-        if (!$user instanceof User) {
+        if ( ! $user instanceof User) {
             return false;
         }
 

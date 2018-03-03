@@ -12,13 +12,17 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class GalleryController extends Controller
 {
+
     /**
      * @Route("/")
      */
     public function indexAction(Request $request)
     {
         $em = $this->get('doctrine')->getManager();
-        $galleries = $em->getRepository('AppBundle:Gallery')->findByQueryScalar($request, ['type' => 'galery']);
+        $galleries = $em->getRepository('AppBundle:Gallery')->findByQueryScalar(
+            $request,
+            ['type' => 'galery']
+        );
 
         return new JsonResponse(
             ['galleries' => $galleries]
