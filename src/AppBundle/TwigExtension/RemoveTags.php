@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the TangoManCMS package.
+ *
+ * (c) Matthias Morin <matthias.morin@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace AppBundle\TwigExtension;
 
 use Symfony\Component\Debug\Exception\UndefinedFunctionException;
@@ -8,8 +17,7 @@ use Symfony\Component\Debug\Exception\UndefinedFunctionException;
  * Class RemoveTags
  * Remove specified tags
  *
- * @author  Matthias Morin <matthias.morin@gmail.com>
- * @package AppBundle\TwigExtension
+ * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
  */
 class RemoveTags extends \Twig_Extension
 {

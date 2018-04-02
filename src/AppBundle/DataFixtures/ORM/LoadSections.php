@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the TangoManCMS package.
+ *
+ * (c) Matthias Morin <matthias.morin@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Section;
@@ -13,8 +22,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class LoadSections
  *
- * @author  Matthias Morin <matthias.morin@gmail.com>
- * @package AppBundle\DataFixtures\ORM
+ * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
  */
 class LoadSections implements FixtureInterface, ContainerAwareInterface,
                               OrderedFixtureInterface

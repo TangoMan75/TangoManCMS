@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the TangoManCMS package.
+ *
+ * (c) Matthias Morin <matthias.morin@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -27,8 +36,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  * @ORM\HasLifecycleCallbacks()
  *
  * @Vich\Uploadable
- * @author  Matthias Morin <matthias.morin@gmail.com>
- * @package AppBundle\Entity
+ * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
  */
 class Post
 {

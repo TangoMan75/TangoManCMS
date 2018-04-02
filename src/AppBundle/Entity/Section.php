@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the TangoManCMS package.
+ *
+ * (c) Matthias Morin <matthias.morin@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
@@ -19,8 +28,7 @@ use TangoMan\RelationshipBundle\Traits\HasRelationships;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\SectionRepository")
  * @ORM\HasLifecycleCallbacks()
  *
- * @author  Matthias Morin <matthias.morin@gmail.com>
- * @package AppBundle\Entity
+ * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
  */
 class Section
 {
