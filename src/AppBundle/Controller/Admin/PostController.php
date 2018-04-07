@@ -35,10 +35,9 @@ class PostController extends Controller
 
     /**
      * @Route("/")
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return Response
-     * @throws \Doctrine\ORM\Query\QueryException
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -59,6 +58,9 @@ class PostController extends Controller
 
     /**
      * @Route("/new")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -94,6 +96,11 @@ class PostController extends Controller
     /**
      * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
      *                                   "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     * @param                                           $publish
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function publishAction(Request $request, Post $post, $publish)
     {
@@ -122,6 +129,10 @@ class PostController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Post $post)
     {
@@ -156,6 +167,10 @@ class PostController extends Controller
     /**
      * Finds and deletes a Post.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Post $post)
     {
@@ -177,9 +192,9 @@ class PostController extends Controller
 
     /**
      * @Route("/export")
-     * @param Request $request
+     * @param \Symfony\Component\HttpFoundation\Request $request
      *
-     * @return Response
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportAction(Request $request)
     {
@@ -197,6 +212,9 @@ class PostController extends Controller
     /**
      * Exports post list in csv format.
      * @Route("/export-csv")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportCSVAction(Request $request)
     {
@@ -214,6 +232,9 @@ class PostController extends Controller
 
     /**
      * @Route("/export-json")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportJSONAction(Request $request)
     {
@@ -231,6 +252,9 @@ class PostController extends Controller
 
     /**
      * @Route("/import")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function importAction(Request $request)
     {

@@ -28,6 +28,9 @@ class TagController extends Controller
 
     /**
      * @Route("/")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -45,6 +48,9 @@ class TagController extends Controller
 
     /**
      * @Route("/new")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -78,6 +84,10 @@ class TagController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Tag                     $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Tag $tag)
     {
@@ -111,6 +121,10 @@ class TagController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Tag                     $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Tag $tag)
     {

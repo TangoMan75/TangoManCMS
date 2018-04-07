@@ -28,6 +28,9 @@ class PrivilegeController extends Controller
 
     /**
      * @Route("/")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -47,6 +50,9 @@ class PrivilegeController extends Controller
 
     /**
      * @Route("/new")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -83,6 +89,10 @@ class PrivilegeController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Privilege               $privilege
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Privilege $privilege)
     {
@@ -116,6 +126,10 @@ class PrivilegeController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Privilege               $privilege
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Privilege $privilege)
     {

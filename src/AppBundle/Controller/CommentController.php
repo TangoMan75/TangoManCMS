@@ -28,6 +28,10 @@ class CommentController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Comment                 $comment
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Comment $comment)
     {
@@ -71,6 +75,10 @@ class CommentController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Comment                 $comment
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Comment $comment)
     {

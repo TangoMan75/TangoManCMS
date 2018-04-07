@@ -31,7 +31,12 @@ class MediaController extends Controller
 
     /**
      * Displays media by tag.
+     *
      * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request, $tag)
     {
@@ -96,7 +101,12 @@ class MediaController extends Controller
     /**
      * Display media with comments.
      * Allow to publish comments.
+     *
      * @Route("/show/{slug}", requirements={"slug": "[\w-]+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $slug
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Request $request, $slug)
     {
@@ -116,6 +126,9 @@ class MediaController extends Controller
     /**
      * @Route("/new")
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -149,6 +162,10 @@ class MediaController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $media
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Post $media)
     {
@@ -195,6 +212,10 @@ class MediaController extends Controller
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $media
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Post $media)
     {

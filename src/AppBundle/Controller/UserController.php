@@ -26,8 +26,8 @@ class UserController extends Controller
 
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
-     * @param Request $request
-     * @param         $slug
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $slug
      *
      * @return \Symfony\Component\HttpFoundation\Response
      */
@@ -77,8 +77,8 @@ class UserController extends Controller
     /**
      * @Route("/edit/{slug}", requirements={"slug": "[\w-]+"})
      * @ParamConverter("user", class="AppBundle:User")
-     * @param Request $request
-     * @param         $slug
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $slug
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */

@@ -25,6 +25,10 @@ class PageController extends Controller
 
     /**
      * @Route("/{slug}", requirements={"slug": "[\w-]+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $slug
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Request $request, $slug)
     {

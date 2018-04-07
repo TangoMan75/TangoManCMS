@@ -31,6 +31,9 @@ class MediaController extends Controller
 
     /**
      * @Route("/")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -79,6 +82,9 @@ class MediaController extends Controller
 
     /**
      * @Route("/new")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -113,6 +119,10 @@ class MediaController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Post $post)
     {
@@ -147,6 +157,11 @@ class MediaController extends Controller
     /**
      * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
      *                                   "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     * @param                                           $publish
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function publishAction(Request $request, Post $post, $publish)
     {
@@ -175,6 +190,10 @@ class MediaController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Post $post)
     {
@@ -196,6 +215,9 @@ class MediaController extends Controller
 
     /**
      * @Route("/export")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportAction(Request $request)
     {
@@ -212,6 +234,9 @@ class MediaController extends Controller
 
     /**
      * @Route("/export-json")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportJSONAction(Request $request)
     {
@@ -229,6 +254,9 @@ class MediaController extends Controller
 
     /**
      * @Route("/import")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function importAction(Request $request)
     {

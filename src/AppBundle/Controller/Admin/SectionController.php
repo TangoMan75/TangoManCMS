@@ -28,6 +28,9 @@ class SectionController extends Controller
 
     /**
      * @Route("/")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -48,6 +51,9 @@ class SectionController extends Controller
 
     /**
      * @Route("/new")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -82,6 +88,11 @@ class SectionController extends Controller
     /**
      * @Route("/publish/{id}/{publish}", requirements={"id": "\d+", "publish":
      *                                   "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Section                 $section
+     * @param                                           $publish
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function publishAction(Request $request, Section $section, $publish)
     {
@@ -110,6 +121,10 @@ class SectionController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Section                 $section
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Section $section)
     {
@@ -143,6 +158,10 @@ class SectionController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Section                 $section
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Section $section)
     {

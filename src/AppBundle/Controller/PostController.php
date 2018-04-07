@@ -34,6 +34,9 @@ class PostController extends Controller
 
     /**
      * @Route()
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -89,6 +92,10 @@ class PostController extends Controller
     /**
      * Displays post by tag.
      * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $tag
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function indexByTagAction(Request $request, $tag)
     {
@@ -153,7 +160,12 @@ class PostController extends Controller
     /**
      * Display post with comments.
      * Allow to publish comments.
+     *
      * @Route("/show/{slug}", requirements={"slug": "[\w-]+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $slug
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function showAction(Request $request, $slug)
     {
@@ -224,6 +236,9 @@ class PostController extends Controller
     /**
      * @Route("/new")
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -259,6 +274,10 @@ class PostController extends Controller
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, Post $post)
     {
@@ -305,6 +324,10 @@ class PostController extends Controller
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\Post                    $post
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, Post $post)
     {
@@ -339,6 +362,11 @@ class PostController extends Controller
      * @Route("/vote/{slug}/{value}", requirements={"slug": "[\w-]+", "value":
      *                                "(up|down)"})
      * @Security("has_role('ROLE_USER')")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param                                           $slug
+     * @param                                           $value
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function voteAction(Request $request, $slug, $value)
     {

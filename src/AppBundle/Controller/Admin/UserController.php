@@ -33,6 +33,9 @@ class UserController extends Controller
 
     /**
      * @Route("/")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction(Request $request)
     {
@@ -82,6 +85,9 @@ class UserController extends Controller
 
     /**
      * @Route("/new")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function newAction(Request $request)
     {
@@ -119,6 +125,10 @@ class UserController extends Controller
 
     /**
      * @Route("/edit/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\User                    $user
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function editAction(Request $request, User $user)
     {
@@ -156,6 +166,10 @@ class UserController extends Controller
 
     /**
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\User                    $user
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function deleteAction(Request $request, User $user)
     {
@@ -202,6 +216,11 @@ class UserController extends Controller
     /**
      * Sets user roles.
      * @Route("/add-role/{id}/{add}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\User                    $user
+     * @param                                           $add
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function addRoleAction(Request $request, User $user, $add)
     {
@@ -238,6 +257,11 @@ class UserController extends Controller
     /**
      * Removes user role.
      * @Route("/remove-role/{id}/{remove}", requirements={"id": "\d+"})
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     * @param \AppBundle\Entity\User                    $user
+     * @param                                           $remove
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     public function removeRoleAction(Request $request, User $user, $remove)
     {
@@ -285,6 +309,7 @@ class UserController extends Controller
 
     /**
      * @Route("/export")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportAction()
     {
@@ -302,6 +327,9 @@ class UserController extends Controller
     /**
      * Exports user list in csv format.
      * @Route("/export-csv")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportCSVAction(Request $request)
     {
@@ -319,6 +347,9 @@ class UserController extends Controller
 
     /**
      * @Route("/export-json")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function exportJSONAction(Request $request)
     {
@@ -336,6 +367,9 @@ class UserController extends Controller
 
     /**
      * @Route("/import")
+     * @param \Symfony\Component\HttpFoundation\Request $request
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
      */
     public function importAction(Request $request)
     {
@@ -369,6 +403,9 @@ class UserController extends Controller
 
     /**
      * @param UploadedFile $file
+     *
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
