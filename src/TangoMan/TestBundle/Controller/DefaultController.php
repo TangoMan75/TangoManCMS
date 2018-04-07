@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * This file is part of the TangoManCMS package.
+ *
+ * (c) Matthias Morin <matthias.morin@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
+
 namespace TangoMan\TestBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +24,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function indexAction()
     {
@@ -23,6 +33,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/app-request")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function appRequestAction()
     {
@@ -31,6 +42,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/navbar")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function navbarAction()
     {
@@ -39,6 +51,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/search-builder")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function searchFormBuilderAction()
     {
@@ -122,6 +135,9 @@ class DefaultController extends Controller
 
     /**
      * @Route("/isgranted/{role}")
+     * @param $role
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function roleServiceAction($role)
     {
@@ -134,6 +150,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/thead-builder")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function theadBuilderAction()
     {
@@ -196,6 +213,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/menu-builder")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function menuBuilderAction()
     {
@@ -293,10 +311,11 @@ class DefaultController extends Controller
 
     /**
      * @Route("/navbar-builder")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function navbarBuilderAction()
     {
-        $menu = new Menu();
+        $menu    = new Menu();
         $subMenu = new Menu();
 
         $item = new Item();
@@ -385,6 +404,7 @@ class DefaultController extends Controller
 
     /**
      * @Route("/buttons-builder")
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function buttonsBuilderAction()
     {
