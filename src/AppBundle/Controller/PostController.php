@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * This file is part of the TangoManCMS package.
  *
- * (c) Matthias Morin <matthias.morin@gmail.com>
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -27,6 +27,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 /**
+ * Class PostController
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @Route("/post")
  */
 class PostController extends Controller
@@ -92,6 +95,7 @@ class PostController extends Controller
     /**
      * Displays post by tag.
      * @Route("/index/{tag}", requirements={"tag": "[\w]+"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param                                           $tag
      *

@@ -1,10 +1,16 @@
 <?php
+/**
+ * This file is part of the TangoManCMS package.
+ *
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
+ *
+ * This source file is subject to the MIT license that is bundled
+ * with this source code in the file LICENSE.
+ */
 
 namespace ApiBundle\Controller;
 
 use AppBundle\Entity\User;
-use AppBundle\Form\UserType;
-use AppBundle\Form\EmailChangeType;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use TangoMan\JWTBundle\Model\JWT;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,7 +19,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
+ * Class SecurityController
  * api follows jsend standard.
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @Route("/api")
  */
 class SecurityController extends Controller

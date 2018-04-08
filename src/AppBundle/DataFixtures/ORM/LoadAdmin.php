@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * This file is part of the TangoManCMS package.
  *
- * (c) Matthias Morin <matthias.morin@gmail.com>
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -21,7 +21,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * Class LoadAdmin
  *
- * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
+ * @author Matthias Morin <matthias.morin@gmail.com>
  */
 class LoadAdmin implements FixtureInterface, ContainerAwareInterface,
                            OrderedFixtureInterface
@@ -50,10 +50,10 @@ class LoadAdmin implements FixtureInterface, ContainerAwareInterface,
      */
     public function load(ObjectManager $em)
     {
-        $email = $this->container->getParameter('mailer_from');
+        $email    = $this->container->getParameter('mailer_from');
         $username = $this->container->getParameter('super_admin_username');
-        $pwd = $this->container->getParameter('super_admin_pwd');
-        $encoder = $this->container->get('security.password_encoder');
+        $pwd      = $this->container->getParameter('super_admin_pwd');
+        $encoder  = $this->container->get('security.password_encoder');
 
         $roleSuperAdmin = $em->getRepository('AppBundle:Role')->findOneBy(
             ['type' => 'ROLE_SUPER_ADMIN']

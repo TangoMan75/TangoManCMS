@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * This file is part of the TangoManCMS package.
  *
- * (c) Matthias Morin <matthias.morin@gmail.com>
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -25,8 +25,9 @@ use TangoMan\CSVExportHelper\CSVExportHelper;
 
 /**
  * Class PostController
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @Route("/admin/posts")
- *core/pdo.php
  */
 class PostController extends Controller
 {
@@ -167,6 +168,7 @@ class PostController extends Controller
     /**
      * Finds and deletes a Post.
      * @Route("/delete/{id}", requirements={"id": "\d+"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Entity\Post                    $post
      *
@@ -212,6 +214,7 @@ class PostController extends Controller
     /**
      * Exports post list in csv format.
      * @Route("/export-csv")
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response

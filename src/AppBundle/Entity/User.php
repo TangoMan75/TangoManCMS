@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * This file is part of the TangoManCMS package.
  *
- * (c) Matthias Morin <matthias.morin@gmail.com>
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -21,10 +21,10 @@ use TangoMan\UserBundle\Model\User as TangoManUser;
 
 /**
  * Class User
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @ORM\Table(name="user")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
- *
- * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
  */
 class User extends TangoManUser
 {

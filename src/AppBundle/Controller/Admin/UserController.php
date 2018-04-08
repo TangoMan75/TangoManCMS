@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * This file is part of the TangoManCMS package.
  *
- * (c) Matthias Morin <matthias.morin@gmail.com>
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -24,6 +24,9 @@ use Symfony\Component\HttpFoundation\Response;
 use TangoMan\CSVExportHelper\CSVExportHelper;
 
 /**
+ * Class UserController
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @Route("/admin/users")
  */
 class UserController extends Controller
@@ -216,6 +219,7 @@ class UserController extends Controller
     /**
      * Sets user roles.
      * @Route("/add-role/{id}/{add}", requirements={"id": "\d+"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Entity\User                    $user
      * @param                                           $add
@@ -257,6 +261,7 @@ class UserController extends Controller
     /**
      * Removes user role.
      * @Route("/remove-role/{id}/{remove}", requirements={"id": "\d+"})
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @param \AppBundle\Entity\User                    $user
      * @param                                           $remove
@@ -327,6 +332,7 @@ class UserController extends Controller
     /**
      * Exports user list in csv format.
      * @Route("/export-csv")
+     *
      * @param \Symfony\Component\HttpFoundation\Request $request
      *
      * @return \Symfony\Component\HttpFoundation\Response
@@ -402,9 +408,10 @@ class UserController extends Controller
     }
 
     /**
-     * @param UploadedFile $file
+     * @param UploadedFile                                        $file
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     *
      * @param \Symfony\Component\HttpFoundation\File\UploadedFile $file
      *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse

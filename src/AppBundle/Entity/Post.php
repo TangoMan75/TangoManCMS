@@ -1,9 +1,9 @@
 <?php
 
-/*
+/**
  * This file is part of the TangoManCMS package.
  *
- * (c) Matthias Morin <matthias.morin@gmail.com>
+ * Copyright (c) 2018 Matthias Morin <matthias.morin@gmail.com>
  *
  * This source file is subject to the MIT license that is bundled
  * with this source code in the file LICENSE.
@@ -31,12 +31,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * Class Post
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @ORM\Table(name="post")
  * @ORM\Entity(repositoryClass="AppBundle\Repository\PostRepository")
  * @ORM\HasLifecycleCallbacks()
- *
  * @Vich\Uploadable
- * @author  Matthias Morin <matthias.morin@gmail.com>core/pdo.php
  */
 class Post
 {
