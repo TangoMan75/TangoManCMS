@@ -16,6 +16,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
+ * Class ArrayTestController
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @Route("/test-array")
  */
 class ArrayTestController extends Controller

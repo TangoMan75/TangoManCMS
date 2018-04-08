@@ -16,6 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Class CommentType
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
+ */
 class CommentType extends AbstractType
 {
 

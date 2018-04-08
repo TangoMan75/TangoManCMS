@@ -21,6 +21,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class EditMediaType
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
+ */
 class EditMediaType extends AbstractType
 {
 

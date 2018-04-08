@@ -16,6 +16,11 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\DataTransformerInterface;
 use Symfony\Component\Form\Exception\TransformationFailedException;
 
+/**
+ * Class RolesTransformer
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
+ */
 class RolesTransformer implements DataTransformerInterface
 {
 

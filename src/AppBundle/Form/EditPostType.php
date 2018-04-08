@@ -21,6 +21,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
+/**
+ * Class EditPostType
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
+ */
 class EditPostType extends AbstractType
 {
 

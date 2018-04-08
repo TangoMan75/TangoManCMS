@@ -15,7 +15,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 
+
 /**
+ * Class RecursionTestController
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
  * @Route("/test-recursion")
  */
 class RecursionTestController extends Controller

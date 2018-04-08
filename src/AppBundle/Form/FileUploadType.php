@@ -17,6 +17,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
+/**
+ * Class FileUploadType
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
+ */
 class FileUploadType extends AbstractType
 {
 

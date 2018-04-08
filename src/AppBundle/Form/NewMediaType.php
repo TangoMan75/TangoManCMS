@@ -21,6 +21,11 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Doctrine\ORM\EntityRepository;
 
+/**
+ * Class NewMediaType
+ *
+ * @author Matthias Morin <matthias.morin@gmail.com>
+ */
 class NewMediaType extends AbstractType
 {
 
