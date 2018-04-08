@@ -8,16 +8,16 @@
     "packages": [
         {
             "name": "composer/ca-bundle",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/composer/ca-bundle.git",
-                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288"
+                "reference": "d2c0a83b7533d6912e8d516756ebd34f893e9169"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/943b2c4fcad1ef178d16a713c2468bf7e579c288",
-                "reference": "943b2c4fcad1ef178d16a713c2468bf7e579c288",
+                "url": "https://api.github.com/repos/composer/ca-bundle/zipball/d2c0a83b7533d6912e8d516756ebd34f893e9169",
+                "reference": "d2c0a83b7533d6912e8d516756ebd34f893e9169",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,7 @@
                 "php": "^5.3.2 || ^7.0"
             },
             "require-dev": {
-                "phpunit/phpunit": "^4.8.35",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.5",
                 "psr/log": "^1.0",
                 "symfony/process": "^2.5 || ^3.0 || ^4.0"
             },
@@ -60,7 +60,7 @@
                 "ssl",
                 "tls"
             ],
-            "time": "2017-11-29T09:37:33+00:00"
+            "time": "2018-03-29T19:57:20+00:00"
         },
         {
             "name": "doctrine/annotations",
@@ -403,16 +403,16 @@
         },
         {
             "name": "doctrine/dbal",
-            "version": "v2.6.3",
+            "version": "v2.7.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/dbal.git",
-                "reference": "e3eed9b1facbb0ced3a0995244843a189e7d1b13"
+                "reference": "11037b4352c008373561dc6fc836834eed80c3b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/dbal/zipball/e3eed9b1facbb0ced3a0995244843a189e7d1b13",
-                "reference": "e3eed9b1facbb0ced3a0995244843a189e7d1b13",
+                "url": "https://api.github.com/repos/doctrine/dbal/zipball/11037b4352c008373561dc6fc836834eed80c3b5",
+                "reference": "11037b4352c008373561dc6fc836834eed80c3b5",
                 "shasum": ""
             },
             "require": {
@@ -421,9 +421,11 @@
                 "php": "^7.1"
             },
             "require-dev": {
-                "phpunit/phpunit": "^5.4.6",
+                "doctrine/coding-standard": "^4.0",
+                "phpunit/phpunit": "^7.0",
                 "phpunit/phpunit-mock-objects": "!=3.2.4,!=3.2.5",
-                "symfony/console": "2.*||^3.0"
+                "symfony/console": "^2.0.5||^3.0",
+                "symfony/phpunit-bridge": "^3.4.5|^4.0.5"
             },
             "suggest": {
                 "symfony/console": "For helpful console commands such as SQL execution and import of files."
@@ -434,7 +436,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.6.x-dev"
+                    "dev-master": "2.7.x-dev"
                 }
             },
             "autoload": {
@@ -472,7 +474,7 @@
                 "persistence",
                 "queryobject"
             ],
-            "time": "2017-11-19T13:38:54+00:00"
+            "time": "2018-04-07T18:44:18+00:00"
         },
         {
             "name": "doctrine/doctrine-bundle",
@@ -561,39 +563,39 @@
         },
         {
             "name": "doctrine/doctrine-cache-bundle",
-            "version": "1.3.2",
+            "version": "1.3.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/DoctrineCacheBundle.git",
-                "reference": "9baecbd6bfdd1123b0cf8c1b88fee0170a84ddd1"
+                "reference": "4c8e363f96427924e7e519c5b5119b4f54512697"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/9baecbd6bfdd1123b0cf8c1b88fee0170a84ddd1",
-                "reference": "9baecbd6bfdd1123b0cf8c1b88fee0170a84ddd1",
+                "url": "https://api.github.com/repos/doctrine/DoctrineCacheBundle/zipball/4c8e363f96427924e7e519c5b5119b4f54512697",
+                "reference": "4c8e363f96427924e7e519c5b5119b4f54512697",
                 "shasum": ""
             },
             "require": {
                 "doctrine/cache": "^1.4.2",
                 "doctrine/inflector": "~1.0",
                 "php": ">=5.3.2",
-                "symfony/doctrine-bridge": "~2.2|~3.0|~4.0"
+                "symfony/doctrine-bridge": "~2.7|~3.3|~4.0"
             },
             "require-dev": {
                 "instaclick/coding-standard": "~1.1",
                 "instaclick/object-calisthenics-sniffs": "dev-master",
                 "instaclick/symfony2-coding-standard": "dev-remaster",
-                "phpunit/phpunit": "~4",
+                "phpunit/phpunit": "~4|~5",
                 "predis/predis": "~0.8",
                 "satooshi/php-coveralls": "^1.0",
                 "squizlabs/php_codesniffer": "~1.5",
-                "symfony/console": "~2.2|~3.0|~4.0",
-                "symfony/finder": "~2.2|~3.0|~4.0",
-                "symfony/framework-bundle": "~2.2|~3.0|~4.0",
-                "symfony/phpunit-bridge": "~2.7|~3.0|~4.0",
-                "symfony/security-acl": "~2.3|~3.0",
-                "symfony/validator": "~2.2|~3.0|~4.0",
-                "symfony/yaml": "~2.2|~3.0|~4.0"
+                "symfony/console": "~2.7|~3.3|~4.0",
+                "symfony/finder": "~2.7|~3.3|~4.0",
+                "symfony/framework-bundle": "~2.7|~3.3|~4.0",
+                "symfony/phpunit-bridge": "~2.7|~3.3|~4.0",
+                "symfony/security-acl": "~2.7|~3.3",
+                "symfony/validator": "~2.7|~3.3|~4.0",
+                "symfony/yaml": "~2.7|~3.3|~4.0"
             },
             "suggest": {
                 "symfony/security-acl": "For using this bundle to cache ACLs"
@@ -645,7 +647,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2017-10-12T17:23:29+00:00"
+            "time": "2018-03-27T09:22:12+00:00"
         },
         {
             "name": "doctrine/doctrine-fixtures-bundle",
@@ -881,16 +883,16 @@
         },
         {
             "name": "doctrine/orm",
-            "version": "v2.6.0",
+            "version": "v2.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/doctrine2.git",
-                "reference": "374e7ace49d864dad8cddbc55346447c8a6a2083"
+                "reference": "87ee409783a4a322b5597ebaae558661404055a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/374e7ace49d864dad8cddbc55346447c8a6a2083",
-                "reference": "374e7ace49d864dad8cddbc55346447c8a6a2083",
+                "url": "https://api.github.com/repos/doctrine/doctrine2/zipball/87ee409783a4a322b5597ebaae558661404055a7",
+                "reference": "87ee409783a4a322b5597ebaae558661404055a7",
                 "shasum": ""
             },
             "require": {
@@ -959,7 +961,7 @@
                 "database",
                 "orm"
             ],
-            "time": "2017-12-20T00:38:15+00:00"
+            "time": "2018-02-27T07:30:56+00:00"
         },
         {
             "name": "fig/link-util",
@@ -1548,34 +1550,33 @@
         },
         {
             "name": "ocramius/proxy-manager",
-            "version": "2.2.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Ocramius/ProxyManager.git",
-                "reference": "81d53b2878f1d1c40ad27270e64b51798485dfc5"
+                "reference": "e18ac876b2e4819c76349de8f78ccc8ef1554cd7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/81d53b2878f1d1c40ad27270e64b51798485dfc5",
-                "reference": "81d53b2878f1d1c40ad27270e64b51798485dfc5",
+                "url": "https://api.github.com/repos/Ocramius/ProxyManager/zipball/e18ac876b2e4819c76349de8f78ccc8ef1554cd7",
+                "reference": "e18ac876b2e4819c76349de8f78ccc8ef1554cd7",
                 "shasum": ""
             },
             "require": {
-                "ocramius/package-versions": "^1.1.3",
-                "php": "^7.2.0",
-                "zendframework/zend-code": "^3.3.0"
+                "ocramius/package-versions": "^1.1.1",
+                "php": "^7.1.0",
+                "zendframework/zend-code": "^3.1.0"
             },
             "require-dev": {
-                "couscous/couscous": "^1.6.1",
+                "couscous/couscous": "^1.5.2",
                 "ext-phar": "*",
-                "humbug/humbug": "1.0.0-RC.0@RC",
-                "nikic/php-parser": "^3.1.1",
-                "padraic/phpunit-accelerator": "dev-master@DEV",
+                "humbug/humbug": "dev-master@DEV",
+                "nikic/php-parser": "^3.0.4",
                 "phpbench/phpbench": "^0.12.2",
-                "phpstan/phpstan": "dev-master#856eb10a81c1d27c701a83f167dc870fd8f4236a as 0.9.999",
-                "phpstan/phpstan-phpunit": "dev-master#5629c0a1f4a9c417cb1077cf6693ad9753895761",
-                "phpunit/phpunit": "^6.4.3",
-                "squizlabs/php_codesniffer": "^2.9.1"
+                "phpstan/phpstan": "^0.6.4",
+                "phpunit/phpunit": "^5.6.4",
+                "phpunit/phpunit-mock-objects": "^3.4.1",
+                "squizlabs/php_codesniffer": "^2.7.0"
             },
             "suggest": {
                 "ocramius/generated-hydrator": "To have very fast object to array to object conversion for ghost objects",
@@ -1614,20 +1615,20 @@
                 "proxy pattern",
                 "service proxies"
             ],
-            "time": "2017-11-16T23:22:31+00:00"
+            "time": "2017-05-04T11:12:50+00:00"
         },
         {
             "name": "paragonie/random_compat",
-            "version": "v2.0.11",
+            "version": "v2.0.12",
             "source": {
                 "type": "git",
                 "url": "https://github.com/paragonie/random_compat.git",
-                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8"
+                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/5da4d3c796c275c55f057af5a643ae297d96b4d8",
-                "reference": "5da4d3c796c275c55f057af5a643ae297d96b4d8",
+                "url": "https://api.github.com/repos/paragonie/random_compat/zipball/258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
+                "reference": "258c89a6b97de7dfaf5b8c7607d0478e236b04fb",
                 "shasum": ""
             },
             "require": {
@@ -1662,7 +1663,7 @@
                 "pseudorandom",
                 "random"
             ],
-            "time": "2017-09-27T21:40:39+00:00"
+            "time": "2018-04-04T21:24:14+00:00"
         },
         {
             "name": "psr/cache",
@@ -1857,16 +1858,16 @@
         },
         {
             "name": "psr/simple-cache",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/simple-cache.git",
-                "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24"
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/753fa598e8f3b9966c886fe13f370baa45ef0e24",
-                "reference": "753fa598e8f3b9966c886fe13f370baa45ef0e24",
+                "url": "https://api.github.com/repos/php-fig/simple-cache/zipball/408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
+                "reference": "408d5eafb83c57f6365a3ca330ff23aa4a5fa39b",
                 "shasum": ""
             },
             "require": {
@@ -1901,7 +1902,7 @@
                 "psr-16",
                 "simple-cache"
             ],
-            "time": "2017-01-02T13:31:39+00:00"
+            "time": "2017-10-23T01:57:42+00:00"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -2081,16 +2082,16 @@
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.1.7",
+            "version": "v4.1.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434"
+                "reference": "dc270d5fec418cc6ac983671dba5d80ffaffb142"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
-                "reference": "d539ccba2b4dce515de04f16b7ed7ae5b9eeb434",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/dc270d5fec418cc6ac983671dba5d80ffaffb142",
+                "reference": "dc270d5fec418cc6ac983671dba5d80ffaffb142",
                 "shasum": ""
             },
             "require": {
@@ -2122,7 +2123,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2018-01-11T05:54:03+00:00"
+            "time": "2018-02-28T22:10:01+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -2240,16 +2241,16 @@
         },
         {
             "name": "symfony/phpunit-bridge",
-            "version": "v3.4.4",
+            "version": "v3.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/phpunit-bridge.git",
-                "reference": "6a65b09b666f975dd70ec2bb9e9b1a87dbb02aca"
+                "reference": "48c669ec1a2b0425d4a82c7ad4bce2f5b947b95e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/6a65b09b666f975dd70ec2bb9e9b1a87dbb02aca",
-                "reference": "6a65b09b666f975dd70ec2bb9e9b1a87dbb02aca",
+                "url": "https://api.github.com/repos/symfony/phpunit-bridge/zipball/48c669ec1a2b0425d4a82c7ad4bce2f5b947b95e",
+                "reference": "48c669ec1a2b0425d4a82c7ad4bce2f5b947b95e",
                 "shasum": ""
             },
             "require": {
@@ -2302,7 +2303,7 @@
             ],
             "description": "Symfony PHPUnit Bridge",
             "homepage": "https://symfony.com",
-            "time": "2018-01-21T19:05:02+00:00"
+            "time": "2018-04-04T15:02:59+00:00"
         },
         {
             "name": "symfony/polyfill-apcu",
@@ -2705,16 +2706,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v3.4.4",
+            "version": "v3.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "5220b6f9fcdee261c6fdd3e096f3b204fba5d906"
+                "reference": "5304a36c5efbb01af7efe2bb5b1953dbaeebc293"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/5220b6f9fcdee261c6fdd3e096f3b204fba5d906",
-                "reference": "5220b6f9fcdee261c6fdd3e096f3b204fba5d906",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/5304a36c5efbb01af7efe2bb5b1953dbaeebc293",
+                "reference": "5304a36c5efbb01af7efe2bb5b1953dbaeebc293",
                 "shasum": ""
             },
             "require": {
@@ -2855,20 +2856,20 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-01-29T12:30:04+00:00"
+            "time": "2018-04-06T15:20:04+00:00"
         },
         {
             "name": "tangoman/callback-bundle",
-            "version": "2.0.0",
+            "version": "2.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/CallbackBundle.git",
-                "reference": "a98be0794214a50a1d3a7db03511ebaddae8ccc4"
+                "reference": "c55827ff3541e8fff4bcdbf5fc6bd85c471af450"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/CallbackBundle/zipball/a98be0794214a50a1d3a7db03511ebaddae8ccc4",
-                "reference": "a98be0794214a50a1d3a7db03511ebaddae8ccc4",
+                "url": "https://api.github.com/repos/TangoMan75/CallbackBundle/zipball/c55827ff3541e8fff4bcdbf5fc6bd85c471af450",
+                "reference": "c55827ff3541e8fff4bcdbf5fc6bd85c471af450",
                 "shasum": ""
             },
             "require": {
@@ -2899,20 +2900,20 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2017-10-11T14:58:26+00:00"
+            "time": "2018-04-08T19:42:13+00:00"
         },
         {
             "name": "tangoman/csv-export-helper",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/CSVExportHelper.git",
-                "reference": "fdf9d350fd47730bdd69727aaa3d82e96cf83171"
+                "reference": "804d3583103a9a815764971d4ffdcb80cfc2de89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/CSVExportHelper/zipball/fdf9d350fd47730bdd69727aaa3d82e96cf83171",
-                "reference": "fdf9d350fd47730bdd69727aaa3d82e96cf83171",
+                "url": "https://api.github.com/repos/TangoMan75/CSVExportHelper/zipball/804d3583103a9a815764971d4ffdcb80cfc2de89",
+                "reference": "804d3583103a9a815764971d4ffdcb80cfc2de89",
                 "shasum": ""
             },
             "require": {
@@ -2926,12 +2927,12 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
                     "name": "Matthias Morin",
-                    "email": "tangoman@free.fr"
+                    "email": "matthias.morin@gmail.com"
                 }
             ],
             "description": "Symfony CSV Export Helper",
@@ -2943,7 +2944,7 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2017-08-18T17:24:14+00:00"
+            "time": "2018-04-08T20:06:14+00:00"
         },
         {
             "name": "tangoman/csv-reader-bundle",
@@ -2993,16 +2994,16 @@
         },
         {
             "name": "tangoman/entity-helper",
-            "version": "2.1.0",
+            "version": "2.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/EntityHelper.git",
-                "reference": "594a308c767bc7b073e20bc979cfb3dcbbde1827"
+                "reference": "b1e6959f7c244c5447cdde7c1d92be8adb63abe4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/594a308c767bc7b073e20bc979cfb3dcbbde1827",
-                "reference": "594a308c767bc7b073e20bc979cfb3dcbbde1827",
+                "url": "https://api.github.com/repos/TangoMan75/EntityHelper/zipball/b1e6959f7c244c5447cdde7c1d92be8adb63abe4",
+                "reference": "b1e6959f7c244c5447cdde7c1d92be8adb63abe4",
                 "shasum": ""
             },
             "require": {
@@ -3033,20 +3034,20 @@
                 "symfony",
                 "traits"
             ],
-            "time": "2017-11-20T14:26:34+00:00"
+            "time": "2018-04-08T20:30:10+00:00"
         },
         {
             "name": "tangoman/front-bundle",
-            "version": "1.1.0",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/FrontBundle.git",
-                "reference": "00a22a0528bd2cb2f6b36819a49a3f1758a53e16"
+                "reference": "4f3ed25e99955a8eb2a839e68edcf939871d59f9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/FrontBundle/zipball/00a22a0528bd2cb2f6b36819a49a3f1758a53e16",
-                "reference": "00a22a0528bd2cb2f6b36819a49a3f1758a53e16",
+                "url": "https://api.github.com/repos/TangoMan75/FrontBundle/zipball/4f3ed25e99955a8eb2a839e68edcf939871d59f9",
+                "reference": "4f3ed25e99955a8eb2a839e68edcf939871d59f9",
                 "shasum": ""
             },
             "require": {
@@ -3088,20 +3089,20 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2017-10-31T15:40:10+00:00"
+            "time": "2018-04-08T20:46:07+00:00"
         },
         {
             "name": "tangoman/jwt-bundle",
-            "version": "1.0.2",
+            "version": "1.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/JWTBundle.git",
-                "reference": "b93a42854ab6b6be521313ea2b8eced18cde7d3a"
+                "reference": "f201ad96c19ad28f0150c7cd05216e9fffb806ba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/b93a42854ab6b6be521313ea2b8eced18cde7d3a",
-                "reference": "b93a42854ab6b6be521313ea2b8eced18cde7d3a",
+                "url": "https://api.github.com/repos/TangoMan75/JWTBundle/zipball/f201ad96c19ad28f0150c7cd05216e9fffb806ba",
+                "reference": "f201ad96c19ad28f0150c7cd05216e9fffb806ba",
                 "shasum": ""
             },
             "require": {
@@ -3134,20 +3135,20 @@
                 "token",
                 "web"
             ],
-            "time": "2017-10-10T10:10:59+00:00"
+            "time": "2018-04-08T20:49:16+00:00"
         },
         {
             "name": "tangoman/pagination-bundle",
-            "version": "1.4.1",
+            "version": "1.4.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/PaginationBundle.git",
-                "reference": "ff24e9c611c384f87858bc333b96fe9b0c70090a"
+                "reference": "3356c93990187a756b27557b2e8784b5f47e72cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/ff24e9c611c384f87858bc333b96fe9b0c70090a",
-                "reference": "ff24e9c611c384f87858bc333b96fe9b0c70090a",
+                "url": "https://api.github.com/repos/TangoMan75/PaginationBundle/zipball/3356c93990187a756b27557b2e8784b5f47e72cf",
+                "reference": "3356c93990187a756b27557b2e8784b5f47e72cf",
                 "shasum": ""
             },
             "require": {
@@ -3164,16 +3165,16 @@
             "notification-url": "https://packagist.org/downloads/",
             "authors": [
                 {
-                    "name": "Thibault HENRY",
+                    "name": "Thibault Henry",
                     "homepage": "http://www.tiloweb.com"
-                },
-                {
-                    "name": "Matthias Morin",
-                    "email": "tangoman@free.fr"
                 },
                 {
                     "name": "Fabrice Lazzarotto",
                     "email": "fabrice.lazzarotto@gmail.com"
+                },
+                {
+                    "name": "Matthias Morin",
+                    "email": "matthias.morin@gmail.com"
                 }
             ],
             "description": "Symfony Pagination Twig Extension Bundle",
@@ -3192,20 +3193,20 @@
                 "tiloweb",
                 "twig"
             ],
-            "time": "2017-09-07T13:26:07+00:00"
+            "time": "2018-04-08T20:56:24+00:00"
         },
         {
             "name": "tangoman/relationship-bundle",
-            "version": "1.1.1",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/RelationshipBundle.git",
-                "reference": "b62e5f1a4ee1344faf60d5b918e79901e78d89a5"
+                "reference": "fd67d45491477e961fcc4937750821bb01722161"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/RelationshipBundle/zipball/b62e5f1a4ee1344faf60d5b918e79901e78d89a5",
-                "reference": "b62e5f1a4ee1344faf60d5b918e79901e78d89a5",
+                "url": "https://api.github.com/repos/TangoMan75/RelationshipBundle/zipball/fd67d45491477e961fcc4937750821bb01722161",
+                "reference": "fd67d45491477e961fcc4937750821bb01722161",
                 "shasum": ""
             },
             "require": {
@@ -3243,20 +3244,20 @@
                 "symfony",
                 "traits"
             ],
-            "time": "2017-11-20T17:40:09+00:00"
+            "time": "2018-04-08T21:00:37+00:00"
         },
         {
             "name": "tangoman/repository-helper",
-            "version": "3.0.1",
+            "version": "3.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/RepositoryHelper.git",
-                "reference": "c3facfa0c14d66f826f4e83e9723917f6179b431"
+                "reference": "967968d35ebc2b6bc14fa52b905abc8c6adbad97"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/RepositoryHelper/zipball/c3facfa0c14d66f826f4e83e9723917f6179b431",
-                "reference": "c3facfa0c14d66f826f4e83e9723917f6179b431",
+                "url": "https://api.github.com/repos/TangoMan75/RepositoryHelper/zipball/967968d35ebc2b6bc14fa52b905abc8c6adbad97",
+                "reference": "967968d35ebc2b6bc14fa52b905abc8c6adbad97",
                 "shasum": ""
             },
             "require": {
@@ -3286,20 +3287,20 @@
                 "symfony",
                 "trait"
             ],
-            "time": "2018-02-21T14:24:27+00:00"
+            "time": "2018-04-08T21:03:01+00:00"
         },
         {
             "name": "tangoman/role-bundle",
-            "version": "1.0.3",
+            "version": "1.0.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/RoleBundle.git",
-                "reference": "a8103754ab4e7749a56126103762d7d67390066e"
+                "reference": "17a350ca26ce7aabc6e78cb03a54c5db8cf69f63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/a8103754ab4e7749a56126103762d7d67390066e",
-                "reference": "a8103754ab4e7749a56126103762d7d67390066e",
+                "url": "https://api.github.com/repos/TangoMan75/RoleBundle/zipball/17a350ca26ce7aabc6e78cb03a54c5db8cf69f63",
+                "reference": "17a350ca26ce7aabc6e78cb03a54c5db8cf69f63",
                 "shasum": ""
             },
             "require": {
@@ -3307,7 +3308,7 @@
                 "symfony/framework-bundle": "^2.8 || ^3.0",
                 "tangoman/entity-helper": "^2.0"
             },
-            "type": "library",
+            "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
                     "TangoMan\\RoleBundle\\": ""
@@ -3331,26 +3332,28 @@
                 "role",
                 "symfony"
             ],
-            "time": "2018-02-21T11:26:53+00:00"
+            "time": "2018-02-21T16:13:42+00:00"
         },
         {
             "name": "tangoman/truncate-html-bundle",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/TruncateHtmlBundle.git",
-                "reference": "29d00b5727b8996aaee54356ee99e3fbe4f5d094"
+                "reference": "2f757169791a3c39dbdd8a2af0351abd0431eaa1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/TruncateHtmlBundle/zipball/29d00b5727b8996aaee54356ee99e3fbe4f5d094",
-                "reference": "29d00b5727b8996aaee54356ee99e3fbe4f5d094",
+                "url": "https://api.github.com/repos/TangoMan75/TruncateHtmlBundle/zipball/2f757169791a3c39dbdd8a2af0351abd0431eaa1",
+                "reference": "2f757169791a3c39dbdd8a2af0351abd0431eaa1",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0"
+                "php": ">=5.3.3",
+                "symfony/framework-bundle": "~2.3|~3.0",
+                "twig/twig": "~1.12|~2"
             },
-            "type": "library",
+            "type": "symfony-bundle",
             "autoload": {
                 "psr-4": {
                     "TangoMan\\TruncateHtmlBundle\\": ""
@@ -3358,18 +3361,19 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "GPL-3.0"
+                "MIT"
             ],
             "authors": [
                 {
-                    "name": "Matthias Morin",
-                    "email": "tangoman@free.fr"
+                    "name": "Fabrice Lazzarotto",
+                    "email": "fabrice.lazzarotto@gmail.com"
                 },
                 {
-                    "name": "Fabrice Lazzarotto"
+                    "name": "Matthias Morin",
+                    "email": "matthias.morin@gmail.com"
                 }
             ],
-            "description": "Symfony Truncate Html Twig Extention",
+            "description": "Symfony Truncate Html Twig Extention Bundle",
             "keywords": [
                 "TangoMan",
                 "Truncate Html",
@@ -3379,20 +3383,20 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2017-08-18T16:16:11+00:00"
+            "time": "2018-04-08T21:17:40+00:00"
         },
         {
             "name": "tangoman/twig-helper-bundle",
-            "version": "1.0.1",
+            "version": "1.0.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/TangoMan75/TwigHelperBundle.git",
-                "reference": "e5ac668dfecfb871e6c67810b303e3c0665030e6"
+                "reference": "3a02da16da77d758b9d4539384c128858efb8e77"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/TangoMan75/TwigHelperBundle/zipball/e5ac668dfecfb871e6c67810b303e3c0665030e6",
-                "reference": "e5ac668dfecfb871e6c67810b303e3c0665030e6",
+                "url": "https://api.github.com/repos/TangoMan75/TwigHelperBundle/zipball/3a02da16da77d758b9d4539384c128858efb8e77",
+                "reference": "3a02da16da77d758b9d4539384c128858efb8e77",
                 "shasum": ""
             },
             "require": {
@@ -3422,7 +3426,7 @@
                 "symfony",
                 "twig"
             ],
-            "time": "2017-10-13T12:26:00+00:00"
+            "time": "2018-04-08T21:21:03+00:00"
         },
         {
             "name": "tangoman/user-bundle",
@@ -3571,16 +3575,16 @@
         },
         {
             "name": "twig/twig",
-            "version": "v2.4.4",
+            "version": "v2.4.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/twigphp/Twig.git",
-                "reference": "eddb97148ad779f27e670e1e3f19fb323aedafeb"
+                "reference": "7b604c89da162034bdf4bb66310f358d313dd16d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/twigphp/Twig/zipball/eddb97148ad779f27e670e1e3f19fb323aedafeb",
-                "reference": "eddb97148ad779f27e670e1e3f19fb323aedafeb",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/7b604c89da162034bdf4bb66310f358d313dd16d",
+                "reference": "7b604c89da162034bdf4bb66310f358d313dd16d",
                 "shasum": ""
             },
             "require": {
@@ -3589,8 +3593,8 @@
             },
             "require-dev": {
                 "psr/container": "^1.0",
-                "symfony/debug": "~2.7",
-                "symfony/phpunit-bridge": "~3.3@dev"
+                "symfony/debug": "^2.7",
+                "symfony/phpunit-bridge": "^3.3"
             },
             "type": "library",
             "extra": {
@@ -3633,7 +3637,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2017-09-27T18:10:31+00:00"
+            "time": "2018-04-02T09:24:19+00:00"
         },
         {
             "name": "vich/uploader-bundle",
