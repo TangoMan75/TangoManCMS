@@ -186,6 +186,7 @@ class PostController extends Controller
         $em->persist($post);
         $em->flush();
 
+        // Admin can see unpublished posts
         if ($this->get('security.authorization_checker')->isGranted(
             'ROLE_ADMIN'
         )) {
@@ -225,12 +226,20 @@ class PostController extends Controller
                 // User is redirected to same page
                 return $this->redirect($request->getUri());
             }
+
+            return $this->render(
+                'post/show.html.twig',
+                [
+                    'form'     => $form->createView(),
+                    'comments' => $comments,
+                    'post'     => $post,
+                ]
+            );
         }
 
         return $this->render(
             'post/show.html.twig',
             [
-                'form'     => $form->createView(),
                 'comments' => $comments,
                 'post'     => $post,
             ]
